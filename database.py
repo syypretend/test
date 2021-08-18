@@ -1,5 +1,5 @@
 # coding=utf-8
-
+#
 # Code by SmallSquare, 2020/5.
 # Provide an easy access to Mysql.
 import chardet
