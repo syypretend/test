@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="color-scheme" content="dark">
-<title>大模型技术速递 — 2026年09月04日</title>
+<title>大模型技术速递 — 2026年9月6日</title>
 <style>
 :root{
   --bg:#0b0e14; --card:#141926; --card2:#1a2133;
@@ -121,232 +121,76 @@ footer p{margin:3px 0}
     <header class="hero">
       <div class="badge">🤖 LLM TECH DAILY</div>
       <h1 class="title">大模型技术速递</h1>
-      <p class="date">2026年09月04日</p>
+      <p class="date">2026年9月6日</p>
       <div class="stats">
-        <div class="stat"><b>21</b><span>收录动态</span></div>
+        <div class="stat"><b>19</b><span>收录动态</span></div>
         <div class="stat imp"><b>5</b><span>★ 重要</span></div>
-        <div class="stat nor"><b>16</b><span>· 常规</span></div>
+        <div class="stat nor"><b>14</b><span>· 常规</span></div>
       </div>
     </header>
     
 <div class="content">
-<h1>🤖 大模型技术速递 — 2026年09月04日</h1>
+<h1>🤖 大模型技术速递 — 2026年9月6日</h1>
 <div class="update-intro">
-<p>今日共收录 21 条动态，其中 ★重要 5 条，·常规 16 条。</p>
+<p>今日共收录 19 条动态，其中 ★重要 5 条，·常规 14 条。</p>
 </div>
-<hr>
 <div class="section-title"><span class="sec-icon">★</span> 重要动态</div>
 
 <div class="imp-item">
-<h3>1. 腾讯混元开源 Hy4 preview：770B 总参数、1M 上下文，稳居开源第一梯队</h3>
-<p>8 月 28 日，腾讯混元发布并开源新一代旗舰大模型 Hy4 preview。这是姚顺雨带队重建地基后交出的首份答卷，直接以"大身体、小开销"的 MoE 架构搅动国产开源模型格局。</p>
-<p><strong>技术要点：</strong></p>
-<ul>
-<li>总参数 770B、激活参数仅 49B 的稀疏 MoE 架构，单次推理只激活约 6.4% 参数，兼顾能力上限与推理成本</li>
-<li>上下文长度突破 1M（100 万 token），配合缓存命中 0.3 元/百万 token 的低价策略，显著降低长文档场景门槛</li>
-<li>与 CodeBuddy、WorkBuddy 等腾讯内部生产力产品深度协同，用软件工程、游戏、金融、安全等领域的高质量共建数据做预训练与后训练</li>
-<li>权重已在 HuggingFace、GitHub、ModelScope 与 GitCode 等多个平台同步开源</li>
-</ul>
-<p><strong>实验结果（据官方公告与媒体报道）：</strong></p>
-<table class="data-table">
-<thead>
-<tr>
-<th>维度</th>
-<th>Hy4 preview</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>总参数</td>
-<td>770B</td>
-<td>国产开源第一梯队</td>
-</tr>
-<tr>
-<td>激活参数</td>
-<td>49B</td>
-<td>单 token 推理开销可控</td>
-</tr>
-<tr>
-<td>上下文</td>
-<td>1M</td>
-<td>突破百万 token</td>
-</tr>
-<tr>
-<td>缓存命中价</td>
-<td>0.3 元/百万 token</td>
-<td>长上下文场景成本优势</td>
-</tr>
-</tbody>
-</table>
-<p><strong>影响分析：</strong></p>
-<p>腾讯混元此前一直以"全尺寸开源"策略推进，Hy4 preview 的发布使其首次进入 700B 级开源俱乐部，与阿里 Qwen3.8-Max、DeepSeek V4 系列正面竞争。对开发者而言，49B 激活参数意味着单卡或多卡消费级硬件上部署大模型成为可能，1M 上下文则为代码库级理解、长文档分析提供了实用窗口。</p>
-<p>值得注意，Hy4 preview 只是 preview 版本，正式版性能与稳定性仍待验证；其"参与造了自己"（模型辅助数据生产）的自我优化路线，也提示开源模型迭代将越来越依赖模型自身参与训练数据生产。</p>
-<blockquote class="toc">
-<p>官方发布：<a href="https://baijiahao.baidu.com/s?id=1874747108822009202" target="_blank" rel="noopener">腾讯混元发布 Hy4 preview</a>
-技术解读：<a href="https://baijiahao.baidu.com/s?id=1874779405581129428" target="_blank" rel="noopener">770B总参数、1M上下文，已开源</a></p>
-</blockquote>
+<h3>1. OpenAI 发布旗舰模型 GPT-6 Astra：从"给答案"转向"直接完成任务"</h3>
+<p><strong>一句话概要</strong>：9月3日 OpenAI 正式推出新一代旗舰模型 GPT-6 Astra，定位从"回答问题"跃迁为"直接操作电脑完成任务"，官方称在计算机操作、软件工程、网络安全、科学研究等六大领域达到领先水平。</p>
+<p><strong>技术要点</strong>：GPT-6 Astra 使用超过 10 万块 GPU 在得州 Stargate 基地完成训练，是 OpenAI 有史以来最大规模的训练投入。模型支持 1.05M 上下文、最大 128K 输出，输入/输出定价 $10/$50 每百万 token。其核心变化在于从"提供答案"转向"代理式执行"——可直接进入软件环境自主完成编程、金融建模、制作演示文稿等端到端任务，标志着 OpenAI 向"操作型 AI"转型的关键一步。</p>
+<p><strong>实验结果</strong>：官方在计算机操作、浏览器自主使用、软件工程、网络安全、科学研究及通用专业工作六大领域均宣称达到领先水平；配套实战评测（CSDN 等第三方）则指出，发布日宣传与实际体验存在一定落差，尤其长链路 Agent 任务的稳定性仍待观察。</p>
+<p><strong>影响分析</strong>：对一线开发者而言，"会直接操作电脑的模型"意味着未来的工作流将从"人写提示词→模型给文本"转向"人定目标→模型交付成果"，本地 Agent 编排、工具调用可靠性、安全边界将成为新的关注焦点；对价格敏感的团队，$12/$50 的定价在旗舰档位中处于中游，需结合任务复杂度评估投入产出。</p>
+<p><strong>来源链接</strong>：<a href="https://blog.csdn.net/qq_39427511/article/details/164423020" target="_blank" rel="noopener">CSDN AI日报</a> | <a href="https://gist.github.com/mightyapa/7c0d734732e1a1a64b372fb22dd71ac7" target="_blank" rel="noopener">Gist 焦点简报</a></p>
 </div>
 <div class="imp-item">
-<h3>2. 智谱 GLM-5.3-Flash：首个原生多模态 GLM-5 模型，稀疏+线性注意力混合架构开源</h3>
-<p>8 月 26 日晚，智谱 AI 上线并开源 GLM-5.3-Flash（320B-A18B），这是 GLM-5 系列的首个原生多模态模型，也是智谱在"大基座+极致效率"路线上的关键一步。</p>
-<p><strong>技术要点：</strong></p>
-<ul>
-<li>总参数 320B、激活参数仅 18B（A18B），MoE 架构；官方宣称能力全面超越参数量高出一倍的 GLM-5.2</li>
-<li>首个开源"稀疏注意力 + 线性注意力"混合架构模型，注意力计算量相比 GLM-5.3 降低 3 倍，显著压缩显存与带宽压力</li>
-<li>原生多模态：视觉编码 + Coding 能力一体，1M 上下文</li>
-<li>MIT License 开源，权重与推理实现同步放量，并与壁仞、商汤等国产芯片/算力平台完成适配验证</li>
-</ul>
-<p><strong>实验结果（据官方公告与媒体报道）：</strong></p>
-<table class="data-table">
-<thead>
-<tr>
-<th>指标</th>
-<th>GLM-5.3-Flash</th>
-<th>对照</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>AA 综合智能指数</td>
-<td>57 分</td>
-<td>与 Claude Opus 4.8 持平</td>
-</tr>
-<tr>
-<td>总参数/激活参数</td>
-<td>320B / 18B</td>
-<td>推理成本大幅低于同级</td>
-</tr>
-<tr>
-<td>上下文</td>
-<td>1M</td>
-<td>长文档场景友好</td>
-</tr>
-</tbody>
-</table>
-<p><strong>影响分析：</strong>
-GLM-5.3-Flash 的混合注意力架构是国产模型首次以"稀疏+线性"混合注意力公开开源，直接把注意力计算量压缩 3 倍，为国产算力（壁仞、商汤等）的推理适配提供了标准范式。对于开发者，18B 激活参数 + MIT 开源意味着低门槛、低成本的多模态 Agent 落地；其"AA 指数 57 分与 Claude Opus 4.8 持平"的第三方测评结果，也表明国产开源模型已进入全球前沿能力区间。</p>
-<p>局限在于：混合注意力架构的稀疏/线性部分在极长上下文上的长尾稳定性仍需社区复现验证；AA 指数侧重综合智能，具体业务场景的差异仍需实测。</p>
-<blockquote class="toc">
-<p>发布公告：<a href="https://blog.csdn.net/Rob__/article/details/164152794" target="_blank" rel="noopener">智谱 GLM-5.3-Flash 深度解析</a>
-技术分析：<a href="https://baijiahao.baidu.com/s?id=1874915578459195692" target="_blank" rel="noopener">GLM5.3-Flash 全面激活国产算力</a></p>
-</blockquote>
+<h3>2. Anthropic 发布 Claude Fable 5.1 / Claude Mythos 5.1：缓存读取降价 75%</h3>
+<p><strong>一句话概括</strong>：Anthropic 同日发布两款基于同基座、不同安全层的模型 Fable 5.1 与 Mythos 5.1，其中 Fable 5.1 实现了"价格不变、能力升级"，并将缓存读取费用从 $1.00 大幅下调至 $0.25 每百万 token（降幅 75%）。</p>
+<p><strong>技术要点</strong>：两款模型共享同一基座，通过不同安全策略分层：Fable 面向常规助手场景，Mythos 定位更高安全门槛场景（此前 Mythos Preview 已在 Project Glasswing 网络防御项目中亮相）。Fable 5.1 在 Fable 5 基础上输入 $10、输出 $50 每百万 token 定价不变，支持 1M 上下文。降价后的缓存读取让典型任务成本下降约 25%、智能体任务成本最高下降 45%。</p>
+<p><strong>实验结果</strong>：Fable 5.1 在 Terminal-Bench-Science 0.1 上得分 52.6%，远超 Fable 5（24.7%）、Opus 5（29.0%）与 GPT-5.6 Sol（22.4%），在科学终端任务上的代差明显。</p>
+<p><strong>影响分析</strong>：缓存读取降价 75% 直接利好高频调用的 Agent 场景与长上下文应用，价格战正式进入白热化——企业级客户将成为各家争夺的核心；对开发者而言，缓存优化后长会话成本大幅降低，可考虑在本地 Agent 编排中更大胆地使用长上下文缓存。</p>
+<p><strong>来源链接</strong>：<a href="https://zhuanlan.zhihu.com/p/2078393114490827860" target="_blank" rel="noopener">知乎 AI 行业简报</a> | <a href="https://blog.csdn.net/weixin_45635831/article/details/164292744" target="_blank" rel="noopener">CSDN 每日极客日报</a></p>
 </div>
 <div class="imp-item">
-<h3>3. DeepSeek 开源 V4 系列首个多模态模型 DeepSeek-V4-Flash-Vision-Exp</h3>
-<p>8 月 31 日，DeepSeek 在 Hugging Face 上线 V4 系列首个实验性多模态模型 DeepSeek-V4-Flash-Vision-Exp，采用 MIT License 开源，此前 8 月 21 日已在 API 平台上线。</p>
-<p><strong>技术要点：</strong></p>
-<ul>
-<li>完整开放模型文件、Tokenizer、Prompt Encoding 参考实现，以及最小化 PyTorch 推理实现，覆盖视觉编码器、Aligner、DFlash Attention、MoE、Hyper-Connections 和 DSpark 等组件</li>
-<li>DFlash Attention 为 DeepSeek 自研注意力加速方案，配合 MoE 与 Hyper-Connections（超连接）架构，实现多模态下的高效推理</li>
-<li>官方 Harness 0.1.1 同步更新，原生支持新模型的 Agent 能力</li>
-<li>继 8 月 21 日公布 V4 技术报告后，10 天内即落地权重开源</li>
-</ul>
-<p><strong>实验结果（据官方与媒体报道）：</strong></p>
-<table class="data-table">
-<thead>
-<tr>
-<th>维度</th>
-<th>DeepSeek-V4-Flash-Vision-Exp</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>开源协议</td>
-<td>MIT</td>
-<td>商业友好</td>
-</tr>
-<tr>
-<td>多模态 Agent 能力</td>
-<td>接近 Claude Opus 4.8</td>
-<td>据媒体测评</td>
-</tr>
-<tr>
-<td>推理组件</td>
-<td>DFlash Attention + MoE + Hyper-Connections</td>
-<td>自研优化链</td>
-</tr>
-</tbody>
-</table>
-<p><strong>影响分析：</strong>
-DeepSeek 的开源策略从"V4 文本模型"向"多模态 + Agent 全链路"延伸，配合 MIT 协议，直接推动多模态 Agent 应用在国产算力上的落地。其 DFlash Attention、Hyper-Connections 等自研组件一并开放，为研究者提供了完整的可复现参考实现，有望带动周边生态（推理框架、量化、部署工具）加速适配。需注意"Exp"（实验版）定位，正式多模态版本的能力与稳定性仍待后续迭代验证。</p>
-<blockquote class="toc">
-<p>开源地址：<a href="https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-Vision-Exp" target="_blank" rel="noopener">Hugging Face - DeepSeek-V4-Flash-Vision-Exp</a>
-报道：<a href="http://finance.sina.com.cn/tech/digi/2026-08-31/doc-iniqfkkr8825960.shtml" target="_blank" rel="noopener">DeepSeek-V4-Flash-Vision-Exp 模型已开源</a></p>
-</blockquote>
+<h3>3. 李飞飞团队 World Labs 发布世界模型 Atlas：首个多模态世界模型</h3>
+<p><strong>一句话概括</strong>：李飞飞团队成立的 World Labs 推出新一代"世界模型"Atlas，宣称是第一个多模态世界模型，能以像素级精确的相机控制生成图像和视频帧，并在 3D 中重建。</p>
+<p><strong>技术要点</strong>：Atlas 的核心创新在于将视觉生成与 3D 空间重建打通——不仅能生成图像/视频，还能以像素级精度控制相机轨迹，并将生成结果在三维空间中重建。李飞飞本人在社交平台表示"团队今天实现了一个重大里程碑"。</p>
+<p><strong>实验结果</strong>：官方演示显示，Atlas 可对生成场景进行连续相机控制与视角变换，生成内容具备较强的一致性与空间连贯性，被视为"世界模型"从静态生成走向交互式空间理解的重要一步。</p>
+<p><strong>影响分析</strong>：对 AIGC 产业而言，可 3D 重建的世界模型意味着从"生成一张图"到"生成一个可探索的空间"的范式转变，游戏、影视、数字孪生等场景将直接受益；对研究者而言，相机可控生成为视频自监督、空间理解提供了新范式，值得关注其后续开源情况。</p>
+<p><strong>来源链接</strong>：<a href="https://k.sina.com.cn/article_7857201856_1d45362c001908lv54.html" target="_blank" rel="noopener">新浪人工智能热点小时报</a> | <a href="https://zhuanlan.zhihu.com/p/2078434119814485129" target="_blank" rel="noopener">知乎 9 月科技盘点</a></p>
 </div>
 <div class="imp-item">
-<h3>4. Anthropic 发布模型硬件标准 MHS，首次公开进军物理 AI 领域</h3>
-<p>8 月 27 日，Anthropic 以研究预览形式发布 Model Hardware Standard（MHS），被视为继 MCP（2024 年底的"AI 界 USB-C"）之后，Anthropic 第二次发布全行业统一协议——这次把 Agent 从软件世界延伸到物理世界。</p>
-<p><strong>技术要点：</strong></p>
-<ul>
-<li>MHS 是一套面向物理设备的 AI Agent 接口标准，让 Agent 能安全地发现、连接和操作显微镜、液体处理器、机械臂等科研与先进制造设备</li>
-<li>首批应用面向科研实验室与先进制造场景：设备可并行接入，Agent 任务从常规药物发现实验延伸到量子计算机激光校准</li>
-<li>与 MCP 一脉相承：MCP 统一了 Agent 调用外部工具/数据源/API 的方式，MHS 把同样的逻辑延伸到物理设备</li>
-<li>研究预览形式发布，意味着协议仍在演进期，Anthropic 将收集产业反馈迭代</li>
-</ul>
-<p><strong>影响分析：</strong>
-Anthropic 从 MCP 到 MHS 的路径，表明头部厂商正在争夺"Agent 与物理世界交互"的协议制高点。对工业界而言，MHS 若成为事实标准，将大幅降低物理设备接入 AI Agent 的集成成本（从"每个设备定制驱动"变成"一套标准接口"），加速具身智能、机器人、自动化实验室的落地。对开发者来说，可提前研究 MHS 规范，为后续物理 AI 应用做技术储备。局限在于：研究预览阶段的安全性评估、设备生态覆盖度仍需时间验证。</p>
-<blockquote class="toc">
-<p>报道：<a href="https://baijiahao.baidu.com/s?id=1874743211463244516" target="_blank" rel="noopener">Anthropic 发布 MHS 标准进军物理 AI</a>
-解读：<a href="https://baijiahao.baidu.com/s?id=1875000105252332477" target="_blank" rel="noopener">Claude 长出"双手"：Anthropic 发布 MHS</a></p>
-</blockquote>
+<h3>4. Meta 发布新 AI 模型并上调 2026 年资本支出下限</h3>
+<p><strong>一句话概括</strong>：当地时间 9 月 2 日，Meta 发布最新 AI 模型，在智能体任务处理与编程能力上较上代明显提升，同时上调 2026 年 AI 资本支出下限，抢占算力基础设施窗口期。</p>
+<p><strong>技术要点</strong>：据官方介绍，新模型相比上一版本在 Agent 任务和代码能力上均有升级，Meta 首席 AI 官表示该升级使 Meta 模型与 Anthropic、OpenAI 近期发布的产品处于相近水平；资本支出下限上调反映其大模型训练与推理集群扩张节奏加快。</p>
+<p><strong>影响分析</strong>：Meta 全产业链（社交+开源生态+自研推理集群）打法是"开源模型+资本投入"双轮驱动；对行业而言，开源权重阵营与闭源旗舰的差距进一步收窄，"相近水平"的表述意味着开源模型在 Agent 场景中的可用性继续提升。</p>
+<p><strong>来源链接</strong>：<a href="https://baijiahao.baidu.com/s?id=1875310961975478923&amp;wfr=spider&amp;for=pc" target="_blank" rel="noopener">央视财经/百家号</a></p>
 </div>
 <div class="imp-item">
-<h3>5. 阿里开源 2.4 万亿参数模型 Qwen3.8-Max：史上首次开源 Max 级权重</h3>
-<p>8 月 13 日，阿里云正式向公众开放 Qwen3.8-Max 全部权重参数——总参数 2.4 万亿、稀疏 MoE 架构、单次激活约 950 亿参数、支持 100 万 token 上下文，这是 Qwen 系列中首次开源 Max 级别模型，社区热度持续至本周（8 月底持续发酵）。</p>
-<p><strong>技术要点：</strong></p>
-<ul>
-<li>总参数量 2.4 万亿，采用稀疏混合专家（MoE）架构，单次激活约 950 亿参数，控制推理成本</li>
-<li>支持 100 万 Token 上下文窗口</li>
-<li>8 月 26 日阿里还开源了 Qwen3.8-Flash（总参数 1250 亿、激活 60 亿），推理性能超越 Claude Opus 4.6，训练成本较前代 Qwen3.7-Plus 下降近 90%；API 输入 1 元/百万 token、输出 3 元，为 DeepSeek-V4-Flash 的三分之一</li>
-<li>与同周发布的智谱 GLM-5.3-Flash、腾讯 Hy4 preview 形成"开源周更"节奏，国产模型价格战升级</li>
-</ul>
-<p><strong>影响分析：</strong>
-2.4 万亿参数的开源是里程碑式事件：开源模型首次在规模上追上商业闭源旗舰，同时 MoE 激活机制把部署门槛降到 950B 级。对研究社区来说，Qwen3.8-Max 开源权重为研究超大模型对齐、推理优化提供了真实数据；对产业界，DeepSeek V4、Qwen3.8-Max、Hy4、GLM-5.3 的四强开源阵容使"模型商品化"加速，API 价格战进一步压缩闭源模型的溢价空间。部署门槛仍高（权重体量大、显存规划复杂），普通开发者建议优先从 Flash 级版本入手。</p>
-<blockquote class="toc">
-<p>报道：<a href="https://www.sohu.com/a/1069452184_211762" target="_blank" rel="noopener">阿里开源2.4万亿参数模型</a>
-速览：<a href="https://blog.csdn.net/IT_ORACLE/article/details/164142934" target="_blank" rel="noopener">智谱、阿里接连发布并开源高性能大模型</a></p>
-</blockquote>
+<h3>5. 谷歌 Gemini 3.8 Flash 将发布，模型迭代进入"周更"节奏</h3>
+<p><strong>具体信息</strong>：外媒与雪球个股消息显示，谷歌最早将于本周三发布 Gemini 3.8 Flash，主打低成本高吞吐推理，进一步巩固其在边缘设备与高并发场景的部署优势。Gemini Flash 系列一贯面向低延迟、高并发 API 调用，3.8 版本预计在指令跟随与长上下文处理上继续迭代，具体参数待官方公告。</p>
+<p><strong>来源链接</strong>：<a href="https://xueqiu.com/8391231686/407776392" target="_blank" rel="noopener">雪球个股消息</a></p>
 </div><div class="section-title"><span class="sec-icon">📋</span> 常规动态</div>
 <div class="cat-title">模型发布</div>
-<div class="norm-item"><strong>DeepSeek V4 Pro 正式版上线</strong> — DeepSeek V4 Pro 正式版于本周上线（继 8 月初预览后），在 Terminal 等工具使用场景表现亮眼，V4-Flash-High 定价 0.14/0.28 美元每百万 token，继续以低成本冲击市场。 <a href="https://blog.csdn.net/IT_ORACLE/article/details/164153802" target="_blank" rel="noopener">报道</a></div>
-<div class="norm-item"><strong>MiniMax 披露 M3 Pro 规划：3T 参数旗舰将开源</strong> — MiniMax 在中期业绩中更新 M3 Pro 研发方向：参数规模预计提升至约 3 万亿（此前计划 2.7T），进一步扩大强化学习和长程任务训练，预计 2026 Q3 发布并开源。 <a href="https://baike.baidu.com/item/MiniMax%20M3%20Pro/68630366" target="_blank" rel="noopener">百度百科</a></div>
-<div class="norm-item"><strong>智谱披露下一代大模型"大基座"路线</strong> — 智谱在半年度业绩发布会透露：下一代产品采用大基座路线，暂不披露参数，将围绕基座开展中训练、后训练，核心思路是"充分释放基座能力、保障模型可实际落地"，已开展推理侧相关规划。 <a href="https://www.ithome.com/0/996/649.htm" target="_blank" rel="noopener">IT之家</a></div>
-<div class="cat-title">学术论文</div>
-<div class="norm-item"><strong>AdaptiveSpec：免训练的自适应投机解码（arXiv:2609.02897）</strong> — 用逐 token 的 margin 规则与自适应草稿树策略替代 EAGLE-3 固定的 token 匹配与树形，在 SGLang 上吞吐最高提升 56%，在 GSM8K/MATH-500/HumanEval 上恢复 93%–100% 无损精度。 <a href="https://arxiv.org/abs/2609.02897" target="_blank" rel="noopener">arXiv</a></div>
-<div class="norm-item"><strong>SGD-KV：摘要引导的 KV Cache 压缩（arXiv:2609.03235）</strong> — 提出 head-aware 的 KV 压缩框架，用 chunk 摘要诊断任务识别"层次信息聚合"型注意力头并按头分配预算，在 Qwen2.5-7B-1M 与 Qwen3-32B 上支持 1M 上下文、KV 显存最高节省 75%。 <a href="https://arxiv.org/abs/2609.03235" target="_blank" rel="noopener">arXiv</a></div>
-<div class="norm-item"><strong>AgentAntibody：面向 LLM Agent 的自进化抗体免疫系统（arXiv:2608.x）</strong> — 为 Prompt 注入防御引入"长记忆"机制：Agent 将历史攻击/防御经验沉淀为抗体，实现自进化式免疫，为 LLM Agent 安全防线提供新范式。 <a href="https://blog.csdn.net/wang_walfred/article/details/164175140" target="_blank" rel="noopener">CSDN 解读</a></div>
-<div class="norm-item"><strong>HARNESSEVO：自进化 Agent 的 harness 优化价值归因（arXiv:2609.02889）</strong> — 将 Agent 的 prompt 脚手架拆成角色/任务策略/工具格式/反思控制四个槽位后归因，发现优化价值几乎全集中在"反思/控制"槽，均分预算反而有害。 <a href="https://arxiv.org/abs/2609.02889" target="_blank" rel="noopener">arXiv</a></div>
-<div class="norm-item"><strong>Jina-OCR-v1：低预算 GPU 上的高效文档解析（arXiv:2609.03181）</strong> — 复用 DeepSeek-OCR 压缩视觉编码器+3B MoE 解码器，叠加 FastMTP 投机解码（L4 上解码翻倍）与密集可验证奖励的 GRPO，OmniDocBench v1.6 得分 91.14。 <a href="https://arxiv.org/abs/2609.03181" target="_blank" rel="noopener">arXiv</a></div>
-<div class="norm-item"><strong>MemoryLACE：记忆生命周期感知的长期 Agent 记忆（arXiv:2609.03201）</strong> — 显式建模文本证据的 merge/supersede/contradiction 生命周期关系，BEAM/StructMemEval 同骨干最优，端到端运行时比最强反射式基线 Hindsight 降低 66.6%。 <a href="https://arxiv.org/abs/2609.03201" target="_blank" rel="noopener">arXiv</a></div>
+<div class="norm-item"><strong>[Meta 发布首个实时音频感知模型 Muse Voice Transcribe]</strong> — 将流式语音识别、说话人分离与端点检测整合为单一流程，支持 70 余种语言、1 小时以上音频及 20 余人发言者分轨转写，并引入自适应延迟机制平衡实时性与精度，已在 Model API 上线。 <a href="https://my.oschina.net/u/9763067/blog/19753534" target="_blank" rel="noopener">来源</a></div>
+<div class="norm-item"><strong>[DeepSeek 发布 v4 系列首个多模态模型]</strong> — DeepSeek 开源 v4 系列首款多模态模型，进一步补齐文本之外的视觉理解能力，成为本地 AI 创作工具链的又一选择。 <a href="https://blog.csdn.net/deepin20100/article/details/164366063" target="_blank" rel="noopener">来源</a></div>
 <div class="cat-title">技术突破</div>
-<div class="norm-item"><strong>国产开源模型"稀疏/线性注意力"架构趋同</strong> — 智谱 GLM-5.3-Flash、腾讯 Hy4 等新一代国产模型普遍采用"稀疏/线性注意力压缩注意力计算 + 大幅压低激活参数"路线，已被国产芯片生态（壁仞、商汤、中星微等）用于推理验证。 <a href="https://baijiahao.baidu.com/s?id=1874915578459195692" target="_blank" rel="noopener">分析</a></div>
-<div class="norm-item"><strong>DeepSeek 自研 DFlash Attention 随 V4 系列开放</strong> — 伴随 V4-Flash-Vision-Exp 开源，DFlash Attention、Hyper-Connections、DSpark 等自研组件参考实现一并公布，为国产模型推理优化提供可复现方案。 <a href="https://baijiahao.baidu.com/s?id=1875043893243596413" target="_blank" rel="noopener">智东西</a></div>
-<div class="norm-item"><strong>云知声 Token 业务收入同比增长 760%</strong> — 8 月 28 日云知声中报：上半年营收 5.62 亿元（+38.7%），Token 业务收入同比激增 760%、毛利率超 60%，大模型商业化从"技术叙事"走向"收入兑现"。 <a href="http://www.cb.com.cn/index/show/gd/cv/cv1362588831493" target="_blank" rel="noopener">中国经营网</a></div>
+<div class="norm-item"><strong>[NVIDIA 优化 llama.cpp / vLLM，本地 Agent 推理最高 1.9× 加速]</strong> — NVIDIA 宣布对 llama.cpp 与 vLLM 的新优化，本地 Agent 推理最高提升 1.9 倍，LM Studio、Ollama 等工具同步受益，本地模型部署体验明显改善。 <a href="https://zhuanlan.zhihu.com/p/2079129493504005934" target="_blank" rel="noopener">来源</a></div>
+<div class="norm-item"><strong>[华为云天筹 AI 求解器获 GECCO 2026 进化算法竞赛冠军]</strong> — 华为云天筹 AI 求解器与诺亚方舟实验室组成的 OptVerseNoah 队伍，凭借智能体自主发现的进化算法 AMGE 在国际进化计算顶会 GECCO 2026 的 LLM Designed Evolutionary Algorithm Competition 中夺冠。 <a href="http://yuncheng.yfnt868.com/jknews/749676584" target="_blank" rel="noopener">来源</a></div>
+<div class="norm-item"><strong>[Bun 用 AI 重写百万行代码，引发"编程终结"热议]</strong> — Bun 项目宣布以 AI 重写百万行代码，宣告开发范式转折，成为本周技术圈讨论焦点（含对 AI 代码质量与可维护性的争议）。 <a href="https://blog.csdn.net/qq_39427511/article/details/164423020" target="_blank" rel="noopener">来源</a></div>
 <div class="cat-title">行业新闻</div>
-<div class="norm-item"><strong>英伟达 129 亿美元收购 Hugging Face</strong> — 8 月 26 日 The Information 爆出，英伟达已同意以 129 亿美元（约合 867 亿元）收购开源 AI 平台 Hugging Face，估值约为其年化收入（1.5 亿美元）的 80 余倍，将成 2026 年全球 AI 领域最大并购之一，直指开源生态"分发权"。 <a href="https://baijiahao.baidu.com/s?id=1874771214395349995" target="_blank" rel="noopener">百家号</a></div>
-<div class="norm-item"><strong>OpenAI 宣布终止向 Cursor 供应模型，点名马斯克</strong> — 8 月 28 日 OpenAI 官方宣布拟于 11 月 12 日终止向 Cursor（SpaceX 旗下）提供模型服务，理由是"过往经验"（担心马斯克蒸馏数据），未来新模型（含 Astra）也不提供给 Cursor；Cursor 母公司 Anysphere 刚被 SpaceX 以约 600 亿美元收购。 <a href="https://cloud.it168.com/a2026/0831/6948/000006948183.shtml" target="_blank" rel="noopener">IT168</a></div>
-<div class="norm-item"><strong>DeepSeek 约 500 亿元融资落地、启动科创板 IPO 辅导</strong> — DeepSeek A+ 轮约 500 亿元融资交割，投后估值约 4500 亿元；已启动科创板 IPO 筹备，或于 2026 年底提交申请、目标 2027 年挂牌；2026 年前 7 个月营收约 4.75 亿元、约为 2025 年全年的十倍。 <a href="https://blog.csdn.net/IT_ORACLE/article/details/164187845" target="_blank" rel="noopener">CSDN</a></div>
-<div class="norm-item"><strong>工信部批准大模型平台系列行业标准</strong> — 工信部 2026 年第 18 号公告批准由中国信通院牵头制定的大模型数据处理、模型训练、模型推理、计算资源调度/运维等系列行业标准，其中 4 项于 2026 年 11 月 1 日实施，覆盖大模型全生命周期。 <a href="https://m.nbd.com.cn/articles/2026-08-31/4567569.html" target="_blank" rel="noopener">每经网</a></div>
-<div class="norm-item"><strong>智谱、阿里开源降价潮：国产模型 API 价格打到海外标杆四十分之一</strong> — 8 月 26-27 日，智谱、阿里接连发布并开源高性能大模型，API 定价仅海外标杆的四十分之一乃至更低，英伟达同时交出营收翻倍财报，"开源降价"与"算力变现"成为 8 月底 AI 主线。 <a href="https://blog.csdn.net/IT_ORACLE/article/details/164142934" target="_blank" rel="noopener">CSDN</a></div>
+<div class="norm-item"><strong>月之暗面（Kimi）秘密递表港交所，启动 IPO</strong> — 据晚点独家报道，月之暗面本周以保密形式向港交所递交 A1 文件，并以 500 亿美元投前估值推进新一轮融资；其估值从 2025 年底约 43 亿美元一路跃升至 500 亿美元。 <a href="https://blog.csdn.net/gedonshen/article/details/164331642" target="_blank" rel="noopener">来源</a></div>
+<div class="norm-item"><strong>美国政府在《纽约时报》版权诉讼中支持 OpenAI</strong> — 美司法部向纽约南区法院提交意见书，主张用受版权保护内容训练大模型通常构成"合理使用"，为 AI 训练版权边界释放政策信号。 <a href="https://caifuhao.eastmoney.com/news/20260903203642481998310" target="_blank" rel="noopener">来源</a></div>
+<div class="norm-item"><strong>智谱 AI 上半年营收 9.54 亿元，同比近 400% 增长</strong> — 智谱已实现 10 万卡级国产芯片规模化推理，GLM-5.3 Flash 主打低成本推理；MiniMax 上半年收入 1.17 亿美元，同比 +283%，7 月 Token 消耗量为 1 月 20 倍，8 月 ARR 突破 8 亿美元。 <a href="https://blog.csdn.net/u014146389/article/details/164250211" target="_blank" rel="noopener">来源</a></div>
+<div class="norm-item"><strong>五角大楼将 Grok 与 ChatGPT 加入 GenAI.mil</strong> — 美国防部正式将 xAI Grok、OpenAI ChatGPT 整合进企业级生成式 AI 门户，与此前上线的 Gemini 并列，美军 LLM 应用进入多模型并行阶段。 <a href="https://mp.weixin.qq.com/s?__biz=MzI4OTkyNDgxNA==&amp;mid=2247921920&amp;idx=2&amp;sn=eb6098ece05e3a5ba1194e54267b59b2&amp;chksm=ed58e275a68736ce817dbc374b97a539197cf5c1e660a0161849c083fe2290f0086dae80f037&amp;scene=27" target="_blank" rel="noopener">来源</a></div>
+<div class="norm-item"><strong>人形机器人半年融资 935 亿</strong> — 具身智能进入量产元年，人形机器人赛道半年融资超 935 亿元，成为资本最密集的 AI 垂直方向之一。 <a href="https://blog.csdn.net/qq_39427511/article/details/164423020" target="_blank" rel="noopener">来源</a></div>
 <div class="cat-title">开源项目</div>
-<div class="norm-item"><strong>DeepSeek V4 系列权重库在 Hugging Face 上线</strong> — DeepSeek-V4-Flash-Vision-Exp 及配套 Tokenizer、参考推理实现（视觉编码器、Aligner、DFlash Attention、MoE、Hyper-Connections）已开源。 <a href="https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-Vision-Exp" target="_blank" rel="noopener">Hugging Face</a></div>
-<div class="norm-item"><strong>腾讯混元 Hy4 preview 全平台开源</strong> — 770B/49B 参数已开源至 HuggingFace、GitHub、ModelScope、GitCode，并上线腾讯云 TokenHub 与 OpenRouter，WorkBuddy/CodeBuddy/元宝/ima 可体验。 <a href="https://baijiahao.baidu.com/s?id=1874752192083658661" target="_blank" rel="noopener">GitHub</a></div>
-<div class="norm-item"><strong>LiteLLM v1.100.0-rc.1 发布</strong> — 开源 LLM Gateway 新增 Agent Registry 语义搜索与 agent_search MCP 工具，修复 Team/Org 对 MCP Toolset 的权限约束，Docker 镜像采用 Cosign 签名。 <a href="https://zhuanlan.zhihu.com/p/2077671780358145708" target="_blank" rel="noopener">知乎日报</a></div>
-<div class="norm-item"><strong>CherryHQ/cherry-studio 热度上涨</strong> — AI 生产力工作室（智能对话、自主 Agent、300+ 助理，统一接入前沿 LLM）本周 GitHub 热度提升，成为本地化多模型接入的常用选择。 <a href="https://github.com/CherryHQ/cherry-studio" target="_blank" rel="noopener">GitHub</a></div>
+<div class="norm-item"><strong>腾讯开源 WeKnora：企业级 LLM 知识平台</strong> — 将原始文档转化为可查询的 RAG、自主推理 Agent 与自维护 Wiki 三合一的开源知识框架，面向企业级文档理解场景。 <a href="https://github.com/Tencent/WeKnora" target="_blank" rel="noopener">来源</a></div>
+<div class="norm-item"><strong>NVIDIA 开源 PAIR：把局域网变成 AI 算力集群</strong> — 可将家庭/办公局域网内所有设备组成统一 AI 算力集群，降低本地大模型部署的硬件门槛。 <a href="https://blog.csdn.net/deepin20100/article/details/164366063" target="_blank" rel="noopener">来源</a></div>
+<div class="norm-item"><strong>ComfyUI v0.34 支持 HDR 与 3D 视频导出</strong> — 本地 AI 创作工具 ComfyUI 更新支持 HDR 渲染与 3D 视频导出，进一步扩展视频创作能力。 <a href="https://blog.csdn.net/deepin20100/article/details/164366063" target="_blank" rel="noopener">来源</a></div>
 <hr>
-<div class="section-title"><span class="sec-icon">📊</span> 本日趋势小结</div>
-<ol>
-<li><strong>开源大模型进入"超大参数 + 极致激活效率"双轮驱动</strong>：阿里 Qwen3.8-Max（2.4T）、腾讯 Hy4（770B/49B 激活）、智谱 GLM-5.3-Flash（320B/18B）在本月集中开源，MoE + 稀疏/线性注意力成为标配，国产开源阵营首次全面与国际前沿对标。</li>
-<li><strong>API 价格战升级、模型商品化加速</strong>：DeepSeek V4-Flash 低至 0.14 美元/百万 token，阿里 Qwen3.8-Flash 输入 1 元/百万 token，价格竞争传导至整个国产 AI 生态，OpenAI 断供 Cursor 与英伟达收购 Hugging Face 则共同指向"生态控制权"之争。</li>
-<li><strong>Agent 与物理世界融合成为新赛道</strong>：Anthropic 从 MCP 到 MHS 的协议扩张，加上 arXiv 上 Agent 安全（AgentAntibody）、Agent 自进化（HARNESSEVO）与 KV 压缩（SGD-KV）等密集出现，Agent 的"可靠性、记忆、安全、长上下文"成为研究主流。</li>
-<li><strong>长上下文与推理成本仍是技术攻坚焦点</strong>：SGD-KV 节省 75% KV 显存、AdaptiveSpec 提升 56% 吞吐、DeepSeek 开放 DFlash Attention 参考实现，推理效率优化与开源生态的协同正成为新一轮竞争制高点。</li>
-</ol>
-<hr>
-<p><em>本速递由星辰超级智能体自动生成 | 数据截至 2026-09-04 15:30</em>
-<em>信息来源：arXiv、IT之家、智东西、机器之心、搜狐财经、CSDN 等</em></p>
+<p><em>本速递由星辰超级智能体自动生成 | 数据截至 2026-09-06 15:30</em></p>
 <blockquote class="toc">
 <p>AI生成</p>
 </blockquote>
@@ -354,7 +198,7 @@ Anthropic 从 MCP 到 MHS 的路径，表明头部厂商正在争夺"Agent 与�
 
     <footer>
       <p>本速递由星辰超级智能体自动生成</p>
-      <p>数据截至 2026-09-04 15:30</p>
+      <p>数据截至 2026-09-06 15:30</p>
       <p>信息来源：arXiv · 机器之心 · 量子位 · IT之家 · 36Kr 等</p>
     </footer>
     
