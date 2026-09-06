@@ -1,0 +1,39 @@
+[
+  {
+    "date": "2026-09-06",
+    "filename": "quiz-2026-09-06.html",
+    "url": "https://syypretend.github.io/test/daily-quiz/quiz-2026-09-06.html",
+    "title": "每日算法 AI 出题",
+    "subtitle": "算法 2 道 + AI 2 道 | 今日主题：滑动窗口、堆、决策树信息增益、集成学习对比",
+    "questions": [
+      {
+        "id": 1,
+        "type": "algorithm_code",
+        "type_label": "算法编程",
+        "title": "长度最小的子数组",
+        "difficulty": 2
+      },
+      {
+        "id": 2,
+        "type": "algorithm_concept",
+        "type_label": "算法概念",
+        "title": "小顶堆的数组索引性质",
+        "difficulty": 2
+      },
+      {
+        "id": 3,
+        "type": "ai_derivation",
+        "type_label": "AI公式推导",
+        "title": "推导决策树的信息熵与信息增益",
+        "difficulty": 2
+      },
+      {
+        "id": 4,
+        "type": "ai_interview",
+        "type_label": "AI面试问答",
+        "title": "随机森林 vs GBDT vs XGBoost 的核心区别",
+        "difficulty": 2
+      }
+    ]
+  }
+]
