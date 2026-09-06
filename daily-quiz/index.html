@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>每日算法AI出题 · 历史题目</title>
+  <style>
+    :root {
+      --bg: #0d1117;
+      --card-bg: #161b22;
+      --border: #30363d;
+      --text: #e6edf3;
+      --text-dim: #8b949e;
+      --accent: #58a6ff;
+      --green: #3fb950;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", sans-serif;
+      line-height: 1.7;
+      padding: 16px;
+      max-width: 860px;
+      margin: 0 auto;
+    }
+    .header {
+      text-align: center;
+      padding: 32px 0 24px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 28px;
+    }
+    .header h1 {
+      font-size: 1.6em;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+    .header .stats {
+      color: var(--text-dim);
+      font-size: 0.9em;
+    }
+    .header .stats span {
+      margin: 0 8px;
+    }
+    .quiz-card {
+      display: block;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 16px;
+      text-decoration: none;
+      color: var(--text);
+      transition: all 0.2s;
+    }
+    .quiz-card:hover {
+      border-color: var(--accent);
+      background: rgba(88,166,255,0.05);
+      transform: translateY(-2px);
+    }
+    .card-date {
+      font-size: 1.1em;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+    .card-subtitle {
+      color: var(--text-dim);
+      font-size: 0.85em;
+      margin-bottom: 12px;
+    }
+    .card-questions {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .q-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.85em;
+    }
+    .q-badge {
+      padding: 1px 8px;
+      border-radius: 8px;
+      font-size: 0.75em;
+      color: white;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .q-title {
+      flex: 1;
+      color: var(--text);
+    }
+    .q-diff {
+      font-size: 0.8em;
+    }
+    .card-go {
+      margin-top: 12px;
+      text-align: right;
+      color: var(--accent);
+      font-size: 0.85em;
+      font-weight: 600;
+    }
+    .footer {
+      text-align: center;
+      padding: 24px 0;
+      color: var(--text-dim);
+      font-size: 0.8em;
+      border-top: 1px solid var(--border);
+      margin-top: 24px;
+    }
+    @media (max-width: 600px) {
+      body { padding: 8px; }
+      .quiz-card { padding: 14px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <h1>📝 每日算法AI出题</h1>
+  <div class="stats">
+    <span>📅 共 1 期</span>
+    <span>📚 共 4 题</span>
+  </div>
+</div>
+
+
+      <a class="quiz-card" href="https://syypretend.github.io/test/daily-quiz/quiz-2026-09-06.html">
+        <div class="card-date">📅 2026-09-06</div>
+        <div class="card-subtitle">算法 2 道 + AI 2 道 | 今日主题：滑动窗口、堆、决策树信息增益、集成学习对比</div>
+        <div class="card-questions">
+            <div class="q-item">
+              <span class="q-badge" style="background:#3b82f6">算法编程</span>
+              <span class="q-title">长度最小的子数组</span>
+              <span class="q-diff">⭐⭐</span>
+            </div>
+            <div class="q-item">
+              <span class="q-badge" style="background:#10b981">算法概念</span>
+              <span class="q-title">小顶堆的数组索引性质</span>
+              <span class="q-diff">⭐⭐</span>
+            </div>
+            <div class="q-item">
+              <span class="q-badge" style="background:#a855f7">AI公式推导</span>
+              <span class="q-title">推导决策树的信息熵与信息增益</span>
+              <span class="q-diff">⭐⭐</span>
+            </div>
+            <div class="q-item">
+              <span class="q-badge" style="background:#f59e0b">AI面试问答</span>
+              <span class="q-title">随机森林 vs GBDT vs XGBoost 的核心区别</span>
+              <span class="q-diff">⭐⭐</span>
+            </div></div>
+        <div class="card-go">点击进入做题 →</div>
+      </a>
+
+<div class="footer">
+  坚持每日练习，积少成多 💪<br>
+  Powered by TeleAgent · daily-algo-ai-quiz
+</div>
+
+</body>
+</html>
