@@ -578,7 +578,7 @@ $$g(D, A) = H(D) - H(D|A)$$<br>
 
 <script>
 // ===== Pyodide 隔离执行测试运行器 =====
-const RUNNER_CODE = "\nimport json, traceback, io, contextlib\n\nns = {}\nuser_stdout = io.StringIO()\nuser_error = None\n\ntry:\n    with contextlib.redirect_stdout(user_stdout):\n        exec(__user_code__, ns)\nexcept Exception:\n    user_error = traceback.format_exc()\n\nuser_out = user_stdout.getvalue()\n\nif user_error:\n    result = {\"error\": user_error, \"stdout\": user_out}\nelse:\n    func = ns.get(__func_name__)\n    if func is None:\n        result = {\"error\": f\"未找到函数 {__func_name__}，请确保代码中定义了该函数\", \"stdout\": user_out}\n    else:\n        test_results = []\n        for i, tc in enumerate(__test_cases__):\n            try:\n                actual = func(*tc)\n                expected = __expected__[i]\n                passed = actual == expected\n                test_results.append({\n                    \"passed\": passed,\n                    \"input\": str(tc),\n                    \"expected\": str(expected),\n                    \"actual\": str(actual)\n                })\n            except Exception as e:\n                test_results.append({\n                    \"passed\": False,\n                    \"input\": str(tc),\n                    \"expected\": str(__expected__[i]) if i < len(__expected__) else \"N/A\",\n                    \"actual\": \"Error: \" + str(e)\n                })\n        result = {\"stdout\": user_out, \"tests\": test_results}\n\nprint(json.dumps(result, ensure_ascii=False))\n";
+const RUNNER_CODE = "\nimport json, traceback, io, contextlib\n\ndef run_tests(user_code, func_name, test_cases, expected):\n    ns = {}\n    user_stdout = io.StringIO()\n    user_error = None\n\n    try:\n        with contextlib.redirect_stdout(user_stdout):\n            exec(user_code, ns)\n    except Exception:\n        user_error = traceback.format_exc()\n\n    user_out = user_stdout.getvalue()\n\n    if user_error:\n        return {\"error\": user_error, \"stdout\": user_out}\n\n    func = ns.get(func_name)\n    if func is None:\n        return {\"error\": \"未找到函数 \" + str(func_name) + \"，请确保代码中定义了该函数\", \"stdout\": user_out}\n\n    test_results = []\n    for i, tc in enumerate(test_cases):\n        try:\n            actual = func(*tc)\n            exp = expected[i]\n            passed = actual == exp\n            test_results.append({\n                \"passed\": passed,\n                \"input\": str(tc),\n                \"expected\": str(exp),\n                \"actual\": str(actual)\n            })\n        except Exception as e:\n            exp = str(expected[i]) if i < len(expected) else \"N/A\"\n            test_results.append({\n                \"passed\": False,\n                \"input\": str(tc),\n                \"expected\": exp,\n                \"actual\": \"Error: \" + str(e)\n            })\n\n    return {\"stdout\": user_out, \"tests\": test_results}\n";
 
 // ===== 显示/隐藏解析 =====
 function revealSolution(qid) {
@@ -698,26 +698,17 @@ async function runCode(qid) {
         const pyodide = await loadPyodideAsync();
         resultDiv.innerHTML = '<span style="color:var(--text-dim)">⏳ 正在执行代码...</span>';
 
-        // 设置隔离执行所需的变量
-        pyodide.globals.set('__user_code__', code);
-        pyodide.globals.set('__func_name__', funcName);
-        pyodide.globals.set('__test_cases__', testCases);
-        pyodide.globals.set('__expected__', expectedOutputs);
-
-        // 捕获标准输出
-        let stdout = '';
-        pyodide.setStdout({ batched: (s) => { stdout += s; } });
-
-        // 执行隔离测试运行器（每次创建全新命名空间，无全局污染）
-        pyodide.runPython(RUNNER_CODE);
-
-        // 解析 JSON 结果
-        let result;
-        try {
-            result = JSON.parse(stdout.trim());
-        } catch(e) {
-            result = { error: '解析结果失败: ' + stdout.trim() };
+        // 确保 run_tests 函数只定义一次
+        if (!window.__runner_ready__) {
+            pyodide.runPython(RUNNER_CODE);
+            window.__runner_ready__ = true;
         }
+
+        // 调用 run_tests 函数，通过返回值获取结果（不依赖 stdout，每次调用独立）
+        const runTests = pyodide.globals.get('run_tests');
+        const pyResult = runTests(code, funcName, testCases, expectedOutputs);
+        // pyResult 是 Python dict，转为 JS 对象
+        const result = pyResult.toJs({dict_converter: Object.fromEntries});
 
         let resultHtml = '';
 
