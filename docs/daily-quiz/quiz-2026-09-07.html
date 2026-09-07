@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>每日算法 AI 出题 · 2026-09-07</title>
+  <!-- KaTeX 数学公式渲染 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
+  <style>
+    :root {
+      --bg: #0d1117;
+      --card-bg: #161b22;
+      --border: #30363d;
+      --text: #e6edf3;
+      --text-dim: #8b949e;
+      --accent: #58a6ff;
+      --green: #3fb950;
+      --orange: #d29922;
+      --red: #f85149;
+      --purple: #a855f7;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", sans-serif;
+      line-height: 1.7;
+      padding: 16px;
+      max-width: 860px;
+      margin: 0 auto;
+    }
+    .header {
+      text-align: center;
+      padding: 24px 0 16px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 24px;
+    }
+    .header h1 {
+      font-size: 1.5em;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+    .header .subtitle {
+      color: var(--text-dim);
+      font-size: 0.9em;
+    }
+    .header .date-tag {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 2px 12px;
+      border-radius: 12px;
+      background: var(--border);
+      font-size: 0.8em;
+      color: var(--text-dim);
+    }
+
+    /* 题目卡片 */
+    .question-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .question-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+    .type-badge {
+      padding: 2px 10px;
+      border-radius: 10px;
+      font-size: 0.75em;
+      color: white;
+      font-weight: 600;
+    }
+    .difficulty { font-size: 0.85em; }
+    .qid-label { color: var(--text-dim); font-size: 0.8em; margin-left: auto; }
+    .question-title {
+      font-size: 1.25em;
+      margin-bottom: 12px;
+      color: var(--text);
+    }
+    .question-body { margin-bottom: 14px; }
+    .question-body code.inline-code {
+      background: var(--border);
+      padding: 1px 5px;
+      border-radius: 3px;
+      font-size: 0.9em;
+    }
+
+    /* 信息块 */
+    .info-block {
+      background: rgba(88,166,255,0.05);
+      border-left: 3px solid var(--accent);
+      padding: 10px 14px;
+      margin: 10px 0;
+      border-radius: 0 6px 6px 0;
+    }
+    .info-label {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.85em;
+      display: block;
+      margin-bottom: 4px;
+    }
+    .info-block pre {
+      white-space: pre-wrap;
+      font-family: "JetBrains Mono", "Fira Code", monospace;
+      font-size: 0.85em;
+      color: var(--text);
+    }
+
+    /* 示例 */
+    .example-block {
+      background: rgba(63,185,80,0.05);
+      border: 1px solid rgba(63,185,80,0.2);
+      border-radius: 8px;
+      padding: 12px;
+      margin: 10px 0;
+    }
+    .example-title {
+      color: var(--green);
+      font-weight: 600;
+      font-size: 0.85em;
+      margin-bottom: 6px;
+    }
+    .example-io {
+      font-family: monospace;
+      font-size: 0.85em;
+      white-space: pre-wrap;
+      margin: 2px 0;
+    }
+    .io-label { color: var(--text-dim); }
+    .example-explanation {
+      color: var(--text-dim);
+      font-size: 0.85em;
+      margin-top: 6px;
+      padding-top: 6px;
+      border-top: 1px dashed var(--border);
+    }
+
+    /* 选项 */
+    .options-container { margin: 12px 0; }
+    .option-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      padding: 10px 14px;
+      margin: 6px 0;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .option-item:hover { border-color: var(--accent); background: rgba(88,166,255,0.05); }
+    .option-item.correct { border-color: var(--green); background: rgba(63,185,80,0.1); }
+    .option-item.wrong { border-color: var(--red); background: rgba(248,81,73,0.1); }
+    .option-item input[type=radio] { accent-color: var(--accent); margin-top: 4px; }
+    .option-letter {
+      font-weight: 700;
+      color: var(--accent);
+      min-width: 20px;
+    }
+    .option-text { flex: 1; font-size: 0.9em; }
+    .option-feedback {
+      margin: 8px 0;
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-size: 0.85em;
+      display: none;
+    }
+    .option-feedback.show { display: block; }
+    .option-feedback.correct {
+      background: rgba(63,185,80,0.1);
+      color: var(--green);
+    }
+    .option-feedback.wrong { background: rgba(248,81,73,0.1); color: var(--red); }
+
+    /* 代码编辑器 */
+    .code-section {
+      margin: 16px 0;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .code-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 14px;
+      background: rgba(88,166,255,0.08);
+      border-bottom: 1px solid var(--border);
+      font-size: 0.85em;
+      color: var(--accent);
+    }
+    .editor-wrap {
+      position: relative;
+    }
+    .code-editor {
+      min-height: 180px;
+      max-height: 400px;
+      overflow: auto;
+      padding: 12px;
+      font-family: "JetBrains Mono", "Fira Code", "Cascadia Code", monospace;
+      font-size: 13px;
+      line-height: 1.5;
+      white-space: pre;
+      color: var(--text);
+      background: #0d1117;
+      outline: none;
+      tabs: 4;
+    }
+    .btn-run {
+      background: var(--green);
+      color: white;
+      border: none;
+      padding: 4px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.85em;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .btn-run:hover { opacity: 0.85; }
+    .btn-run:disabled { opacity: 0.5; cursor: not-allowed; }
+    .code-result {
+      padding: 12px;
+      background: #0d1117;
+      border-top: 1px solid var(--border);
+      font-family: monospace;
+      font-size: 0.85em;
+      white-space: pre-wrap;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+    .code-result .test-pass { color: var(--green); }
+    .code-result .test-fail { color: var(--red); }
+    .code-result .stderr { color: var(--orange); }
+
+    /* 显示解析按钮 */
+    .btn-reveal {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      margin-top: 16px;
+      background: transparent;
+      border: 2px dashed var(--border);
+      border-radius: 8px;
+      color: var(--text-dim);
+      font-size: 0.95em;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .btn-reveal:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(88,166,255,0.03);
+    }
+    .btn-reveal.loading {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    /* 解析区域 */
+    .solution-section {
+      margin-top: 16px;
+      animation: fadeIn 0.4s ease;
+    }
+    @keyframes fadeIn { from{opacity:0; transform:translateY(10px) } to{opacity:1; transform:translateY(0) } }
+    .solution-divider {
+      text-align: center;
+      color: var(--text-dim);
+      font-size: 0.8em;
+      margin: 16px 0;
+      letter-spacing: 1px;
+    }
+    .answer-highlight {
+      background: rgba(63,185,80,0.1);
+      border: 1px solid var(--green);
+      border-radius: 8px;
+      padding: 10px 16px;
+      margin: 10px 0;
+      font-size: 1.05em;
+      color: var(--green);
+      font-weight: 600;
+    }
+    .solution-block {
+      margin: 14px 0;
+      padding: 14px;
+      background: rgba(255,255,255,0.02);
+      border-radius: 8px;
+    }
+    .solution-block h4 {
+      color: var(--accent);
+      margin-bottom: 8px;
+      font-size: 0.95em;
+    }
+    .solution-block ul.answer-points {
+      padding-left: 20px;
+    }
+    .solution-block ul.answer-points li {
+      margin: 6px 0;
+      font-size: 0.9em;
+    }
+    .code-block {
+      background: #0d1117;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 12px;
+      font-family: "JetBrains Mono", "Fira Code", monospace;
+      font-size: 0.85em;
+      overflow-x: auto;
+      white-space: pre;
+      color: var(--text);
+    }
+    .complexity-tag {
+      display: inline-block;
+      padding: 2px 10px;
+      margin-right: 8px;
+      border-radius: 6px;
+      background: var(--border);
+      font-size: 0.85em;
+      font-family: monospace;
+    }
+    .derivation-content {
+      font-size: 0.9em;
+      line-height: 1.8;
+    }
+
+    /* 运行中加载动画 */
+    .spinner {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      border: 2px solid var(--text-dim);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* 底部 */
+    .footer {
+      text-align: center;
+      padding: 24px 0;
+      color: var(--text-dim);
+      font-size: 0.8em;
+      border-top: 1px solid var(--border);
+      margin-top: 24px;
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 8px; }
+      .question-card { padding: 14px; }
+      .question-title { font-size: 1.1em; }
+      .code-editor { font-size: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <h1>每日算法 AI 出题</h1>
+  <div class="subtitle">算法 2 道 + AI 2 道</div>
+  <div class="date-tag">📅 2026-09-07 ｜ 算法 2 道 · AI 2 道</div>
+</div>
+
+<div class="question-card" data-qid="1">
+
+    <div class="question-header">
+      <span class="type-badge" style="background:#3b82f6">算法编程</span>
+      <span class="difficulty">⭐⭐</span>
+      <span class="qid-label">第 1 题</span>
+    </div>
+<h2 class="question-title">和为 K 的子数组</h2>
+<div class="question-body">给定一个整数数组 <code class="inline-code">nums</code> 和一个整数 <code class="inline-code">k</code>，请你统计并返回该数组中和为 <code class="inline-code">k</code> 的**连续子数组**的个数。<br>
+<br>
+注意：子数组是数组中元素的连续非空序列。数组中可能包含负数。</div>
+<div class="info-block"><span class="info-label">输入</span><pre>第一行：整数 n（数组长度）和整数 k
+第二行：n 个整数，用空格分隔</pre></div>
+<div class="info-block"><span class="info-label">输出</span><pre>一个整数，表示和为 k 的连续子数组的个数</pre></div>
+<div class="example-block">
+<div class="example-title">示例 1</div>
+<pre class="example-io"><span class="io-label">输入：</span>nums = [1, 1, 1], k = 2</pre>
+<pre class="example-io"><span class="io-label">输出：</span>2</pre>
+<div class="example-explanation">子数组 [1,1]（下标 0-1）和 [1,1]（下标 1-2）的和均为 2</div>
+</div>
+<div class="example-block">
+<div class="example-title">示例 2</div>
+<pre class="example-io"><span class="io-label">输入：</span>nums = [1, 2, 3], k = 3</pre>
+<pre class="example-io"><span class="io-label">输出：</span>2</pre>
+<div class="example-explanation">子数组 [1,2]（和=3）和 [3]（和=3）满足条件</div>
+</div>
+<div class="example-block">
+<div class="example-title">示例 3</div>
+<pre class="example-io"><span class="io-label">输入：</span>nums = [1, -1, 0], k = 0</pre>
+<pre class="example-io"><span class="io-label">输出：</span>3</pre>
+<div class="example-explanation">子数组 [1,-1]（和=0）、[0]（和=0）、[1,-1,0]（和=0）均满足</div>
+</div>
+<div class="info-block"><span class="info-label">约束</span><div>1 ≤ n ≤ 2×10^4
+-1000 ≤ nums[i] ≤ 1000
+-10^7 ≤ k ≤ 10^7</div></div>
+
+    <div class="code-section">
+      <div class="code-header">
+        <span>🧑‍💻 在线代码编辑器</span>
+        <button class="btn-run" onclick="runCode(1)" id="run_btn_1">▶ 运行</button>
+      </div>
+      <div class="editor-wrap">
+        <div class="code-editor" id="editor_1" contenteditable="true" spellcheck="false">def subarray_sum(nums, k):
+    # 请在此处编写你的代码
+    pass</div>
+      </div>
+      <div class="code-result" id="result_1" style="display:none;"></div>
+      <input type="hidden" id="func_name_1" value="subarray_sum">
+      <input type="hidden" id="test_cases_1" value='[[[1, 1, 1], 2], [[1, 2, 3], 3], [[1, -1, 0], 0], [[1], 1], [[1], 0], [[0, 0, 0], 0], [[1, 2, 3, 4, 5], 15], [[1, 2, 3, 4, 5], 100], [[-1, -1, -1], -2], [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1], 2], [[2, -1, 2, -1, 2], 1], [[100], 100]]'>
+      <input type="hidden" id="expected_outputs_1" value='[2, 2, 3, 1, 0, 6, 1, 0, 2, 9, 4, 1]'>
+    </div>
+
+    <button class="btn-reveal" onclick="revealSolution(1)" id="reveal_btn_1">
+      📖 显示答案与解析
+    </button>
+<div class="solution-section" id="solution_1" style="display:none;">
+<div class="solution-divider">--- 以下为答案与解析 ---</div>
+<div class="solution-block"><h4>💡 解题思路</h4><div>**前缀和 + 哈希表**：<br>
+<br>
+设 <code class="inline-code">prefix[i]</code> 为 <code class="inline-code">nums[0..i-1]</code> 的前缀和，则子数组 <code class="inline-code">nums[i..j]</code> 的和 = <code class="inline-code">prefix[j+1] - prefix[i]</code>。<br>
+<br>
+要使 <code class="inline-code">sum(nums[i..j]) = k</code>，即 <code class="inline-code">prefix[j+1] - prefix[i] = k</code>，也就是 <code class="inline-code">prefix[i] = prefix[j+1] - k</code>。<br>
+<br>
+用哈希表记录每个前缀和出现的次数，遍历时查 <code class="inline-code">prefix - k</code> 出现了几次，就找到几个满足条件的子数组。<br>
+<br>
+**关键细节**：初始时哈希表要放入 <code class="inline-code">{0: 1}</code>，表示前缀和为 0 出现过 1 次（空前缀），这样才能统计从下标 0 开始的子数组。</div></div>
+<div class="solution-block"><h4>📝 参考代码（python）</h4><pre class="code-block">def subarray_sum(nums, k):
+    count = 0
+    prefix_sum = 0
+    prefix_count = {0: 1}  # 前缀和为0出现1次
+    
+    for num in nums:
+        prefix_sum += num
+        # 查找是否存在前缀和 = prefix_sum - k
+        if prefix_sum - k in prefix_count:
+            count += prefix_count[prefix_sum - k]
+        # 更新哈希表
+        prefix_count[prefix_sum] = prefix_count.get(prefix_sum, 0) + 1
+    
+    return count</pre></div>
+<div class="solution-block"><h4>⚡ 复杂度分析</h4><div>
+<span class="complexity-tag">时间 O(n)</span>
+<span class="complexity-tag">空间 O(n)</span>
+</div></div>
+<div class="solution-block"><h4>🎯 考点</h4><div>前缀和 + 哈希表优化；注意初始化 prefix_count = {0: 1} 的作用；理解 prefix[j] - prefix[i] = k 的转化；数组含负数时不能用滑动窗口（窗口和不一定单调）</div></div>
+</div>
+</div>
+<div class="question-card" data-qid="2">
+
+    <div class="question-header">
+      <span class="type-badge" style="background:#10b981">算法概念</span>
+      <span class="difficulty">⭐</span>
+      <span class="qid-label">第 2 题</span>
+    </div>
+<h2 class="question-title">快慢指针检测链表环</h2>
+<div class="question-body">在使用快慢指针（Floyd 判圈法）检测链表是否有环时，快指针每次走 2 步，慢指针每次走 1 步。关于该算法，以下哪个说法是**正确的**？</div>
+<div class="options-container">
+
+            <label class="option-item" data-letter="A">
+              <input type="radio" name="quiz_2" value="A" onchange="checkAnswer(2, 'A')">
+              <span class="option-letter">A</span>
+              <span class="option-text">如果链表有环，快指针和慢指针一定会在环内相遇，且相遇时快指针比慢指针多走了恰好 1 圈</span>
+            </label>
+
+            <label class="option-item" data-letter="B">
+              <input type="radio" name="quiz_2" value="B" onchange="checkAnswer(2, 'B')">
+              <span class="option-letter">B</span>
+              <span class="option-text">如果链表无环，快指针会先到达链表末尾（None），时间复杂度为 O(n)</span>
+            </label>
+
+            <label class="option-item" data-letter="C">
+              <input type="radio" name="quiz_2" value="C" onchange="checkAnswer(2, 'C')">
+              <span class="option-letter">C</span>
+              <span class="option-text">快慢指针法只能判断是否有环，不能找到环的入口节点</span>
+            </label>
+
+            <label class="option-item" data-letter="D">
+              <input type="radio" name="quiz_2" value="D" onchange="checkAnswer(2, 'D')">
+              <span class="option-letter">D</span>
+              <span class="option-text">如果链表有环，快指针和慢指针永远不会相遇，因为快指针走得更快会不断拉开距离</span>
+            </label>
+</div>
+<div class="option-feedback" id="feedback_2"></div>
+
+    <button class="btn-reveal" onclick="revealSolution(2)" id="reveal_btn_2">
+      📖 显示答案与解析
+    </button>
+<div class="solution-section" id="solution_2" style="display:none;">
+<div class="solution-divider">--- 以下为答案与解析 ---</div>
+<div class="answer-highlight">✅ 正确答案：B</div>
+<div class="solution-block"><h4>💡 解题思路</h4><div>Floyd 判圈法核心：快指针每次走 2 步，慢指针每次走 1 步。若无环，快指针先到末尾（None），只需遍历 n/2 次，时间 O(n)；若有环，快慢指针一定会在环内相遇。</div></div>
+<div class="solution-block"><h4>🎯 考点</h4><div>Floyd 判圈法的正确性证明（相对速度差为 1 必然相遇）；找环入口的延伸方法（双指针阶段二）；无环时 O(n) 时间复杂度分析</div></div>
+<div class="solution-block"><h4>🔍 逐项分析</h4><ul class="answer-points">
+<li>A 错误：相遇时快指针比慢指针多走的步数不一定恰好是 1 圈。快指针每步比慢指针多走 1 步（相对速度差为 1），因此在环内最多需要走「环长度」步即可追上，但这不意味着快指针总共只多走了 1 圈——它可能在进入环之前就已经比慢指针多走了很多步。相遇时快指针总步数是慢指针的 2 倍，多走量取决于环外长度与环长的关系。说「恰好多走 1 圈」过于绝对。</li>
+<li>B 正确：无环时，快指针每轮前进 2 步，最多 ⌈n/2⌉ 轮到达末尾，时间复杂度 O(n)，这是标准结论。</li>
+<li>C 错误：Floyd 判圈法不仅能判断有环，还能找到环入口。方法：快慢指针相遇后，将其中一个指针移回链表头，两指针都改为每次走 1 步，再次相遇点即为环入口。原理是从头到环入口的距离 a 与相遇点到环入口的距离满足 a = r - (a mod r) 的数学关系。</li>
+<li>D 错误：有环时，快慢指针在环内的相对速度为 1（每轮快指针比慢指针多走 1 步），由于环是有限的，快指针一定会追上慢指针并相遇。说「永远不会相遇」完全错误。</li>
+</ul></div>
+</div>
+</div>
+<div class="question-card" data-qid="3">
+
+    <div class="question-header">
+      <span class="type-badge" style="background:#a855f7">AI公式推导</span>
+      <span class="difficulty">⭐⭐</span>
+      <span class="qid-label">第 3 题</span>
+    </div>
+<h2 class="question-title">L2 正则化的权重衰减推导</h2>
+<div class="question-body">推导 L2 正则化（Ridge / Weight Decay）在梯度下降中的**权重衰减**效果。<br>
+<br>
+设损失函数为 $L(\mathbf{w})$（不含正则化项），模型参数为 $\mathbf{w} \in \mathbb{R}^d$。加入 L2 正则化后的总目标函数为：<br>
+$$J(\mathbf{w}) = L(\mathbf{w}) + \frac{\lambda}{2} \|\mathbf{w}\|^2$$<br>
+<br>
+请推导：<br>
+1. $J(\mathbf{w})$ 对 $\mathbf{w}$ 的梯度<br>
+2. 使用学习率 $\eta$ 的梯度下降更新规则<br>
+3. 将更新规则改写为 $\mathbf{w}_{new} = (1 - \eta\lambda)\mathbf{w}_{old} - \eta \nabla L(\mathbf{w})$ 的形式，说明为何 L2 正则化等价于「权重衰减」<br>
+4. 与 L1 正则化的梯度行为对比，说明为何 L2 倾向产生小而均匀的权重、而 L1 倾向产生稀疏权重</div>
+
+    <button class="btn-reveal" onclick="revealSolution(3)" id="reveal_btn_3">
+      📖 显示答案与解析
+    </button>
+<div class="solution-section" id="solution_3" style="display:none;">
+<div class="solution-divider">--- 以下为答案与解析 ---</div>
+<div class="solution-block"><h4>🎯 考点</h4><div>L2 正则化梯度推导；权重衰减等价性 $(1-\eta\lambda)$ 因子；L1 vs L2 稀疏性差异的梯度解释（恒定梯度 vs 比例梯度）与几何解释（菱形 vs 圆约束区域）</div></div>
+<div class="solution-block"><h4>📐 推导过程</h4><div class="derivation-content">**Step 1：求 $J(\mathbf{w})$ 的梯度**<br>
+<br>
+$$J(\mathbf{w}) = L(\mathbf{w}) + \frac{\lambda}{2} \|\mathbf{w}\|^2 = L(\mathbf{w}) + \frac{\lambda}{2} \sum_{i=1}^{d} w_i^2$$<br>
+<br>
+对 $w_i$ 求偏导：<br>
+$$\frac{\partial J}{\partial w_i} = \frac{\partial L}{\partial w_i} + \lambda w_i$$<br>
+<br>
+写成向量形式：<br>
+$$\nabla J(\mathbf{w}) = \nabla L(\mathbf{w}) + \lambda \mathbf{w}$$<br>
+<br>
+**Step 2：梯度下降更新规则**<br>
+<br>
+$$\mathbf{w}_{new} = \mathbf{w}_{old} - \eta \nabla J(\mathbf{w}_{old})$$<br>
+<br>
+代入 Step 1 的梯度：<br>
+$$\mathbf{w}_{new} = \mathbf{w}_{old} - \eta \left(\nabla L(\mathbf{w}_{old}) + \lambda \mathbf{w}_{old}\right)$$<br>
+<br>
+**Step 3：展开为权重衰减形式**<br>
+<br>
+$$\mathbf{w}_{new} = \mathbf{w}_{old} - \eta \nabla L(\mathbf{w}_{old}) - \eta \lambda \mathbf{w}_{old}$$<br>
+<br>
+$$\mathbf{w}_{new} = (1 - \eta\lambda)\mathbf{w}_{old} - \eta \nabla L(\mathbf{w}_{old})$$<br>
+<br>
+可以看到，在标准梯度下降的基础上，参数 $\mathbf{w}_{old}$ 被乘以了因子 $(1 - \eta\lambda)$。由于 $\eta &gt; 0$ 且 $\lambda &gt; 0$，有 $0 &lt; 1 - \eta\lambda &lt; 1$（假设 $\eta\lambda &lt; 1$），因此每步更新都会先将旧权重**缩小**一个比例，再沿 $L$ 的梯度方向更新。这就是「权重衰减」名称的由来——权重在每步都被衰减（shrink）。<br>
+<br>
+**Step 4：与 L1 正则化对比**<br>
+<br>
+L1 正则化的目标函数：$J_{L1}(\mathbf{w}) = L(\mathbf{w}) + \lambda \|\mathbf{w}\|_1 = L(\mathbf{w}) + \lambda \sum_{i=1}^{d} |w_i|$<br>
+<br>
+L1 的梯度：<br>
+$$\frac{\partial J_{L1}}{\partial w_i} = \frac{\partial L}{\partial w_i} + \lambda \cdot \text{sign}(w_i)$$<br>
+<br>
+关键区别：<br>
+- **L2** 的正则化梯度为 $\lambda w_i$，当 $w_i$ 接近 0 时，梯度也接近 0，推力逐渐减弱。因此 L2 会把权重压小但不会精确归零，产生**小而均匀的权重分布**。<br>
+- **L1** 的正则化梯度为 $\lambda \cdot \text{sign}(w_i)$，无论 $w_i$ 多大或多小，梯度大小始终是 $\lambda$（常数），方向指向 0。当 $w_i$ 接近 0 时，这个恒定的推力仍然存在，能把 $w_i$ 精确推到 0，产生**稀疏权重**（很多 $w_i = 0$）。<br>
+<br>
+从几何角度看：L2 的约束区域是圆（球），等高线与圆相切点一般在坐标轴外的平滑位置；L1 的约束区域是菱形（菱角朝向坐标轴），等高线与菱形相切点更容易落在坐标轴顶点（即某些 $w_i = 0$）。</div></div>
+<div class="solution-block"><h4>🧠 直觉解释</h4><div>L2 正则化让每步梯度下降都先把权重缩小一点再更新，相当于给权重加了一个「向 0 的弹簧」；L1 则给每个权重施加恒定大小的「向 0 的推力」，不因权重大小减弱，因此能把权重精确推到零。</div></div>
+</div>
+</div>
+<div class="question-card" data-qid="4">
+
+    <div class="question-header">
+      <span class="type-badge" style="background:#f59e0b">AI面试问答</span>
+      <span class="difficulty">⭐⭐</span>
+      <span class="qid-label">第 4 题</span>
+    </div>
+<h2 class="question-title">AUC 指标的原理与适用场景</h2>
+<div class="question-body">面试官问：「请解释 AUC 指标的含义、计算方式，以及它在什么场景下适用、什么场景下不适用？」</div>
+
+    <button class="btn-reveal" onclick="revealSolution(4)" id="reveal_btn_4">
+      📖 显示答案与解析
+    </button>
+<div class="solution-section" id="solution_4" style="display:none;">
+<div class="solution-divider">--- 以下为答案与解析 ---</div>
+<div class="solution-block"><h4>📌 回答要点</h4><ul class="answer-points">
+<li>AUC（Area Under the ROC Curve）是 ROC 曲线下方的面积，取值范围 [0, 1]，AUC = 0.5 表示随机猜测水平，AUC = 1 表示完美分类。</li>
+<li>ROC 曲线的横轴是 FPR（假正率 = FP/(FP+TN)），纵轴是 TPR（真正率 = TP/(TP+FN)）。通过遍历所有分类阈值，计算每个阈值下的 (FPR, TPR) 点并连线得到 ROC 曲线。</li>
+<li>AUC 的概率含义：随机取一个正样本和一个负样本，正样本预测分数高于负样本的概率即为 AUC。这个解释使 AUC 不依赖具体阈值，是一个 rank-based 指标。</li>
+<li>AUC 的适用场景：类别不平衡的数据集（如正负比 1:100），因为 AUC 只关注正负样本的排序质量，不受类别比例影响；需要评估模型整体排序能力的场景。</li>
+<li>AUC 的不适用场景：当关注的是某个特定阈值下的精确率/召回率时（如医疗诊断要求高召回），AUC 无法反映单一阈值的表现；当负样本远多于正样本且关注精确率时，AUC 可能高但实际精确率很低。</li>
+</ul></div>
+<div class="solution-block"><h4>⭐ 加分项</h4><ul class="answer-points">
+<li>AUC 与 PR-AUC（Precision-Recall AUC）的对比：在极度不平衡数据上，PR-AUC 比ROC-AUC 更敏感地反映正类预测质量，因为 PR 曲线的纵轴是精确率而非 TPR，受 FP 数量影响更大。</li>
+<li>AUC 的计算优化：朴素方法 O(n²) 逐一比较正负样本对，高效方法 O(n log n) 是先按预测分数排序，然后用公式 $AUC = \frac{\sum_{i \in positive} rank_i - \frac{n_+(n_++1)}{2}}{n_+ \cdot n_-}$，其中 $rank_i$ 是正样本在排序中的秩。</li>
+<li>AUC 对预测分数的绝对值不敏感，只关心排序（单调变换不影响 AUC），这是优点也是局限——模型整体预测偏高/偏低只要排序对，AUC 就不变。</li>
+</ul></div>
+<div class="solution-block"><h4>🔮 追问预测</h4><ul class="answer-points">
+<li>追问1：「AUC = 0.8 在类别不平衡场景下意味着什么？」→ 回答要点：0.8 表示随机取一对正负样本，有 80% 概率正样本排在负样本前面；但不意味着精确率 80%，精确率还取决于正负比例和阈值选择。</li>
+<li>追问2：「ROC-AUC 和 PR-AUC 在什么情况下差异最大？」→ 回答要点：当负样本远多于正样本时差异最大。此时 ROC-AUC 可能仍然很高（因为 TPR 和 FPR 都以各自类别总数归一化，不受比例影响），但 PR-AUC 会显著下降（因为大量 FP 会拉低精确率）。</li>
+<li>追问3：「如何用代码实现 AUC 计算？」→ 回答要点：可用 sklearn.metrics.roc_auc_score(y_true, y_score)，或手写排序+秩和公式，注意处理预测分数相同的情况（相同分数取平均秩）。</li>
+</ul></div>
+</div>
+</div>
+
+<div class="footer">
+  坚持每日练习，积少成多 💪<br>
+  Powered by TeleAgent · daily-algo-ai-quiz
+</div>
+
+<script>
+// ===== Pyodide 隔离执行测试运行器 =====
+const RUNNER_CODE = "\nimport json, traceback, io, contextlib\n\ndef run_tests(user_code, func_name, test_cases, expected):\n    ns = {}\n    user_stdout = io.StringIO()\n    user_error = None\n\n    try:\n        with contextlib.redirect_stdout(user_stdout):\n            exec(user_code, ns)\n    except Exception:\n        user_error = traceback.format_exc()\n\n    user_out = user_stdout.getvalue()\n\n    if user_error:\n        return {\"error\": user_error, \"stdout\": user_out}\n\n    func = ns.get(func_name)\n    if func is None:\n        return {\"error\": \"未找到函数 \" + str(func_name) + \"，请确保代码中定义了该函数\", \"stdout\": user_out}\n\n    test_results = []\n    for i, tc in enumerate(test_cases):\n        try:\n            actual = func(*tc)\n            exp = expected[i]\n            passed = actual == exp\n            test_results.append({\n                \"passed\": passed,\n                \"input\": str(tc),\n                \"expected\": str(exp),\n                \"actual\": str(actual)\n            })\n        except Exception as e:\n            exp = str(expected[i]) if i < len(expected) else \"N/A\"\n            test_results.append({\n                \"passed\": False,\n                \"input\": str(tc),\n                \"expected\": exp,\n                \"actual\": \"Error: \" + str(e)\n            })\n\n    return {\"stdout\": user_out, \"tests\": test_results}\n";
+
+// ===== 显示/隐藏解析 =====
+function revealSolution(qid) {
+  const sol = document.getElementById('solution_' + qid);
+  const btn = document.getElementById('reveal_btn_' + qid);
+  if (sol.style.display === 'none') {
+    sol.style.display = 'block';
+    btn.innerHTML = '📕 收起解析';
+    // 渲染该区域数学公式
+    if (typeof renderMathInElement !== 'undefined') {
+      renderMathInElement(sol, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false}
+        ]
+      });
+    }
+  } else {
+    sol.style.display = 'none';
+    btn.innerHTML = '📖 显示答案与解析';
+  }
+}
+
+// ===== 选择题作答反馈 =====
+function checkAnswer(qid, selected) {
+  const card = document.querySelector(`[data-qid="${qid}"]`);
+  if (!card) return;
+  const correctAnswer = card.getAttribute('data-correct') || '';
+  // 从全局 quizData 获取
+  const qData = window.__quizData__.questions.find(q => q.id == qid);
+  if (!qData || !qData.correct_answer) return;
+
+  const correct = qData.correct_answer;
+  const feedback = document.getElementById('feedback_' + qid);
+  const options = card.querySelectorAll('.option-item');
+
+  options.forEach(opt => {
+    const letter = opt.getAttribute('data-letter');
+    opt.classList.remove('correct', 'wrong');
+    if (letter === correct) {
+      opt.classList.add('correct');
+    } else if (letter === selected && selected !== correct) {
+      opt.classList.add('wrong');
+    }
+  });
+
+  if (feedback) {
+    feedback.className = 'option-feedback show ' + (selected === correct ? 'correct' : 'wrong');
+    feedback.textContent = selected === correct
+      ? '✅ 回答正确！'
+      : `❌ 正确答案是 ${correct}，再想想？`;
+    feedback.style.display = 'block';
+  }
+}
+
+// ===== Pyodide 代码执行 =====
+let pyodideReady = null;
+let pyodideLoading = false;
+
+function loadPyodideAsync() {
+  if (pyodideReady) return pyodideReady;
+  if (pyodideLoading) return pyodideReady;
+  pyodideLoading = true;
+
+  pyodideReady = new Promise((resolve, reject) => {
+    if (typeof loadPyodide !== 'undefined') {
+      loadPyodide({
+        indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.25.0/full/'
+      }).then(py => {
+        pyodideLoading = false;
+        resolve(py);
+      }).catch(reject);
+    } else {
+      // 动态加载 Pyodide
+      const script = document.createElement('script');
+      script.src = 'https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js';
+      script.onload = () => {
+        loadPyodide({
+          indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.25.0/full/'
+        }).then(py => {
+          pyodideLoading = false;
+          resolve(py);
+        }).catch(reject);
+      };
+      script.onerror = () => {
+        pyodideLoading = false;
+        reject(new Error('Pyodide 加载失败，请检查网络连接'));
+      };
+      document.head.appendChild(script);
+    }
+  });
+  return pyodideReady;
+}
+
+async function runCode(qid) {
+    const editor = document.getElementById('editor_' + qid);
+    const resultDiv = document.getElementById('result_' + qid);
+    const btn = document.getElementById('run_btn_' + qid);
+    const code = editor.innerText;
+    const funcNameInput = document.getElementById('func_name_' + qid);
+    const funcName = funcNameInput ? funcNameInput.value : 'solve';
+    const tcInput = document.getElementById('test_cases_' + qid);
+    const eoInput = document.getElementById('expected_outputs_' + qid);
+    let testCases = [];
+    let expectedOutputs = [];
+    try {
+        testCases = JSON.parse(tcInput.value || '[]');
+        expectedOutputs = JSON.parse(eoInput.value || '[]');
+    } catch(e) {}
+
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span> 运行中...';
+    resultDiv.style.display = 'block';
+    resultDiv.innerHTML = '<span style="color:var(--text-dim)">⏳ 正在加载 Python 运行环境...</span>';
+
+    try {
+        const pyodide = await loadPyodideAsync();
+        resultDiv.innerHTML = '<span style="color:var(--text-dim)">⏳ 正在执行代码...</span>';
+
+        // 确保 run_tests 函数只定义一次
+        if (!window.__runner_ready__) {
+            pyodide.runPython(RUNNER_CODE);
+            window.__runner_ready__ = true;
+        }
+
+        // 调用 run_tests 函数，通过返回值获取结果（不依赖 stdout，每次调用独立）
+        const runTests = pyodide.globals.get('run_tests');
+        const pyResult = runTests(code, funcName, testCases, expectedOutputs);
+        // pyResult 是 Python dict，转为 JS 对象
+        const result = pyResult.toJs({dict_converter: Object.fromEntries});
+
+        let resultHtml = '';
+
+        // 显示用户代码标准输出
+        if (result.stdout && result.stdout.trim()) {
+            resultHtml += '<div style="color:var(--text)">📝 标准输出：</div>';
+            resultHtml += '<pre style="color:var(--text);margin:4px 0;">' + escapeHtml(result.stdout) + '</pre>';
+        }
+
+        // 显示错误信息
+        if (result.error) {
+            resultHtml += '<div class="stderr">⚠️ 错误信息：</div>';
+            resultHtml += '<pre class="stderr" style="margin:4px 0;">' + escapeHtml(result.error) + '</pre>';
+        }
+
+        // 显示测试用例结果
+        if (result.tests && result.tests.length > 0) {
+            let allPassed = result.tests.every(t => t.passed);
+            resultHtml += '<div style="margin-top:8px;color:' + (allPassed ? 'var(--green)' : 'var(--accent)') + '">';
+            resultHtml += allPassed ? '🎉 全部通过！' : '🧪 测试用例结果：';
+            resultHtml += '</div>';
+
+            for (let i = 0; i < result.tests.length; i++) {
+                const t = result.tests[i];
+                if (t.passed) {
+                    resultHtml += '<div class="test-pass">✅ 用例 ' + (i+1) + ' 通过</div>';
+                } else {
+                    resultHtml += '<div class="test-fail">❌ 用例 ' + (i+1) + ' 未通过</div>';
+                    resultHtml += '<pre style="color:var(--text-dim);margin:2px 0;">  输入: ' + escapeHtml(t.input) + '\n  期望: ' + escapeHtml(t.expected) + '\n  实际: ' + escapeHtml(t.actual) + '</pre>';
+                }
+            }
+        }
+
+        if (!resultHtml) {
+            resultHtml = '<span style="color:var(--text-dim)">（代码执行完毕，无输出）</span>';
+        }
+
+        resultDiv.innerHTML = resultHtml;
+
+    } catch(e) {
+        resultDiv.innerHTML = '<div class="stderr">❌ ' + escapeHtml(e.message || String(e)) + '</div>';
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = '▶ 运行';
+    }
+}
+
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+// Ctrl+Enter 运行代码
+document.addEventListener('keydown', (e) => {
+  if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+    const focused = document.activeElement;
+    if (focused && focused.classList.contains('code-editor')) {
+      const qid = focused.id.replace('editor_', '');
+      runCode(qid);
+    }
+  }
+});
+
+// Tab 键在编辑器中插入空格
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Tab' && document.activeElement.classList.contains('code-editor')) {
+    e.preventDefault();
+    document.execCommand('insertText', false, '    ');
+  }
+});
+
+// 将 quiz 数据存入全局变量供选择题使用
+window.__quizData__ = {"date": "2026-09-07", "title": "每日算法 AI 出题", "subtitle": "算法 2 道 + AI 2 道", "questions": [{"id": 1, "type": "algorithm_code", "type_label": "算法编程", "difficulty": 2, "title": "和为 K 的子数组", "description": "给定一个整数数组 `nums` 和一个整数 `k`，请你统计并返回该数组中和为 `k` 的**连续子数组**的个数。\n\n注意：子数组是数组中元素的连续非空序列。数组中可能包含负数。", "input_format": "第一行：整数 n（数组长度）和整数 k\n第二行：n 个整数，用空格分隔", "output_format": "一个整数，表示和为 k 的连续子数组的个数", "examples": [{"input": "nums = [1, 1, 1], k = 2", "output": "2", "explanation": "子数组 [1,1]（下标 0-1）和 [1,1]（下标 1-2）的和均为 2"}, {"input": "nums = [1, 2, 3], k = 3", "output": "2", "explanation": "子数组 [1,2]（和=3）和 [3]（和=3）满足条件"}, {"input": "nums = [1, -1, 0], k = 0", "output": "3", "explanation": "子数组 [1,-1]（和=0）、[0]（和=0）、[1,-1,0]（和=0）均满足"}], "constraints": "1 ≤ n ≤ 2×10^4\n-1000 ≤ nums[i] ≤ 1000\n-10^7 ≤ k ≤ 10^7", "solution": {"approach": "**前缀和 + 哈希表**：\n\n设 `prefix[i]` 为 `nums[0..i-1]` 的前缀和，则子数组 `nums[i..j]` 的和 = `prefix[j+1] - prefix[i]`。\n\n要使 `sum(nums[i..j]) = k`，即 `prefix[j+1] - prefix[i] = k`，也就是 `prefix[i] = prefix[j+1] - k`。\n\n用哈希表记录每个前缀和出现的次数，遍历时查 `prefix - k` 出现了几次，就找到几个满足条件的子数组。\n\n**关键细节**：初始时哈希表要放入 `{0: 1}`，表示前缀和为 0 出现过 1 次（空前缀），这样才能统计从下标 0 开始的子数组。", "code": "def subarray_sum(nums, k):\n    count = 0\n    prefix_sum = 0\n    prefix_count = {0: 1}  # 前缀和为0出现1次\n    \n    for num in nums:\n        prefix_sum += num\n        # 查找是否存在前缀和 = prefix_sum - k\n        if prefix_sum - k in prefix_count:\n            count += prefix_count[prefix_sum - k]\n        # 更新哈希表\n        prefix_count[prefix_sum] = prefix_count.get(prefix_sum, 0) + 1\n    \n    return count", "starter_code": "def subarray_sum(nums, k):\n    # 请在此处编写你的代码\n    pass", "code_language": "python", "complexity_time": "O(n)", "complexity_space": "O(n)", "key_points": "前缀和 + 哈希表优化；注意初始化 prefix_count = {0: 1} 的作用；理解 prefix[j] - prefix[i] = k 的转化；数组含负数时不能用滑动窗口（窗口和不一定单调）", "test_cases": [[[1, 1, 1], 2], [[1, 2, 3], 3], [[1, -1, 0], 0], [[1], 1], [[1], 0], [[0, 0, 0], 0], [[1, 2, 3, 4, 5], 15], [[1, 2, 3, 4, 5], 100], [[-1, -1, -1], -2], [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1], 2], [[2, -1, 2, -1, 2], 1], [[100], 100]], "expected_outputs": [2, 2, 3, 1, 0, 6, 1, 0, 2, 9, 4, 1]}}, {"id": 2, "type": "algorithm_concept", "type_label": "算法概念", "difficulty": 1, "title": "快慢指针检测链表环", "description": "在使用快慢指针（Floyd 判圈法）检测链表是否有环时，快指针每次走 2 步，慢指针每次走 1 步。关于该算法，以下哪个说法是**正确的**？", "options": ["如果链表有环，快指针和慢指针一定会在环内相遇，且相遇时快指针比慢指针多走了恰好 1 圈", "如果链表无环，快指针会先到达链表末尾（None），时间复杂度为 O(n)", "快慢指针法只能判断是否有环，不能找到环的入口节点", "如果链表有环，快指针和慢指针永远不会相遇，因为快指针走得更快会不断拉开距离"], "correct_answer": "B", "solution": {"approach": "Floyd 判圈法核心：快指针每次走 2 步，慢指针每次走 1 步。若无环，快指针先到末尾（None），只需遍历 n/2 次，时间 O(n)；若有环，快慢指针一定会在环内相遇。", "option_analysis": ["A 错误：相遇时快指针比慢指针多走的步数不一定恰好是 1 圈。快指针每步比慢指针多走 1 步（相对速度差为 1），因此在环内最多需要走「环长度」步即可追上，但这不意味着快指针总共只多走了 1 圈——它可能在进入环之前就已经比慢指针多走了很多步。相遇时快指针总步数是慢指针的 2 倍，多走量取决于环外长度与环长的关系。说「恰好多走 1 圈」过于绝对。", "B 正确：无环时，快指针每轮前进 2 步，最多 ⌈n/2⌉ 轮到达末尾，时间复杂度 O(n)，这是标准结论。", "C 错误：Floyd 判圈法不仅能判断有环，还能找到环入口。方法：快慢指针相遇后，将其中一个指针移回链表头，两指针都改为每次走 1 步，再次相遇点即为环入口。原理是从头到环入口的距离 a 与相遇点到环入口的距离满足 a = r - (a mod r) 的数学关系。", "D 错误：有环时，快慢指针在环内的相对速度为 1（每轮快指针比慢指针多走 1 步），由于环是有限的，快指针一定会追上慢指针并相遇。说「永远不会相遇」完全错误。"], "key_points": "Floyd 判圈法的正确性证明（相对速度差为 1 必然相遇）；找环入口的延伸方法（双指针阶段二）；无环时 O(n) 时间复杂度分析"}}, {"id": 3, "type": "ai_derivation", "type_label": "AI公式推导", "difficulty": 2, "title": "L2 正则化的权重衰减推导", "description": "推导 L2 正则化（Ridge / Weight Decay）在梯度下降中的**权重衰减**效果。\n\n设损失函数为 $L(\\mathbf{w})$（不含正则化项），模型参数为 $\\mathbf{w} \\in \\mathbb{R}^d$。加入 L2 正则化后的总目标函数为：\n$$J(\\mathbf{w}) = L(\\mathbf{w}) + \\frac{\\lambda}{2} \\|\\mathbf{w}\\|^2$$\n\n请推导：\n1. $J(\\mathbf{w})$ 对 $\\mathbf{w}$ 的梯度\n2. 使用学习率 $\\eta$ 的梯度下降更新规则\n3. 将更新规则改写为 $\\mathbf{w}_{new} = (1 - \\eta\\lambda)\\mathbf{w}_{old} - \\eta \\nabla L(\\mathbf{w})$ 的形式，说明为何 L2 正则化等价于「权重衰减」\n4. 与 L1 正则化的梯度行为对比，说明为何 L2 倾向产生小而均匀的权重、而 L1 倾向产生稀疏权重", "solution": {"derivation": "**Step 1：求 $J(\\mathbf{w})$ 的梯度**\n\n$$J(\\mathbf{w}) = L(\\mathbf{w}) + \\frac{\\lambda}{2} \\|\\mathbf{w}\\|^2 = L(\\mathbf{w}) + \\frac{\\lambda}{2} \\sum_{i=1}^{d} w_i^2$$\n\n对 $w_i$ 求偏导：\n$$\\frac{\\partial J}{\\partial w_i} = \\frac{\\partial L}{\\partial w_i} + \\lambda w_i$$\n\n写成向量形式：\n$$\\nabla J(\\mathbf{w}) = \\nabla L(\\mathbf{w}) + \\lambda \\mathbf{w}$$\n\n**Step 2：梯度下降更新规则**\n\n$$\\mathbf{w}_{new} = \\mathbf{w}_{old} - \\eta \\nabla J(\\mathbf{w}_{old})$$\n\n代入 Step 1 的梯度：\n$$\\mathbf{w}_{new} = \\mathbf{w}_{old} - \\eta \\left(\\nabla L(\\mathbf{w}_{old}) + \\lambda \\mathbf{w}_{old}\\right)$$\n\n**Step 3：展开为权重衰减形式**\n\n$$\\mathbf{w}_{new} = \\mathbf{w}_{old} - \\eta \\nabla L(\\mathbf{w}_{old}) - \\eta \\lambda \\mathbf{w}_{old}$$\n\n$$\\mathbf{w}_{new} = (1 - \\eta\\lambda)\\mathbf{w}_{old} - \\eta \\nabla L(\\mathbf{w}_{old})$$\n\n可以看到，在标准梯度下降的基础上，参数 $\\mathbf{w}_{old}$ 被乘以了因子 $(1 - \\eta\\lambda)$。由于 $\\eta > 0$ 且 $\\lambda > 0$，有 $0 < 1 - \\eta\\lambda < 1$（假设 $\\eta\\lambda < 1$），因此每步更新都会先将旧权重**缩小**一个比例，再沿 $L$ 的梯度方向更新。这就是「权重衰减」名称的由来——权重在每步都被衰减（shrink）。\n\n**Step 4：与 L1 正则化对比**\n\nL1 正则化的目标函数：$J_{L1}(\\mathbf{w}) = L(\\mathbf{w}) + \\lambda \\|\\mathbf{w}\\|_1 = L(\\mathbf{w}) + \\lambda \\sum_{i=1}^{d} |w_i|$\n\nL1 的梯度：\n$$\\frac{\\partial J_{L1}}{\\partial w_i} = \\frac{\\partial L}{\\partial w_i} + \\lambda \\cdot \\text{sign}(w_i)$$\n\n关键区别：\n- **L2** 的正则化梯度为 $\\lambda w_i$，当 $w_i$ 接近 0 时，梯度也接近 0，推力逐渐减弱。因此 L2 会把权重压小但不会精确归零，产生**小而均匀的权重分布**。\n- **L1** 的正则化梯度为 $\\lambda \\cdot \\text{sign}(w_i)$，无论 $w_i$ 多大或多小，梯度大小始终是 $\\lambda$（常数），方向指向 0。当 $w_i$ 接近 0 时，这个恒定的推力仍然存在，能把 $w_i$ 精确推到 0，产生**稀疏权重**（很多 $w_i = 0$）。\n\n从几何角度看：L2 的约束区域是圆（球），等高线与圆相切点一般在坐标轴外的平滑位置；L1 的约束区域是菱形（菱角朝向坐标轴），等高线与菱形相切点更容易落在坐标轴顶点（即某些 $w_i = 0$）。", "intuition": "L2 正则化让每步梯度下降都先把权重缩小一点再更新，相当于给权重加了一个「向 0 的弹簧」；L1 则给每个权重施加恒定大小的「向 0 的推力」，不因权重大小减弱，因此能把权重精确推到零。", "key_points": "L2 正则化梯度推导；权重衰减等价性 $(1-\\eta\\lambda)$ 因子；L1 vs L2 稀疏性差异的梯度解释（恒定梯度 vs 比例梯度）与几何解释（菱形 vs 圆约束区域）"}}, {"id": 4, "type": "ai_interview", "type_label": "AI面试问答", "difficulty": 2, "title": "AUC 指标的原理与适用场景", "description": "面试官问：「请解释 AUC 指标的含义、计算方式，以及它在什么场景下适用、什么场景下不适用？」", "solution": {"answer_points": ["AUC（Area Under the ROC Curve）是 ROC 曲线下方的面积，取值范围 [0, 1]，AUC = 0.5 表示随机猜测水平，AUC = 1 表示完美分类。", "ROC 曲线的横轴是 FPR（假正率 = FP/(FP+TN)），纵轴是 TPR（真正率 = TP/(TP+FN)）。通过遍历所有分类阈值，计算每个阈值下的 (FPR, TPR) 点并连线得到 ROC 曲线。", "AUC 的概率含义：随机取一个正样本和一个负样本，正样本预测分数高于负样本的概率即为 AUC。这个解释使 AUC 不依赖具体阈值，是一个 rank-based 指标。", "AUC 的适用场景：类别不平衡的数据集（如正负比 1:100），因为 AUC 只关注正负样本的排序质量，不受类别比例影响；需要评估模型整体排序能力的场景。", "AUC 的不适用场景：当关注的是某个特定阈值下的精确率/召回率时（如医疗诊断要求高召回），AUC 无法反映单一阈值的表现；当负样本远多于正样本且关注精确率时，AUC 可能高但实际精确率很低。"], "bonus": ["AUC 与 PR-AUC（Precision-Recall AUC）的对比：在极度不平衡数据上，PR-AUC 比ROC-AUC 更敏感地反映正类预测质量，因为 PR 曲线的纵轴是精确率而非 TPR，受 FP 数量影响更大。", "AUC 的计算优化：朴素方法 O(n²) 逐一比较正负样本对，高效方法 O(n log n) 是先按预测分数排序，然后用公式 $AUC = \\frac{\\sum_{i \\in positive} rank_i - \\frac{n_+(n_++1)}{2}}{n_+ \\cdot n_-}$，其中 $rank_i$ 是正样本在排序中的秩。", "AUC 对预测分数的绝对值不敏感，只关心排序（单调变换不影响 AUC），这是优点也是局限——模型整体预测偏高/偏低只要排序对，AUC 就不变。"], "followup_predictions": ["追问1：「AUC = 0.8 在类别不平衡场景下意味着什么？」→ 回答要点：0.8 表示随机取一对正负样本，有 80% 概率正样本排在负样本前面；但不意味着精确率 80%，精确率还取决于正负比例和阈值选择。", "追问2：「ROC-AUC 和 PR-AUC 在什么情况下差异最大？」→ 回答要点：当负样本远多于正样本时差异最大。此时 ROC-AUC 可能仍然很高（因为 TPR 和 FPR 都以各自类别总数归一化，不受比例影响），但 PR-AUC 会显著下降（因为大量 FP 会拉低精确率）。", "追问3：「如何用代码实现 AUC 计算？」→ 回答要点：可用 sklearn.metrics.roc_auc_score(y_true, y_score)，或手写排序+秩和公式，注意处理预测分数相同的情况（相同分数取平均秩）。"]}}]};
+</script>
+</body>
+</html>
