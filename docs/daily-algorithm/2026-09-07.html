@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>每日算法讲解 · 2026年09月07日</title>
+<style>
+:root {
+  --primary: #6366f1;
+  --primary-dark: #4f46e5;
+  --bg: #0f172a;
+  --card-bg: #1e293b;
+  --text: #e2e8f0;
+  --text-dim: #94a3b8;
+  --accent: #818cf8;
+  --border: #334155;
+  --code-bg: #0d1117;
+  --code-text: #e6edf3;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans SC", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.8;
+  min-height: 100vh;
+}
+.container { max-width: 900px; margin: 0 auto; padding: 24px 20px; }
+.header {
+  text-align: center;
+  padding: 40px 0 30px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 32px;
+}
+.header h1 {
+  font-size: 28px;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.header h1 .date { color: var(--accent); }
+.header .subtitle { color: var(--text-dim); font-size: 15px; }
+.repo-link {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 6px 16px;
+  background: var(--primary);
+  color: #fff;
+  border-radius: 20px;
+  text-decoration: none;
+  font-size: 13px;
+  transition: background 0.2s;
+}
+.repo-link:hover { background: var(--primary-dark); }
+.history-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 32px;
+  padding: 16px;
+  background: var(--card-bg);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+.history-nav a {
+  padding: 4px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  color: var(--text-dim);
+  text-decoration: none;
+  background: rgba(99,102,241,0.08);
+  transition: all 0.2s;
+}
+.history-nav a:hover { color: var(--text); background: rgba(99,102,241,0.2); }
+.history-nav a.active { color: #fff; background: var(--primary); }
+.content { margin-bottom: 40px; }
+.content h2 {
+  font-size: 24px;
+  color: var(--accent);
+  margin: 40px 0 16px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--primary);
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+.content h2:first-child { border-top: none; padding-top: 0; }
+.content h3 {
+  font-size: 18px;
+  color: var(--text);
+  margin: 24px 0 12px;
+}
+.content h4 {
+  font-size: 16px;
+  color: var(--accent);
+  margin: 20px 0 10px;
+}
+.content p { margin-bottom: 12px; color: var(--text); }
+.content ul { margin: 8px 0 16px 20px; }
+.content li { margin-bottom: 6px; }
+.content strong { color: var(--accent); }
+.content blockquote {
+  border-left: 4px solid var(--primary);
+  padding: 12px 16px;
+  margin: 16px 0;
+  background: rgba(99,102,241,0.08);
+  border-radius: 0 8px 8px 0;
+}
+.content blockquote p { color: var(--text-dim); margin: 4px 0; }
+.content hr {
+  border: none;
+  height: 1px;
+  background: var(--border);
+  margin: 32px 0;
+}
+.code-block {
+  background: var(--code-bg);
+  border-radius: 10px;
+  padding: 18px 20px;
+  overflow-x: auto;
+  margin: 16px 0;
+  border: 1px solid var(--border);
+}
+.code-block code {
+  font-family: "JetBrains Mono", "Fira Code", "Consolas", monospace;
+  font-size: 14px;
+  color: var(--code-text);
+  line-height: 1.6;
+}
+.inline-code {
+  background: rgba(99,102,241,0.15);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: "Consolas", monospace;
+  font-size: 0.9em;
+  color: var(--accent);
+}
+.footer {
+  text-align: center;
+  padding: 24px 0;
+  border-top: 1px solid var(--border);
+  color: var(--text-dim);
+  font-size: 13px;
+}
+.tag {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  background: rgba(99,102,241,0.15);
+  color: var(--accent);
+  margin-left: 8px;
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>每日算法讲解 · <span class="date">2026年09月07日</span></h1>
+    <p class="subtitle">每天 1 个基础算法 + 2 个 AI/机器学习算法，持续精进</p>
+    <a href="https://syypretend.github.io/test/daily-algorithm" target="_blank" class="repo-link">GitHub 仓库</a>
+  </div>
+  <div class="history-nav"><a href="2026-09-07.html" class="active">09月07日</a>
+</div>
+  <div class="content">
+  <hr>
+<p>AIGC:</p>
+<p>ContentProducer: '001191110102MAD55U9H0F10002'</p>
+<p>ContentPropagator: '001191110102MAD55U9H0F10002'</p>
+<p>Label: '1'</p>
+<p>ProduceID: '4f5e9e0f-c1e8-43d2-b9cc-318216facc4f'</p>
+<p>PropagateID: '4f5e9e0f-c1e8-43d2-b9cc-318216facc4f'</p>
+<p>ReservedCode1: '0d54edca-0e6b-4d4a-ac6b-3a3de4639029'</p>
+<p>ReservedCode2: '0d54edca-0e6b-4d4a-ac6b-3a3de4639029'</p>
+<hr>
+
+<h2>每日算法讲解 · 2026-09-07</h2>
+
+<blockquote>
+<p>今日内容：1 个基础算法 + 2 个 AI/机器学习算法 | 逐参数详解</p>
+</blockquote>
+
+<hr>
+
+<h3>Trie 树（前缀树）</h3>
+
+<p><strong>类别</strong>：数据结构 | <strong>难度</strong>：中等</p>
+
+<h4>原理</h4>
+
+<p>Trie（发音 "try"）是一种树形数据结构，专门用于高效存储和检索字符串数据集中的键。其核心思想是利用字符串的公共前缀来共享节点，从而减少存储空间并加速查找。</p>
+
+<p>每个节点包含两部分：子节点映射（children，通常用字典或数组表示）和终止标记（is_end，标记此处是否为一个完整单词的结尾）。从根节点到某个节点的路径上的字符序列即为该节点代表的前缀。</p>
+
+<p>对于 n 个长度为 L 的字符串，Trie 的插入和查找时间复杂度均为 O(L)，与数据规模 n 无关，这是相比哈希表的优势之一——Trie 支持前缀匹配查询（如自动补全），而哈希表无法做到。</p>
+
+<h4>核心要点</h4>
+
+<ul>
+<li>公共前缀共享：相同前缀的字符串复用路径，节省存储</li>
+<li>前缀匹配：天然支持"以 xxx 开头的所有字符串"查询</li>
+<li>字符集大小影响空间复杂度：每个节点的子指针数为字符集大小 Σ</li>
+<li>终止标记区分"前缀"与"完整词"</li>
+<li>可用于词典分词、自动补全、拼写检查、IP 路由表</li>
+</ul>
+
+<h4>技术细节与参数详解</h4>
+
+<p>#### 数据结构定义</p>
+
+<p>#### children：子节点映射</p>
+<ul>
+<li><strong>含义</strong>：存储当前节点的所有子节点，键为字符，值为子节点引用</li>
+<li><strong>类型</strong>：dict（Python）或 array（定长，按字符集大小分配）</li>
+<li><strong>默认值</strong>：空字典 <code class="inline-code">{}</code></li>
+<li><strong>取值范围</strong>：键为字符集中的任意字符，值为 TrieNode 实例</li>
+<li><strong>对结果的影响</strong>：使用 dict 可支持任意字符集且按需分配空间；使用 array 则查找 O(1) 但空间固定为 O(Σ)</li>
+<li><strong>推荐设置</strong>：通用场景用 dict；仅处理 a-z 时可用 26 元素数组加速</li>
+</ul>
+
+<p>#### is_end：终止标记</p>
+<ul>
+<li><strong>含义</strong>：标记从根到当前节点的路径是否构成一个完整单词</li>
+<li><strong>类型</strong>：bool</li>
+<li><strong>默认值</strong>：False</li>
+<li><strong>取值范围</strong>：True / False</li>
+<li><strong>对结果的影响</strong>：True 表示此处存储了一个完整词；False 表示仅是某个词的前缀中间节点</li>
+<li><strong>推荐设置</strong>：插入单词末尾节点设为 True；查找时必须检查此标记</li>
+</ul>
+
+<p>#### word：存储完整单词（可选）</p>
+<ul>
+<li><strong>含义</strong>：在终止节点存储完整单词字符串，便于直接返回结果</li>
+<li><strong>类型</strong>：str 或 None</li>
+<li><strong>默认值</strong>：None</li>
+<li><strong>取值范围</strong>：任意字符串</li>
+<li><strong>对结果的影响</strong>：设为完整词可在查找命中时直接返回，无需回溯路径拼接</li>
+<li><strong>推荐设置</strong>：自动补全场景建议设置，减少拼接开销</li>
+</ul>
+
+<p>#### insert(word) 方法参数</p>
+
+<p>#### word：待插入的单词</p>
+<ul>
+<li><strong>含义</strong>：要加入 Trie 的字符串</li>
+<li><strong>类型</strong>：str</li>
+<li><strong>取值范围</strong>：任意非空字符串</li>
+<li><strong>对结果的影响</strong>：逐字符遍历，对每个字符在 children 中查找或创建子节点</li>
+<li><strong>注意</strong>：空字符串需特殊处理（直接标记根节点 is_end=True）</li>
+</ul>
+
+<p>#### search(word) 方法参数</p>
+
+<p>#### word：待查找的完整单词</p>
+<ul>
+<li><strong>含义</strong>：检查该单词是否存在于 Trie 中</li>
+<li><strong>返回值</strong>：bool，True 表示存在且 is_end=True</li>
+<li><strong>注意</strong>：与 startsWith 的区别——search 要求路径终点 is_end=True</li>
+</ul>
+
+<p>#### startsWith(prefix) 方法参数</p>
+
+<p>#### prefix：待查找的前缀</p>
+<ul>
+<li><strong>含义</strong>：检查 Trie 中是否存在以该前缀开头的任意单词</li>
+<li><strong>返回值</strong>：bool，True 表示存在</li>
+<li><strong>注意</strong>：不需要检查 is_end，只需确认前缀路径存在</li>
+</ul>
+
+<h4>代码示例</h4>
+
+<p><pre class="code-block"><code class="language-python">class TrieNode:
+    &quot;&quot;&quot;Trie 树节点&quot;&quot;&quot;
+    def __init__(self):
+        self.children = {}      # 子节点映射：字符 -&gt; TrieNode
+        self.is_end = False      # 是否为完整单词的终止节点
+        self.word = None         # 存储完整单词（可选，便于直接返回）
+
+
+class Trie:
+    &quot;&quot;&quot;前缀树（Trie）实现&quot;&quot;&quot;
+    def __init__(self):
+        self.root = TrieNode()  # 根节点，不存储任何字符
+
+    def insert(self, word: str) -&gt; None:
+        &quot;&quot;&quot;插入单词：逐字符向下遍历，不存在则创建新节点&quot;&quot;&quot;
+        node = self.root
+        for char in word:                    # 遍历单词的每个字符
+            if char not in node.children:    # 字符不在子节点中
+                node.children[char] = TrieNode()  # 创建新节点
+            node = node.children[char]       # 移动到子节点
+        node.is_end = True                   # 标记单词结尾
+        node.word = word                     # 存储完整单词
+
+    def search(self, word: str) -&gt; bool:
+        &quot;&quot;&quot;精确查找：路径存在且终点 is_end=True&quot;&quot;&quot;
+        node = self._find_node(word)
+        return node is not None and node.is_end
+
+    def starts_with(self, prefix: str) -&gt; bool:
+        &quot;&quot;&quot;前缀查找：路径存在即可，不要求 is_end&quot;&quot;&quot;
+        return self._find_node(prefix) is not None
+
+    def _find_node(self, text: str) -&gt; TrieNode:
+        &quot;&quot;&quot;辅助方法：沿路径查找节点，返回终点节点或 None&quot;&quot;&quot;
+        node = self.root
+        for char in text:
+            if char not in node.children:    # 路径断裂
+                return None
+            node = node.children[char]
+        return node
+
+    def autocomplete(self, prefix: str, limit: int = 10) -&gt; list:
+        &quot;&quot;&quot;自动补全：返回以 prefix 开头的所有单词（最多 limit 个）&quot;&quot;&quot;
+        node = self._find_node(prefix)
+        if node is None:
+            return []                        # 前缀不存在
+        results = []
+        self._dfs_collect(node, prefix, results, limit)
+        return results
+
+    def _dfs_collect(self, node, prefix, results, limit):
+        &quot;&quot;&quot;DFS 收集所有以当前节点为根的完整单词&quot;&quot;&quot;
+        if len(results) &gt;= limit:
+            return                           # 达到数量上限
+        if node.is_end:
+            results.append(node.word or prefix)  # 找到完整词
+        for char, child in node.children.items():
+            self._dfs_collect(child, prefix + char, results, limit)
+
+    def delete(self, word: str) -&gt; bool:
+        &quot;&quot;&quot;删除单词：需回溯清理无用的孤立节点&quot;&quot;&quot;
+        def _delete_helper(node, word, depth):
+            if depth == len(word):            # 到达单词末尾
+                if not node.is_end:
+                    return False               # 单词不存在
+                node.is_end = False            # 取消终止标记
+                node.word = None
+                return len(node.children) == 0  # 无子节点则可删除
+            char = word[depth]
+            if char not in node.children:
+                return False                   # 路径不存在
+            should_delete = _delete_helper(node.children[char], word, depth + 1)
+            if should_delete:
+                del node.children[char]       # 删除孤立子节点
+                return len(node.children) == 0 and not node.is_end
+            return False
+        return _delete_helper(self.root, word, 0)
+
+
+# 使用示例
+trie = Trie()
+words = [&quot;apple&quot;, &quot;app&quot;, &quot;application&quot;, &quot;apply&quot;, &quot;banana&quot;]
+for w in words:
+    trie.insert(w)                           # 逐个插入
+
+print(trie.search(&quot;app&quot;))                    # True（完整词存在）
+print(trie.search(&quot;appl&quot;))                   # False（&quot;appl&quot; 不是完整词）
+print(trie.starts_with(&quot;app&quot;))               # True（存在 app 前缀）
+print(trie.autocomplete(&quot;app&quot;, 5))           # [&#x27;app&#x27;, &#x27;apple&#x27;, &#x27;application&#x27;, &#x27;apply&#x27;]
+trie.delete(&quot;app&quot;)
+print(trie.search(&quot;app&quot;))                    # False（已删除）
+print(trie.search(&quot;apple&quot;))                  # True（apple 仍存在）</code></pre></p>
+
+<h4>复杂度分析</h4>
+
+<ul>
+<li><strong>插入</strong>：O(L)，L 为单词长度。每个字符做一次字典查找/插入</li>
+<li><strong>查找（精确/前缀）</strong>：O(L)，沿路径遍历</li>
+<li><strong>自动补全</strong>：O(L + M)，L 为前缀长度，M 为匹配结果的总字符数</li>
+<li><strong>删除</strong>：O(L)，需回溯</li>
+<li><strong>空间</strong>：O(N × L)，N 为单词数，L 为平均长度；公共前缀可压缩</li>
+</ul>
+
+<h4>应用场景</h4>
+
+<ul>
+<li>搜索引擎自动补全（输入"算法"提示"算法导论""算法与数据结构"）</li>
+<li>拼写检查与纠错（Levenshtein 距离 + Trie 剪枝）</li>
+<li>中文分词（前缀词典匹配，如 jieba 分词的前缀扫描）</li>
+<li>IP 路由表最长前缀匹配</li>
+<li>DNS 解析中的域名查找</li>
+</ul>
+
+<h4>参考文档</h4>
+
+<ul>
+<li>[如何在Python中实现前缀树Trie结构](https://www.php.cn/faq/2544861.html)</li>
+<li>[如何在Python中实现一个高性能的Trie树](https://www.php.cn/faq/2591561.html)</li>
+</ul>
+
+<hr>
+
+<h3>LoRA 低秩微调</h3>
+
+<p><strong>类别</strong>：大模型微调 | <strong>难度</strong>：困难</p>
+
+<h4>原理</h4>
+
+<p>LoRA（Low-Rank Adaptation）是一种参数高效微调方法，其核心假设是：大模型在微调过程中权重的变化矩阵 ΔW 具有低秩特性，可以用两个小矩阵的乘积来近似。</p>
+
+<p>具体来说，原始权重矩阵 W（维度 d×k）保持冻结不训练，在其旁边新增两个低秩矩阵 A（维度 r×k）和 B（维度 d×r），使得 ΔW = B×A。前向传播变为：output = W·x + B·A·x。训练时只更新 A 和 B 的参数，参数量从 d×k 降低到 r×(d+k)，通常仅为原模型的 0.1%-1%。</p>
+
+<p>训练完成后，可将 B×A 与 W 融合（W' = W + B×A），推理时无额外计算开销。这使得 LoRA 成为目前大模型微调的主流方案。</p>
+
+<h4>核心要点</h4>
+
+<ul>
+<li>低秩假设：微调权重变化 ΔW 可用低秩矩阵近似</li>
+<li>冻结原始权重：仅训练 A、B 两个小矩阵</li>
+<li>参数量极低：通常为原模型 0.1%-1%</li>
+<li>推理零开销：训练后可将 B×A 融合到 W 中</li>
+<li>QLoRA 扩展：结合 4-bit 量化进一步降低显存</li>
+</ul>
+
+<h4>技术细节与参数详解</h4>
+
+<p>#### LoraConfig 核心参数（基于 PEFT 库）</p>
+
+<p>#### r（秩，rank）</p>
+<ul>
+<li><strong>含义</strong>：低秩矩阵 A 和 B 的中间维度，决定了 ΔW 的表达能力上限</li>
+<li><strong>类型</strong>：int</li>
+<li><strong>默认值</strong>：8（PEFT 库默认）</li>
+<li><strong>取值范围</strong>：通常 4-256</li>
+<li><strong>对结果的影响</strong>：r 越大，可表达的变化越复杂，模型能力越强，但参数量和训练开销增加</li>
+<li><strong>推荐设置</strong>：</li>
+<li>简单风格适配：r=8 或 16</li>
+<li>知识注入/复杂任务：r=32 或 64</li>
+<li>r 过小（1-2）→ 表达能力不足，效果差</li>
+<li>r 过大（>64）→ 逼近全量微调，丧失轻量化优势</li>
+</ul>
+
+<p>#### lora_alpha（缩放系数）</p>
+<ul>
+<li><strong>含义</strong>：控制 LoRA 贡献的缩放因子，实际缩放比例为 alpha/r</li>
+<li><strong>类型</strong>：int</li>
+<li><strong>默认值</strong>：8（通常设为 r 的 1-2 倍）</li>
+<li><strong>取值范围</strong>：通常与 r 相近或为其 2 倍</li>
+<li><strong>对结果的影响</strong>：output = W·x + (B·A)·x·(alpha/r)；alpha/r 越大，LoRA 对输出影响越大</li>
+<li><strong>推荐设置</strong>：alpha = 2×r（如 r=8 时 alpha=16），使缩放比例约为 2，保持与原始权重量级匹配</li>
+<li><strong>经验法则</strong>：固定 alpha/r = 2 时效果稳定；若 alpha/r = 1 则等效于不缩放</li>
+</ul>
+
+<p>#### target_modules（目标模块）</p>
+<ul>
+<li><strong>含义</strong>：指定 LoRA 应用到模型的哪些层/模块</li>
+<li><strong>类型</strong>：list[str] 或 str</li>
+<li><strong>默认值</strong>：["q_proj", "v_proj"]（注意力层的 Q 和 V 投影）</li>
+<li><strong>可选值</strong>：q_proj, k_proj, v_proj, o_proj, gate_proj, down_proj, up_proj, embed_tokens, lm_head 等</li>
+<li><strong>对结果的影响</strong>：</li>
+<li>仅 q_proj, v_proj：参数最少，适合风格调整、轻量适配</li>
+<li>扩展到 k_proj, o_proj：更多注意力层参与，效果提升</li>
+<li>扩展到 FFN 层（gate_proj, down_proj, up_proj）：适合知识注入</li>
+<li>全部层（all-linear）：最强但参数最多</li>
+<li><strong>推荐设置</strong>：从 q_proj+v_proj 开始尝试；效果不足时逐步扩展</li>
+</ul>
+
+<p>#### lora_dropout（Dropout 比率）</p>
+<ul>
+<li><strong>含义</strong>：LoRA 层的 Dropout 比率，训练时随机置零激活值</li>
+<li><strong>类型</strong>：float</li>
+<li><strong>默认值</strong>：0.0（不启用）</li>
+<li><strong>取值范围</strong>：0.0-0.5</li>
+<li><strong>对结果的影响</strong>：防止过拟合，数据量小时效果显著；过高会阻碍学习</li>
+<li><strong>推荐设置</strong>：</li>
+<li>数据量大（>10万条）：0.0（不启用）</li>
+<li>数据量中等：0.05-0.1</li>
+<li>数据量小（<1万条）：0.1-0.2</li>
+<li>超过 0.3 通常有害</li>
+</ul>
+
+<p>#### bias（偏置训练策略）</p>
+<ul>
+<li><strong>含义</strong>：控制是否训练偏置参数</li>
+<li><strong>类型</strong>：str</li>
+<li><strong>默认值</strong>："none"</li>
+<li><strong>可选值</strong>：none / lora_only / all</li>
+<li><strong>对结果的影响</strong>：</li>
+<li>none：不训练任何 bias，保持原始值，能力集中到 LoRA 矩阵</li>
+<li>lora_only：仅训练 LoRA 层的 bias</li>
+<li>all：训练所有 bias</li>
+<li><strong>推荐设置</strong>：大多数场景用 none；若模型无法收敛可尝试 all</li>
+</ul>
+
+<p>#### task_type（任务类型）</p>
+<ul>
+<li><strong>含义</strong>：指定微调任务的类型，影响 LoRA 的应用方式</li>
+<li><strong>类型</strong>：str</li>
+<li><strong>默认值</strong>：None（自动推断）</li>
+<li><strong>可选值</strong>：CAUSAL_LM / SEQ_2_SEQ_LM / TOKEN_CLS / SEQ_CLS / FEATURE_EXTRACTION 等</li>
+<li><strong>对结果的影响</strong>：不同任务类型影响模型输出的处理方式和损失计算</li>
+<li><strong>推荐设置</strong>：对话/生成任务用 CAUSAL_LM；分类用 TOKEN_CLS</li>
+</ul>
+
+<p>#### fan_in_fan_out</p>
+<ul>
+<li><strong>含义</strong>：权重矩阵是否为 fan-in/fan-out 格式（GPT-2 风格）</li>
+<li><strong>类型</strong>：bool</li>
+<li><strong>默认值</strong>：False</li>
+<li><strong>对结果的影响</strong>：True 时需要对权重做转置处理</li>
+<li><strong>推荐设置</strong>：使用 GPT-2 系列模型时设为 True，其他通常 False</li>
+</ul>
+
+<p>#### modules_to_save</p>
+<ul>
+<li><strong>含义</strong>：指定除了 LoRA 层之外需要完整训练并保存的模块</li>
+<li><strong>类型</strong>：list[str]</li>
+<li><strong>默认值</strong>：None</li>
+<li><strong>对结果的影响</strong>：列出的模块将以全量微调方式训练，参数量增加</li>
+<li><strong>推荐设置</strong>：如需微调分类头，设为 ["classifier", "score"]</li>
+</ul>
+
+<p>#### 训练超参数</p>
+
+<p>#### learning_rate（学习率）</p>
+<ul>
+<li><strong>含义</strong>：LoRA 参数的优化学习率</li>
+<li><strong>类型</strong>：float</li>
+<li><strong>默认值</strong>：1e-4 ~ 3e-4</li>
+<li><strong>推荐设置</strong>：LoRA 学习率通常比全参数微调高 10 倍（全量微调约 1e-5 ~ 5e-5）</li>
+<li><strong>经验</strong>：loss 不下降 → 检查学习率是否太低；loss 震荡 → 学习率过高</li>
+</ul>
+
+<p>#### warmup_ratio / warmup_steps</p>
+<ul>
+<li><strong>含义</strong>：训练初期的学习率预热步数占比</li>
+<li><strong>类型</strong>：float（比例）或 int（步数）</li>
+<li><strong>默认值</strong>：0.03（3%）</li>
+<li><strong>推荐设置</strong>：至少 3%-5% 预热，避免初期不稳定</li>
+</ul>
+
+<p>#### QLoRA 特有参数</p>
+
+<p>#### quantization_config</p>
+<ul>
+<li><strong>含义</strong>：量化配置</li>
+<li><strong>类型</strong>：dict</li>
+<li><strong>关键参数</strong>：</li>
+<li><code class="inline-code">load_in_4bit</code>：True 启用 4-bit 量化</li>
+<li><code class="inline-code">bnb_4bit_quant_type</code>："nf4"（推荐，专为正态分布设计）或 "fp4"</li>
+<li><code class="inline-code">bnb_4bit_use_double_quant</code>：True 启用双重量化，进一步压缩</li>
+<li><code class="inline-code">bnb_4bit_compute_dtype</code>：计算精度，推荐 torch.bfloat16</li>
+</ul>
+
+<h4>代码示例</h4>
+
+<p><pre class="code-block"><code class="language-python">from peft import LoraConfig, get_peft_model, TaskType
+from transformers import AutoModelForCausalLM, TrainingArguments, Trainer
+import torch
+
+# 1. 加载预训练模型
+model = AutoModelForCausalLM.from_pretrained(
+    &quot;meta-llama/Llama-2-7b-hf&quot;,
+    torch_dtype=torch.float16,          # 半精度加载
+    device_map=&quot;auto&quot;,                   # 自动分配 GPU
+)
+
+# 2. 配置 LoRA 参数
+lora_config = LoraConfig(
+    r=16,                                # 秩：低秩矩阵维度，推荐 8-64
+    lora_alpha=32,                       # 缩放系数：通常为 r 的 2 倍
+    lora_dropout=0.1,                    # Dropout：防止过拟合，数据小时设 0.1
+    bias=&quot;none&quot;,                         # 不训练 bias，能力集中到 LoRA 矩阵
+    task_type=TaskType.CAUSAL_LM,        # 因果语言模型（生成任务）
+    target_modules=[&quot;q_proj&quot;, &quot;v_proj&quot;, &quot;k_proj&quot;, &quot;o_proj&quot;],  # 注意力层全覆盖
+)
+
+# 3. 将 LoRA 应用到模型
+model = get_peft_model(model, lora_config)
+model.print_trainable_parameters()
+# 输出示例: trainable params: 13,631,488 || all params: 6,751,064,064 || trainable%: 0.20%
+
+# 4. 训练参数
+training_args = TrainingArguments(
+    output_dir=&quot;./lora-output&quot;,
+    num_train_epochs=3,                  # 训练轮数
+    per_device_train_batch_size=4,       # 每设备 batch 大小
+    gradient_accumulation_steps=4,       # 梯度累积步数（等效 batch=16）
+    learning_rate=2e-4,                  # LoRA 学习率（比全量微调高 10 倍）
+    warmup_ratio=0.05,                   # 5% 预热步数
+    lr_scheduler_type=&quot;cosine&quot;,         # 余弦退火调度器
+    fp16=True,                           # 混合精度训练
+    logging_steps=10,                    # 每 10 步记录日志
+    save_strategy=&quot;epoch&quot;,               # 每个 epoch 保存检查点
+)
+
+# 5. 训练
+trainer = Trainer(
+    model=model,
+    args=training_args,
+    train_dataset=train_dataset,        # 训练数据集
+)
+trainer.train()
+
+# 6. 保存 LoRA 权重（仅保存增量参数，体积很小）
+model.save_pretrained(&quot;./lora-output&quot;)
+
+# 7. 推理时加载
+from peft import PeftModel
+base_model = AutoModelForCausalLM.from_pretrained(&quot;meta-llama/Llama-2-7b-hf&quot;, torch_dtype=torch.float16)
+model = PeftModel.from_pretrained(base_model, &quot;./lora-output&quot;)  # 加载 LoRA 权重
+# 可选：将 LoRA 权重融合到基础模型中，推理零开销
+model = model.merge_and_unload()</code></pre></p>
+
+<h4>复杂度分析</h4>
+
+<ul>
+<li><strong>训练参数量</strong>：O(r × (d + k))，相比全量微调 O(d × k) 降低约 r/min(d,k) 倍</li>
+<li><strong>显存占用</strong>：标准 LoRA 降低约 80%；QLoRA（4-bit）可降低 90%+</li>
+<li><strong>训练速度</strong>：与全量微调相当（前向计算量几乎不变，反向传播只更新小矩阵）</li>
+<li><strong>推理开销</strong>：训练后融合为零额外开销</li>
+</ul>
+
+<h4>应用场景</h4>
+
+<ul>
+<li>在单张消费级 GPU（如 RTX 3090/4090）上微调 7B-13B 大模型</li>
+<li>多任务适配：为不同任务训练不同 LoRA 权重，共享同一基础模型</li>
+<li>个性化对话助手：针对不同用户风格微调</li>
+<li>知识注入：将领域知识注入到通用大模型</li>
+</ul>
+
+<h4>参考文档</h4>
+
+<ul>
+<li>[LoRA 参数调得好，模型效果差不了——微调核心超参数完整指南](https://bbs.huaweicloud.com/blogs/473881)</li>
+<li>[LoRA 有哪些关键训练参数？如 r、alpha、dropout 等如何设置？](https://ask.csdn.net/questions/9288011)</li>
+</ul>
+
+<hr>
+
+<h3>PPO 人类反馈强化学习（RLHF）</h3>
+
+<p><strong>类别</strong>：大模型对齐 | <strong>难度</strong>：困难</p>
+
+<h4>原理</h4>
+
+<p>PPO（Proximal Policy Optimization）是 RLHF（Reinforcement Learning from Human Feedback）流程中最核心的强化学习算法，用于将大语言模型的输出与人类偏好对齐。</p>
+
+<p>RLHF 完整流程分三步：</p>
+<p>1. <strong>SFT（监督微调）</strong>：用高质量指令数据微调预训练模型，得到初始策略模型</p>
+<p>2. <strong>Reward Model（奖励模型）</strong>：用人类偏好数据训练打分模型，学习"什么是好回答"</p>
+<p>3. <strong>PPO 强化学习</strong>：用奖励模型的分数作为信号，通过强化学习优化语言模型</p>
+
+<p>PPO 训练涉及四个模型协同工作：</p>
+<ul>
+<li><strong>Actor（演员）</strong>：要优化的语言模型，生成回答，参数更新</li>
+<li><strong>Critic（评论家）</strong>：估计状态价值 V(s)，辅助计算优势函数，参数更新</li>
+<li><strong>Reference（参考模型）</strong>：冻结的 SFT 模型，计算 KL 散度防止偏离过远</li>
+<li><strong>Reward Model（奖励模型）</strong>：冻结的打分模型，提供奖励信号</li>
+</ul>
+
+<h4>核心要点</h4>
+
+<ul>
+<li>四模型架构：Actor + Critic + Reference + Reward，显存需求极大</li>
+<li>Clip 机制：限制策略更新幅度，防止训练崩溃</li>
+<li>KL 散度惩罚：约束 Actor 不偏离 Reference 模型太远</li>
+<li>GAE（广义优势估计）：平衡偏差与方差，稳定优势函数计算</li>
+<li>奖励黑客问题：模型可能找到骗奖励模型的捷径，KL 约束缓解此问题</li>
+</ul>
+
+<h4>技术细节与参数详解</h4>
+
+<p>#### PPO 核心超参数</p>
+
+<p>#### clip_ratio（裁剪比率，ε）</p>
+<ul>
+<li><strong>含义</strong>：限制新旧策略概率比率的范围，防止单次更新步子过大</li>
+<li><strong>类型</strong>：float</li>
+<li><strong>默认值</strong>：0.2</li>
+<li><strong>取值范围</strong>：0.1-0.3</li>
+<li><strong>对结果的影响</strong>：</li>
+<li>策略比率 ratio = π_new(a|s) / π_old(a|s)</li>
+<li>裁剪目标：min(ratio × A, clip(ratio, 1-ε, 1+ε) × A)</li>
+<li>ε 越小 → 更新越保守，训练稳定但收敛慢</li>
+<li>ε 越大 → 更新越激进，收敛快但可能不稳定</li>
+<li><strong>推荐设置</strong>：0.2 是经过大量验证的最佳默认值，RLHF 场景通常 0.1-0.2</li>
+</ul>
+
+<p>#### beta / kl_coef（KL 惩罚系数）</p>
+<ul>
+<li><strong>含义</strong>：控制 Actor 偏离 Reference 模型的惩罚强度</li>
+<li><strong>类型</strong>：float</li>
+<li><strong>默认值</strong>：0.1-0.5</li>
+<li><strong>取值范围</strong>：0.01-1.0</li>
+<li><strong>对结果的影响</strong>：</li>
+<li>β 大 → Actor 紧贴 Reference，安全但保守，创新性低</li>
+<li>β 小 → 允许大幅偏离，可能奖励黑客</li>
+<li>总目标：reward - β × KL(π_actor || π_ref)</li>
+<li><strong>推荐设置</strong>：从 0.1 开始；部分实现使用自适应 KL 系数（根据偏离程度动态调整）</li>
+</ul>
+
+<p>#### gamma（折扣因子，γ）</p>
+<ul>
+<li><strong>含义</strong>：未来奖励的折扣率，控制对长期收益的重视程度</li>
+<li><strong>类型</strong>：float</li>
+<li><strong>默认值</strong>：1.0（RLHF 中通常不折扣，因为生成任务总奖励在最后给出）</li>
+<li><strong>取值范围</strong>：0.9-1.0</li>
+<li><strong>对结果的影响</strong>：</li>
+<li>γ=1.0：完全重视未来奖励（无折扣）</li>
+<li>γ<1.0：更重视即时奖励，远期奖励被打折</li>
+<li><strong>推荐设置</strong>：RLHF 中通常设为 1.0，因为评价在回答结束后一次性给出</li>
+</ul>
+
+<p>#### lam（GAE 平滑系数，λ）</p>
+<ul>
+<li><strong>含义</strong>：广义优势估计（GAE）中的偏差-方差权衡参数</li>
+<li><strong>类型</strong>：float</li>
+<li><strong>默认值</strong>：0.95</li>
+<li><strong>取值范围</strong>：0.0-1.0</li>
+<li><strong>对结果的影响</strong>：</li>
+<li>λ=0：纯 TD 估计，偏差大、方差小</li>
+<li>λ=1：纯 Monte Carlo，偏差小、方差大</li>
+<li>λ=0.95：平衡偏差与方差的最佳折中</li>
+<li><strong>推荐设置</strong>：0.95 是通用最佳值</li>
+</ul>
+
+<p>#### ppo_epochs / ppo_steps（PPO 更新轮数）</p>
+<ul>
+<li><strong>含义</strong>：每批数据重复使用的次数（mini-batch 更新轮数）</li>
+<li><strong>类型</strong>：int</li>
+<li><strong>默认值</strong>：4</li>
+<li><strong>取值范围</strong>：2-10</li>
+<li><strong>对结果的影响</strong>：</li>
+<li>值越大：数据利用率越高，但旧数据分布偏离风险增大</li>
+<li>值太小：数据利用率低，收敛慢</li>
+<li><strong>推荐设置</strong>：RLHF 中通常 2-4，配合 clip 机制防止过度更新</li>
+</ul>
+
+<p>#### batch_size（批量大小）</p>
+<ul>
+<li><strong>含义</strong>：每次 PPO 更新使用的样本数</li>
+<li><strong>类型</strong>：int</li>
+<li><strong>默认值</strong>：64-512</li>
+<li><strong>对结果的影响</strong>：影响梯度估计的稳定性和显存占用</li>
+<li><strong>推荐设置</strong>：512-1024（RLHF 中通常较大以稳定训练）</li>
+</ul>
+
+<p>#### learning_rate（学习率）</p>
+<ul>
+<li><strong>含义</strong>：Actor 和 Critic 的优化学习率</li>
+<li><strong>类型</strong>：float</li>
+<li><strong>默认值</strong>：1e-5 ~ 5e-6</li>
+<li><strong>对结果的影响</strong>：过高导致训练不稳定；过低收敛太慢</li>
+<li><strong>推荐设置</strong>：Actor 学习率通常略高于 Critic；warmup 后逐步衰减</li>
+</ul>
+
+<p>#### value_loss_coef（价值损失系数）</p>
+<ul>
+<li><strong>含义</strong>：Critic 损失在总损失中的权重</li>
+<li><strong>类型</strong>：float</li>
+<li><strong>默认值</strong>：0.5</li>
+<li><strong>对结果的影响</strong>：控制 Critic 对训练的影响程度</li>
+<li><strong>推荐设置</strong>：0.5 为标准值</li>
+</ul>
+
+<p>#### entropy_coef（熵正则系数）</p>
+<ul>
+<li><strong>含义</strong>：鼓励策略多样性的正则化项</li>
+<li><strong>类型</strong>：float</li>
+<li><strong>默认值</strong>：0.0-0.01</li>
+<li><strong>对结果的影响</strong>：</li>
+<li>值越大 → 鼓励探索，防止策略过早收敛</li>
+<li>值为 0 → 纯利用，可能陷入局部最优</li>
+<li><strong>推荐设置</strong>：RLHF 中通常设为 0 或很小值（0.001）</li>
+</ul>
+
+<p>#### max_grad_norm（梯度裁剪）</p>
+<ul>
+<li><strong>含义</strong>：梯度的最大范数，防止梯度爆炸</li>
+<li><strong>类型</strong>：float</li>
+<li><strong>默认值</strong>：1.0</li>
+<li><strong>对结果的影响</strong>：裁剪超过此值的梯度，稳定训练</li>
+<li><strong>推荐设置</strong>：1.0 为通用标准值</li>
+</ul>
+
+<p>#### Critic 裁剪</p>
+<ul>
+<li><strong>含义</strong>：与 Actor 的 clip 类似，Critic 更新时也做截断</li>
+<li><strong>公式</strong>：取 max(clipped_loss, unclipped_loss)，保守更新</li>
+<li><strong>对结果的影响</strong>：防止 Critic 价值估计更新过猛</li>
+</ul>
+
+<p>#### 四模型参数详解</p>
+
+<p>##### Actor Model（演员模型 π_θ）</p>
+<ul>
+<li><strong>初始化</strong>：来自 SFT 后的模型</li>
+<li><strong>参数更新</strong>：是（通过 PPO 目标函数反向传播）</li>
+<li><strong>输入</strong>：prompt x</li>
+<li><strong>输出</strong>：自回归生成回答 y</li>
+<li><strong>优化目标</strong>：max [reward - β × KL(π_actor || π_ref)]</li>
+</ul>
+
+<p>##### Critic Model（评论家模型 V_φ）</p>
+<ul>
+<li><strong>初始化</strong>：与 Actor 结构相同，最后一层改为输出标量</li>
+<li><strong>参数更新</strong>：是（通过 MSE 损失）</li>
+<li><strong>输入</strong>：已生成部分 (x, y≤t)</li>
+<li><strong>输出</strong>：标量 V(s_t)，估计未来预期奖励</li>
+<li><strong>损失函数</strong>：MSE(V_pred, V_target)，V_target 来自 GAE</li>
+</ul>
+
+<p>##### Reference Model（参考模型 π_ref）</p>
+<ul>
+<li><strong>初始化</strong>：SFT 后的模型（与 Actor 初始相同）</li>
+<li><strong>参数更新</strong>：否（完全冻结）</li>
+<li><strong>作用</strong>：计算 KL 散度，防止 Actor 偏离太远</li>
+<li><strong>关键</strong>：不加约束 → 奖励黑客（Reward Hacking）</li>
+</ul>
+
+<p>##### Reward Model（奖励模型 r(x,y)）</p>
+<ul>
+<li><strong>初始化</strong>：预训练模型 + 线性头，训练后冻结</li>
+<li><strong>参数更新</strong>：否（PPO 阶段冻结）</li>
+<li><strong>输入</strong>：完整 (prompt, answer) 对</li>
+<li><strong>输出</strong>：标量奖励分数</li>
+<li><strong>训练损失</strong>：基于 Bradley-Terry 偏好模型的二分类交叉熵</li>
+</ul>
+
+<h4>代码示例</h4>
+
+<p><pre class="code-block"><code class="language-python">import torch
+import torch.nn as nn
+from transformers import AutoModelForCausalLM, AutoTokenizer
+
+class PPOTrainer:
+    &quot;&quot;&quot;PPO RLHF 训练器（简化版，展示核心逻辑）&quot;&quot;&quot;
+
+    def __init__(
+        self,
+        actor_model,              # Actor：要优化的语言模型
+        critic_model,             # Critic：价值估计模型
+        reference_model,          # Reference：冻结的参考模型
+        reward_model,             # Reward：冻结的奖励模型
+        tokenizer,
+        # PPO 超参数
+        clip_ratio=0.2,           # 裁剪比率 ε：限制策略更新幅度
+        kl_coef=0.1,              # KL 惩罚系数 β：控制偏离 Reference 的程度
+        gamma=1.0,                # 折扣因子 γ：RLHF 中通常为 1.0
+        lam=0.95,                 # GAE 平滑系数 λ：偏差-方差权衡
+        ppo_epochs=4,             # PPO 更新轮数：每批数据重复使用次数
+        batch_size=256,            # 批量大小
+        learning_rate=5e-6,       # 学习率：RLHF 中通常很小
+        value_loss_coef=0.5,      # 价值损失权重
+        entropy_coef=0.001,       # 熵正则系数：鼓励多样性
+        max_grad_norm=1.0,        # 梯度裁剪：防止梯度爆炸
+    ):
+        self.actor = actor_model
+        self.critic = critic_model
+        self.reference = reference_model
+        self.reward = reward_model
+        self.tokenizer = tokenizer
+        self.clip_ratio = clip_ratio
+        self.kl_coef = kl_coef
+        self.gamma = gamma
+        self.lam = lam
+        self.ppo_epochs = ppo_epochs
+        self.batch_size = batch_size
+        self.value_loss_coef = value_loss_coef
+        self.entropy_coef = entropy_coef
+        self.max_grad_norm = max_grad_norm
+
+        # Actor 和 Critic 使用不同的优化器
+        self.actor_optimizer = torch.optim.Adam(
+            self.actor.parameters(), lr=learning_rate
+        )
+        self.critic_optimizer = torch.optim.Adam(
+            self.critic.parameters(), lr=learning_rate
+        )
+
+    def compute_advantages(self, rewards, values):
+        &quot;&quot;&quot;使用 GAE（广义优势估计）计算优势函数
+
+        GAE 公式：A_t = Σ (γλ)^k × δ_{t+k}
+        其中 δ_t = r_t + γV(s_{t+1}) - V(s_t) 为 TD 误差
+        &quot;&quot;&quot;
+        advantages = []
+        gae = 0.0                                    # 累积 GAE 值
+        next_value = 0.0                             # 最后一步的未来价值为 0
+
+        for t in reversed(range(len(rewards))):
+            delta = rewards[t] + self.gamma * next_value - values[t]  # TD 误差
+            gae = delta + self.gamma * self.lam * gae  # GAE 递推
+            advantages.insert(0, gae)
+            next_value = values[t]
+
+        advantages = torch.tensor(advantages)
+        advantages = (advantages - advantages.mean()) / (advantages.std() + 1e-8)  # 标准化
+        return advantages
+
+    def compute_kl_penalty(self, prompts, responses):
+        &quot;&quot;&quot;计算 Actor 与 Reference 之间的 KL 散度
+
+        KL(π_actor || π_ref) = Σ π_actor(x) × log(π_actor(x) / π_ref(x))
+        &quot;&quot;&quot;
+        with torch.no_grad():
+            ref_logits = self.reference(prompts + responses).logits  # Reference 模型 logits
+        actor_logits = self.actor(prompts + responses).logits          # Actor 模型 logits
+
+        # 逐 token 的 KL 散度
+        log_ratio = torch.log_softmax(actor_logits, dim=-1) - \
+                    torch.log_softmax(ref_logits, dim=-1)
+        kl = (torch.softmax(actor_logits, dim=-1) * log_ratio).sum(dim=-1)
+        return kl.mean()
+
+    def ppo_step(self, prompts, responses, old_log_probs, advantages):
+        &quot;&quot;&quot;执行一步 PPO 更新&quot;&quot;&quot;
+        # Actor 前向传播
+        actor_logits = self.actor(prompts + responses).logits
+        new_log_probs = torch.log_softmax(actor_logits, dim=-1)
+
+        # 策略比率 ratio = π_new / π_old
+        ratio = torch.exp(new_log_probs - old_log_probs)
+
+        # PPO Clip 目标
+        surrogate1 = ratio * advantages
+        surrogate2 = torch.clamp(ratio, 1 - self.clip_ratio, 1 + self.clip_ratio) * advantages
+        actor_loss = -torch.min(surrogate1, surrogate2).mean()  # 取较小值（保守更新）
+
+        # Critic 更新
+        values = self.critic(prompts + responses).squeeze(-1)
+        critic_loss = ((values - advantages) ** 2).mean()       # MSE 损失
+        # Critic 也做 clip（取较大损失，保守更新）
+        clipped_values = old_values + torch.clamp(
+            values - old_values, -self.clip_ratio, self.clip_ratio
+        )
+        critic_loss = torch.max(
+            ((values - returns) ** 2),
+            ((clipped_values - returns) ** 2)
+        ).mean()
+
+        # 熵正则（鼓励探索）
+        entropy = -(torch.softmax(actor_logits, dim=-1) *
+                     torch.log_softmax(actor_logits, dim=-1)).sum(dim=-1).mean()
+
+        # 总损失
+        total_loss = actor_loss + self.value_loss_coef * critic_loss - self.entropy_coef * entropy
+
+        # 梯度裁剪 + 反向传播
+        self.actor_optimizer.zero_grad()
+        self.critic_optimizer.zero_grad()
+        total_loss.backward()
+        torch.nn.utils.clip_grad_norm_(self.actor.parameters(), self.max_grad_norm)
+        torch.nn.utils.clip_grad_norm_(self.critic.parameters(), self.max_grad_norm)
+        self.actor_optimizer.step()
+        self.critic_optimizer.step()
+
+        return {
+            &quot;actor_loss&quot;: actor_loss.item(),
+            &quot;critic_loss&quot;: critic_loss.item(),
+            &quot;entropy&quot;: entropy.item(),
+        }
+
+
+# 使用示例（伪代码）
+# from transformers import AutoModelForCausalLM
+# actor = AutoModelForCausalLM.from_pretrained(&quot;./sft_model&quot;)
+# critic = AutoModelForCausalLM.from_pretrained(&quot;./sft_model&quot;)
+# reference = AutoModelForCausalLM.from_pretrained(&quot;./sft_model&quot;)
+# reward = AutoModelForCausalLM.from_pretrained(&quot;./reward_model&quot;)
+# tokenizer = AutoTokenizer.from_pretrained(&quot;./sft_model&quot;)
+#
+# trainer = PPOTrainer(
+#     actor, critic, reference, reward, tokenizer,
+#     clip_ratio=0.2,    # 裁剪比率：限制更新幅度
+#     kl_coef=0.1,       # KL 系数：防止偏离 Reference
+#     lam=0.95,          # GAE 平滑系数
+#     ppo_epochs=4,      # 每批更新 4 轮
+# )
+# for batch in dataloader:
+#     trainer.ppo_step(batch[&quot;prompts&quot;], batch[&quot;responses&quot;], ...)</code></pre></p>
+
+<h4>复杂度分析</h4>
+
+<ul>
+<li><strong>显存</strong>：4 个模型同时加载（Actor + Critic + Reference + Reward），显存需求约为单模型的 4 倍。7B 模型需约 4×14GB = 56GB（fp16），是 PPO 的最大痛点</li>
+<li><strong>训练时间</strong>：每步包含 4 个模型的前向 + 2 个模型反向传播，训练成本约为 SFT 的 3-5 倍</li>
+<li><strong>GRPO 优化</strong>：DeepSeek 提出的 GRPO 去掉 Critic 模型，用组内相对奖励替代，显存减少约 25%</li>
+</ul>
+
+<h4>应用场景</h4>
+
+<ul>
+<li>ChatGPT / GPT-4 对齐训练：通过 RLHF 使模型输出符合人类偏好</li>
+<li>安全性对齐：防止模型输出有害、有偏见或虚构内容</li>
+<li>代码生成优化：通过执行反馈作为奖励信号优化代码质量</li>
+<li>数学推理增强：通过正确性反馈提升链式推理能力</li>
+</ul>
+
+<h4>参考文档</h4>
+
+<ul>
+<li>[深入理解 RLHF/PPO/DPO/GRPO](https://blog.csdn.net/qq_64411314/article/details/158929233)</li>
+<li>[一文讲懂 RLHF、PPO、DPO、GRPO 是什么意思](https://blog.csdn.net/haobindayi/article/details/159697872)</li>
+<li>[给 AI 工程师的 RL 避坑指南（Lite PPO）](https://cloud.tencent.com/developer/article/2698365)</li>
+</ul>
+
+<blockquote>
+<p>AI生成</p>
+</blockquote>
+  </div>
+  <div class="footer">
+    <p>由 TeleAgent · 每日算法推送 技能自动生成 | 2026-09-07 21:47</p>
+  </div>
+</div>
+</body>
+</html>
