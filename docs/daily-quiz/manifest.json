@@ -1,5 +1,42 @@
 [
   {
+    "date": "2026-09-07",
+    "filename": "quiz-2026-09-07.html",
+    "url": "https://syypretend.github.io/test/daily-quiz/quiz-2026-09-07.html",
+    "title": "每日算法 AI 出题",
+    "subtitle": "算法 2 道 + AI 2 道",
+    "questions": [
+      {
+        "id": 1,
+        "type": "algorithm_code",
+        "type_label": "算法编程",
+        "title": "和为 K 的子数组",
+        "difficulty": 2
+      },
+      {
+        "id": 2,
+        "type": "algorithm_concept",
+        "type_label": "算法概念",
+        "title": "快慢指针检测链表环",
+        "difficulty": 1
+      },
+      {
+        "id": 3,
+        "type": "ai_derivation",
+        "type_label": "AI公式推导",
+        "title": "L2 正则化的权重衰减推导",
+        "difficulty": 2
+      },
+      {
+        "id": 4,
+        "type": "ai_interview",
+        "type_label": "AI面试问答",
+        "title": "AUC 指标的原理与适用场景",
+        "difficulty": 2
+      }
+    ]
+  },
+  {
     "date": "2026-09-06",
     "filename": "quiz-2026-09-06.html",
     "url": "https://syypretend.github.io/test/daily-quiz/quiz-2026-09-06.html",
