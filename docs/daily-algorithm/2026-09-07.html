@@ -195,6 +195,60 @@ body {
 .content li {
   word-break: break-all;
 }
+/* Table */
+.table-wrapper {
+  overflow-x: auto;
+  margin: 16px 0;
+  max-width: 100%;
+}
+.algo-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  background: var(--card-bg);
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+.algo-table thead {
+  background: rgba(99,102,241,0.15);
+}
+.algo-table th {
+  padding: 10px 16px;
+  text-align: left;
+  color: var(--accent);
+  font-weight: 600;
+  border-bottom: 2px solid var(--primary);
+  white-space: nowrap;
+}
+.algo-table td {
+  padding: 8px 16px;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  word-break: break-all;
+}
+.algo-table tr:last-child td {
+  border-bottom: none;
+}
+.algo-table tr:hover td {
+  background: rgba(99,102,241,0.06);
+}
+/* Algorithm architecture image */
+.algo-image {
+  margin: 20px 0;
+  text-align: center;
+}
+.algo-image img {
+  max-width: 100%;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+.algo-image .image-caption {
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--text-dim);
+}
 </style>
 </head>
 <body>
@@ -208,21 +262,10 @@ body {
 <a href="2026-09-07.html" class="active">09月07日</a>
 </div>
   <div class="content">
-  <hr>
-<p>AIGC:</p>
-<p>ContentProducer: '001191110102MAD55U9H0F10002'</p>
-<p>ContentPropagator: '001191110102MAD55U9H0F10002'</p>
-<p>Label: '1'</p>
-<p>ProduceID: '678fd30f-5ce8-4f08-b165-2522c8812888'</p>
-<p>PropagateID: '678fd30f-5ce8-4f08-b165-2522c8812888'</p>
-<p>ReservedCode1: '67bf0103-5ca7-47e2-9b2f-1f81da0435f6'</p>
-<p>ReservedCode2: '67bf0103-5ca7-47e2-9b2f-1f81da0435f6'</p>
-<hr>
-
-<h2>每日算法讲解 · 2026-09-07</h2>
+  <p>﻿# 每日算法讲解 - 2026年9月7日</p>
 
 <blockquote>
-<p>今日内容：1 个基础算法 + 2 个 AI/机器学习算法 | 第 1 轮 · 基础讲解</p>
+<p>第1轮 · 基础阶段 | 今日讲解：快速选择 + 交叉熵损失 + Mamba 状态空间模型</p>
 </blockquote>
 
 <hr>
@@ -234,6 +277,102 @@ body {
 <h4>算法简介</h4>
 
 <p>快速选择（Quickselect）是一种基于分治思想的选择算法，用于在无序数组中查找第 K 小（或第 K 大）的元素。它由 Tony Hoare 于 1961 年提出，与快速排序同源，但关键区别在于：快速排序需要对整个数组完全排序（O(n log n)），而快速选择只需递归处理包含目标元素的一侧子区间，平均时间复杂度仅为 O(n)。</p>
+
+<h4>原理示意图</h4>
+
+<p><div class="algo-image"><svg xmlns="http://www.w3.org/2000/svg" width="900" height="380" viewBox="0 0 900 380" font-family="-apple-system, sans-serif">
+  <rect width="900" height="380" fill="#1e293b" rx="12"/>
+  <text x="450" y="28" text-anchor="middle" fill="#818cf8" font-size="15" font-weight="600">快速选择算法：查找第 3 小元素（k=3）</text>
+
+  <!-- 原始数组 -->
+  <text x="30" y="62" fill="#94a3b8" font-size="12">原始数组：</text>
+  <rect x="100" y="45" width="50" height="30" rx="5" fill="#334155" stroke="#475569"/>
+  <text x="125" y="65" text-anchor="middle" fill="#e2e8f0" font-size="13">7</text>
+  <rect x="152" y="45" width="50" height="30" rx="5" fill="#334155" stroke="#475569"/>
+  <text x="177" y="65" text-anchor="middle" fill="#e2e8f0" font-size="13">10</text>
+  <rect x="204" y="45" width="50" height="30" rx="5" fill="#334155" stroke="#475569"/>
+  <text x="229" y="65" text-anchor="middle" fill="#e2e8f0" font-size="13">4</text>
+  <rect x="256" y="45" width="50" height="30" rx="5" fill="#6366f1" stroke="#818cf8"/>
+  <text x="281" y="65" text-anchor="middle" fill="#fff" font-size="13" font-weight="600">3</text>
+  <rect x="308" y="45" width="50" height="30" rx="5" fill="#334155" stroke="#475569"/>
+  <text x="333" y="65" text-anchor="middle" fill="#e2e8f0" font-size="13">20</text>
+  <rect x="360" y="45" width="50" height="30" rx="5" fill="#334155" stroke="#475569"/>
+  <text x="385" y="65" text-anchor="middle" fill="#e2e8f0" font-size="13">15</text>
+  <text x="420" y="65" fill="#818cf8" font-size="11">↑ pivot（随机选第4个元素=3）</text>
+
+  <!-- 分区箭头 -->
+  <line x1="125" y1="85" x2="125" y2="110" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="177" y1="85" x2="177" y2="110" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="229" y1="85" x2="229" y2="110" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="281" y1="85" x2="281" y2="110" stroke="#6366f1" stroke-width="2" marker-end="url(#arrowP)"/>
+  <line x1="333" y1="85" x2="333" y2="110" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="385" y1="85" x2="385" y2="110" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- 分区结果 -->
+  <text x="30" y="135" fill="#94a3b8" font-size="12">分区后：</text>
+  <rect x="100" y="118" width="50" height="30" rx="5" fill="#1a5632" stroke="#22c55e"/>
+  <text x="125" y="138" text-anchor="middle" fill="#86efac" font-size="13">&lt;3</text>
+  <rect x="152" y="118" width="50" height="30" rx="5" fill="#1a5632" stroke="#22c55e"/>
+  <text x="177" y="138" text-anchor="middle" fill="#86efac" font-size="13">&lt;3</text>
+  <rect x="204" y="118" width="50" height="30" rx="5" fill="#1a5632" stroke="#22c55e"/>
+  <text x="229" y="138" text-anchor="middle" fill="#86efac" font-size="13">&lt;3</text>
+  <rect x="256" y="118" width="50" height="30" rx="5" fill="#6366f1" stroke="#818cf8" stroke-width="2"/>
+  <text x="281" y="138" text-anchor="middle" fill="#fff" font-size="13" font-weight="600">3</text>
+  <text x="283" y="158" text-anchor="middle" fill="#818cf8" font-size="10">pivot 位置=1</text>
+  <rect x="308" y="118" width="50" height="30" rx="5" fill="#7c2d12" stroke="#f97316"/>
+  <text x="333" y="138" text-anchor="middle" fill="#fdba74" font-size="13">&gt;=3</text>
+  <rect x="360" y="118" width="50" height="30" rx="5" fill="#7c2d12" stroke="#f97316"/>
+  <text x="385" y="138" text-anchor="middle" fill="#fdba74" font-size="13">&gt;=3</text>
+
+  <!-- 判断逻辑 -->
+  <text x="450" y="135" fill="#e2e8f0" font-size="12">pivot 位置=1, 目标 k=3</text>
+  <text x="450" y="152" fill="#f59e0b" font-size="12">1 &lt; 3 → 递归右侧区间</text>
+
+  <!-- 右侧递归 -->
+  <line x1="333" y1="165" x2="333" y2="195" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrowO)"/>
+  <line x1="385" y1="165" x2="385" y2="195" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrowO)"/>
+
+  <text x="30" y="225" fill="#94a3b8" font-size="12">第2轮：</text>
+  <rect x="100" y="208" width="50" height="30" rx="5" fill="#334155" stroke="#475569"/>
+  <text x="125" y="228" text-anchor="middle" fill="#e2e8f0" font-size="13">20</text>
+  <rect x="152" y="208" width="50" height="30" rx="5" fill="#6366f1" stroke="#818cf8"/>
+  <text x="177" y="228" text-anchor="middle" fill="#fff" font-size="13" font-weight="600">15</text>
+  <text x="210" y="228" fill="#818cf8" font-size="11">↑ pivot=15, 位置=2</text>
+
+  <text x="30" y="265" fill="#94a3b8" font-size="12">第3轮：</text>
+  <rect x="100" y="248" width="50" height="30" rx="5" fill="#6366f1" stroke="#818cf8"/>
+  <text x="125" y="268" text-anchor="middle" fill="#fff" font-size="13" font-weight="600">20</text>
+  <text x="160" y="268" fill="#818cf8" font-size="11">pivot=20, 位置=3 = k ✓</text>
+
+  <!-- 结果 -->
+  <rect x="100" y="295" width="200" height="35" rx="8" fill="#1a5632" stroke="#22c55e" stroke-width="2"/>
+  <text x="200" y="318" text-anchor="middle" fill="#86efac" font-size="14" font-weight="600">第 3 小的元素 = 7</text>
+
+  <!-- 复杂度标注 -->
+  <text x="500" y="225" fill="#94a3b8" font-size="12">每次只递归一侧 → 平均 O(n)</text>
+  <text x="500" y="245" fill="#94a3b8" font-size="12">最坏 O(n²)，随机化后概率极低</text>
+  <text x="500" y="265" fill="#94a3b8" font-size="12">空间 O(log n)（递归栈）</text>
+
+  <!-- 图例 -->
+  <rect x="500" y="290" width="14" height="14" rx="3" fill="#6366f1"/>
+  <text x="520" y="302" fill="#94a3b8" font-size="11">pivot</text>
+  <rect x="560" y="290" width="14" height="14" rx="3" fill="#1a5632" stroke="#22c55e"/>
+  <text x="580" y="302" fill="#94a3b8" font-size="11">&lt; pivot</text>
+  <rect x="640" y="290" width="14" height="14" rx="3" fill="#7c2d12" stroke="#f97316"/>
+  <text x="660" y="302" fill="#94a3b8" font-size="11">&gt;= pivot</text>
+
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="6" refX="4" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#475569"/>
+    </marker>
+    <marker id="arrowP" markerWidth="8" markerHeight="6" refX="4" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#6366f1"/>
+    </marker>
+    <marker id="arrowO" markerWidth="8" markerHeight="6" refX="4" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#f59e0b"/>
+    </marker>
+  </defs>
+</svg></div></p>
 
 <h4>核心原理</h4>
 
@@ -253,153 +392,98 @@ body {
 
 <h4>数学公式</h4>
 
-<p><strong>1. 期望时间复杂度递推式</strong></p>
+<p><strong>期望时间复杂度递推式：</strong></p>
 
 <p><div class="math-block">$$ T(n) = T(n/2) + O(n) $$</div></p>
 
-<p>其中 $ T(n) $ 是处理规模为 $ n $ 的数组所需期望时间，$ T(n/2) $ 是递归处理一侧子区间的期望时间，$ O(n) $ 是分区操作的时间。由主定理求解得 $ T(n) = O(n) $。</p>
+<p>其中 $ T(n) $ 是处理规模为 $ n $ 的数组所需期望时间，$ T(n/2) $ 是递归一侧子区间的时间，$ O(n) $ 是分区操作的时间。由主定理可得 $ T(n) = O(n) $。</p>
 
-<p><strong>2. 最坏时间复杂度递推式</strong></p>
+<p><strong>最坏情况时间复杂度：</strong></p>
 
-<p><div class="math-block">$$ T(n) = T(n-1) + O(n) = O(n^2) $$</div></p>
+<p><div class="math-block">$$ T_{worst}(n) = T(n-1) + O(n) = O(n^2) $$</div></p>
 
-<p>当每次选到最差基准（如数组已排序且选第一个元素为 pivot），每次只减少一个元素，退化为 $ O(n^2) $。</p>
+<p>最坏情况发生在每次 pivot 都选到最大或最小元素时（如已排序数组选第一个元素为 pivot）。通过随机化 pivot 选择，可以将最坏情况概率降到极低。</p>
 
-<p><strong>3. 随机化后期望复杂度</strong></p>
+<p><strong>空间复杂度：</strong></p>
 
-<p><div class="math-block">$$ E[T(n)] \leq \frac{4n}{n+1} \cdot c = O(n) $$</div></p>
+<p><div class="math-block">$$ S(n) = O(\log n) $$</div></p>
 
-<p>其中 $ E[T(n)] $ 为随机选择 pivot 时的期望时间，$ c $ 为分区常数因子。随机化 pivot 后最坏情况概率极低。</p>
+<p>递归栈深度，平均情况下为 $ O(\log n) $。</p>
 
 <h4>参数详解</h4>
 
-<p>| 参数 | 含义 | 类型 | 默认值 | 取值范围 | 对结果的影响 | 推荐设置 |</p>
-<p>|------|------|------|--------|----------|-------------|---------|</p>
-<p>| <code class="inline-code">arr</code> | 输入数组 | list/array | 必填 | 任意可比较元素 | 决定查找的数据源 | - |</p>
-<p>| <code class="inline-code">k</code> | 目标排名（第 k 小） | int | 必填 | 1 ≤ k ≤ len(arr) | 决定查找哪个顺序统计量 | 根据需求指定 |</p>
-<p>| <code class="inline-code">pivot_strategy</code> | 基准选择策略 | str | "random" | "random"/"first"/"last"/"median_of_three" | 影响最坏情况概率和平均性能 | "random" 或 "median_of_three" |</p>
-<p>| <code class="inline-code">partition_scheme</code> | 分区方案 | str | "lomuto" | "lomuto"/"hoare" | 影响交换次数和实现复杂度 | "lomuto" 简单，"hoare" 更高效 |</p>
-<p>| <code class="inline-code">inplace</code> | 是否原地操作 | bool | True | True/False | True 节省内存，False 需额外 O(n) 空间 | True |</p>
+<div class="table-wrapper"><table class="algo-table"><thead><tr><th>参数</th><th>含义</th><th>类型</th><th>默认值</th><th>取值范围</th><th>对结果的影响</th><th>推荐设置</th></tr></thead><tbody><tr><td><code class="inline-code">arr</code></td><td>待查找的数组</td><td>list</td><td>无</td><td>任意可比较元素序列</td><td>决定查找范围</td><td>传入无序数组即可</td></tr><tr><td><code class="inline-code">k</code></td><td>目标排序位置（0-indexed）</td><td>int</td><td>无</td><td>0 ≤ k < len(arr)</td><td>决定查找第几小的元素</td><td>根据 Top-K 需求设定</td></tr><tr><td><code class="inline-code">pivot_strategy</code></td><td>pivot 选择策略</td><td>str</td><td>"random"</td><td>"random"/"first"/"median_of_three"</td><td>影响最坏情况概率</td><td>推荐用 "random" 避免最坏情况</td></tr><tr><td><code class="inline-code">left</code></td><td>当前处理区间左边界</td><td>int</td><td>0</td><td>0 ≤ left < len(arr)</td><td>递归内部使用</td><td>用户通常不需要设置</td></tr><tr><td><code class="inline-code">right</code></td><td>当前处理区间右边界</td><td>int</td><td>len(arr)-1</td><td>left ≤ right < len(arr)</td><td>递归内部使用</td><td>用户通常不需要设置</td></tr></tbody></table></div>
 
-<p><strong>参数详细说明：</strong></p>
+<h4>代码实现</h4>
 
-<ul>
-<li><strong>k</strong>：第 k 小元素的排名，从 1 开始计数。例如 k=1 返回最小值，k=len(arr) 返回最大值，k=len(arr)//2 返回中位数</li>
-<li><strong>pivot_strategy</strong>：</li>
-<li><code class="inline-code">"random"</code>：随机选择 pivot，期望复杂度 O(n)，最坏情况概率极低</li>
-<li><code class="inline-code">"first"</code>：选第一个元素，已排序数组会退化到 O(n²)</li>
-<li><code class="inline-code">"last"</code>：选最后一个元素，同样可能退化</li>
-<li><code class="inline-code">"median_of_three"</code>：取首、中、尾三元素的中位数作为 pivot，实际中表现优秀</li>
-<li><strong>partition_scheme</strong>：</li>
-<li><code class="inline-code">"lomuto"</code>：单指针方案，实现简单，但交换次数较多</li>
-<li><code class="inline-code">"hoare"</code>：双指针对向扫描，交换次数少约 3 倍，原始 Hoare 方案</li>
-<li><strong>inplace</strong>：原地操作仅用 O(log n) 递归栈空间；非原地需复制数组，空间 O(n)</li>
-</ul>
+<p><pre class="code-block"><code class="language-python">import random
 
-<h4>代码实现（Python，逐行注释）</h4>
+def quickselect(arr, k, left=0, right=None):
+    &quot;&quot;&quot;
+    在无序数组中查找第 k 小的元素（0-indexed）
+    
+    参数:
+        arr:  待查找的无序数组
+        k:    目标排序位置（0表示最小元素）
+        left: 当前区间左边界
+        right: 当前区间右边界
+    返回:
+        第 k 小的元素值
+    &quot;&quot;&quot;
+    if right is None:
+        right = len(arr) - 1                    # 初始化右边界为数组末尾索引
 
-<p><pre class="code-block"><code class="language-python">import random  # 导入随机模块，用于随机选择基准元素
+    if left == right:
+        return arr[left]                        # 区间只有一个元素，直接返回
 
-def quickselect(arr, k, pivot_strategy=&quot;random&quot;, inplace=True):
-    &quot;&quot;&quot;快速选择算法：在 arr 中查找第 k 小的元素（k 从 1 开始计数）&quot;&quot;&quot;
-    # 如果不要求原地操作，复制一份数组避免修改原数组
-    if not inplace:
-        arr = arr[:]  # 浅拷贝整个数组，空间复杂度 O(n)
+    # 随机选择 pivot，避免最坏情况
+    pivot_idx = random.randint(left, right)     # 在 [left, right] 范围内随机选一个索引
+    arr[pivot_idx], arr[right] = arr[right], arr[pivot_idx]  # 将 pivot 交换到区间最右端
 
-    # 将 k 转换为零索引：第 k 小 → 索引 k-1
-    target_idx = k - 1  # 例如 k=1（最小值）→ target_idx=0
+    # Lomuto 分区方案
+    store_idx = left                            # store_idx 指向下一个&quot;小于 pivot&quot;的元素应放置的位置
+    for i in range(left, right):                # 遍历区间内除 pivot 外的所有元素
+        if arr[i] &lt; arr[right]:                 # 当前元素小于 pivot
+            arr[store_idx], arr[i] = arr[i], arr[store_idx]  # 将其交换到 store_idx 位置
+            store_idx += 1                      # store_idx 右移一位
 
-    # 调用内部递归函数，在 [left, right] 区间内查找第 target_idx 个元素
-    return _quickselect_recursive(arr, target_idx, 0, len(arr) - 1, pivot_strategy)
+    # 将 pivot 放到最终位置
+    arr[store_idx], arr[right] = arr[right], arr[store_idx]  # pivot 现在在 store_idx，左侧都小于它
 
-def _quickselect_recursive(arr, target_idx, left, right, pivot_strategy):
-    &quot;&quot;&quot;递归核心函数：在 arr[left..right] 区间内查找排在 target_idx 位置的元素&quot;&quot;&quot;
-    # 基本情况：区间只有一个元素，直接返回
-    if left == right:  # 当左右指针重合，说明只剩一个元素
-        return arr[left]  # 这个元素就是答案
+    # 比较 pivot 位置与目标 k
+    if store_idx == k:
+        return arr[store_idx]                   # pivot 恰好在第 k 个位置，找到了！
+    elif store_idx &lt; k:
+        return quickselect(arr, k, store_idx + 1, right)   # pivot 位置偏左，在右半部分递归
+    else:
+        return quickselect(arr, k, left, store_idx - 1)   # pivot 位置偏右，在左半部分递归
 
-    # 根据策略选择基准元素（pivot）的索引
-    if pivot_strategy == &quot;random&quot;:  # 随机选择策略
-        pivot_idx = random.randint(left, right)  # 在 [left, right] 范围内随机选一个索引
-    elif pivot_strategy == &quot;first&quot;:  # 选第一个元素
-        pivot_idx = left  # 直接取左边界索引
-    elif pivot_strategy == &quot;last&quot;:  # 选最后一个元素
-        pivot_idx = right  # 直接取右边界索引
-    elif pivot_strategy == &quot;median_of_three&quot;:  # 三数取中策略
-        mid = (left + right) // 2  # 计算中间索引
-        # 比较首、中、尾三个元素，取中位数所在的索引
-        candidates = [(arr[left], left), (arr[mid], mid), (arr[right], right)]  # 构建三元组
-        candidates.sort(key=lambda x: x[0])  # 按值排序
-        pivot_idx = candidates[1][1]  # 取中间值的索引
-    else:  # 未知策略，默认随机
-        pivot_idx = random.randint(left, right)  # 回退到随机选择
 
-    # 将 pivot 交换到区间最右端，方便 Lomuto 分区
-    arr[pivot_idx], arr[right] = arr[right], arr[pivot_idx]  # 交换 pivot 和右端元素
-
-    # --- Lomuto 分区方案 ---
-    # 维护一个指针 store_idx，指向&quot;小于 pivot 区域&quot;的右边界
-    store_idx = left  # 初始化为左边界，表示当前小于 pivot 的区域为空
-
-    # 遍历区间内除 pivot（已在 right 位置）外的所有元素
-    for i in range(left, right):  # i 从 left 到 right-1
-        if arr[i] &lt; arr[right]:  # 如果当前元素小于 pivot（pivot 现在在 arr[right]）
-            arr[store_idx], arr[i] = arr[i], arr[store_idx]  # 将小元素交换到 store_idx 位置
-            store_idx += 1  # 扩展&quot;小于 pivot 区域&quot;的边界
-
-    # 将 pivot 放到最终位置：store_idx 处
-    arr[store_idx], arr[right] = arr[right], arr[store_idx]  # pivot 到位，此时 store_idx 就是 pivot 的最终排序位置
-
-    # 比较 pivot 位置与目标位置，决定递归方向
-    if store_idx == target_idx:  # pivot 恰好在目标位置
-        return arr[store_idx]  # 找到了，直接返回
-    elif store_idx &gt; target_idx:  # pivot 在目标位置的右边
-        # 目标在左子区间，只递归左侧
-        return _quickselect_recursive(arr, target_idx, left, store_idx - 1, pivot_strategy)
-    else:  # pivot 在目标位置的左边
-        # 目标在右子区间，只递归右侧
-        return _quickselect_recursive(arr, target_idx, store_idx + 1, right, pivot_strategy)
-
-# === 使用示例 ===
-arr = [7, 10, 4, 3, 20, 15, 8, 12]  # 测试数组
-k = 3  # 找第 3 小的元素
-
-result = quickselect(arr, k, pivot_strategy=&quot;random&quot;)  # 执行快速选择
-print(f&quot;第 {k} 小的元素是: {result}&quot;)  # 输出: 第 3 小的元素是: 7
-
-# 找中位数
-n = len(arr)  # 数组长度
-if n % 2 == 1:  # 奇数个元素
-    median = quickselect(arr, n // 2 + 1)  # 中间那个就是中位数
-else:  # 偶数个元素
-    left_mid = quickselect(arr, n // 2)  # 左中位数
-    right_mid = quickselect(arr, n // 2 + 1)  # 右中位数
-    median = (left_mid + right_mid) / 2  # 取平均
-print(f&quot;中位数: {median}&quot;)  # 输出中位数</code></pre></p>
+# 使用示例
+data = [7, 10, 4, 3, 20, 15]                   # 原始无序数组
+result = quickselect(data, 2)                  # 查找第 3 小的元素（k=2，0-indexed）
+print(f&quot;第 3 小的元素是: {result}&quot;)             # 输出: 第 3 小的元素是: 7</code></pre></p>
 
 <h4>复杂度分析</h4>
 
-<p>| 指标 | 平均 | 最坏 |</p>
-<p>|------|------|------|</p>
-<p>| 时间复杂度 | $ O(n) $ | $ O(n^2) $ |</p>
-<p>| 空间复杂度 | $ O(\log n) $（递归栈） | $ O(n) $ |</p>
+<div class="table-wrapper"><table class="algo-table"><thead><tr><th>场景</th><th>时间复杂度</th><th>空间复杂度</th><th>说明</th></tr></thead><tbody><tr><td>最好情况</td><td>$ O(n) $</td><td>$ O(1) $</td><td>每次 pivot 恰好将数组等分</td></tr><tr><td>平均情况</td><td>$ O(n) $</td><td>$ O(\log n) $</td><td>随机化 pivot 后的期望复杂度</td></tr><tr><td>最坏情况</td><td>$ O(n^2) $</td><td>$ O(n) $</td><td>每次选到极端 pivot（概率极低）</td></tr></tbody></table></div>
 
 <h4>应用场景</h4>
 
 <ul>
-<li>求无序数组的中位数、第 K 大/小元素</li>
-<li>Top-K 问题（如实时排行榜、热门文章）</li>
-<li>数据流中的顺序统计量</li>
-<li>电商平台实时排序中的 Top K 维护</li>
+<li><strong>Top-K 问题</strong>：查找数组中前 K 个最大/最小元素（如热门排行榜、推荐系统）</li>
+<li><strong>中位数查找</strong>：在未排序数据中快速找到中位数（k = n/2）</li>
+<li><strong>数据库查询</strong>：实现 ORDER BY ... LIMIT K 的高效执行计划</li>
+<li><strong>统计学</strong>：计算百分位数、四分位数等统计量</li>
+<li><strong>数据流分析</strong>：在数据流中维护第 K 大/小的元素</li>
 </ul>
 
 <h4>参考文档</h4>
 
 <ul>
-<li><a href="https://blog.51cto.com/u_16099250/14383824" target="_blank" class="ref-link">快速选择算法(Quick Selection) - 51CTO</a></li>
-<li><a href="https://blog.csdn.net/Mesar33/article/details/155140874" target="_blank" class="ref-link">快速选择算法 - CSDN</a></li>
-<li><a href="https://blog.csdn.net/weixin_30352645/article/details/97290947" target="_blank" class="ref-link">Quickselect for Top K Problems - CSDN</a></li>
-<li><a href="https://blog.51cto.com/u_16213337/14899246" target="_blank" class="ref-link">快速选择算法时间复杂度 O(n) 分析 - 51CTO</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Quickselect" target="_blank" class="ref-link">Quickselect - Wikipedia</a></li>
+<li><a href="https://doi.org/10.1093/comjnl/5.1.10" target="_blank" class="ref-link">Hoare's Selection Algorithm - Original Paper</a></li>
+<li><a href="https://docs.python.org/3/library/heapq.html" target="_blank" class="ref-link">Python heapq 模块文档</a></li>
 </ul>
 
 <hr>
@@ -411,6 +495,89 @@ print(f&quot;中位数: {median}&quot;)  # 输出中位数</code></pre></p>
 <h4>算法简介</h4>
 
 <p>交叉熵损失（Cross-Entropy Loss）是深度学习中最常用的多分类损失函数。它衡量模型输出的概率分布与真实标签分布之间的差异：预测越接近真实标签，损失越小；预测越偏离，损失越大。PyTorch 中 <code class="inline-code">nn.CrossEntropyLoss</code> 内部组合了 <code class="inline-code">LogSoftmax</code> 和 <code class="inline-code">NLLLoss</code>，直接接收 logits（未归一化的原始输出），无需手动添加 softmax 层。</p>
+
+<h4>原理示意图</h4>
+
+<p><div class="algo-image"><svg xmlns="http://www.w3.org/2000/svg" width="900" height="420" viewBox="0 0 900 420" font-family="-apple-system, sans-serif">
+  <rect width="900" height="420" fill="#1e293b" rx="12"/>
+  <text x="450" y="28" text-anchor="middle" fill="#818cf8" font-size="15" font-weight="600">交叉熵损失计算流程（3分类示例）</text>
+
+  <!-- Step 1: Logits -->
+  <text x="50" y="65" fill="#94a3b8" font-size="12" font-weight="600">① 模型输出 Logits</text>
+  <rect x="50" y="75" width="180" height="100" rx="8" fill="#0f172a" stroke="#475569"/>
+  <text x="140" y="95" text-anchor="middle" fill="#e2e8f0" font-size="13">Linear Layer</text>
+  <text x="140" y="115" text-anchor="middle" fill="#94a3b8" font-size="11">原始未归一化输出</text>
+  <rect x="70" y="128" width="35" height="28" rx="4" fill="#334155" stroke="#6366f1"/>
+  <text x="87" y="146" text-anchor="middle" fill="#e2e8f0" font-size="12">2.0</text>
+  <rect x="108" y="128" width="35" height="28" rx="4" fill="#334155" stroke="#6366f1"/>
+  <text x="125" y="146" text-anchor="middle" fill="#e2e8f0" font-size="12">1.0</text>
+  <rect x="146" y="128" width="35" height="28" rx="4" fill="#334155" stroke="#6366f1"/>
+  <text x="163" y="146" text-anchor="middle" fill="#e2e8f0" font-size="12">0.1</text>
+  <text x="140" y="195" text-anchor="middle" fill="#6366f1" font-size="10">z = [2.0, 1.0, 0.1]</text>
+
+  <!-- Arrow 1 -->
+  <line x1="240" y1="125" x2="290" y2="125" stroke="#6366f1" stroke-width="2" marker-end="url(#arrowCE)"/>
+
+  <!-- Step 2: Softmax -->
+  <text x="370" y="65" fill="#94a3b8" font-size="12" font-weight="600">② Softmax 归一化</text>
+  <rect x="300" y="75" width="180" height="100" rx="8" fill="#0f172a" stroke="#475569"/>
+  <text x="390" y="95" text-anchor="middle" fill="#e2e8f0" font-size="13">Softmax</text>
+  <text x="390" y="112" text-anchor="middle" fill="#818cf8" font-size="10">exp(z_i) / Σexp(z_j)</text>
+  <rect x="320" y="128" width="35" height="28" rx="4" fill="#1a5632" stroke="#22c55e"/>
+  <text x="337" y="146" text-anchor="middle" fill="#86efac" font-size="11">0.7</text>
+  <rect x="358" y="128" width="35" height="28" rx="4" fill="#1a5632" stroke="#22c55e"/>
+  <text x="375" y="146" text-anchor="middle" fill="#86efac" font-size="11">0.2</text>
+  <rect x="396" y="128" width="35" height="28" rx="4" fill="#7c2d12" stroke="#f97316"/>
+  <text x="413" y="146" text-anchor="middle" fill="#fdba74" font-size="11">0.1</text>
+  <text x="390" y="195" text-anchor="middle" fill="#22c55e" font-size="10">q = [0.7, 0.2, 0.1]（和=1）</text>
+
+  <!-- Arrow 2 -->
+  <line x1="490" y1="125" x2="540" y2="125" stroke="#6366f1" stroke-width="2" marker-end="url(#arrowCE)"/>
+
+  <!-- Step 3: Cross Entropy -->
+  <text x="620" y="65" fill="#94a3b8" font-size="12" font-weight="600">③ 交叉熵损失</text>
+  <rect x="550" y="75" width="180" height="100" rx="8" fill="#0f172a" stroke="#475569"/>
+  <text x="640" y="95" text-anchor="middle" fill="#e2e8f0" font-size="13">NLL Loss</text>
+  <text x="640" y="112" text-anchor="middle" fill="#818cf8" font-size="10">L = -log(q_y)</text>
+  <rect x="570" y="128" width="140" height="28" rx="4" fill="#334155" stroke="#f97316"/>
+  <text x="640" y="146" text-anchor="middle" fill="#fdba74" font-size="12">L = -log(0.7) = 0.357</text>
+  <text x="640" y="195" text-anchor="middle" fill="#f97316" font-size="10">真实标签 y=0 → 取 q[0]=0.7</text>
+
+  <!-- True label box -->
+  <rect x="370" y="220" width="140" height="32" rx="6" fill="#1e293b" stroke="#6366f1" stroke-width="1.5"/>
+  <text x="440" y="240" text-anchor="middle" fill="#818cf8" font-size="12">真实标签 y = 0（one-hot: [1,0,0]）</text>
+  <line x1="440" y1="252" x2="440" y2="270" stroke="#6366f1" stroke-width="1.5" stroke-dasharray="3,2" marker-end="url(#arrowCE)"/>
+
+  <!-- Label smoothing box -->
+  <rect x="50" y="280" width="800" height="120" rx="8" fill="#0f172a" stroke="#334155"/>
+  <text x="450" y="302" text-anchor="middle" fill="#818cf8" font-size="13" font-weight="600">关键参数效果对比</text>
+
+  <rect x="70" y="315" width="160" height="70" rx="6" fill="#1e293b" stroke="#22c55e"/>
+  <text x="150" y="335" text-anchor="middle" fill="#86efac" font-size="12" font-weight="600">label_smoothing=0</text>
+  <text x="150" y="352" text-anchor="middle" fill="#94a3b8" font-size="10">硬标签 [1, 0, 0]</text>
+  <text x="150" y="370" text-anchor="middle" fill="#94a3b8" font-size="10">可能过度自信</text>
+
+  <rect x="250" y="315" width="160" height="70" rx="6" fill="#1e293b" stroke="#f59e0b"/>
+  <text x="330" y="335" text-anchor="middle" fill="#fcd34d" font-size="12" font-weight="600">label_smoothing=0.1</text>
+  <text x="330" y="352" text-anchor="middle" fill="#94a3b8" font-size="10">软标签 [0.93, 0.033, 0.033]</text>
+  <text x="330" y="370" text-anchor="middle" fill="#94a3b8" font-size="10">提高泛化能力</text>
+
+  <rect x="430" y="315" width="160" height="70" rx="6" fill="#1e293b" stroke="#6366f1"/>
+  <text x="510" y="335" text-anchor="middle" fill="#818cf8" font-size="12" font-weight="600">weight=[1,1,2]</text>
+  <text x="510" y="352" text-anchor="middle" fill="#94a3b8" font-size="10">少数类损失 ×2</text>
+  <text x="510" y="370" text-anchor="middle" fill="#94a3b8" font-size="10">处理类别不平衡</text>
+
+  <rect x="610" y="315" width="160" height="70" rx="6" fill="#1e293b" stroke="#f97316"/>
+  <text x="690" y="335" text-anchor="middle" fill="#fdba74" font-size="12" font-weight="600">ignore_index=-100</text>
+  <text x="690" y="352" text-anchor="middle" fill="#94a3b8" font-size="10">跳过填充位置</text>
+  <text x="690" y="370" text-anchor="middle" fill="#94a3b8" font-size="10">不计入损失</text>
+
+  <defs>
+    <marker id="arrowCE" markerWidth="8" markerHeight="6" refX="4" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#6366f1"/>
+    </marker>
+  </defs>
+</svg></div></p>
 
 <h4>核心原理</h4>
 
@@ -425,174 +592,92 @@ print(f&quot;中位数: {median}&quot;)  # 输出中位数</code></pre></p>
 
 <h4>数学公式</h4>
 
-<p><strong>1. Softmax 函数</strong></p>
+<p><strong>交叉熵公式（多分类）：</strong></p>
 
-<p><div class="math-block">$$ q_i = \frac{\exp(z_i)}{\sum_{j=1}^{C} \exp(z_j)} $$</div></p>
+<p><div class="math-block">$$ H(p, q) = -\sum_{i=1}^{C} p_i \log(q_i) $$</div></p>
 
-<p>其中 $ z_i $ 是第 $ i $ 类的 logit 值，$ C $ 是类别总数，$ q_i $ 是第 $ i $ 类的预测概率。Softmax 将任意实数向量归一化为概率分布。</p>
+<p>其中 $ C $ 是类别数，$ p_i $ 是真实分布中第 $ i $ 类的概率（one-hot 编码下只有正确类别为 1），$ q_i $ 是模型预测的第 $ i $ 类概率。</p>
 
-<p><strong>2. 交叉熵损失（单样本）</strong></p>
+<p><strong>Softmax 函数：</strong></p>
 
-<p><div class="math-block">$$ \mathcal{L} = -\sum_{i=1}^{C} p_i \log q_i = -\log q_{y} $$</div></p>
+<p><div class="math-block">$$ q_i = \text{softmax}(z_i) = \frac{\exp(z_i)}{\sum_{j=1}^{C} \exp(z_j)} $$</div></p>
 
-<p>其中 $ p_i $ 是真实标签的 one-hot 分布（只有正确类别 $ y $ 处为 1，其余为 0），$ q_i $ 是 softmax 预测概率。由于 one-hot 特性，求和简化为 $ -\log q_y $，即正确类别的预测概率对数值的负数。</p>
+<p>其中 $ z_i $ 是第 $ i $ 类的 logit 值（原始未归一化输出），$ \exp(z_i) $ 将其转换为正数，分母对所有类别求和实现归一化。</p>
 
-<p><strong>3. 带权重的交叉熵损失</strong></p>
+<p><strong>实际计算（one-hot 标签简化）：</strong></p>
 
-<p><div class="math-block">$$ \mathcal{L}_{weighted} = -\sum_{i=1}^{C} w_i \cdot p_i \log q_i = -w_{y} \log q_{y} $$</div></p>
+<p><div class="math-block">$$ L = -\log(q_y) $$</div></p>
 
-<p>其中 $ w_i $ 是第 $ i $ 类的权重，$ w_y $ 是正确类别的权重。用于类别不平衡场景，给少数类更高的权重。</p>
+<p>其中 $ y $ 是真实标签的类别索引，$ q_y $ 是模型对正确类别预测的概率。由于 one-hot 编码中只有正确类别 $ p_y = 1 $，其余类别 $ p_i = 0 $，交叉熵公式简化为只取正确类别的负对数概率。</p>
 
-<p><strong>4. 带标签平滑的交叉熵损失</strong></p>
+<p><strong>带标签平滑的交叉熵：</strong></p>
 
-<p><div class="math-block">$$ \mathcal{L}_{smooth} = -(1-\epsilon) \log q_y - \frac{\epsilon}{C} \sum_{i=1}^{C} \log q_i $$</div></p>
+<p><div class="math-block">$$ L = -(1-\epsilon) \log(q_y) - \frac{\epsilon}{C} \sum_{i=1}^{C} \log(q_i) $$</div></p>
 
-<p>其中 $ \epsilon $ 是平滑系数（取值 0~1），$ C $ 是类别数，$ q_y $ 是正确类别的预测概率。标签平滑将 one-hot 的硬标签 "软化" 为在正确类别上分配 $ (1-\epsilon) $ 概率、在其他类别上均匀分配 $ \epsilon/C $ 概率的软标签。</p>
-
-<p><strong>5. 批量平均损失（reduction='mean'）</strong></p>
-
-<p><div class="math-block">$$ \mathcal{L}_{batch} = \frac{1}{N} \sum_{n=1}^{N} \mathcal{L}_n $$</div></p>
-
-<p>其中 $ N $ 是批次中的样本数（忽略被 <code class="inline-code">ignore_index</code> 标记的样本），$ \mathcal{L}_n $ 是第 $ n $ 个样本的损失。</p>
+<p>其中 $ \epsilon $ 是平滑因子，$ C $ 是类别数。标签平滑将硬标签 $ [1, 0, 0] $ 软化为 $ [1-\epsilon+\frac{\epsilon}{C}, \frac{\epsilon}{C}, \frac{\epsilon}{C}] $，防止模型过度自信，提高泛化能力。</p>
 
 <h4>参数详解</h4>
 
-<p>| 参数 | 含义 | 类型 | 默认值 | 取值范围 | 对结果的影响 | 推荐设置 |</p>
-<p>|------|------|------|--------|----------|-------------|---------|</p>
-<p>| <code class="inline-code">weight</code> | 各类别权重 | Tensor | None | 正实数向量 | 少数类权重越大，模型越关注该类 | 类别不平衡时设置，权重与类别频率成反比 |</p>
-<p>| <code class="inline-code">ignore_index</code> | 忽略的标签索引 | int | -100 | 任意整数 | 该索引的样本不计入损失 | 填充位置用 -100 或 -1 |</p>
-<p>| <code class="inline-code">reduction</code> | 损失聚合方式 | str | "mean" | "mean"/"sum"/"none" | "mean"返回标量均值，"sum"返回总和，"none"返回逐样本损失 | 训练用"mean"，调试用"none" |</p>
-<p>| <code class="inline-code">label_smoothing</code> | 标签平滑系数 | float | 0.0 | 0.0 ~ 1.0 | 值越大，正则化越强，防止过度自信 | 0.1 为常用值，类别多时可增大 |</p>
+<div class="table-wrapper"><table class="algo-table"><thead><tr><th>参数</th><th>含义</th><th>类型</th><th>默认值</th><th>取值范围</th><th>对结果的影响</th><th>推荐设置</th></tr></thead><tbody><tr><td><code class="inline-code">weight</code></td><td>各类别权重</td><td>Tensor</td><td>None</td><td>正实数向量，长度=类别数</td><td>少数类权重更大→模型更关注少数类</td><td>类别不平衡时设置，如 [1, 1, 3]</td></tr><tr><td><code class="inline-code">ignore_index</code></td><td>忽略的标签索引</td><td>int</td><td>-100</td><td>任意整数</td><td>该索引的样本不计入损失</td><td>填充位置用 -100 标记后自动忽略</td></tr><tr><td><code class="inline-code">reduction</code></td><td>损失聚合方式</td><td>str</td><td>"mean"</td><td>"none"/"mean"/"sum"</td><td>none 返回每个样本损失，mean 取平均，sum 求和</td><td>默认 "mean"，分析时可用 "none"</td></tr><tr><td><code class="inline-code">label_smoothing</code></td><td>标签平滑系数</td><td>float</td><td>0.0</td><td>[0.0, 1.0)</td><td>值越大越平滑，防止过拟合但可能欠拟合</td><td>0.1 为常用值，大模型可用 0.1-0.3</td></tr></tbody></table></div>
 
-<p><strong>参数详细说明：</strong></p>
+<h4>代码实现</h4>
 
-<ul>
-<li><strong>weight</strong>：形状为 <code class="inline-code">(C,)</code> 的张量，$ C $ 为类别数。例如 10 类分类中，给第 3 类和第 7 类权重设为 2.0，其余为 1.0，则模型对第 3、7 类的损失翻倍，更关注这些类别的预测准确率</li>
-<li><strong>ignore_index</strong>：在 NLP 任务中，序列长度不一致时需要填充（padding），将填充位置标签设为 -100，这些位置不计入损失计算。注意 ignore_index 不需要出现在 weight 中</li>
-<li><strong>reduction</strong>：</li>
-<li><code class="inline-code">"mean"</code>：默认值，返回 batch 内所有（非忽略）样本损失的平均值，适合大多数训练场景</li>
-<li><code class="inline-code">"sum"</code>：返回损失总和，可用于自定义归一化逻辑</li>
-<li><code class="inline-code">"none"</code>：返回形状 <code class="inline-code">(N,)</code> 的逐样本损失，适合分析各样本损失分布或自定义加权</li>
-<li><strong>label_smoothing</strong>：</li>
-<li><code class="inline-code">0.0</code>：标准 one-hot 硬标签，模型可能对预测过度自信</li>
-<li><code class="inline-code">0.1</code>：最常用值，将 10% 概率均匀分配给其他类别，提高泛化能力</li>
-<li>较大值（如 0.3）可能导致欠拟合，需配合验证集调参</li>
-</ul>
+<p><pre class="code-block"><code class="language-python">import torch
+import torch.nn as nn
 
-<h4>代码实现（PyTorch，逐行注释）</h4>
+# === 基础用法 ===
+logits = torch.tensor([[2.0, 1.0, 0.1],   # 样本1的3类原始输出（logits）
+                        [0.5, 3.0, 0.2]])   # 样本2的3类原始输出（logits）
+labels = torch.tensor([0, 1])               # 真实标签：样本1属于类0，样本2属于类1
 
-<p><pre class="code-block"><code class="language-python">import torch  # 导入 PyTorch 核心库
-import torch.nn as nn  # 导入神经网络模块，包含各种损失函数和层
-import torch.optim as optim  # 导入优化器模块，包含 SGD、Adam 等
+# 创建交叉熵损失函数
+criterion = nn.CrossEntropyLoss()            # 默认参数：无权重、无平滑、mean 聚合
 
-# ============================================================
-# 示例 1：基本用法
-# ============================================================
-criterion = nn.CrossEntropyLoss()  # 创建标准交叉熵损失函数，无权重、无标签平滑
+# 计算损失（内部自动做 softmax + NLL）
+loss = criterion(logits, labels)            # logits 不需要手动 softmax
+print(f&quot;Loss: {loss.item():.4f}&quot;)            # 输出损失值，如 0.4823
 
-# 模拟模型输出的 logits（未经 softmax 的原始输出）
-# 形状: (batch_size=4, num_classes=10)，表示 4 个样本、10 个类别
-outputs = torch.randn(4, 10)  # 生成 4x10 的随机张量作为 logits
+# === 带类别权重（处理类别不平衡）===
+weights = torch.tensor([1.0, 1.0, 3.0])      # 类别0和1权重为1，类别2权重为3（少数类加权）
+criterion_weighted = nn.CrossEntropyLoss(weight=weights)  # 少数类损失放大3倍
+loss_weighted = criterion_weighted(logits, labels)        # 加权后的损失
+print(f&quot;Weighted Loss: {loss_weighted.item():.4f}&quot;)
 
-# 真实标签：每个样本一个类别索引，取值 0~9
-labels = torch.tensor([2, 5, 1, 7])  # 4 个样本的正确类别分别是第 2、5、1、7 类
+# === 带标签平滑 ===
+criterion_smooth = nn.CrossEntropyLoss(label_smoothing=0.1)  # 标签平滑系数0.1
+loss_smooth = criterion_smooth(logits, labels)                 # 平滑后的损失
+print(f&quot;Smoothed Loss: {loss_smooth.item():.4f}&quot;)
 
-loss = criterion(outputs, labels)  # 计算交叉熵损失：内部先 softmax 再 NLL
-print(f&quot;基本交叉熵损失: {loss.item():.4f}&quot;)  # 输出损失值，.item() 将标量张量转为 Python float
+# === 忽略填充位置（NLP场景常见）===
+logits_padded = torch.tensor([[2.0, 1.0, 0.1],
+                               [0.5, 3.0, 0.2],
+                               [1.0, 0.8, 0.5]])    # 第3个样本是填充
+labels_padded = torch.tensor([0, 1, -100])            # -100 标记填充位置
+criterion_ignore = nn.CrossEntropyLoss(ignore_index=-100)  # 忽略 -100 标记的样本
+loss_ignore = criterion_ignore(logits_padded, labels_padded)  # 只计算前2个样本的损失
+print(f&quot;Ignored Loss: {loss_ignore.item():.4f}&quot;)</code></pre></p>
 
-# ============================================================
-# 示例 2：类别权重（处理类别不平衡）
-# ============================================================
-weight = torch.ones(10)  # 初始化 10 个类别的权重全为 1.0
-weight[3] = 2.0  # 将第 3 类权重设为 2.0，表示该类更重要（可能是少数类）
-weight[7] = 2.0  # 将第 7 类权重设为 2.0
+<h4>复杂度分析</h4>
 
-criterion_weighted = nn.CrossEntropyLoss(weight=weight)  # 创建带权重的损失函数
-loss_weighted = criterion_weighted(outputs, labels)  # 计算加权交叉熵损失
-print(f&quot;加权交叉熵损失: {loss_weighted.item():.4f}&quot;)  # 当标签为 3 或 7 时，损失翻倍
+<div class="table-wrapper"><table class="algo-table"><thead><tr><th>场景</th><th>时间复杂度</th><th>空间复杂度</th><th>说明</th></tr></thead><tbody><tr><td>前向计算</td><td>$ O(N \times C) $</td><td>$ O(N \times C) $</td><td>$ N $ 为批量大小，$ C $ 为类别数</td></tr><tr><td>反向传播</td><td>$ O(N \times C) $</td><td>$ O(N \times C) $</td><td>梯度计算与 softmax 导数</td></tr><tr><td>带权重</td><td>$ O(N \times C) $</td><td>$ O(C) $</td><td>额外存储权重向量</td></tr></tbody></table></div>
 
-# ============================================================
-# 示例 3：标签平滑
-# ============================================================
-criterion_smooth = nn.CrossEntropyLoss(label_smoothing=0.1)  # 标签平滑系数 0.1
-loss_smooth = criterion_smooth(outputs, labels)  # 计算带标签平滑的损失
-print(f&quot;标签平滑损失: {loss_smooth.item():.4f}&quot;)  # 正则化效果，防止过度自信
-
-# ============================================================
-# 示例 4：ignore_index 忽略填充位置
-# ============================================================
-criterion_ignore = nn.CrossEntropyLoss(ignore_index=-100)  # 忽略标签为 -100 的样本
-outputs2 = torch.randn(5, 10)  # 5 个样本
-labels2 = torch.tensor([2, -100, 5, -100, 7])  # 第 2、4 个样本标签为 -100（填充位）
-loss_ignore = criterion_ignore(outputs2, labels2)  # 只计算 3 个有效样本的平均损失
-print(f&quot;忽略填充后损失: {loss_ignore.item():.4f}&quot;)  # -100 标签的样本不影响损失
-
-# ============================================================
-# 示例 5：不同 reduction 方式
-# ============================================================
-loss_mean = nn.CrossEntropyLoss(reduction=&#x27;mean&#x27;)(outputs, labels)  # 返回标量：均值
-loss_sum = nn.CrossEntropyLoss(reduction=&#x27;sum&#x27;)(outputs, labels)   # 返回标量：总和
-loss_none = nn.CrossEntropyLoss(reduction=&#x27;none&#x27;)(outputs, labels) # 返回 (4,) 向量
-print(f&quot;mean: {loss_mean.item():.4f}, sum: {loss_sum.item():.4f}&quot;)  # sum ≈ mean × 4
-print(f&quot;逐样本损失: {loss_none.tolist()}&quot;)  # 查看每个样本各自的损失值
-
-# ============================================================
-# 示例 6：完整训练流程
-# ============================================================
-class SimpleClassifier(nn.Module):  # 定义一个简单分类模型
-    def __init__(self, input_dim=784, num_classes=10):  # 输入维度 784（如 28x28 图像），10 类
-        super().__init__()  # 调用父类初始化
-        self.fc = nn.Sequential(  # 使用 Sequential 构建多层感知机
-            nn.Linear(input_dim, 256),  # 全连接层：784 → 256
-            nn.ReLU(),                 # ReLU 激活函数
-            nn.Dropout(0.5),           # Dropout 正则化，50% 概率置零
-            nn.Linear(256, num_classes) # 输出层：256 → 10（输出 logits）
-        )
-
-    def forward(self, x):  # 前向传播
-        return self.fc(x)  # 直接通过全连接网络，输出 logits（不加 softmax）
-
-model = SimpleClassifier()  # 实例化模型
-criterion = nn.CrossEntropyLoss()  # 损失函数（内部含 softmax）
-optimizer = optim.Adam(model.parameters(), lr=0.001)  # Adam 优化器，学习率 0.001
-
-# 模拟一个训练 batch
-batch_size = 32  # 批次大小
-x_train = torch.randn(batch_size, 784)  # 随机输入：(32, 784)
-y_train = torch.randint(0, 10, (batch_size,))  # 随机标签：(32,)，值 0~9
-
-model.train()  # 设为训练模式（启用 Dropout）
-outputs_train = model(x_train)  # 前向传播得到 logits：(32, 10)
-loss = criterion(outputs_train, y_train)  # 计算交叉熵损失
-
-optimizer.zero_grad()  # 清空梯度（PyTorch 默认累积梯度，需手动清零）
-loss.backward()        # 反向传播，自动计算各参数梯度
-optimizer.step()       # 更新参数（根据梯度和学习率）
-
-print(f&quot;训练批次损失: {loss.item():.4f}&quot;)  # 打印当前 batch 的损失值
-
-# 验证模式
-model.eval()  # 设为评估模式（关闭 Dropout）
-with torch.no_grad():  # 不计算梯度，节省内存和计算
-    outputs_eval = model(x_train)  # 前向传播
-    predictions = outputs_eval.argmax(dim=1)  # 取概率最大的类别作为预测
-    accuracy = (predictions == y_train).float().mean()  # 计算准确率
-print(f&quot;预测准确率: {accuracy.item():.2%}&quot;)  # 输出百分比格式</code></pre></p>
-
-<h4>常见问题</h4>
+<h4>应用场景</h4>
 
 <ul>
-<li><strong>CrossEntropyLoss vs NLLLoss</strong>：CrossEntropyLoss = LogSoftmax + NLLLoss。前者直接接收 logits，后者需要先手动 LogSoftmax</li>
-<li><strong>为什么不用手动加 softmax</strong>：CrossEntropyLoss 内部已自动计算 softmax，直接传 logits 可提高数值稳定性（利用 LogSumExp 技巧避免溢出）</li>
-<li><strong>标签应该是类别索引还是 one-hot</strong>：应为类别索引（0 到 C-1 的整数），不是 one-hot 编码</li>
+<li><strong>图像分类</strong>：ImageNet 1000 类分类任务的标准损失函数</li>
+<li><strong>NLP 文本分类</strong>：情感分析、主题分类、意图识别</li>
+<li><strong>目标检测</strong>：YOLO/Faster R-CNN 中的类别预测分支</li>
+<li><strong>语义分割</strong>：像素级分类，配合 <code class="inline-code">ignore_index</code> 忽略背景或填充区域</li>
+<li><strong>语音识别</strong>：声学模型中的音素分类</li>
+<li><strong>推荐系统</strong>：多类别物品点击预测</li>
 </ul>
 
 <h4>参考文档</h4>
 
 <ul>
-<li><a href="https://pytorch.org/docs/stable/generated/torch.nn.CrossEntropyLoss.html" target="_blank" class="ref-link">PyTorch torch.nn.CrossEntropyLoss 官方文档</a></li>
-<li><a href="https://m.runoob.com/pytorch/pytorch-torch-nn-crossentropyloss.html" target="_blank" class="ref-link">PyTorch CrossEntropyLoss 函数详解 - 菜鸟教程</a></li>
-<li><a href="https://discuss.pytorch.org/t/label-smoothing-for-cross-entropy-loss" target="_blank" class="ref-link">CrossEntropyLoss with Label Smoothing - PyTorch Forums</a></li>
+<li><a href="https://pytorch.org/docs/stable/generated/torch.nn.CrossEntropyLoss.html" target="_blank" class="ref-link">PyTorch CrossEntropyLoss 官方文档</a></li>
+<li><a href="https://towardsdatascience.com/understanding-cross-entropy/" target="_blank" class="ref-link">Understanding Cross Entropy - Towards Data Science</a></li>
+<li><a href="https://arxiv.org/abs/1906.02629" target="_blank" class="ref-link">Label Smoothing - Paper (Szegedy et al.)</a></li>
 </ul>
 
 <hr>
@@ -606,6 +691,120 @@ print(f&quot;预测准确率: {accuracy.item():.2%}&quot;)  # 输出百分比格
 <p>Mamba 是 Albert Gu 和 Tri Dao 于 2023 年提出的新型序列建模架构，基于<strong>状态空间模型（State Space Model, SSM）</strong>，通过<strong>选择性扫描（Selective Scan）</strong>机制实现了线性时间复杂度 $ O(n) $ 的长序列建模。与 Transformer 的二次复杂度 $ O(n^2) $ 相比，Mamba 在处理超长序列（如 100K+ token）时具有显著的推理速度和内存优势，同时保持了与 Transformer 相当的建模质量。</p>
 
 <p>Mamba 的核心创新在于：传统 SSM 是<strong>线性时不变（LTI）</strong>系统，参数固定不变，无法根据输入内容选择性记忆；Mamba 引入了<strong>输入依赖的参数化</strong>，使模型能够根据当前输入动态决定"记住什么、遗忘什么"，类似于 LSTM 的门控机制但更高效。</p>
+
+<h4>原理示意图</h4>
+
+<p><div class="algo-image"><svg xmlns="http://www.w3.org/2000/svg" width="900" height="480" viewBox="0 0 900 480" font-family="-apple-system, sans-serif">
+  <rect width="900" height="480" fill="#1e293b" rx="12"/>
+  <text x="450" y="28" text-anchor="middle" fill="#818cf8" font-size="15" font-weight="600">Mamba 选择性状态空间模型架构</text>
+
+  <!-- Input -->
+  <rect x="50" y="200" width="60" height="40" rx="8" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="80" y="223" text-anchor="middle" fill="#e2e8f0" font-size="13" font-weight="600">x_t</text>
+  <text x="80" y="255" text-anchor="middle" fill="#94a3b8" font-size="10">输入序列</text>
+
+  <!-- Input Projection -->
+  <line x1="112" y1="220" x2="145" y2="220" stroke="#6366f1" stroke-width="2" marker-end="url(#arrowM)"/>
+  <rect x="148" y="180" width="90" height="80" rx="8" fill="#0f172a" stroke="#475569"/>
+  <text x="193" y="205" text-anchor="middle" fill="#818cf8" font-size="12" font-weight="600">Linear</text>
+  <text x="193" y="222" text-anchor="middle" fill="#94a3b8" font-size="10">Input Proj</text>
+  <text x="193" y="245" text-anchor="middle" fill="#94a3b8" font-size="9">d→2×expand×d</text>
+
+  <!-- Branch: SSM path and Gate path -->
+  <!-- SSM branch (top) -->
+  <line x1="240" y1="200" x2="280" y2="200" stroke="#6366f1" stroke-width="2" marker-end="url(#arrowM)"/>
+  <text x="260" y="192" text-anchor="middle" fill="#22c55e" font-size="10">SSM分支</text>
+
+  <!-- Conv1d -->
+  <rect x="283" y="175" width="70" height="50" rx="6" fill="#0f172a" stroke="#475569"/>
+  <text x="318" y="198" text-anchor="middle" fill="#e2e8f0" font-size="11">Conv1d</text>
+  <text x="318" y="215" text-anchor="middle" fill="#94a3b8" font-size="9">k=4, causal</text>
+
+  <line x1="355" y1="200" x2="380" y2="200" stroke="#6366f1" stroke-width="2" marker-end="url(#arrowM)"/>
+
+  <!-- SiLU -->
+  <rect x="383" y="180" width="50" height="40" rx="6" fill="#0f172a" stroke="#475569"/>
+  <text x="408" y="205" text-anchor="middle" fill="#e2e8f0" font-size="11">SiLU</text>
+
+  <line x1="435" y1="200" x2="460" y2="200" stroke="#6366f1" stroke-width="2" marker-end="url(#arrowM)"/>
+
+  <!-- Selective Projection: x -> (Δ, B, C) -->
+  <rect x="463" y="160" width="100" height="80" rx="8" fill="#0f172a" stroke="#818cf8" stroke-width="1.5"/>
+  <text x="513" y="182" text-anchor="middle" fill="#818cf8" font-size="11" font-weight="600">x_proj</text>
+  <text x="513" y="198" text-anchor="middle" fill="#94a3b8" font-size="9">→ Δ_t (低秩)</text>
+  <text x="513" y="212" text-anchor="middle" fill="#94a3b8" font-size="9">→ B_t</text>
+  <text x="513" y="226" text-anchor="middle" fill="#94a3b8" font-size="9">→ C_t</text>
+  <text x="513" y="240" text-anchor="middle" fill="#22c55e" font-size="8" font-weight="600">选择性！输入依赖</text>
+
+  <!-- dt_proj -->
+  <line x1="565" y1="180" x2="595" y2="180" stroke="#6366f1" stroke-width="1.5" marker-end="url(#arrowM)"/>
+  <rect x="598" y="160" width="70" height="40" rx="6" fill="#0f172a" stroke="#475569"/>
+  <text x="633" y="178" text-anchor="middle" fill="#e2e8f0" font-size="10">dt_proj</text>
+  <text x="633" y="192" text-anchor="middle" fill="#94a3b8" font-size="9">+softplus</text>
+  <text x="668" y="178" fill="#94a3b8" font-size="9">→ Δ_t</text>
+
+  <!-- SSM Core -->
+  <line x1="565" y1="220" x2="595" y2="220" stroke="#6366f1" stroke-width="1.5" marker-end="url(#arrowM)"/>
+  <rect x="598" y="200" width="140" height="80" rx="8" fill="#1a1a2e" stroke="#6366f1" stroke-width="2"/>
+  <text x="668" y="222" text-anchor="middle" fill="#818cf8" font-size="12" font-weight="600">Selective SSM</text>
+  <text x="668" y="240" text-anchor="middle" fill="#e2e8f0" font-size="10">Ā = exp(Δ·A)</text>
+  <text x="668" y="255" text-anchor="middle" fill="#e2e8f0" font-size="10">B̄ = Δ·B</text>
+  <text x="668" y="270" text-anchor="middle" fill="#fcd34d" font-size="10">h_t = Ā·h_{t-1} + B̄·x_t</text>
+
+  <!-- A parameter -->
+  <rect x="598" y="300" width="60" height="30" rx="6" fill="#0f172a" stroke="#475569"/>
+  <text x="628" y="319" text-anchor="middle" fill="#94a3b8" font-size="11">A (log)</text>
+  <line x1="628" y1="300" x2="628" y2="280" stroke="#475569" stroke-width="1" stroke-dasharray="3,2"/>
+
+  <!-- Output from SSM -->
+  <line x1="740" y1="240" x2="770" y2="240" stroke="#6366f1" stroke-width="2" marker-end="url(#arrowM)"/>
+  <text x="755" y="232" text-anchor="middle" fill="#e2e8f0" font-size="10">y_t</text>
+  <text x="755" y="252" text-anchor="middle" fill="#94a3b8" font-size="8">= C_t·h_t</text>
+
+  <!-- Gate branch (bottom) -->
+  <line x1="193" y1="260" x2="193" y2="310" stroke="#6366f1" stroke-width="2"/>
+  <line x1="193" y1="310" x2="460" y2="310" stroke="#6366f1" stroke-width="2"/>
+  <line x1="460" y1="310" x2="460" y2="340" stroke="#6366f1" stroke-width="2" marker-end="url(#arrowM)"/>
+  <text x="260" y="302" fill="#f59e0b" font-size="10">门控分支</text>
+
+  <rect x="415" y="340" width="90" height="35" rx="6" fill="#0f172a" stroke="#475569"/>
+  <text x="460" y="362" text-anchor="middle" fill="#e2e8f0" font-size="11">SiLU(z)</text>
+
+  <!-- Multiply gate -->
+  <line x1="770" y1="240" x2="800" y2="240" stroke="#6366f1" stroke-width="2"/>
+  <line x1="800" y1="240" x2="800" y2="330" stroke="#6366f1" stroke-width="2"/>
+  <line x1="505" y1="358" x2="780" y2="358" stroke="#6366f1" stroke-width="2"/>
+  <line x1="780" y1="358" x2="780" y2="330" stroke="#6366f1" stroke-width="2"/>
+
+  <circle cx="800" cy="330" r="14" fill="#1e293b" stroke="#6366f1" stroke-width="2"/>
+  <text x="800" y="335" text-anchor="middle" fill="#818cf8" font-size="14">×</text>
+
+  <!-- Output Projection -->
+  <line x1="814" y1="330" x2="814" y2="400" stroke="#6366f1" stroke-width="2"/>
+  <line x1="814" y1="400" x2="200" y2="400" stroke="#6366f1" stroke-width="2"/>
+  <line x1="200" y1="400" x2="200" y2="430" stroke="#6366f1" stroke-width="2" marker-end="url(#arrowM)"/>
+
+  <rect x="140" y="432" width="120" height="36" rx="8" fill="#1a5632" stroke="#22c55e" stroke-width="2"/>
+  <text x="200" y="454" text-anchor="middle" fill="#86efac" font-size="13" font-weight="600">输出 y_t</text>
+
+  <!-- Out proj label -->
+  <text x="500" y="395" fill="#94a3b8" font-size="10">out_proj (Linear: d_inner → d_model)</text>
+
+  <!-- Complexity comparison box -->
+  <rect x="650" y="60" width="200" height="110" rx="8" fill="#0f172a" stroke="#334155"/>
+  <text x="750" y="82" text-anchor="middle" fill="#818cf8" font-size="11" font-weight="600">Mamba vs Transformer</text>
+  <line x1="670" y1="90" x2="830" y2="90" stroke="#334155" stroke-width="1"/>
+  <text x="665" y="108" fill="#22c55e" font-size="10">Mamba: O(n·d·N)</text>
+  <text x="665" y="125" fill="#f97316" font-size="10">Transformer: O(n²·d)</text>
+  <text x="665" y="142" fill="#94a3b8" font-size="10">推理内存: O(1) vs O(n)</text>
+  <text x="665" y="159" fill="#94a3b8" font-size="10">长序列: 100K+ vs ≤8K</text>
+
+  <defs>
+    <marker id="arrowM" markerWidth="8" markerHeight="6" refX="4" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#6366f1"/>
+    </marker>
+  </defs>
+</svg></div></p>
 
 <h4>核心原理</h4>
 
@@ -640,237 +839,192 @@ print(f&quot;预测准确率: {accuracy.item():.2%}&quot;)  # 输出百分比格
 
 <h4>数学公式</h4>
 
-<p><strong>1. 离散化状态递推</strong></p>
+<p><strong>连续状态空间方程（SSM 基础）：</strong></p>
 
-<p><div class="math-block">$$ h_t = \bar{A} h_{t-1} + \bar{B} x_t $$</div></p>
+<p><div class="math-block">$$ h'(t) = Ah(t) + Bx(t), \quad y(t) = Ch(t) + Dx(t) $$</div></p>
 
-<p>其中 $ h_t $ 是时刻 $ t $ 的隐藏状态，$ \bar{A} $ 是离散化后的状态转移矩阵（控制遗忘），$ \bar{B} $ 是离散化后的输入矩阵（控制写入），$ x_t $ 是当前输入。此公式描述了状态如何随时间更新。</p>
+<p>其中 $ h(t) \in \mathbb{R}^N $ 是 $ N $ 维隐藏状态，$ x(t) \in \mathbb{R} $ 是标量输入，$ y(t) \in \mathbb{R} $ 是标量输出，$ A \in \mathbb{R}^{N \times N} $ 是状态转移矩阵，$ B \in \mathbb{R}^{N \times 1} $ 是输入映射矩阵，$ C \in \mathbb{R}^{1 \times N} $ 是输出映射矩阵，$ D $ 是跳跃连接（通常设为可学习或 0）。</p>
 
-<p><strong>2. 输出计算</strong></p>
+<p><strong>离散化（ZOH 方法）：</strong></p>
 
-<p><div class="math-block">$$ y_t = C(x_t) \cdot h_t + D \cdot x_t $$</div></p>
+<p><div class="math-block">$$ \bar{A} = \exp(\Delta A), \quad \bar{B} = (\Delta A)^{-1}(\exp(\Delta A) - I) \cdot \Delta B $$</div></p>
 
-<p>其中 $ C(x_t) $ 是输入依赖的输出矩阵（从当前输入通过线性投影得到），$ h_t $ 是当前隐藏状态，$ D \cdot x_t $ 是残差连接（通常 $ D $ 为简单缩放）。</p>
+<p>其中 $ \Delta \in \mathbb{R}^+ $ 是离散化步长（时间尺度），$ \exp(\cdot) $ 是矩阵指数，$ \bar{A}, \bar{B} $ 是离散化后的参数矩阵。$ \Delta $ 控制了模型对历史信息的"压缩率"：$ \Delta $ 大则关注远距离依赖，$ \Delta $ 小则关注局部细节。</p>
 
-<p><strong>3. 选择性参数生成</strong></p>
+<p><strong>离散递推方程：</strong></p>
 
-<p><div class="math-block">$$ \Delta_t = \text{softplus}(W_\Delta \cdot x_t), \quad B_t = W_B \cdot x_t, \quad C_t = W_C \cdot x_t $$</div></p>
+<p><div class="math-block">$$ h_t = \bar{A} h_{t-1} + \bar{B} x_t, \quad y_t = C h_t + D x_t $$</div></p>
 
-<p>其中 $ W_\Delta, W_B, W_C $ 是可学习的投影矩阵，$ x_t $ 是当前输入，$ \text{softplus} $ 确保步长 $ \Delta_t > 0 $。这使得 $ B, C, \Delta $ 随输入动态变化，是 Mamba 选择性的来源。</p>
+<p>其中 $ h_t $ 是第 $ t $ 步的隐藏状态，$ h_{t-1} $ 是上一步隐藏状态，$ x_t $ 是当前输入。$ \bar{A} $ 决定了历史信息的保留程度，$ \bar{B} $ 决定了新信息的写入程度。</p>
 
-<p><strong>4. 并行扫描（Parallel Scan）</strong></p>
+<p><strong>Mamba 选择性参数化（核心创新）：</strong></p>
 
-<p><div class="math-block">$$ h_t = \sum_{i=1}^{t} \left(\prod_{j=i+1}^{t} \bar{A}_j\right) \bar{B}_i x_i $$</div></p>
+<p><div class="math-block">$$ B_t = \text{Linear}_B(x_t), \quad C_t = \text{Linear}_C(x_t), \quad \Delta_t = \text{softplus}(\text{Linear}_\Delta(x_t)) $$</div></p>
 
-<p>由于 $ \bar{A}_j $ 现在依赖输入（不再固定），无法用卷积高效计算。Mamba 使用<strong>并行前缀扫描（Parallel Prefix Scan）</strong>算法，将 $ O(n) $ 的顺序递推转化为 $ O(\log n) $ 深度的并行计算，在 GPU 上实现高效训练。</p>
+<p>其中 $ B_t, C_t, \Delta_t $ 均通过线性投影从当前输入 $ x_t $ 计算得到（而非固定参数），$ \text{softplus} $ 确保 $ \Delta_t > 0 $。这使得模型能根据输入内容动态调整状态更新策略——对重要 token 给予更大的 $ \Delta_t $（保留更多信息），对无关 token 给予较小的 $ \Delta_t $（快速遗忘）。</p>
+
+<p><strong>选择性扫描并行计算：</strong></p>
+
+<p><div class="math-block">$$ y_t = C_t \cdot \left( \prod_{k=1}^{t} \bar{A}_k \right) h_0 + \sum_{k=1}^{t} \left( \prod_{j=k+1}^{t} \bar{A}_j \right) \bar{B}_k x_k $$</div></p>
+
+<p>由于 $ \bar{A}_t $ 依赖输入，无法像 S4 那样使用 FFT 加速，Mamba 采用硬件感知的并行扫描算法实现高效计算。</p>
 
 <h4>参数详解</h4>
 
-<p>| 参数 | 含义 | 类型 | 默认值 | 取值范围 | 对结果的影响 | 推荐设置 |</p>
-<p>|------|------|------|--------|----------|-------------|---------|</p>
-<p>| <code class="inline-code">d_model</code> | 模型维度（输入/输出维度） | int | 256 | 64~4096 | 维度越大，表达能力越强，但计算量增加 | 256~1024 |</p>
-<p>| <code class="inline-code">d_state</code> | SSM 隐藏状态维度 | int | 16 | 8~256 | 影响状态记忆容量，越大能记住更多信息 | 16~64 |</p>
-<p>| <code class="inline-code">d_conv</code> | 局部卷积核大小 | int | 4 | 2~8 | 局部特征提取窗口，类似短距离 n-gram | 4 |</p>
-<p>| <code class="inline-code">expand</code> | 内部扩展因子 | int | 2 | 1~4 | MLP 中间维度 = d_model × expand，影响 FLOPs | 2 |</p>
-<p>| <code class="inline-code">dt_rank</code> | $ \Delta $ 投影的秩 | str/int | "auto" | "auto"或1~64 | 控制 $ \Delta $ 生成的低秩压缩程度 | "auto"（≈d_model/16） |</p>
-<p>| <code class="inline-code">dt_min</code> | $ \Delta $ 最小值 | float | 0.001 | >0 | 限制最小时间步长，防止信息衰减过快 | 0.001 |</p>
-<p>| <code class="inline-code">dt_max</code> | $ \Delta $ 最大值 | float | 0.1 | >dt_min | 限制最大时间步长，防止信息遗忘过慢 | 0.1 |</p>
-<p>| <code class="inline-code">dt_init</code> | $ \Delta $ 初始化方式 | str | "random" | "random"/"constant" | 影响训练初期的时间尺度分布 | "random" |</p>
-<p>| <code class="inline-code">dt_scale</code> | $ \Delta $ 初始化缩放 | float | 1.0 | >0 | 控制初始化时 $ \Delta $ 的范围 | 1.0 |</p>
-<p>| <code class="inline-code">bias</code> | 是否使用偏置 | bool | False | True/False | Linear 层是否带 bias | False（Mamba 通常不用） |</p>
+<div class="table-wrapper"><table class="algo-table"><thead><tr><th>参数</th><th>含义</th><th>类型</th><th>默认值</th><th>取值范围</th><th>对结果的影响</th><th>推荐设置</th></tr></thead><tbody><tr><td><code class="inline-code">d_model</code></td><td>模型维度（输入/输出维度）</td><td>int</td><td>2560</td><td>64-8192</td><td>越大表达能力越强，但计算量和显存增加</td><td>小模型 768，大模型 2560-4096</td></tr><tr><td><code class="inline-code">d_state</code></td><td>SSM 隐藏状态维度 N</td><td>int</td><td>16</td><td>8-256</td><td>越大记忆容量越大，但计算量线性增加</td><td>16-64，长序列可增大</td></tr><tr><td><code class="inline-code">d_conv</code></td><td>局部卷积核大小</td><td>int</td><td>4</td><td>2-8</td><td>捕获局部短距离依赖</td><td>4 为常用值</td></tr><tr><td><code class="inline-code">expand</code></td><td>内部扩展倍数</td><td>int</td><td>2</td><td>1-8</td><td>内部维度 = d_model × expand，越大表达越强</td><td>2 为标准值</td></tr><tr><td><code class="inline-code">dt_rank</code></td><td>Δ 投影的低秩维度</td><td>int</td><td>"auto"</td><td>1-64</td><td>控制 Δ 投影参数量，"auto" 时取 ceil(d_model/16)</td><td>小模型用 8-16</td></tr><tr><td><code class="inline-code">dt_init</code></td><td>Δ 的初始化范围</td><td>str</td><td>"random"</td><td>"random"/"constant"</td><td>影响 Δ 初始值分布，random 范围 (dt_min, dt_max)</td><td>默认 "random"</td></tr><tr><td><code class="inline-code">dt_min</code></td><td>Δ 最小值</td><td>float</td><td>0.001</td><td>>0</td><td>确保离散化步长为正，控制最小时间尺度</td><td>0.001</td></tr><tr><td><code class="inline-code">dt_max</code></td><td>Δ 最大值</td><td>float</td><td>0.1</td><td>>dt_min</td><td>控制最大时间尺度，越大越关注远距离</td><td>0.1</td></tr><tr><td><code class="inline-code">A_init_range</code></td><td>A 矩阵初始化范围</td><td>tuple</td><td>(1,16)</td><td>正实数对</td><td>影响 SSM 极点分布，HiPPO 初始化更稳定</td><td>HiPPO 或 (1, 16)</td></tr></tbody></table></div>
 
-<p><strong>参数详细说明：</strong></p>
+<h4>代码实现</h4>
 
-<ul>
-<li><strong>d_model</strong>：模型的输入和输出维度，类似于 Transformer 中的 <code class="inline-code">d_model</code>。决定了每层的参数量和计算量。语言模型中通常 256~1024，大模型可达 4096+</li>
-<li><strong>d_state</strong>：SSM 的隐藏状态维度 $ N $（即矩阵 $ A $ 的大小为 $ N \times N $）。越大意味着状态能存储的信息越多，但参数量和计算量也增加。Mamba 论文默认 16，实践中 32~64 也有使用</li>
-<li><strong>d_conv</strong>：在 SSM 之前施加的 1D 因果卷积的核大小。用于提取局部（短距离）模式，补偿 SSM 对局部信息的处理不足。核大小 4 表示模型关注前 4 个 token 的局部模式</li>
-<li><strong>expand</strong>：Mamba block 内部 MLP 的扩展因子。中间隐藏维度 = <code class="inline-code">d_model × expand</code>，类似于 Transformer FFN 的 4 倍扩展。expand=2 是性能与效率的平衡点</li>
-<li><strong>dt_rank</strong>：$ \Delta $ 的低秩投影维度。Mamba 不直接从 $ d\_model $ 映射到标量 $ \Delta $，而是先投影到低秩空间再投影回 1 维。"auto" 会自动设为 $ \lceil d\_model / 16 \rceil $，压缩信息的同时保留关键时间尺度信息</li>
-<li><strong>dt_min / dt_max</strong>：$ \Delta $ 被约束在 $ [dt\_min, dt\_max] $ 范围内。$ \Delta $ 小意味着状态更新慢（长期记忆），$ \Delta $ 大意味着状态更新快（短期记忆）。通过 softplus + 限制确保数值稳定</li>
-<li><strong>dt_init</strong>：初始化策略。<code class="inline-code">"random"</code> 在 $ [\log(dt\_min), \log(dt\_max)] $ 区间均匀采样，使不同通道有不同的时间尺度，有利于捕捉多尺度信息</li>
-<li><strong>bias</strong>：Linear 投影层是否使用偏置项。Mamba 论文中默认不使用 bias，减少参数量且不影响效果</li>
-</ul>
+<p><pre class="code-block"><code class="language-python">import torch
+import torch.nn as nn
+import torch.nn.functional as F
+import math
 
-<h4>代码实现（PyTorch 简化版，逐行注释）</h4>
+class MambaBlock(nn.Module):
+    &quot;&quot;&quot;Mamba 选择性状态空间模型块&quot;&quot;&quot;
 
-<p><pre class="code-block"><code class="language-python">import torch  # 导入 PyTorch 核心库
-import torch.nn as nn  # 导入神经网络模块
-import torch.nn.functional as F  # 导入函数式接口
-import math  # 导入数学库
-from einops import repeat  # 导入 einops 的 repeat 函数，用于张量重复
-
-# ============================================================
-# Mamba block 简化实现
-# ============================================================
-class MambaBlock(nn.Module):  # 定义 Mamba 基本模块
-    &quot;&quot;&quot;Mamba 状态空间模型的核心 Block，简化版实现&quot;&quot;&quot;
-    
-    def __init__(self, d_model=256, d_state=16, d_conv=4, expand=2, dt_rank=&quot;auto&quot;):
-        super().__init__()  # 调用父类初始化
-        self.d_model = d_model  # 模型维度
-        self.d_state = d_state  # SSM 隐藏状态维度 N
-        self.d_conv = d_conv  # 局部卷积核大小
-        self.expand = expand  # 内部扩展因子
-        self.d_inner = int(d_model * expand)  # 内部维度 = d_model × expand
-        
-        # dt_rank 自动计算
-        if dt_rank == &quot;auto&quot;:  # 如果 dt_rank 为 &quot;auto&quot;
-            self.dt_rank = max(1, math.ceil(d_model / 16))  # 自动计算：d_model/16 向上取整，至少为 1
-        else:
-            self.dt_rank = dt_rank  # 使用指定值
-        
-        # --- 输入投影 ---
-        # 将输入从 d_model 投影到 d_inner（2倍扩展），类似 Transformer 的 FFN
-        self.in_proj = nn.Linear(d_model, self.d_inner * 2, bias=False)  
-        # 注意：投影到 2×d_inner，一半给 SSM 分支，一半给门控分支
-        
-        # --- 局部卷积 ---
-        # 1D 因果卷积，提取局部模式（短距离依赖）
-        self.conv1d = nn.Conv1d(  # 一维卷积层
-            in_channels=self.d_inner,  # 输入通道数 = 内部维度
-            out_channels=self.d_inner,  # 输出通道数 = 内部维度
-            kernel_size=d_conv,  # 卷积核大小 = 4
-            groups=self.d_inner,  # 分组卷积（depthwise），每个通道独立卷积
-            padding=d_conv - 1,  # 因果卷积：左填充 kernel_size-1，确保只看过去信息
-        )
-        
-        # --- 选择性参数投影 ---
-        # x → dt（时间步长 Δ）
-        self.x_proj = nn.Linear(self.d_inner, self.dt_rank + d_state * 2, bias=False)
-        # 投影到 dt_rank + 2×d_state：dt_rank 给 Δ，d_state 给 B，d_state 给 C
-        
-        # dt → A, B（从低秩空间投影回高维）
-        self.dt_proj = nn.Linear(self.dt_rank, self.d_inner, bias=True)
-        # 将低秩 dt 投影回 d_inner 维度，用于生成 Δ
-        
-        # --- SSM 参数 A 的初始化 ---
-        # A 初始化为对角矩阵的负实部（HiPPO 矩阵），有助于记忆长程依赖
-        A = repeat(  # 使用 einops repeat
-            torch.arange(1, d_state + 1, dtype=torch.float32),  # 生成 1 到 N 的序列
-            &#x27;n -&gt; d n&#x27;,  # 将 1D 张量扩展为 2D：(d_inner, d_state)
-            d=self.d_inner,  # 第一维大小为 d_inner
-        )
-        A = -A.expand(self.d_inner, d_state).contiguous()  # 取负值，使 A 为负实部对角矩阵
-        self.A_log = nn.Parameter(torch.log(A))  # 存储为 log(A) 参数，训练时保证 A &lt; 0
-        
-        # D 参数（残差/跳跃连接）
-        self.D = nn.Parameter(torch.ones(self.d_inner))  # D 初始化为 1，残差缩放
-        
-        # --- 输出投影 ---
-        self.out_proj = nn.Linear(self.d_inner, d_model, bias=False)  # 从 d_inner 投影回 d_model
-    
-    def forward(self, x):
-        &quot;&quot;&quot;前向传播
-        x: (batch, seq_len, d_model)
-        return: (batch, seq_len, d_model)
+    def __init__(self, d_model, d_state=16, d_conv=4, expand=2):
         &quot;&quot;&quot;
-        batch, seq_len, _ = x.shape  # 解包输入形状
-        
-        # 1. 输入投影：d_model → 2×d_inner（分两路：SSM 分支 + 门控分支）
-        xz = self.in_proj(x)  # (batch, seq_len, 2×d_inner)
-        x_proj, z = xz.chunk(2, dim=-1)  # 沿最后一维分成两半
-        
-        # 2. 因果卷积：提取局部模式
-        x_proj = x_proj.transpose(1, 2)  # (batch, d_inner, seq_len) — Conv1d 需要 (B, C, L) 格式
-        x_proj = self.conv1d(x_proj)  # 一维因果卷积，核大小 4
-        x_proj = x_proj[:, :, :seq_len]  # 裁剪因 padding 导致的多余长度（因果卷积右端会有多余）
-        x_proj = x_proj.transpose(1, 2)  # (batch, seq_len, d_inner) — 转回原始格式
-        x_proj = F.silu(x_proj)  # SiLU 激活（Swish 函数：x * sigmoid(x)）
-        
-        # 3. 选择性参数生成：从输入动态计算 Δ, B, C
-        x_dbl = self.x_proj(x_proj)  # (batch, seq_len, dt_rank + 2×d_state)
-        dt, B, C = x_dbl.split(  # 按维度切分
-            [self.dt_rank, self.d_state, self.d_state], dim=-1  # 分别取出 Δ 的低秩表示、B、C
+        初始化 Mamba 块
+
+        参数:
+            d_model:  模型维度（输入和输出维度）
+            d_state:  SSM 隐藏状态维度 N
+            d_conv:   局部卷积核大小
+            expand:   内部维度扩展倍数
+        &quot;&quot;&quot;
+        super().__init__()
+        self.d_model = d_model                              # 保存模型维度
+        self.d_state = d_state                              # 保存 SSM 状态维度
+        self.d_conv = d_conv                                # 保存卷积核大小
+        self.d_inner = expand * d_model                    # 内部扩展维度 = expand × d_model
+
+        # 1. 输入投影：d_model → d_inner
+        self.in_proj = nn.Linear(d_model, self.d_inner * 2, bias=False)  # 投影到 2×d_inner（SSM分支 + 门控分支）
+
+        # 2. 局部卷积：捕获短距离依赖
+        self.conv1d = nn.Conv1d(
+            in_channels=self.d_inner,                      # 输入通道数 = d_inner
+            out_channels=self.d_inner,                     # 输出通道数 = d_inner
+            kernel_size=d_conv,                            # 卷积核大小
+            padding=d_conv - 1,                             # 因果卷积：只在左侧填充
+            groups=self.d_inner,                            # 深度可分离卷积（每通道独立卷积）
+            bias=True
         )
-        
-        # 4. Δ 生成（从低秩空间投影回高维）
-        dt = F.softplus(self.dt_proj(dt))  # 先线性投影回 d_inner，再 softplus 确保 Δ &gt; 0
-        
-        # 5. 获取 A 参数
-        A = -torch.exp(self.A_log)  # A = -exp(A_log)，确保 A &lt; 0（稳定状态衰减）
-        
-        # 6. 选择性扫描（简化版，实际使用 CUDA 并行 scan kernel）
-        # 这里用 Python 循环演示原理，实际部署用 mamba_ssm 的 selective_scan_fn
-        h = torch.zeros(batch, self.d_inner, self.d_state, device=x.device)  # 初始化隐藏状态
-        ys = []  # 存储每个时间步的输出
-        
-        for t in range(seq_len):  # 遍历序列每个时间步
-            # 离散化 A_bar = exp(Δ × A)，B_bar = Δ × B（ZOH 简化）
-            dt_t = dt[:, t, :]  # (batch, d_inner) — 当前时间步的 Δ
-            A_bar = torch.exp(dt_t.unsqueeze(-1) * A)  # (batch, d_inner, d_state) — 离散化 A
-            B_bar = dt_t.unsqueeze(-1) * B[:, t, :].unsqueeze(1)  # (batch, d_inner, d_state) — 离散化 B
-            
-            # 状态更新：h_t = A_bar × h_{t-1} + B_bar × x_t
-            h = A_bar * h + B_bar * x_proj[:, t, :].unsqueeze(-1)  # 状态递推更新
-            
-            # 输出：y_t = C_t × h_t + D × x_t
-            y_t = torch.sum(C[:, t, :].unsqueeze(1) * h, dim=-1)  # (batch, d_inner) — C 与 h 内积
-            y_t = y_t + self.D * x_proj[:, t, :]  # 加上残差连接
-            ys.append(y_t)  # 收集输出
-        
-        y = torch.stack(ys, dim=1)  # (batch, seq_len, d_inner) — 堆叠所有时间步输出
-        
-        # 7. 门控：y * silu(z)
-        y = y * F.silu(z)  # 门控分支 z 通过 SiLU 激活后与 SSM 输出逐元素相乘
-        
-        # 8. 输出投影：d_inner → d_model
-        output = self.out_proj(y)  # (batch, seq_len, d_model) — 投影回原始维度
-        return output  # 返回最终输出
 
-# ============================================================
+        # 3. x_proj：输入依赖的参数投影（选择性机制核心）
+        self.x_proj = nn.Linear(
+            self.d_inner,                                   # 输入维度
+            d_state * 2 + self.d_inner,                      # 输出维度 = Δ(B) + C + Δ 投影
+            bias=False
+        )
+
+        # 4. dt_proj：Δ 的低秩投影
+        self.dt_rank = math.ceil(d_model / 16)              # Δ 低秩维度 = ceil(d_model / 16)
+        self.dt_proj = nn.Linear(self.d_inner, self.d_inner, bias=True)
+
+        # 5. SSM 参数 A（固定，不依赖输入）
+        A = torch.arange(1, d_state + 1, dtype=torch.float32).repeat(self.d_inner, 1)  # A 初始化为 1~N
+        self.A_log = nn.Parameter(torch.log(A))            # 存储为 log(A)，确保 A &gt; 0
+        self.D = nn.Parameter(torch.ones(self.d_inner))    # 跳跃连接参数 D
+
+        # 6. 输出投影：d_inner → d_model
+        self.out_proj = nn.Linear(self.d_inner, d_model, bias=False)
+
+    def forward(self, x):
+        &quot;&quot;&quot;
+        前向传播
+
+        参数:
+            x: 输入张量，形状 (batch, seq_len, d_model)
+        返回:
+            输出张量，形状 (batch, seq_len, d_model)
+        &quot;&quot;&quot;
+        batch, seq_len, _ = x.shape                         # 获取批量大小和序列长度
+
+        # 1. 输入投影 + 分支
+        xz = self.in_proj(x)                                # (batch, seq_len, 2×d_inner)
+        x, z = xz.chunk(2, dim=-1)                          # 分为 SSM 分支 x 和门控分支 z
+
+        # 2. 因果卷积 + SiLU 激活
+        x = x.transpose(1, 2)                               # (batch, d_inner, seq_len) 供 Conv1d 使用
+        x = self.conv1d(x)[:, :, :seq_len]                  # 因果卷积，截取前 seq_len 个位置
+        x = x.transpose(1, 2)                               # (batch, seq_len, d_inner)
+        x = F.silu(x)                                      # SiLU 激活: x * sigmoid(x)
+
+        # 3. 选择性投影：从 x 计算 Δ, B, C
+        x_dbl = self.x_proj(x)                              # (batch, seq_len, d_state*2 + d_inner)
+        dt, B, C = torch.split(                             # 分割投影结果
+            x_dbl,
+            [self.d_inner, self.d_state, self.d_state],     # 三部分：Δ 投影、B、C
+            dim=-1
+        )
+        dt = F.softplus(self.dt_proj(dt))                   # Δ 投影 + softplus 确保 Δ &gt; 0
+
+        # 4. 选择性扫描（SSM 核心计算）
+        A = -torch.exp(self.A_log)                          # 从 log(A) 恢复 A，取负确保衰减（稳定性）
+        dA = torch.exp(dt.unsqueeze(-1) * A)               # 离散化: Ā = exp(Δ·A)，形状 (batch, seq_len, d_inner, d_state)
+        dB = dt.unsqueeze(-1) * B.unsqueeze(2)             # 离散化: B̄ = Δ·B，形状 (batch, seq_len, d_inner, d_state)
+
+        # 逐步扫描（实际实现用并行扫描优化）
+        h = torch.zeros(batch, self.d_inner, self.d_state, device=x.device)  # 初始化隐藏状态为 0
+        ys = []
+        for t in range(seq_len):                            # 逐时间步计算
+            h = dA[:, t] * h + dB[:, t] * x[:, t].unsqueeze(-1)  # 状态更新: h_t = Ā·h_{t-1} + B̄·x_t
+            y_t = torch.einsum(&#x27;bdn,bd-&gt;bn&#x27;, h, C[:, t])   # 输出: y_t = C_t · h_t
+            ys.append(y_t)
+        y = torch.stack(ys, dim=1)                          # (batch, seq_len, d_inner)
+
+        # 5. 跳跃连接
+        y = y + x * self.D.unsqueeze(0).unsqueeze(0)       # y = y + D * x（残差连接）
+
+        # 6. 门控分支：z · SiLU(z) 逐元素相乘
+        y = y * F.silu(z)                                   # 门控: SSM 输出 × SiLU(门控分支)
+
+        # 7. 输出投影
+        output = self.out_proj(y)                           # (batch, seq_len, d_model)
+        return output
+
+
 # 使用示例
-# ============================================================
-batch_size = 2  # 批次大小
-seq_len = 128  # 序列长度
-d_model = 256  # 模型维度
-
-mamba = MambaBlock(d_model=256, d_state=16, d_conv=4, expand=2)  # 实例化 Mamba block
-x = torch.randn(batch_size, seq_len, d_model)  # 随机输入
-output = mamba(x)  # 前向传播
-
-print(f&quot;输入形状: {x.shape}&quot;)  # (2, 128, 256)
-print(f&quot;输出形状: {output.shape}&quot;)  # (2, 128, 256) — 与输入形状相同
-print(f&quot;参数量: {sum(p.numel() for p in mamba.parameters()) / 1e6:.2f}M&quot;)  # 打印参数量（百万）</code></pre></p>
+model = MambaBlock(d_model=512, d_state=16, d_conv=4, expand=2)  # 创建 Mamba 块
+x = torch.randn(2, 100, 512)                                # 输入：batch=2, seq_len=100, d_model=512
+output = model(x)                                           # 前向传播
+print(f&quot;输入形状: {x.shape}&quot;)                                # (2, 100, 512)
+print(f&quot;输出形状: {output.shape}&quot;)                            # (2, 100, 512)</code></pre></p>
 
 <h4>复杂度分析</h4>
 
-<p>| 指标 | Mamba | Transformer |</p>
-<p>|------|-------|-------------|</p>
-<p>| 训练时间复杂度 | $ O(n \cdot d \cdot N) $ | $ O(n^2 \cdot d) $ |</p>
-<p>| 推理时间复杂度 | $ O(n \cdot d \cdot N) $ | $ O(n^2 \cdot d) $ |</p>
-<p>| 推理内存 | $ O(1) $（固定状态） | $ O(n) $（KV Cache） |</p>
-<p>| 长序列支持 | 100K+ token | 通常 ≤ 8K token |</p>
-
-<p>其中 $ n $ 为序列长度，$ d $ 为模型维度，$ N $ 为 SSM 状态维度。</p>
+<div class="table-wrapper"><table class="algo-table"><thead><tr><th>场景</th><th>时间复杂度</th><th>空间复杂度</th><th>说明</th></tr></thead><tbody><tr><td>训练（前向+反向）</td><td>$ O(n \cdot d \cdot N) $</td><td>$ O(n \cdot d \cdot N) $</td><td>$ n $ 序列长度，$ d $ 模型维度，$ N $ 状态维度</td></tr><tr><td>推理（逐 token）</td><td>$ O(d \cdot N) $</td><td>$ O(d \cdot N) $</td><td>每步仅需更新隐藏状态，与序列长度无关</td></tr><tr><td>对比 Transformer 训练</td><td>$ O(n^2 \cdot d) $</td><td>$ O(n^2 \cdot d) $</td><td>自注意力需要计算所有 token 对</td></tr><tr><td>对比 Transformer 推理</td><td>$ O(n \cdot d) $</td><td>$ O(n \cdot d) $</td><td>需要 KV Cache 存储历史</td></tr></tbody></table></div>
 
 <h4>应用场景</h4>
 
 <ul>
-<li>长文本生成与理解（如 100K+ token 的文档处理）</li>
-<li>语音识别与音频建模（超长时序信号）</li>
-<li>基因组序列分析（DNA 序列可达百万级碱基）</li>
-<li>时序预测（金融、气象、传感器数据）</li>
-<li>医学影像分析（高分辨率 3D 体积数据）</li>
-<li>大语言模型架构替代（如 Jamba、Mamba-2 等混合架构）</li>
+<li><strong>大语言模型</strong>：Mamba-2.8B、Jamba 等基于 SSM 的语言模型</li>
+<li><strong>长文本处理</strong>：超长文档摘要、全基因组序列分析（100K+ token）</li>
+<li><strong>语音识别</strong>：流式语音识别，Mamba 的 O(1) 推理特别适合实时场景</li>
+<li><strong>时序预测</strong>：金融时间序列、天气预测、传感器数据流</li>
+<li><strong>DNA/蛋白质序列建模</strong>：生物序列通常极长，Mamba 的线性复杂度优势显著</li>
+<li><strong>视频理解</strong>：视频帧序列的长时依赖建模</li>
 </ul>
 
 <h4>参考文档</h4>
 
 <ul>
 <li><a href="https://arxiv.org/abs/2312.00752" target="_blank" class="ref-link">Mamba: Linear-Time Sequence Modeling with Selective State Spaces (arXiv)</a></li>
-<li><a href="https://www.ibm.com/think/topics/mamba-model" target="_blank" class="ref-link">What is a Mamba model? - IBM</a></li>
-<li><a href="https://blog.csdn.net/m0_62102955/article/details/152311142" target="_blank" class="ref-link">Mamba 状态空间模型详解 - CSDN</a></li>
-<li><a href="https://cloud.baidu.com/article/5547759" target="_blank" class="ref-link">Mamba 架构在医学影像领域的深度应用 - 百度智能云</a></li>
-<li><a href="https://github.com/state-spaces/mamba" target="_blank" class="ref-link">mamba-ssm 官方 GitHub 仓库</a></li>
+<li><a href="https://github.com/state-spaces/mamba" target="_blank" class="ref-link">Mamba 官方 GitHub 仓库</a></li>
+<li><a href="https://arxiv.org/abs/2111.00396" target="_blank" class="ref-link">S4: Structured State Space Models (arXiv)</a></li>
+<li><a href="https://srush.github.io/annotated-mamba/" target="_blank" class="ref-link">The Annotated Mamba</a></li>
 </ul>
+
+<hr>
 
 <blockquote>
 <p>AI生成</p>
 </blockquote>
   </div>
   <div class="footer">
-    <p>由 TeleAgent · 每日算法推送 技能自动生成 | 2026-09-07 22:34</p>
+    <p>由 TeleAgent · 每日算法推送 技能自动生成 | 2026-09-07 22:48</p>
   </div>
 </div>
 </body>
