@@ -167,834 +167,845 @@ body {
 <p>ContentProducer: '001191110102MAD55U9H0F10002'</p>
 <p>ContentPropagator: '001191110102MAD55U9H0F10002'</p>
 <p>Label: '1'</p>
-<p>ProduceID: '4f5e9e0f-c1e8-43d2-b9cc-318216facc4f'</p>
-<p>PropagateID: '4f5e9e0f-c1e8-43d2-b9cc-318216facc4f'</p>
-<p>ReservedCode1: '0d54edca-0e6b-4d4a-ac6b-3a3de4639029'</p>
-<p>ReservedCode2: '0d54edca-0e6b-4d4a-ac6b-3a3de4639029'</p>
+<p>ProduceID: 'd7eb509d-434c-4040-93eb-5fd7bb6eaecf'</p>
+<p>PropagateID: 'd7eb509d-434c-4040-93eb-5fd7bb6eaecf'</p>
+<p>ReservedCode1: 'def8ab1b-ecb0-487b-8fdc-d096579bc772'</p>
+<p>ReservedCode2: 'def8ab1b-ecb0-487b-8fdc-d096579bc772'</p>
 <hr>
 
 <h2>每日算法讲解 · 2026-09-07</h2>
 
 <blockquote>
-<p>今日内容：1 个基础算法 + 2 个 AI/机器学习算法 | 逐参数详解</p>
+<p><strong>首轮学习</strong> | 今日内容：1 个基础算法 + 2 个 AI/机器学习算法</p>
+<p>深度要求：入门到进阶：完整讲解原理、参数、代码、应用场景</p>
+<p>进度：基础 0/60 | AI 0/99 | 累计推送 0 天</p>
 </blockquote>
 
 <hr>
 
-<h3>Trie 树（前缀树）</h3>
+<h3>快速选择</h3>
 
-<p><strong>类别</strong>：数据结构 | <strong>难度</strong>：中等</p>
+<p><strong>类别</strong>：查找算法 | <strong>难度</strong>：入门</p>
 
 <h4>原理</h4>
 
-<p>Trie（发音 "try"）是一种树形数据结构，专门用于高效存储和检索字符串数据集中的键。其核心思想是利用字符串的公共前缀来共享节点，从而减少存储空间并加速查找。</p>
+<p>快速选择（QuickSelect）是由 Tony Hoare 发明的选择算法，用于在未排序数组中查找第 k 小（或第 k 大）的元素。它是快速排序的变体，核心区别在于：快速排序需要递归处理分区后的两侧，而快速选择只需递归处理包含目标元素的那一侧。</p>
 
-<p>每个节点包含两部分：子节点映射（children，通常用字典或数组表示）和终止标记（is_end，标记此处是否为一个完整单词的结尾）。从根节点到某个节点的路径上的字符序列即为该节点代表的前缀。</p>
+<p>算法基于分治策略：每次选取一个基准元素（pivot），通过分区（partition）操作将数组分为"小于基准"和"大于基准"两部分，然后判断目标位置 k 落在哪个分区，只递归处理那个分区。这种"单边递归"的剪枝策略使得期望时间复杂度为 O(n)，优于排序后取值的 O(n log n)。</p>
 
-<p>对于 n 个长度为 L 的字符串，Trie 的插入和查找时间复杂度均为 O(L)，与数据规模 n 无关，这是相比哈希表的优势之一——Trie 支持前缀匹配查询（如自动补全），而哈希表无法做到。</p>
+<p>分区方案有两种主流实现：Lomuto 分区（选最右元素为 pivot，单指针扫描，实现简单但交换次数多）和 Hoare 分区（双指针从两端向中间扫描，交换次数少但实现稍复杂）。</p>
 
 <h4>核心要点</h4>
 
 <ul>
-<li>公共前缀共享：相同前缀的字符串复用路径，节省存储</li>
-<li>前缀匹配：天然支持"以 xxx 开头的所有字符串"查询</li>
-<li>字符集大小影响空间复杂度：每个节点的子指针数为字符集大小 Σ</li>
-<li>终止标记区分"前缀"与"完整词"</li>
-<li>可用于词典分词、自动补全、拼写检查、IP 路由表</li>
+<li>分治 + 剪枝：只递归包含目标 k 的一侧，不完整排序</li>
+<li>期望 O(n)：每次分区后平均排除一半元素，T(n) = T(n/2) + O(n) = O(n)</li>
+<li>最坏 O(n²)：当 pivot 选择不当（如已排序数组选首/尾元素）时退化为 O(n²)</li>
+<li>随机化 pivot 可将最坏情况概率降至极低，实践中几乎不会出现</li>
+<li>原地算法：空间复杂度 O(1)（不含递归栈），递归栈 O(log n) 期望</li>
+<li>两种分区方案：Lomuto（简单直观）和 Hoare（高效但边界处理复杂）</li>
 </ul>
 
 <h4>技术细节与参数详解</h4>
 
-<p>#### 数据结构定义</p>
+<p>#### partition 函数核心参数</p>
 
-<p>#### children：子节点映射</p>
+<p>#### pivot 选择策略</p>
+
 <ul>
-<li><strong>含义</strong>：存储当前节点的所有子节点，键为字符，值为子节点引用</li>
-<li><strong>类型</strong>：dict（Python）或 array（定长，按字符集大小分配）</li>
-<li><strong>默认值</strong>：空字典 <code class="inline-code">{}</code></li>
-<li><strong>取值范围</strong>：键为字符集中的任意字符，值为 TrieNode 实例</li>
-<li><strong>对结果的影响</strong>：使用 dict 可支持任意字符集且按需分配空间；使用 array 则查找 O(1) 但空间固定为 O(Σ)</li>
-<li><strong>推荐设置</strong>：通用场景用 dict；仅处理 a-z 时可用 26 元素数组加速</li>
+<li><strong>含义</strong>：选择哪个元素作为分区基准</li>
+<li><strong>类型</strong>：策略选择（固定位置 / 随机 / 三数取中）</li>
+<li><strong>默认值</strong>：最右元素 nums[right]（Lomuto）或最左元素 nums[left]（Hoare）</li>
+<li><strong>取值范围</strong>：数组中任意元素</li>
+<li><strong>对结果的影响</strong>：</li>
+<li>固定选首/尾元素：对已排序数组退化为 O(n²)</li>
+<li>随机选择：期望 O(n)，最坏概率极低</li>
+<li>三数取中（median-of-three）：取 left、mid、right 的中位数，稳定性好</li>
+<li><strong>推荐设置</strong>：面试中用随机化 pivot 最稳妥；竞赛中三数取中更高效</li>
 </ul>
 
-<p>#### is_end：终止标记</p>
+<p>#### left（左边界）</p>
+
 <ul>
-<li><strong>含义</strong>：标记从根到当前节点的路径是否构成一个完整单词</li>
-<li><strong>类型</strong>：bool</li>
-<li><strong>默认值</strong>：False</li>
-<li><strong>取值范围</strong>：True / False</li>
-<li><strong>对结果的影响</strong>：True 表示此处存储了一个完整词；False 表示仅是某个词的前缀中间节点</li>
-<li><strong>推荐设置</strong>：插入单词末尾节点设为 True；查找时必须检查此标记</li>
+<li><strong>含义</strong>：当前递归处理的子数组左端索引</li>
+<li><strong>类型</strong>：int</li>
+<li><strong>取值范围</strong>：0 到 len(nums)-1</li>
+<li><strong>对结果的影响</strong>：缩小搜索范围，每次递归更新为分区点的左/右侧</li>
 </ul>
 
-<p>#### word：存储完整单词（可选）</p>
+<p>#### right（右边界）</p>
+
 <ul>
-<li><strong>含义</strong>：在终止节点存储完整单词字符串，便于直接返回结果</li>
-<li><strong>类型</strong>：str 或 None</li>
-<li><strong>默认值</strong>：None</li>
-<li><strong>取值范围</strong>：任意字符串</li>
-<li><strong>对结果的影响</strong>：设为完整词可在查找命中时直接返回，无需回溯路径拼接</li>
-<li><strong>推荐设置</strong>：自动补全场景建议设置，减少拼接开销</li>
+<li><strong>含义</strong>：当前递归处理的子数组右端索引</li>
+<li><strong>类型</strong>：int</li>
+<li><strong>取值范围</strong>：0 到 len(nums)-1</li>
+<li><strong>对结果的影响</strong>：与 left 配合确定搜索范围</li>
 </ul>
 
-<p>#### insert(word) 方法参数</p>
+<p>#### k（目标位置）</p>
 
-<p>#### word：待插入的单词</p>
 <ul>
-<li><strong>含义</strong>：要加入 Trie 的字符串</li>
-<li><strong>类型</strong>：str</li>
-<li><strong>取值范围</strong>：任意非空字符串</li>
-<li><strong>对结果的影响</strong>：逐字符遍历，对每个字符在 children 中查找或创建子节点</li>
-<li><strong>注意</strong>：空字符串需特殊处理（直接标记根节点 is_end=True）</li>
+<li><strong>含义</strong>：要查找的第 k 小元素在排序后数组中的位置（0-indexed）</li>
+<li><strong>类型</strong>：int</li>
+<li><strong>取值范围</strong>：0 到 len(nums)-1</li>
+<li><strong>对结果的影响</strong>：决定分区后递归左侧还是右侧</li>
+<li>若 pivot_index == k：找到目标，返回 nums[pivot_index]</li>
+<li>若 k < pivot_index：递归左分区</li>
+<li>若 k > pivot_index：递归右分区</li>
 </ul>
 
-<p>#### search(word) 方法参数</p>
+<p>#### Lomuto 分区参数</p>
 
-<p>#### word：待查找的完整单词</p>
+<p>#### i（小元素边界指针）</p>
+
 <ul>
-<li><strong>含义</strong>：检查该单词是否存在于 Trie 中</li>
-<li><strong>返回值</strong>：bool，True 表示存在且 is_end=True</li>
-<li><strong>注意</strong>：与 startsWith 的区别——search 要求路径终点 is_end=True</li>
+<li><strong>含义</strong>：维护"小于 pivot 的元素区域"的右边界</li>
+<li><strong>类型</strong>：int</li>
+<li><strong>初始值</strong>：left - 1</li>
+<li><strong>对结果的影响</strong>：j 扫描过程中遇到小于 pivot 的元素时，i 先加 1 再交换 nums[i] 与 nums[j]</li>
+<li><strong>最终值</strong>：分区完成后 i+1 即为 pivot 的正确位置</li>
 </ul>
 
-<p>#### startsWith(prefix) 方法参数</p>
+<p>#### j（扫描指针）</p>
 
-<p>#### prefix：待查找的前缀</p>
 <ul>
-<li><strong>含义</strong>：检查 Trie 中是否存在以该前缀开头的任意单词</li>
-<li><strong>返回值</strong>：bool，True 表示存在</li>
-<li><strong>注意</strong>：不需要检查 is_end，只需确认前缀路径存在</li>
+<li><strong>含义</strong>：从 left 到 right-1 遍历子数组</li>
+<li><strong>类型</strong>：int</li>
+<li><strong>对结果的影响</strong>：逐个比较 nums[j] 与 pivot，小于则交换到左侧区域</li>
+</ul>
+
+<p>#### Hoare 分区参数</p>
+
+<p>#### 双指针 i / j</p>
+
+<ul>
+<li><strong>含义</strong>：i 从左向右找大于等于 pivot 的元素，j 从右向左找小于等于 pivot 的元素</li>
+<li><strong>对结果的影响</strong>：找到后交换，直到 i >= j，此时 j 为分区点</li>
+<li><strong>注意</strong>：Hoare 分区返回的 j 不一定是 pivot 的最终位置，但保证左侧 <= pivot、右侧 >= pivot</li>
 </ul>
 
 <h4>代码示例</h4>
 
-<p><pre class="code-block"><code class="language-python">class TrieNode:
-    &quot;&quot;&quot;Trie 树节点&quot;&quot;&quot;
-    def __init__(self):
-        self.children = {}      # 子节点映射：字符 -&gt; TrieNode
-        self.is_end = False      # 是否为完整单词的终止节点
-        self.word = None         # 存储完整单词（可选，便于直接返回）
+<p><pre class="code-block"><code class="language-python">import random
 
 
-class Trie:
-    &quot;&quot;&quot;前缀树（Trie）实现&quot;&quot;&quot;
-    def __init__(self):
-        self.root = TrieNode()  # 根节点，不存储任何字符
+def quickselect_lomuto(nums, left, right, k):
+    &quot;&quot;&quot;Lomuto 分区版快速选择：查找排序后第 k 位置（0-indexed）的元素&quot;&quot;&quot;
+    if left == right:                    # 递归终止：只剩一个元素
+        return nums[left]
 
-    def insert(self, word: str) -&gt; None:
-        &quot;&quot;&quot;插入单词：逐字符向下遍历，不存在则创建新节点&quot;&quot;&quot;
-        node = self.root
-        for char in word:                    # 遍历单词的每个字符
-            if char not in node.children:    # 字符不在子节点中
-                node.children[char] = TrieNode()  # 创建新节点
-            node = node.children[char]       # 移动到子节点
-        node.is_end = True                   # 标记单词结尾
-        node.word = word                     # 存储完整单词
+    # 随机选择 pivot 并交换到最右
+    pivot_idx = random.randint(left, right)  # 随机化避免最坏情况
+    nums[pivot_idx], nums[right] = nums[right], nums[pivot_idx]  # pivot 放到最右
 
-    def search(self, word: str) -&gt; bool:
-        &quot;&quot;&quot;精确查找：路径存在且终点 is_end=True&quot;&quot;&quot;
-        node = self._find_node(word)
-        return node is not None and node.is_end
+    # Lomuto 分区
+    pivot = nums[right]                  # 基准值
+    i = left - 1                         # 小元素边界，初始在 left 左侧
+    for j in range(left, right):         # 扫描 left 到 right-1
+        if nums[j] &lt;= pivot:             # 当前元素 &lt;= 基准
+            i += 1                       # 扩展小元素区域
+            nums[i], nums[j] = nums[j], nums[i]  # 交换到左侧
 
-    def starts_with(self, prefix: str) -&gt; bool:
-        &quot;&quot;&quot;前缀查找：路径存在即可，不要求 is_end&quot;&quot;&quot;
-        return self._find_node(prefix) is not None
+    # 将 pivot 放到正确位置
+    pi = i + 1                           # pivot 的最终位置
+    nums[pi], nums[right] = nums[right], nums[pi]
 
-    def _find_node(self, text: str) -&gt; TrieNode:
-        &quot;&quot;&quot;辅助方法：沿路径查找节点，返回终点节点或 None&quot;&quot;&quot;
-        node = self.root
-        for char in text:
-            if char not in node.children:    # 路径断裂
-                return None
-            node = node.children[char]
-        return node
+    # 判断 k 在哪个分区
+    if k == pi:                          # 找到目标
+        return nums[pi]
+    elif k &lt; pi:                         # k 在左分区
+        return quickselect_lomuto(nums, left, pi - 1, k)
+    else:                                # k 在右分区
+        return quickselect_lomuto(nums, pi + 1, right, k)
 
-    def autocomplete(self, prefix: str, limit: int = 10) -&gt; list:
-        &quot;&quot;&quot;自动补全：返回以 prefix 开头的所有单词（最多 limit 个）&quot;&quot;&quot;
-        node = self._find_node(prefix)
-        if node is None:
-            return []                        # 前缀不存在
-        results = []
-        self._dfs_collect(node, prefix, results, limit)
-        return results
 
-    def _dfs_collect(self, node, prefix, results, limit):
-        &quot;&quot;&quot;DFS 收集所有以当前节点为根的完整单词&quot;&quot;&quot;
-        if len(results) &gt;= limit:
-            return                           # 达到数量上限
-        if node.is_end:
-            results.append(node.word or prefix)  # 找到完整词
-        for char, child in node.children.items():
-            self._dfs_collect(child, prefix + char, results, limit)
+def quickselect_hoare(nums, left, right, k):
+    &quot;&quot;&quot;Hoare 分区版快速选择：双指针，交换次数更少&quot;&quot;&quot;
+    if left == right:                    # 递归终止
+        return nums[left]
 
-    def delete(self, word: str) -&gt; bool:
-        &quot;&quot;&quot;删除单词：需回溯清理无用的孤立节点&quot;&quot;&quot;
-        def _delete_helper(node, word, depth):
-            if depth == len(word):            # 到达单词末尾
-                if not node.is_end:
-                    return False               # 单词不存在
-                node.is_end = False            # 取消终止标记
-                node.word = None
-                return len(node.children) == 0  # 无子节点则可删除
-            char = word[depth]
-            if char not in node.children:
-                return False                   # 路径不存在
-            should_delete = _delete_helper(node.children[char], word, depth + 1)
-            if should_delete:
-                del node.children[char]       # 删除孤立子节点
-                return len(node.children) == 0 and not node.is_end
-            return False
-        return _delete_helper(self.root, word, 0)
+    pivot_idx = random.randint(left, right)  # 随机选 pivot
+    pivot = nums[pivot_idx]
+
+    # Hoare 分区：双指针从两端向中间扫描
+    i, j = left, right
+    while True:
+        while nums[i] &lt; pivot:           # 左指针找 &gt;= pivot 的
+            i += 1
+        while nums[j] &gt; pivot:           # 右指针找 &lt;= pivot 的
+            j -= 1
+        if i &gt;= j:                       # 指针相遇，分区完成
+            break
+        nums[i], nums[j] = nums[j], nums[i]  # 交换不符合位置的元素
+        i += 1                           # 继续扫描
+        j -= 1
+
+    # j 为分区点：左半 [left, j] &lt;= pivot，右半 [j+1, right] &gt;= pivot
+    if k &lt;= j:                           # k 在左分区
+        return quickselect_hoare(nums, left, j, k)
+    else:                                # k 在右分区
+        return quickselect_hoare(nums, j + 1, right, k)
+
+
+def find_kth_largest(nums, k):
+    &quot;&quot;&quot;查找数组中第 k 大的元素（LeetCode 215）
+    第 k 大 = 排序后第 (n-k) 位置（0-indexed）
+    &quot;&quot;&quot;
+    n = len(nums)
+    return quickselect_lomuto(nums, 0, n - 1, n - k)
 
 
 # 使用示例
-trie = Trie()
-words = [&quot;apple&quot;, &quot;app&quot;, &quot;application&quot;, &quot;apply&quot;, &quot;banana&quot;]
-for w in words:
-    trie.insert(w)                           # 逐个插入
+nums = [3, 2, 1, 5, 6, 4]
+print(find_kth_largest(nums, 2))         # 输出 5（第 2 大）
+# 原理：排序后 [1,2,3,4,5,6]，第 2 大 = 第 (6-2)=4 位置 = 5
 
-print(trie.search(&quot;app&quot;))                    # True（完整词存在）
-print(trie.search(&quot;appl&quot;))                   # False（&quot;appl&quot; 不是完整词）
-print(trie.starts_with(&quot;app&quot;))               # True（存在 app 前缀）
-print(trie.autocomplete(&quot;app&quot;, 5))           # [&#x27;app&#x27;, &#x27;apple&#x27;, &#x27;application&#x27;, &#x27;apply&#x27;]
-trie.delete(&quot;app&quot;)
-print(trie.search(&quot;app&quot;))                    # False（已删除）
-print(trie.search(&quot;apple&quot;))                  # True（apple 仍存在）</code></pre></p>
+nums2 = [3, 2, 3, 1, 2, 4, 5, 5, 6]
+print(find_kth_largest(nums2, 4))        # 输出 4（第 4 大）
+
+# 查找中位数
+nums3 = [7, 10, 4, 3, 20, 15]
+median_idx = len(nums3) // 2             # 中位数位置
+print(quickselect_lomuto(nums3, 0, len(nums3) - 1, median_idx))  # 输出 10（中位数）</code></pre></p>
 
 <h4>复杂度分析</h4>
 
 <ul>
-<li><strong>插入</strong>：O(L)，L 为单词长度。每个字符做一次字典查找/插入</li>
-<li><strong>查找（精确/前缀）</strong>：O(L)，沿路径遍历</li>
-<li><strong>自动补全</strong>：O(L + M)，L 为前缀长度，M 为匹配结果的总字符数</li>
-<li><strong>删除</strong>：O(L)，需回溯</li>
-<li><strong>空间</strong>：O(N × L)，N 为单词数，L 为平均长度；公共前缀可压缩</li>
+<li><strong>期望时间</strong>：O(n)，每次分区平均排除一半元素，T(n) = T(n/2) + O(n) = O(n)</li>
+<li><strong>最坏时间</strong>：O(n²)，当每次 pivot 都是最大/最小元素时（随机化后概率极低）</li>
+<li><strong>空间</strong>：O(1) 原地操作，递归栈 O(log n) 期望、O(n) 最坏</li>
+<li><strong>对比排序</strong>：排序后取值 O(n log n)，快速选择更高效</li>
 </ul>
 
 <h4>应用场景</h4>
 
 <ul>
-<li>搜索引擎自动补全（输入"算法"提示"算法导论""算法与数据结构"）</li>
-<li>拼写检查与纠错（Levenshtein 距离 + Trie 剪枝）</li>
-<li>中文分词（前缀词典匹配，如 jieba 分词的前缀扫描）</li>
-<li>IP 路由表最长前缀匹配</li>
-<li>DNS 解析中的域名查找</li>
+<li>Top K 问题：查找数组中第 K 大/小的元素（LeetCode 215）</li>
+<li>中位数查找：无需排序即可 O(n) 找到中位数</li>
+<li>百分位数计算：大规模数据的 P50/P95/P99 统计</li>
+<li>数据流中的顺序统计（配合蓄水池抽样）</li>
+<li>快速分区后的近似排序（部分排序只需 O(n + k log k)）</li>
 </ul>
 
 <h4>参考文档</h4>
 
 <ul>
-<li>[如何在Python中实现前缀树Trie结构](https://www.php.cn/faq/2544861.html)</li>
-<li>[如何在Python中实现一个高性能的Trie树](https://www.php.cn/faq/2591561.html)</li>
+<li>[快速选择算法 (QuickSelect) 详解笔记](https://blog.csdn.net/m0_74191152/article/details/155023866)</li>
+<li>[分治思想：Lomuto Partition 与 Hoare Partition 以及快速选择](https://blog.csdn.net/2201_75760797/article/details/159287251)</li>
+<li>[LeetCode 215 数组中的第K个最大元素 Python 快速选择详解](https://cloud.tencent.com/developer/article/2519255)</li>
 </ul>
 
 <hr>
 
-<h3>LoRA 低秩微调</h3>
+<h3>交叉熵损失</h3>
 
-<p><strong>类别</strong>：大模型微调 | <strong>难度</strong>：困难</p>
+<p><strong>类别</strong>：损失函数 | <strong>难度</strong>：入门</p>
 
 <h4>原理</h4>
 
-<p>LoRA（Low-Rank Adaptation）是一种参数高效微调方法，其核心假设是：大模型在微调过程中权重的变化矩阵 ΔW 具有低秩特性，可以用两个小矩阵的乘积来近似。</p>
+<p>交叉熵损失（Cross-Entropy Loss）是深度学习中最常用的分类任务损失函数。它衡量模型输出的概率分布与真实标签分布之间的差异：当预测概率接近真实标签时损失趋近于 0，远离时损失趋向无穷大。</p>
 
-<p>具体来说，原始权重矩阵 W（维度 d×k）保持冻结不训练，在其旁边新增两个低秩矩阵 A（维度 r×k）和 B（维度 d×r），使得 ΔW = B×A。前向传播变为：output = W·x + B·A·x。训练时只更新 A 和 B 的参数，参数量从 d×k 降低到 r×(d+k)，通常仅为原模型的 0.1%-1%。</p>
+<p>数学上，对于单样本多分类问题，交叉熵损失公式为：L = -Σ y_c · log(p_c)，其中 y_c 是 one-hot 编码的真实标签（只有目标类为 1，其余为 0），p_c 是模型对类别 c 的预测概率（由 softmax 将 logits 转换得到）。</p>
 
-<p>训练完成后，可将 B×A 与 W 融合（W' = W + B×A），推理时无额外计算开销。这使得 LoRA 成为目前大模型微调的主流方案。</p>
+<p>PyTorch 的 <code class="inline-code">nn.CrossEntropyLoss</code> 内部组合了 <code class="inline-code">LogSoftmax</code> 和 <code class="inline-code">NLLLoss</code>：先对 logits 做 softmax 得到概率，再取对数，最后与真实标签做负对数似然。这意味着使用者无需在模型最后一层手动添加 softmax，直接传入原始 logits 即可。</p>
 
 <h4>核心要点</h4>
 
 <ul>
-<li>低秩假设：微调权重变化 ΔW 可用低秩矩阵近似</li>
-<li>冻结原始权重：仅训练 A、B 两个小矩阵</li>
-<li>参数量极低：通常为原模型 0.1%-1%</li>
-<li>推理零开销：训练后可将 B×A 融合到 W 中</li>
-<li>QLoRA 扩展：结合 4-bit 量化进一步降低显存</li>
+<li>结合 LogSoftmax + NLLLoss：直接接收 logits，不需手动 softmax</li>
+<li>多分类标准损失：适用于类别数 >= 2 的分类任务</li>
+<li>梯度特性良好：softmax + 交叉熵的梯度为 (p - y)，简单且数值稳定</li>
+<li>类别不平衡处理：通过 weight 参数给少数类更高权重</li>
+<li>标签平滑：label_smoothing 参数防止模型过度自信，提升泛化</li>
+<li>ignore_index：可忽略 padding 等无需计算损失的样本</li>
 </ul>
 
 <h4>技术细节与参数详解</h4>
 
-<p>#### LoraConfig 核心参数（基于 PEFT 库）</p>
+<p>#### nn.CrossEntropyLoss 核心参数</p>
 
-<p>#### r（秩，rank）</p>
+<p>#### weight（类别权重）</p>
+
 <ul>
-<li><strong>含义</strong>：低秩矩阵 A 和 B 的中间维度，决定了 ΔW 的表达能力上限</li>
-<li><strong>类型</strong>：int</li>
-<li><strong>默认值</strong>：8（PEFT 库默认）</li>
-<li><strong>取值范围</strong>：通常 4-256</li>
-<li><strong>对结果的影响</strong>：r 越大，可表达的变化越复杂，模型能力越强，但参数量和训练开销增加</li>
-<li><strong>推荐设置</strong>：</li>
-<li>简单风格适配：r=8 或 16</li>
-<li>知识注入/复杂任务：r=32 或 64</li>
-<li>r 过小（1-2）→ 表达能力不足，效果差</li>
-<li>r 过大（>64）→ 逼近全量微调，丧失轻量化优势</li>
+<li><strong>含义</strong>：为每个类别设置不同的损失权重，用于处理类别不平衡</li>
+<li><strong>类型</strong>：Tensor，形状为 (C,)，C 为类别数</li>
+<li><strong>默认值</strong>：None（所有类别权重为 1）</li>
+<li><strong>取值范围</strong>：正实数，通常少数类给较大值（如 2-10），多数类给 1</li>
+<li><strong>对结果的影响</strong>：损失公式变为 L = -Σ w_c · y_c · log(p_c)，少数类的损失被放大</li>
+<li><strong>推荐设置</strong>：类别比例 1:5 时设 weight=[1, 5]；也可用逆频率 weight = N / (C * N_c)</li>
 </ul>
 
-<p>#### lora_alpha（缩放系数）</p>
+<p>#### ignore_index（忽略索引）</p>
+
 <ul>
-<li><strong>含义</strong>：控制 LoRA 贡献的缩放因子，实际缩放比例为 alpha/r</li>
+<li><strong>含义</strong>：指定一个目标值，该值不参与损失计算（常用于 padding）</li>
 <li><strong>类型</strong>：int</li>
-<li><strong>默认值</strong>：8（通常设为 r 的 1-2 倍）</li>
-<li><strong>取值范围</strong>：通常与 r 相近或为其 2 倍</li>
-<li><strong>对结果的影响</strong>：output = W·x + (B·A)·x·(alpha/r)；alpha/r 越大，LoRA 对输出影响越大</li>
-<li><strong>推荐设置</strong>：alpha = 2×r（如 r=8 时 alpha=16），使缩放比例约为 2，保持与原始权重量级匹配</li>
-<li><strong>经验法则</strong>：固定 alpha/r = 2 时效果稳定；若 alpha/r = 1 则等效于不缩放</li>
+<li><strong>默认值</strong>：-100</li>
+<li><strong>取值范围</strong>：任意整数，通常设为 -100 或 -1</li>
+<li><strong>对结果的影响</strong>：target 中等于 ignore_index 的样本不会贡献损失和梯度</li>
+<li><strong>推荐设置</strong>：NLP 序列标注中 padding 标签设为 -100；普通分类任务保持默认</li>
 </ul>
 
-<p>#### target_modules（目标模块）</p>
+<p>#### reduction（归约模式）</p>
+
 <ul>
-<li><strong>含义</strong>：指定 LoRA 应用到模型的哪些层/模块</li>
-<li><strong>类型</strong>：list[str] 或 str</li>
-<li><strong>默认值</strong>：["q_proj", "v_proj"]（注意力层的 Q 和 V 投影）</li>
-<li><strong>可选值</strong>：q_proj, k_proj, v_proj, o_proj, gate_proj, down_proj, up_proj, embed_tokens, lm_head 等</li>
+<li><strong>含义</strong>：控制如何对 batch 中各样本的损失进行汇总</li>
+<li><strong>类型</strong>：str</li>
+<li><strong>默认值</strong>："mean"</li>
+<li><strong>可选值</strong>：</li>
+<li>"none"：不归约，返回每个样本的损失（形状 (N,)）</li>
+<li>"mean"：返回所有样本损失的平均值（标量）</li>
+<li>"sum"：返回所有样本损失的总和（标量）</li>
 <li><strong>对结果的影响</strong>：</li>
-<li>仅 q_proj, v_proj：参数最少，适合风格调整、轻量适配</li>
-<li>扩展到 k_proj, o_proj：更多注意力层参与，效果提升</li>
-<li>扩展到 FFN 层（gate_proj, down_proj, up_proj）：适合知识注入</li>
-<li>全部层（all-linear）：最强但参数最多</li>
-<li><strong>推荐设置</strong>：从 q_proj+v_proj 开始尝试；效果不足时逐步扩展</li>
+<li>"mean"：最常用，损失值与 batch 无关，便于比较</li>
+<li>"sum"：损失随 batch 大小变化，需手动调整学习率</li>
+<li>"none"：用于自定义损失处理，如 focal loss 手动加权</li>
+<li><strong>推荐设置</strong>：绝大多数场景用 "mean"</li>
 </ul>
 
-<p>#### lora_dropout（Dropout 比率）</p>
+<p>#### label_smoothing（标签平滑系数）</p>
+
 <ul>
-<li><strong>含义</strong>：LoRA 层的 Dropout 比率，训练时随机置零激活值</li>
+<li><strong>含义</strong>：将 one-hot 标签软化为 [ε/C, ..., 1-ε+ε/C, ..., ε/C]，防止过度自信</li>
 <li><strong>类型</strong>：float</li>
 <li><strong>默认值</strong>：0.0（不启用）</li>
-<li><strong>取值范围</strong>：0.0-0.5</li>
-<li><strong>对结果的影响</strong>：防止过拟合，数据量小时效果显著；过高会阻碍学习</li>
+<li><strong>取值范围</strong>：0.0 到 1.0</li>
+<li><strong>对结果的影响</strong>：</li>
+<li>0.0：标准 one-hot，模型倾向过度自信</li>
+<li>0.1：标签变为 [0.1/C, ..., 0.9+0.1/C, ..., 0.1/C]，提升泛化</li>
+<li>过大（>0.3）：模型欠拟合，预测趋于均匀分布</li>
 <li><strong>推荐设置</strong>：</li>
-<li>数据量大（>10万条）：0.0（不启用）</li>
-<li>数据量中等：0.05-0.1</li>
-<li>数据量小（<1万条）：0.1-0.2</li>
-<li>超过 0.3 通常有害</li>
+<li>大数据集（>100K）：0.0 或 0.05</li>
+<li>小数据集（<10K）：0.1</li>
+<li>知识蒸馏中常用 0.1</li>
+<li><strong>公式</strong>：smoothed_label = (1-ε) * one_hot + ε / C</li>
 </ul>
 
-<p>#### bias（偏置训练策略）</p>
-<ul>
-<li><strong>含义</strong>：控制是否训练偏置参数</li>
-<li><strong>类型</strong>：str</li>
-<li><strong>默认值</strong>："none"</li>
-<li><strong>可选值</strong>：none / lora_only / all</li>
-<li><strong>对结果的影响</strong>：</li>
-<li>none：不训练任何 bias，保持原始值，能力集中到 LoRA 矩阵</li>
-<li>lora_only：仅训练 LoRA 层的 bias</li>
-<li>all：训练所有 bias</li>
-<li><strong>推荐设置</strong>：大多数场景用 none；若模型无法收敛可尝试 all</li>
-</ul>
+<p>#### size_average（已废弃）</p>
 
-<p>#### task_type（任务类型）</p>
 <ul>
-<li><strong>含义</strong>：指定微调任务的类型，影响 LoRA 的应用方式</li>
-<li><strong>类型</strong>：str</li>
-<li><strong>默认值</strong>：None（自动推断）</li>
-<li><strong>可选值</strong>：CAUSAL_LM / SEQ_2_SEQ_LM / TOKEN_CLS / SEQ_CLS / FEATURE_EXTRACTION 等</li>
-<li><strong>对结果的影响</strong>：不同任务类型影响模型输出的处理方式和损失计算</li>
-<li><strong>推荐设置</strong>：对话/生成任务用 CAUSAL_LM；分类用 TOKEN_CLS</li>
-</ul>
-
-<p>#### fan_in_fan_out</p>
-<ul>
-<li><strong>含义</strong>：权重矩阵是否为 fan-in/fan-out 格式（GPT-2 风格）</li>
+<li><strong>含义</strong>：旧版参数，控制是否对 batch 取平均</li>
 <li><strong>类型</strong>：bool</li>
-<li><strong>默认值</strong>：False</li>
-<li><strong>对结果的影响</strong>：True 时需要对权重做转置处理</li>
-<li><strong>推荐设置</strong>：使用 GPT-2 系列模型时设为 True，其他通常 False</li>
-</ul>
-
-<p>#### modules_to_save</p>
-<ul>
-<li><strong>含义</strong>：指定除了 LoRA 层之外需要完整训练并保存的模块</li>
-<li><strong>类型</strong>：list[str]</li>
 <li><strong>默认值</strong>：None</li>
-<li><strong>对结果的影响</strong>：列出的模块将以全量微调方式训练，参数量增加</li>
-<li><strong>推荐设置</strong>：如需微调分类头，设为 ["classifier", "score"]</li>
+<li><strong>对结果的影响</strong>：已被 reduction 替代，新代码不应使用</li>
+<li><strong>推荐设置</strong>：使用 reduction 代替</li>
 </ul>
 
-<p>#### 训练超参数</p>
+<p>#### reduce（已废弃）</p>
 
-<p>#### learning_rate（学习率）</p>
 <ul>
-<li><strong>含义</strong>：LoRA 参数的优化学习率</li>
-<li><strong>类型</strong>：float</li>
-<li><strong>默认值</strong>：1e-4 ~ 3e-4</li>
-<li><strong>推荐设置</strong>：LoRA 学习率通常比全参数微调高 10 倍（全量微调约 1e-5 ~ 5e-5）</li>
-<li><strong>经验</strong>：loss 不下降 → 检查学习率是否太低；loss 震荡 → 学习率过高</li>
+<li><strong>含义</strong>：旧版参数，控制是否归约</li>
+<li><strong>类型</strong>：bool</li>
+<li><strong>默认值</strong>：None</li>
+<li><strong>对结果的影响</strong>：已被 reduction 替代</li>
+<li><strong>推荐设置</strong>：使用 reduction 代替</li>
 </ul>
 
-<p>#### warmup_ratio / warmup_steps</p>
+<p>#### 输入形状要求</p>
+
+<p>#### input（logits）</p>
+
 <ul>
-<li><strong>含义</strong>：训练初期的学习率预热步数占比</li>
-<li><strong>类型</strong>：float（比例）或 int（步数）</li>
-<li><strong>默认值</strong>：0.03（3%）</li>
-<li><strong>推荐设置</strong>：至少 3%-5% 预热，避免初期不稳定</li>
+<li><strong>含义</strong>：模型输出（未经 softmax 的原始值）</li>
+<li><strong>类型</strong>：Tensor，形状为 (N, C) 或 (N, C, d1, d2, ...)</li>
+<li><strong>要求</strong>：不需要手动 softmax，函数内部自动处理</li>
+<li><strong>C</strong>：类别数</li>
 </ul>
 
-<p>#### QLoRA 特有参数</p>
-
-<p>#### quantization_config</p>
-<ul>
-<li><strong>含义</strong>：量化配置</li>
-<li><strong>类型</strong>：dict</li>
-<li><strong>关键参数</strong>：</li>
-<li><code class="inline-code">load_in_4bit</code>：True 启用 4-bit 量化</li>
-<li><code class="inline-code">bnb_4bit_quant_type</code>："nf4"（推荐，专为正态分布设计）或 "fp4"</li>
-<li><code class="inline-code">bnb_4bit_use_double_quant</code>：True 启用双重量化，进一步压缩</li>
-<li><code class="inline-code">bnb_4bit_compute_dtype</code>：计算精度，推荐 torch.bfloat16</li>
-</ul>
-
-<h4>代码示例</h4>
-
-<p><pre class="code-block"><code class="language-python">from peft import LoraConfig, get_peft_model, TaskType
-from transformers import AutoModelForCausalLM, TrainingArguments, Trainer
-import torch
-
-# 1. 加载预训练模型
-model = AutoModelForCausalLM.from_pretrained(
-    &quot;meta-llama/Llama-2-7b-hf&quot;,
-    torch_dtype=torch.float16,          # 半精度加载
-    device_map=&quot;auto&quot;,                   # 自动分配 GPU
-)
-
-# 2. 配置 LoRA 参数
-lora_config = LoraConfig(
-    r=16,                                # 秩：低秩矩阵维度，推荐 8-64
-    lora_alpha=32,                       # 缩放系数：通常为 r 的 2 倍
-    lora_dropout=0.1,                    # Dropout：防止过拟合，数据小时设 0.1
-    bias=&quot;none&quot;,                         # 不训练 bias，能力集中到 LoRA 矩阵
-    task_type=TaskType.CAUSAL_LM,        # 因果语言模型（生成任务）
-    target_modules=[&quot;q_proj&quot;, &quot;v_proj&quot;, &quot;k_proj&quot;, &quot;o_proj&quot;],  # 注意力层全覆盖
-)
-
-# 3. 将 LoRA 应用到模型
-model = get_peft_model(model, lora_config)
-model.print_trainable_parameters()
-# 输出示例: trainable params: 13,631,488 || all params: 6,751,064,064 || trainable%: 0.20%
-
-# 4. 训练参数
-training_args = TrainingArguments(
-    output_dir=&quot;./lora-output&quot;,
-    num_train_epochs=3,                  # 训练轮数
-    per_device_train_batch_size=4,       # 每设备 batch 大小
-    gradient_accumulation_steps=4,       # 梯度累积步数（等效 batch=16）
-    learning_rate=2e-4,                  # LoRA 学习率（比全量微调高 10 倍）
-    warmup_ratio=0.05,                   # 5% 预热步数
-    lr_scheduler_type=&quot;cosine&quot;,         # 余弦退火调度器
-    fp16=True,                           # 混合精度训练
-    logging_steps=10,                    # 每 10 步记录日志
-    save_strategy=&quot;epoch&quot;,               # 每个 epoch 保存检查点
-)
-
-# 5. 训练
-trainer = Trainer(
-    model=model,
-    args=training_args,
-    train_dataset=train_dataset,        # 训练数据集
-)
-trainer.train()
-
-# 6. 保存 LoRA 权重（仅保存增量参数，体积很小）
-model.save_pretrained(&quot;./lora-output&quot;)
-
-# 7. 推理时加载
-from peft import PeftModel
-base_model = AutoModelForCausalLM.from_pretrained(&quot;meta-llama/Llama-2-7b-hf&quot;, torch_dtype=torch.float16)
-model = PeftModel.from_pretrained(base_model, &quot;./lora-output&quot;)  # 加载 LoRA 权重
-# 可选：将 LoRA 权重融合到基础模型中，推理零开销
-model = model.merge_and_unload()</code></pre></p>
-
-<h4>复杂度分析</h4>
+<p>#### target（目标标签）</p>
 
 <ul>
-<li><strong>训练参数量</strong>：O(r × (d + k))，相比全量微调 O(d × k) 降低约 r/min(d,k) 倍</li>
-<li><strong>显存占用</strong>：标准 LoRA 降低约 80%；QLoRA（4-bit）可降低 90%+</li>
-<li><strong>训练速度</strong>：与全量微调相当（前向计算量几乎不变，反向传播只更新小矩阵）</li>
-<li><strong>推理开销</strong>：训练后融合为零额外开销</li>
-</ul>
-
-<h4>应用场景</h4>
-
-<ul>
-<li>在单张消费级 GPU（如 RTX 3090/4090）上微调 7B-13B 大模型</li>
-<li>多任务适配：为不同任务训练不同 LoRA 权重，共享同一基础模型</li>
-<li>个性化对话助手：针对不同用户风格微调</li>
-<li>知识注入：将领域知识注入到通用大模型</li>
-</ul>
-
-<h4>参考文档</h4>
-
-<ul>
-<li>[LoRA 参数调得好，模型效果差不了——微调核心超参数完整指南](https://bbs.huaweicloud.com/blogs/473881)</li>
-<li>[LoRA 有哪些关键训练参数？如 r、alpha、dropout 等如何设置？](https://ask.csdn.net/questions/9288011)</li>
-</ul>
-
-<hr>
-
-<h3>PPO 人类反馈强化学习（RLHF）</h3>
-
-<p><strong>类别</strong>：大模型对齐 | <strong>难度</strong>：困难</p>
-
-<h4>原理</h4>
-
-<p>PPO（Proximal Policy Optimization）是 RLHF（Reinforcement Learning from Human Feedback）流程中最核心的强化学习算法，用于将大语言模型的输出与人类偏好对齐。</p>
-
-<p>RLHF 完整流程分三步：</p>
-<p>1. <strong>SFT（监督微调）</strong>：用高质量指令数据微调预训练模型，得到初始策略模型</p>
-<p>2. <strong>Reward Model（奖励模型）</strong>：用人类偏好数据训练打分模型，学习"什么是好回答"</p>
-<p>3. <strong>PPO 强化学习</strong>：用奖励模型的分数作为信号，通过强化学习优化语言模型</p>
-
-<p>PPO 训练涉及四个模型协同工作：</p>
-<ul>
-<li><strong>Actor（演员）</strong>：要优化的语言模型，生成回答，参数更新</li>
-<li><strong>Critic（评论家）</strong>：估计状态价值 V(s)，辅助计算优势函数，参数更新</li>
-<li><strong>Reference（参考模型）</strong>：冻结的 SFT 模型，计算 KL 散度防止偏离过远</li>
-<li><strong>Reward Model（奖励模型）</strong>：冻结的打分模型，提供奖励信号</li>
-</ul>
-
-<h4>核心要点</h4>
-
-<ul>
-<li>四模型架构：Actor + Critic + Reference + Reward，显存需求极大</li>
-<li>Clip 机制：限制策略更新幅度，防止训练崩溃</li>
-<li>KL 散度惩罚：约束 Actor 不偏离 Reference 模型太远</li>
-<li>GAE（广义优势估计）：平衡偏差与方差，稳定优势函数计算</li>
-<li>奖励黑客问题：模型可能找到骗奖励模型的捷径，KL 约束缓解此问题</li>
-</ul>
-
-<h4>技术细节与参数详解</h4>
-
-<p>#### PPO 核心超参数</p>
-
-<p>#### clip_ratio（裁剪比率，ε）</p>
-<ul>
-<li><strong>含义</strong>：限制新旧策略概率比率的范围，防止单次更新步子过大</li>
-<li><strong>类型</strong>：float</li>
-<li><strong>默认值</strong>：0.2</li>
-<li><strong>取值范围</strong>：0.1-0.3</li>
-<li><strong>对结果的影响</strong>：</li>
-<li>策略比率 ratio = π_new(a|s) / π_old(a|s)</li>
-<li>裁剪目标：min(ratio × A, clip(ratio, 1-ε, 1+ε) × A)</li>
-<li>ε 越小 → 更新越保守，训练稳定但收敛慢</li>
-<li>ε 越大 → 更新越激进，收敛快但可能不稳定</li>
-<li><strong>推荐设置</strong>：0.2 是经过大量验证的最佳默认值，RLHF 场景通常 0.1-0.2</li>
-</ul>
-
-<p>#### beta / kl_coef（KL 惩罚系数）</p>
-<ul>
-<li><strong>含义</strong>：控制 Actor 偏离 Reference 模型的惩罚强度</li>
-<li><strong>类型</strong>：float</li>
-<li><strong>默认值</strong>：0.1-0.5</li>
-<li><strong>取值范围</strong>：0.01-1.0</li>
-<li><strong>对结果的影响</strong>：</li>
-<li>β 大 → Actor 紧贴 Reference，安全但保守，创新性低</li>
-<li>β 小 → 允许大幅偏离，可能奖励黑客</li>
-<li>总目标：reward - β × KL(π_actor || π_ref)</li>
-<li><strong>推荐设置</strong>：从 0.1 开始；部分实现使用自适应 KL 系数（根据偏离程度动态调整）</li>
-</ul>
-
-<p>#### gamma（折扣因子，γ）</p>
-<ul>
-<li><strong>含义</strong>：未来奖励的折扣率，控制对长期收益的重视程度</li>
-<li><strong>类型</strong>：float</li>
-<li><strong>默认值</strong>：1.0（RLHF 中通常不折扣，因为生成任务总奖励在最后给出）</li>
-<li><strong>取值范围</strong>：0.9-1.0</li>
-<li><strong>对结果的影响</strong>：</li>
-<li>γ=1.0：完全重视未来奖励（无折扣）</li>
-<li>γ<1.0：更重视即时奖励，远期奖励被打折</li>
-<li><strong>推荐设置</strong>：RLHF 中通常设为 1.0，因为评价在回答结束后一次性给出</li>
-</ul>
-
-<p>#### lam（GAE 平滑系数，λ）</p>
-<ul>
-<li><strong>含义</strong>：广义优势估计（GAE）中的偏差-方差权衡参数</li>
-<li><strong>类型</strong>：float</li>
-<li><strong>默认值</strong>：0.95</li>
-<li><strong>取值范围</strong>：0.0-1.0</li>
-<li><strong>对结果的影响</strong>：</li>
-<li>λ=0：纯 TD 估计，偏差大、方差小</li>
-<li>λ=1：纯 Monte Carlo，偏差小、方差大</li>
-<li>λ=0.95：平衡偏差与方差的最佳折中</li>
-<li><strong>推荐设置</strong>：0.95 是通用最佳值</li>
-</ul>
-
-<p>#### ppo_epochs / ppo_steps（PPO 更新轮数）</p>
-<ul>
-<li><strong>含义</strong>：每批数据重复使用的次数（mini-batch 更新轮数）</li>
-<li><strong>类型</strong>：int</li>
-<li><strong>默认值</strong>：4</li>
-<li><strong>取值范围</strong>：2-10</li>
-<li><strong>对结果的影响</strong>：</li>
-<li>值越大：数据利用率越高，但旧数据分布偏离风险增大</li>
-<li>值太小：数据利用率低，收敛慢</li>
-<li><strong>推荐设置</strong>：RLHF 中通常 2-4，配合 clip 机制防止过度更新</li>
-</ul>
-
-<p>#### batch_size（批量大小）</p>
-<ul>
-<li><strong>含义</strong>：每次 PPO 更新使用的样本数</li>
-<li><strong>类型</strong>：int</li>
-<li><strong>默认值</strong>：64-512</li>
-<li><strong>对结果的影响</strong>：影响梯度估计的稳定性和显存占用</li>
-<li><strong>推荐设置</strong>：512-1024（RLHF 中通常较大以稳定训练）</li>
-</ul>
-
-<p>#### learning_rate（学习率）</p>
-<ul>
-<li><strong>含义</strong>：Actor 和 Critic 的优化学习率</li>
-<li><strong>类型</strong>：float</li>
-<li><strong>默认值</strong>：1e-5 ~ 5e-6</li>
-<li><strong>对结果的影响</strong>：过高导致训练不稳定；过低收敛太慢</li>
-<li><strong>推荐设置</strong>：Actor 学习率通常略高于 Critic；warmup 后逐步衰减</li>
-</ul>
-
-<p>#### value_loss_coef（价值损失系数）</p>
-<ul>
-<li><strong>含义</strong>：Critic 损失在总损失中的权重</li>
-<li><strong>类型</strong>：float</li>
-<li><strong>默认值</strong>：0.5</li>
-<li><strong>对结果的影响</strong>：控制 Critic 对训练的影响程度</li>
-<li><strong>推荐设置</strong>：0.5 为标准值</li>
-</ul>
-
-<p>#### entropy_coef（熵正则系数）</p>
-<ul>
-<li><strong>含义</strong>：鼓励策略多样性的正则化项</li>
-<li><strong>类型</strong>：float</li>
-<li><strong>默认值</strong>：0.0-0.01</li>
-<li><strong>对结果的影响</strong>：</li>
-<li>值越大 → 鼓励探索，防止策略过早收敛</li>
-<li>值为 0 → 纯利用，可能陷入局部最优</li>
-<li><strong>推荐设置</strong>：RLHF 中通常设为 0 或很小值（0.001）</li>
-</ul>
-
-<p>#### max_grad_norm（梯度裁剪）</p>
-<ul>
-<li><strong>含义</strong>：梯度的最大范数，防止梯度爆炸</li>
-<li><strong>类型</strong>：float</li>
-<li><strong>默认值</strong>：1.0</li>
-<li><strong>对结果的影响</strong>：裁剪超过此值的梯度，稳定训练</li>
-<li><strong>推荐设置</strong>：1.0 为通用标准值</li>
-</ul>
-
-<p>#### Critic 裁剪</p>
-<ul>
-<li><strong>含义</strong>：与 Actor 的 clip 类似，Critic 更新时也做截断</li>
-<li><strong>公式</strong>：取 max(clipped_loss, unclipped_loss)，保守更新</li>
-<li><strong>对结果的影响</strong>：防止 Critic 价值估计更新过猛</li>
-</ul>
-
-<p>#### 四模型参数详解</p>
-
-<p>##### Actor Model（演员模型 π_θ）</p>
-<ul>
-<li><strong>初始化</strong>：来自 SFT 后的模型</li>
-<li><strong>参数更新</strong>：是（通过 PPO 目标函数反向传播）</li>
-<li><strong>输入</strong>：prompt x</li>
-<li><strong>输出</strong>：自回归生成回答 y</li>
-<li><strong>优化目标</strong>：max [reward - β × KL(π_actor || π_ref)]</li>
-</ul>
-
-<p>##### Critic Model（评论家模型 V_φ）</p>
-<ul>
-<li><strong>初始化</strong>：与 Actor 结构相同，最后一层改为输出标量</li>
-<li><strong>参数更新</strong>：是（通过 MSE 损失）</li>
-<li><strong>输入</strong>：已生成部分 (x, y≤t)</li>
-<li><strong>输出</strong>：标量 V(s_t)，估计未来预期奖励</li>
-<li><strong>损失函数</strong>：MSE(V_pred, V_target)，V_target 来自 GAE</li>
-</ul>
-
-<p>##### Reference Model（参考模型 π_ref）</p>
-<ul>
-<li><strong>初始化</strong>：SFT 后的模型（与 Actor 初始相同）</li>
-<li><strong>参数更新</strong>：否（完全冻结）</li>
-<li><strong>作用</strong>：计算 KL 散度，防止 Actor 偏离太远</li>
-<li><strong>关键</strong>：不加约束 → 奖励黑客（Reward Hacking）</li>
-</ul>
-
-<p>##### Reward Model（奖励模型 r(x,y)）</p>
-<ul>
-<li><strong>初始化</strong>：预训练模型 + 线性头，训练后冻结</li>
-<li><strong>参数更新</strong>：否（PPO 阶段冻结）</li>
-<li><strong>输入</strong>：完整 (prompt, answer) 对</li>
-<li><strong>输出</strong>：标量奖励分数</li>
-<li><strong>训练损失</strong>：基于 Bradley-Terry 偏好模型的二分类交叉熵</li>
+<li><strong>含义</strong>：真实类别标签</li>
+<li><strong>类型</strong>：Tensor</li>
+<li><strong>形状</strong>：(N,) 或 (N, d1, d2, ...)，与 input 的非类别维度一致</li>
+<li><strong>取值范围</strong>：0 到 C-1 的整数（类别索引），或 ignore_index</li>
 </ul>
 
 <h4>代码示例</h4>
 
 <p><pre class="code-block"><code class="language-python">import torch
 import torch.nn as nn
-from transformers import AutoModelForCausalLM, AutoTokenizer
 
-class PPOTrainer:
-    &quot;&quot;&quot;PPO RLHF 训练器（简化版，展示核心逻辑）&quot;&quot;&quot;
+# ===== 1. 基本用法 =====
+# 3 个样本，5 个类别
+logits = torch.randn(3, 5)              # 模型输出（未经 softmax）
+targets = torch.tensor([1, 0, 4])       # 真实标签（类别索引）
 
-    def __init__(
-        self,
-        actor_model,              # Actor：要优化的语言模型
-        critic_model,             # Critic：价值估计模型
-        reference_model,          # Reference：冻结的参考模型
-        reward_model,             # Reward：冻结的奖励模型
-        tokenizer,
-        # PPO 超参数
-        clip_ratio=0.2,           # 裁剪比率 ε：限制策略更新幅度
-        kl_coef=0.1,              # KL 惩罚系数 β：控制偏离 Reference 的程度
-        gamma=1.0,                # 折扣因子 γ：RLHF 中通常为 1.0
-        lam=0.95,                 # GAE 平滑系数 λ：偏差-方差权衡
-        ppo_epochs=4,             # PPO 更新轮数：每批数据重复使用次数
-        batch_size=256,            # 批量大小
-        learning_rate=5e-6,       # 学习率：RLHF 中通常很小
-        value_loss_coef=0.5,      # 价值损失权重
-        entropy_coef=0.001,       # 熵正则系数：鼓励多样性
-        max_grad_norm=1.0,        # 梯度裁剪：防止梯度爆炸
-    ):
-        self.actor = actor_model
-        self.critic = critic_model
-        self.reference = reference_model
-        self.reward = reward_model
-        self.tokenizer = tokenizer
-        self.clip_ratio = clip_ratio
-        self.kl_coef = kl_coef
-        self.gamma = gamma
-        self.lam = lam
-        self.ppo_epochs = ppo_epochs
-        self.batch_size = batch_size
-        self.value_loss_coef = value_loss_coef
-        self.entropy_coef = entropy_coef
-        self.max_grad_norm = max_grad_norm
+# 标准交叉熵损失
+criterion = nn.CrossEntropyLoss()       # reduction 默认 &#x27;mean&#x27;
+loss = criterion(logits, targets)       # 计算损失
+print(f&quot;标准 CE Loss: {loss.item():.4f}&quot;)
 
-        # Actor 和 Critic 使用不同的优化器
-        self.actor_optimizer = torch.optim.Adam(
-            self.actor.parameters(), lr=learning_rate
-        )
-        self.critic_optimizer = torch.optim.Adam(
-            self.critic.parameters(), lr=learning_rate
-        )
+# ===== 2. 类别权重（处理不平衡）=====
+# 假设 5 个类别，类别 0 是少数类，给更高权重
+weights = torch.tensor([5.0, 1.0, 1.0, 1.0, 1.0])  # 类别 0 权重为 5
+criterion_weighted = nn.CrossEntropyLoss(weight=weights)
+loss_weighted = criterion_weighted(logits, targets)
+print(f&quot;加权 CE Loss: {loss_weighted.item():.4f}&quot;)
 
-    def compute_advantages(self, rewards, values):
-        &quot;&quot;&quot;使用 GAE（广义优势估计）计算优势函数
+# ===== 3. 标签平滑 =====
+criterion_smooth = nn.CrossEntropyLoss(label_smoothing=0.1)  # 平滑系数 0.1
+loss_smooth = criterion_smooth(logits, targets)
+print(f&quot;标签平滑 CE Loss: {loss_smooth.item():.4f}&quot;)
 
-        GAE 公式：A_t = Σ (γλ)^k × δ_{t+k}
-        其中 δ_t = r_t + γV(s_{t+1}) - V(s_t) 为 TD 误差
-        &quot;&quot;&quot;
-        advantages = []
-        gae = 0.0                                    # 累积 GAE 值
-        next_value = 0.0                             # 最后一步的未来价值为 0
+# ===== 4. 忽略 padding（NLP 场景）=====
+# 5 个样本，3 个类别，最后两个是 padding（label=-100）
+logits_nlp = torch.randn(5, 3)
+targets_nlp = torch.tensor([0, 2, 1, -100, -100])  # -100 被 ignore_index 忽略
+criterion_nlp = nn.CrossEntropyLoss(ignore_index=-100)
+loss_nlp = criterion_nlp_nlp = criterion_nlp(logits_nlp, targets_nlp)
+print(f&quot;忽略 padding CE Loss: {loss_nlp.item():.4f}&quot;)
 
-        for t in reversed(range(len(rewards))):
-            delta = rewards[t] + self.gamma * next_value - values[t]  # TD 误差
-            gae = delta + self.gamma * self.lam * gae  # GAE 递推
-            advantages.insert(0, gae)
-            next_value = values[t]
+# ===== 5. reduction=&#x27;none&#x27; 获取逐样本损失 =====
+criterion_none = nn.CrossEntropyLoss(reduction=&#x27;none&#x27;)
+losses_per_sample = criterion_none(logits, targets)  # 形状 (3,)
+print(f&quot;逐样本损失: {losses_per_sample.tolist()}&quot;)
 
-        advantages = torch.tensor(advantages)
-        advantages = (advantages - advantages.mean()) / (advantages.std() + 1e-8)  # 标准化
-        return advantages
+# ===== 6. 在训练循环中使用 =====
+model = nn.Linear(10, 5)                 # 假设 10 维输入，5 类输出
+optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
+criterion = nn.CrossEntropyLoss(label_smoothing=0.1)  # 带标签平滑
 
-    def compute_kl_penalty(self, prompts, responses):
-        &quot;&quot;&quot;计算 Actor 与 Reference 之间的 KL 散度
+for epoch in range(3):
+    x = torch.randn(32, 10)               # 32 个样本，10 维特征
+    y = torch.randint(0, 5, (32,))        # 随机标签 0-4
+    logits = model(x)                      # 前向传播（输出 logits）
+    loss = criterion(logits, y)            # 计算交叉熵损失
+    optimizer.zero_grad()                  # 清空梯度
+    loss.backward()                        # 反向传播
+    optimizer.step()                       # 更新参数
+    print(f&quot;Epoch {epoch}: loss={loss.item():.4f}&quot;)
 
-        KL(π_actor || π_ref) = Σ π_actor(x) × log(π_actor(x) / π_ref(x))
-        &quot;&quot;&quot;
-        with torch.no_grad():
-            ref_logits = self.reference(prompts + responses).logits  # Reference 模型 logits
-        actor_logits = self.actor(prompts + responses).logits          # Actor 模型 logits
+# ===== 7. 手动计算交叉熵（理解原理）=====
+def manual_cross_entropy(logits, target):
+    &quot;&quot;&quot;手动实现交叉熵，验证 nn.CrossEntropyLoss 的计算&quot;&quot;&quot;
+    probs = torch.softmax(logits, dim=-1)  # softmax 转概率
+    log_probs = torch.log(probs)            # 取对数
+    loss = -log_probs[target]               # 负对数似然
+    return loss
 
-        # 逐 token 的 KL 散度
-        log_ratio = torch.log_softmax(actor_logits, dim=-1) - \
-                    torch.log_softmax(ref_logits, dim=-1)
-        kl = (torch.softmax(actor_logits, dim=-1) * log_ratio).sum(dim=-1)
-        return kl.mean()
-
-    def ppo_step(self, prompts, responses, old_log_probs, advantages):
-        &quot;&quot;&quot;执行一步 PPO 更新&quot;&quot;&quot;
-        # Actor 前向传播
-        actor_logits = self.actor(prompts + responses).logits
-        new_log_probs = torch.log_softmax(actor_logits, dim=-1)
-
-        # 策略比率 ratio = π_new / π_old
-        ratio = torch.exp(new_log_probs - old_log_probs)
-
-        # PPO Clip 目标
-        surrogate1 = ratio * advantages
-        surrogate2 = torch.clamp(ratio, 1 - self.clip_ratio, 1 + self.clip_ratio) * advantages
-        actor_loss = -torch.min(surrogate1, surrogate2).mean()  # 取较小值（保守更新）
-
-        # Critic 更新
-        values = self.critic(prompts + responses).squeeze(-1)
-        critic_loss = ((values - advantages) ** 2).mean()       # MSE 损失
-        # Critic 也做 clip（取较大损失，保守更新）
-        clipped_values = old_values + torch.clamp(
-            values - old_values, -self.clip_ratio, self.clip_ratio
-        )
-        critic_loss = torch.max(
-            ((values - returns) ** 2),
-            ((clipped_values - returns) ** 2)
-        ).mean()
-
-        # 熵正则（鼓励探索）
-        entropy = -(torch.softmax(actor_logits, dim=-1) *
-                     torch.log_softmax(actor_logits, dim=-1)).sum(dim=-1).mean()
-
-        # 总损失
-        total_loss = actor_loss + self.value_loss_coef * critic_loss - self.entropy_coef * entropy
-
-        # 梯度裁剪 + 反向传播
-        self.actor_optimizer.zero_grad()
-        self.critic_optimizer.zero_grad()
-        total_loss.backward()
-        torch.nn.utils.clip_grad_norm_(self.actor.parameters(), self.max_grad_norm)
-        torch.nn.utils.clip_grad_norm_(self.critic.parameters(), self.max_grad_norm)
-        self.actor_optimizer.step()
-        self.critic_optimizer.step()
-
-        return {
-            &quot;actor_loss&quot;: actor_loss.item(),
-            &quot;critic_loss&quot;: critic_loss.item(),
-            &quot;entropy&quot;: entropy.item(),
-        }
-
-
-# 使用示例（伪代码）
-# from transformers import AutoModelForCausalLM
-# actor = AutoModelForCausalLM.from_pretrained(&quot;./sft_model&quot;)
-# critic = AutoModelForCausalLM.from_pretrained(&quot;./sft_model&quot;)
-# reference = AutoModelForCausalLM.from_pretrained(&quot;./sft_model&quot;)
-# reward = AutoModelForCausalLM.from_pretrained(&quot;./reward_model&quot;)
-# tokenizer = AutoTokenizer.from_pretrained(&quot;./sft_model&quot;)
-#
-# trainer = PPOTrainer(
-#     actor, critic, reference, reward, tokenizer,
-#     clip_ratio=0.2,    # 裁剪比率：限制更新幅度
-#     kl_coef=0.1,       # KL 系数：防止偏离 Reference
-#     lam=0.95,          # GAE 平滑系数
-#     ppo_epochs=4,      # 每批更新 4 轮
-# )
-# for batch in dataloader:
-#     trainer.ppo_step(batch[&quot;prompts&quot;], batch[&quot;responses&quot;], ...)</code></pre></p>
+# 对比
+logit = torch.tensor([2.0, 1.0, 0.1])
+target = 0
+manual = manual_cross_entropy(logit, target)
+pytorch = nn.CrossEntropyLoss()(logit.unsqueeze(0), torch.tensor([target]))
+print(f&quot;手动: {manual.item():.6f}, PyTorch: {pytorch.item():.6f}&quot;)
+# 两者应完全一致</code></pre></p>
 
 <h4>复杂度分析</h4>
 
 <ul>
-<li><strong>显存</strong>：4 个模型同时加载（Actor + Critic + Reference + Reward），显存需求约为单模型的 4 倍。7B 模型需约 4×14GB = 56GB（fp16），是 PPO 的最大痛点</li>
-<li><strong>训练时间</strong>：每步包含 4 个模型的前向 + 2 个模型反向传播，训练成本约为 SFT 的 3-5 倍</li>
-<li><strong>GRPO 优化</strong>：DeepSeek 提出的 GRPO 去掉 Critic 模型，用组内相对奖励替代，显存减少约 25%</li>
+<li><strong>计算复杂度</strong>：O(N·C)，N 为样本数，C 为类别数。softmax + log + NLL 各 O(C)</li>
+<li><strong>梯度复杂度</strong>：O(N·C)，梯度为 (p - y) / N，简洁且稳定</li>
+<li><strong>数值稳定性</strong>：内部使用 LogSoftmax 实现，避免直接计算 exp 大数溢出</li>
+<li><strong>内存</strong>：O(N·C) 用于存储 logits 和中间结果</li>
 </ul>
 
 <h4>应用场景</h4>
 
 <ul>
-<li>ChatGPT / GPT-4 对齐训练：通过 RLHF 使模型输出符合人类偏好</li>
-<li>安全性对齐：防止模型输出有害、有偏见或虚构内容</li>
-<li>代码生成优化：通过执行反馈作为奖励信号优化代码质量</li>
-<li>数学推理增强：通过正确性反馈提升链式推理能力</li>
+<li>图像分类：ResNet/ViT 等模型的最终分类头（ImageNet 1000 类）</li>
+<li>文本分类：BERT 分类任务的输出层（情感分析、意图识别）</li>
+<li>序列标注：NER、POS tagging 中每个 token 的分类（配合 ignore_index）</li>
+<li>知识蒸馏：教师模型的 soft label 配合标签平滑</li>
+<li>语音识别：CTC loss 的基础组件</li>
+<li>多模态对比学习：CLIP 中图文匹配的对称交叉熵</li>
 </ul>
 
 <h4>参考文档</h4>
 
 <ul>
-<li>[深入理解 RLHF/PPO/DPO/GRPO](https://blog.csdn.net/qq_64411314/article/details/158929233)</li>
-<li>[一文讲懂 RLHF、PPO、DPO、GRPO 是什么意思](https://blog.csdn.net/haobindayi/article/details/159697872)</li>
-<li>[给 AI 工程师的 RL 避坑指南（Lite PPO）](https://cloud.tencent.com/developer/article/2698365)</li>
+<li>[PyTorch nn.CrossEntropyLoss() 交叉熵损失函数详解和要点提醒](https://blog.csdn.net/weixin_42426841/article/details/139889247)</li>
+<li>[PyTorch 中的 nn.CrossEntropyLoss() 类](https://zhuanlan.zhihu.com/p/1928872394476491023)</li>
+<li>[PyTorch 内置损失函数汇总](https://cloud.tencent.com/developer/article/2398310)</li>
+</ul>
+
+<hr>
+
+<h3>Mamba 状态空间模型</h3>
+
+<p><strong>类别</strong>：前沿架构 | <strong>难度</strong>：困难</p>
+
+<h4>原理</h4>
+
+<p>Mamba 是 Albert Gu 和 Tri Dao 在 2023 年提出的状态空间模型（State Space Model, SSM），核心创新是<strong>选择性状态空间机制</strong>（Selective State Space），解决了 Transformer 在长序列上的 O(n²) 复杂度问题，同时保持了 RNN 的线性推理效率。</p>
+
+<p><strong>SSM 基础</strong>：状态空间模型源自控制理论，用两个方程描述序列建模：</p>
+<ul>
+<li>状态更新方程：h(t) = A·h(t-1) + B·x(t)（连续时间）</li>
+<li>观测输出方程：y(t) = C·h(t) + D·x(t)</li>
+</ul>
+
+<p>通过零阶保持（ZOH）离散化将连续参数 A、B、C、D 转为离散形式 Ā、B̄、C̄、D̄，使其可在数字计算中使用。</p>
+
+<p><strong>Mamba 的关键创新</strong>：传统 SSM（如 S4）的参数 A、B、C 是固定的（时间不变），Mamba 将 B、C、D（及 Δt）设计为<strong>输入相关的</strong>（input-dependent），即这些参数由当前输入 x_t 通过线性投影动态生成。这使得模型能根据输入内容<strong>选择性</strong>地记住或遗忘信息——重要信息保留到隐状态，无关信息被压缩丢弃。</p>
+
+<p><strong>架构对比</strong>：</p>
+<ul>
+<li>Transformer：注意力机制看全局，但 O(n²) 复杂度，推理时需缓存 KV cache</li>
+<li>RNN/LSTM：O(1) 推理，但训练无法并行，长程记忆有限</li>
+<li>Mamba：O(n) 训练（并行扫描）+ O(1) 推理（RNN 式递推），且通过选择性机制实现内容感知的遗忘</li>
+</ul>
+
+<h4>核心要点</h4>
+
+<ul>
+<li>选择性扫描（Selective Scan）：B、C、Δ 参数随输入动态变化，实现内容感知的遗忘</li>
+<li>线性复杂度：训练 O(n)（并行前缀扫描），推理 O(1)（RNN 式状态递推）</li>
+<li>无注意力机制：完全摒弃 self-attention，用 SSM 替代</li>
+<li>硬件感知设计：针对 GPU SRAM/HBM 访问模式优化，减少内存搬运</li>
+<li>隐状态压缩：用固定大小的隐状态 h_t 压缩历史信息，替代 KV cache</li>
+<li>与 Transformer 对比：长序列更快、推理更省内存；短序列质量相当</li>
+<li>Mamba-2 改进：将 SSM 与注意力统一为结构化矩阵乘法，进一步加速</li>
+</ul>
+
+<h4>技术细节与参数详解</h4>
+
+<p>#### SSM 核心参数</p>
+
+<p>#### A（状态转移矩阵）</p>
+
+<ul>
+<li><strong>含义</strong>：控制隐状态如何从上一时刻传递到当前时刻，决定信息遗忘速率</li>
+<li><strong>类型</strong>：矩阵，形状为 (d_state, d_state) 或对角化为 (d_state,)</li>
+<li><strong>默认值</strong>：在 S4 中用 HiPPO 矩阵初始化；Mamba 中用对角矩阵，参数化为 A = -exp(A_log) 保证负定性</li>
+<li><strong>对结果的影响</strong>：</li>
+<li>A 的对角元素为负实数 → 稳定的指数衰减记忆</li>
+<li>衰减率大（|A| 大）→ 快速遗忘，只记近期信息</li>
+<li>衰减率小（|A| 小）→ 长期记忆，保留远期信息</li>
+<li><strong>Mamba 特性</strong>：A 是时间不变的（固定），但 Δ 使其等效变为输入相关</li>
+<li><strong>推荐设置</strong>：用 A_log 参数化，初始化为 HiPPO 矩阵的对角部分</li>
+</ul>
+
+<p>#### A_log（对数参数化 A）</p>
+
+<ul>
+<li><strong>含义</strong>：A 的对数形式，A = -exp(A_log)，确保 A 为负实数（稳定性）</li>
+<li><strong>类型</strong>：Tensor，形状为 (d_state,) 或 (d_inner, d_state)</li>
+<li><strong>默认值</strong>：由 HiPPO 矩阵初始化取对数</li>
+<li><strong>对结果的影响</strong>：保证状态转移矩阵的特征值为负，系统稳定</li>
+<li><strong>推荐设置</strong>：可学习参数，通过反向传播更新</li>
+</ul>
+
+<p>#### B（输入投影矩阵）</p>
+
+<ul>
+<li><strong>含义</strong>：将输入 x_t 映射到状态空间的矩阵，决定输入如何写入隐状态</li>
+<li><strong>类型</strong>：矩阵，形状为 (d_state,) 或 (d_state, d_inner)</li>
+<li><strong>Mamba 创新</strong>：B 是<strong>输入相关的</strong>，B = Linear(x_t)，而非固定参数</li>
+<li><strong>对结果的影响</strong>：</li>
+<li>B 大 → 当前输入对状态影响大（"记住"当前信息）</li>
+<li>B 小 → 当前输入被忽略（"遗忘"当前信息）</li>
+<li><strong>推荐设置</strong>：可学习参数，Mamba 中通过 s_B(x) = Linear(x) 动态生成</li>
+</ul>
+
+<p>#### C（输出投影矩阵）</p>
+
+<ul>
+<li><strong>含义</strong>：将隐状态 h_t 映射到输出 y_t 的矩阵，决定如何从状态读取信息</li>
+<li><strong>类型</strong>：矩阵，形状为 (d_state,) 或 (d_state, d_inner)</li>
+<li><strong>Mamba 创新</strong>：C 也是<strong>输入相关的</strong>，C = Linear(x_t)</li>
+<li><strong>对结果的影响</strong>：</li>
+<li>C 大 → 从状态中读取更多信息</li>
+<li>C 小 → 当前状态对输出贡献小</li>
+<li><strong>推荐设置</strong>：可学习参数，Mamba 中通过 s_C(x) = Linear(x) 动态生成</li>
+</ul>
+
+<p>#### D（跳跃连接 / 直通项）</p>
+
+<ul>
+<li><strong>含义</strong>：输入到输出的直接连接，类似 ResNet 的残差连接</li>
+<li><strong>类型</strong>：标量或向量</li>
+<li><strong>默认值</strong>：可学习的初始化为较小的值</li>
+<li><strong>对结果的影响</strong>：保证输入信息总能直接到达输出，避免梯度消失</li>
+<li><strong>推荐设置</strong>：可学习参数，初始化为 0 或小常数</li>
+</ul>
+
+<p>#### Δt（离散化步长 / 时间步）</p>
+
+<ul>
+<li><strong>含义</strong>：控制连续 SSM 离散化的步长，决定状态更新的"分辨率"</li>
+<li><strong>类型</strong>：标量或向量</li>
+<li><strong>Mamba 创新</strong>：Δ 是<strong>输入相关的</strong>，Δ = softplus(Linear(x_t))</li>
+<li><strong>对结果的影响</strong>：</li>
+<li>Δ 大 → 状态更新幅度大，快速适应新输入（"关注"当前）</li>
+<li>Δ 小 → 状态更新幅度小，保持历史状态（"忽略"当前）</li>
+<li>Δ 的输入相关性是 Mamba 选择性机制的核心</li>
+<li><strong>推荐设置</strong>：通过 softplus 保证正值，初始化为均匀分布 [Δ_min, Δ_max]</li>
+</ul>
+
+<p>#### 离散化后的参数 Ā、B̄</p>
+
+<ul>
+<li><strong>含义</strong>：通过 ZOH 离散化将连续 A、B 转为离散形式</li>
+<li><strong>公式</strong>：Ā = exp(Δ·A)，B̄ = (Δ·A)^{-1} · (Ā - I) · Δ·B</li>
+<li><strong>对结果的影响</strong>：将连续微分方程转为可计算的递推关系</li>
+<li><strong>注意</strong>：由于 Δ 输入相关，Ā、B̄ 也是输入相关的</li>
+</ul>
+
+<p>#### Mamba Block 架构参数</p>
+
+<p>#### d_model（模型维度）</p>
+
+<ul>
+<li><strong>含义</strong>：输入/输出的特征维度</li>
+<li><strong>类型</strong>：int</li>
+<li><strong>默认值</strong>：通常 512-4096</li>
+<li><strong>推荐设置</strong>：与同规模 Transformer 相同（如 130M 模型用 d_model=768）</li>
+</ul>
+
+<p>#### d_inner（内部扩展维度）</p>
+
+<ul>
+<li><strong>含义</strong>：Mamba block 内部投影后的维度，类似 FFN 的中间维度</li>
+<li><strong>类型</strong>：int</li>
+<li><strong>默认值</strong>：通常为 2 × d_model</li>
+<li><strong>对结果的影响</strong>：影响模型容量和参数量</li>
+<li><strong>推荐设置</strong>：2 × d_model，与 Transformer FFN 扩展比一致</li>
+</ul>
+
+<p>#### d_state（状态维度）</p>
+
+<ul>
+<li><strong>含义</strong>：SSM 隐状态 h_t 的维度</li>
+<li><strong>类型</strong>：int</li>
+<li><strong>默认值</strong>：16（Mamba 论文默认）</li>
+<li><strong>取值范围</strong>：8-256</li>
+<li><strong>对结果的影响</strong>：</li>
+<li>大 → 记忆容量更大，能存储更多信息，但参数和计算量增加</li>
+<li>小 → 记忆容量有限，但更高效</li>
+<li><strong>推荐设置</strong>：16 用于小模型，64-128 用于大模型</li>
+</ul>
+
+<p>#### d_conv（局部卷积宽度）</p>
+
+<ul>
+<li><strong>含义</strong>：Mamba block 中的 1D 因果卷积核大小，用于局部特征提取</li>
+<li><strong>类型</strong>：int</li>
+<li><strong>默认值</strong>：4</li>
+<li><strong>对结果的影响</strong>：</li>
+<li>大 → 捕获更长范围的局部依赖，但计算量增加</li>
+<li>小 → 更短范围的局部建模</li>
+<li><strong>推荐设置</strong>：4 是论文默认值，兼顾效率和局部建模</li>
+</ul>
+
+<p>#### expand（扩展系数）</p>
+
+<ul>
+<li><strong>含义</strong>：内部维度相对 d_model 的扩展倍数</li>
+<li><strong>类型</strong>：int</li>
+<li><strong>默认值</strong>：2</li>
+<li><strong>对结果的影响</strong>：d_inner = expand × d_model，影响参数量和容量</li>
+<li><strong>推荐设置</strong>：2 是标准设置</li>
+</ul>
+
+<p>#### selective_scan（选择性扫描）</p>
+
+<ul>
+<li><strong>含义</strong>：Mamba 的核心运算，高效实现输入相关的 SSM 递推</li>
+<li><strong>类型</strong>：函数（硬件优化实现）</li>
+<li><strong>对结果的影响</strong>：通过并行前缀扫描实现 O(n) 训练，比朴素 RNN 递推快数百倍</li>
+<li><strong>注意</strong>：CUDA 实现针对 GPU 内存层次优化，PyTorch 原生实现较慢</li>
+</ul>
+
+<h4>代码示例</h4>
+
+<p><pre class="code-block"><code class="language-python">import torch
+import torch.nn as nn
+import torch.nn.functional as F
+from einops import rearrange
+
+class MambaBlock(nn.Module):
+    &quot;&quot;&quot;Mamba Block：选择性状态空间模型的核心模块&quot;&quot;&quot;
+
+    def __init__(self, d_model, d_state=16, d_conv=4, expand=2):
+        super().__init__()
+        self.d_model = d_model              # 输入/输出维度
+        self.d_state = d_state              # SSM 状态维度
+        self.d_conv = d_conv                # 局部卷积核大小
+        self.expand = expand                # 内部扩展系数
+        self.d_inner = expand * d_model     # 内部维度
+
+        # 1. 输入投影：d_model -&gt; d_inner
+        self.in_proj = nn.Linear(d_model, self.d_inner * 2, bias=False)
+        # 投影后分为两路：x（主路）和 z（门控路）
+
+        # 2. 局部卷积：提取局部特征
+        self.conv1d = nn.Conv1d(
+            in_channels=self.d_inner,       # 输入通道 = 内部维度
+            out_channels=self.d_inner,      # 输出通道 = 内部维度
+            kernel_size=d_conv,             # 卷积核大小
+            padding=d_conv - 1,             # 因果卷积：只看过去
+            groups=self.d_inner,            # 深度可分离卷积
+            bias=True,
+        )
+
+        # 3. SSM 参数投影（选择性机制核心）
+        # x -&gt; Δ, B, C 三个输入相关参数
+        self.x_proj = nn.Linear(self.d_inner, d_state * 2 + self.d_inner, bias=False)
+        # 输出维度: d_state(B) + d_state(C) + d_inner(Δ)
+
+        # 4. Δ 的可学习投影（初始化为均匀分布）
+        self.dt_proj = nn.Linear(self.d_inner, self.d_inner, bias=True)
+        # 初始化 dt_proj.bias 为 [dt_min, dt_max] 的均匀分布
+        dt_init_std = 0.02
+        nn.init.uniform_(self.dt_proj.weight, -dt_init_std, dt_init_std)
+        dt_max = 0.1
+        dt_min = 0.001
+        nn.init.uniform_(self.dt_proj.bias, dt_min, dt_max)
+
+        # 5. A_log（可学习参数）
+        # 初始化为 HiPPO 矩阵的对角部分取对数
+        A = torch.arange(1, d_state + 1, dtype=torch.float32)  # [1, 2, ..., d_state]
+        A = A.repeat(self.d_inner, 1)       # (d_inner, d_state)
+        self.A_log = nn.Parameter(torch.log(A))  # A = -exp(A_log) 保证负定
+
+        # 6. D（跳跃连接，可学习标量）
+        self.D = nn.Parameter(torch.ones(self.d_inner))
+
+        # 7. 输出投影：d_inner -&gt; d_model
+        self.out_proj = nn.Linear(self.d_inner, d_model, bias=False)
+
+    def forward(self, x):
+        &quot;&quot;&quot;前向传播
+        x: (batch, seq_len, d_model) -&gt; (batch, seq_len, d_model)
+        &quot;&quot;&quot;
+        batch, seq_len, _ = x.shape
+
+        # 1. 输入投影 + 分叉
+        xz = self.in_proj(x)                # (B, L, 2*d_inner)
+        x_main, z = xz.chunk(2, dim=-1)      # 各 (B, L, d_inner)
+
+        # 2. 局部卷积 + SiLU 激活
+        x_main = x_main.transpose(1, 2)     # (B, d_inner, L) for Conv1d
+        x_main = self.conv1d(x_main)[:, :, :seq_len]  # 因果截断
+        x_main = x_main.transpose(1, 2)     # (B, L, d_inner)
+        x_main = F.silu(x_main)             # SiLU 激活
+
+        # 3. 选择性参数生成（Mamba 核心）
+        x_dbl = self.x_proj(x_main)          # (B, L, d_state*2 + d_inner)
+        # 分割为 Δ, B, C
+        delta = x_dbl[:, :, :self.d_inner]           # (B, L, d_inner)
+        B = x_dbl[:, :, self.d_inner:self.d_inner + self.d_state]   # (B, L, d_state)
+        C = x_dbl[:, :, -self.d_state:]              # (B, L, d_state)
+
+        # Δ 通过投影 + softplus（保证正值）
+        delta = F.softplus(self.dt_proj(delta))      # (B, L, d_inner)
+
+        # 4. 选择性扫描（SSM 递推）
+        # 获取 A
+        A = -torch.exp(self.A_log)           # (d_inner, d_state)，负定矩阵
+
+        y = self.selective_scan(x_main, delta, A, B, C, self.D)
+        # y: (B, L, d_inner)
+
+        # 5. 门控 + 输出投影
+        y = y * F.silu(z)                    # 与 z 门控路相乘
+        output = self.out_proj(y)            # (B, L, d_model)
+        return output
+
+    def selective_scan(self, x, delta, A, B, C, D):
+        &quot;&quot;&quot;选择性扫描（简化版，展示原理）
+        实际使用 CUDA 优化的 mamba_ssm 包实现
+
+        离散化：A_bar = exp(delta * A), B_bar = delta * B
+        递推：h_t = A_bar * h_{t-1} + B_bar * x_t
+        输出：y_t = C * h_t + D * x_t
+        &quot;&quot;&quot;
+        batch, seq_len, d_inner = x.shape
+        d_state = A.shape[1]
+
+        h = torch.zeros(batch, d_inner, d_state, device=x.device)  # 初始隐状态
+        outputs = []
+
+        for t in range(seq_len):
+            # 离散化（ZOH）
+            dt = delta[:, t, :]              # (B, d_inner)
+            A_bar = torch.exp(dt.unsqueeze(-1) * A.unsqueeze(0))  # (B, d_inner, d_state)
+            B_bar = dt.unsqueeze(-1) * B[:, t, :].unsqueeze(1)    # (B, d_inner, d_state)
+
+            # 状态更新
+            h = A_bar * h + B_bar * x[:, t, :].unsqueeze(-1)  # (B, d_inner, d_state)
+
+            # 输出
+            y_t = (h * C[:, t, :].unsqueeze(1)).sum(-1) + D.unsqueeze(0) * x[:, t, :]
+            # y_t: (B, d_inner)
+            outputs.append(y_t)
+
+        return torch.stack(outputs, dim=1)   # (B, L, d_inner)
+
+
+class MambaModel(nn.Module):
+    &quot;&quot;&quot;完整的 Mamba 语言模型&quot;&quot;&quot;
+
+    def __init__(self, vocab_size, d_model=768, n_layers=12, d_state=16, d_conv=4, expand=2):
+        super().__init__()
+        self.embedding = nn.Embedding(vocab_size, d_model)  # 词嵌入
+        self.layers = nn.ModuleList([
+            MambaBlock(d_model, d_state, d_conv, expand)    # 堆叠 Mamba Block
+            for _ in range(n_layers)
+        ])
+        self.norm = nn.LayerNorm(d_model)                   # 最终层归一化
+        self.lm_head = nn.Linear(d_model, vocab_size, bias=False)  # 语言模型输出头
+
+    def forward(self, input_ids):
+        &quot;&quot;&quot;前向传播
+        input_ids: (batch, seq_len) -&gt; logits: (batch, seq_len, vocab_size)
+        &quot;&quot;&quot;
+        x = self.embedding(input_ids)         # (B, L, d_model)
+        for layer in self.layers:
+            x = x + layer(x)                   # 残差连接 + Mamba Block
+        x = self.norm(x)                        # 层归一化
+        logits = self.lm_head(x)                # (B, L, vocab_size)
+        return logits
+
+
+# 使用示例
+model = MambaModel(
+    vocab_size=32000,                          # 词表大小
+    d_model=768,                               # 模型维度（类似 BERT-base）
+    n_layers=12,                               # 层数
+    d_state=16,                                # SSM 状态维度
+    d_conv=4,                                  # 局部卷积核
+    expand=2,                                  # 扩展系数
+)
+print(f&quot;参数量: {sum(p.numel() for p in model.parameters()) / 1e6:.1f}M&quot;)
+
+# 前向传播
+input_ids = torch.randint(0, 32000, (4, 512))  # batch=4, seq_len=512
+logits = model(input_ids)
+print(f&quot;输入: {input_ids.shape}&quot;)
+print(f&quot;输出: {logits.shape}&quot;)                 # (4, 512, 32000)</code></pre></p>
+
+<h4>复杂度分析</h4>
+
+<ul>
+<li><strong>训练复杂度</strong>：O(n·d²)，通过并行前缀扫描实现线性序列复杂度（Transformer 为 O(n²·d)）</li>
+<li><strong>推理复杂度</strong>：O(1) 每步（RNN 式递推，只需前一步隐状态），无需 KV cache</li>
+<li><strong>推理内存</strong>：O(d_state) 每层，远小于 Transformer 的 O(n·d) KV cache</li>
+<li><strong>长序列优势</strong>：序列越长优势越大，100K token 时 Mamba 比 Transformer 快 5-10 倍</li>
+<li><strong>并行扫描</strong>：利用 GPU 并行前缀扫描（associative scan）实现 O(log n) 深度的并行计算</li>
+</ul>
+
+<h4>应用场景</h4>
+
+<ul>
+<li>长文本生成：超长上下文（100K+ token）的小说/文档生成，线性复杂度优势显著</li>
+<li>代码补全：超长代码文件的上下文理解（MambaCode）</li>
+<li>DNA/基因组序列分析：超长生物序列建模</li>
+<li>时序预测：金融/传感器/天气的长序列预测</li>
+<li>语音识别：超长音频序列建模（替代 Conformer）</li>
+<li>替代 Transformer 的大模型：Jamba（AI21）将 Mamba 与 Transformer 混合，兼顾长短依赖</li>
+<li>视觉模型：Vision Mamba（Vim）用于图像分类和分割</li>
+</ul>
+
+<h4>参考文档</h4>
+
+<ul>
+<li>[Mamba: Linear-Time Sequence Modeling with Selective State Spaces 论文总结](https://blog.csdn.net/qq_45981086/article/details/141675075)</li>
+<li>[深入 Mamba 选择性状态空间机制](https://blog.csdn.net/gitblog_00043/article/details/150703799)</li>
+<li>[Mamba 架构解析：面向长文本与低延迟的线性状态空间模型](https://blog.csdn.net/weixin_33060753/article/details/161267493)</li>
+<li>[State Space Models 前沿 - Mamba 革命的深度解析](https://blog.csdn.net/hyc010110/article/details/151964146)</li>
 </ul>
 
 <blockquote>
@@ -1002,7 +1013,7 @@ class PPOTrainer:
 </blockquote>
   </div>
   <div class="footer">
-    <p>由 TeleAgent · 每日算法推送 技能自动生成 | 2026-09-07 21:47</p>
+    <p>由 TeleAgent · 每日算法推送 技能自动生成 | 2026-09-07 22:08</p>
   </div>
 </div>
 </body>
