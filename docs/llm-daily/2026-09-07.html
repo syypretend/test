@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<title>大模型技术速递 — 2026年09月07日</title>
+<style>
+:root{
+  --bg:#0b0e14; --card:#141926; --card2:#1a2133;
+  --text:#e8ecf5; --dim:#96a0b5; --accent:#5b8cff; --accent2:#8b5cf6;
+  --green:#2dd4a7; --star:#ffb84d; --border:rgba(255,255,255,.07);
+  --radius:14px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  background:linear-gradient(170deg,#0a0d14 0%,#0d1424 45%,#0b111d 100%);
+  color:var(--text);line-height:1.8;font-size:15px;
+  -webkit-font-smoothing:antialiased;min-height:100vh;
+}
+.wrap{max-width:760px;margin:0 auto;padding:0 14px 48px}
+
+/* 头部 */
+header.hero{
+  text-align:center;padding:36px 16px 26px;
+  background:radial-gradient(120% 140% at 50% 0%,rgba(91,140,255,.18) 0%,rgba(124,92,246,.08) 45%,transparent 75%);
+  border-bottom:1px solid var(--border);
+}
+.badge{display:inline-flex;align-items:center;gap:6px;background:rgba(91,140,255,.14);
+  border:1px solid rgba(91,140,255,.32);padding:5px 14px;border-radius:999px;
+  font-size:12px;font-weight:600;letter-spacing:1px;color:#9dc2ff;margin-bottom:16px}
+h1.title{font-size:clamp(20px,5vw,27px);font-weight:800;letter-spacing:.5px;
+  background:linear-gradient(120deg,#fff,#a8c8ff);-webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;margin-bottom:6px}
+.date{color:#96a9c0;font-size:14px;margin-bottom:20px}
+.stats{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.stat{flex:1;max-width:130px;background:rgba(255,255,255,.04);border:1px solid var(--border);
+  border-radius:12px;padding:10px 6px;text-align:center}
+.stat b{display:block;font-size:22px;font-weight:800;color:var(--accent)}
+.stat.imp b{color:var(--star)} .stat.nor b{color:var(--green)}
+.stat span{font-size:11px;color:var(--dim)}
+
+/* 正文 */
+.content{padding:20px 6px 0}
+.update-intro{background:linear-gradient(135deg,rgba(91,140,255,.1),rgba(124,92,246,.07));
+  border:1px solid rgba(91,140,255,.22);border-left:3px solid var(--accent);
+  border-radius:10px;padding:10px 14px;font-size:13px;color:var(--dim);margin-bottom:24px}
+.update-intro p{margin:0}
+
+/* 章节标题 */
+.section-title{display:flex;align-items:center;gap:8px;font-size:19px;font-weight:800;
+  margin:34px 0 16px;padding-bottom:9px;border-bottom:2px solid rgba(91,140,255,.28)}
+.sec-icon{font-size:17px}
+
+/* 重要动态条目 */
+.imp-item{background:var(--card2);border:1px solid var(--border);
+  border-radius:var(--radius);padding:16px 16px 14px;margin-bottom:16px;
+  box-shadow:0 4px 18px rgba(0,0,0,.25)}
+.imp-item h3{font-size:15.5px;font-weight:700;line-height:1.5;margin-bottom:8px;color:#f0f4ff}
+.imp-item p{color:var(--text);font-size:14px;margin:7px 0}
+.imp-item strong{color:#cfe0ff;font-weight:600}
+.imp-item ul,.imp-item ol{padding-left:20px;margin:6px 0}
+.imp-item li{margin:4px 0;font-size:13.8px;color:var(--text)}
+.imp-item li::marker{color:var(--accent)}
+
+/* 常规动态卡片 */
+.cat-title{font-size:14.5px;font-weight:700;color:#b9c8e8;margin:22px 0 10px;
+  padding-left:10px;border-left:3px solid var(--accent2)}
+.norm-item{background:var(--card);border:1px solid var(--border);border-radius:12px;
+  padding:11px 13px;margin-bottom:9px;font-size:13.8px;color:var(--dim);
+  transition:transform .15s,border-color .15s}
+.norm-item:hover{transform:translateX(3px);border-color:rgba(91,140,255,.4)}
+.norm-item strong{color:var(--text);font-weight:600}
+.norm-item a{color:var(--accent);text-decoration:none;font-size:12.8px;word-break:break-all}
+.norm-item a:hover{text-decoration:underline}
+.norm-item p{margin:0}
+
+/* 表格 */
+.data-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px;border-radius:10px;overflow:hidden}
+.data-table th{background:rgba(91,140,255,.16);padding:9px 10px;text-align:left;font-weight:600;color:#d3e2ff}
+.data-table td{padding:8px 10px;border-top:1px solid var(--border);background:rgba(255,255,255,.03)}
+.data-table tr:hover td{background:rgba(91,140,255,.06)}
+
+/* 引用/链接块 */
+.toc{border-left:3px solid var(--accent2);border-radius:0 10px 10px 0;
+  padding:10px 14px;margin:12px 0;background:rgba(255,255,255,.03);color:var(--dim);font-size:13.5px}
+.toc p{margin:0}
+.toc a{color:var(--accent);word-break:break-all}
+
+/* 代码 */
+pre{background:#0d1119;border:1px solid var(--border);border-radius:10px;padding:13px;overflow-x:auto;font-size:12.5px;margin:10px 0}
+code{font-family:"SF Mono",Consolas,"Courier New",monospace;font-size:12.5px}
+h4{font-size:14px;margin:14px 0 6px;color:#cfdbef}
+p{margin:8px 0}
+hr{border:none;border-top:1px solid var(--border);margin:24px 0}
+strong{color:#dbe6ff}
+ul,ol{padding-left:20px;margin:6px 0}
+
+/* 页脚 */
+footer{text-align:center;margin-top:36px;padding:22px 10px 6px;border-top:1px solid var(--border);
+  color:var(--dim);font-size:12.5px}
+footer p{margin:3px 0}
+
+@media(max-width:480px){
+  body{font-size:14px}
+  header.hero{padding:26px 14px 20px}
+  .stats{gap:8px}
+  .stat{max-width:110px}
+  .section-title{font-size:17px}
+  .imp-item{padding:13px 12px 11px}
+  .data-table{font-size:12px}
+  .data-table th,.data-table td{padding:7px 8px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+    <header class="hero">
+      <div class="badge">🤖 LLM TECH DAILY</div>
+      <h1 class="title">大模型技术速递</h1>
+      <p class="date">2026年09月07日</p>
+      <div class="stats">
+        <div class="stat"><b>—</b><span>收录动态</span></div>
+        <div class="stat imp"><b>—</b><span>★ 重要</span></div>
+        <div class="stat nor"><b>—</b><span>· 常规</span></div>
+      </div>
+    </header>
+    
+<div class="content">
+<h1>🤖 大模型技术速递 — 2026年09月07日</h1>
+<div class="update-intro">
+<p>本期覆盖 2026年9月1日—9月7日全球大模型领域动态。今日共收录 22 条，其中 ★重要 4 条，·常规 18 条。</p>
+</div>
+<hr>
+<div class="section-title"><span class="sec-icon">★</span> 重要动态</div>
+
+<div class="imp-item">
+<h3>1. OpenAI 发布 GPT-6 Astra — "欢迎来到 AGI 时代"</h3>
+<p><strong>一句话概要</strong>：OpenAI 于 9 月 4 日凌晨正式发布新一代旗舰模型 GPT-6 Astra，定位从"聊天问答助手"全面转向"自主完成工作的数字员工"，总裁 Greg Brockman 在发布会上直言"我们可能已经到达 AGI"。</p>
+<p><strong>技术要点</strong>：
+- <strong>训练规模</strong>：在得州 Stargate 超算园区动用超过 10 万块 GPU 完成预训练，是 OpenAI 历史上规模最大的训练任务。从数据中心网络到推理内核再到模型形态，全部围绕这个训练目标重新设计。
+- <strong>上下文与输出</strong>：上下文窗口达 105 万 token（约 1500 页 A4 纸），最大输出长度 12.8 万 token，知识截止时间 2026 年 4 月 30 日。支持文本和图像输入、文本输出，集成网页搜索。
+- <strong>核心能力跃迁</strong>：在计算机操作、网页浏览、软件工程、网络安全、科学研究及专业工作领域均达到当前最先进水平。Astra 能直接打开浏览器、填表格、跑代码、做 PPT，自主完成整套复杂工作流程后交付结果。
+- <strong>AI 监督训练</strong>：这是 OpenAI 首款在训练监督中由前代 AI 模型发挥重要作用的模型，标志着训练范式的变化。</p>
+<p><strong>实验结果与标志性事件</strong>：
+- Astra 用约 22 万美元算力解决了一个困扰数学界 80 年的难题。
+- Artificial Analysis 智能指数登顶，超过所有竞争对手。
+- 价格涨到上一代的 2.5 倍，但仍被认为具备竞争力。
+- 但新架构带来的"黑盒效应"也引发安全界担忧——思维链难以监控，AI 推理过程的可解释性面临挑战。</p>
+<p><strong>影响分析</strong>：
+- GPT-6 Astra 代表了大模型从"回答问题"到"替你干活"的范式转变。Agent 能力跃迁意味着 AI 应用落地有望加速，对软件开发、数据分析、科研等领域的白领工作流程将产生深远影响。
+- 对实际工作的启示：需要关注 AI 自主操作计算机的安全边界与监控机制；Agent 工作流的成本-效益比正在快速改善，企业级 AI 自动化部署窗口期已经打开。
+- "AGI 时代"的说法虽来自公司高管个人判断而非官方声明，但措辞之大胆在行业内极为罕见，反映出顶尖 AI 公司对当前模型能力的信心达到了新高度。</p>
+<blockquote class="toc">
+<p>来源：<a href="https://baijiahao.baidu.com/s?id=1875393617230285232&amp;wfr=spider&amp;for=pc" target="_blank" rel="noopener">极客公园深度解析</a> | <a href="https://baijiahao.baidu.com/s?id=1875386729166038802&amp;wfr=spider&amp;for=pc" target="_blank" rel="noopener">界面新闻</a> | <a href="https://baijiahao.baidu.com/s?id=1875446059334397515&amp;wfr=spider&amp;for=pc" target="_blank" rel="noopener">GPT-6 Astra 深度评测</a></p>
+</blockquote>
+</div>
+<div class="imp-item">
+<h3>2. Anthropic 发布 Claude Fable 5.1 与 Mythos 5.1 — 性能登顶，成本最高降 45%</h3>
+<p><strong>一句话概要</strong>：Anthropic 于 9 月 1 日推出新一代模型 Claude Fable 5.1 和 Claude Mythos 5.1，定位"全球最先进的编程与知识工作模型"，在 Artificial Analysis 智能指数登顶的同时把整体成本压低最多 45%。</p>
+<p><strong>技术要点</strong>：
+- <strong>双模型策略</strong>：Fable 5.1 与 Mythos 5.1 基于同一底座模型，区别在于安全防护等级不同。Fable 面向所有用户开放，Mythos 仅通过 Trusted Access Program（可信访问计划）向经过审核的机构和研究人员开放，主要服务于网络安全、生命科学等敏感专业场景。
+- <strong>能力定位</strong>：Fable 5.1 专为复杂推理、长周期任务和 Agent 工作流打造；Mythos 5.1 代表 Anthropic 探索的更高能力边界，在高风险领域（如生物学和网络安全）中某些任务采用更宽松的防护措施。
+- <strong>成本突破</strong>：此次发布中最亮眼的变化是模型使用成本大幅下降——整体成本最多降低 45%，打破了"AI 越强越贵"的行业惯例。</p>
+<p><strong>实验结果与案例</strong>：
+- 一家投资机构被一个软件崩溃问题困扰已久，工程师始终查不出原因，其他 AI 模型也未能解决。Fable 5.1 最终找到了问题根源——说明新一代模型正在从"回答问题"走向"解决问题"。
+- 在编程能力和知识工作评测中超越前代，与 GPT-6 Astra、Gemini 3.8 Flash 形成三足鼎立格局。</p>
+<p><strong>影响分析</strong>：
+- Anthropic 用 Fable 5.1 打响了降本战，标志着大模型竞争焦点从"更强"转向"更能干、更划算"。"单位成本下的可用智能"正在成为新的竞争维度。
+- 双模型策略（公开版 + 可信访问版）为高风险领域的 AI 应用提供了新的安全治理范式，对网络安全、生物安全等敏感场景的 AI 落地有示范意义。
+- 对开发者的启示：Agent 工作流的成本正在快速下降，长周期自治运行的经济可行性显著提升。</p>
+<blockquote class="toc">
+<p>来源：<a href="https://baijiahao.baidu.com/s?id=1875171625133959837&amp;wfr=spider&amp;for=pc" target="_blank" rel="noopener">IT之家</a> | <a href="https://www.jiemian.com/article/15047269.html" target="_blank" rel="noopener">界面新闻</a> | <a href="https://baike.baidu.com/item/Fable%205.1/68806576" target="_blank" rel="noopener">百度百科</a></p>
+</blockquote>
+</div>
+<div class="imp-item">
+<h3>3. 微软提出滑动窗口注意力 — 无需后训练，仅加 4 个 Token 反超线性注意力</h3>
+<p><strong>一句话概要</strong>：微软提出滑动窗口注意力（Sliding Window Attention）方法，在不进行任何后训练的前提下，仅增加 4 个 token 的额外开销，便在长上下文推理任务中超越多种线性注意力方案，获田渊栋转发推荐。</p>
+<p><strong>技术要点</strong>：
+- <strong>问题背景</strong>：标准全注意力机制（Full Attention）为每个新 token 保留此前所有 token 的 Key 和 Value，KV Cache 随上下文持续增长，解码成本攀升。线性注意力（Linear Attention）方法试图将时间和内存复杂度从二次降为线性，但往往牺牲模型能力。
+- <strong>核心创新</strong>：滑动窗口注意力不改变模型架构，只在推理时使用滑动窗口策略处理 KV Cache，通过保留局部窗口的完整注意力 + 少量全局 token（仅 4 个额外 token）来近似全注意力效果。无需后训练即可直接应用。
+- <strong>关键数据</strong>：在多项长上下文基准测试中，该方法超过多种线性注意力方案，证明了长上下文推理不必走线性注意力的弯路。</p>
+<p><strong>实验结果</strong>：
+- 仅增加 4 个 token 的额外开销，在长上下文推理任务中反超线性注意力方法。
+- 无需重新训练模型，可直接在现有模型上应用，部署成本极低。</p>
+<p><strong>影响分析</strong>：
+- 这项工作对大模型长上下文推理的工程落地有直接价值。现有模型无需重新训练即可获得更优的长上下文性能-成本比，对 RAG、长文档分析、代码仓库理解等场景有即时可用性。
+- 从学术角度看，它挑战了"线性注意力是长上下文推理唯一出路"的主流假设，为注意力机制设计提供了新方向。
+- 田渊栋（Meta AI）的转发推荐增加了这项工作的社区关注度，预计将引发更多跟进研究。</p>
+<blockquote class="toc">
+<p>来源：<a href="https://www.163.com/dy/article/L658KQ650556KHRQ.html" target="_blank" rel="noopener">网易科技</a> | <a href="https://baijiahao.baidu.com/s?id=1875301985314407039&amp;wfr=spider&amp;for=pc" target="_blank" rel="noopener">百家号</a></p>
+</blockquote>
+</div>
+<div class="imp-item">
+<h3>4. DeepSeek 被曝采购 16 万颗华为昇腾 950DT — 国产 AI 芯片最大规模集群</h3>
+<p><strong>一句话概要</strong>：彭博社 9 月 4 日报道，DeepSeek 计划在内蒙古乌兰察布建设的大型数据中心部署至少 16 万颗华为下一代昇腾 950DT 芯片用于模型推理，订单总额约 25.6 亿美元，将成为目前已知规模最大的国产 AI 芯片集群。</p>
+<p><strong>技术要点</strong>：
+- <strong>芯片用途</strong>：昇腾 950DT 为推理芯片（非训练卡），DeepSeek 明确主要用来做推理。训练方面仍主要依赖英伟达芯片，而华为昇腾芯片负责推理侧部署。
+- <strong>集群规模</strong>：项目规划功率达吉瓦级，16 万颗芯片仅对应其中一部分容量。全部交付可能需要一年以上，取决于华为供应能力。
+- <strong>战略意义</strong>：这是 DeepSeek 在美国芯片出口管制背景下的算力自主化布局，也是华为昇腾芯片首次获得十万卡级别的推理订单。</p>
+<p><strong>行业背景</strong>：
+- DeepSeek 刚于 8 月 13 日将 V4 Pro 正式版推入生产 API，8 月 17 日引入"峰谷定价"机制涨价（高峰时段输出价涨幅最高 350%）。一边涨价一边扩产，反映出 DeepSeek 在算力成本与资本耐心之间走钢丝的困境。
+- 智谱同期披露国产芯片推理成本已下降 80%，国产算力的经济性正在快速改善。
+- 16 万颗国产推理芯片的部署，标志着国产 AI 芯片从"可用"走向"规模可用"的关键一步。</p>
+<p><strong>影响分析</strong>：
+- 对国产 AI 产业链具有里程碑意义：若按计划完成，将证明国产芯片在十万卡级推理集群中的工程可行性，对芯片设计、封装、散热、集群调度等全链条都是一次大规模验证。
+- 对 DeepSeek 自身：降低对英伟达的依赖，推理侧成本有望进一步下降，但国产芯片的软件生态成熟度和性能仍需实际部署验证。
+- 对行业格局：可能引发更多国内 AI 公司跟进国产芯片部署，加速国产算力替代进程。</p>
+<blockquote class="toc">
+<p>来源：<a href="https://www.guancha.cn/economy/2026_09_05_830131.shtml" target="_blank" rel="noopener">观察者网</a> | <a href="https://www.chinaaet.com/article/3000180228" target="_blank" rel="noopener">电子技术应用</a> | <a href="https://baijiahao.baidu.com/s?id=1875483711121972207&amp;wfr=spider&amp;for=pc" target="_blank" rel="noopener">百家号</a></p>
+</blockquote>
+</div><div class="section-title"><span class="sec-icon">📋</span> 常规动态</div>
+<div class="cat-title">模型发布</div>
+<div class="norm-item"><p><strong>谷歌 Gemini 3.8 Flash 低调上线</strong> — 9 月 2 日在 Google DeepMind 网站低调上线，基于 Gemini 3.7 Flash，在软件工程和智能体知识工作流方面性能提升。输出速度达 305 tokens/秒，Artificial Analysis Intelligence Index 评分 43。同步推出 Gemini 3.8 Flash Cyber 网络安全专用模型，通过 Fairwind 计划面向受信任安全团队开放，在 CyberGym 基准测试中漏洞自主发现表现超越前代。 <a href="https://baijiahao.baidu.com/s?id=1875234614654869682&amp;wfr=spider&amp;for=pc" target="_blank" rel="noopener">IT之家</a> | <a href="https://www.cnblogs.com/lisering/articles/22846818" target="_blank" rel="noopener">博客园深度解析</a></p></div>
+<div class="norm-item"><p><strong>Meta 发布 Muse Spark 1.3</strong> — 9 月 2 日正式发布，扎克伯格称其为"编程和智能体工作方面迄今最大飞跃"。编程能力超越 GPT-5.6 Sol，与 Claude Fable 5.1 媲美。定价极具攻击性：输入约为 Claude 的 1/8、输出约为 1/12，单任务成本约 0.4 美元。 <a href="https://news.sohu.com/a/1071383889_122066679" target="_blank" rel="noopener">搜狐</a> | <a href="https://blog.csdn.net/qq_34219119/article/details/164368246" target="_blank" rel="noopener">CSDN 深度解析</a></p></div>
+<div class="norm-item"><p><strong>阿里千问 Qwen3.8-Max 升级至 0902 版</strong> — 9 月 2 日发布，针对编码和协作类任务完成后训练，保留 100 万 token 上下文窗口。前端 CodeArena 评分提升 22 分至 1691，位居全球第一，领先 Claude Opus 5 整整 37 分。 <a href="https://www.ebrun.com/20260903/704183.shtml" target="_blank" rel="noopener">亿邦动力</a> | <a href="https://news.sohu.com/a/1071014796_122066679" target="_blank" rel="noopener">搜狐</a></p></div>
+<div class="norm-item"><p><strong>DeepSeek V4 Pro 正式上线并引入峰谷定价</strong> — 8 月 13 日 V4 Pro 从预览版转正，保留 284B MoE 架构，支持 1M 上下文 + 384K 输出。8 月 17 日引入峰谷定价机制，高峰时段输出价涨幅最高 350%。V4 版本让思考时间从十几秒拉长到上百秒，思维链细化与 Agent 能力倾斜是主因。 <a href="https://blog.csdn.net/qq_38563206/article/details/164372815" target="_blank" rel="noopener">CSDN 深度解析</a> | <a href="https://post.smzdm.com/p/a6zdn44n/" target="_blank" rel="noopener">什么值得买</a></p></div>
+<div class="norm-item"><p><strong>智谱披露下一代大模型规划：GLM-6.0 瞄准"自进化"</strong> — 8 月 31 日智谱在 2026 半年业绩沟通会上披露，下一代基座模型已在推进，采用大基座路线，将扩大基座规模但对激活参数做管控。GLM-6.0 方向是"自进化"，目标实现模型发布首日即具备大规模落地能力。国产芯片推理成本已下降 80%。 <a href="https://baijiahao.baidu.com/s?id=1875313778038493499&amp;wfr=spider&amp;for=pc" target="_blank" rel="noopener">百家号</a> | <a href="https://baijiahao.baidu.com/s?id=1875112044071032632&amp;wfr=spider&amp;for=pc" target="_blank" rel="noopener">百家号</a></p></div>
+<div class="cat-title">学术论文</div>
+<div class="norm-item"><p><strong>Discriminative World Models for Web Agents</strong> (arXiv:2609.02885) — Kelvin Li 等。提出给 Web Agent 使用"判别式世界模型"，不再生成候选动作后瞎猜，而是显式预测并排序 Web 状态。比生成式模拟更省算力，更适合测试时搜索。 <a href="https://arxiv.org/abs/2609.02885" target="_blank" rel="noopener">arXiv</a></p></div>
+<div class="norm-item"><p><strong>LLM-as-a-Judge Is Not an Oracle: Why Self-Improving Agents Need Deterministic Guardrails</strong> — 论文指出 LLM 充当评判者并非万能，自改进 Agent 需要确定性护栏来避免评价偏差导致的退化循环。对 Agent 自训练和自我评估的设计有直接指导意义。 <a href="https://arxiv.org/list/cs.AI/pastweek?skip=20&amp;show=500" target="_blank" rel="noopener">arXiv</a></p></div>
+<div class="norm-item"><p><strong>SolarWM: Open Data and Scalable Training for Long-Horizon Video World Models</strong> — Junchao Huang 等。推出完全开放的视频世界模型基础框架，解决异构数据源与视频主干之间在时间尺度、相机几何与质量上的差异，支持长时程推理训练。 <a href="https://www.cnblogs.com/verstin/p/22828292" target="_blank" rel="noopener">博客园 AI 日报</a></p></div>
+<div class="norm-item"><p><strong>WikiSkill: 9B 模型击败 27B 竞品</strong> — Google Research 论文。Qwen-3.5-9B 携带进化后的技能，五项基准平均成绩 47.4%，超过无技能的 Qwen-3.6-27B（39.4%）。27B 同样使用 WikiSkill 后成绩达 63.3%。蒸馏极限再次被拓宽。 <a href="https://zhuanlan.zhihu.com/p/2077769976862208880" target="_blank" rel="noopener">知乎</a></p></div>
+<div class="cat-title">技术突破</div>
+<div class="norm-item"><p><strong>Google DeepMind 推出 Gemini Agentic 视频理解</strong> — 9 月 1 日在 Gemini 3.7/3.6/3.5 Flash 系列中引入 Agentic Video Understanding。模型自己决定看哪段、用画面还是音轨还是字幕、用多高帧率，长视频 Token 消耗最高减少 88%，成本降 66%，准确率反升 7%。 <a href="https://blog.csdn.net/weixin_61823230/article/details/164300825" target="_blank" rel="noopener">CSDN</a></p></div>
+<div class="norm-item"><p><strong>小鹏第二代 VLA 大模型升级至 4D 时空理解</strong> — 8 月 27 日发布，核心是从静态 3D 空间理解走向动态 4D 时空理解，让 AI 真正理解时间。端侧模型参数量扩大 3.5 倍，XOS 6.3.0 版本将于小鹏 G9L 全球首发。 <a href="https://www.xiaopeng.com/news/company_news/5591.html" target="_blank" rel="noopener">小鹏官网</a></p></div>
+<div class="norm-item"><p><strong>世界模型范式转向：多家巨头集体押注</strong> — OpenAI 发布 Sora 2.0 实现物理级视频生成，xAI 推出 Grok World 可模拟城市级交通与工业产线，李飞飞团队 Atlas 首创空间上下文三维构建能力，字节 Vertex 模型进入攻坚阶段。全球 AI 赛道迎来范式级转向。 <a href="https://news.qq.com/rain/a/20260904A0BVAD00" target="_blank" rel="noopener">腾讯新闻</a></p></div>
+<div class="cat-title">行业新闻</div>
+<div class="norm-item"><p><strong>工信部正式发布大模型全链条行业标准</strong> — 8 月 31 日，工信部发布 2026 年第 18 号公告，批准中国信通院牵头制定的大模型平台系列行业标准，覆盖数据处理、模型训练、模型推理、计算资源调度和计算资源运维五大核心领域，其中 4 项于 2026 年 11 月 1 日起正式实施。 <a href="https://www.cnr.cn/jingji/ycbd/20260831/t20260831_527800370.shtml" target="_blank" rel="noopener">央广网</a> | <a href="https://www.stcn.com/article/detail/4165874.html" target="_blank" rel="noopener">证券时报</a></p></div>
+<div class="norm-item"><p><strong>智谱 2026 半年报：营收暴涨 400%，商业模式彻底切换</strong> — 2026 上半年营收 9.54 亿元（同比增长 399.7%），超过 2025 年全年。MaaS 开放平台及 API 收入 8.25 亿元（同比增长 2736%），占总收入 86.5%，从政企本地化部署成功转向云端 MaaS。研发投入 21.31 亿元，期内亏损 20.72 亿元（同比收窄 12.1%）。ARR 触及 16 亿美元。 <a href="https://baijiahao.baidu.com/s?id=1875646376255343761&amp;wfr=spider&amp;for=pc" target="_blank" rel="noopener">百家号</a> | <a href="https://baijiahao.baidu.com/s?id=1875204968230195364&amp;wfr=spider&amp;for=pc" target="_blank" rel="noopener">百家号</a></p></div>
+<div class="norm-item"><p><strong>大模型公司决战 IPO</strong> — 2026 年被视为大模型行业分水岭，8 月大模型日均发布 1.1 个。上市潮与市场拓展并行，开源与闭源界限逐步模糊，提高服务质量成为企业下一步竞争焦点。 <a href="https://sina.cn/news/detail/5338720305153608.html" target="_blank" rel="noopener">新浪新闻</a> | <a href="https://baijiahao.baidu.com/s?id=1875592711265432618&amp;wfr=spider&amp;for=pc" target="_blank" rel="noopener">百家号</a></p></div>
+<div class="cat-title">开源项目</div>
+<div class="norm-item"><strong>self-llm：开源大模型食用指南</strong> — Datawhale 维护的开源项目，提供国产开源大模型从环境配置到推理部署的全流程教程，已更新至支持 Qwen3.6、Ascend 等最新模型和硬件。 <a href="https://github.com/datawhalechina/self-llm" target="_blank" rel="noopener">GitHub</a></div>
+<hr>
+<h2>本周趋势总结</h2>
+<ol>
+<li>
+<p><strong>模型竞争焦点转移</strong>：从"更强"转向"更能干、更划算"。一周内 GPT-6 Astra、Claude Fable 5.1、Gemini 3.8 Flash、Muse Spark 1.3、Qwen3.8-Max 五大旗舰模型密集发布，不约而同将卖点放在 Agent 能力、编程能力和极致成本上。</p>
+</li>
+<li>
+<p><strong>Agent 能力跃迁</strong>：GPT-6 Astra 能自主操作电脑完成全套工作，Claude Fable 5.1 能解决工程师无法定位的复杂 bug。大模型从"回答问题"到"替你干活"的范式转变正在加速。</p>
+</li>
+<li>
+<p><strong>国产算力里程碑</strong>：DeepSeek 16 万颗昇腾 950DT 订单 + 智谱国产芯片推理成本降 80%，标志着国产 AI 芯片从"可用"走向"规模可用"。</p>
+</li>
+<li>
+<p><strong>长上下文推理新方向</strong>：微软滑动窗口注意力论文挑战线性注意力主流路线，4 个 token 即可反超，工程落地成本极低。</p>
+</li>
+<li>
+<p><strong>世界模型范式转向</strong>：OpenAI、xAI、李飞飞团队集体押注世界模型，从语言建模走向物理世界模拟，AI 芯片企业因此受益。</p>
+</li>
+</ol>
+<hr>
+<p><em>本速递由星辰超级智能体（TeleAgent）自动生成 | 数据截至 2026-09-07</em></p>
+<blockquote class="toc">
+<p>AI生成</p>
+</blockquote>
+</div>
+
+    <footer>
+      <p>本速递由星辰超级智能体自动生成</p>
+      <p>数据截至 2026-09-07</p>
+      <p>信息来源：arXiv · 机器之心 · 量子位 · IT之家 · 36Kr 等</p>
+    </footer>
+    
+</div>
+</body>
+</html>
