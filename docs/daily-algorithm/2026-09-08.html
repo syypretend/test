@@ -1,0 +1,1574 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>每日算法讲解 · 2026年09月08日</title>
+<!-- MathJax for LaTeX math formula rendering -->
+<script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\(', '\)']],
+      displayMath: [['$$', '$$'], ['\[', '\]']],
+      processEscapes: true
+    },
+    svg: { fontCache: 'global' }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" id="MathJax-script" async></script>
+<style>
+:root {
+  --primary: #6366f1;
+  --primary-dark: #4f46e5;
+  --bg: #0f172a;
+  --card-bg: #1e293b;
+  --text: #e2e8f0;
+  --text-dim: #94a3b8;
+  --accent: #818cf8;
+  --border: #334155;
+  --code-bg: #0d1117;
+  --code-text: #e6edf3;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans SC", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.8;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+.container { max-width: 1400px; margin: 0 auto; padding: 24px 32px; }
+.header {
+  text-align: center;
+  padding: 40px 0 30px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 32px;
+}
+.header h1 {
+  font-size: 28px;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.header h1 .date { color: var(--accent); }
+.header .subtitle { color: var(--text-dim); font-size: 15px; }
+.repo-link {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 6px 16px;
+  background: var(--primary);
+  color: #fff;
+  border-radius: 20px;
+  text-decoration: none;
+  font-size: 13px;
+  transition: background 0.2s;
+}
+.repo-link:hover { background: var(--primary-dark); }
+.history-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 32px;
+  padding: 16px;
+  background: var(--card-bg);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+.history-nav a {
+  padding: 4px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  color: var(--text-dim);
+  text-decoration: none;
+  background: rgba(99,102,241,0.08);
+  transition: all 0.2s;
+}
+.history-nav a:hover { color: var(--text); background: rgba(99,102,241,0.2); }
+.history-nav a.active { color: #fff; background: var(--primary); }
+.history-nav a.back-index { color: var(--accent); font-weight: 600; background: rgba(99,102,241,0.15); border: 1px solid rgba(99,102,241,0.3); }
+.history-nav a.back-index:hover { color: #fff; background: var(--primary); border-color: var(--primary); }
+.content { margin-bottom: 40px; max-width: 1100px; }
+.content h2 {
+  font-size: 24px;
+  color: var(--accent);
+  margin: 40px 0 16px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--primary);
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+.content h2:first-child { border-top: none; padding-top: 0; }
+.content h3 {
+  font-size: 18px;
+  color: var(--text);
+  margin: 24px 0 12px;
+}
+.content h4 {
+  font-size: 16px;
+  color: var(--accent);
+  margin: 20px 0 10px;
+}
+.content p { margin-bottom: 12px; color: var(--text); }
+.content ul { margin: 8px 0 16px 20px; }
+.content li { margin-bottom: 6px; }
+.content strong { color: var(--accent); }
+.content blockquote {
+  border-left: 4px solid var(--primary);
+  padding: 12px 16px;
+  margin: 16px 0;
+  background: rgba(99,102,241,0.08);
+  border-radius: 0 8px 8px 0;
+}
+.content blockquote p { color: var(--text-dim); margin: 4px 0; }
+.content hr {
+  border: none;
+  height: 1px;
+  background: var(--border);
+  margin: 32px 0;
+}
+.code-block {
+  background: var(--code-bg);
+  border-radius: 10px;
+  padding: 18px 24px;
+  overflow-x: auto;
+  margin: 16px 0;
+  border: 1px solid var(--border);
+  max-width: 100%;
+}
+.code-block code {
+  font-family: "JetBrains Mono", "Fira Code", "Consolas", monospace;
+  font-size: 14px;
+  color: var(--code-text);
+  line-height: 1.6;
+  white-space: pre;
+}
+.inline-code {
+  background: rgba(99,102,241,0.15);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: "Consolas", monospace;
+  font-size: 0.9em;
+  color: var(--accent);
+}
+/* Math formula block */
+.content .math-block {
+  background: rgba(99,102,241,0.06);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 24px;
+  margin: 16px 0;
+  overflow-x: auto;
+  max-width: 100%;
+}
+.content .math-label {
+  font-size: 13px; color: var(--text-dim); margin-bottom: 6px; }
+.content .math-vars {
+  margin: 8px 0 16px 20px; }
+.content .math-vars li { margin-bottom: 4px; color: var(--text-dim); }
+.footer {
+  text-align: center;
+  padding: 24px 0;
+  border-top: 1px solid var(--border);
+  color: var(--text-dim);
+  font-size: 13px;
+}
+.tag {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  background: rgba(99,102,241,0.15);
+  color: var(--accent);
+  margin-left: 8px;
+}
+.content .ref-link {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px dashed rgba(99,102,241,0.4);
+  transition: all 0.2s;
+  word-break: break-all;
+}
+.content .ref-link:hover {
+  color: #fff;
+  border-bottom-color: var(--primary);
+}
+.content li {
+  word-break: break-all;
+}
+/* Table */
+.table-wrapper {
+  overflow-x: auto;
+  margin: 16px 0;
+  max-width: 100%;
+}
+.algo-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  background: var(--card-bg);
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+.algo-table thead {
+  background: rgba(99,102,241,0.15);
+}
+.algo-table th {
+  padding: 10px 16px;
+  text-align: left;
+  color: var(--accent);
+  font-weight: 600;
+  border-bottom: 2px solid var(--primary);
+  white-space: nowrap;
+}
+.algo-table td {
+  padding: 8px 16px;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  word-break: break-all;
+}
+.algo-table tr:last-child td {
+  border-bottom: none;
+}
+.algo-table tr:hover td {
+  background: rgba(99,102,241,0.06);
+}
+/* Algorithm architecture image */
+.algo-image {
+  margin: 20px 0;
+  text-align: center;
+}
+.algo-image img {
+  max-width: 100%;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+.algo-image .image-caption {
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--text-dim);
+}
+.algo-image svg {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+/* ======== 移动端响应式适配 ======== */
+@media (max-width: 768px) {
+  .container { max-width: 100%; padding: 16px 14px; }
+  .header { padding: 24px 0 20px; margin-bottom: 20px; }
+  .header h1 { font-size: 20px; margin-bottom: 4px; }
+  .header .subtitle { font-size: 13px; }
+  .repo-link { margin-top: 10px; padding: 5px 14px; font-size: 12px; }
+  .history-nav { gap: 6px; padding: 10px 12px; margin-bottom: 20px; }
+  .history-nav a { padding: 3px 10px; font-size: 12px; }
+  .content { max-width: 100%; margin-bottom: 28px; }
+  .content h2 { font-size: 20px; margin: 28px 0 12px; }
+  .content h3 { font-size: 17px; margin: 20px 0 10px; }
+  .content h4 { font-size: 15px; margin: 16px 0 8px; }
+  .content p { font-size: 14px; margin-bottom: 10px; }
+  .content ul { margin: 6px 0 12px 16px; }
+  .content li { font-size: 14px; margin-bottom: 5px; }
+  .content blockquote { padding: 10px 12px; margin: 12px 0; }
+  .content blockquote p { font-size: 13px; }
+  .content .math-block { padding: 10px 14px; margin: 12px 0; }
+  .code-block { padding: 12px 14px; margin: 12px 0; }
+  .code-block code { font-size: 12px; line-height: 1.5; }
+  .inline-code { font-size: 0.88em; padding: 1px 5px; }
+  .algo-table { font-size: 12px; }
+  .algo-table th { padding: 6px 10px; }
+  .algo-table td { padding: 6px 10px; }
+  .algo-image { margin: 14px 0; }
+  .algo-image svg { max-width: 100%; height: auto; }
+  .footer { padding: 18px 0; font-size: 12px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>每日算法讲解 · <span class="date">2026年09月08日</span></h1>
+    <p class="subtitle">每天 1 个基础算法 + 2 个 AI/机器学习算法，持续精进</p>
+    <a href="https://syypretend.github.io/test/daily-algorithm" target="_blank" class="repo-link">GitHub 仓库</a>
+  </div>
+  <div class="history-nav"><a href="index.html" class="back-index">← 历史索引</a>
+<a href="2026-09-08.html" class="active">09月08日</a>
+</div>
+  <div class="content">
+  
+<h2>每日算法讲解 · 2026-09-08</h2>
+
+<blockquote>
+<p>今日内容：1 个基础算法 + 2 个 AI/机器学习算法 | 首轮学习</p>
+</blockquote>
+
+<hr>
+
+<h3>哈希表</h3>
+
+<p><strong>类别</strong>：数据结构 | <strong>难度</strong>：入门</p>
+
+<h4>一、核心原理</h4>
+
+<p>哈希表（Hash Table），又称散列表，是一种通过<strong>哈希函数</strong>将键（Key）映射到数组下标，从而实现 $ O(1) $ 平均时间复杂度的增删查改的数据结构。它是计算机科学中最基础、最重要的数据结构之一，广泛应用于数据库索引、缓存系统、编译器符号表、密码学等场景。</p>
+
+<p>#### 1.1 基本概念</p>
+
+<div class="table-wrapper"><table class="algo-table"><thead><tr><th>概念</th><th>英文</th><th>定义</th></tr></thead><tbody><tr><td>哈希函数</td><td>Hash Function</td><td>将任意大小的键映射为固定大小整数（数组下标）的函数，记作 $ H(key) $</td></tr><tr><td>哈希冲突</td><td>Collision</td><td>不同键映射到同一数组下标的现象</td></tr><tr><td>同义词</td><td>Synonym</td><td>发生冲突的多个键互为同义词</td></tr><tr><td>负载因子</td><td>Load Factor ($ \alpha $)</td><td>$ \alpha = \frac{n}{m} $，$ n $ 为已存元素个数，$ m $ 为哈希表长度</td></tr><tr><td>桶/槽位</td><td>Bucket / Slot</td><td>哈希表中存储元素的位置</td></tr><tr><td>再哈希</td><td>Rehashing</td><td>当负载因子超过阈值时，扩容并重新哈希所有元素</td></tr></tbody></table></div>
+
+<p>#### 1.2 哈希函数构造方法</p>
+
+<p><strong>除留余数法</strong>（最常用）：</p>
+
+<p><div class="math-block">$$ H(key) = key \bmod p $$</div></p>
+
+<ul>
+<li>$ key $：待哈希的键</li>
+<li>$ p $：通常取不大于表长 $ m $ 的最大质数，且不接近 $ 2 $ 的幂</li>
+<li><strong>为什么选质数</strong>：若 $ p $ 取 $ 2^k $，则 $ H(key) $ 仅保留 $ key $ 的低 $ k $ 位，低位分布不均匀的键会产生大量冲突</li>
+</ul>
+
+<p><strong>直接定址法</strong>：</p>
+
+<p><div class="math-block">$$ H(key) = a \times key + b $$</div></p>
+
+<ul>
+<li>$ a, b $：常数，适合键分布连续的场景</li>
+<li>优点：无冲突；缺点：空间浪费大</li>
+</ul>
+
+<p><strong>平方取中法</strong>：</p>
+
+<p><div class="math-block">$$ H(key) = \text{mid}(key^2) $$</div></p>
+
+<ul>
+<li>取 $ key $ 平方后的中间若干位作为哈希值</li>
+<li>适合键分布未知的情况，中间位受键各位影响最大，分布更均匀</li>
+</ul>
+
+<p><strong>折叠法</strong>：将键分为若干段后叠加（移位折叠或边界折叠），适合键位数较多的情况。</p>
+
+<p>#### 1.3 冲突解决策略</p>
+
+<p>##### 开放定址法（Open Addressing）</p>
+
+<p>所有元素直接存储在哈希表数组中，冲突时按某种规则探测下一个空位。</p>
+
+<p><strong>线性探测（Linear Probing）</strong>：</p>
+
+<p><div class="math-block">$$ H(key, i) = (H(key) + i) \bmod m, \quad i = 0, 1, 2, \ldots, m-1 $$</div></p>
+
+<ul>
+<li>$ i $：探测次数，从 $ 0 $ 开始递增</li>
+<li>$ m $：哈希表长度</li>
+<li><strong>一次聚集（Primary Clustering）</strong>：连续被占用的位置形成"块"，越来越长，插入新元素时探测次数线性增长</li>
+</ul>
+
+<p><strong>二次探测（Quadratic Probing）</strong>：</p>
+
+<p><div class="math-block">$$ H(key, i) = (H(key) + c_1 \cdot i + c_2 \cdot i^2) \bmod m $$</div></p>
+
+<ul>
+<li>$ c_1, c_2 $：常数（常取 $ c_1=0, c_2=1 $）</li>
+<li>缓解一次聚集，但可能产生<strong>二次聚集</strong>（不同初始哈希值的键可能产生相同探测序列）</li>
+<li><strong>重要定理</strong>：当表长 $ m $ 为质数且 $ \alpha \leq 0.5 $ 时，一定能找到空位插入</li>
+</ul>
+
+<p><strong>双重哈希（Double Hashing）</strong>：</p>
+
+<p><div class="math-block">$$ H(key, i) = (H_1(key) + i \times H_2(key)) \bmod m $$</div></p>
+
+<ul>
+<li>$ H_1, H_2 $：两个独立哈希函数</li>
+<li>$ H_2(key) $ 必须与 $ m $ 互质，否则探测序列会很快循环</li>
+<li>常取 $ H_2(key) = 1 + (key \bmod (m-2)) $</li>
+<li>线性探测是 $ H_2(key) = 1 $ 的特例</li>
+</ul>
+
+<p>##### 链地址法（Separate Chaining / 拉链法）</p>
+
+<p>每个桶维护一个链表（或红黑树），冲突元素挂在同一链表上。</p>
+
+<ul>
+<li>插入：$ O(1) $（头插法）</li>
+<li>查找：$ O(1 + \alpha) $（平均链表长度为 $ \alpha $）</li>
+<li>删除：需先查找再删除，$ O(1 + \alpha) $</li>
+<li>$ \alpha $ 可以大于 $ 1 $，表永远不会"满"</li>
+</ul>
+
+<p>#### 1.4 原理示意图</p>
+
+<p><div class="algo-image"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 520" width="100%">
+  <!-- 标题 -->
+  <text x="440" y="28" text-anchor="middle" font-size="18" font-weight="bold" fill="#6366f1">哈希表原理：哈希函数 + 冲突解决（链地址法 vs 开放定址法）</text>
+
+  <!-- 输入键 -->
+  <text x="50" y="80" font-size="14" font-weight="bold" fill="#94a3b8">输入键</text>
+  <rect x="40" y="90" width="80" height="36" rx="6" fill="#1e293b" stroke="#6366f1" stroke-width="2"/>
+  <text x="80" y="113" text-anchor="middle" font-size="14" fill="#e2e8f0">key=42</text>
+  <rect x="40" y="135" width="80" height="36" rx="6" fill="#1e293b" stroke="#6366f1" stroke-width="2"/>
+  <text x="80" y="158" text-anchor="middle" font-size="14" fill="#e2e8f0">key=15</text>
+  <rect x="40" y="180" width="80" height="36" rx="6" fill="#1e293b" stroke="#6366f1" stroke-width="2"/>
+  <text x="80" y="203" text-anchor="middle" font-size="14" fill="#e2e8f0">key=28</text>
+
+  <!-- 哈希函数 -->
+  <rect x="170" y="115" width="120" height="50" rx="8" fill="#4f46e5" stroke="#818cf8" stroke-width="2"/>
+  <text x="230" y="135" text-anchor="middle" font-size="13" fill="#fff" font-weight="bold">哈希函数</text>
+  <text x="230" y="153" text-anchor="middle" font-size="12" fill="#c7d2fe">H(k)=k%7</text>
+
+  <!-- 箭头：键到哈希函数 -->
+  <line x1="120" y1="108" x2="168" y2="125" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="120" y1="153" x2="168" y2="140" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="120" y1="198" x2="168" y2="155" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- 箭头 marker -->
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <polygon points="0,0 8,3 0,6" fill="#6366f1"/>
+    </marker>
+    <marker id="arrow2" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <polygon points="0,0 8,3 0,6" fill="#22c55e"/>
+    </marker>
+  </defs>
+
+  <!-- 哈希值 -->
+  <text x="330" y="140" text-anchor="middle" font-size="12" fill="#22c55e">H(42)=0</text>
+  <text x="330" y="155" text-anchor="middle" font-size="12" fill="#22c55e">H(15)=1</text>
+  <text x="330" y="170" text-anchor="middle" font-size="12" fill="#22c55e">H(28)=0 (冲突!)</text>
+
+  <!-- 链地址法 -->
+  <text x="530" y="80" text-anchor="middle" font-size="15" font-weight="bold" fill="#22c55e">链地址法（拉链法）</text>
+  <!-- 桶数组 -->
+  <g font-size="13" fill="#e2e8f0">
+    <rect x="400" y="95" width="60" height="30" rx="4" fill="#1e293b" stroke="#334155"/><text x="430" y="115" text-anchor="middle">[0]</text>
+    <rect x="400" y="130" width="60" height="30" rx="4" fill="#1e293b" stroke="#334155"/><text x="430" y="150" text-anchor="middle">[1]</text>
+    <rect x="400" y="165" width="60" height="30" rx="4" fill="#1e293b" stroke="#334155"/><text x="430" y="185" text-anchor="middle">[2]</text>
+    <rect x="400" y="200" width="60" height="30" rx="4" fill="#1e293b" stroke="#334155"/><text x="430" y="220" text-anchor="middle">[3]</text>
+    <rect x="400" y="235" width="60" height="30" rx="4" fill="#1e293b" stroke="#334155"/><text x="430" y="255" text-anchor="middle">[4]</text>
+    <rect x="400" y="270" width="60" height="30" rx="4" fill="#1e293b" stroke="#334155"/><text x="430" y="290" text-anchor="middle">[5]</text>
+    <rect x="400" y="305" width="60" height="30" rx="4" fill="#1e293b" stroke="#334155"/><text x="430" y="325" text-anchor="middle">[6]</text>
+  </g>
+  <!-- 链表节点 -->
+  <rect x="470" y="100" width="60" height="22" rx="4" fill="#312e81" stroke="#818cf8"/><text x="500" y="116" text-anchor="middle" font-size="12" fill="#c7d2fe">42</text>
+  <line x1="530" y1="111" x2="550" y2="111" stroke="#818cf8" stroke-width="2" marker-end="url(#arrow)"/>
+  <rect x="555" y="100" width="60" height="22" rx="4" fill="#312e81" stroke="#818cf8"/><text x="585" y="116" text-anchor="middle" font-size="12" fill="#c7d2fe">28</text>
+  <text x="630" y="116" font-size="11" fill="#f59e0b">← 冲突链</text>
+
+  <rect x="470" y="135" width="60" height="22" rx="4" fill="#312e81" stroke="#818cf8"/><text x="500" y="151" text-anchor="middle" font-size="12" fill="#c7d2fe">15</text>
+
+  <!-- 开放定址法 -->
+  <text x="730" y="80" text-anchor="middle" font-size="15" font-weight="bold" fill="#f59e0b">开放定址法（线性探测）</text>
+  <g font-size="13" fill="#e2e8f0">
+    <rect x="640" y="95" width="60" height="30" rx="4" fill="#1e293b" stroke="#f59e0b"/><text x="670" y="115" text-anchor="middle">42</text>
+    <rect x="640" y="130" width="60" height="30" rx="4" fill="#1e293b" stroke="#f59e0b"/><text x="670" y="150" text-anchor="middle">28</text>
+    <rect x="640" y="165" width="60" height="30" rx="4" fill="#1e293b" stroke="#334155"/><text x="670" y="185" text-anchor="middle">15</text>
+    <rect x="640" y="200" width="60" height="30" rx="4" fill="#1e293b" stroke="#334155"/><text x="670" y="220" text-anchor="middle">[3]</text>
+    <rect x="640" y="235" width="60" height="30" rx="4" fill="#1e293b" stroke="#334155"/><text x="670" y="255" text-anchor="middle">[4]</text>
+    <rect x="640" y="270" width="60" height="30" rx="4" fill="#1e293b" stroke="#334155"/><text x="670" y="290" text-anchor="middle">[5]</text>
+    <rect x="640" y="305" width="60" height="30" rx="4" fill="#1e293b" stroke="#334155"/><text x="670" y="325" text-anchor="middle">[6]</text>
+  </g>
+  <text x="710" y="345" font-size="11" fill="#f59e0b">28 冲突→探测[1]</text>
+
+  <!-- 性能公式区 -->
+  <rect x="40" y="370" width="820" height="130" rx="10" fill="#0d1117" stroke="#334155" stroke-width="1"/>
+  <text x="60" y="395" font-size="13" fill="#22c55e" font-weight="bold">性能分析</text>
+  <text x="60" y="418" font-size="12" fill="#e2e8f0">查找成功 ASL（链地址法）≈ 1 + α/2     |     查找失败 ASL ≈ α + e^(-α)</text>
+  <text x="60" y="438" font-size="12" fill="#e2e8f0">线性探测成功 ASL ≈ (1 + 1/(1-α))/2   |     线性探测失败 ASL ≈ (1 + 1/(1-α)²)/2</text>
+  <text x="60" y="458" font-size="12" fill="#e2e8f0">α > 0.75 时性能急剧下降，触发 Rehash 扩容（通常翻倍，取新表长为质数）</text>
+  <text x="60" y="480" font-size="12" fill="#94a3b8">Java HashMap: 链地址法 + 红黑树(链表≥8转树) | Python dict: 开放定址法(伪随机探测)</text>
+</svg></div></p>
+
+<hr>
+
+<h4>二、核心参数详解</h4>
+
+<p>#### 2.1 哈希表容量（Table Size / Capacity）</p>
+
+<div class="table-wrapper"><table class="algo-table"><thead><tr><th>属性</th><th>说明</th></tr></thead><tbody><tr><td><strong>含义</strong></td><td>哈希表底层数组的长度，即桶的数量</td></tr><tr><td><strong>类型</strong></td><td>整数</td></tr><tr><td><strong>默认值</strong></td><td>初始值通常为 16（Java HashMap）或根据预期元素数动态计算</td></tr><tr><td><strong>取值范围</strong></td><td>正整数，建议为质数（开放定址法）或 $ 2 $ 的幂（工程实现）</td></tr><tr><td><strong>对结果的影响</strong></td><td>容量越大，冲突概率越低，查找越快，但空间浪费越多</td></tr><tr><td><strong>推荐设置</strong></td><td>预估元素数 $ n $，设 $ m \approx n / 0.75 $（保证负载因子在 $ 0.6 \sim 0.75 $）；若用开放定址法，$ m $ 取质数且 $ \alpha \leq 0.7 $</td></tr></tbody></table></div>
+
+<p>#### 2.2 负载因子阈值（Load Factor Threshold）</p>
+
+<div class="table-wrapper"><table class="algo-table"><thead><tr><th>属性</th><th>说明</th></tr></thead><tbody><tr><td><strong>含义</strong></td><td>触发扩容（Rehash）的负载因子临界值</td></tr><tr><td><strong>类型</strong></td><td>浮点数</td></tr><tr><td><strong>默认值</strong></td><td>0.75（Java HashMap、C++ unordered_map）</td></tr><tr><td><strong>取值范围</strong></td><td>$ (0, 1) $；链地址法可 $ >1 $，但通常设为 $ 0.75 $</td></tr><tr><td><strong>对结果的影响</strong></td><td>阈值越低，扩容越频繁，空间换时间；阈值越高，冲突越多，时间换空间</td></tr><tr><td><strong>推荐设置</strong></td><td>通用场景 $ 0.75 $；内存敏感场景 $ 0.9 $；高性能场景 $ 0.5 \sim 0.6 $</td></tr></tbody></table></div>
+
+<p>数学解释——线性探测的期望探测次数与 $ \alpha $ 的关系：</p>
+
+<p><div class="math-block">$$ \text{成功 ASL} = \frac{1}{2}\left(1 + \frac{1}{1-\alpha}\right) $$</div></p>
+
+<p><div class="math-block">$$ \text{失败 ASL} = \frac{1}{2}\left(1 + \frac{1}{(1-\alpha)^2}\right) $$</div></p>
+
+<p>当 $ \alpha = 0.75 $ 时，成功 ASL $ \approx 3 $，失败 ASL $ \approx 8.5 $；当 $ \alpha = 0.9 $ 时，成功 ASL $ \approx 5.5 $，失败 ASL $ \approx 50.5 $，性能急剧恶化。</p>
+
+<p>#### 2.3 哈希函数选择（Hash Function）</p>
+
+<div class="table-wrapper"><table class="algo-table"><thead><tr><th>属性</th><th>说明</th></tr></thead><tbody><tr><td><strong>含义</strong></td><td>将键映射到 $ [0, m-1] $ 的函数</td></tr><tr><td><strong>类型</strong></td><td>函数</td></tr><tr><td><strong>默认值</strong></td><td>取决于键类型：整数用取模，字符串用多项式哈希</td></tr><tr><td><strong>取值范围</strong></td><td>任何满足 $ H: \text{Key} \to [0, m-1] $ 的函数</td></tr><tr><td><strong>对结果的影响</strong></td><td>分布越均匀，冲突越少，性能越好；差的哈希函数会导致大量聚集</td></tr><tr><td><strong>推荐设置</strong></td><td>整数：$ H(k) = k \bmod p $（$ p $ 为质数）；字符串：DJB2 或 FNV-1a 哈希</td></tr></tbody></table></div>
+
+<p>#### 2.4 扩容策略（Resize / Rehash Strategy）</p>
+
+<div class="table-wrapper"><table class="algo-table"><thead><tr><th>属性</th><th>说明</th></tr></thead><tbody><tr><td><strong>含义</strong></td><td>扩容时新表容量的计算方式</td></tr><tr><td><strong>类型</strong></td><td>枚举/函数</td></tr><tr><td><strong>默认值</strong></td><td>翻倍（$ m' = 2m $）</td></tr><tr><td><strong>取值范围</strong></td><td>$ m' > m $，通常 $ m' = 2m $ 或 $ m' = \text{next\_prime}(2m) $</td></tr><tr><td><strong>对结果的影响</strong></td><td>翻倍策略分摊 $ O(1) $ 插入，但单次 Rehash 为 $ O(n+m) $；渐进式 Rehash（如 Redis）可分散开销</td></tr><tr><td><strong>推荐设置</strong></td><td>通用：翻倍 + 质数调整；Redis 风格：渐进式 Rehash 避免卡顿</td></tr></tbody></table></div>
+
+<p>#### 2.5 冲突解决策略（Collision Resolution）</p>
+
+<div class="table-wrapper"><table class="algo-table"><thead><tr><th>属性</th><th>说明</th></tr></thead><tbody><tr><td><strong>含义</strong></td><td>处理哈希冲突的方法</td></tr><tr><td><strong>类型</strong></td><td>枚举：链地址法 / 开放定址法（线性探测/二次探测/双重哈希）</td></tr><tr><td><strong>默认值</strong></td><td>链地址法（Java、C++ STL）</td></tr><tr><td><strong>取值范围</strong></td><td>任何合法的冲突解决策略</td></tr><tr><td><strong>对结果的影响</strong></td><td>链地址法：$ \alpha $ 可 $ >1 $，删除简单，有额外指针开销；开放定址法：空间紧凑，缓存友好，但 $ \alpha $ 必须 $ <1 $，删除需墓碑标记</td></tr><tr><td><strong>推荐设置</strong></td><td>通用：链地址法 + 链表转红黑树（Java HashMap 风格，链表 $ \geq 8 $ 转树，$ \leq 6 $ 转回链表）；高性能读多写少：开放定址法（线性探测，缓存友好）</td></tr></tbody></table></div>
+
+<hr>
+
+<h4>三、数学公式与符号解释</h4>
+
+<p>#### 3.1 负载因子</p>
+
+<p><div class="math-block">$$ \alpha = \frac{n}{m} $$</div></p>
+
+<ul>
+<li>$ n $：哈希表中已存储的元素个数</li>
+<li>$ m $：哈希表的桶数量（数组长度）</li>
+<li>$ \alpha $：负载因子，衡量哈希表"拥挤程度"的核心指标</li>
+</ul>
+
+<p>#### 3.2 链地址法的期望查找长度</p>
+
+<p>在均匀哈希假设下，链地址法的查找时间取决于链表长度。成功查找需要遍历链表找到目标元素：</p>
+
+<p><div class="math-block">$$ \text{ASL}_{\text{success}} = 1 + \frac{\alpha}{2} - \frac{\alpha}{2n} \approx 1 + \frac{\alpha}{2} $$</div></p>
+
+<ul>
+<li>$ 1 $：检查桶位置本身</li>
+<li>$ \frac{\alpha}{2} $：在链表中平均遍历的元素数（均匀分布下链表平均长度为 $ \alpha $，成功查找平均遍历一半）</li>
+</ul>
+
+<p>失败查找需要遍历整个链表：</p>
+
+<p><div class="math-block">$$ \text{ASL}_{\text{fail}} = \alpha + e^{-\alpha} $$</div></p>
+
+<ul>
+<li>$ \alpha $：链表平均长度</li>
+<li>$ e^{-\alpha} $：桶为空的概率贡献</li>
+</ul>
+
+<p>#### 3.3 线性探测的期望探测次数</p>
+
+<p><div class="math-block">$$ \text{ASL}_{\text{success}} = \frac{1}{2}\left(1 + \frac{1}{1-\alpha}\right) $$</div></p>
+
+<p><div class="math-block">$$ \text{ASL}_{\text{fail}} = \frac{1}{2}\left(1 + \frac{1}{(1-\alpha)^2}\right) $$</div></p>
+
+<p>推导思路：设 $ A(\alpha) $ 为失败查找的期望探测次数，则 $ A(\alpha) \approx \frac{1}{1-\alpha} $（几何分布近似），成功查找的探测次数为已有元素探测次数的平均，通过积分可得上述结果。</p>
+
+<p>#### 3.4 扩容的分摊复杂度</p>
+
+<p>虽然单次 Rehash 为 $ O(n) $，但 $ n $ 次插入后的总扩容开销为：</p>
+
+<p><div class="math-block">$$ T_{\text{total}} = \sum_{i=0}^{\log_2 m} 2^i = 2m - 1 = O(m) $$</div></p>
+
+<p>分摊到每次插入：</p>
+
+<p><div class="math-block">$$ T_{\text{amortized}} = \frac{O(m)}{m} = O(1) $$</div></p>
+
+<hr>
+
+<h4>四、代码实现与逐行注释</h4>
+
+<p>#### 4.1 Python 实现：链地址法哈希表</p>
+
+<p><pre class="code-block"><code class="language-python">class HashTable:
+    &quot;&quot;&quot;链地址法哈希表实现&quot;&quot;&quot;
+    
+    def __init__(self, initial_capacity=16, load_factor_threshold=0.75):
+        # capacity: 初始桶数量，默认16（2的幂，便于位运算取模）
+        self.capacity = initial_capacity
+        # load_factor_threshold: 负载因子阈值，超过则触发扩容
+        self.load_factor_threshold = load_factor_threshold
+        # size: 当前存储的元素个数
+        self.size = 0
+        # buckets: 桶数组，每个桶是一个列表（链表），初始为空列表
+        self.buckets = [[] for _ in range(self.capacity)]
+    
+    def _hash(self, key):
+        &quot;&quot;&quot;哈希函数：将key映射到[0, capacity-1]&quot;&quot;&quot;
+        # 使用Python内置hash()获取整数哈希值
+        # 对capacity取模得到桶下标
+        # &amp; (capacity-1) 等价于 % capacity（当capacity为2的幂时）
+        return hash(key) % self.capacity
+    
+    def put(self, key, value):
+        &quot;&quot;&quot;插入/更新键值对&quot;&quot;&quot;
+        # 计算key对应的桶下标
+        index = self._hash(key)
+        # 获取该桶的链表
+        bucket = self.buckets[index]
+        # 遍历链表，检查key是否已存在
+        for i, (k, v) in enumerate(bucket):
+            if k == key:
+                # key已存在，更新value
+                bucket[i] = (key, value)
+                return
+        # key不存在，在链表末尾追加（也可头插法: bucket.insert(0, (key, value))）
+        bucket.append((key, value))
+        self.size += 1
+        # 检查是否需要扩容：当前负载因子 = size / capacity
+        if self.size &gt; self.capacity * self.load_factor_threshold:
+            self._resize()
+    
+    def get(self, key, default=None):
+        &quot;&quot;&quot;查找key对应的value&quot;&quot;&quot;
+        index = self._hash(key)          # 计算桶下标
+        bucket = self.buckets[index]     # 获取桶链表
+        for k, v in bucket:              # 遍历链表
+            if k == key:                 # 找到key
+                return v                 # 返回对应的value
+        return default                   # 未找到，返回默认值
+    
+    def remove(self, key):
+        &quot;&quot;&quot;删除key&quot;&quot;&quot;
+        index = self._hash(key)
+        bucket = self.buckets[index]
+        for i, (k, v) in enumerate(bucket):
+            if k == key:
+                del bucket[i]            # 直接从链表删除（链地址法无需墓碑标记）
+                self.size -= 1
+                return True
+        return False                     # key不存在
+    
+    def _resize(self):
+        &quot;&quot;&quot;扩容：容量翻倍，重新哈希所有元素&quot;&quot;&quot;
+        old_buckets = self.buckets
+        self.capacity *= 2               # 容量翻倍
+        self.buckets = [[] for _ in range(self.capacity)]  # 创建新桶数组
+        self.size = 0                    # 重置size，put时会重新计数
+        # 遍历旧桶中所有元素，重新插入到新桶
+        for bucket in old_buckets:
+            for key, value in bucket:
+                self.put(key, value)
+    
+    def __contains__(self, key):
+        &quot;&quot;&quot;支持 in 操作符&quot;&quot;&quot;
+        return self.get(key) is not None
+    
+    def __len__(self):
+        &quot;&quot;&quot;支持 len() 函数&quot;&quot;&quot;
+        return self.size</code></pre></p>
+
+<p>#### 4.2 Python 实现：开放定址法（线性探测）</p>
+
+<p><pre class="code-block"><code class="language-python">class OpenAddressingHashTable:
+    &quot;&quot;&quot;开放定址法哈希表（线性探测）&quot;&quot;&quot;
+    
+    _DELETED = object()  # 墓碑标记（删除占位符），与None区分
+    
+    def __init__(self, capacity=17, load_factor_threshold=0.7):
+        # capacity取质数（开放定址法要求），默认17
+        self.capacity = capacity
+        self.load_factor_threshold = load_factor_threshold
+        self.size = 0
+        # keys和values分别存储，None表示空位，_DELETED表示已删除
+        self.keys = [None] * capacity
+        self.values = [None] * capacity
+    
+    def _hash(self, key):
+        return hash(key) % self.capacity  # 主哈希函数
+    
+    def _probe(self, key):
+        &quot;&quot;&quot;线性探测：返回key应插入或已存在的位置&quot;&quot;&quot;
+        index = self._hash(key)           # 初始哈希位置
+        first_deleted = -1                # 记录探测中遇到的第一个墓碑位置
+        for i in range(self.capacity):    # 最多探测capacity次
+            pos = (index + i) % self.capacity  # 线性探测：(H(k)+i) % m
+            if self.keys[pos] is None:
+                # 空位：key不存在
+                # 返回墓碑位置（如果有）以复用空间，否则返回当前空位
+                return (first_deleted if first_deleted != -1 else pos, False)
+            if self.keys[pos] is self._DELETED:
+                # 墓碑：记录第一个墓碑位置，继续探测
+                if first_deleted == -1:
+                    first_deleted = pos
+                continue
+            if self.keys[pos] == key:
+                # 找到key：返回位置和True表示已存在
+                return (pos, True)
+        # 探测了整个表都没找到空位（理论上load_factor&lt;1时不会发生）
+        return (-1, False)
+    
+    def put(self, key, value):
+        pos, exists = self._probe(key)
+        if pos == -1:
+            raise Exception(&quot;Hash table is full&quot;)
+        if exists:
+            self.values[pos] = value  # 更新已有key的value
+        else:
+            self.keys[pos] = key      # 插入新key
+            self.values[pos] = value
+            self.size += 1
+            if self.size &gt; self.capacity * self.load_factor_threshold:
+                self._resize()
+    
+    def get(self, key, default=None):
+        pos, exists = self._probe(key)
+        if exists:
+            return self.values[pos]
+        return default
+    
+    def remove(self, key):
+        &quot;&quot;&quot;删除：用墓碑标记，不能直接置None（否则会打断探测链）&quot;&quot;&quot;
+        pos, exists = self._probe(key)
+        if exists:
+            self.keys[pos] = self._DELETED  # 标记为墓碑
+            self.values[pos] = None
+            self.size -= 1
+            return True
+        return False
+    
+    def _resize(self):
+        &quot;&quot;&quot;扩容：取下一个质数作为新容量&quot;&quot;&quot;
+        old_keys, old_values = self.keys, self.values
+        self.capacity = self._next_prime(self.capacity * 2)
+        self.keys = [None] * self.capacity
+        self.values = [None] * self.capacity
+        self.size = 0
+        for i in range(len(old_keys)):
+            if old_keys[i] is not None and old_keys[i] is not self._DELETED:
+                self.put(old_keys[i], old_values[i])
+    
+    @staticmethod
+    def _next_prime(n):
+        &quot;&quot;&quot;找到大于等于n的最小质数&quot;&quot;&quot;
+        def is_prime(num):
+            if num &lt; 2:
+                return False
+            for i in range(2, int(num**0.5) + 1):
+                if num % i == 0:
+                    return False
+            return True
+        while not is_prime(n):
+            n += 1
+        return n</code></pre></p>
+
+<hr>
+
+<h4>五、复杂度推导</h4>
+
+<div class="table-wrapper"><table class="algo-table"><thead><tr><th>操作</th><th>平均情况</th><th>最坏情况</th><th>推导说明</th></tr></thead><tbody><tr><td>查找</td><td>$ O(1) $</td><td>$ O(n) $</td><td>平均：均匀哈希下探测次数为常数；最坏：所有键冲突到一个桶</td></tr><tr><td>插入</td><td>$ O(1) $</td><td>$ O(n) $</td><td>平均：计算哈希 $ O(1) $ + 链表/探测 $ O(1+\alpha) $；最坏：全冲突</td></tr><tr><td>删除</td><td>$ O(1) $</td><td>$ O(n) $</td><td>链地址法：先查找 $ O(1+\alpha) $ + 删除 $ O(1) $；开放定址法同查找</td></tr><tr><td>扩容</td><td>—</td><td>$ O(n+m) $</td><td>需重新哈希所有 $ n $ 个元素到新表，但分摊为 $ O(1) $</td></tr></tbody></table></div>
+
+<p><strong>分摊分析</strong>：采用翻倍扩容策略时，$ n $ 次插入的总开销为 $ O(n) $（每次插入 $ O(1) $ + 偶尔的 $ O(n) $ 扩容被分摊），因此分摊插入复杂度为 $ O(1) $。</p>
+
+<hr>
+
+<h4>六、应用场景</h4>
+
+<div class="table-wrapper"><table class="algo-table"><thead><tr><th>场景</th><th>说明</th><th>冲突策略</th></tr></thead><tbody><tr><td><strong>数据库索引</strong></td><td>MySQL 的自适应哈希索引，在 B+ 树热点页上自动构建哈希表</td><td>链地址法</td></tr><tr><td><strong>缓存系统</strong></td><td>Redis 使用全局哈希表 + 渐进式 Rehash</td><td>链地址法</td></tr><tr><td><strong>编程语言内置</strong></td><td>Java HashMap、Python dict、C++ unordered_map</td><td>链地址法/开放定址法</td></tr><tr><td><strong>编译器符号表</strong></td><td>变量名/函数名 $ \to $ 地址映射</td><td>链地址法</td></tr><tr><td><strong>密码学</strong></td><td>SHA-256 等哈希函数用于数据完整性校验</td><td>无需冲突解决（加密哈希）</td></tr><tr><td><strong>布隆过滤器</strong></td><td>多哈希函数 + 位数组，用于集合 membership 判重</td><td>开放定址法（位数组）</td></tr><tr><td><strong>图算法</strong></td><td>DFS/BFS 中的 visited 集合，Dijkstra 的距离表</td><td>任意</td></tr></tbody></table></div>
+
+<h4>七、参考文档</h4>
+
+<ul>
+<li><a href="https://blog.csdn.net/2301_80025611/article/details/162069103" target="_blank" class="ref-link">数据结构课程中散列表的常见考点梳理 - CSDN</a></li>
+<li><a href="https://blog.csdn.net/2403_89677939/article/details/159118735" target="_blank" class="ref-link">散列表初探：键值对存储的魔法 - CSDN</a></li>
+<li>CLRS《算法导论》第11章：散列表</li>
+<li>Java HashMap 源码（<code class="inline-code">java.util.HashMap</code>）</li>
+<li>Python <code class="inline-code">dict</code> 实现：<a href="https://peps.python.org/pep-0020/" target="_blank" class="ref-link">PEP 20 - The Zen of Python</a></li>
+</ul>
+
+<hr>
+
+<h3>Focal Loss</h3>
+
+<p><strong>类别</strong>：损失函数 | <strong>难度</strong>：中等</p>
+
+<h4>一、核心原理</h4>
+
+<p>Focal Loss 由 Lin et al. 在 2017 年论文《Focal Loss for Dense Object Detection》（RetinaNet）中提出，旨在解决<strong>类别不平衡</strong>（class imbalance）和<strong>易样本主导训练</strong>（easy negative dominance）的问题。在目标检测中，背景（负样本）数量远超前景（正样本），大量易分的背景样本贡献了绝大部分损失，淹没了难分样本（如小目标、遮挡目标）的梯度信号。</p>
+
+<p>#### 1.1 从交叉熵到 Focal Loss</p>
+
+<p><strong>标准二分类交叉熵（BCE）</strong>：</p>
+
+<p><div class="math-block">$$ \text{CE}(p, y) = \begin{cases} -\log p & \text{if } y = 1 \\ -\log(1-p) & \text{if } y = 0 \end{cases} $$</div></p>
+
+<p>为了简化表达，定义 $ p_t $：</p>
+
+<p><div class="math-block">$$ p_t = \begin{cases} p & \text{if } y = 1 \\ 1-p & \text{if } y = 0 \end{cases} $$</div></p>
+
+<p>则交叉熵可统一写为：</p>
+
+<p><div class="math-block">$$ \text{CE}(p_t) = -\log(p_t) $$</div></p>
+
+<ul>
+<li>$ p $：模型对正类的预测概率，$ p = \sigma(z) $（$ z $ 为 logit，$ \sigma $ 为 sigmoid）</li>
+<li>$ y $：真实标签，$ 1 $ 为正类，$ 0 $ 为负类</li>
+<li>$ p_t $：模型对<strong>真实类别</strong>的预测概率，$ p_t $ 越大表示预测越正确</li>
+</ul>
+
+<p><strong>问题</strong>：当 $ p_t $ 很大（如 $ 0.9 $）时，样本已被正确分类，但 $ \text{CE}(p_t) = -\log(0.9) \approx 0.105 $ 仍有非零损失。大量易样本累积的损失会主导总损失和梯度方向。</p>
+
+<p><strong>Focal Loss 引入调制因子</strong>：</p>
+
+<p><div class="math-block">$$ \text{FL}(p_t) = -(1 - p_t)^\gamma \log(p_t) $$</div></p>
+
+<ul>
+<li>$ (1 - p_t)^\gamma $：<strong>调制因子</strong>（modulating factor）</li>
+<li>$ \gamma $：<strong>聚焦参数</strong>（focusing parameter），$ \gamma \geq 0 $</li>
+<li>当 $ p_t \to 1 $（易样本）时，$ (1-p_t)^\gamma \to 0 $，损失被大幅降低</li>
+<li>当 $ p_t $ 较小（难样本）时，$ (1-p_t)^\gamma \to 1 $，损失几乎不受影响</li>
+<li>$ \gamma = 0 $ 时，$ \text{FL} = \text{CE} $，退化为标准交叉熵</li>
+</ul>
+
+<p><strong>加入类别平衡权重 $ \alpha $</strong>：</p>
+
+<p><div class="math-block">$$ \text{FL}(p_t) = -\alpha_t (1 - p_t)^\gamma \log(p_t) $$</div></p>
+
+<ul>
+<li>$ \alpha_t $：类别平衡权重，$ \alpha_t = \alpha $（正类）或 $ 1-\alpha $（负类）</li>
+<li>作用：补偿正负样本数量不平衡</li>
+</ul>
+
+<p>#### 1.2 原理示意图</p>
+
+<p><div class="algo-image"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 450" width="100%">
+  <text x="440" y="25" text-anchor="middle" font-size="18" font-weight="bold" fill="#6366f1">Focal Loss vs Cross Entropy：调制因子对易/难样本的权重调节</text>
+
+  <!-- 坐标轴 -->
+  <line x1="80" y1="380" x2="820" y2="380" stroke="#94a3b8" stroke-width="2"/>
+  <line x1="80" y1="380" x2="80" y2="50" stroke="#94a3b8" stroke-width="2"/>
+  <text x="440" y="420" text-anchor="middle" font-size="14" fill="#94a3b8">p_t（模型对真实类别的预测概率）</text>
+  <text x="30" y="215" text-anchor="middle" font-size="14" fill="#94a3b8" transform="rotate(-90,30,215)">Loss</text>
+
+  <!-- 刻度 -->
+  <g font-size="11" fill="#94a3b8">
+    <text x="80" y="398" text-anchor="middle">0.0</text>
+    <text x="228" y="398" text-anchor="middle">0.2</text>
+    <text x="376" y="398" text-anchor="middle">0.4</text>
+    <text x="524" y="398" text-anchor="middle">0.6</text>
+    <text x="672" y="398" text-anchor="middle">0.8</text>
+    <text x="820" y="398" text-anchor="middle">1.0</text>
+  </g>
+
+  <!-- CE 曲线 (γ=0) -->
+  <path d="M 80 380 L 80 55 Q 95 280 154 340 Q 250 370 370 378 L 820 380" stroke="#ef4444" stroke-width="2.5" fill="none"/>
+  <text x="160" y="260" font-size="13" fill="#ef4444" font-weight="bold">CE (γ=0)</text>
+
+  <!-- FL γ=1 -->
+  <path d="M 80 380 L 80 200 Q 120 330 228 370 L 820 380" stroke="#f59e0b" stroke-width="2.5" fill="none"/>
+  <text x="230" y="330" font-size="13" fill="#f59e0b" font-weight="bold">FL (γ=1)</text>
+
+  <!-- FL γ=2 -->
+  <path d="M 80 380 L 80 300 Q 120 360 228 376 L 820 380" stroke="#22c55e" stroke-width="2.5" fill="none"/>
+  <text x="300" y="370" font-size="13" fill="#22c55e" font-weight="bold">FL (γ=2)</text>
+
+  <!-- FL γ=5 -->
+  <path d="M 80 380 L 80 370 Q 200 378 300 380 L 820 380" stroke="#818cf8" stroke-width="2.5" fill="none"/>
+  <text x="400" y="365" font-size="13" fill="#818cf8" font-weight="bold">FL (γ=5)</text>
+
+  <!-- 标注区域 -->
+  <rect x="500" y="60" width="300" height="110" rx="8" fill="#1e293b" stroke="#334155"/>
+  <text x="520" y="85" font-size="13" fill="#22c55e" font-weight="bold">关键观察</text>
+  <text x="520" y="105" font-size="12" fill="#e2e8f0">• p_t→1（易样本）：γ越大，FL越小</text>
+  <text x="520" y="123" font-size="12" fill="#e2e8f0">• p_t→0（难样本）：FL≈CE，权重不减</text>
+  <text x="520" y="141" font-size="12" fill="#e2e8f0">• γ=2 是论文推荐的最佳值</text>
+  <text x="520" y="159" font-size="12" fill="#e2e8f0">• γ=0 退化为标准交叉熵</text>
+</svg></div></p>
+
+<hr>
+
+<h4>二、核心参数详解</h4>
+
+<p>#### 2.1 聚焦参数 $ \gamma $（gamma / focusing parameter）</p>
+
+<div class="table-wrapper"><table class="algo-table"><thead><tr><th>属性</th><th>说明</th></tr></thead><tbody><tr><td><strong>含义</strong></td><td>控制调制因子 $ (1-p_t)^\gamma $ 的幂次，决定对易样本的抑制力度</td></tr><tr><td><strong>类型</strong></td><td>浮点数（非负）</td></tr><tr><td><strong>默认值</strong></td><td>$ 2.0 $（论文推荐，RetinaNet 实验最佳）</td></tr><tr><td><strong>取值范围</strong></td><td>$ [0, +\infty) $，实际常用 $ [0, 5] $</td></tr><tr><td><strong>对结果的影响</strong></td><td>$ \gamma=0 $：退化为标准 CE，无聚焦效果；$ \gamma $ 越大，易样本权重越低，模型越聚焦难样本；$ \gamma $ 过大可能导致难样本过拟合</td></tr><tr><td><strong>推荐设置</strong></td><td>目标检测：$ \gamma=2 $；分类任务：$ \gamma \in [1, 2] $；极端不平衡：$ \gamma=2 \sim 3 $</td></tr></tbody></table></div>
+
+<p>数学推导——$ \gamma $ 对梯度的缩放作用：</p>
+
+<p>Focal Loss 对 $ p_t $ 的导数为：</p>
+
+<p><div class="math-block">$$ \frac{\partial \text{FL}}{\partial p_t} = -\gamma (1-p_t)^{\gamma-1}(-1)\log(p_t) - \frac{(1-p_t)^\gamma}{p_t} $$</div></p>
+
+<p><div class="math-block">$$ = \gamma(1-p_t)^{\gamma-1}\log(p_t) - \frac{(1-p_t)^\gamma}{p_t} $$</div></p>
+
+<p>当 $ p_t \to 1 $（易样本），$ (1-p_t)^{\gamma-1} \to 0 $（$ \gamma > 1 $ 时），梯度趋近于零；当 $ p_t $ 较小（难样本），$ (1-p_t)^\gamma \to 1 $，梯度接近标准 CE 的梯度。</p>
+
+<p>#### 2.2 类别平衡权重 $ \alpha $（alpha / balancing parameter）</p>
+
+<div class="table-wrapper"><table class="algo-table"><thead><tr><th>属性</th><th>说明</th></tr></thead><tbody><tr><td><strong>含义</strong></td><td>为正负类分配不同权重，补偿数量不平衡</td></tr><tr><td><strong>类型</strong></td><td>浮点数</td></tr><tr><td><strong>默认值</strong></td><td>$ 0.25 $（RetinaNet 论文推荐）</td></tr><tr><td><strong>取值范围</strong></td><td>$ (0, 1) $；$ \alpha_t = \alpha $（正类），$ \alpha_t = 1-\alpha $（负类）</td></tr><tr><td><strong>对结果的影响</strong></td><td>$ \alpha $ 越大，正类权重越高；与 $ \gamma $ 配合使用，单独调 $ \alpha $ 效果有限</td></tr><tr><td><strong>推荐设置</strong></td><td>$ \gamma=2 $ 时 $ \alpha=0.25 $；若不使用 $ \gamma $（$ \gamma=0 $），$ \alpha $ 可设为类别频率的倒数</td></tr></tbody></table></div>
+
+<p>注意：论文实验表明，$ \gamma $ 增大时，$ \alpha $ 应适当减小。$ \gamma=0 $ 时最佳 $ \alpha=0.71 $；$ \gamma=2 $ 时最佳 $ \alpha=0.25 $。这是因为 $ \gamma $ 已经抑制了大量负样本，再用大的 $ \alpha $ 会过度补偿正类。</p>
+
+<p>#### 2.3 损失归约方式（reduction）</p>
+
+<div class="table-wrapper"><table class="algo-table"><thead><tr><th>属性</th><th>说明</th></tr></thead><tbody><tr><td><strong>含义</strong></td><td>多个样本的 Focal Loss 如何聚合为标量</td></tr><tr><td><strong>类型</strong></td><td>枚举：<code class="inline-code">'none'</code> / <code class="inline-code">'mean'</code> / <code class="inline-code">'sum'</code></td></tr><tr><td><strong>默认值</strong></td><td><code class="inline-code">'mean'</code>（PyTorch <code class="inline-code">FocalLoss</code> 默认）</td></tr><tr><td><strong>取值范围</strong></td><td>三种模式</td></tr><tr><td><strong>对结果的影响</strong></td><td><code class="inline-code">mean</code>：取平均，梯度尺度稳定；<code class="inline-code">sum</code>：取总和，受 batch size 影响；<code class="inline-code">none</code>：不归约，逐样本输出</td></tr><tr><td><strong>推荐设置</strong></td><td>训练用 <code class="inline-code">mean</code>；分析难样本分布用 <code class="inline-code">none</code></td></tr></tbody></table></div>
+
+<p>#### 2.4 多分类扩展参数</p>
+
+<div class="table-wrapper"><table class="algo-table"><thead><tr><th>属性</th><th>说明</th></tr></thead><tbody><tr><td><strong>含义</strong></td><td>Focal Loss 从二分类扩展到多分类的方式</td></tr><tr><td><strong>类型</strong></td><td>布尔/枚举</td></tr><tr><td><strong>默认值</strong></td><td>多分类：$ p_t = \text{softmax}(z)[y] $，即模型对真实类别的 softmax 概率</td></tr><tr><td><strong>取值范围</strong></td><td>—</td></tr><tr><td><strong>对结果的影响</strong></td><td>多分类 Focal Loss 公式：$ \text{FL} = -\alpha_t (1-p_t)^\gamma \log(p_t) $，其中 $ p_t $ 为 softmax 输出中真实类别的概率</td></tr><tr><td><strong>推荐设置</strong></td><td>多分类时 $ \alpha $ 可设为各类频率的倒数，或每类一个权重向量</td></tr></tbody></table></div>
+
+<hr>
+
+<h4>三、数学公式与符号解释</h4>
+
+<p>#### 3.1 Focal Loss 完整公式（二分类）</p>
+
+<p><div class="math-block">$$ \text{FL}(p_t) = -\alpha_t (1 - p_t)^\gamma \log(p_t) $$</div></p>
+
+<p>符号说明：</p>
+
+<ul>
+<li>$ p_t $：模型对真实类别的预测概率</li>
+<li>当 $ y=1 $（正类）：$ p_t = p = \sigma(z) $</li>
+<li>当 $ y=0 $（负类）：$ p_t = 1-p = 1-\sigma(z) $</li>
+<li>$ \alpha_t $：类别平衡权重</li>
+<li>当 $ y=1 $：$ \alpha_t = \alpha $</li>
+<li>当 $ y=0 $：$ \alpha_t = 1-\alpha $</li>
+<li>$ \gamma $：聚焦参数，控制易样本权重衰减速度</li>
+<li>$ \log $：自然对数（$ \ln $）</li>
+</ul>
+
+<p>#### 3.2 调制因子的作用分解</p>
+
+<p><div class="math-block">$$ \text{FL}(p_t) = \underbrace{-\log(p_t)}_{\text{标准交叉熵}} \times \underbrace{(1-p_t)^\gamma}_{\text{调制因子}} \times \underbrace{\alpha_t}_{\text{类别权重}} $$</div></p>
+
+<p>三部分作用：</p>
+
+<p>1. <strong>$ -\log(p_t) $</strong>：标准交叉熵，对错误分类施加惩罚</p>
+<p>2. <strong>$ (1-p_t)^\gamma $</strong>：调制因子，当 $ p_t $ 大（易样本）时趋近 $ 0 $，降低权重；当 $ p_t $ 小（难样本）时趋近 $ 1 $，保持权重</p>
+<p>3. <strong>$ \alpha_t $</strong>：类别权重，补偿正负样本数量不平衡</p>
+
+<p>#### 3.3 梯度推导</p>
+
+<p>Focal Loss 对 logit $ z $ 的梯度（$ p = \sigma(z) $，$ y=1 $ 正类时 $ p_t = p $）：</p>
+
+<p><div class="math-block">$$ \frac{\partial \text{FL}}{\partial z} = \frac{\partial \text{FL}}{\partial p} \cdot \frac{\partial p}{\partial z} = \frac{\partial \text{FL}}{\partial p} \cdot p(1-p) $$</div></p>
+
+<p>其中：</p>
+
+<p><div class="math-block">$$ \frac{\partial \text{FL}}{\partial p} = -\alpha \left[ -\gamma(1-p)^{\gamma-1}\log p + \frac{(1-p)^\gamma}{p} \right] $$</div></p>
+
+<p><div class="math-block">$$ = \alpha \left[ \gamma(1-p)^{\gamma-1}\log p - \frac{(1-p)^\gamma}{p} \right] $$</div></p>
+
+<p>最终梯度：</p>
+
+<p><div class="math-block">$$ \frac{\partial \text{FL}}{\partial z} = \alpha \cdot p(1-p) \left[ \gamma(1-p)^{\gamma-1}\log p - \frac{(1-p)^\gamma}{p} \right] $$</div></p>
+
+<p>对比标准 CE 的梯度 $ -\alpha \cdot p(1-p) \cdot \frac{1}{p} = -\alpha(1-p) $，Focal Loss 的梯度多了 $ (1-p)^\gamma $ 因子，在 $ p \to 1 $ 时梯度被大幅抑制。</p>
+
+<p>#### 3.4 与 OHEM 的对比</p>
+
+<div class="table-wrapper"><table class="algo-table"><thead><tr><th>对比项</th><th>OHEM (Online Hard Example Mining)</th><th>Focal Loss</th></tr></thead><tbody><tr><td>核心思想</td><td>选取损失最大的 top-k 样本反向传播</td><td>连续加权所有样本，易样本权重低</td></tr><tr><td>硬/软</td><td>硬选择（离散阈值）</td><td>软加权（连续函数）</td></tr><tr><td>超参数</td><td>k（选取数量）</td><td>$ \gamma, \alpha $</td></tr><tr><td>计算开销</td><td>需排序选择</td><td>直接加权，无需额外操作</td></tr><tr><td>效果</td><td>论文实验中 Focal Loss 略优于 OHEM</td><td>—</td></tr></tbody></table></div>
+
+<hr>
+
+<h4>四、代码实现与逐行注释</h4>
+
+<p>#### 4.1 PyTorch 实现：二分类 Focal Loss</p>
+
+<p><pre class="code-block"><code class="language-python">import torch
+import torch.nn as nn
+import torch.nn.functional as F
+
+class BinaryFocalLoss(nn.Module):
+    &quot;&quot;&quot;二分类 Focal Loss 实现&quot;&quot;&quot;
+    
+    def __init__(self, alpha=0.25, gamma=2.0, reduction=&#x27;mean&#x27;):
+        super().__init__()
+        # alpha: 正类权重，默认0.25（RetinaNet推荐）
+        self.alpha = alpha
+        # gamma: 聚焦参数，默认2.0
+        self.gamma = gamma
+        # reduction: 损失归约方式
+        self.reduction = reduction
+    
+    def forward(self, logits, targets):
+        &quot;&quot;&quot;
+        Args:
+            logits:  模型输出logit，shape [N]或[N,1]，未经sigmoid
+            targets: 真实标签，shape [N]，值为0或1
+        Returns:
+            focal loss 标量
+        &quot;&quot;&quot;
+        # 确保形状一致
+        logits = logits.view(-1)          # 展平为 [N]
+        targets = targets.float()         # 转为float类型
+        
+        # 计算sigmoid概率 p = σ(z)
+        p = torch.sigmoid(logits)          # p ∈ (0,1)，正类预测概率
+        
+        # 计算 p_t：模型对真实类别的预测概率
+        # y=1时 p_t=p，y=0时 p_t=1-p
+        p_t = p * targets + (1 - p) * (1 - targets)
+        
+        # 计算 α_t：类别平衡权重
+        # y=1时 α_t=α，y=0时 α_t=1-α
+        alpha_t = self.alpha * targets + (1 - self.alpha) * (1 - targets)
+        
+        # 标准交叉熵损失：CE = -log(p_t)
+        ce_loss = F.binary_cross_entropy_with_logits(
+            logits, targets, reduction=&#x27;none&#x27;
+        )  # 逐样本计算，不做归约
+        
+        # 调制因子：(1 - p_t)^gamma
+        modulating_factor = (1 - p_t) ** self.gamma
+        
+        # Focal Loss = α_t * (1-p_t)^γ * CE
+        focal_loss = alpha_t * modulating_factor * ce_loss
+        
+        # 按指定方式归约
+        if self.reduction == &#x27;mean&#x27;:
+            return focal_loss.mean()       # 所有样本取平均
+        elif self.reduction == &#x27;sum&#x27;:
+            return focal_loss.sum()        # 所有样本取总和
+        else:
+            return focal_loss              # 逐样本返回，不归约</code></pre></p>
+
+<p>#### 4.2 PyTorch 实现：多分类 Focal Loss</p>
+
+<p><pre class="code-block"><code class="language-python">class FocalLoss(nn.Module):
+    &quot;&quot;&quot;多分类 Focal Loss 实现&quot;&quot;&quot;
+    
+    def __init__(self, alpha=None, gamma=2.0, reduction=&#x27;mean&#x27;):
+        super().__init__()
+        # alpha: 各类别权重向量，shape [num_classes]
+        #   None表示不加类别权重（均匀权重）
+        #   也可传入list/tensor，如 [0.1, 0.4, 0.5] 为3类权重
+        self.alpha = alpha
+        self.gamma = gamma
+        self.reduction = reduction
+    
+    def forward(self, logits, targets):
+        &quot;&quot;&quot;
+        Args:
+            logits:  [N, C] 未经过softmax的模型输出
+            targets: [N] 类别索引，值为0到C-1
+        Returns:
+            focal loss 标量
+        &quot;&quot;&quot;
+        # 计算softmax概率：p_c = exp(z_c) / Σ exp(z_i)
+        log_probs = F.log_softmax(logits, dim=1)  # log(p)，数值稳定
+        probs = torch.exp(log_probs)               # p = softmax概率
+        
+        # 获取每个样本对真实类别的概率 p_t
+        # targets shape [N] → [N,1] → one_hot → 取对应位置
+        targets = targets.view(-1, 1)             # [N,1]
+        pt = probs.gather(1, targets).squeeze(1)  # [N]，每个样本的p_t
+        log_pt = log_probs.gather(1, targets).squeeze(1)  # log(p_t)
+        
+        # 调制因子 (1-p_t)^γ
+        modulating_factor = (1 - pt) ** self.gamma
+        
+        # 类别权重
+        if self.alpha is not None:
+            # alpha转换为tensor并放到正确设备
+            if isinstance(self.alpha, (list, tuple)):
+                alpha = torch.tensor(self.alpha, device=logits.device)
+            else:
+                alpha = self.alpha
+            # 根据targets获取每个样本对应的alpha值
+            alpha_t = alpha[targets.squeeze(1)]  # [N]
+        else:
+            alpha_t = 1.0  # 不加类别权重
+        
+        # Focal Loss = -α_t * (1-p_t)^γ * log(p_t)
+        focal_loss = -alpha_t * modulating_factor * log_pt
+        
+        if self.reduction == &#x27;mean&#x27;:
+            return focal_loss.mean()
+        elif self.reduction == &#x27;sum&#x27;:
+            return focal_loss.sum()
+        else:
+            return focal_loss</code></pre></p>
+
+<hr>
+
+<h4>五、复杂度推导</h4>
+
+<div class="table-wrapper"><table class="algo-table"><thead><tr><th>环节</th><th>时间复杂度</th><th>空间复杂度</th><th>说明</th></tr></thead><tbody><tr><td>前向计算</td><td>$ O(N \times C) $</td><td>$ O(N \times C) $</td><td>$ N $ 为样本数，$ C $ 为类别数；计算 softmax 和调制因子</td></tr><tr><td>反向传播</td><td>$ O(N \times C) $</td><td>$ O(N \times C) $</td><td>梯度计算与前向同阶</td></tr><tr><td>总开销</td><td>与 CE 相同</td><td>与 CE 相同</td><td>Focal Loss 不引入额外计算复杂度，仅乘以调制因子</td></tr></tbody></table></div>
+
+<p>Focal Loss 相比标准 CE 的额外计算仅为一次幂运算 $ (1-p_t)^\gamma $，时间复杂度增量可忽略。</p>
+
+<hr>
+
+<h4>六、应用场景</h4>
+
+<div class="table-wrapper"><table class="algo-table"><thead><tr><th>场景</th><th>说明</th><th>推荐参数</th></tr></thead><tbody><tr><td><strong>目标检测</strong></td><td>RetinaNet/FCOS 中处理正负样本极度不平衡（1:1000）</td><td>$ \gamma=2, \alpha=0.25 $</td></tr><tr><td><strong>医学图像分割</strong></td><td>前景（病灶）远小于背景</td><td>$ \gamma=2, \alpha=0.5 $</td></tr><tr><td><strong>长尾分类</strong></td><td>少数类样本稀少</td><td>$ \gamma=1\sim2, \alpha $=类别频率倒数</td></tr><tr><td><strong>异常检测</strong></td><td>正常样本远多于异常</td><td>$ \gamma=2, \alpha=0.25 $</td></tr><tr><td><strong>知识蒸馏</strong></td><td>对难蒸馏的样本加大权重</td><td>$ \gamma=1\sim2 $</td></tr></tbody></table></div>
+
+<h4>七、参考文档</h4>
+
+<ul>
+<li><a href="https://blog.csdn.net/u013250861/article/details/153471533" target="_blank" class="ref-link">Focal Loss 多分类解决方案 - CSDN</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/2015811163393376938" target="_blank" class="ref-link">Focal Loss 阅读笔记 - 知乎</a></li>
+<li>原论文：Lin et al., "Focal Loss for Dense Object Detection", ICCV 2017</li>
+<li>PyTorch 官方实现参考：<code class="inline-code">torchvision.ops.focal_loss</code></li>
+</ul>
+
+<hr>
+
+<h3>线性注意力 Transformer</h3>
+
+<p><strong>类别</strong>：前沿架构 | <strong>难度</strong>：困难</p>
+
+<h4>一、核心原理</h4>
+
+<p>标准 Transformer 的自注意力机制计算复杂度为 $ O(L^2 d) $，其中 $ L $ 为序列长度，$ d $ 为特征维度。当 $ L $ 很大（如长文本、高分辨率图像）时，计算和显存开销急剧增长。<strong>线性注意力</strong>（Linear Attention）通过<strong>核化技巧</strong>（kernel trick）将注意力复杂度从 $ O(L^2 d) $ 降至 $ O(L d^2) $，在 $ d \ll L $ 时显著加速。</p>
+
+<p>#### 1.1 标准 Self-Attention 回顾</p>
+
+<p>标准自注意力的计算公式：</p>
+
+<p><div class="math-block">$$ \text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right) V $$</div></p>
+
+<p>展开为：</p>
+
+<p><div class="math-block">$$ \text{Attention}(Q, K, V) = \sum_{j=1}^{L} \frac{\exp(q_i \cdot k_j / \sqrt{d_k})}{\sum_{j'=1}^{L} \exp(q_i \cdot k_{j'} / \sqrt{d_k})} v_j $$</div></p>
+
+<ul>
+<li>$ Q \in \mathbb{R}^{L \times d} $：Query 矩阵</li>
+<li>$ K \in \mathbb{R}^{L \times d} $：Key 矩阵</li>
+<li>$ V \in \mathbb{R}^{L \times d} $：Value 矩阵</li>
+<li>$ L $：序列长度</li>
+<li>$ d $：特征维度（$ d_k $ 为 Key 维度）</li>
+<li>复杂度瓶颈：$ QK^T $ 的计算为 $ O(L^2 d) $，且需存储 $ L \times L $ 的注意力矩阵</li>
+</ul>
+
+<p>#### 1.2 核化技巧：将 Softmax 分解</p>
+
+<p>线性注意力的核心思想是：<strong>将 softmax 注意力中的 $ \exp(q \cdot k) $ 替换为可分解的核函数 $ \phi(q) \cdot \phi(k) $</strong>。</p>
+
+<p>设存在特征映射 $ \phi: \mathbb{R}^d \to \mathbb{R}^r $，使得注意力可以写成：</p>
+
+<p><div class="math-block">$$ \text{Attn}_i = \frac{\sum_{j=1}^{L} \phi(q_i) \cdot \phi(k_j) \cdot v_j}{\sum_{j=1}^{L} \phi(q_i) \cdot \phi(k_j)} $$</div></p>
+
+<p>利用矩阵乘法的<strong>结合律</strong>，改变计算顺序：</p>
+
+<p><strong>标准注意力</strong>（先算 $ QK^T $，再乘 $ V $）：</p>
+
+<p><div class="math-block">$$ \text{Attn} = \text{softmax}(QK^T) V = \underbrace{(QK^T)}_{O(L^2 d)} V $$</div></p>
+
+<p><strong>线性注意力</strong>（先算 $ K^T V $，再乘 $ Q $）：</p>
+
+<p><div class="math-block">$$ \text{Attn} = \frac{\phi(Q) \left( \phi(K)^T V \right)}{\phi(Q) \phi(K)^T \mathbf{1}} $$</div></p>
+
+<ul>
+<li>$ \phi(K)^T V $：形状为 $ r \times d $，计算复杂度 $ O(L r d) $</li>
+<li>$ \phi(Q) (\phi(K)^T V) $：形状为 $ L \times d $，计算复杂度 $ O(L r d) $</li>
+<li>总复杂度：$ O(L r d) $，当 $ r \approx d $ 时为 $ O(L d^2) $</li>
+<li>当 $ L \gg d $ 时，$ O(L d^2) \ll O(L^2 d) $</li>
+</ul>
+
+<p>#### 1.3 特征映射 $ \phi $ 的选择</p>
+
+<p>##### 方案一：ELU + 1（Linear Transformer, Katharopoulos et al. 2020）</p>
+
+<p><div class="math-block">$$ \phi(x) = \text{ELU}(x) + 1 $$</div></p>
+
+<p>其中 $ \text{ELU}(x) = \begin{cases} x & x \geq 0 \\ e^x - 1 & x < 0 \end{cases} $</p>
+
+<ul>
+<li>优点：简单高效，$ \phi(x) \geq 0 $ 保证非负性</li>
+<li>缺点：逼近 softmax 的精度有限</li>
+</ul>
+
+<p>##### 方案二：随机特征（Performer / FAVOR+，Choromanski et al. 2020）</p>
+
+<p>使用随机特征方法近似 softmax 核：</p>
+
+<p><div class="math-block">$$ \phi(x) = \frac{1}{\sqrt{r}} \exp(\Omega x - \frac{\|x\|^2}{2}) $$</div></p>
+
+<ul>
+<li>$ \Omega \in \mathbb{R}^{r \times d} $：随机投影矩阵，每行从高斯分布 $ \mathcal{N}(0, I_d) $ 采样</li>
+<li>$ r $：随机特征维度，$ r $ 越大近似越精确</li>
+<li>理论保证：当 $ r = O(\epsilon^{-2} \log(1/\delta)) $ 时，近似误差以概率 $ 1-\delta $ 不超过 $ \epsilon $</li>
+</ul>
+
+<p>##### 方案三：ReLU（简化版）</p>
+
+<p><div class="math-block">$$ \phi(x) = \text{ReLU}(x) $$</div></p>
+
+<ul>
+<li>最简单但效果一般，因为 ReLU 可能输出全零</li>
+</ul>
+
+<p>#### 1.4 因果（Causal）线性注意力</p>
+
+<p>在自回归生成中，位置 $ i $ 只能关注位置 $ 1 \sim i $。标准 softmax 注意力通过 mask 实现，但线性注意力需要<strong>递推计算</strong>。</p>
+
+<p>定义累积矩阵 $ S_t = \sum_{j=1}^{t} \phi(k_j) v_j^T $，则：</p>
+
+<p><div class="math-block">$$ y_t = \frac{\phi(q_t)^T S_t}{\phi(q_t)^T z_t} $$</div></p>
+
+<p>其中 $ z_t = \sum_{j=1}^{t} \phi(k_j) $ 为累积分母。</p>
+
+<p>递推关系：</p>
+
+<p><div class="math-block">$$ S_t = S_{t-1} + \phi(k_t) v_t^T $$</div></p>
+
+<p><div class="math-block">$$ z_t = z_{t-1} + \phi(k_t) $$</div></p>
+
+<ul>
+<li>每步仅需 $ O(d^2) $ 更新 $ S_t $，无需存储 $ L \times L $ 矩阵</li>
+<li>总复杂度：$ O(L d^2) $</li>
+<li>这使得线性注意力可以像 RNN 一样<strong>增量推理</strong>，极大节省 KV Cache 显存</li>
+</ul>
+
+<p>#### 1.5 原理示意图</p>
+
+<p><div class="algo-image"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 560" width="100%">
+  <text x="440" y="28" text-anchor="middle" font-size="18" font-weight="bold" fill="#6366f1">线性注意力 vs 标准注意力：计算顺序的改变</text>
+
+  <!-- 标准注意力 -->
+  <text x="220" y="60" text-anchor="middle" font-size="16" font-weight="bold" fill="#ef4444">标准 Softmax Attention (O(L²d))</text>
+  
+  <rect x="40" y="80" width="80" height="60" rx="6" fill="#1e293b" stroke="#ef4444" stroke-width="2"/>
+  <text x="80" y="105" text-anchor="middle" font-size="14" fill="#e2e8f0" font-weight="bold">Q</text>
+  <text x="80" y="125" text-anchor="middle" font-size="11" fill="#94a3b8">L×d</text>
+
+  <rect x="140" y="80" width="80" height="60" rx="6" fill="#1e293b" stroke="#ef4444" stroke-width="2"/>
+  <text x="180" y="105" text-anchor="middle" font-size="14" fill="#e2e8f0" font-weight="bold">Kᵀ</text>
+  <text x="180" y="125" text-anchor="middle" font-size="11" fill="#94a3b8">d×L</text>
+
+  <rect x="240" y="80" width="80" height="60" rx="6" fill="#1e293b" stroke="#ef4444" stroke-width="2"/>
+  <text x="280" y="105" text-anchor="middle" font-size="14" fill="#e2e8f0" font-weight="bold">V</text>
+  <text x="280" y="125" text-anchor="middle" font-size="11" fill="#94a3b8">L×d</text>
+
+  <!-- 操作1: QKᵀ -->
+  <text x="200" y="170" text-anchor="middle" font-size="13" fill="#f59e0b">① 先算 QKᵀ → L×L 矩阵</text>
+  <rect x="120" y="180" width="160" height="40" rx="6" fill="#7f1d1d" fill-opacity="0.3" stroke="#ef4444"/>
+  <text x="200" y="205" text-anchor="middle" font-size="14" fill="#fca5a5" font-weight="bold">QKᵀ (L×L)</text>
+  <text x="310" y="205" font-size="12" fill="#f59e0b">← O(L²d) 瓶颈!</text>
+
+  <!-- 操作2: softmax -->
+  <text x="200" y="245" text-anchor="middle" font-size="13" fill="#f59e0b">② softmax(QKᵀ/√d)</text>
+
+  <!-- 操作3: ×V -->
+  <text x="200" y="275" text-anchor="middle" font-size="13" fill="#f59e0b">③ 再乘 V → 输出</text>
+  <rect x="120" y="285" width="160" height="40" rx="6" fill="#1e293b" stroke="#22c55e"/>
+  <text x="200" y="310" text-anchor="middle" font-size="14" fill="#22c55e" font-weight="bold">Output (L×d)</text>
+
+  <!-- 分隔线 -->
+  <line x1="400" y1="50" x2="400" y2="350" stroke="#334155" stroke-width="1" stroke-dasharray="6,4"/>
+
+  <!-- 线性注意力 -->
+  <text x="660" y="60" text-anchor="middle" font-size="16" font-weight="bold" fill="#22c55e">线性注意力 (O(Ld²))</text>
+
+  <rect x="480" y="80" width="80" height="60" rx="6" fill="#1e293b" stroke="#22c55e" stroke-width="2"/>
+  <text x="520" y="100" text-anchor="middle" font-size="13" fill="#e2e8f0" font-weight="bold">φ(Q)</text>
+  <text x="520" y="118" text-anchor="middle" font-size="11" fill="#94a3b8">L×r</text>
+  <text x="520" y="132" text-anchor="middle" font-size="10" fill="#6366f1">特征映射</text>
+
+  <rect x="580" y="80" width="80" height="60" rx="6" fill="#1e293b" stroke="#22c55e" stroke-width="2"/>
+  <text x="620" y="100" text-anchor="middle" font-size="13" fill="#e2e8f0" font-weight="bold">φ(K)ᵀ</text>
+  <text x="620" y="118" text-anchor="middle" font-size="11" fill="#94a3b8">r×L</text>
+
+  <rect x="680" y="80" width="80" height="60" rx="6" fill="#1e293b" stroke="#22c55e" stroke-width="2"/>
+  <text x="720" y="105" text-anchor="middle" font-size="14" fill="#e2e8f0" font-weight="bold">V</text>
+  <text x="720" y="125" text-anchor="middle" font-size="11" fill="#94a3b8">L×d</text>
+
+  <!-- 操作1: KᵀV -->
+  <text x="640" y="170" text-anchor="middle" font-size="13" fill="#f59e0b">① 先算 φ(K)ᵀV → r×d 矩阵</text>
+  <rect x="560" y="180" width="160" height="40" rx="6" fill="#14532d" fill-opacity="0.3" stroke="#22c55e"/>
+  <text x="640" y="205" text-anchor="middle" font-size="14" fill="#86efac" font-weight="bold">φ(K)ᵀV (r×d)</text>
+  <text x="750" y="205" font-size="11" fill="#22c55e">← O(Lrd) 小!</text>
+
+  <!-- 操作2: ×Q -->
+  <text x="640" y="245" text-anchor="middle" font-size="13" fill="#f59e0b">② 再乘 φ(Q) → 输出</text>
+  <rect x="560" y="285" width="160" height="40" rx="6" fill="#1e293b" stroke="#22c55e"/>
+  <text x="640" y="310" text-anchor="middle" font-size="14" fill="#22c55e" font-weight="bold">Output (L×d)</text>
+
+  <!-- 因果递推说明 -->
+  <rect x="40" y="370" width="820" height="170" rx="10" fill="#0d1117" stroke="#334155"/>
+  <text x="60" y="395" font-size="14" fill="#818cf8" font-weight="bold">因果（Causal）线性注意力：递推公式</text>
+  <text x="60" y="420" font-size="13" fill="#e2e8f0">S_t = S_{t-1} + φ(k_t) · v_tᵀ    （累积矩阵，O(d²) 每步更新）</text>
+  <text x="60" y="445" font-size="13" fill="#e2e8f0">z_t = z_{t-1} + φ(k_t)            （累积分母，O(d) 每步更新）</text>
+  <text x="60" y="470" font-size="13" fill="#e2e8f0">y_t = φ(q_t)ᵀ · S_t / (φ(q_t)ᵀ · z_t)  （输出，O(d²) 每步）</text>
+  <text x="60" y="495" font-size="12" fill="#22c55e">→ 无需存储 L×L 注意力矩阵，推理时 KV Cache 从 O(Ld) 降为 O(d²)，支持无限长序列增量生成</text>
+  <text x="60" y="520" font-size="12" fill="#f59e0b">→ 近似精度取决于特征映射 φ 的选择：ELU+1（简单）| Performer随机特征（精确逼近softmax）| ReLU（最简）</text>
+</svg></div></p>
+
+<hr>
+
+<h4>二、核心参数详解</h4>
+
+<p>#### 2.1 特征映射函数 $ \phi $（feature_map）</p>
+
+<div class="table-wrapper"><table class="algo-table"><thead><tr><th>属性</th><th>说明</th></tr></thead><tbody><tr><td><strong>含义</strong></td><td>将 Query/Key 映射到非负特征空间的函数，替代 softmax 中的 $ \exp $</td></tr><tr><td><strong>类型</strong></td><td>函数/模块</td></tr><tr><td><strong>默认值</strong></td><td><code class="inline-code">elu + 1</code>（Katharopoulos et al. 2020）</td></tr><tr><td><strong>取值范围</strong></td><td>任何满足 $ \phi(x) \geq 0 $ 的可微函数</td></tr><tr><td><strong>对结果的影响</strong></td><td>$ \phi $ 越接近 $ \exp $，近似越精确但计算越贵；$ \phi $ 越简单，速度越快但精度越低</td></tr><tr><td><strong>推荐设置</strong></td><td>通用：<code class="inline-code">elu + 1</code>；高精度：Performer 随机特征（$ r=256\sim512 $）；最快：<code class="inline-code">relu</code>（精度最低）</td></tr></tbody></table></div>
+
+<p>#### 2.2 随机特征维度 $ r $（num_random_features）</p>
+
+<div class="table-wrapper"><table class="algo-table"><thead><tr><th>属性</th><th>说明</th></tr></thead><tbody><tr><td><strong>含义</strong></td><td>Performer/FAVOR+ 中随机投影矩阵 $ \Omega $ 的行数，即特征映射的输出维度</td></tr><tr><td><strong>类型</strong></td><td>整数</td></tr><tr><td><strong>默认值</strong></td><td>$ 256 $（Performer 论文）</td></tr><tr><td><strong>取值范围</strong></td><td>$ [1, +\infty) $，通常 $ [64, 1024] $</td></tr><tr><td><strong>对结果的影响</strong></td><td>$ r $ 越大，对 softmax 核的近似越精确，但计算开销增加（$ O(Lrd) $）；$ r $ 太小会导致近似误差大</td></tr><tr><td><strong>推荐设置</strong></td><td>$ r=256 $（平衡）；$ r=512 $（高精度）；$ r=128 $（极速，精度略降）</td></tr></tbody></table></div>
+
+<p>理论误差上界：使用正交随机特征（ORF）时，近似误差：</p>
+
+<p><div class="math-block">$$ \epsilon = O\left(\frac{1}{\sqrt{r}}\right) $$</div></p>
+
+<p>即 $ r $ 增加 4 倍，误差减半。</p>
+
+<p>#### 2.3 是否因果（causal / is_causal）</p>
+
+<div class="table-wrapper"><table class="algo-table"><thead><tr><th>属性</th><th>说明</th></tr></thead><tbody><tr><td><strong>含义</strong></td><td>是否使用因果 mask（自回归生成场景）</td></tr><tr><td><strong>类型</strong></td><td>布尔值</td></tr><tr><td><strong>默认值</strong></td><td><code class="inline-code">False</code>（双向注意力，如 BERT）</td></tr><tr><td><strong>取值范围</strong></td><td><code class="inline-code">True</code> / <code class="inline-code">False</code></td></tr><tr><td><strong>对结果的影响</strong></td><td><code class="inline-code">False</code>：可并行计算 $ \phi(K)^T V $，速度最快；<code class="inline-code">True</code>：需递推计算累积矩阵 $ S_t $，但推理时 KV Cache 为 $ O(d^2) $</td></tr><tr><td><strong>推荐设置</strong></td><td>编码器（BERT 类）：<code class="inline-code">False</code>；解码器（GPT 类）：<code class="inline-code">True</code></td></tr></tbody></table></div>
+
+<p>#### 2.4 头数 $ h $（num_heads）</p>
+
+<div class="table-wrapper"><table class="algo-table"><thead><tr><th>属性</th><th>说明</th></tr></thead><tbody><tr><td><strong>含义</strong></td><td>多头注意力中的头数</td></tr><tr><td><strong>类型</strong></td><td>整数</td></tr><tr><td><strong>默认值</strong></td><td>$ 8 $（与标准 Transformer 一致）</td></tr><tr><td><strong>取值范围</strong></td><td>$ [1, +\infty) $，通常 $ [4, 32] $</td></tr><tr><td><strong>对结果的影响</strong></td><td>每头维度 $ d_h = d/h $；线性注意力复杂度为 $ O(L h d_h^2) = O(L d^2 / h) $，头数越多反而越快</td></tr><tr><td><strong>推荐设置</strong></td><td>短序列：$ h=8 $；长序列：$ h=16\sim32 $（更多头可降低 $ d_h $，减少 $ O(d_h^2) $ 开销）</td></tr></tbody></table></div>
+
+<p>#### 2.5 归一化方式（normalization）</p>
+
+<div class="table-wrapper"><table class="algo-table"><thead><tr><th>属性</th><th>说明</th></tr></thead><tbody><tr><td><strong>含义</strong></td><td>注意力分数的归一化分母</td></tr><tr><td><strong>类型</strong></td><td>枚举</td></tr><tr><td><strong>默认值</strong></td><td>$ \phi(q) \cdot \sum_j \phi(k_j) $（分母为 $ \phi(q) $ 与 $ \phi(K) $ 的行和内积）</td></tr><tr><td><strong>取值范围</strong></td><td>不归一化 / 行和归一化</td></tr><tr><td><strong>对结果的影响</strong></td><td>归一化保证输出尺度稳定；不归一化可能导致输出值过大</td></tr><tr><td><strong>推荐设置</strong></td><td>始终使用归一化；某些实现中省略归一化以加速（如线性 Transformer 原文）</td></tr></tbody></table></div>
+
+<hr>
+
+<h4>三、数学公式与符号解释</h4>
+
+<p>#### 3.1 标准注意力</p>
+
+<p><div class="math-block">$$ \text{Attn}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right) V = D^{-1} A V $$</div></p>
+
+<ul>
+<li>$ A = \exp(QK^T / \sqrt{d_k}) \in \mathbb{R}^{L \times L} $：未归一化的注意力矩阵</li>
+<li>$ D = \text{diag}(A \mathbf{1}) $：行和构成的对角矩阵</li>
+<li>$ QK^T $：$ L \times L $ 矩阵乘法，复杂度 $ O(L^2 d) $</li>
+</ul>
+
+<p>#### 3.2 线性注意力</p>
+
+<p><div class="math-block">$$ \text{LinAttn}(Q, K, V) = \frac{\phi(Q)(\phi(K)^T V)}{\phi(Q)(\phi(K)^T \mathbf{1})} $$</div></p>
+
+<p>符号说明：</p>
+
+<ul>
+<li>$ \phi(Q) \in \mathbb{R}^{L \times r} $：Query 经特征映射后的矩阵</li>
+<li>$ \phi(K) \in \mathbb{R}^{L \times r} $：Key 经特征映射后的矩阵</li>
+<li>$ \phi(K)^T V \in \mathbb{R}^{r \times d} $：先算此矩阵积，复杂度 $ O(Lrd) $</li>
+<li>$ \phi(Q) (\phi(K)^T V) \in \mathbb{R}^{L \times d} $：再乘 Query，复杂度 $ O(Lrd) $</li>
+<li>$ \phi(K)^T \mathbf{1} \in \mathbb{R}^{r} $：分母中的行和</li>
+<li>$ \mathbf{1} \in \mathbb{R}^{L} $：全 $ 1 $ 向量</li>
+<li>$ r $：特征映射输出维度</li>
+</ul>
+
+<p>#### 3.3 因果线性注意力的递推</p>
+
+<p><div class="math-block">$$ S_t = S_{t-1} + \phi(k_t) v_t^T \in \mathbb{R}^{r \times d} $$</div></p>
+
+<p><div class="math-block">$$ z_t = z_{t-1} + \phi(k_t) \in \mathbb{R}^{r} $$</div></p>
+
+<p><div class="math-block">$$ y_t = \frac{\phi(q_t)^T S_t}{\phi(q_t)^T z_t} \in \mathbb{R}^{d} $$</div></p>
+
+<ul>
+<li>$ S_t $：累积矩阵，存储到时刻 $ t $ 为止的所有 $ \phi(k) v^T $ 之和</li>
+<li>$ z_t $：累积分母向量</li>
+<li>$ S_0 = \mathbf{0}_{r \times d} $, $ z_0 = \mathbf{0}_r $：初始为零</li>
+<li>每步更新复杂度：$ O(rd + r) = O(rd) $</li>
+<li>总复杂度：$ O(Lrd) $</li>
+</ul>
+
+<p>#### 3.4 Performer 随机特征近似</p>
+
+<p><div class="math-block">$$ \phi(x) = \frac{h(x)}{\sqrt{r}}, \quad h(x) = \exp(\Omega x - \frac{\|x\|^2}{2}) $$</div></p>
+
+<ul>
+<li>$ \Omega \in \mathbb{R}^{r \times d} $：随机高斯矩阵</li>
+<li>$ \|x\|^2 $：$ x $ 的 $ L_2 $ 范数平方</li>
+<li>近似保证：$ \mathbb{E}[\phi(x)^T \phi(y)] = \exp(x^T y) $，即期望上恢复 softmax 核</li>
+</ul>
+
+<hr>
+
+<h4>四、代码实现与逐行注释</h4>
+
+<p>#### 4.1 PyTorch 实现：线性注意力（非因果）</p>
+
+<p><pre class="code-block"><code class="language-python">import torch
+import torch.nn as nn
+import torch.nn.functional as F
+
+def elu_feature_map(x):
+    &quot;&quot;&quot;ELU+1 特征映射：φ(x) = ELU(x) + 1 ≥ 0&quot;&quot;&quot;
+    # ELU(x) = x if x≥0 else e^x - 1
+    # +1 保证非负性：φ(x) = ELU(x) + 1 ≥ 0
+    return F.elu(x) + 1
+
+class LinearAttention(nn.Module):
+    &quot;&quot;&quot;线性注意力层（非因果，适用于编码器）&quot;&quot;&quot;
+    
+    def __init__(self, dim, num_heads=8, feature_map=&#x27;elu&#x27;):
+        super().__init__()
+        # dim: 输入特征维度 d
+        # num_heads: 注意力头数 h
+        # feature_map: 特征映射类型
+        self.num_heads = num_heads
+        self.head_dim = dim // num_heads  # 每头维度 d_h = d/h
+        self.scale = self.head_dim ** -0.5  # 缩放因子 1/√d_h
+        
+        # Q/K/V 投影：将输入映射到 Q、K、V
+        # 输出维度为 3*dim（包含Q、K、V各一个dim）
+        self.qkv = nn.Linear(dim, dim * 3, bias=False)
+        # 输出投影：将多头输出合并回 dim
+        self.proj = nn.Linear(dim, dim)
+        
+        # 选择特征映射函数
+        if feature_map == &#x27;elu&#x27;:
+            self.feature_map = elu_feature_map
+        elif feature_map == &#x27;relu&#x27;:
+            self.feature_map = F.relu
+        else:
+            self.feature_map = elu_feature_map  # 默认 ELU+1
+    
+    def forward(self, x):
+        &quot;&quot;&quot;
+        Args:
+            x: [B, L, d] 输入序列
+        Returns:
+            [B, L, d] 输出序列
+        &quot;&quot;&quot;
+        B, L, d = x.shape
+        
+        # 1. 计算 Q, K, V
+        qkv = self.qkv(x)  # [B, L, 3*d]
+        qkv = qkv.reshape(B, L, 3, self.num_heads, self.head_dim)
+        q, k, v = qkv.unbind(dim=2)  # 各 [B, L, h, d_h]
+        
+        # 转置为 [B, h, L, d_h]
+        q = q.transpose(1, 2)  # [B, h, L, d_h]
+        k = k.transpose(1, 2)  # [B, h, L, d_h]
+        v = v.transpose(1, 2)  # [B, h, L, d_h]
+        
+        # 2. 应用特征映射 φ
+        q = self.feature_map(q)  # φ(Q)，[B, h, L, d_h]，值非负
+        k = self.feature_map(k)  # φ(K)，[B, h, L, d_h]，值非负
+        
+        # 3. 线性注意力核心计算
+        # 分子：φ(Q) * (φ(K)^T V)
+        # 先算 φ(K)^T V：[B, h, d_h, d_h]
+        kv = torch.einsum(&#x27;bhld,bhle-&gt;bhde&#x27;, k, v)  # φ(K)^T V，O(L*d_h²)
+        
+        # 再算 φ(Q) * kv：[B, h, L, d_h]
+        numerator = torch.einsum(&#x27;bhld,bhde-&gt;bhle&#x27;, q, kv)  # O(L*d_h²)
+        
+        # 分母：φ(Q) * (φ(K)^T 1)
+        k_sum = k.sum(dim=2, keepdim=True)  # Σ φ(k_j)，[B, h, 1, d_h]
+        denominator = torch.einsum(&#x27;bhld,bhmd-&gt;bhlm&#x27;, q, k_sum)  # φ(q_i)·Σφ(k_j)
+        denominator = denominator.squeeze(-1) + 1e-6  # 加epsilon防除零
+        
+        # 4. 归一化
+        out = numerator / denominator.unsqueeze(-1)  # [B, h, L, d_h]
+        
+        # 5. 合并多头，输出投影
+        out = out.transpose(1, 2).reshape(B, L, d)  # [B, L, d]
+        out = self.proj(out)  # 线性投影
+        
+        return out</code></pre></p>
+
+<p>#### 4.2 PyTorch 实现：因果线性注意力（递推，适用于自回归生成）</p>
+
+<p><pre class="code-block"><code class="language-python">class CausalLinearAttention(nn.Module):
+    &quot;&quot;&quot;因果线性注意力（递推实现，适用于自回归生成）&quot;&quot;&quot;
+    
+    def __init__(self, dim, num_heads=8, feature_map=&#x27;elu&#x27;):
+        super().__init__()
+        self.num_heads = num_heads
+        self.head_dim = dim // num_heads
+        self.qkv = nn.Linear(dim, dim * 3, bias=False)
+        self.proj = nn.Linear(dim, dim)
+        
+        if feature_map == &#x27;elu&#x27;:
+            self.feature_map = elu_feature_map
+        else:
+            self.feature_map = F.relu
+    
+    def forward(self, x):
+        &quot;&quot;&quot;
+        递推计算因果线性注意力
+        Args:
+            x: [B, L, d]
+        Returns:
+            [B, L, d]
+        &quot;&quot;&quot;
+        B, L, d = x.shape
+        h, dh = self.num_heads, self.head_dim
+        
+        qkv = self.qkv(x).reshape(B, L, 3, h, dh)
+        q, k, v = qkv.unbind(dim=2)  # 各 [B, L, h, d_h]
+        
+        # 应用特征映射
+        q = self.feature_map(q)  # [B, L, h, d_h]
+        k = self.feature_map(k)  # [B, L, h, d_h]
+        
+        outputs = []
+        # 初始化累积矩阵 S 和分母 z
+        # S: [B, h, d_h, d_h] — 累积 Σ φ(k_j) v_j^T
+        S = torch.zeros(B, h, dh, dh, device=x.device)
+        # z: [B, h, d_h] — 累积 Σ φ(k_j)
+        z = torch.zeros(B, h, dh, device=x.device)
+        
+        # 逐时间步递推
+        for t in range(L):
+            qt = q[:, t]  # [B, h, d_h]
+            kt = k[:, t]  # [B, h, d_h]
+            vt = v[:, t]  # [B, h, d_h]
+            
+            # 更新累积矩阵：S_t = S_{t-1} + φ(k_t) v_t^T
+            # φ(k_t) v_t^T: [B, h, d_h, 1] × [B, h, 1, d_h] → [B, h, d_h, d_h]
+            S = S + torch.einsum(&#x27;bhd,bhe-&gt;bhde&#x27;, kt, vt)
+            
+            # 更新累积分母：z_t = z_{t-1} + φ(k_t)
+            z = z + kt  # [B, h, d_h]
+            
+            # 计算输出：y_t = φ(q_t)^T S_t / (φ(q_t)^T z_t)
+            # 分子：φ(q_t)^T S_t = [B, h, d_h] × [B, h, d_h, d_h] → [B, h, d_h]
+            numerator = torch.einsum(&#x27;bhd,bhde-&gt;bhe&#x27;, qt, S)
+            # 分母：φ(q_t)^T z_t = [B, h, d_h] · [B, h, d_h] → [B, h]
+            denominator = torch.einsum(&#x27;bhd,bhd-&gt;bh&#x27;, qt, z) + 1e-6  # 防除零
+            # 归一化
+            yt = numerator / denominator.unsqueeze(-1)  # [B, h, d_h]
+            
+            outputs.append(yt)
+        
+        # 拼接所有时间步输出
+        out = torch.stack(outputs, dim=1)  # [B, L, h, d_h]
+        out = out.reshape(B, L, d)         # 合并多头
+        out = self.proj(out)                # 输出投影
+        
+        return out</code></pre></p>
+
+<hr>
+
+<h4>五、复杂度推导</h4>
+
+<div class="table-wrapper"><table class="algo-table"><thead><tr><th>计算方式</th><th>时间复杂度</th><th>空间复杂度</th><th>适用场景</th></tr></thead><tbody><tr><td>标准注意力</td><td>$ O(L^2 d) $</td><td>$ O(L^2) $</td><td>短序列 $ L \leq 512 $</td></tr><tr><td>线性注意力（非因果）</td><td>$ O(L d^2) $</td><td>$ O(d^2) $</td><td>长序列 $ L \gg d $</td></tr><tr><td>线性注意力（因果递推）</td><td>$ O(L d^2) $</td><td>$ O(d^2) $</td><td>自回归生成</td></tr><tr><td>Performer (FAVOR+)</td><td>$ O(L r d) $</td><td>$ O(r d) $</td><td>需高精度近似</td></tr></tbody></table></div>
+
+<p><strong>复杂度推导（非因果线性注意力）</strong>：</p>
+
+<p>1. 计算 $ \phi(K)^T V $：矩阵乘法 $ r \times L $ 乘 $ L \times d $ → $ O(L r d) $</p>
+<p>2. 计算 $ \phi(Q) (\phi(K)^T V) $：矩阵乘法 $ L \times r $ 乘 $ r \times d $ → $ O(L r d) $</p>
+<p>3. 计算分母 $ \phi(K)^T \mathbf{1} $：$ O(L r) $</p>
+<p>4. 总时间复杂度：$ O(L r d) $，当 $ r = d $ 时为 $ O(L d^2) $</p>
+
+<p><strong>交叉点</strong>：当 $ L > d $ 时，$ O(L d^2) < O(L^2 d) $，线性注意力更快。典型 Transformer 中 $ d=512 $，因此当 $ L > 512 $ 时线性注意力有优势。</p>
+
+<p><strong>推理时 KV Cache 对比</strong>：</p>
+
+<div class="table-wrapper"><table class="algo-table"><thead><tr><th>方法</th><th>KV Cache 大小</th><th>说明</th></tr></thead><tbody><tr><td>标准注意力</td><td>$ O(L d) $</td><td>需存储所有历史 K、V</td></tr><tr><td>因果线性注意力</td><td>$ O(d^2) $</td><td>仅需存储累积矩阵 $ S $ 和 $ z $</td></tr></tbody></table></div>
+
+<p>这意味着线性注意力在推理时，无论序列多长，KV Cache 固定为 $ O(d^2) $，支持<strong>无限长序列</strong>生成。</p>
+
+<hr>
+
+<h4>六、应用场景</h4>
+
+<div class="table-wrapper"><table class="algo-table"><thead><tr><th>场景</th><th>说明</th><th>推荐方案</th></tr></thead><tbody><tr><td><strong>长文本生成</strong></td><td>LLM 推理时序列长度 $ > 100K $</td><td>因果线性注意力，KV Cache $ O(d^2) $</td></tr><tr><td><strong>高分辨率图像</strong></td><td>ViT 处理大图时 patch 数 $ > 10K $</td><td>非因果线性注意力</td></tr><tr><td><strong>流式语音识别</strong></td><td>实时音频流，序列持续增长</td><td>因果递推，无需重算历史</td></tr><tr><td><strong>Performer 目标检测</strong></td><td>替代标准 attention 加速训练</td><td>FAVOR+ 随机特征，$ r=256 $</td></tr><tr><td><strong>Infini-attention</strong></td><td>Google 2024 提出的无限上下文方案</td><td>线性注意力 + 压缩记忆</td></tr></tbody></table></div>
+
+<h4>七、参考文档</h4>
+
+<ul>
+<li><a href="https://zhuanlan.zhihu.com/p/2025190493340935501" target="_blank" class="ref-link">Linear Transformer 详解：用核技巧把 O(L²) 注意力变成 O(L) - 知乎</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/2078918599058649708" target="_blank" class="ref-link">LinearAttention 系列解读(四)：当 Delta Rule 遇上 Gating - 知乎</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/2077166029692785495" target="_blank" class="ref-link">Transformer 如何"记住"无限长文本？Infini-attention 技术拆解 - 知乎</a></li>
+<li>Katharopoulos et al., "Transformers are RNNs: Fast Autoregressive Transformers with Linear Attention", ICML 2020</li>
+<li>Choromanski et al., "Rethinking Attention with Performers", ICLR 2021</li>
+</ul>
+
+<blockquote>
+<p>AI生成</p>
+</blockquote>
+  </div>
+  <div class="footer">
+    <p>由 TeleAgent · 每日算法推送 技能自动生成 | 2026-09-08 08:58</p>
+  </div>
+</div>
+</body>
+</html>
