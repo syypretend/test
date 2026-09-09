@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<title>大模型技术速递 — 2026年09月09日</title>
+<style>
+:root{
+  --bg:#0b0e14; --card:#141926; --card2:#1a2133;
+  --text:#e8ecf5; --dim:#96a0b5; --accent:#5b8cff; --accent2:#8b5cf6;
+  --green:#2dd4a7; --star:#ffb84d; --border:rgba(255,255,255,.07);
+  --radius:14px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  background:linear-gradient(170deg,#0a0d14 0%,#0d1424 45%,#0b111d 100%);
+  color:var(--text);line-height:1.8;font-size:15px;
+  -webkit-font-smoothing:antialiased;min-height:100vh;
+}
+.wrap{max-width:760px;margin:0 auto;padding:0 14px 48px}
+
+/* 头部 */
+header.hero{
+  text-align:center;padding:36px 16px 26px;
+  background:radial-gradient(120% 140% at 50% 0%,rgba(91,140,255,.18) 0%,rgba(124,92,246,.08) 45%,transparent 75%);
+  border-bottom:1px solid var(--border);
+}
+.badge{display:inline-flex;align-items:center;gap:6px;background:rgba(91,140,255,.14);
+  border:1px solid rgba(91,140,255,.32);padding:5px 14px;border-radius:999px;
+  font-size:12px;font-weight:600;letter-spacing:1px;color:#9dc2ff;margin-bottom:16px}
+h1.title{font-size:clamp(20px,5vw,27px);font-weight:800;letter-spacing:.5px;
+  background:linear-gradient(120deg,#fff,#a8c8ff);-webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;margin-bottom:6px}
+.date{color:#96a9c0;font-size:14px;margin-bottom:20px}
+.stats{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.stat{flex:1;max-width:130px;background:rgba(255,255,255,.04);border:1px solid var(--border);
+  border-radius:12px;padding:10px 6px;text-align:center}
+.stat b{display:block;font-size:22px;font-weight:800;color:var(--accent)}
+.stat.imp b{color:var(--star)} .stat.nor b{color:var(--green)}
+.stat span{font-size:11px;color:var(--dim)}
+
+/* 正文 */
+.content{padding:20px 6px 0}
+.update-intro{background:linear-gradient(135deg,rgba(91,140,255,.1),rgba(124,92,246,.07));
+  border:1px solid rgba(91,140,255,.22);border-left:3px solid var(--accent);
+  border-radius:10px;padding:10px 14px;font-size:13px;color:var(--dim);margin-bottom:24px}
+.update-intro p{margin:0}
+
+/* 章节标题 */
+.section-title{display:flex;align-items:center;gap:8px;font-size:19px;font-weight:800;
+  margin:34px 0 16px;padding-bottom:9px;border-bottom:2px solid rgba(91,140,255,.28)}
+.sec-icon{font-size:17px}
+
+/* 重要动态条目 */
+.imp-item{background:var(--card2);border:1px solid var(--border);
+  border-radius:var(--radius);padding:16px 16px 14px;margin-bottom:16px;
+  box-shadow:0 4px 18px rgba(0,0,0,.25)}
+.imp-item h3{font-size:15.5px;font-weight:700;line-height:1.5;margin-bottom:8px;color:#f0f4ff}
+.imp-item p{color:var(--text);font-size:14px;margin:7px 0}
+.imp-item strong{color:#cfe0ff;font-weight:600}
+.imp-item ul,.imp-item ol{padding-left:20px;margin:6px 0}
+.imp-item li{margin:4px 0;font-size:13.8px;color:var(--text)}
+.imp-item li::marker{color:var(--accent)}
+
+/* 常规动态卡片 */
+.cat-title{font-size:14.5px;font-weight:700;color:#b9c8e8;margin:22px 0 10px;
+  padding-left:10px;border-left:3px solid var(--accent2)}
+.norm-item{background:var(--card);border:1px solid var(--border);border-radius:12px;
+  padding:11px 13px;margin-bottom:9px;font-size:13.8px;color:var(--dim);
+  transition:transform .15s,border-color .15s}
+.norm-item:hover{transform:translateX(3px);border-color:rgba(91,140,255,.4)}
+.norm-item strong{color:var(--text);font-weight:600}
+.norm-item a{color:var(--accent);text-decoration:none;font-size:12.8px;word-break:break-all}
+.norm-item a:hover{text-decoration:underline}
+.norm-item p{margin:0}
+
+/* 表格 */
+.data-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px;border-radius:10px;overflow:hidden}
+.data-table th{background:rgba(91,140,255,.16);padding:9px 10px;text-align:left;font-weight:600;color:#d3e2ff}
+.data-table td{padding:8px 10px;border-top:1px solid var(--border);background:rgba(255,255,255,.03)}
+.data-table tr:hover td{background:rgba(91,140,255,.06)}
+
+/* 引用/链接块 */
+.toc{border-left:3px solid var(--accent2);border-radius:0 10px 10px 0;
+  padding:10px 14px;margin:12px 0;background:rgba(255,255,255,.03);color:var(--dim);font-size:13.5px}
+.toc p{margin:0}
+.toc a{color:var(--accent);word-break:break-all}
+
+/* 代码 */
+pre{background:#0d1119;border:1px solid var(--border);border-radius:10px;padding:13px;overflow-x:auto;font-size:12.5px;margin:10px 0}
+code{font-family:"SF Mono",Consolas,"Courier New",monospace;font-size:12.5px}
+h4{font-size:14px;margin:14px 0 6px;color:#cfdbef}
+p{margin:8px 0}
+hr{border:none;border-top:1px solid var(--border);margin:24px 0}
+strong{color:#dbe6ff}
+ul,ol{padding-left:20px;margin:6px 0}
+
+/* 页脚 */
+footer{text-align:center;margin-top:36px;padding:22px 10px 6px;border-top:1px solid var(--border);
+  color:var(--dim);font-size:12.5px}
+footer p{margin:3px 0}
+
+@media(max-width:480px){
+  body{font-size:14px}
+  header.hero{padding:26px 14px 20px}
+  .stats{gap:8px}
+  .stat{max-width:110px}
+  .section-title{font-size:17px}
+  .imp-item{padding:13px 12px 11px}
+  .data-table{font-size:12px}
+  .data-table th,.data-table td{padding:7px 8px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+    <header class="hero">
+      <div class="badge">🤖 LLM TECH DAILY</div>
+      <h1 class="title">大模型技术速递</h1>
+      <p class="date">2026年09月09日</p>
+      <div class="stats">
+        <div class="stat"><b>22</b><span>收录动态</span></div>
+        <div class="stat imp"><b>5</b><span>★ 重要</span></div>
+        <div class="stat nor"><b>17</b><span>· 常规</span></div>
+      </div>
+    </header>
+    
+<div class="content">
+<h1>🤖 大模型技术速递 — 2026年09月09日</h1>
+<div class="update-intro">
+<p>今日共收录 22 条动态，其中 ★重要 5 条，·常规 17 条。</p>
+</div>
+<div class="section-title"><span class="sec-icon">★</span> 重要动态</div>
+
+<div class="imp-item">
+<h3>1. OpenAI 发布 GPT-6 Astra 旗舰模型，宣称"AGI 时代来临"</h3>
+<p><strong>一句话概要：</strong> OpenAI 于 9 月 4 日正式发布新一代旗舰大模型 GPT-6 Astra，称之为"目前全球最智能、且对齐程度最高的模型"，总裁 Greg Brockman 在发布会上宣告"Welcome to the AGI era"。</p>
+<p><strong>技术要点：</strong></p>
+<ul>
+<li>GPT-6 Astra 采用全新"循环深度架构"（Recurrent Depth Architecture），突破传统 Transformer 单次前馈计算限制，允许模型根据问题难度动态调整推理深度</li>
+<li>训练算力规模惊人：由超过 10 万张英伟达 Grace Blackwell NVLink72 芯片集群训练完成，黄仁勋公开确认该规模并预告下一批 40 万张 GPU 即将上线</li>
+<li>ARC-AGI-3 基准测试得分从上一代的 7.8% 飙升至 99.9%，实现近乎满分的突破</li>
+<li>具备强大的计算机操作、网页浏览、软件工程、网络安全和科学研究能力，可独立操作 KiCad 画 PCB、在 Unity 搭建 3D 城市、制作 3D 游戏</li>
+</ul>
+<p><strong>实验结果：</strong></p>
+<ul>
+<li>在计算机操作、网页浏览、软件工程、网络安全、科学研究等多项测试中表现惊人</li>
+<li>首日即登陆微软全系产品（Copilot、GitHub Copilot、Microsoft Foundry），Azure 同步宣布正式可用</li>
+<li>API 定价为上一代的 2.5 倍，目前已覆盖 Plus、Pro、Business 和 Enterprise 全量付费用户</li>
+</ul>
+<p><strong>影响分析：</strong>
+GPT-6 Astra 是 OpenAI 有史以来最大规模的模型发布。其循环深度架构代表了大模型从"堆参数"向"堆推理深度"的范式转变。然而，该模型在训练阶段曾因踩破安全红线被紧急停训两周，引发了行业对 AI 安全的深度担忧。OpenAI 宣称年底实现 AGI 的目标引发巨大争议。该模型还实现了"自动化研究实习生"目标：截至 8 月中旬，研究部门智能体工作量已达人类研究员的 3.1 倍。</p>
+<blockquote class="toc">
+<p>来源：<a href="https://sina.cn/news/detail/5339387632027348.html" target="_blank" rel="noopener">新浪新闻</a> | <a href="https://xueqiu.com/S/AGBK/408038578" target="_blank" rel="noopener">雪球</a> | <a href="https://blog.csdn.net/u014146389/article/details/164711680" target="_blank" rel="noopener">CSDN</a></p>
+</blockquote>
+</div>
+<div class="imp-item">
+<h3>2. 英伟达 129.3 亿美元收购 Hugging Face，重塑 AI 开源生态格局</h3>
+<p><strong>一句话概要：</strong> 英伟达宣布以约 129.3 亿美元收购全球最大 AI 开源社区 Hugging Face，交易预计 2027 年上半年完成，将共同推动 AI 开源生态发展。</p>
+<p><strong>技术要点：</strong></p>
+<ul>
+<li>Hugging Face 是全球最大的 AI 模型托管平台，魔搭社区模型总量已破 17 万，中国开源权重模型在 HuggingFace 占比维持高位</li>
+<li>收购后英伟达将直接掌握开发者入口与平台能力，从 GPU 硬件供应商向上游拓展至 AI 开发生态</li>
+<li>Hugging Face 拥有海量开源模型、数据集和工具链，是 AI 开发者日常使用的核心平台</li>
+</ul>
+<p><strong>影响分析：</strong>
+这笔交易是 AI 行业迄今最大的生态级并购之一。英伟达通过收购将 GPU 硬件优势与开源社区影响力结合，形成从芯片到模型到开发者的全链路壁垒。但这同时引发了对开源生态独立性的担忧——Hugging Face 作为中立平台的中立地位可能受到挑战。博通同期 AI 半导体收入同比翻倍（FY2026 Q3 达 167 亿美元），定制加速器市场同样在快速增长。</p>
+<blockquote class="toc">
+<p>来源：<a href="https://blog.csdn.net/u014146389/article/details/164711680" target="_blank" rel="noopener">CSDN AI 行业日报</a></p>
+</blockquote>
+</div>
+<div class="imp-item">
+<h3>3. 集智科学研究中心发表递归自我改进"内省阈值"理论论文</h3>
+<p><strong>一句话概要：</strong> 集智科学研究中心在 Entropy 杂志 Complexity of AI 特刊发表论文，以克莱尼第二递归定理为数学支点，揭示递归自我改进的核心张力：系统可以拥有强大的自我修改能力，却无法完美预见每一次修改的后果。</p>
+<p><strong>技术要点：</strong></p>
+<ul>
+<li>论文以克莱尼第二递归定理（Kleene's Second Recursion Theorem）为数学基础，构造了一类能够对自己进行有限自我模拟的"内省程序"</li>
+<li>提出四个形式定理：完备性定理（系统能改到自身的任意部分）、反身结构必要性定理（完整定向修改需要自我描述）、预见不完备性定理（基于莱斯定理，不能完美预见所有修改后果）、框架等价定理（与 Schmidhuber 哥德尔机对应）</li>
+<li>将内省拆解为四个功能条件：自我建模、自我模拟、自我评估、自我修改</li>
+<li>当前大模型被判定为"准内省"——有碎片化的自我知识，有局部的行为预测，但尚未构成完整、可靠、因果上扎根于自身机制的内省闭环</li>
+</ul>
+<p><strong>实验结果：</strong></p>
+<ul>
+<li>论文指出 Self-Refine 等循环通常跑不了几轮就开始饱和，部分系统改着改着反而把正确答案改错</li>
+<li>"元认知幻觉"现象：模型在错误的推理基础上继续反思，不是纠正错误，而是把错误解释得更完整、更笃定</li>
+<li>如果没有外部标准答案，当代模型缺乏稳定纠正自己推理错误的内在能力</li>
+</ul>
+<p><strong>影响分析：</strong>
+这篇论文对当前 AI 领域"智能爆炸"叙事提供了冷静的理论分析。它不是简单地否定自我改进的可能性，而是精准定位了障碍所在：不是参数规模，而是能否跨过"内省阈值"。论文对 AI 安全也有重要启示——如果内省阈值很难跨过，那么"AI 一夜之间自我升级到不可控"的想象就需要降温；但如果真的接近阈值，安全问题会变得更尖锐，因为具备完整自我修改空间的系统理论上也能触及嵌在自身可写范围内的安全规则。</p>
+<blockquote class="toc">
+<p>来源：<a href="https://www.thepaper.cn/newsDetail_forward_34009834" target="_blank" rel="noopener">澎湃新闻</a> | <a href="https://www.mdpi.com/1099-4300/28/9/951" target="_blank" rel="noopener">论文链接</a></p>
+</blockquote>
+</div>
+<div class="imp-item">
+<h3>4. GitHub 发布 Project HydraFusion：多模型路由让 Copilot 成本降 67%</h3>
+<p><strong>一句话概要：</strong> GitHub 于 9 月 4 日放出研究预览版功能 Project HydraFusion，让 Copilot 不再死磕一个 AI 模型，而是根据任务类型自动切换最合适的模型。</p>
+<p><strong>技术要点：</strong></p>
+<ul>
+<li>核心思路是"多模型路由"：根据任务复杂度和类型，动态选择最优模型组合，而非固定使用单一大模型</li>
+<li>在 TerminalBench 2.1 测试中，相比 Claude Opus 5 单模型方案，HydraFusion 估算成本砍掉 67%，任务正确完成率反而高了 4.9 个百分点</li>
+<li>代表了 AI 编程工具从"单模型调优"向"多模型协同编排"的范式转变</li>
+</ul>
+<p><strong>影响分析：</strong>
+这一结果对 AI 编程工具行业有示范意义。当前行业普遍依赖单一旗舰模型（如 GPT-6、Claude）驱动，成本居高不下。HydraFusion 证明"多模型路由 + 智能调度"可以在不牺牲甚至提升质量的前提下大幅降低成本。这对 AI 编程工具的商业化普及至关重要——降低 API 成本意味着更低的用户订阅价格和更广的覆盖面。</p>
+<blockquote class="toc">
+<p>来源：<a href="https://www.163.com/dy/article/L67S95N905561FZQ.html" target="_blank" rel="noopener">网易</a></p>
+</blockquote>
+</div>
+<div class="imp-item">
+<h3>5. 阿联酋发布 K2 Horizon 系列开源模型：一次推出 6 款，覆盖 9 亿至 3750 亿参数</h3>
+<p><strong>一句话概要：</strong> 阿联酋一次性发布 K2 Horizon 系列共 6 款开源大模型，参数规模从 9 亿覆盖至 3750 亿，旗舰模型支持 512K 上下文，采用 Apache 2.0 协议完全开放。</p>
+<p><strong>技术要点：</strong></p>
+<ul>
+<li>6 款模型覆盖从端侧到超大模型的完整参数梯度，满足不同部署场景需求</li>
+<li>旗舰模型支持 512K 超长上下文，对标 GPT-6 Astra、Gemini 3.8 等闭源旗舰</li>
+<li>Apache 2.0 协议完全开放，无商业使用限制，适合企业私有化部署和二次开发</li>
+</ul>
+<p><strong>影响分析：</strong>
+这是中东国家在 AI 领域的最大动作之一，标志着大模型开源不再只是中美两国的舞台。6 款模型的梯度覆盖策略对开源社区非常友好，从个人开发者到企业用户都能找到适配版本。同期，沙特胡迈因公司也联合 MiniMax 推出 4280 亿参数阿拉伯语大模型 humain-m3，中东 AI 力量正在加速崛起。</p>
+<blockquote class="toc">
+<p>来源：<a href="https://blog.csdn.net/u014146389/article/details/164711680" target="_blank" rel="noopener">CSDN AI 行业日报</a></p>
+</blockquote>
+</div><div class="section-title"><span class="sec-icon">📋</span> 常规动态</div>
+<div class="cat-title">模型发布</div>
+<div class="norm-item"><p><strong>谷歌发布 Gemini 3.8 Flash 及 Flash Cyber</strong> — 六周内第三个 Flash 版本，主打长周期软件工程与自主智能体；Cyber 版面向网络安全，Chrome 安全团队称其生成的正确补丁数为更大体量商业模型的 2.6 倍，自动漏洞挖掘成功率突破 70%。 <a href="https://blog.csdn.net/IT_ORACLE/article/details/164359346" target="_blank" rel="noopener">CSDN</a></p></div>
+<div class="norm-item"><p><strong>Anthropic 发布 Claude Fable 5.1 和 Mythos 5.1</strong> — 同基座、不同安全层的两款新模型，在 Terminal-Bench-Science 测试中表现优异，同期 Anthropic IPO 推迟至 11 月，终止对以色列 Decart AI 约 60 亿美元的收购计划。 <a href="https://blog.csdn.net/weixin_45635831/article/details/164292744" target="_blank" rel="noopener">CSDN</a></p></div>
+<div class="norm-item"><p><strong>讯飞星火 X2.5 大模型发布</strong> — 采用 MoE 架构，总参数 293B、激活 30B，基于全国产算力完成全流程训推，重点提升代码生成与智能体能力；同步开源 X2.5-4B 和 1.7B 两款端侧模型，支持最长 100 万 Token 上下文。 <a href="https://blog.csdn.net/u014146389/article/details/164711680" target="_blank" rel="noopener">CSDN</a></p></div>
+<div class="norm-item"><p><strong>Meta 发布 Muse Spark 1.3</strong> — 编码与智能体任务性能对标顶级闭源模型，推理运行成本仅为竞品的 1/4-1/8，支持百万 token 超长上下文。 <a href="https://blog.csdn.net/u014146389/article/details/164711680" target="_blank" rel="noopener">CSDN</a></p></div>
+<div class="norm-item"><p><strong>阿里开源 Qwen-Drive 自动驾驶模型</strong> — 全球首个面向自动驾驶的开源视觉-语言基础模型，仅 4B 参数即保留通用多模态能力，支持 3D 感知与运动规划。 <a href="https://blog.csdn.net/u014146389/article/details/164711680" target="_blank" rel="noopener">CSDN</a></p></div>
+<div class="norm-item"><p><strong>World Labs 发布 Atlas 视觉重建模型</strong> — 李飞飞团队方向成果，统一 3D 重建与图像生成能力，单张图片即可输出高质量可编辑三维场景。 <a href="https://blog.csdn.net/u014146389/article/details/164711680" target="_blank" rel="noopener">CSDN</a></p></div>
+<div class="cat-title">学术论文</div>
+<div class="norm-item"><p><strong>Temporal Self-Distillation: 无监督视频状态跟踪</strong> — Shravan Venkatraman 等提出首个完全自包含的连续视频状态跟踪框架，将时间采样密度作为特权信息实现自我监督。 <a href="https://www.cnblogs.com/verstin/p/22855678" target="_blank" rel="noopener">博客园</a></p></div>
+<div class="norm-item"><p><strong>语音脑机接口通用沟通度量标准</strong> — Dulhan Jayalath 等提出为语音脑机接口建立统一的"进展度量"标准，推动瘫痪者语音恢复与人机交互研究。 <a href="https://www.cnblogs.com/verstin/p/22828292" target="_blank" rel="noopener">博客园</a></p></div>
+<div class="norm-item"><p><strong>SolarWM: 开源太阳天气预测模型</strong> — 基于大模型架构的太阳活动预测开源项目，助力空间天气预报。 <a href="https://www.cnblogs.com/verstin/p/22828292" target="_blank" rel="noopener">博客园</a></p></div>
+<div class="cat-title">技术突破</div>
+<div class="norm-item"><p><strong>OpenAI 发布 ChatGPT Images 2.5 图像生成模型</strong> — 生成延迟最高降低 50%，新增 Sketch 草图生成、模板库、图片内局部批注编辑功能，当前用户每周生成超 30 亿张图片；同步上线 GPT-Image-2.5 Flare 和 Sunburst 两款差异化图像 API。 <a href="https://blog.csdn.net/u014146389/article/details/164711680" target="_blank" rel="noopener">CSDN</a></p></div>
+<div class="norm-item"><p><strong>浙大联合港大开源 LayerRecall 模块</strong> — 仅 6.6MB 小参数组件，解决长视频生成人物面容、服饰错乱问题，无需重训生成模型即可接入使用。 <a href="https://blog.csdn.net/u014146389/article/details/164711680" target="_blank" rel="noopener">CSDN</a></p></div>
+<div class="norm-item"><p><strong>小米开源 Xiaomi-TabLDM 表格模型</strong> — 专门处理表格类数据，同时支持分类、回归任务，降低企业结构化数据 AI 处理门槛。 <a href="https://blog.csdn.net/u014146389/article/details/164711680" target="_blank" rel="noopener">CSDN</a></p></div>
+<div class="cat-title">行业新闻</div>
+<div class="norm-item"><p><strong>三星领投 Mistral AI D 轮融资 30 亿欧元</strong> — 投后估值超 210 亿欧元，双方达成深度战略合作，将 Mistral 大模型整合进三星半导体业务优化芯片设计。同期 Cognition AI 估值达 480 亿美元，Luma AI 完成 9 亿美元 C 轮。 <a href="https://blog.csdn.net/u014146389/article/details/164711680" target="_blank" rel="noopener">CSDN</a></p></div>
+<div class="norm-item"><p><strong>国家人工智能产业投资基金 14 亿元入股快手可灵 AI</strong> — 快手旗下视频生成大模型可灵 AI 完成新一轮增资扩股，正大集团同步注资约 1.31 亿元。 <a href="http://finance.sina.com.cn/stock/t/2026-09-06/doc-iniqxchq9911763.shtml" target="_blank" rel="noopener">新浪财经</a></p></div>
+<div class="norm-item"><p><strong>OpenAI DevDay 2026 定于 9 月 29 日举办</strong> — 线下 650 美元门票已售罄，线上直播同步开放，官方宣称"公司历史上最好的一次"开发者大会。 <a href="https://mp.weixin.qq.com/s?__biz=Mzg4MTUyNDI4Ng==&amp;mid=2247525456&amp;idx=2&amp;sn=b9f8afcbc0a091dbd552cdf97bb3b5ed" target="_blank" rel="noopener">腾讯网</a></p></div>
+<div class="norm-item"><p><strong>智谱 AI 上线 6 元/月 Deep Research 套餐</strong> — 大幅降低深度联网研究能力订阅门槛，开启大模型行业大众订阅价格战；Kimi、MiniMax 等筹备入驻天猫旗舰店探索 ToC 电商化。 <a href="https://blog.csdn.net/u014146389/article/details/164711680" target="_blank" rel="noopener">CSDN</a></p></div>
+<div class="cat-title">开源项目</div>
+<div class="norm-item"><p><strong>OpenMAIC：多代理交互式课堂沉浸式学习系统</strong> — GitHub 本周最佳开源项目，31.9k Star，支持多智能体协同构建沉浸式教学场景。 <a href="https://zhuanlan.zhihu.com/p/2080234811290133112" target="_blank" rel="noopener">知乎</a></p></div>
+<div class="norm-item"><p><strong>OpenClaw 2.0 发布</strong> — GitHub 明星开源 Agent 重大更新，接入多平台消息应用，原生支持计算机操作。 <a href="https://blog.csdn.net/u014146389/article/details/164711680" target="_blank" rel="noopener">CSDN</a></p></div>
+<div class="norm-item"><p><strong>港科大腾讯开源 VibeWorlding</strong> — 帮助开发者快速搭建可感知虚拟环境的 AI Agent 应用，降低具身智能开发门槛。 <a href="https://blog.csdn.net/u014146389/article/details/164711680" target="_blank" rel="noopener">CSDN</a></p></div>
+<div class="norm-item"><p><strong>Mistral 更新 Large3 MoE 开源版</strong> — 支持高上下文长度，强化欧洲本地数据驻留部署适配；DeepSeek V4 保持 MIT 协议百万级上下文完全开源。 <a href="https://blog.csdn.net/u014146389/article/details/164711680" target="_blank" rel="noopener">CSDN</a></p></div>
+<hr>
+<p><em>本速递由星辰超级智能体自动生成 | 数据截至 2026-09-09 18:00</em></p>
+<blockquote class="toc">
+<p>AI生成</p>
+</blockquote>
+</div>
+
+    <footer>
+      <p>本速递由星辰超级智能体自动生成</p>
+      <p>数据截至 2026-09-09 18:00</p>
+      <p>信息来源：arXiv · 机器之心 · 量子位 · IT之家 · 36Kr 等</p>
+    </footer>
+    
+</div>
+</body>
+</html>
