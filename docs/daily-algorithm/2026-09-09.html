@@ -1,0 +1,1388 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>每日算法讲解 · 2026年09月09日</title>
+<!-- MathJax for LaTeX math formula rendering -->
+<script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\(', '\)']],
+      displayMath: [['$$', '$$'], ['\[', '\]']],
+      processEscapes: true
+    },
+    svg: { fontCache: 'global' }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" id="MathJax-script" async></script>
+<style>
+:root {
+  --primary: #6366f1;
+  --primary-dark: #4f46e5;
+  --bg: #0f172a;
+  --card-bg: #1e293b;
+  --text: #e2e8f0;
+  --text-dim: #94a3b8;
+  --accent: #818cf8;
+  --border: #334155;
+  --code-bg: #0d1117;
+  --code-text: #e6edf3;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans SC", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.8;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+.container { max-width: 1400px; margin: 0 auto; padding: 24px 32px; }
+.header {
+  text-align: center;
+  padding: 40px 0 30px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 32px;
+}
+.header h1 {
+  font-size: 28px;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.header h1 .date { color: var(--accent); }
+.header .subtitle { color: var(--text-dim); font-size: 15px; }
+.repo-link {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 6px 16px;
+  background: var(--primary);
+  color: #fff;
+  border-radius: 20px;
+  text-decoration: none;
+  font-size: 13px;
+  transition: background 0.2s;
+}
+.repo-link:hover { background: var(--primary-dark); }
+.history-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 32px;
+  padding: 16px;
+  background: var(--card-bg);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+.history-nav a {
+  padding: 4px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  color: var(--text-dim);
+  text-decoration: none;
+  background: rgba(99,102,241,0.08);
+  transition: all 0.2s;
+}
+.history-nav a:hover { color: var(--text); background: rgba(99,102,241,0.2); }
+.history-nav a.active { color: #fff; background: var(--primary); }
+.history-nav a.back-index { color: var(--accent); font-weight: 600; background: rgba(99,102,241,0.15); border: 1px solid rgba(99,102,241,0.3); }
+.history-nav a.back-index:hover { color: #fff; background: var(--primary); border-color: var(--primary); }
+.content { margin-bottom: 40px; max-width: 1100px; }
+.content h2 {
+  font-size: 24px;
+  color: var(--accent);
+  margin: 40px 0 16px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--primary);
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+.content h2:first-child { border-top: none; padding-top: 0; }
+.content h3 {
+  font-size: 18px;
+  color: var(--text);
+  margin: 24px 0 12px;
+}
+.content h4 {
+  font-size: 16px;
+  color: var(--accent);
+  margin: 20px 0 10px;
+}
+.content p { margin-bottom: 12px; color: var(--text); }
+.content ul { margin: 8px 0 16px 20px; }
+.content li { margin-bottom: 6px; }
+.content strong { color: var(--accent); }
+.content blockquote {
+  border-left: 4px solid var(--primary);
+  padding: 12px 16px;
+  margin: 16px 0;
+  background: rgba(99,102,241,0.08);
+  border-radius: 0 8px 8px 0;
+}
+.content blockquote p { color: var(--text-dim); margin: 4px 0; }
+.content hr {
+  border: none;
+  height: 1px;
+  background: var(--border);
+  margin: 32px 0;
+}
+.code-block {
+  background: var(--code-bg);
+  border-radius: 10px;
+  padding: 18px 24px;
+  overflow-x: auto;
+  margin: 16px 0;
+  border: 1px solid var(--border);
+  max-width: 100%;
+}
+.code-block code {
+  font-family: "JetBrains Mono", "Fira Code", "Consolas", monospace;
+  font-size: 14px;
+  color: var(--code-text);
+  line-height: 1.6;
+  white-space: pre;
+}
+.inline-code {
+  background: rgba(99,102,241,0.15);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: "Consolas", monospace;
+  font-size: 0.9em;
+  color: var(--accent);
+}
+/* Math formula block */
+.content .math-block {
+  background: rgba(99,102,241,0.06);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 24px;
+  margin: 16px 0;
+  overflow-x: auto;
+  max-width: 100%;
+}
+.content .math-label {
+  font-size: 13px; color: var(--text-dim); margin-bottom: 6px; }
+.content .math-vars {
+  margin: 8px 0 16px 20px; }
+.content .math-vars li { margin-bottom: 4px; color: var(--text-dim); }
+.footer {
+  text-align: center;
+  padding: 24px 0;
+  border-top: 1px solid var(--border);
+  color: var(--text-dim);
+  font-size: 13px;
+}
+.tag {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  background: rgba(99,102,241,0.15);
+  color: var(--accent);
+  margin-left: 8px;
+}
+.content .ref-link {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px dashed rgba(99,102,241,0.4);
+  transition: all 0.2s;
+  word-break: break-all;
+}
+.content .ref-link:hover {
+  color: #fff;
+  border-bottom-color: var(--primary);
+}
+.content li {
+  word-break: break-all;
+}
+/* Table */
+.table-wrapper {
+  overflow-x: auto;
+  margin: 16px 0;
+  max-width: 100%;
+}
+.algo-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  background: var(--card-bg);
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+.algo-table thead {
+  background: rgba(99,102,241,0.15);
+}
+.algo-table th {
+  padding: 10px 16px;
+  text-align: left;
+  color: var(--accent);
+  font-weight: 600;
+  border-bottom: 2px solid var(--primary);
+  white-space: nowrap;
+}
+.algo-table td {
+  padding: 8px 16px;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  word-break: break-all;
+}
+.algo-table tr:last-child td {
+  border-bottom: none;
+}
+.algo-table tr:hover td {
+  background: rgba(99,102,241,0.06);
+}
+/* Algorithm architecture image */
+.algo-image {
+  margin: 20px 0;
+  text-align: center;
+}
+.algo-image img {
+  max-width: 100%;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+.algo-image .image-caption {
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--text-dim);
+}
+.algo-image svg {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+/* ======== 移动端响应式适配 ======== */
+@media (max-width: 768px) {
+  .container { max-width: 100%; padding: 16px 14px; }
+  .header { padding: 24px 0 20px; margin-bottom: 20px; }
+  .header h1 { font-size: 20px; margin-bottom: 4px; }
+  .header .subtitle { font-size: 13px; }
+  .repo-link { margin-top: 10px; padding: 5px 14px; font-size: 12px; }
+  .history-nav { gap: 6px; padding: 10px 12px; margin-bottom: 20px; }
+  .history-nav a { padding: 3px 10px; font-size: 12px; }
+  .content { max-width: 100%; margin-bottom: 28px; }
+  .content h2 { font-size: 20px; margin: 28px 0 12px; }
+  .content h3 { font-size: 17px; margin: 20px 0 10px; }
+  .content h4 { font-size: 15px; margin: 16px 0 8px; }
+  .content p { font-size: 14px; margin-bottom: 10px; }
+  .content ul { margin: 6px 0 12px 16px; }
+  .content li { font-size: 14px; margin-bottom: 5px; }
+  .content blockquote { padding: 10px 12px; margin: 12px 0; }
+  .content blockquote p { font-size: 13px; }
+  .content .math-block { padding: 10px 14px; margin: 12px 0; }
+  .code-block { padding: 12px 14px; margin: 12px 0; }
+  .code-block code { font-size: 12px; line-height: 1.5; }
+  .inline-code { font-size: 0.88em; padding: 1px 5px; }
+  .algo-table { font-size: 12px; }
+  .algo-table th { padding: 6px 10px; }
+  .algo-table td { padding: 6px 10px; }
+  .algo-image { margin: 14px 0; }
+  .algo-image svg { max-width: 100%; height: auto; }
+  .footer { padding: 18px 0; font-size: 12px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>每日算法讲解 · <span class="date">2026年09月09日</span></h1>
+    <p class="subtitle">每天 1 个基础算法 + 2 个 AI/机器学习算法，持续精进</p>
+    <a href="https://syypretend.github.io/test/daily-algorithm" target="_blank" class="repo-link">GitHub 仓库</a>
+  </div>
+  <div class="history-nav"><a href="index.html" class="back-index">← 历史索引</a>
+<a href="2026-09-09.html" class="active">09月09日</a>
+<a href="2026-09-08.html">09月08日</a>
+<a href="2026-09-07.html">09月07日</a>
+</div>
+  <div class="content">
+  <hr>
+<p>AIGC:</p>
+<p>ContentProducer: '001191110102MAD55U9H0F10002'</p>
+<p>ContentPropagator: '001191110102MAD55U9H0F10002'</p>
+<p>Label: '1'</p>
+<p>ProduceID: '138cefde-da8b-44bd-91b8-604cfddca5c5'</p>
+<p>PropagateID: '138cefde-da8b-44bd-91b8-604cfddca5c5'</p>
+<p>ReservedCode1: 'f2943b92-b1da-4711-904d-4cdd09ff7944'</p>
+<p>ReservedCode2: 'f2943b92-b1da-4711-904d-4cdd09ff7944'</p>
+<hr>
+
+<h2>每日算法讲解 · 2026-09-09</h2>
+
+<blockquote>
+<p>今日内容：1 个基础算法 + 2 个 AI/机器学习算法 | 逐参数详解</p>
+</blockquote>
+
+<hr>
+
+<h3>红黑树（Red-Black Tree）</h3>
+
+<p><strong>类别</strong>：数据结构 | <strong>难度</strong>：中等</p>
+
+<h4>算法简介</h4>
+
+<p>红黑树（Red-Black Tree）是一种自平衡的二叉查找树（BST），由 Rudolf Bayer 于 1972 年提出（最初称为"对称二叉 B 树"），后在 1978 年由 Leonidas J. Guibas 和 Robert Sedgewick 正式定型为现在的红黑树形式。它的核心思想是：<strong>用"颜色"（红/黑）这一额外比特位来近似模拟 2-3-4 树的结构，从而在插入/删除后通过局部旋转与变色，把整棵树的高度差控制在可以接受的范围内</strong>，保证最坏情况下依然能维持 $ O(\log n) $ 的查找、插入、删除复杂度。相比 AVL 树对"绝对平衡"的苛刻要求，红黑树允许左右子树高度差放宽到 2 倍以内（最长路径不超过最短路径的 2 倍），因此插入/删除时需要的旋转次数更少、整体吞吐更高，是工程应用（如 Linux 内核、Java TreeMap、C++ std::map）最广泛使用的平衡树。</p>
+
+<h4>原理示意图</h4>
+
+<p><div class="algo-image"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 900 420" font-family="sans-serif">
+  <rect width="900" height="420" fill="#1e293b" rx="12"/>
+  <text x="450" y="32" text-anchor="middle" fill="#818cf8" font-size="16" font-weight="600">红黑树：五条性质的约束示意</text>
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="6" refX="4" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#6366f1"/>
+    </marker>
+  </defs>
+
+  <!-- 根节点 黑 -->
+  <circle cx="450" cy="80" r="28" fill="#334155" stroke="#22c55e" stroke-width="3"/>
+  <text x="450" y="86" text-anchor="middle" fill="#e2e8f0" font-size="14">13</text>
+
+  <!-- 第二层 红 -->
+  <circle cx="300" cy="150" r="28" fill="#7f1d1d" stroke="#f97316" stroke-width="3"/>
+  <text x="300" y="156" text-anchor="middle" fill="#e2e8f0" font-size="14">8</text>
+  <circle cx="620" cy="150" r="28" fill="#334155" stroke="#22c55e" stroke-width="3"/>
+  <text x="620" y="156" text-anchor="middle" fill="#e2e8f0" font-size="14">17</text>
+
+  <!-- 第三层 -->
+  <circle cx="220" cy="230" r="24" fill="#334155" stroke="#22c55e" stroke-width="3"/>
+  <text x="220" y="236" text-anchor="middle" fill="#e2e8f0" font-size="13">1</text>
+  <circle cx="380" cy="230" r="24" fill="#334155" stroke="#22c55e" stroke-width="3"/>
+  <text x="380" y="236" text-anchor="middle" fill="#e2e8f0" font-size="13">11</text>
+  <circle cx="540" cy="230" r="24" fill="#7f1d1d" stroke="#f97316" stroke-width="3"/>
+  <text x="540" y="236" text-anchor="middle" fill="#e2e8f0" font-size="13">15</text>
+  <circle cx="700" cy="230" r="24" fill="#334155" stroke="#22c55e" stroke-width="3"/>
+  <text x="700" y="236" text-anchor="middle" fill="#e2e8f0" font-size="13">25</text>
+
+  <!-- 叶子层 NIL -->
+  <circle cx="160" cy="310" r="14" fill="#1e293b" stroke="#6366f1" stroke-width="2"/>
+  <text x="160" y="314" text-anchor="middle" fill="#94a3b8" font-size="10">NIL</text>
+  <circle cx="280" cy="310" r="14" fill="#1e293b" stroke="#6366f1" stroke-width="2"/>
+  <text x="280" y="314" text-anchor="middle" fill="#94a3b8" font-size="10">NIL</text>
+  <circle cx="440" cy="310" r="14" fill="#1e293b" stroke="#6366f1" stroke-width="2"/>
+  <text x="440" y="314" text-anchor="middle" fill="#94a3b8" font-size="10">NIL</text>
+  <circle cx="560" cy="310" r="14" fill="#1e293b" stroke="#6366f1" stroke-width="2"/>
+  <text x="560" y="314" text-anchor="middle" fill="#94a3b8" font-size="10">NIL</text>
+  <circle cx="660" cy="310" r="14" fill="#1e293b" stroke="#6366f1" stroke-width="2"/>
+  <text x="660" y="314" text-anchor="middle" fill="#94a3b8" font-size="10">NIL</text>
+  <circle cx="780" cy="310" r="14" fill="#1e293b" stroke="#6366f1" stroke-width="2"/>
+  <text x="780" y="314" text-anchor="middle" fill="#94a3b8" font-size="10">NIL</text>
+
+  <!-- 连线 -->
+  <line x1="450" y1="108" x2="300" y2="122" stroke="#6366f1" stroke-width="2"/>
+  <line x1="450" y1="108" x2="620" y2="122" stroke="#6366f1" stroke-width="2"/>
+  <line x1="300" y1="178" x2="220" y2="206" stroke="#6366f1" stroke-width="2"/>
+  <line x1="300" y1="178" x2="380" y2="206" stroke="#6366f1" stroke-width="2"/>
+  <line x1="620" y1="178" x2="540" y2="206" stroke="#6366f1" stroke-width="2"/>
+  <line x1="620" y1="178" x2="700" y2="206" stroke="#6366f1" stroke-width="2"/>
+  <line x1="220" y1="254" x2="160" y2="296" stroke="#6366f1" stroke-width="1.5"/>
+  <line x1="220" y1="254" x2="280" y2="296" stroke="#6366f1" stroke-width="1.5"/>
+  <line x1="380" y1="254" x2="440" y2="296" stroke="#6366f1" stroke-width="1.5"/>
+  <line x1="540" y1="254" x2="560" y2="296" stroke="#6366f1" stroke-width="1.5"/>
+  <line x1="700" y1="254" x2="660" y2="296" stroke="#6366f1" stroke-width="1.5"/>
+  <line x1="700" y1="254" x2="780" y2="296" stroke="#6366f1" stroke-width="1.5"/>
+
+  <!-- 图例 -->
+  <rect x="60" y="360" width="20" height="12" rx="3" fill="#334155" stroke="#22c55e" stroke-width="2"/>
+  <text x="90" y="371" fill="#94a3b8" font-size="12">黑色节点（黑高一致）</text>
+  <rect x="330" y="360" width="20" height="12" rx="3" fill="#7f1d1d" stroke="#f97316" stroke-width="2"/>
+  <text x="360" y="371" fill="#94a3b8" font-size="12">红色节点（不能连续）</text>
+  <rect x="560" y="360" width="20" height="12" rx="3" fill="#1e293b" stroke="#6366f1" stroke-width="2"/>
+  <text x="590" y="371" fill="#94a3b8" font-size="12">NIL 哨兵叶子</text>
+  <text x="450" y="405" text-anchor="middle" fill="#6366f1" font-size="12">性质：根黑 / 叶黑 / 红不连续 / 任意节点到叶子黑高相同 → 高度 ≤ 2log₂(n+1)</text>
+</svg></div></p>
+
+<h4>数学公式</h4>
+
+<p>红黑树是"数据结构性质"型算法，核心公式为<strong>高度上界与复杂度推导</strong>：</p>
+
+<p><strong>公式 1：红黑树高度上界</strong></p>
+
+<p><div class="math-block">$$ h \le 2\log_2(n+1) $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ h $：红黑树的实际高度（从根到最远叶子的边数）</li>
+<li>$ n $：树中内部节点（有效关键字）的数量</li>
+<li>$ \log_2(n+1) $：高度为 $ h $ 的满二叉树能容纳节点数的对数反函数；红黑树的"半满"性质使其高度最多为完美平衡树高度的 2 倍</li>
+</ul>
+
+<p><strong>推导过程</strong>：设 $ bh(x) $ 为节点 $ x $ 的"黑高"（从 $ x $ 出发到任一 NIL 叶子路径上的黑色节点数，不含 $ x $ 本身）。由性质 4（红节点子节点必为黑）可知，任意路径上黑色节点至少占一半，因此 $ h \le 2 \cdot bh(root) $。又因以 $ x $ 为根的子树中至少包含 $ 2^{bh(x)} - 1 $ 个内部节点（对黑高做归纳可得），故 $ n \ge 2^{bh(root)} - 1 \ge 2^{h/2} - 1 $，取对数即得 $ h \le 2\log_2(n+1) $。</p>
+
+<p><strong>公式 2：查找 / 插入 / 删除的时间复杂度</strong></p>
+
+<p><div class="math-block">$$ T(n) = O(h) = O(\log n) $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ T(n) $：含 $ n $ 个节点时单次操作的最坏运行时间</li>
+<li>$ h $：树高，代入公式 1 的 $ h \le 2\log_2(n+1) $ 即得对数界</li>
+<li>插入的额外旋转代价：最多 2 次旋转 + 3 次颜色调整（$ O(1) $ 摊还）；删除最多 3 次旋转（$ O(\log n) $ 最坏）</li>
+</ul>
+
+<p><strong>公式 3：树高与节点数关系的精确界</strong></p>
+
+<p><div class="math-block">$$ \log_2(n+1) \le h \le 2\log_2(n+1) $$</div></p>
+
+<p><strong>变量解释</strong>：下界对应完全平衡树（所有路径黑高相等且无红节点），上界对应最"歪斜"的红黑树（每条路径交替红黑），两者都由黑高定理保证。</p>
+
+<h4>核心要点</h4>
+<ul>
+<li>红黑树在 BST 基础上为每个节点增加"颜色"位（红/黑），通过 5 条性质维持近似平衡，任何操作最坏 $ O(\log n) $</li>
+<li>5 条性质：① 节点非红即黑；② 根为黑；③ 所有 NIL 叶子为黑；④ 红节点的两个子节点必须为黑（红不连续）；⑤ 任一节点到其所有后代 NIL 叶子的路径上黑色节点数相同（黑高一致）</li>
+<li>插入修复分 3 种情形：叔节点为红 → 只变色；叔节点为黑 + 直线型 → 单旋转 + 变色；叔节点为黑 + 折线型 → 先变向再单旋转（双旋）</li>
+<li>删除修复更复杂，分 4 种情形（兄弟为红 / 兄弟为黑且两侄黑 / 兄弟黑且左侄红 / 兄弟黑且右侄红），核心是"借黑"与"上推"双重黑色</li>
+<li>相比 AVL 树，红黑树放宽平衡要求，减少旋转次数，适合<strong>写多读多</strong>的动态场景；AVL 更严格，适合查多写少</li>
+<li>工程实现代表：C++ std::map/set、Java TreeMap/TreeSet、Linux 内核 CFS 调度器（红黑树管理 vruntime）、Nginx 定时器、JVM 中 ConcurrentHashMap 的红黑树桶（链表长度 ≥ 8 时转红黑树）</li>
+</ul>
+
+<h4>技术细节与参数详解</h4>
+
+<p>红黑树没有"超参数"，但其 <strong>5 条结构性约束</strong>和<strong>操作中的"控制变量"</strong>决定了树的形态与性能，逐一解析：</p>
+
+<p>#### 性质①：节点颜色（Red / Black）</p>
+<ul>
+<li><strong>含义</strong>：每个节点用 1 bit 存储颜色，是红黑树与普通 BST 的唯一额外开销</li>
+<li><strong>类型</strong>：枚举（红/黑），工程上用布尔或 0/1 表示</li>
+<li><strong>默认值</strong>：新插入的节点<strong>总是先设为红色</strong>（代价最小——只可能破坏性质④，不破坏黑高⑤）</li>
+<li><strong>取值范围</strong>：仅两个取值</li>
+<li><strong>对结果的影响</strong>：决定树是否满足全部 5 条性质，进而决定树高是否被约束在 $ O(\log n) $</li>
+<li><strong>推荐设置</strong>：插入先染红，再通过调整变黑；每次调整保证性质②根黑与性质⑤黑高不变</li>
+</ul>
+
+<p>#### 性质 5：黑高（Black-Height）</p>
+<ul>
+<li><strong>含义</strong>：从某节点到其任一 NIL 后代路径上的黑色节点数（不含起点）</li>
+<li><strong>类型</strong>：非负整数</li>
+<li><strong>默认值</strong>：空树黑高为 0</li>
+<li><strong>取值范围</strong>：$ [0, h/2] $，且所有叶路径必须相等</li>
+<li><strong>对结果的影响</strong>：黑高是平衡的"硬指标"——任一节点左/右子树黑高必须一致，否则性质⑤被破坏，需立即修复；黑高决定树高上界</li>
+<li><strong>推荐设置</strong>：插入/删除后首先校验黑高是否相等，再校验红连续性，这是标准修复流程的顺序依据</li>
+</ul>
+
+<p>#### 旋转操作（Rotation）：左旋 / 右旋</p>
+<ul>
+<li><strong>含义</strong>：改变局部父子关系而不改变中序遍历次序的"局部重构"操作；是修复平衡的基本动作</li>
+<li><strong>类型</strong>：结构性操作，$ O(1) $ 时间，只修改 3 对指针</li>
+<li><strong>默认值</strong>：无（由修复流程决定触发）</li>
+<li><strong>取值范围</strong>：左旋 pivot = 节点 y 右孩子 x，使 y 成为 x 的左孩子；右旋对称</li>
+<li><strong>对结果的影响</strong>：把"折线"变成"直线"，为后续变色做准备；每次插入最多 2 次旋转，删除最多 3 次</li>
+<li><strong>推荐设置</strong>：先判定触发情形（父/叔颜色），再决定单旋或双旋，避免多余旋转</li>
+</ul>
+
+<p>#### 插入修复（Insert Fix-up）</p>
+<ul>
+<li><strong>含义</strong>：插入红节点后，按父/叔节点颜色分为 3 种情形处理</li>
+<li><strong>类型</strong>：3 种情形（Case 1~3），都是 $ O(1) $ 或 $ O(\log n) $ 摊还</li>
+<li><strong>默认值</strong>：插入位置按 BST 规则（比节点大往右、小往左）</li>
+<li><strong>情形详表</strong>：</li>
+<li><strong>Case 1（叔为红）</strong>：父、叔均染黑，祖父染红，然后把"当前节点"上移两代继续检查——只变色，不旋转</li>
+<li><strong>Case 2（叔为黑，当前为"折线"）</strong>：对父做一次旋转，把折线转成直线，进入 Case 3</li>
+<li><strong>Case 3（叔为黑，当前为"直线"）</strong>：祖父旋转一次 + 父染黑 + 祖父染红，调整结束</li>
+<li><strong>对结果的影响</strong>：决定树能否恢复 5 条性质；Case 1 可能向上传播 $ O(\log n) $ 次，Case 2+3 合起来最多 2 次旋转</li>
+<li><strong>推荐设置</strong>：把修复循环终止条件设为"当前节点为根或当前节点父为黑"</li>
+</ul>
+
+<p>#### 删除修复（Delete Fix）</p>
+<ul>
+<li><strong>含义</strong>：删除节点（尤其是删除黑色节点）后，用"双重黑"（double black）概念修复黑高</li>
+<li><strong>类型</strong>：4 种情形（Case 1~4）</li>
+<li><strong>默认值</strong>：被删节点若只有一个孩子（或没有孩子），用孩子替换；若有两个孩子，则用后继节点值覆盖再删除后继</li>
+<li><strong>情形详表</strong>：</li>
+<li><strong>Case 1（兄弟为红）</strong>：兄弟染黑、父染红、围绕父旋转 → 转化为兄弟为黑的情形</li>
+<li><strong>Case 2（兄弟黑、两侄均黑）</strong>：兄弟染红，把"双重黑"上推给父</li>
+<li><strong>Case 3（兄弟黑、左侄红右侄黑）</strong>：右旋兄弟侧，交换红黑，转化为 Case 4</li>
+<li><strong>Case 4（兄弟黑、右侄红）</strong>：父与兄弟换色、围绕父旋转、右侄染黑，结束修复</li>
+<li><strong>对结果的影响</strong>：保证删除后黑高仍一致，时间复杂度最坏 $ O(\log n) $、最多 3 次旋转</li>
+<li><strong>推荐</strong>：理解"双重黑"概念（把缺失的黑色视作推到父节点上）是最简洁的记忆方式</li>
+</ul>
+
+<p>#### 哨兵 NIL 叶子</p>
+<ul>
+<li><strong>含义</strong>：所有"空子节点"统一用一个 NIL 哨兵表示，使每个节点都有两个"孩子"</li>
+<li><strong>类型</strong>：空节点对象，颜色恒为黑</li>
+<li><strong>默认值</strong>：所有叶子统一指向同一个哨兵</li>
+<li><strong>对结果的影响</strong>：让"黑高一致"的定义成立（每个叶路径都终止于黑哨兵），也让旋转代码不需要判空</li>
+<li><strong>推荐设置</strong>：工程上用一个静态单例哨兵即可，节省内存</li>
+</ul>
+
+<h4>代码示例</h4>
+
+<p><pre class="code-block"><code class="language-python"># 红黑树的插入 + 修复实现（含颜色、旋转、情形判定）
+# 适用于理解原理；生产环境请直接用标准库 map/set
+
+RED, BLACK = True, False  # 颜色常量：True=红，False=黑
+
+class Node:
+    &quot;&quot;&quot;红黑树节点：key 之外只多一个 color 位&quot;&quot;&quot;
+    def __init__(self, key):
+        self.key = key          # 键值，用于比较
+        self.color = RED        # 新节点默认红色（只可能破坏性质④）
+        self.left = None        # 左孩子指针
+        self.right = None       # 右孩子指针
+        self.parent = None      # 父指针（旋转与上推需要）
+
+class RedBlackTree:
+    &quot;&quot;&quot;红黑树：5 条性质保证树高 ≤ 2log₂(n+1)&quot;&quot;&quot;
+    def __init__(self):
+        self.NIL = Node(None)   # 统一的黑色哨兵叶子
+        self.NIL.color = BLACK  # 哨兵必须是黑色（性质③）
+        self.root = self.NIL    # 初始空树
+
+    def insert(self, key):
+        &quot;&quot;&quot;插入 key：先按 BST 找位置，再修复颜色与旋转&quot;&quot;&quot;
+        node = Node(key)        # 新建红色节点
+        node.left = self.NIL    # 左右孩子指向哨兵
+        node.right = self.NIL
+        y, x = self.NIL, self.root
+        while x != self.NIL:          # BST 标准查找插入位置
+            y = x
+            x = x.left if key &lt; x.key else x.right
+        node.parent = y               # 挂到父节点上
+        if y == self.NIL:
+            self.root = node          # 空树：新节点成根
+        elif key &lt; y.key:
+            y.left = node
+        else:
+            y.right = node
+        self._insert_fix(node)        # 修复红黑性质
+
+    def _insert_fix(self, z):
+        &quot;&quot;&quot;插入修复：只处理父为红的情况（性质④被破坏）&quot;&quot;&quot;
+        while z.parent and z.parent.color == RED:  # 红不连续被破坏
+            p = z.parent
+            g = p.parent                        # 祖父必然存在且为黑
+            if p == g.left:                     # 父是祖父的左孩子
+                u = g.right                     # 叔节点
+                if u.color == RED:              # Case1：叔红 → 只变色
+                    p.color = BLACK
+                    u.color = BLACK
+                    g.color = RED
+                    z = g                      # 上移两层继续检查
+                else:                           # Case2/3：叔黑 → 旋转
+                    if z == p.right:           # Case2 折线 → 先左旋变直线
+                        z = p
+                        self._left_rotate(z)
+                    p.color = BLACK            # Case3：直线 → 右旋 + 变色
+                    g.color = RED
+                    self._right_rotate(g)
+            else:                               # 父是右孩子（完全对称）
+                u = g.left
+                if u and u.color == RED:
+                    p.color = BLACK
+                    u.color = BLACK
+                    g.color = RED
+                    z = g
+                else:
+                    if z == p.left:
+                        z = p
+                        self._right_rotate(z)
+                    p.color = BLACK
+                    g.color = RED
+                    self._left_rotate(g)
+        self.root.color = BLACK                # 性质②：根必黑
+
+    def _left_rotate(self, x):
+        &quot;&quot;&quot;左旋：把 x 的右孩子 y 提升为 x 的父，x 变为 y 的左孩子&quot;&quot;&quot;
+        y = x.right
+        x.right = y.left                       # y 的左子树过继给 x 的右
+        if y.left != self.NIL:
+            y.left.parent = x
+        y.parent = x.parent                    # y 接管 x 的父指针
+        if x.parent == self.NIL:
+            self.root = y                      # x 是根 → y 成为新根
+        elif x == x.parent.left:
+            x.parent.left = y
+        else:
+            x.parent.right = y
+        y.left = x                             # x 挂到 y 左侧
+        x.parent = y
+
+    def _right_rotate(self, y):
+        &quot;&quot;&quot;右旋：与左旋完全对称，把 y 的左孩子提升为父&quot;&quot;&quot;
+        x = y.left
+        y.left = x.right
+        if x.right != self.NIL:
+            x.right.parent = y
+        x.parent = y.parent
+        if y.parent == self.NIL:
+            self.root = x
+        elif y == y.parent.right:
+            y.parent.right = x
+        else:
+            y.parent.left = x
+        x.right = y
+        y.parent = x
+
+    def search(self, key):
+        &quot;&quot;&quot;BST 查找：O(log n)，路径沿树根到叶子&quot;&quot;&quot;
+        x = self.root
+        while x != self.NIL:
+            if key == x.key:
+                return x
+            x = x.left if key &lt; x.key else x.right
+        return None</code></pre></p>
+
+<h4>复杂度分析</h4>
+
+<p><strong>时间复杂度推导</strong>：</p>
+<ul>
+<li><strong>查找</strong>：路径长度 = 树高 $ h $，由公式 1 得 $ h \le 2\log_2(n+1) $，故 $ T_{\text{search}} = O(h) = O(\log n) $</li>
+<li><strong>插入</strong>：BST 查找定位 $ O(\log n) $ + 修复循环。Case 1 每轮把"当前节点"上移两层（黑高方向），最多 $ O(\log n) $ 轮且每轮 $ O(1) $；Case 2/3 旋转后立即终止，最多 2 次旋转。总 $ O(\log n) $</li>
+<li><strong>删除</strong>：定位 $ O(\log n) $ + 修复循环最多 $ O(\log n) $ 轮（Case 2 上推），总 $ O(\log n) $，但旋转次数最多 3 次</li>
+<li><strong>结论</strong>：三种操作均为 $ O(\log n) $ 最坏界；与 AVL 相比，红黑树插入/删除的旋转期望值更小（AVL 删除可能需要 $ O(\log n) $ 次旋转，红黑树限制在常数 3 次）</li>
+</ul>
+
+<p><strong>空间复杂度</strong>：</p>
+<ul>
+<li>$ O(n) $ 存放节点（每节点 key + 颜色位 + 3 指针）；若用单例哨兵，NIL 不随 $ n $ 增长，额外空间为 $ O(1) $</li>
+</ul>
+
+<h4>应用场景</h4>
+<ul>
+<li><strong>语言标准库</strong>：C++ <code class="inline-code">std::map</code>/<code class="inline-code">std::set</code>、Java <code class="inline-code">TreeMap</code>/<code class="inline-code">TreeSet</code> 均用红黑树实现有序容器，增删查 $ O(\log n) $</li>
+<li><strong>Linux 内核</strong>：CFS（完全公平调度器）用红黑树按 vruntime 管理就绪进程；<code class="inline-code">epoll</code> 事件集合也用红黑树管理 fd</li>
+<li><strong>JVM / JDK</strong>：<code class="inline-code">ConcurrentHashMap</code> 在哈希桶链表长度 ≥ 8（且容量 ≥ 64）时将链表转为红黑树，防止哈希碰撞退化</li>
+<li><strong>Nginx</strong>：用红黑树管理定时器（超时事件）与正则缓存</li>
+<li><strong>数据库与索引</strong>：虽然 B 树系更适合磁盘，但内存索引场景红黑树更轻量</li>
+<li><strong>网络路由表</strong>：部分路由器的前缀树优化场景使用红黑树</li>
+</ul>
+
+<h4>参考文档</h4>
+<ul>
+<li><a href="https://blog.csdn.net/likaiwalkman/article/details/51611313" target="_blank" class="ref-link">红黑树详解 - CSDN</a></li>
+<li><a href="https://msdn.microsoft.com/en-us/library/ms379573(v=vs.80" target="_blank" class="ref-link">An Extensive Examination of Data Structures Using C# - Microsoft</a>.aspx)</li>
+<li>[Introduction to Algorithms（CLRS）第 13 章 Red-Black Trees]</li>
+<li><a href="https://en.wikipedia.org/wiki/Red%E2%80%93black_tree" target="_blank" class="ref-link">Wikipedia: Red–black tree</a></li>
+</ul>
+<hr>
+
+<h3>Triplet Loss（三元组损失）</h3>
+
+<p><strong>类别</strong>：损失函数 / 度量学习 | <strong>难度</strong>：中等</p>
+
+<h4>算法简介</h4>
+
+<p>Triplet Loss（三元组损失）是 Google 在 2015 年 FaceNet 论文中提出的<strong>度量学习</strong>损失函数。它通过同时比较<strong>锚点（Anchor）、正样本（Positive）和负样本（Negative）</strong>三个样本在嵌入空间中的距离关系，驱动神经网络学习出一个特征空间：<strong>同类样本靠拢、异类样本远离</strong>。与传统的 Softmax 交叉熵不同，Triplet Loss 直接以"距离"为优化目标，不关心类别数，天然适合<strong>开放集识别</strong>（open-set recognition）——训练时见过的类别可以迁移到未见类别。在人脸识别（FaceNet）、图像检索、文本相似度、推荐召回等场景中广泛应用。</p>
+
+<p>Triplet 的关键在于"间距"（margin）这一超参数：它规定了正样本对与负样本对之间的<strong>最小距离差</strong>，只有当 $ d(A,P) + \text{margin} < d(A,N) $ 时损失为 0，否则以 hinge 形式惩罚。这种设计促使模型学到有"判别力"的嵌入，而 margin 的取值直接决定嵌入空间的"紧致度"与"泛化力"的权衡。</p>
+
+<h4>原理示意图</h4>
+
+<p><div class="algo-image"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 900 380" font-family="sans-serif">
+  <rect width="900" height="380" fill="#1e293b" rx="12"/>
+  <text x="450" y="32" text-anchor="middle" fill="#818cf8" font-size="16" font-weight="600">Triplet Loss：嵌入空间中的距离约束</text>
+  <defs>
+    <marker id="arrowB" markerWidth="8" markerHeight="6" refX="4" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#6366f1"/>
+    </marker>
+  </defs>
+
+  <!-- 嵌入空间背景圆 -->
+  <circle cx="450" cy="200" r="150" fill="none" stroke="#334155" stroke-width="2" stroke-dasharray="6,4"/>
+  <text x="620" y="200" fill="#475569" font-size="12">嵌入空间</text>
+
+  <!-- Anchor -->
+  <circle cx="350" cy="200" r="26" fill="#334155" stroke="#6366f1" stroke-width="3"/>
+  <text x="350" y="206" text-anchor="middle" fill="#e2e8f0" font-size="14" font-weight="700">A</text>
+  <text x="350" y="248" text-anchor="middle" fill="#94a3b8" font-size="11">Anchor</text>
+
+  <!-- Positive -->
+  <circle cx="420" cy="150" r="22" fill="#14532d" stroke="#22c55e" stroke-width="3"/>
+  <text x="420" y="156" text-anchor="middle" fill="#e2e8f0" font-size="13" font-weight="700">P</text>
+  <text x="420" y="130" text-anchor="middle" fill="#22c55e" font-size="11">Positive</text>
+
+  <!-- Negative -->
+  <circle cx="580" cy="220" r="22" fill="#7c2d12" stroke="#f97316" stroke-width="3"/>
+  <text x="580" y="226" text-anchor="middle" fill="#e2e8f0" font-size="13" font-weight="700">N</text>
+  <text x="580" y="258" text-anchor="middle" fill="#f97316" font-size="11">Negative</text>
+
+  <!-- 距离线 A-P (绿色) -->
+  <line x1="370" y1="190" x2="402" y2="158" stroke="#22c55e" stroke-width="2.5" stroke-dasharray="5,3"/>
+  <text x="378" y="168" fill="#22c55e" font-size="12">d(A,P)↓</text>
+
+  <!-- 距离线 A-N (橙色) -->
+  <line x1="372" y1="208" x2="560" y2="220" stroke="#f97316" stroke-width="2.5" stroke-dasharray="5,3"/>
+  <text x="455" y="214" fill="#f97316" font-size="12">d(A,N)↑</text>
+
+  <!-- margin 标注 -->
+  <text x="490" y="280" text-anchor="middle" fill="#818cf8" font-size="13" font-weight="600">约束：d(A,P) + margin ≤ d(A,N)</text>
+  <text x="490" y="300" text-anchor="middle" fill="#94a3b8" font-size="12">L = max(d(A,P) - d(A,N) + margin, 0)</text>
+
+  <!-- 公式区 -->
+  <text x="450" y="340" text-anchor="middle" fill="#6366f1" font-size="12">margin 间距越大 → 嵌入空间越宽，但训练越难收敛</text>
+</svg></div></p>
+
+<h4>数学公式</h4>
+
+<p><strong>公式 1：Triplet Loss 基本形式</strong></p>
+
+<p><div class="math-block">$$ L(A, P, N) = \max\!\big(d(A, P) - d(A, N) + m,\; 0\big) $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ A $：锚点样本的嵌入向量（由神经网络 $ f(x) $ 编码后得到）</li>
+<li>$ P $：与 $ A $ 同类的正样本嵌入</li>
+<li>$ N $：与 $ A $ 异类的负样本嵌入</li>
+<li>$ d(\cdot, \cdot) $：距离函数，通常为欧氏距离 $ d(x, y) = \|x - y\|_p $</li>
+<li>$ m $：margin（间距），正实数超参数，决定正负样本对之间必须保持的最小距离差</li>
+<li>当 $ d(A, P) - d(A, N) + m \le 0 $ 时损失为 0（"easy triplet"）；否则产生正的 hinge 损失</li>
+</ul>
+
+<p><strong>公式 2：距离度量的一般化（Lp 范数）</strong></p>
+
+<p><div class="math-block">$$ d(x, y) = \|x - y\|_p = \Big(\sum_{i=1}^{d}|x_i - y_i|^p\Big)^{1/p} $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ p $：范数阶数，通常取 2（欧氏距离）；PyTorch 中默认 <code class="inline-code">p=2</code></li>
+<li>$ d $：嵌入维度（embedding dimension）</li>
+<li>$ x_i, y_i $：嵌入向量的第 $ i $ 维分量</li>
+</ul>
+
+<p><strong>公式 3：梯度（对锚点嵌入的偏导，$ p=2 $ 时）</strong></p>
+
+<p><div class="math-block">$$ \frac{\partial L}{\partial A} = \begin{cases} \frac{A - P}{\|A-P\|_2} - \frac{A - N}{\|A-N\|_2} & \text{if } L > 0 \\ 0 & \text{if } L = 0 \end{cases} $$</div></p>
+
+<p><strong>变量解释</strong>：当损失 > 0 时，梯度同时拉近 $ A $ 与 $ P $、推远 $ A $ 与 $ N $；当损失 = 0（easy triplet）时梯度为零，不产生更新。这也是为什么"困难样本挖掘"（hard mining）对 Triplet Loss 至关重要。</p>
+
+<h4>核心要点</h4>
+<ul>
+<li>Triplet Loss 直接优化嵌入空间的<strong>距离结构</strong>，不依赖类别数，适合开放集场景</li>
+<li>每个 mini-batch 需要构造三元组 $ (A, P, N) $，P 与 A 同类、N 与 A 异类</li>
+<li>"Easy triplet"（损失为 0）不提供梯度，导致训练低效 → 需要硬样本挖掘（semi-hard / hard mining）</li>
+<li>margin $ m $ 是关键超参：太小嵌入空间太紧、泛化弱；太大训练难收敛、可能永远无法满足</li>
+<li>距离度量通常用 L2（欧氏），但也可以用 L1、cosine 等</li>
+<li>与 Contrastive Loss 相比，Triplet 同时比较正负，天然利用了"相对距离"信息，更高效</li>
+</ul>
+
+<h4>技术细节与参数详解</h4>
+
+<p>以下基于 <strong>PyTorch <code class="inline-code">torch.nn.TripletMarginLoss</code></strong> 的参数列表，逐一详解：</p>
+
+<p>#### 参数 1：margin</p>
+<ul>
+<li><strong>含义</strong>：正样本对与负样本对之间的最小距离差（"安全间距"）</li>
+<li><strong>类型</strong>：<code class="inline-code">float</code></li>
+<li><strong>默认值</strong>：<code class="inline-code">1.0</code></li>
+<li><strong>取值范围</strong>：$ (0, +\infty) $，实践中通常 $ 0.1 \sim 2.0 $</li>
+<li><strong>对结果的影响</strong>：</li>
+<li>margin 越大，要求正负样本对距离差越大，嵌入空间更宽，泛化更强，但训练更难收敛、可能长时间 loss 不为 0</li>
+<li>margin 越小，约束更松，训练容易但嵌入空间可能太紧，同类间不够分离</li>
+<li>margin 与嵌入向量的<strong>归一化方式</strong>强相关：若 embedding 做 L2-norm（unit norm），margin 一般 $ 0.1 \sim 0.5 $；不归一化时可以设到 $ 1.0 $ 或更大</li>
+<li><strong>推荐设置</strong>：</li>
+<li>人脸识别（FaceNet，128 维嵌入，L2 归一化）：margin = 0.2</li>
+<li>图像检索（一般嵌入）：margin = 0.3 ~ 0.5</li>
+<li>文本相似度（BERT embedding，不归一化）：margin = 1.0 ~ 2.0</li>
+<li>经验法则：先用默认 1.0 跑通，然后根据 loss 曲线调整：若 loss 很快降到 0 → 增大 margin 或增加 hard mining；若 loss 长期不降 → 减小 margin</li>
+</ul>
+
+<p>#### 参数 2：p</p>
+<ul>
+<li><strong>含义</strong>：距离度量的范数阶数（Lp 范数的 $ p $ 值）</li>
+<li><strong>类型</strong>：<code class="inline-code">float</code></li>
+<li><strong>默认值</strong>：<code class="inline-code">2.0</code>（欧氏距离 / L2 范数）</li>
+<li><strong>取值范围</strong>：$ (0, +\infty) $，常用 1（曼哈顿距离）、2（欧氏距离）</li>
+<li><strong>对结果的影响</strong>：</li>
+<li>$ p=2 $（默认）：欧氏距离，对异常值较敏感但几何意义清晰，最常用</li>
+<li>$ p=1 $：曼哈顿距离，对异常值更鲁棒，在高维空间中有时表现更好</li>
+<li>$ p \to \infty $：切比雪夫距离（$ L_\infty $），实践中罕见</li>
+<li><strong>推荐设置</strong>：默认 2.0 即可，除非你的嵌入空间对异常值敏感需要更鲁棒的距离</li>
+</ul>
+
+<p>#### 参数 3：eps</p>
+<ul>
+<li><strong>含义</strong>：数值稳定性的小常数，防止距离计算时分母为零</li>
+<li><strong>类型</strong>：<code class="inline-code">float</code></li>
+<li><strong>默认值</strong>：<code class="inline-code">1e-6</code></li>
+<li><strong>取值范围</strong>：$ (0, 1) $，通常无需修改</li>
+<li><strong>对结果的影响</strong>：当 $ A $ 与 $ P $（或 $ A $ 与 $ N $）完全重合时，$ \|A - P\|_p = 0 $ 会导致梯度除零；eps 加入分母防止 NaN</li>
+<li><strong>推荐设置</strong>：保持默认 <code class="inline-code">1e-6</code>，无需调参</li>
+</ul>
+
+<p>#### 参数 4：swap</p>
+<ul>
+<li><strong>含义</strong>：是否启用 "swap" 策略——在计算 $ d(A, N) $ 时，如果 $ d(P, N) < d(A, N) $，则用 $ d(P, N) $ 代替</li>
+<li><strong>类型</strong>：<code class="inline-code">bool</code></li>
+<li><strong>默认值</strong>：<code class="inline-code">False</code></li>
+<li><strong>取值范围</strong>：<code class="inline-code">True</code> / <code class="inline-code">False</code></li>
+<li><strong>对结果的影响</strong>：</li>
+<li><code class="inline-code">swap=False</code>（默认）：$ L = \max(d(A,P) - d(A,N) + m, 0) $，只比较 A-P 和 A-N</li>
+<li><code class="inline-code">swap=True</code>：$ L = \max(d(A,P) - \min(d(A,N), d(P,N)) + m, 0) $，相当于以"最近的异类距离"作为约束——这是一种隐式的 hard mining，让损失更严格</li>
+<li>swap 来自 FaceNet 论文，在有正样本"误打误撞"靠近负样本时，提供额外梯度信号</li>
+<li><strong>推荐设置</strong>：</li>
+<li>初次实验设为 <code class="inline-code">False</code>，确认基础流程能收敛</li>
+<li>当 easy triplet 比例高、loss 下降缓慢时，开启 <code class="inline-code">swap=True</code> 增加约束力度</li>
+<li>与 semi-hard mining 配合使用效果更佳</li>
+</ul>
+
+<p>#### 参数 5：reduction</p>
+<ul>
+<li><strong>含义</strong>：对一个 batch 内所有三元组损失如何聚合</li>
+<li><strong>类型</strong>：<code class="inline-code">str</code></li>
+<li><strong>默认值</strong>：<code class="inline-code">'mean'</code></li>
+<li><strong>取值范围</strong>：<code class="inline-code">'none'</code> / <code class="inline-code">'mean'</code> / <code class="inline-code">'sum'</code></li>
+<li><code class="inline-code">'none'</code>：返回每个三元组的损失，形状 <code class="inline-code">(batch_size,)</code></li>
+<li><code class="inline-code">'mean'</code>：所有三元组损失取平均（最常用）</li>
+<li><code class="inline-code">'sum'</code>：所有三元组损失求和（需要配合更大 lr 或梯度裁剪）</li>
+<li><strong>对结果的影响</strong>：</li>
+<li><code class="inline-code">'mean'</code>：损失值与 batch size 无关，梯度稳定，最常用</li>
+<li><code class="inline-code">'sum'</code>：batch 越大梯度越大，需要更小的 lr</li>
+<li><code class="inline-code">'none'</code>：用于自定义加权或 hard mining 后选样本</li>
+<li><strong>推荐设置</strong>：<code class="inline-code">'mean'</code>（默认）即可</li>
+</ul>
+
+<h4>代码示例</h4>
+
+<p><pre class="code-block"><code class="language-python">import torch
+import torch.nn as nn
+import torch.nn.functional as F
+
+# ========== 1. 使用 PyTorch 内置 TripletMarginLoss ==========
+# 初始化三元组损失函数
+triplet_loss = nn.TripletMarginLoss(
+    margin=0.3,            # 间距：正负对最小距离差，人脸场景常用 0.2~0.5
+    p=2,                   # L2 欧氏距离
+    eps=1e-6,              # 数值稳定常数
+    swap=False,            # 不启用 swap（默认）
+    reduction=&#x27;mean&#x27;       # 对 batch 取平均
+)
+
+# 模拟嵌入向量：batch=4, embedding_dim=128
+anchor = torch.randn(4, 128, requires_grad=True)     # 锚点嵌入
+positive = torch.randn(4, 128)                        # 正样本嵌入（同类）
+negative = torch.randn(4, 128)                        # 负样本嵌入（异类）
+
+loss = triplet_loss(anchor, positive, negative)       # 计算损失
+print(f&quot;Triplet loss: {loss.item():.4f}&quot;)             # 打印损失值
+loss.backward()                                       # 反向传播
+print(f&quot;Anchor grad norm: {anchor.grad.norm():.4f}&quot;) # 检查梯度
+
+# ========== 2. 手动实现 Triplet Loss（带 hard mining） ==========
+def triplet_loss_hard_mining(anchor, positive, negative, margin=0.3, p=2):
+    &quot;&quot;&quot;
+    手动实现 + 半难例挖掘：只对 d(A,P) &lt; d(A,N) &lt; d(A,P)+margin 的样本计算损失
+    这些 &quot;semi-hard&quot; 样本提供最有效的梯度信号
+    &quot;&quot;&quot;
+    # 计算 A-P 距离和 A-N 距离
+    dist_ap = F.pairwise_distance(anchor, positive, p=p)  # 形状 (batch,)
+    dist_an = F.pairwise_distance(anchor, negative, p=p)  # 形状 (batch,)
+
+    # 原始 hinge loss
+    raw_loss = dist_ap - dist_an + margin                 # (batch,)
+    raw_loss = torch.clamp(raw_loss, min=0.0)             # max(..., 0)
+
+    # 半难例掩码：d(A,P) &lt; d(A,N) &lt; d(A,P) + margin
+    semi_hard_mask = (dist_an &gt; dist_ap) &amp; (dist_an &lt; dist_ap + margin)
+
+    # 只对 semi-hard 样本计算损失
+    if semi_hard_mask.any():
+        loss = raw_loss[semi_hard_mask].mean()            # 对有效样本取平均
+    else:
+        loss = raw_loss.mean()                            # 退化：全用
+    return loss
+
+# ========== 3. 训练循环中的三元组采样策略 ==========
+class TripletTrainer:
+    &quot;&quot;&quot;训练循环：每个 epoch 内构造三元组并优化&quot;&quot;&quot;
+    def __init__(self, model, margin=0.3, lr=1e-4):
+        self.model = model                               # 编码器（如 ResNet/BERT）
+        self.loss_fn = nn.TripletMarginLoss(
+            margin=margin, p=2, swap=True, reduction=&#x27;mean&#x27;
+        )
+        self.optimizer = torch.optim.Adam(model.parameters(), lr=lr)
+
+    def train_step(self, anchor_img, positive_img, negative_img):
+        &quot;&quot;&quot;一步训练：图片 → 编码 → 计算三元组损失 → 反向传播&quot;&quot;&quot;
+        self.model.train()
+        self.optimizer.zero_grad()                        # 清零梯度
+        a = self.model(anchor_img)                        # 编码锚点 → (B, D)
+        p = self.model(positive_img)                      # 编码正样本
+        n = self.model(negative_img)                     # 编码负样本
+        a = F.normalize(a, p=2, dim=1)                   # L2 归一化嵌入
+        p = F.normalize(p, p=2, dim=1)
+        n = F.normalize(n, p=2, dim=1)
+        loss = self.loss_fn(a, p, n)                     # 计算三元组损失
+        loss.backward()                                  # 反向传播
+        self.optimizer.step()                            # 更新参数
+        return loss.item()</code></pre></p>
+
+<h4>复杂度分析</h4>
+
+<p><strong>时间复杂度</strong>：</p>
+<ul>
+<li><strong>前向传播</strong>：计算 3 个距离 $ d(A,P) $, $ d(A,N) $（及 swap 模式下的 $ d(P,N) $），每个距离为 $ O(D) $（$ D $ = 嵌入维度），故单样本前向 $ O(D) $</li>
+<li><strong>batch 级</strong>：$ O(B \cdot D) $，$ B $ = batch size</li>
+<li><strong>反向传播</strong>：梯度计算同样 $ O(D) $ per sample，总 $ O(B \cdot D) $</li>
+<li><strong>整体</strong>：$ O(B \cdot D) $ per step；与编码器网络的前向/反向相比可忽略</li>
+</ul>
+
+<p><strong>空间复杂度</strong>：</p>
+<ul>
+<li>$ O(B \cdot D) $ 存储嵌入向量（3 组 × B × D）</li>
+<li>距离中间结果 $ O(B) $</li>
+</ul>
+
+<h4>应用场景</h4>
+<ul>
+<li><strong>人脸识别</strong>：FaceNet（Google, 2015）首次使用 Triplet Loss 训练 128 维嵌入，在 LFW 上达到 99.63% 准确率</li>
+<li><strong>图像检索</strong>：以图搜图，将图片编码为嵌入向量后用近似最近邻（ANN）检索</li>
+<li><strong>文本相似度</strong>：Sentence-BERT 用 Triplet Loss 微调句子嵌入，用于语义搜索</li>
+<li><strong>推荐系统召回</strong>：用户-物品-负样本三元组，学习用户与物品的嵌入空间</li>
+<li><strong>行人重识别（ReID）</strong>：同一行人在不同摄像头下的嵌入应接近</li>
+<li><strong>声纹识别</strong>：说话人验证的嵌入空间学习</li>
+</ul>
+
+<h4>参考文档</h4>
+<ul>
+<li><a href="https://arxiv.org/abs/1503.03832" target="_blank" class="ref-link">FaceNet: A Unified Embedding for Face Recognition and Clustering（Schroff et al., CVPR 2015）</a></li>
+<li><a href="https://pytorch.org/docs/stable/generated/torch.nn.TripletMarginLoss.html" target="_blank" class="ref-link">PyTorch TripletMarginLoss 官方文档</a></li>
+<li><a href="https://cloud.tencent.com/developer/article/2105937" target="_blank" class="ref-link">三元组损失 - 腾讯云</a></li>
+<li><a href="https://blog.csdn.net/qq_42178122/article/details/135101463" target="_blank" class="ref-link">Triplet Loss 三元组损失函数 - CSDN</a></li>
+<li><a href="https://cloud.baidu.com/article/3841884" target="_blank" class="ref-link">深度解析 FaceNet - 百度智能云</a></li>
+</ul>
+<hr>
+
+<h3>模型合并 Model Merging</h3>
+
+<p><strong>类别</strong>：大模型微调 / 模型工程 | <strong>难度</strong>：中等</p>
+
+<h4>算法简介</h4>
+
+<p>模型合并（Model Merging）是近年来在大语言模型（LLM）领域兴起的<strong>零训练成本模型增强技术</strong>：它通过数学运算直接<strong>组合多个已微调模型的权重参数</strong>，生成一个同时具备多种能力的新模型——全程不需要 GPU 训练、不需要梯度反向传播，只做张量级的算术操作。核心思想源于一个关键发现：<strong>从同一预训练骨干（backbone）微调出的模型，其参数空间处于"连通"区域</strong>，因此它们的线性组合（加权平均、插值、任务向量运算）依然落在"有效模型"的参数流形上，不会产生"随机噪声"式的退化。</p>
+
+<p>主流合并方法包括：<strong>线性加权平均</strong>（Model Soup）、<strong>球面线性插值 SLERP</strong>、<strong>TIES-Merging</strong>（基于修剪+符号选择+合并三步）、<strong>DARE</strong>（Drop And REscale，随机丢弃冗余参数后合并）、<strong>任务向量算术</strong>（Task Arithmetic，微调权重减去基座权重得到"任务向量"后做加减运算）。开源工具 <strong>MergeKit</strong> 统一封装了这些方法，用 YAML 声明式配置即可完成合并。模型合并在 Open LLM Leaderboard 上催生了一大批 SOTA 模型，如 OpenHermes、Solar-10.7B 等，是当前低成本构建高性能模型的重要技术路线。</p>
+
+<h4>原理示意图</h4>
+
+<p><div class="algo-image"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 900 440" font-family="sans-serif">
+  <rect width="900" height="440" fill="#1e293b" rx="12"/>
+  <text x="450" y="32" text-anchor="middle" fill="#818cf8" font-size="16" font-weight="600">模型合并：五种主流方法对比</text>
+  <defs>
+    <marker id="ar2" markerWidth="8" markerHeight="6" refX="4" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#6366f1"/>
+    </marker>
+  </defs>
+
+  <!-- 预训练骨干 -->
+  <rect x="50" y="50" width="110" height="40" rx="8" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="105" y="75" text-anchor="middle" fill="#e2e8f0" font-size="12">预训练骨干</text>
+  <text x="105" y="105" text-anchor="middle" fill="#94a3b8" font-size="11">θ_base</text>
+
+  <!-- 微调模型 1 -->
+  <rect x="240" y="40" width="100" height="36" rx="8" fill="#1e3a5f" stroke="#22c55e" stroke-width="2"/>
+  <text x="290" y="63" text-anchor="middle" fill="#e2e8f0" font-size="11">数学模型</text>
+  <text x="290" y="95" text-anchor="middle" fill="#22c55e" font-size="11">θ_math</text>
+
+  <!-- 微调模型 2 -->
+  <rect x="240" y="100" width="100" height="36" rx="8" fill="#1e3a5f" stroke="#22c55e" stroke-width="2"/>
+  <text x="290" y="123" text-anchor="middle" fill="#e2e8f0" font-size="11">代码模型</text>
+  <text x="290" y="155" text-anchor="middle" fill="#22c55e" font-size="11">θ_code</text>
+
+  <!-- 微调模型 3 -->
+  <rect x="240" y="160" width="100" height="36" rx="8" fill="#1e3a5f" stroke="#22c55e" stroke-width="2"/>
+  <text x="290" y="183" text-anchor="middle" fill="#e2e8f0" font-size="11">翻译模型</text>
+  <text x="290" y="215" text-anchor="middle" fill="#22c55e" font-size="11">θ_translate</text>
+
+  <!-- 合并方法框 -->
+  <rect x="400" y="45" width="200" height="165" rx="10" fill="#1e293b" stroke="#818cf8" stroke-width="2" stroke-dasharray="6,4"/>
+  <text x="500" y="65" text-anchor="middle" fill="#818cf8" font-size="12" font-weight="600">合并方法</text>
+
+  <text x="415" y="88" fill="#e2e8f0" font-size="11">① Linear/Soup: Σ wᵢθᵢ</text>
+  <text x="415" y="108" fill="#e2e8f0" font-size="11">② SLERP: 球面插值</text>
+  <text x="415" y="128" fill="#e2e8f0" font-size="11">③ TIES: 修剪+符号选择</text>
+  <text x="415" y="148" fill="#e2e8f0" font-size="11">④ DARE: Drop+Rescale</text>
+  <text x="415" y="168" fill="#e2e8f0" font-size="11">⑤ Task Arithmetic</text>
+  <text x="415" y="195" fill="#94a3b8" font-size="10">   τ = θ_ft - θ_base</text>
+  <text x="415" y="208" fill="#94a3b8" font-size="10">   θ_new = θ_base + Σ τᵢ</text>
+
+  <!-- 箭头：微调模型 → 合并方法 -->
+  <line x1="340" y1="58" x2="395" y2="88" stroke="#22c55e" stroke-width="1.5" marker-end="url(#ar2)"/>
+  <line x1="340" y1="118" x2="395" y2="128" stroke="#22c55e" stroke-width="1.5" marker-end="url(#ar2)"/>
+  <line x1="340" y1="178" x2="395" y2="168" stroke="#22c55e" stroke-width="1.5" marker-end="url(#ar2)"/>
+
+  <!-- 合并后模型 -->
+  <rect x="680" y="95" width="130" height="50" rx="10" fill="#312e81" stroke="#818cf8" stroke-width="3"/>
+  <text x="745" y="118" text-anchor="middle" fill="#e2e8f0" font-size="13" font-weight="700">合并模型</text>
+  <text x="745" y="135" text-anchor="middle" fill="#818cf8" font-size="11">θ_merged</text>
+
+  <!-- 箭头：合并方法 → 合并模型 -->
+  <line x1="600" y1="127" x2="675" y2="120" stroke="#818cf8" stroke-width="2" marker-end="url(#ar2)"/>
+
+  <!-- 能力区 -->
+  <text x="745" y="175" text-anchor="middle" fill="#22c55e" font-size="11">✓ 数学</text>
+  <text x="745" y="192" text-anchor="middle" fill="#22c55e" font-size="11">✓ 代码</text>
+  <text x="745" y="209" text-anchor="middle" fill="#22c55e" font-size="11">✓ 翻译</text>
+
+  <!-- 底部注释 -->
+  <text x="450" y="260" text-anchor="middle" fill="#6366f1" font-size="13" font-weight="600">关键前提：所有微调模型共享同一预训练骨干 θ_base</text>
+  <text x="450" y="280" text-anchor="middle" fill="#94a3b8" font-size="12">→ 参数空间处于"连通"区域，线性组合依然落在有效模型流形上</text>
+
+  <!-- 横向对比表 -->
+  <text x="50" y="320" fill="#818cf8" font-size="13" font-weight="600">方法对比</text>
+  <text x="50" y="345" fill="#22c55e" font-size="11">Linear/Soup</text>
+  <text x="160" y="345" fill="#94a3b8" font-size="11">最简单，加权平均，适合相似模型</text>
+  <text x="50" y="365" fill="#22c55e" font-size="11">SLERP</text>
+  <text x="160" y="365" fill="#94a3b8" font-size="11">球面插值，保留方向性，仅限 2 模型</text>
+  <text x="50" y="385" fill="#22c55e" font-size="11">TIES</text>
+  <text x="160" y="385" fill="#94a3b8" font-size="11">修剪小参数+符号一致+合并，多模型</text>
+  <text x="50" y="405" fill="#22c55e" font-size="11">DARE</text>
+  <text x="160" y="405" fill="#94a3b8" font-size="11">随机丢弃冗余+缩放，更激进压缩</text>
+  <text x="50" y="425" fill="#22c55e" font-size="11">Task Arith.</text>
+  <text x="160" y="425" fill="#94a3b8" font-size="11">任务向量加减，可"添加/移除"能力</text>
+</svg></div></p>
+
+<h4>数学公式</h4>
+
+<p><strong>公式 1：线性加权平均（Model Soup）</strong></p>
+
+<p><div class="math-block">$$ \theta_{\text{merged}} = \sum_{i=1}^{K} w_i \cdot \theta_i, \quad \text{s.t.} \sum_{i=1}^{K} w_i = 1, \; w_i \ge 0 $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ K $：参与合并的模型数量</li>
+<li>$ \theta_i $：第 $ i $ 个微调模型的完整参数张量（与骨干同形状）</li>
+<li>$ w_i $：第 $ i $ 个模型的权重系数，非负且和为 1</li>
+<li>$ \theta_{\text{merged}} $：合并后的模型参数</li>
+</ul>
+
+<p><strong>公式 2：球面线性插值（SLERP）</strong></p>
+
+<p><div class="math-block">$$ \theta_{\text{SLERP}} = \frac{\sin((1-t)\Omega)}{\sin(\Omega)} \theta_1 + \frac{\sin(t\Omega)}{\sin(\Omega)} \theta_2 $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ \theta_1, \theta_2 $：两个模型参数（视为高维向量）</li>
+<li>$ t $：插值参数，$ t \in [0, 1] $；$ t=0 $ 时结果为 $ \theta_1 $，$ t=1 $ 时为 $ \theta_2 $</li>
+<li>$ \Omega $：两个参数向量之间的夹角，$ \cos\Omega = \frac{\theta_1 \cdot \theta_2}{\|\theta_1\| \|\theta_2\|} $</li>
+<li>SLERP 保持向量在球面上的等速运动，避免线性插值导致的"幅度缩水"</li>
+</ul>
+
+<p><strong>公式 3：任务向量（Task Vector）</strong></p>
+
+<p><div class="math-block">$$ \tau_i = \theta_i^{\text{ft}} - \theta_{\text{base}} $$</div></p>
+
+<p><div class="math-block">$$ \theta_{\text{new}} = \theta_{\text{base}} + \sum_{i=1}^{K} \lambda_i \cdot \tau_i $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ \tau_i $：第 $ i $ 个任务向量 = 微调模型参数 − 预训练骨干参数</li>
+<li>$ \theta_i^{\text{ft}} $：微调后模型参数</li>
+<li>$ \theta_{\text{base}} $：预训练骨干参数</li>
+<li>$ \lambda_i $：任务向量的缩放系数，可正可负（负值 = "移除"该能力）</li>
+<li>$ \theta_{\text{new}} $：新模型参数</li>
+</ul>
+
+<p><strong>公式 4：TIES-Merging 的三步操作</strong></p>
+
+<p><div class="math-block">$$ \text{Step 1 (Trim)}: \quad \tilde{\tau}_i = \tau_i \cdot \mathbb{1}(|\tau_i| \ge \text{top-k}\%) $$</div></p>
+
+<p><div class="math-block">$$ \text{Step 2 (Sign)}: \quad s = \text{sign}\!\Big(\sum_{i=1}^{K} \tilde{\tau}_i\Big), \quad S_i = \{j: \text{sign}(\tilde{\tau}_{i,j}) = s_j\} $$</div></p>
+
+<p><div class="math-block">$$ \text{Step 3 (Merge)}: \quad \theta_{\text{merged}} = \theta_{\text{base}} + \frac{1}{|S_j|}\sum_{i \in S_j} \tilde{\tau}_{i,j} $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>Step 1：只保留每个任务向量中绝对值最大的 top-k% 参数（修剪掉微弱扰动）</li>
+<li>Step 2：对每个参数位置，按"多数符号"决定合并方向（解决符号冲突）</li>
+<li>Step 3：只对符号与多数一致的模型求平均（丢弃少数派）</li>
+<li>$ |S_j| $：第 $ j $ 个参数位置上符号一致的模型集合大小</li>
+</ul>
+
+<p><strong>公式 5：DARE 的 Drop-And-Rescale</strong></p>
+
+<p><div class="math-block">$$ \tilde{\tau}_i = \tau_i \cdot m_i, \quad m_i \sim \text{Bernoulli}(1 - p_{\text{drop}}) $$</div></p>
+
+<p><div class="math-block">$$ \hat{\tau}_i = \frac{\tilde{\tau}_i}{1 - p_{\text{drop}}} $$</div></p>
+
+<p><div class="math-block">$$ \theta_{\text{merged}} = \theta_{\text{base}} + \sum_{i=1}^{K} \hat{\tau}_i $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ m_i $：伯努利掩码，以概率 $ p_{\text{drop}} $ 将参数置零</li>
+<li>$ \hat{\tau}_i $：缩放后的任务向量，除以 $ (1 - p_{\text{drop}}) $ 保持期望不变</li>
+<li>DARE 的核心洞察：微调产生的参数变化有大量冗余，丢弃 90% 后合并不掉点</li>
+</ul>
+
+<h4>核心要点</h4>
+<ul>
+<li>模型合并是<strong>零训练成本</strong>的模型增强技术：只需张量算术运算，不需要 GPU</li>
+<li>关键前提：所有微调模型必须<strong>共享同一预训练骨干</strong>，否则参数空间不在同一流形上</li>
+<li>五大方法各有适用场景：Linear/Soup 最简单、SLERP 保方向、TIES 解决冲突、DARE 去冗余、Task Arithmetic 可加减能力</li>
+<li>MergeKit 是事实标准工具，用 YAML 配置声明合并方案</li>
+<li>合并后的模型可具备多种能力（数学+代码+翻译），且在 Open LLM Leaderboard 上表现优异</li>
+<li>最新进展（2026 ICML）：模型合并在推理增强（long-to-short reasoning）中的应用，通过合并推理与非推理模型实现推理长度缩短 50% 而保持准确率</li>
+</ul>
+
+<h4>技术细节与参数详解</h4>
+
+<p>以下基于 <strong>MergeKit YAML 配置</strong>与各方法的<strong>关键超参数</strong>，逐一详解：</p>
+
+<p>#### 参数 1：merge_method（合并方法选择）</p>
+<ul>
+<li><strong>含义</strong>：选择哪种数学操作来组合模型权重</li>
+<li><strong>类型</strong>：枚举字符串</li>
+<li><strong>默认值</strong>：无（必须显式指定）</li>
+<li><strong>取值范围</strong>：<code class="inline-code">linear</code> / <code class="inline-code">slerp</code> / <code class="inline-code">ties</code> / <code class="inline-code">dare_ties</code> / <code class="inline-code">dare_linear</code> / <code class="inline-code">task_arithmetic</code> / <code class="inline-code">model_stock</code></li>
+<li><strong>对结果的影响</strong>：</li>
+<li><code class="inline-code">linear</code>：加权平均，最简单但可能丢失方向信息（高维空间中幅度会缩水）</li>
+<li><code class="inline-code">slerp</code>：球面插值，保留方向性但<strong>只能合并两个模型</strong></li>
+<li><code class="inline-code">ties</code>：修剪+符号选择+合并，适合多模型且参数冲突较大时</li>
+<li><code class="inline-code">dare_ties</code>：在 TIES 基础上先做 DARE 丢弃，更激进压缩</li>
+<li><code class="inline-code">task_arithmetic</code>：任务向量加减，可以"添加"或"移除"特定能力</li>
+<li><strong>推荐设置</strong>：</li>
+<li>2 个相似模型：用 <code class="inline-code">slerp</code>（保方向）</li>
+<li>多个不同任务模型：用 <code class="inline-code">ties</code> 或 <code class="inline-code">dare_ties</code>（解决冲突）</li>
+<li>需要精确控制能力加减：用 <code class="inline-code">task_arithmetic</code></li>
+</ul>
+
+<p>#### 参数 2：parameters.weight（模型权重系数）</p>
+<ul>
+<li><strong>含义</strong>：在线性合并中，每个模型贡献的比例</li>
+<li><strong>类型</strong>：<code class="inline-code">float</code></li>
+<li><strong>默认值</strong>：无（必须为每个模型指定）</li>
+<li><strong>取值范围</strong>：$ [0, 1] $，所有模型权重之和应为 1</li>
+<li><strong>对结果的影响</strong>：</li>
+<li>权重越高，合并后模型越偏向该模型的特性</li>
+<li>若某模型权重为 0，等价于不参与合并</li>
+<li>对 <code class="inline-code">slerp</code> 方法，只有第一个模型的权重 $ t $ 生效（第二个为 $ 1-t $）</li>
+<li><strong>推荐设置</strong>：</li>
+<li>等权合并：所有模型 weight = $ 1/K $（$ K $ = 模型数）</li>
+<li>不等权：根据目标能力的重要性分配，如数学模型 weight=0.5、代码模型 weight=0.3、翻译模型 weight=0.2</li>
+<li>MergeKit 支持按层（layer）配置不同权重，实现"浅层用 A、深层用 B"</li>
+</ul>
+
+<p>#### 参数 3：parameters.density（TIES/DARE 的保留密度）</p>
+<ul>
+<li><strong>含义</strong>：在修剪步骤中保留参数的比例</li>
+<li><strong>类型</strong>：<code class="inline-code">float</code></li>
+<li><strong>默认值</strong>：<code class="inline-code">0.5</code>（TIES）或 <code class="inline-code">0.5</code>（DARE）</li>
+<li><strong>取值范围</strong>：$ (0, 1] $，如 0.5 = 保留绝对值最大的 50% 参数</li>
+<li><strong>对结果的影响</strong>：</li>
+<li>density 越低，丢弃越多冗余参数，合并在更"关键"的参数上操作</li>
+<li>density 太低（如 0.1）可能丢弃过多有效信号</li>
+<li>density = 1.0 等价于不修剪，退化为纯加权平均</li>
+<li><strong>推荐设置</strong>：</li>
+<li>TIES：0.5（保留一半参数，论文推荐值）</li>
+<li>DARE：可以更激进，$ p_{\text{drop}} = 0.9 $（保留 10%），因为 DARE 有 rescale 机制补偿</li>
+</ul>
+
+<p>#### 参数 4：parameters.normalize（归一化）</p>
+<ul>
+<li><strong>含义</strong>：合并后是否对参数做归一化</li>
+<li><strong>类型</strong>：<code class="inline-code">bool</code></li>
+<li><strong>默认值</strong>：<code class="inline-code">true</code>（MergeKit 默认开启）</li>
+<li><strong>取值范围</strong>：<code class="inline-code">true</code> / <code class="inline-code">false</code></li>
+<li><strong>对结果的影响</strong>：</li>
+<li><code class="inline-code">true</code>：保证合并后参数范数与原模型一致，防止数值漂移导致模型退化</li>
+<li><code class="inline-code">false</code>：不做归一化，可能导致参数范数过大/过小，影响推理质量</li>
+<li><strong>推荐设置</strong>：保持 <code class="inline-code">true</code>，除非有特殊实验需求</li>
+</ul>
+
+<p>#### 参数 5：parameters.int8_mask / parameters.gpu_id（硬件控制）</p>
+<ul>
+<li><strong>含义</strong>：是否用 int8 量化存储中间张量，以及在哪个 GPU 上运行</li>
+<li><strong>类型</strong>：<code class="inline-code">bool</code> / <code class="inline-code">int</code></li>
+<li><strong>默认值</strong>：<code class="inline-code">false</code> / <code class="inline-code">0</code></li>
+<li><strong>取值范围</strong>：<code class="inline-code">true/false</code> / GPU 编号</li>
+<li><strong>对结果的影响</strong>：</li>
+<li><code class="inline-code">int8_mask=true</code>：减少内存占用（约 4 倍压缩），适合合并大模型（如 70B）时显存不足的情况</li>
+<li><code class="inline-code">gpu_id</code>：指定使用的 GPU 编号，多卡机器可分配</li>
+<li><strong>推荐设置</strong>：</li>
+<li>合并 7B 模型：单卡足够，<code class="inline-code">int8_mask=false, gpu_id=0</code></li>
+<li>合并 70B 模型：<code class="inline-code">int8_mask=true</code> 降低内存压力</li>
+</ul>
+
+<p>#### 参数 6：base_model（骨干模型，仅 TIES/DARE/Task Arith. 需要）</p>
+<ul>
+<li><strong>含义</strong>：所有微调模型共享的预训练骨干</li>
+<li><strong>类型</strong>：模型路径或 HuggingFace 仓库 ID</li>
+<li><strong>默认值</strong>：无</li>
+<li><strong>取值范围</strong>：任意与微调模型同架构的预训练模型</li>
+<li><strong>对结果的影响</strong>：</li>
+<li>TIES/DARE/Task Arithmetic 需要 base_model 来计算任务向量 $ \tau_i = \theta_i - \theta_{\text{base}} $</li>
+<li>base_model 必须与所有微调模型架构完全相同（层数、隐藏维度、注意力头数等），否则张量运算报错</li>
+<li><strong>推荐设置</strong>：使用微调时用的原始预训练模型，如 <code class="inline-code">meta-llama/Llama-2-7b-hf</code></li>
+</ul>
+
+<p>#### 参数 7：parameters.rescale（DARE 特有）</p>
+<ul>
+<li><strong>含义</strong>：DARE 的 rescale 因子，即是否在丢弃后做 $ \frac{1}{1-p_{\text{drop}}} $ 缩放</li>
+<li><strong>类型</strong>：<code class="inline-code">bool</code></li>
+<li><strong>默认值</strong>：<code class="inline-code">true</code></li>
+<li><strong>取值范围</strong>：<code class="inline-code">true</code> / <code class="inline-code">false</code></li>
+<li><strong>对结果的影响</strong>：</li>
+<li><code class="inline-code">true</code>（推荐）：保持任务向量期望不变，数学上等价于 dropout 的 inverted dropout</li>
+<li><code class="inline-code">false</code>：不做 rescale，合并后参数范数会缩小，可能导致模型输出分布偏移</li>
+<li><strong>推荐设置</strong>：<code class="inline-code">true</code>（默认）</li>
+</ul>
+
+<h4>代码示例</h4>
+
+<p><pre class="code-block"><code class="language-python"># ========== 1. MergeKit YAML 配置示例（SLERP 合并两个模型）==========
+# 保存为 merge_config.yaml，然后执行：mergekit-yaml merge_config.yaml ./output
+
+&quot;&quot;&quot;
+merge_method: slerp                            # 球面线性插值
+base_model: meta-llama/Llama-2-7b-hf          # 骨干模型（SLERP 不直接用但需声明架构）
+slices:
+  - sources:
+      - model: meta-llama/Llama-2-7b-hf       # 模型 A（原骨干）
+        layer_range: [0, 32]                   # 合并的层范围（0~31 层）
+        parameters:                            # 该模型的参数
+          weight: 0.5                          # 插值参数 t=0.5（各半）
+      - model: codellama/CodeLlama-7b-Python   # 模型 B（代码微调）
+        layer_range: [0, 32]
+        parameters:
+          weight: 0.5                          # 1-t=0.5
+parameters:                                    # 全局参数
+  t: 0.5                                       # SLERP 的插值参数（与 weight 等价）
+  normalize: true                              # 合并后归一化
+dtype: float16                                 # 输出精度（节省空间）
+&quot;&quot;&quot;
+
+# ========== 2. TIES 合并多个模型的 YAML 配置 ==========
+&quot;&quot;&quot;
+merge_method: ties                            # TIES 方法
+base_model: meta-llama/Llama-2-7b-hf          # 共享骨干
+slices:
+  - sources:
+      - model: model_a/math-llama             # 数学微调模型
+        layer_range: [0, 32]
+        parameters:
+          weight: 1.0                          # 等权参与
+          density: 0.5                         # 保留 50% 参数
+      - model: model_b/code-llama              # 代码微调模型
+        layer_range: [0, 32]
+        parameters:
+          weight: 1.0
+          density: 0.5
+      - model: model_c/translate-llama        # 翻译微调模型
+        layer_range: [0, 32]
+        parameters:
+          weight: 1.0
+          density: 0.5
+parameters:
+  normalize: true                              # 归一化
+  int8_mask: false                             # 不用 int8（7B 模型内存够）
+dtype: bfloat16                                # 输出 bf16
+&quot;&quot;&quot;
+
+# ========== 3. Python 实现：任务向量算术 ==========
+import torch
+from safetensors.torch import load_file, save_file
+from collections import OrderedDict
+
+def compute_task_vector(finetuned_path, base_path):
+    &quot;&quot;&quot;计算任务向量：τ = θ_ft - θ_base&quot;&quot;&quot;
+    ft_state = load_file(finetuned_path)              # 加载微调模型权重
+    base_state = load_file(base_path)                 # 加载骨干权重
+    task_vector = OrderedDict()
+    for key in base_state:                            # 逐层相减
+        if key in ft_state:
+            task_vector[key] = ft_state[key].float() - base_state[key].float()
+    return task_vector
+
+def merge_task_vectors(task_vectors, coefficients, base_path, output_path):
+    &quot;&quot;&quot;
+    合并多个任务向量：θ_new = θ_base + Σ λ_i * τ_i
+    task_vectors: [τ_1, τ_2, ...] 任务向量列表
+    coefficients: [λ_1, λ_2, ...] 缩放系数
+    &quot;&quot;&quot;
+    base_state = load_file(base_path)                 # 加载骨干
+    merged = OrderedDict()
+    for key in base_state:                            # 逐层合并
+        merged[key] = base_state[key].float().clone()
+        for tv, coef in zip(task_vectors, coefficients):
+            if key in tv:
+                merged[key] += coef * tv[key]         # 累加缩放后的任务向量
+        merged[key] = merged[key].to(torch.float16)   # 转 fp16 节省空间
+    save_file(merged, output_path)                    # 保存合并模型
+    print(f&quot;Merged model saved to {output_path}&quot;)
+
+# 使用示例
+# tv_math = compute_task_vector(&quot;math_llama/model.safetensors&quot;, &quot;base_llama/model.safetensors&quot;)
+# tv_code = compute_task_vector(&quot;code_llama/model.safetensors&quot;, &quot;base_llama/model.safetensors&quot;)
+# merge_task_vectors([tv_math, tv_code], [0.5, 0.5], &quot;base_llama/model.safetensors&quot;, &quot;merged.safetensors&quot;)
+
+# ========== 4. DARE 手动实现（Drop And Rescale） ==========
+def dare_merge(task_vectors, drop_rate=0.9, base_path=None, output_path=None):
+    &quot;&quot;&quot;
+    DARE 合并：随机丢弃冗余参数后合并
+    drop_rate: 丢弃比例（如 0.9 = 丢 90% 保留 10%）
+    &quot;&quot;&quot;
+    import torch.nn.functional as F
+    merged = OrderedDict()
+    for key in task_vectors[0]:                       # 逐参数位置处理
+        merged_params = []
+        for tv in task_vectors:                       # 对每个任务向量
+            tau = tv[key].float()                     # 取出任务向量
+            mask = (torch.rand_like(tau) &gt; drop_rate).float()  # 伯努利掩码
+            tau_dropped = tau * mask                  # 应用掩码
+            tau_rescaled = tau_dropped / (1 - drop_rate)  # rescale 保持期望
+            merged_params.append(tau_rescaled)
+        merged[key] = torch.stack(merged_params).mean(dim=0)  # 平均合并
+    return merged
+
+# ========== 5. 命令行执行（MergeKit CLI）==========
+# 安装：pip install mergekit
+# 合并：mergekit-yaml config.yaml ./output-model
+# 预览（不保存）：mergekit-yaml config.yaml ./output --copy-tokenizer --lazy-unpickle
+# 多 GPU：CUDA_VISIBLE_DEVICES=0,1 mergekit-yaml config.yaml ./output</code></pre></p>
+
+<h4>复杂度分析</h4>
+
+<p><strong>时间复杂度</strong>：</p>
+<ul>
+<li><strong>线性合并 / Task Arithmetic</strong>：逐参数加权求和，$ O(P) $，$ P $ = 模型参数总量。对 7B 模型约 $ 7 \times 10^9 $ 次浮点加法+乘法，CPU 上几秒到几十秒</li>
+<li><strong>SLERP</strong>：需要计算余弦相似度 + 三角函数，每个参数组 $ O(P) $，常数因子稍大</li>
+<li><strong>TIES</strong>：Step 1 需要排序找 top-k（$ O(P \log P) $），Step 2-3 为 $ O(P) $；总体 $ O(P \log P) $</li>
+<li><strong>DARE</strong>：生成掩码 $ O(P) $ + rescale $ O(P) $，总体 $ O(P) $</li>
+<li><strong>结论</strong>：所有方法都是 $ O(P) $ 或 $ O(P \log P) $，远小于训练的 $ O(N \cdot P) $（$ N $ = token 数）</li>
+</ul>
+
+<p><strong>空间复杂度</strong>：</p>
+<ul>
+<li>需同时加载所有参与合并的模型权重到内存：$ O(K \cdot P) $，$ K $ = 模型数</li>
+<li>7B 模型 fp16 约 14GB/个，合并 3 个需 ~42GB 内存</li>
+<li>用 <code class="inline-code">int8_mask=true</code> 可压缩到 ~3.5GB/个</li>
+</ul>
+
+<h4>应用场景</h4>
+<ul>
+<li><strong>零成本增强 LLM</strong>：合并数学+代码+翻译微调模型，获得多任务能力（如 OpenHermes、Solar-10.7B）</li>
+<li><strong>推理与非推理模型合并</strong>：2025-2026 最新方向，合并推理模型（如 DeepSeek-R1）与非推理模型，在保持准确率的同时缩短推理链长度</li>
+<li><strong>模型去毒/安全</strong>：通过负系数任务向量"移除"有害能力（task arithmetic 的减法）</li>
+<li><strong>多语言能力融合</strong>：合并不同语言的微调模型，获得多语言能力</li>
+<li><strong>个性化模型</strong>：合并通用模型与用户数据微调模型，按权重调节个性化程度</li>
+<li><strong>模型蒸馏替代</strong>：当 GPU 资源不足时，模型合并提供了一种"不用训练就增强"的路径</li>
+</ul>
+
+<h4>参考文档</h4>
+<ul>
+<li><a href="https://blog.csdn.net/zhishi0000/article/details/143423741" target="_blank" class="ref-link">LLM 模型合并入门指南 - CSDN</a></li>
+<li><a href="https://blog.csdn.net/weixin_33797791/article/details/90227309" target="_blank" class="ref-link">MergeKit 模型合并实战 - CSDN</a></li>
+<li><a href="https://blog.csdn.net/gitblog_01149/article/details/142190983" target="_blank" class="ref-link">MergeKit 完全配置指南 - CSDN</a></li>
+<li><a href="https://cloud.tencent.com/developer/news/2496927" target="_blank" class="ref-link">零训练成本优化 LLM：11 种 LLM 权重合并策略 - 腾讯云</a></li>
+<li><a href="https://arxiv.org/abs/2310.02642" target="_blank" class="ref-link">Model Merging and GPUs combining (arXiv:2310.02642)</a></li>
+<li><a href="https://arxiv.org/abs/2306.01708" target="_blank" class="ref-link">TIES-Merging: Resolving Interference When Merging Models (NeurIPS 2023)</a></li>
+<li><a href="https://github.com/arcee-ai/mergekit" target="_blank" class="ref-link">MergeKit GitHub</a></li>
+<li><a href="https://blog.csdn.net/weixin_31869917/article/details/155206992" target="_blank" class="ref-link">Llama Factory 模型合并实战 - CSDN</a></li>
+</ul>
+
+<blockquote>
+<p>AI生成</p>
+</blockquote>
+  </div>
+  <div class="footer">
+    <p>由 TeleAgent · 每日算法推送 技能自动生成 | 2026-09-09 10:25</p>
+  </div>
+</div>
+</body>
+</html>
