@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>每日算法 AI 出题 · 2026-09-09</title>
+  <!-- KaTeX 数学公式渲染 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
+  <style>
+    :root {
+      --bg: #0d1117;
+      --card-bg: #161b22;
+      --border: #30363d;
+      --text: #e6edf3;
+      --text-dim: #8b949e;
+      --accent: #58a6ff;
+      --green: #3fb950;
+      --orange: #d29922;
+      --red: #f85149;
+      --purple: #a855f7;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", sans-serif;
+      line-height: 1.7;
+      padding: 16px;
+      max-width: 860px;
+      margin: 0 auto;
+    }
+    .header {
+      text-align: center;
+      padding: 24px 0 16px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 24px;
+    }
+    .header h1 {
+      font-size: 1.5em;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+    .header .subtitle {
+      color: var(--text-dim);
+      font-size: 0.9em;
+    }
+    .header .date-tag {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 2px 12px;
+      border-radius: 12px;
+      background: var(--border);
+      font-size: 0.8em;
+      color: var(--text-dim);
+    }
+
+    /* 题目卡片 */
+    .question-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .question-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+    .type-badge {
+      padding: 2px 10px;
+      border-radius: 10px;
+      font-size: 0.75em;
+      color: white;
+      font-weight: 600;
+    }
+    .difficulty { font-size: 0.85em; }
+    .qid-label { color: var(--text-dim); font-size: 0.8em; margin-left: auto; }
+    .question-title {
+      font-size: 1.25em;
+      margin-bottom: 12px;
+      color: var(--text);
+    }
+    .question-body { margin-bottom: 14px; }
+    .question-body code.inline-code {
+      background: var(--border);
+      padding: 1px 5px;
+      border-radius: 3px;
+      font-size: 0.9em;
+    }
+
+    /* 信息块 */
+    .info-block {
+      background: rgba(88,166,255,0.05);
+      border-left: 3px solid var(--accent);
+      padding: 10px 14px;
+      margin: 10px 0;
+      border-radius: 0 6px 6px 0;
+    }
+    .info-label {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.85em;
+      display: block;
+      margin-bottom: 4px;
+    }
+    .info-block pre {
+      white-space: pre-wrap;
+      font-family: "JetBrains Mono", "Fira Code", monospace;
+      font-size: 0.85em;
+      color: var(--text);
+    }
+
+    /* 示例 */
+    .example-block {
+      background: rgba(63,185,80,0.05);
+      border: 1px solid rgba(63,185,80,0.2);
+      border-radius: 8px;
+      padding: 12px;
+      margin: 10px 0;
+    }
+    .example-title {
+      color: var(--green);
+      font-weight: 600;
+      font-size: 0.85em;
+      margin-bottom: 6px;
+    }
+    .example-io {
+      font-family: monospace;
+      font-size: 0.85em;
+      white-space: pre-wrap;
+      margin: 2px 0;
+    }
+    .io-label { color: var(--text-dim); }
+    .example-explanation {
+      color: var(--text-dim);
+      font-size: 0.85em;
+      margin-top: 6px;
+      padding-top: 6px;
+      border-top: 1px dashed var(--border);
+    }
+
+    /* 选项 */
+    .options-container { margin: 12px 0; }
+    .option-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      padding: 10px 14px;
+      margin: 6px 0;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .option-item:hover { border-color: var(--accent); background: rgba(88,166,255,0.05); }
+    .option-item.correct { border-color: var(--green); background: rgba(63,185,80,0.1); }
+    .option-item.wrong { border-color: var(--red); background: rgba(248,81,73,0.1); }
+    .option-item input[type=radio] { accent-color: var(--accent); margin-top: 4px; }
+    .option-letter {
+      font-weight: 700;
+      color: var(--accent);
+      min-width: 20px;
+    }
+    .option-text { flex: 1; font-size: 0.9em; }
+    .option-feedback {
+      margin: 8px 0;
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-size: 0.85em;
+      display: none;
+    }
+    .option-feedback.show { display: block; }
+    .option-feedback.correct {
+      background: rgba(63,185,80,0.1);
+      color: var(--green);
+    }
+    .option-feedback.wrong { background: rgba(248,81,73,0.1); color: var(--red); }
+
+    /* 代码编辑器 */
+    .code-section {
+      margin: 16px 0;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .code-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 14px;
+      background: rgba(88,166,255,0.08);
+      border-bottom: 1px solid var(--border);
+      font-size: 0.85em;
+      color: var(--accent);
+    }
+    .editor-wrap {
+      position: relative;
+    }
+    .code-editor {
+      min-height: 180px;
+      max-height: 400px;
+      overflow: auto;
+      padding: 12px;
+      font-family: "JetBrains Mono", "Fira Code", "Cascadia Code", monospace;
+      font-size: 13px;
+      line-height: 1.5;
+      white-space: pre;
+      color: var(--text);
+      background: #0d1117;
+      outline: none;
+      tabs: 4;
+    }
+    .btn-run {
+      background: var(--green);
+      color: white;
+      border: none;
+      padding: 4px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.85em;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .btn-run:hover { opacity: 0.85; }
+    .btn-run:disabled { opacity: 0.5; cursor: not-allowed; }
+    .code-result {
+      padding: 12px;
+      background: #0d1117;
+      border-top: 1px solid var(--border);
+      font-family: monospace;
+      font-size: 0.85em;
+      white-space: pre-wrap;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+    .code-result .test-pass { color: var(--green); }
+    .code-result .test-fail { color: var(--red); }
+    .code-result .stderr { color: var(--orange); }
+
+    /* 显示解析按钮 */
+    .btn-reveal {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      margin-top: 16px;
+      background: transparent;
+      border: 2px dashed var(--border);
+      border-radius: 8px;
+      color: var(--text-dim);
+      font-size: 0.95em;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .btn-reveal:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(88,166,255,0.03);
+    }
+    .btn-reveal.loading {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    /* 解析区域 */
+    .solution-section {
+      margin-top: 16px;
+      animation: fadeIn 0.4s ease;
+    }
+    @keyframes fadeIn { from{opacity:0; transform:translateY(10px) } to{opacity:1; transform:translateY(0) } }
+    .solution-divider {
+      text-align: center;
+      color: var(--text-dim);
+      font-size: 0.8em;
+      margin: 16px 0;
+      letter-spacing: 1px;
+    }
+    .answer-highlight {
+      background: rgba(63,185,80,0.1);
+      border: 1px solid var(--green);
+      border-radius: 8px;
+      padding: 10px 16px;
+      margin: 10px 0;
+      font-size: 1.05em;
+      color: var(--green);
+      font-weight: 600;
+    }
+    .solution-block {
+      margin: 14px 0;
+      padding: 14px;
+      background: rgba(255,255,255,0.02);
+      border-radius: 8px;
+    }
+    .solution-block h4 {
+      color: var(--accent);
+      margin-bottom: 8px;
+      font-size: 0.95em;
+    }
+    .solution-block ul.answer-points {
+      padding-left: 20px;
+    }
+    .solution-block ul.answer-points li {
+      margin: 6px 0;
+      font-size: 0.9em;
+    }
+    .code-block {
+      background: #0d1117;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 12px;
+      font-family: "JetBrains Mono", "Fira Code", monospace;
+      font-size: 0.85em;
+      overflow-x: auto;
+      white-space: pre;
+      color: var(--text);
+    }
+    .complexity-tag {
+      display: inline-block;
+      padding: 2px 10px;
+      margin-right: 8px;
+      border-radius: 6px;
+      background: var(--border);
+      font-size: 0.85em;
+      font-family: monospace;
+    }
+    .derivation-content {
+      font-size: 0.9em;
+      line-height: 1.8;
+    }
+
+    /* 运行中加载动画 */
+    .spinner {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      border: 2px solid var(--text-dim);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* 底部 */
+    .footer {
+      text-align: center;
+      padding: 24px 0;
+      color: var(--text-dim);
+      font-size: 0.8em;
+      border-top: 1px solid var(--border);
+      margin-top: 24px;
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 8px; }
+      .question-card { padding: 14px; }
+      .question-title { font-size: 1.1em; }
+      .code-editor { font-size: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <h1>每日算法 AI 出题</h1>
+  <div class="subtitle">算法 2 道 + AI 2 道</div>
+  <div class="date-tag">📅 2026-09-09 ｜ 算法 2 道 · AI 2 道</div>
+</div>
+
+<div class="question-card" data-qid="1">
+
+    <div class="question-header">
+      <span class="type-badge" style="background:#3b82f6">算法编程</span>
+      <span class="difficulty">⭐⭐</span>
+      <span class="qid-label">第 1 题</span>
+    </div>
+<h2 class="question-title">每日温度</h2>
+<div class="question-body">给定一个整数数组 <code class="inline-code">temperatures</code>，表示每天的温度。返回一个数组 <code class="inline-code">answer</code>，其中 <code class="inline-code">answer[i]</code> 是指对于第 <code class="inline-code">i</code> 天，下一个更高温度出现在几天后。如果此后没有更高的温度，则 <code class="inline-code">answer[i] == 0</code>。</div>
+<div class="info-block"><span class="info-label">输入</span><pre>一个整数列表 temperatures</pre></div>
+<div class="info-block"><span class="info-label">输出</span><pre>一个整数列表 answer，与 temperatures 等长</pre></div>
+<div class="example-block">
+<div class="example-title">示例 1</div>
+<pre class="example-io"><span class="io-label">输入：</span>temperatures = [73,74,75,71,69,72,76,73]</pre>
+<pre class="example-io"><span class="io-label">输出：</span>[1,1,4,2,1,1,0,0]</pre>
+<div class="example-explanation">第0天(73°)次日就遇到74°，所以answer[0]=1；第2天(75°)要到第6天(76°)才遇到更高温，间隔4天；第6、7天后面没有更高温，所以为0。</div>
+</div>
+<div class="example-block">
+<div class="example-title">示例 2</div>
+<pre class="example-io"><span class="io-label">输入：</span>temperatures = [30,40,50,60]</pre>
+<pre class="example-io"><span class="io-label">输出：</span>[1,1,1,0]</pre>
+<div class="example-explanation">前三天每天都比次日低1级，最后一天没有更高温。</div>
+</div>
+<div class="example-block">
+<div class="example-title">示例 3</div>
+<pre class="example-io"><span class="io-label">输入：</span>temperatures = [30,60,90]</pre>
+<pre class="example-io"><span class="io-label">输出：</span>[1,1,0]</pre>
+<div class="example-explanation">第2天(90°)后面没有更高温度。</div>
+</div>
+<div class="info-block"><span class="info-label">约束</span><div>1 &lt;= temperatures.length &lt;= 10^5
+30 &lt;= temperatures[i] &lt;= 100</div></div>
+
+    <div class="code-section">
+      <div class="code-header">
+        <span>🧑‍💻 在线代码编辑器</span>
+        <button class="btn-run" onclick="runCode(1)" id="run_btn_1">▶ 运行</button>
+      </div>
+      <div class="editor-wrap">
+        <div class="code-editor" id="editor_1" contenteditable="true" spellcheck="false">def daily_temperatures(temperatures):
+    # 在此编写你的代码
+    pass</div>
+      </div>
+      <div class="code-result" id="result_1" style="display:none;"></div>
+      <input type="hidden" id="func_name_1" value="daily_temperatures">
+      <input type="hidden" id="test_cases_1" value='[[[73, 74, 75, 71, 69, 72, 76, 73]], [[30, 40, 50, 60]], [[30, 60, 90]], [[30]], [[50, 50, 50, 50]], [[80, 70, 60, 50, 40]], [[40, 50, 60, 70, 80]], [[100, 90, 80, 70, 60, 50, 40, 30, 35, 45]], [[73, 73, 74, 74, 75, 75, 76, 76]], [[30, 100]], [[70, 71, 69, 72, 73, 68, 74]], [[90, 80, 90, 80, 90, 80]]]'>
+      <input type="hidden" id="expected_outputs_1" value='[[1, 1, 4, 2, 1, 1, 0, 0], [1, 1, 1, 0], [1, 1, 0], [0], [0, 0, 0, 0], [0, 0, 0, 0, 0], [1, 1, 1, 1, 0], [0, 0, 0, 0, 0, 0, 3, 1, 1, 0], [2, 1, 2, 1, 2, 1, 0, 0], [1, 0], [1, 2, 1, 1, 2, 1, 0], [0, 1, 0, 1, 0, 0]]'>
+    </div>
+
+    <button class="btn-reveal" onclick="revealSolution(1)" id="reveal_btn_1">
+      📖 显示答案与解析
+    </button>
+<div class="solution-section" id="solution_1" style="display:none;">
+<div class="solution-divider">--- 以下为答案与解析 ---</div>
+<div class="solution-block"><h4>💡 解题思路</h4><div>使用单调递减栈（存索引）。遍历数组，当前温度比栈顶索引对应温度高时，弹出栈顶并计算天数差。栈中始终维持温度递减的索引序列。</div></div>
+<div class="solution-block"><h4>📝 参考代码（python）</h4><pre class="code-block">def daily_temperatures(temperatures):
+    n = len(temperatures)
+    answer = [0] * n
+    stack = []  # 存索引，对应温度单调递减
+    for i in range(n):
+        while stack and temperatures[i] &gt; temperatures[stack[-1]]:
+            idx = stack.pop()
+            answer[idx] = i - idx
+        stack.append(i)
+    return answer</pre></div>
+<div class="solution-block"><h4>⚡ 复杂度分析</h4><div>
+<span class="complexity-tag">时间 O(n)</span>
+<span class="complexity-tag">空间 O(n)</span>
+</div></div>
+<div class="solution-block"><h4>🎯 考点</h4><div>单调栈经典应用：栈中维护递减序列，遇到更大值时批量结算。每个元素最多入栈出栈各一次，总时间 O(n)。</div></div>
+</div>
+</div>
+<div class="question-card" data-qid="2">
+
+    <div class="question-header">
+      <span class="type-badge" style="background:#10b981">算法概念</span>
+      <span class="difficulty">⭐</span>
+      <span class="qid-label">第 2 题</span>
+    </div>
+<h2 class="question-title">二叉搜索树（BST）的中序遍历性质</h2>
+<div class="question-body">对一棵合法的二叉搜索树（BST）进行中序遍历（左→根→右），得到的节点值序列具有什么性质？</div>
+<div class="options-container">
+
+            <label class="option-item" data-letter="A">
+              <input type="radio" name="quiz_2" value="A" onchange="checkAnswer(2, 'A')">
+              <span class="option-letter">A</span>
+              <span class="option-text">A. 严格递增的序列</span>
+            </label>
+
+            <label class="option-item" data-letter="B">
+              <input type="radio" name="quiz_2" value="B" onchange="checkAnswer(2, 'B')">
+              <span class="option-letter">B</span>
+              <span class="option-text">B. 严格递减的序列</span>
+            </label>
+
+            <label class="option-item" data-letter="C">
+              <input type="radio" name="quiz_2" value="C" onchange="checkAnswer(2, 'C')">
+              <span class="option-letter">C</span>
+              <span class="option-text">C. 递增（允许相等的相邻元素）的序列</span>
+            </label>
+
+            <label class="option-item" data-letter="D">
+              <input type="radio" name="quiz_2" value="D" onchange="checkAnswer(2, 'D')">
+              <span class="option-letter">D</span>
+              <span class="option-text">D. 无特定顺序，取决于插入顺序</span>
+            </label>
+</div>
+<div class="option-feedback" id="feedback_2"></div>
+
+    <button class="btn-reveal" onclick="revealSolution(2)" id="reveal_btn_2">
+      📖 显示答案与解析
+    </button>
+<div class="solution-section" id="solution_2" style="display:none;">
+<div class="solution-divider">--- 以下为答案与解析 ---</div>
+<div class="answer-highlight">✅ 正确答案：A</div>
+<div class="solution-block"><h4>💡 解题思路</h4><div>BST 的定义：左子树所有节点值 &lt; 根节点值 &lt; 右子树所有节点值。中序遍历先访问左子树（更小的值），再访问根，最后右子树（更大的值），因此天然产生严格递增序列。</div></div>
+<div class="solution-block"><h4>🎯 考点</h4><div>BST 中序遍历严格递增是核心性质。面试常考：①判断 BST 合法性（中序遍历后检查递增）；②BST 中序遍历得到有序序列 → 二叉搜索树本质等价于有序数组。</div></div>
+<div class="solution-block"><h4>🔍 逐项分析</h4><ul class="answer-points">
+<li>A 正确。BST 中序遍历严格递增是 BST 的定义性质之一，也是判断一棵二叉树是否为 BST 的常用方法。</li>
+<li>B 错误。递减是反序。若中序遍历递减，则该树是「反 BST」（右 &lt; 根 &lt; 左），不符合标准 BST 定义。</li>
+<li>C 错误。标准 BST 要求左 &lt; 根 &lt; 右（严格小于），不允许相等的值。若允许相等则退化为一般有序树，不再是标准 BST。部分工程实现允许相等值放右子树，但教科书定义和 LeetCode 题目通常要求严格递增。</li>
+<li>D 错误。BST 的中序遍历序列是确定的（由树结构决定），且必定递增，与插入顺序无关。插入顺序只影响树的形状，不影响中序遍历结果。</li>
+</ul></div>
+</div>
+</div>
+<div class="question-card" data-qid="3">
+
+    <div class="question-header">
+      <span class="type-badge" style="background:#a855f7">AI公式推导</span>
+      <span class="difficulty">⭐⭐</span>
+      <span class="qid-label">第 3 题</span>
+    </div>
+<h2 class="question-title">逻辑回归梯度推导（复习）</h2>
+<div class="question-body">设逻辑回归模型为 $h_\theta(x) = \sigma(\theta^T x) = \frac{1}{1+e^{-\theta^T x}}$，损失函数为对数似然损失（交叉熵）：<br>
+<br>
+$$J(\theta) = -\frac{1}{m}\sum_{i=1}^{m}\left[y^{(i)}\log h_\theta(x^{(i)}) + (1-y^{(i)})\log(1-h_\theta(x^{(i)}))\right]$$<br>
+<br>
+请完整推导 $J(\theta)$ 对参数 $\theta$ 的梯度 $\frac{\partial J}{\partial \theta}$，并说明推导过程中用到的关键导数公式。</div>
+
+    <button class="btn-reveal" onclick="revealSolution(3)" id="reveal_btn_3">
+      📖 显示答案与解析
+    </button>
+<div class="solution-section" id="solution_3" style="display:none;">
+<div class="solution-divider">--- 以下为答案与解析 ---</div>
+<div class="solution-block"><h4>🎯 考点</h4><div>核心考点：①Sigmoid 导数 $\sigma&#x27;(z) = \sigma(z)(1-\sigma(z))$；②交叉熵 + Sigmoid 组合使梯度简化为 $h - y$（消除 Sigmoid 导数项）；③这一性质使得逻辑回归训练比用 MSE 更稳定（MSE 梯度含 $\sigma&#x27;$ 项，在 $z$ 绝对值大时梯度趋零）。复习关联：09-02 学习逻辑回归梯度推导，本次为默写复习。</div></div>
+<div class="solution-block"><h4>📐 推导过程</h4><div class="derivation-content">**步骤 1：简化符号**<br>
+<br>
+令 $z = \theta^T x$，$h = \sigma(z) = \frac{1}{1+e^{-z}}$，对单个样本 $(x, y)$，损失为：<br>
+<br>
+$$L = -\left[y \log h + (1-y) \log(1-h)\right]$$<br>
+<br>
+平均损失 $J = \frac{1}{m}\sum_{i=1}^m L^{(i)}$，先推导单样本 $\frac{\partial L}{\partial \theta}$。<br>
+<br>
+---<br>
+<br>
+**步骤 2：求 $\frac{\partial h}{\partial z}$（Sigmoid 导数）**<br>
+<br>
+$$h = \frac{1}{1+e^{-z}} = (1+e^{-z})^{-1}$$<br>
+<br>
+$$\frac{\partial h}{\partial z} = -(1+e^{-z})^{-2} \cdot (-e^{-z}) = \frac{e^{-z}}{(1+e^{-z})^2} = \frac{1}{1+e^{-z}} \cdot \frac{e^{-z}}{1+e^{-z}}$$<br>
+<br>
+注意到 $1 - h = \frac{e^{-z}}{1+e^{-z}}$，因此：<br>
+<br>
+$$\boxed{\frac{\partial h}{\partial z} = h(1-h)}$$<br>
+<br>
+---<br>
+<br>
+**步骤 3：求 $\frac{\partial L}{\partial h}$**<br>
+<br>
+$$L = -y \log h - (1-y) \log(1-h)$$<br>
+<br>
+$$\frac{\partial L}{\partial h} = -\frac{y}{h} - \frac{(1-y)}{1-h} \cdot (-1) = -\frac{y}{h} + \frac{1-y}{1-h}$$<br>
+<br>
+通分：<br>
+<br>
+$$\frac{\partial L}{\partial h} = \frac{-y(1-h) + (1-y)h}{h(1-h)} = \frac{-y + yh + h - yh}{h(1-h)} = \frac{h - y}{h(1-h)}$$<br>
+<br>
+---<br>
+<br>
+**步骤 4：链式法则求 $\frac{\partial L}{\partial z}$**<br>
+<br>
+$$\frac{\partial L}{\partial z} = \frac{\partial L}{\partial h} \cdot \frac{\partial h}{\partial z} = \frac{h - y}{h(1-h)} \cdot h(1-h) = h - y$$<br>
+<br>
+$$\boxed{\frac{\partial L}{\partial z} = h_\theta(x) - y}$$<br>
+<br>
+这是最关键的一步：Sigmoid + 交叉熵的组合使得梯度形式极其简洁。<br>
+<br>
+---<br>
+<br>
+**步骤 5：求 $\frac{\partial L}{\partial \theta}$**<br>
+<br>
+由于 $z = \theta^T x$，所以 $\frac{\partial z}{\partial \theta} = x$，由链式法则：<br>
+<br>
+$$\frac{\partial L}{\partial \theta} = \frac{\partial L}{\partial z} \cdot \frac{\partial z}{\partial \theta} = (h_\theta(x) - y) \cdot x$$<br>
+<br>
+---<br>
+<br>
+**步骤 6：对全部 $m$ 个样本求平均**<br>
+<br>
+$$\boxed{\frac{\partial J}{\partial \theta} = \frac{1}{m}\sum_{i=1}^{m}\left(h_\theta(x^{(i)}) - y^{(i)}\right) x^{(i)}}$$<br>
+<br>
+梯度下降更新规则：$\theta \leftarrow \theta - \eta \frac{\partial J}{\partial \theta}$</div></div>
+<div class="solution-block"><h4>🧠 直觉解释</h4><div>Sigmoid + 交叉熵的梯度恰好等于预测值减真实值 $(h - y)$，形式极其简洁。这不是巧合——交叉熵损失是 Sigmoid 输出层的自然配对损失函数，使得梯度不会因 Sigmoid 导数饱和而消失。</div></div>
+</div>
+</div>
+<div class="question-card" data-qid="4">
+
+    <div class="question-header">
+      <span class="type-badge" style="background:#f59e0b">AI面试问答</span>
+      <span class="difficulty">⭐⭐</span>
+      <span class="qid-label">第 4 题</span>
+    </div>
+<h2 class="question-title">解释 Transformer 的自注意力机制</h2>
+<div class="question-body">请详细解释 Transformer 中的自注意力（Self-Attention）机制，包括 Q/K/V 的含义、注意力计算公式中缩放因子的作用，以及多头注意力相比单头注意力有什么优势。</div>
+
+    <button class="btn-reveal" onclick="revealSolution(4)" id="reveal_btn_4">
+      📖 显示答案与解析
+    </button>
+<div class="solution-section" id="solution_4" style="display:none;">
+<div class="solution-divider">--- 以下为答案与解析 ---</div>
+<div class="solution-block"><h4>📌 回答要点</h4><ul class="answer-points">
+<li>**Q/K/V 的含义**：输入序列的每个 token 生成三个向量——Query（查询，当前 token 想关注什么）、Key（键，该 token 可被匹配的特征）、Value（值，该 token 的实际内容信息）。Q 和 V 通过点积计算「该 token 对当前 token 的相关性」，加权求和 V 得到输出。三个矩阵 $W^Q, W^K, W^V$ 是可学习参数。</li>
+<li>**注意力计算公式**：$\text{Attention}(Q,K,V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V$。其中 $QK^T$ 计算所有 token 对的相似度（点积越大越相关），softmax 归一化为注意力权重，再加权求和 V 得到输出。</li>
+<li>**缩放因子 $\sqrt{d_k}$ 的作用**：当维度 $d_k$ 较大时，$QK^T$ 的值方差变大，导致 softmax 进入饱和区（梯度趋近于 0，训练停滞）。除以 $\sqrt{d_k}$ 将方差缩放回 1 附近，使 softmax 梯度保持健康。具体推导：若 Q、K 各分量独立同分布、均值 0 方差 1，则 $QK^T = \sum_{i=1}^{d_k} q_i k_i$ 的方差为 $d_k$，除以 $\sqrt{d_k}$ 后方差变为 1。</li>
+<li>**多头注意力的优势**：将 Q/K/V 投影到 $h$ 个不同的子空间，每个「头」独立计算注意力，再拼接。优势：①不同头可以关注不同模式（如句法关系 vs 语义关系）；②多个子空间表示增强了模型容量；③计算量与单头近似（每个头维度 $d_k/h$，总参数量不变）。</li>
+</ul></div>
+<div class="solution-block"><h4>⭐ 加分项</h4><ul class="answer-points">
+<li>自注意力的时间复杂度为 $O(n^2 d)$（$n$ 为序列长度），这是 Transformer 处理长序列的瓶颈，催生了 Sparse Attention、Linear Attention、Flash Attention 等优化方向。</li>
+<li>因果注意力（Causal/Masked Attention）：在解码器中通过上三角 mask 实现「只看前面的 token」，防止信息泄露。这与 GPT 类模型的自回归生成直接相关。</li>
+<li>自注意力与 RNN 的本质区别：RNN 依赖序列顺序逐步传递信息（O(n) 步），自注意力可以一步建立任意两个 token 的直接联系，更适合并行计算和长距离依赖。</li>
+</ul></div>
+<div class="solution-block"><h4>🔮 追问预测</h4><ul class="answer-points">
+<li>追问1：为什么用点积而不是加性注意力（additive attention）？——回答：点积可以利用矩阵乘法高度并行加速，效率远高于加性注意力（逐个计算）。当 $d_k$ 小时两者效果相当，$d_k$ 大时点积需缩放，实践中效率优势更关键。</li>
+<li>追问2：位置编码为什么需要？——回答：自注意力本身是排列不变的（打乱 token 顺序结果不变），位置编码注入位置信息。Sinusoidal 编码利用正余弦不同频率的周期性，使模型能学习相对位置；RoPE 通过旋转矩阵编码相对位置，更适合长序列外推。</li>
+</ul></div>
+</div>
+</div>
+
+<div class="footer">
+  坚持每日练习，积少成多 💪<br>
+  Powered by TeleAgent · daily-algo-ai-quiz
+</div>
+
+<script>
+// ===== Pyodide 隔离执行测试运行器 =====
+const RUNNER_CODE = "\nimport json, traceback, io, contextlib\n\ndef run_tests(user_code, func_name, test_cases, expected):\n    ns = {}\n    user_stdout = io.StringIO()\n    user_error = None\n\n    try:\n        with contextlib.redirect_stdout(user_stdout):\n            exec(user_code, ns)\n    except Exception:\n        user_error = traceback.format_exc()\n\n    user_out = user_stdout.getvalue()\n\n    if user_error:\n        return {\"error\": user_error, \"stdout\": user_out}\n\n    func = ns.get(func_name)\n    if func is None:\n        return {\"error\": \"未找到函数 \" + str(func_name) + \"，请确保代码中定义了该函数\", \"stdout\": user_out}\n\n    test_results = []\n    for i, tc in enumerate(test_cases):\n        try:\n            actual = func(*tc)\n            exp = expected[i]\n            passed = actual == exp\n            test_results.append({\n                \"passed\": passed,\n                \"input\": str(tc),\n                \"expected\": str(exp),\n                \"actual\": str(actual)\n            })\n        except Exception as e:\n            exp = str(expected[i]) if i < len(expected) else \"N/A\"\n            test_results.append({\n                \"passed\": False,\n                \"input\": str(tc),\n                \"expected\": exp,\n                \"actual\": \"Error: \" + str(e)\n            })\n\n    return {\"stdout\": user_out, \"tests\": test_results}\n";
+
+// ===== 显示/隐藏解析 =====
+function revealSolution(qid) {
+  const sol = document.getElementById('solution_' + qid);
+  const btn = document.getElementById('reveal_btn_' + qid);
+  if (sol.style.display === 'none') {
+    sol.style.display = 'block';
+    btn.innerHTML = '📕 收起解析';
+    // 渲染该区域数学公式
+    if (typeof renderMathInElement !== 'undefined') {
+      renderMathInElement(sol, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false}
+        ]
+      });
+    }
+  } else {
+    sol.style.display = 'none';
+    btn.innerHTML = '📖 显示答案与解析';
+  }
+}
+
+// ===== 选择题作答反馈 =====
+function checkAnswer(qid, selected) {
+  const card = document.querySelector(`[data-qid="${qid}"]`);
+  if (!card) return;
+  const correctAnswer = card.getAttribute('data-correct') || '';
+  // 从全局 quizData 获取
+  const qData = window.__quizData__.questions.find(q => q.id == qid);
+  if (!qData || !qData.correct_answer) return;
+
+  const correct = qData.correct_answer;
+  const feedback = document.getElementById('feedback_' + qid);
+  const options = card.querySelectorAll('.option-item');
+
+  options.forEach(opt => {
+    const letter = opt.getAttribute('data-letter');
+    opt.classList.remove('correct', 'wrong');
+    if (letter === correct) {
+      opt.classList.add('correct');
+    } else if (letter === selected && selected !== correct) {
+      opt.classList.add('wrong');
+    }
+  });
+
+  if (feedback) {
+    feedback.className = 'option-feedback show ' + (selected === correct ? 'correct' : 'wrong');
+    feedback.textContent = selected === correct
+      ? '✅ 回答正确！'
+      : `❌ 正确答案是 ${correct}，再想想？`;
+    feedback.style.display = 'block';
+  }
+}
+
+// ===== Pyodide 代码执行 =====
+let pyodideReady = null;
+let pyodideLoading = false;
+
+function loadPyodideAsync() {
+  if (pyodideReady) return pyodideReady;
+  if (pyodideLoading) return pyodideReady;
+  pyodideLoading = true;
+
+  pyodideReady = new Promise((resolve, reject) => {
+    if (typeof loadPyodide !== 'undefined') {
+      loadPyodide({
+        indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.25.0/full/'
+      }).then(py => {
+        pyodideLoading = false;
+        resolve(py);
+      }).catch(reject);
+    } else {
+      // 动态加载 Pyodide
+      const script = document.createElement('script');
+      script.src = 'https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js';
+      script.onload = () => {
+        loadPyodide({
+          indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.25.0/full/'
+        }).then(py => {
+          pyodideLoading = false;
+          resolve(py);
+        }).catch(reject);
+      };
+      script.onerror = () => {
+        pyodideLoading = false;
+        reject(new Error('Pyodide 加载失败，请检查网络连接'));
+      };
+      document.head.appendChild(script);
+    }
+  });
+  return pyodideReady;
+}
+
+async function runCode(qid) {
+    const editor = document.getElementById('editor_' + qid);
+    const resultDiv = document.getElementById('result_' + qid);
+    const btn = document.getElementById('run_btn_' + qid);
+    const code = editor.innerText;
+    const funcNameInput = document.getElementById('func_name_' + qid);
+    const funcName = funcNameInput ? funcNameInput.value : 'solve';
+    const tcInput = document.getElementById('test_cases_' + qid);
+    const eoInput = document.getElementById('expected_outputs_' + qid);
+    let testCases = [];
+    let expectedOutputs = [];
+    try {
+        testCases = JSON.parse(tcInput.value || '[]');
+        expectedOutputs = JSON.parse(eoInput.value || '[]');
+    } catch(e) {}
+
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span> 运行中...';
+    resultDiv.style.display = 'block';
+    resultDiv.innerHTML = '<span style="color:var(--text-dim)">⏳ 正在加载 Python 运行环境...</span>';
+
+    try {
+        const pyodide = await loadPyodideAsync();
+        resultDiv.innerHTML = '<span style="color:var(--text-dim)">⏳ 正在执行代码...</span>';
+
+        // 确保 run_tests 函数只定义一次
+        if (!window.__runner_ready__) {
+            pyodide.runPython(RUNNER_CODE);
+            window.__runner_ready__ = true;
+        }
+
+        // 调用 run_tests 函数，通过返回值获取结果（不依赖 stdout，每次调用独立）
+        const runTests = pyodide.globals.get('run_tests');
+        const pyResult = runTests(code, funcName, testCases, expectedOutputs);
+        // pyResult 是 Python dict，转为 JS 对象
+        const result = pyResult.toJs({dict_converter: Object.fromEntries});
+
+        let resultHtml = '';
+
+        // 显示用户代码标准输出
+        if (result.stdout && result.stdout.trim()) {
+            resultHtml += '<div style="color:var(--text)">📝 标准输出：</div>';
+            resultHtml += '<pre style="color:var(--text);margin:4px 0;">' + escapeHtml(result.stdout) + '</pre>';
+        }
+
+        // 显示错误信息
+        if (result.error) {
+            resultHtml += '<div class="stderr">⚠️ 错误信息：</div>';
+            resultHtml += '<pre class="stderr" style="margin:4px 0;">' + escapeHtml(result.error) + '</pre>';
+        }
+
+        // 显示测试用例结果
+        if (result.tests && result.tests.length > 0) {
+            let allPassed = result.tests.every(t => t.passed);
+            resultHtml += '<div style="margin-top:8px;color:' + (allPassed ? 'var(--green)' : 'var(--accent)') + '">';
+            resultHtml += allPassed ? '🎉 全部通过！' : '🧪 测试用例结果：';
+            resultHtml += '</div>';
+
+            for (let i = 0; i < result.tests.length; i++) {
+                const t = result.tests[i];
+                if (t.passed) {
+                    resultHtml += '<div class="test-pass">✅ 用例 ' + (i+1) + ' 通过</div>';
+                } else {
+                    resultHtml += '<div class="test-fail">❌ 用例 ' + (i+1) + ' 未通过</div>';
+                    resultHtml += '<pre style="color:var(--text-dim);margin:2px 0;">  输入: ' + escapeHtml(t.input) + '\n  期望: ' + escapeHtml(t.expected) + '\n  实际: ' + escapeHtml(t.actual) + '</pre>';
+                }
+            }
+        }
+
+        if (!resultHtml) {
+            resultHtml = '<span style="color:var(--text-dim)">（代码执行完毕，无输出）</span>';
+        }
+
+        resultDiv.innerHTML = resultHtml;
+
+    } catch(e) {
+        resultDiv.innerHTML = '<div class="stderr">❌ ' + escapeHtml(e.message || String(e)) + '</div>';
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = '▶ 运行';
+    }
+}
+
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+// Ctrl+Enter 运行代码
+document.addEventListener('keydown', (e) => {
+  if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+    const focused = document.activeElement;
+    if (focused && focused.classList.contains('code-editor')) {
+      const qid = focused.id.replace('editor_', '');
+      runCode(qid);
+    }
+  }
+});
+
+// Tab 键在编辑器中插入空格
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Tab' && document.activeElement.classList.contains('code-editor')) {
+    e.preventDefault();
+    document.execCommand('insertText', false, '    ');
+  }
+});
+
+// 将 quiz 数据存入全局变量供选择题使用
+window.__quizData__ = {"date": "2026-09-09", "title": "每日算法 AI 出题", "subtitle": "算法 2 道 + AI 2 道", "questions": [{"id": 1, "type": "algorithm_code", "type_label": "算法编程", "difficulty": 2, "title": "每日温度", "description": "给定一个整数数组 `temperatures`，表示每天的温度。返回一个数组 `answer`，其中 `answer[i]` 是指对于第 `i` 天，下一个更高温度出现在几天后。如果此后没有更高的温度，则 `answer[i] == 0`。", "input_format": "一个整数列表 temperatures", "output_format": "一个整数列表 answer，与 temperatures 等长", "examples": [{"input": "temperatures = [73,74,75,71,69,72,76,73]", "output": "[1,1,4,2,1,1,0,0]", "explanation": "第0天(73°)次日就遇到74°，所以answer[0]=1；第2天(75°)要到第6天(76°)才遇到更高温，间隔4天；第6、7天后面没有更高温，所以为0。"}, {"input": "temperatures = [30,40,50,60]", "output": "[1,1,1,0]", "explanation": "前三天每天都比次日低1级，最后一天没有更高温。"}, {"input": "temperatures = [30,60,90]", "output": "[1,1,0]", "explanation": "第2天(90°)后面没有更高温度。"}], "constraints": "1 <= temperatures.length <= 10^5\n30 <= temperatures[i] <= 100", "solution": {"approach": "使用单调递减栈（存索引）。遍历数组，当前温度比栈顶索引对应温度高时，弹出栈顶并计算天数差。栈中始终维持温度递减的索引序列。", "code": "def daily_temperatures(temperatures):\n    n = len(temperatures)\n    answer = [0] * n\n    stack = []  # 存索引，对应温度单调递减\n    for i in range(n):\n        while stack and temperatures[i] > temperatures[stack[-1]]:\n            idx = stack.pop()\n            answer[idx] = i - idx\n        stack.append(i)\n    return answer", "starter_code": "def daily_temperatures(temperatures):\n    # 在此编写你的代码\n    pass", "code_language": "python", "complexity_time": "O(n)", "complexity_space": "O(n)", "key_points": "单调栈经典应用：栈中维护递减序列，遇到更大值时批量结算。每个元素最多入栈出栈各一次，总时间 O(n)。", "test_cases": [[[73, 74, 75, 71, 69, 72, 76, 73]], [[30, 40, 50, 60]], [[30, 60, 90]], [[30]], [[50, 50, 50, 50]], [[80, 70, 60, 50, 40]], [[40, 50, 60, 70, 80]], [[100, 90, 80, 70, 60, 50, 40, 30, 35, 45]], [[73, 73, 74, 74, 75, 75, 76, 76]], [[30, 100]], [[70, 71, 69, 72, 73, 68, 74]], [[90, 80, 90, 80, 90, 80]]], "expected_outputs": [[1, 1, 4, 2, 1, 1, 0, 0], [1, 1, 1, 0], [1, 1, 0], [0], [0, 0, 0, 0], [0, 0, 0, 0, 0], [1, 1, 1, 1, 0], [0, 0, 0, 0, 0, 0, 3, 1, 1, 0], [2, 1, 2, 1, 2, 1, 0, 0], [1, 0], [1, 2, 1, 1, 2, 1, 0], [0, 1, 0, 1, 0, 0]]}}, {"id": 2, "type": "algorithm_concept", "type_label": "算法概念", "difficulty": 1, "title": "二叉搜索树（BST）的中序遍历性质", "description": "对一棵合法的二叉搜索树（BST）进行中序遍历（左→根→右），得到的节点值序列具有什么性质？", "options": ["A. 严格递增的序列", "B. 严格递减的序列", "C. 递增（允许相等的相邻元素）的序列", "D. 无特定顺序，取决于插入顺序"], "correct_answer": "A", "solution": {"approach": "BST 的定义：左子树所有节点值 < 根节点值 < 右子树所有节点值。中序遍历先访问左子树（更小的值），再访问根，最后右子树（更大的值），因此天然产生严格递增序列。", "option_analysis": ["A 正确。BST 中序遍历严格递增是 BST 的定义性质之一，也是判断一棵二叉树是否为 BST 的常用方法。", "B 错误。递减是反序。若中序遍历递减，则该树是「反 BST」（右 < 根 < 左），不符合标准 BST 定义。", "C 错误。标准 BST 要求左 < 根 < 右（严格小于），不允许相等的值。若允许相等则退化为一般有序树，不再是标准 BST。部分工程实现允许相等值放右子树，但教科书定义和 LeetCode 题目通常要求严格递增。", "D 错误。BST 的中序遍历序列是确定的（由树结构决定），且必定递增，与插入顺序无关。插入顺序只影响树的形状，不影响中序遍历结果。"], "key_points": "BST 中序遍历严格递增是核心性质。面试常考：①判断 BST 合法性（中序遍历后检查递增）；②BST 中序遍历得到有序序列 → 二叉搜索树本质等价于有序数组。"}}, {"id": 3, "type": "ai_derivation", "type_label": "AI公式推导", "difficulty": 2, "title": "逻辑回归梯度推导（复习）", "description": "设逻辑回归模型为 $h_\\theta(x) = \\sigma(\\theta^T x) = \\frac{1}{1+e^{-\\theta^T x}}$，损失函数为对数似然损失（交叉熵）：\n\n$$J(\\theta) = -\\frac{1}{m}\\sum_{i=1}^{m}\\left[y^{(i)}\\log h_\\theta(x^{(i)}) + (1-y^{(i)})\\log(1-h_\\theta(x^{(i)}))\\right]$$\n\n请完整推导 $J(\\theta)$ 对参数 $\\theta$ 的梯度 $\\frac{\\partial J}{\\partial \\theta}$，并说明推导过程中用到的关键导数公式。", "solution": {"derivation": "**步骤 1：简化符号**\n\n令 $z = \\theta^T x$，$h = \\sigma(z) = \\frac{1}{1+e^{-z}}$，对单个样本 $(x, y)$，损失为：\n\n$$L = -\\left[y \\log h + (1-y) \\log(1-h)\\right]$$\n\n平均损失 $J = \\frac{1}{m}\\sum_{i=1}^m L^{(i)}$，先推导单样本 $\\frac{\\partial L}{\\partial \\theta}$。\n\n---\n\n**步骤 2：求 $\\frac{\\partial h}{\\partial z}$（Sigmoid 导数）**\n\n$$h = \\frac{1}{1+e^{-z}} = (1+e^{-z})^{-1}$$\n\n$$\\frac{\\partial h}{\\partial z} = -(1+e^{-z})^{-2} \\cdot (-e^{-z}) = \\frac{e^{-z}}{(1+e^{-z})^2} = \\frac{1}{1+e^{-z}} \\cdot \\frac{e^{-z}}{1+e^{-z}}$$\n\n注意到 $1 - h = \\frac{e^{-z}}{1+e^{-z}}$，因此：\n\n$$\\boxed{\\frac{\\partial h}{\\partial z} = h(1-h)}$$\n\n---\n\n**步骤 3：求 $\\frac{\\partial L}{\\partial h}$**\n\n$$L = -y \\log h - (1-y) \\log(1-h)$$\n\n$$\\frac{\\partial L}{\\partial h} = -\\frac{y}{h} - \\frac{(1-y)}{1-h} \\cdot (-1) = -\\frac{y}{h} + \\frac{1-y}{1-h}$$\n\n通分：\n\n$$\\frac{\\partial L}{\\partial h} = \\frac{-y(1-h) + (1-y)h}{h(1-h)} = \\frac{-y + yh + h - yh}{h(1-h)} = \\frac{h - y}{h(1-h)}$$\n\n---\n\n**步骤 4：链式法则求 $\\frac{\\partial L}{\\partial z}$**\n\n$$\\frac{\\partial L}{\\partial z} = \\frac{\\partial L}{\\partial h} \\cdot \\frac{\\partial h}{\\partial z} = \\frac{h - y}{h(1-h)} \\cdot h(1-h) = h - y$$\n\n$$\\boxed{\\frac{\\partial L}{\\partial z} = h_\\theta(x) - y}$$\n\n这是最关键的一步：Sigmoid + 交叉熵的组合使得梯度形式极其简洁。\n\n---\n\n**步骤 5：求 $\\frac{\\partial L}{\\partial \\theta}$**\n\n由于 $z = \\theta^T x$，所以 $\\frac{\\partial z}{\\partial \\theta} = x$，由链式法则：\n\n$$\\frac{\\partial L}{\\partial \\theta} = \\frac{\\partial L}{\\partial z} \\cdot \\frac{\\partial z}{\\partial \\theta} = (h_\\theta(x) - y) \\cdot x$$\n\n---\n\n**步骤 6：对全部 $m$ 个样本求平均**\n\n$$\\boxed{\\frac{\\partial J}{\\partial \\theta} = \\frac{1}{m}\\sum_{i=1}^{m}\\left(h_\\theta(x^{(i)}) - y^{(i)}\\right) x^{(i)}}$$\n\n梯度下降更新规则：$\\theta \\leftarrow \\theta - \\eta \\frac{\\partial J}{\\partial \\theta}$", "intuition": "Sigmoid + 交叉熵的梯度恰好等于预测值减真实值 $(h - y)$，形式极其简洁。这不是巧合——交叉熵损失是 Sigmoid 输出层的自然配对损失函数，使得梯度不会因 Sigmoid 导数饱和而消失。", "key_points": "核心考点：①Sigmoid 导数 $\\sigma'(z) = \\sigma(z)(1-\\sigma(z))$；②交叉熵 + Sigmoid 组合使梯度简化为 $h - y$（消除 Sigmoid 导数项）；③这一性质使得逻辑回归训练比用 MSE 更稳定（MSE 梯度含 $\\sigma'$ 项，在 $z$ 绝对值大时梯度趋零）。复习关联：09-02 学习逻辑回归梯度推导，本次为默写复习。"}}, {"id": 4, "type": "ai_interview", "type_label": "AI面试问答", "difficulty": 2, "title": "解释 Transformer 的自注意力机制", "description": "请详细解释 Transformer 中的自注意力（Self-Attention）机制，包括 Q/K/V 的含义、注意力计算公式中缩放因子的作用，以及多头注意力相比单头注意力有什么优势。", "solution": {"answer_points": ["**Q/K/V 的含义**：输入序列的每个 token 生成三个向量——Query（查询，当前 token 想关注什么）、Key（键，该 token 可被匹配的特征）、Value（值，该 token 的实际内容信息）。Q 和 V 通过点积计算「该 token 对当前 token 的相关性」，加权求和 V 得到输出。三个矩阵 $W^Q, W^K, W^V$ 是可学习参数。", "**注意力计算公式**：$\\text{Attention}(Q,K,V) = \\text{softmax}\\left(\\frac{QK^T}{\\sqrt{d_k}}\\right)V$。其中 $QK^T$ 计算所有 token 对的相似度（点积越大越相关），softmax 归一化为注意力权重，再加权求和 V 得到输出。", "**缩放因子 $\\sqrt{d_k}$ 的作用**：当维度 $d_k$ 较大时，$QK^T$ 的值方差变大，导致 softmax 进入饱和区（梯度趋近于 0，训练停滞）。除以 $\\sqrt{d_k}$ 将方差缩放回 1 附近，使 softmax 梯度保持健康。具体推导：若 Q、K 各分量独立同分布、均值 0 方差 1，则 $QK^T = \\sum_{i=1}^{d_k} q_i k_i$ 的方差为 $d_k$，除以 $\\sqrt{d_k}$ 后方差变为 1。", "**多头注意力的优势**：将 Q/K/V 投影到 $h$ 个不同的子空间，每个「头」独立计算注意力，再拼接。优势：①不同头可以关注不同模式（如句法关系 vs 语义关系）；②多个子空间表示增强了模型容量；③计算量与单头近似（每个头维度 $d_k/h$，总参数量不变）。"], "bonus": ["自注意力的时间复杂度为 $O(n^2 d)$（$n$ 为序列长度），这是 Transformer 处理长序列的瓶颈，催生了 Sparse Attention、Linear Attention、Flash Attention 等优化方向。", "因果注意力（Causal/Masked Attention）：在解码器中通过上三角 mask 实现「只看前面的 token」，防止信息泄露。这与 GPT 类模型的自回归生成直接相关。", "自注意力与 RNN 的本质区别：RNN 依赖序列顺序逐步传递信息（O(n) 步），自注意力可以一步建立任意两个 token 的直接联系，更适合并行计算和长距离依赖。"], "followup_predictions": ["追问1：为什么用点积而不是加性注意力（additive attention）？——回答：点积可以利用矩阵乘法高度并行加速，效率远高于加性注意力（逐个计算）。当 $d_k$ 小时两者效果相当，$d_k$ 大时点积需缩放，实践中效率优势更关键。", "追问2：位置编码为什么需要？——回答：自注意力本身是排列不变的（打乱 token 顺序结果不变），位置编码注入位置信息。Sinusoidal 编码利用正余弦不同频率的周期性，使模型能学习相对位置；RoPE 通过旋转矩阵编码相对位置，更适合长序列外推。"]}}]};
+</script>
+</body>
+</html>
