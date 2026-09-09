@@ -1,5 +1,42 @@
 [
   {
+    "date": "2026-09-09",
+    "filename": "quiz-2026-09-09.html",
+    "url": "https://syypretend.github.io/test/daily-quiz/quiz-2026-09-09.html",
+    "title": "每日算法 AI 出题",
+    "subtitle": "算法 2 道 + AI 2 道",
+    "questions": [
+      {
+        "id": 1,
+        "type": "algorithm_code",
+        "type_label": "算法编程",
+        "title": "每日温度",
+        "difficulty": 2
+      },
+      {
+        "id": 2,
+        "type": "algorithm_concept",
+        "type_label": "算法概念",
+        "title": "二叉搜索树（BST）的中序遍历性质",
+        "difficulty": 1
+      },
+      {
+        "id": 3,
+        "type": "ai_derivation",
+        "type_label": "AI公式推导",
+        "title": "逻辑回归梯度推导（复习）",
+        "difficulty": 2
+      },
+      {
+        "id": 4,
+        "type": "ai_interview",
+        "type_label": "AI面试问答",
+        "title": "解释 Transformer 的自注意力机制",
+        "difficulty": 2
+      }
+    ]
+  },
+  {
     "date": "2026-09-07",
     "filename": "quiz-2026-09-07.html",
     "url": "https://syypretend.github.io/test/daily-quiz/quiz-2026-09-07.html",
