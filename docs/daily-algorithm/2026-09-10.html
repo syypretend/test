@@ -1,0 +1,1486 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>每日算法讲解 · 2026年09月10日</title>
+<!-- MathJax for LaTeX math formula rendering -->
+<script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\(', '\)']],
+      displayMath: [['$$', '$$'], ['\[', '\]']],
+      processEscapes: true
+    },
+    svg: { fontCache: 'global' }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" id="MathJax-script" async></script>
+<style>
+:root {
+  --primary: #6366f1;
+  --primary-dark: #4f46e5;
+  --bg: #0f172a;
+  --card-bg: #1e293b;
+  --text: #e2e8f0;
+  --text-dim: #94a3b8;
+  --accent: #818cf8;
+  --border: #334155;
+  --code-bg: #0d1117;
+  --code-text: #e6edf3;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans SC", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.8;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+.container { max-width: 1400px; margin: 0 auto; padding: 24px 32px; }
+.header {
+  text-align: center;
+  padding: 40px 0 30px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 32px;
+}
+.header h1 {
+  font-size: 28px;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.header h1 .date { color: var(--accent); }
+.header .subtitle { color: var(--text-dim); font-size: 15px; }
+.repo-link {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 6px 16px;
+  background: var(--primary);
+  color: #fff;
+  border-radius: 20px;
+  text-decoration: none;
+  font-size: 13px;
+  transition: background 0.2s;
+}
+.repo-link:hover { background: var(--primary-dark); }
+.history-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 32px;
+  padding: 16px;
+  background: var(--card-bg);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+.history-nav a {
+  padding: 4px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  color: var(--text-dim);
+  text-decoration: none;
+  background: rgba(99,102,241,0.08);
+  transition: all 0.2s;
+}
+.history-nav a:hover { color: var(--text); background: rgba(99,102,241,0.2); }
+.history-nav a.active { color: #fff; background: var(--primary); }
+.history-nav a.back-index { color: var(--accent); font-weight: 600; background: rgba(99,102,241,0.15); border: 1px solid rgba(99,102,241,0.3); }
+.history-nav a.back-index:hover { color: #fff; background: var(--primary); border-color: var(--primary); }
+.content { margin-bottom: 40px; max-width: 1100px; }
+.content h2 {
+  font-size: 24px;
+  color: var(--accent);
+  margin: 40px 0 16px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--primary);
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+.content h2:first-child { border-top: none; padding-top: 0; }
+.content h3 {
+  font-size: 18px;
+  color: var(--text);
+  margin: 24px 0 12px;
+}
+.content h4 {
+  font-size: 16px;
+  color: var(--accent);
+  margin: 20px 0 10px;
+}
+.content p { margin-bottom: 12px; color: var(--text); }
+.content ul { margin: 8px 0 16px 20px; }
+.content li { margin-bottom: 6px; }
+.content strong { color: var(--accent); }
+.content blockquote {
+  border-left: 4px solid var(--primary);
+  padding: 12px 16px;
+  margin: 16px 0;
+  background: rgba(99,102,241,0.08);
+  border-radius: 0 8px 8px 0;
+}
+.content blockquote p { color: var(--text-dim); margin: 4px 0; }
+.content hr {
+  border: none;
+  height: 1px;
+  background: var(--border);
+  margin: 32px 0;
+}
+.code-block {
+  background: var(--code-bg);
+  border-radius: 10px;
+  padding: 18px 24px;
+  overflow-x: auto;
+  margin: 16px 0;
+  border: 1px solid var(--border);
+  max-width: 100%;
+}
+.code-block code {
+  font-family: "JetBrains Mono", "Fira Code", "Consolas", monospace;
+  font-size: 14px;
+  color: var(--code-text);
+  line-height: 1.6;
+  white-space: pre;
+}
+.inline-code {
+  background: rgba(99,102,241,0.15);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: "Consolas", monospace;
+  font-size: 0.9em;
+  color: var(--accent);
+}
+/* Math formula block */
+.content .math-block {
+  background: rgba(99,102,241,0.06);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 24px;
+  margin: 16px 0;
+  overflow-x: auto;
+  max-width: 100%;
+}
+.content .math-label {
+  font-size: 13px; color: var(--text-dim); margin-bottom: 6px; }
+.content .math-vars {
+  margin: 8px 0 16px 20px; }
+.content .math-vars li { margin-bottom: 4px; color: var(--text-dim); }
+.footer {
+  text-align: center;
+  padding: 24px 0;
+  border-top: 1px solid var(--border);
+  color: var(--text-dim);
+  font-size: 13px;
+}
+.tag {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  background: rgba(99,102,241,0.15);
+  color: var(--accent);
+  margin-left: 8px;
+}
+.content .ref-link {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px dashed rgba(99,102,241,0.4);
+  transition: all 0.2s;
+  word-break: break-all;
+}
+.content .ref-link:hover {
+  color: #fff;
+  border-bottom-color: var(--primary);
+}
+.content li {
+  word-break: break-all;
+}
+/* Table */
+.table-wrapper {
+  overflow-x: auto;
+  margin: 16px 0;
+  max-width: 100%;
+}
+.algo-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  background: var(--card-bg);
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+.algo-table thead {
+  background: rgba(99,102,241,0.15);
+}
+.algo-table th {
+  padding: 10px 16px;
+  text-align: left;
+  color: var(--accent);
+  font-weight: 600;
+  border-bottom: 2px solid var(--primary);
+  white-space: nowrap;
+}
+.algo-table td {
+  padding: 8px 16px;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  word-break: break-all;
+}
+.algo-table tr:last-child td {
+  border-bottom: none;
+}
+.algo-table tr:hover td {
+  background: rgba(99,102,241,0.06);
+}
+/* Algorithm architecture image */
+.algo-image {
+  margin: 20px 0;
+  text-align: center;
+}
+.algo-image img {
+  max-width: 100%;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+.algo-image .image-caption {
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--text-dim);
+}
+.algo-image svg {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+/* ======== 移动端响应式适配 ======== */
+@media (max-width: 768px) {
+  .container { max-width: 100%; padding: 16px 14px; }
+  .header { padding: 24px 0 20px; margin-bottom: 20px; }
+  .header h1 { font-size: 20px; margin-bottom: 4px; }
+  .header .subtitle { font-size: 13px; }
+  .repo-link { margin-top: 10px; padding: 5px 14px; font-size: 12px; }
+  .history-nav { gap: 6px; padding: 10px 12px; margin-bottom: 20px; }
+  .history-nav a { padding: 3px 10px; font-size: 12px; }
+  .content { max-width: 100%; margin-bottom: 28px; }
+  .content h2 { font-size: 20px; margin: 28px 0 12px; }
+  .content h3 { font-size: 17px; margin: 20px 0 10px; }
+  .content h4 { font-size: 15px; margin: 16px 0 8px; }
+  .content p { font-size: 14px; margin-bottom: 10px; }
+  .content ul { margin: 6px 0 12px 16px; }
+  .content li { font-size: 14px; margin-bottom: 5px; }
+  .content blockquote { padding: 10px 12px; margin: 12px 0; }
+  .content blockquote p { font-size: 13px; }
+  .content .math-block { padding: 10px 14px; margin: 12px 0; }
+  .code-block { padding: 12px 14px; margin: 12px 0; }
+  .code-block code { font-size: 12px; line-height: 1.5; }
+  .inline-code { font-size: 0.88em; padding: 1px 5px; }
+  .algo-table { font-size: 12px; }
+  .algo-table th { padding: 6px 10px; }
+  .algo-table td { padding: 6px 10px; }
+  .algo-image { margin: 14px 0; }
+  .algo-image svg { max-width: 100%; height: auto; }
+  .footer { padding: 18px 0; font-size: 12px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>每日算法讲解 · <span class="date">2026年09月10日</span></h1>
+    <p class="subtitle">每天 1 个基础算法 + 2 个 AI/机器学习算法，持续精进</p>
+    <a href="https://syypretend.github.io/test/daily-algorithm" target="_blank" class="repo-link">GitHub 仓库</a>
+  </div>
+  <div class="history-nav"><a href="index.html" class="back-index">← 历史索引</a>
+<a href="2026-09-10.html" class="active">09月10日</a>
+<a href="2026-09-08.html">09月08日</a>
+<a href="2026-09-07.html">09月07日</a>
+</div>
+  <div class="content">
+  <h2>每日算法讲解 · 2026-09-10</h2>
+
+<blockquote>
+<p>今日内容：1 个基础算法 + 2 个 AI/机器学习算法 | 逐参数详解</p>
+</blockquote>
+
+<hr>
+
+<h3>AVL 树</h3>
+
+<p><strong>类别</strong>：数据结构 | <strong>难度</strong>：中等</p>
+
+<h4>算法简介</h4>
+
+<p>AVL 树是由前苏联数学家 G. M. Adelson-Velsky 和 Evgenii Landis 于 1962 年发明的<strong>自平衡二叉搜索树</strong>（Self-Balancing Binary Search Tree），也是历史上第一个被发明的自平衡数据结构。它的核心思想是：在二叉搜索树的基础上，要求每个节点的左右子树高度差（平衡因子）绝对值不超过 1。当插入或删除操作破坏了这一平衡条件时，通过四种旋转操作（LL、RR、LR、RL）将树重新调整为平衡状态。</p>
+
+<p>普通二叉搜索树在遇到有序数据插入时会退化为链表，导致查找、插入、删除的时间复杂度从 $ O(\log n) $ 恶化为 $ O(n) $。AVL 树通过严格的高度平衡约束，保证树的高度始终为 $ O(\log n) $，从而使所有基本操作的时间复杂度稳定在 $ O(\log n) $。AVL 树适用于读多写少的场景（如数据库索引、内存中的有序映射），因为它的平衡条件比红黑树更严格，查找效率更高，但插入删除时可能需要更多旋转操作。</p>
+
+<h4>原理示意图</h4>
+
+<p><div class="algo-image"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 900 520" font-family="sans-serif">
+  <rect width="900" height="520" fill="#1e293b" rx="12"/>
+  <text x="450" y="30" text-anchor="middle" fill="#818cf8" font-size="16" font-weight="600">AVL 树四种旋转操作示意</text>
+
+  <!-- LL 旋转 -->
+  <text x="150" y="65" text-anchor="middle" fill="#22c55e" font-size="13" font-weight="600">LL → 右旋</text>
+  <circle cx="150" cy="110" r="18" fill="#ef4444" stroke="#fca5a5" stroke-width="2"/>
+  <text x="150" y="115" text-anchor="middle" fill="#fff" font-size="11">A(2)</text>
+  <circle cx="110" cy="165" r="16" fill="#f97316" stroke="#fdba74" stroke-width="2"/>
+  <text x="110" y="170" text-anchor="middle" fill="#fff" font-size="10">B(1)</text>
+  <circle cx="80" cy="220" r="14" fill="#6366f1" stroke="#a5b4fc" stroke-width="2"/>
+  <text x="80" y="225" text-anchor="middle" fill="#fff" font-size="9">C</text>
+  <line x1="150" y1="128" x2="110" y2="149" stroke="#94a3b8" stroke-width="1.5"/>
+  <line x1="110" y1="181" x2="80" y2="206" stroke="#94a3b8" stroke-width="1.5"/>
+  <text x="150" y="255" text-anchor="middle" fill="#94a3b8" font-size="10">失衡: BF(A)=2</text>
+  <path d="M 180 120 Q 220 170 220 210" fill="none" stroke="#22c55e" stroke-width="2" marker-end="url(#arrow1)"/>
+  <circle cx="230" cy="165" r="16" fill="#f97316" stroke="#fdba74" stroke-width="2"/>
+  <text x="230" y="170" text-anchor="middle" fill="#fff" font-size="10">B(0)</text>
+  <circle cx="190" cy="220" r="14" fill="#6366f1" stroke="#a5b4fc" stroke-width="2"/>
+  <text x="190" y="225" text-anchor="middle" fill="#fff" font-size="9">C</text>
+  <circle cx="270" cy="220" r="14" fill="#ef4444" stroke="#fca5a5" stroke-width="2"/>
+  <text x="270" y="225" text-anchor="middle" fill="#fff" font-size="9">A</text>
+  <line x1="230" y1="181" x2="190" y2="206" stroke="#94a3b8" stroke-width="1"/>
+  <line x1="230" y1="181" x2="270" y2="206" stroke="#94a3b8" stroke-width="1"/>
+  <text x="230" y="255" text-anchor="middle" fill="#22c55e" font-size="10">平衡: BF=0</text>
+
+  <!-- RR 旋转 -->
+  <text x="560" y="65" text-anchor="middle" fill="#22c55e" font-size="13" font-weight="600">RR → 左旋</text>
+  <circle cx="500" cy="110" r="18" fill="#ef4444" stroke="#fca5a5" stroke-width="2"/>
+  <text x="500" y="115" text-anchor="middle" fill="#fff" font-size="11">A(-2)</text>
+  <circle cx="560" cy="165" r="16" fill="#f97316" stroke="#fdba74" stroke-width="2"/>
+  <text x="560" y="170" text-anchor="middle" fill="#fff" font-size="10">B(-1)</text>
+  <circle cx="610" cy="220" r="14" fill="#6366f1" stroke="#a5b4fc" stroke-width="2"/>
+  <text x="610" y="225" text-anchor="middle" fill="#fff" font-size="9">C</text>
+  <line x1="500" y1="128" x2="560" y2="149" stroke="#94a3b8" stroke-width="1.5"/>
+  <line x1="560" y1="181" x2="610" y2="206" stroke="#94a3b8" stroke-width="1.5"/>
+  <text x="500" y="255" text-anchor="middle" fill="#94a3b8" font-size="10">失衡: BF(A)=-2</text>
+  <path d="M 550 150 Q 700 170 720 210" fill="none" stroke="#22c55e" stroke-width="2" marker-end="url(#arrow1)"/>
+  <circle cx="620" cy="165" r="16" fill="#f97316" stroke="#fdba74" stroke-width="2"/>
+  <text x="620" y="170" text-anchor="middle" fill="#fff" font-size="10">B(0)</text>
+  <circle cx="570" cy="220" r="14" fill="#ef4444" stroke="#fca5a5" stroke-width="2"/>
+  <text x="570" y="225" text-anchor="middle" fill="#fff" font-size="9">A</text>
+  <circle cx="670" cy="220" r="14" fill="#6366f1" stroke="#a5b4fc" stroke-width="2"/>
+  <text x="670" y="225" text-anchor="middle" fill="#fff" font-size="9">C</text>
+  <line x1="620" y1="181" x2="570" y2="206" stroke="#94a3b8" stroke-width="1"/>
+  <line x1="620" y1="181" x2="670" y2="206" stroke="#94a3b8" stroke-width="1"/>
+  <text x="620" y="255" text-anchor="middle" fill="#22c55e" font-size="10">平衡: BF=0</text>
+
+  <!-- LR 旋转 -->
+  <text x="150" y="320" text-anchor="middle" fill="#f97316" font-size="13" font-weight="600">LR → 先左旋后右旋</text>
+  <circle cx="120" cy="370" r="18" fill="#ef4444" stroke="#fca5a5" stroke-width="2"/>
+  <text x="120" y="375" text-anchor="middle" fill="#fff" font-size="11">A(2)</text>
+  <circle cx="80" cy="420" r="16" fill="#f97316" stroke="#fdba74" stroke-width="2"/>
+  <text x="80" y="425" text-anchor="middle" fill="#fff" font-size="10">B(-1)</text>
+  <circle cx="130" cy="420" r="14" fill="#6366f1" stroke="#a5b4fc" stroke-width="2"/>
+  <text x="130" y="425" text-anchor="middle" fill="#fff" font-size="9">C</text>
+  <line x1="120" y1="388" x2="80" y2="404" stroke="#94a3b8" stroke-width="1"/>
+  <line x1="80" y1="436" x2="130" y2="406" stroke="#94a3b8" stroke-width="1"/>
+  <text x="180" y="400" fill="#94a3b8" font-size="10">第一步: 以B左旋</text>
+  <text x="180" y="415" fill="#22c55e" font-size="10">第二步: 以A右旋</text>
+
+  <!-- RL 旋转 -->
+  <text x="560" y="320" text-anchor="middle" fill="#f97316" font-size="13" font-weight="600">RL → 先右旋后左旋</text>
+  <circle cx="530" cy="370" r="18" fill="#ef4444" stroke="#fca5a5" stroke-width="2"/>
+  <text x="530" y="375" text-anchor="middle" fill="#fff" font-size="11">A(-2)</text>
+  <circle cx="580" cy="420" r="16" fill="#f97316" stroke="#fdba74" stroke-width="2"/>
+  <text x="580" y="425" text-anchor="middle" fill="#fff" font-size="10">B(1)</text>
+  <circle cx="530" cy="420" r="14" fill="#6366f1" stroke="#a5b4fc" stroke-width="2"/>
+  <text x="530" y="425" text-anchor="middle" fill="#fff" font-size="9">C</text>
+  <line x1="530" y1="388" x2="580" y2="404" stroke="#94a3b8" stroke-width="1"/>
+  <line x1="580" y1="436" x2="530" y2="406" stroke="#94a3b8" stroke-width="1"/>
+  <text x="620" y="400" fill="#94a3b8" font-size="10">第一步: 以B右旋</text>
+  <text x="620" y="415" fill="#22c55e" font-size="10">第二步: 以A左旋</text>
+
+  <!-- 图例 -->
+  <rect x="20" y="465" width="860" height="45" fill="#0f172a" rx="6"/>
+  <circle cx="50" cy="485" r="8" fill="#ef4444"/>  <text x="65" y="489" fill="#e2e8f0" font-size="11">失衡节点 (|BF|≥2)</text>
+  <circle cx="220" cy="485" r="8" fill="#f97316"/>  <text x="235" y="489" fill="#e2e8f0" font-size="11">中间节点</text>
+  <circle cx="340" cy="485" r="8" fill="#6366f1"/>  <text x="355" y="489" fill="#e2e8f0" font-size="11">插入/触发节点</text>
+  <text x="500" y="489" fill="#94a3b8" font-size="11">LL=左左失衡(右旋)  RR=右右失衡(左旋)  LR=左右失衡(双旋)  RL=右左失衡(双旋)</text>
+
+  <defs>
+    <marker id="arrow1" markerWidth="8" markerHeight="6" refX="4" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#22c55e"/>
+    </marker>
+  </defs>
+</svg></div></p>
+
+<h4>数学公式</h4>
+
+<p><strong>1. 平衡因子（Balance Factor）</strong></p>
+
+<p><div class="math-block">$$ BF(node) = height(node.left) - height(node.right) $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ BF(node) $：节点 $ node $ 的平衡因子</li>
+<li>$ height(node.left) $：节点 $ node $ 左子树的高度</li>
+<li>$ height(node.right) $：节点 $ node $ 右子树的高度</li>
+<li>空子树高度定义为 $ 0 $，叶子节点高度定义为 $ 1 $</li>
+</ul>
+
+<p><strong>平衡条件</strong>：对所有节点 $ node $，必须满足 $ |BF(node)| \leq 1 $，即 $ BF(node) \in \{-1, 0, 1\} $。</p>
+
+<p><strong>2. AVL 树高度上界</strong></p>
+
+<p><div class="math-block">$$ h \leq 1.44 \log_2(n+2) - 0.328 $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ h $：AVL 树的高度</li>
+<li>$ n $：树中节点总数</li>
+<li>这个公式说明 AVL 树的高度在最坏情况下仍为 $ O(\log n) $</li>
+</ul>
+
+<p>推导过程：设 $ N_h $ 为高度为 $ h $ 的 AVL 树最少节点数，则 $ N_h = N_{h-1} + N_{h-2} + 1 $，$ N_0 = 0, N_1 = 1 $。解此递推关系可得上述上界。</p>
+
+<p><strong>3. 旋转操作时间</strong></p>
+
+<p><div class="math-block">$$ T_{rot} = O(1) $$</div></p>
+
+<p>单次旋转只需修改常数个指针，操作时间为常数级。</p>
+
+<h4>核心要点</h4>
+
+<ul>
+<li>AVL 树是严格高度平衡的 BST，任意节点平衡因子绝对值不超过 1</li>
+<li>四种失衡情况：LL（左左）、RR（右右）、LR（左右）、RL（右左），分别对应不同旋转策略</li>
+<li>LL 和 RR 只需单旋（右旋/左旋），LR 和 RL 需要双旋（先子树旋转再根旋转）</li>
+<li>所有基本操作（查找、插入、删除）时间复杂度均为 $ O(\log n) $</li>
+<li>插入最多需要 1 次旋转即可恢复平衡；删除最多需要 $ O(\log n) $ 次旋转</li>
+<li>相比红黑树，AVL 树平衡更严格，查找更快但插入/删除开销更大</li>
+</ul>
+
+<h4>技术细节与参数详解</h4>
+
+<p>#### 节点结构参数</p>
+
+<p>#### 参数1：value（节点值）</p>
+<ul>
+<li><strong>含义</strong>：存储在节点中的数据值，用于 BST 排序</li>
+<li><strong>类型</strong>：可比较类型（int、float、str 等）</li>
+<li><strong>默认值</strong>：无（构造时必须指定）</li>
+<li><strong>取值范围</strong>：任意可比较值</li>
+<li><strong>对结果的影响</strong>：值的排列顺序决定树的结构</li>
+<li><strong>推荐设置</strong>：确保类型一致，避免混用不同类型</li>
+</ul>
+
+<p>#### 参数2：left（左子节点指针）</p>
+<ul>
+<li><strong>含义</strong>：指向当前节点的左子树的根节点</li>
+<li><strong>类型</strong>：AVLNode 或 None</li>
+<li><strong>默认值</strong>：None</li>
+<li><strong>取值范围</strong>：None 或 AVLNode 实例</li>
+<li><strong>对结果的影响</strong>：左子树所有节点值小于当前节点值</li>
+<li><strong>推荐设置</strong>：插入时自动维护，无需手动设置</li>
+</ul>
+
+<p>#### 参数3：right（右子节点指针）</p>
+<ul>
+<li><strong>含义</strong>：指向当前节点的右子树的根节点</li>
+<li><strong>类型</strong>：AVLNode 或 None</li>
+<li><strong>默认值</strong>：None</li>
+<li><strong>取值范围</strong>：None 或 AVLNode 实例</li>
+<li><strong>对结果的影响</strong>：右子树所有节点值大于当前节点值</li>
+<li><strong>推荐设置</strong>：插入时自动维护，无需手动设置</li>
+</ul>
+
+<p>#### 参数4：height（节点高度）</p>
+<ul>
+<li><strong>含义</strong>：以该节点为根的子树高度，用于计算平衡因子</li>
+<li><strong>类型</strong>：int</li>
+<li><strong>默认值</strong>：1（叶子节点）</li>
+<li><strong>取值范围</strong>：$ \geq 1 $，空节点为 0</li>
+<li><strong>对结果的影响</strong>：高度值直接影响平衡因子的计算，错误的高度会导致误判失衡</li>
+<li><strong>推荐设置</strong>：每次插入/删除后从底向上更新</li>
+</ul>
+
+<p>#### 旋转操作详解</p>
+
+<p>#### 左旋（rotate_left）</p>
+
+<ul>
+<li><strong>含义</strong>：将当前节点的右子节点提升为新根，当前节点变为新根的左子节点</li>
+<li><strong>触发条件</strong>：RR 型失衡，即 $ BF(node) \leq -2 $ 且 $ BF(node.right) \leq 0 $</li>
+<li><strong>操作步骤</strong>：</li>
+</ul>
+<p>1. 保存当前节点的右子节点 <code class="inline-code">new_root = node.right</code></p>
+<p>2. 将 <code class="inline-code">new_root</code> 的左子树挂到当前节点的右子树 <code class="inline-code">node.right = new_root.left</code></p>
+<p>3. 将当前节点设为 <code class="inline-code">new_root</code> 的左子节点 <code class="inline-code">new_root.left = node</code></p>
+<p>4. 更新 <code class="inline-code">node</code> 和 <code class="inline-code">new_root</code> 的高度</p>
+<ul>
+<li><strong>时间复杂度</strong>：$ O(1) $</li>
+</ul>
+
+<p>#### 右旋（rotate_right）</p>
+
+<ul>
+<li><strong>含义</strong>：将当前节点的左子节点提升为新根，当前节点变为新根的右子节点</li>
+<li><strong>触发条件</strong>：LL 型失衡，即 $ BF(node) \geq 2 $ 且 $ BF(node.left) \geq 0 $</li>
+<li><strong>操作步骤</strong>：</li>
+</ul>
+<p>1. 保存当前节点的左子节点 <code class="inline-code">new_root = node.left</code></p>
+<p>2. 将 <code class="inline-code">new_root</code> 的右子树挂到当前节点的左子树 <code class="inline-code">node.left = new_root.right</code></p>
+<p>3. 将当前节点设为 <code class="inline-code">new_root</code> 的右子节点 <code class="inline-code">new_root.right = node</code></p>
+<p>4. 更新 <code class="inline-code">node</code> 和 <code class="inline-code">new_root</code> 的高度</p>
+<ul>
+<li><strong>时间复杂度</strong>：$ O(1) $</li>
+</ul>
+
+<p>#### 左右旋（LR 旋转）</p>
+
+<ul>
+<li><strong>含义</strong>：先对左子节点左旋，再对当前节点右旋</li>
+<li><strong>触发条件</strong>：LR 型失衡，即 $ BF(node) \geq 2 $ 且 $ BF(node.left) < 0 $</li>
+<li><strong>操作步骤</strong>：</li>
+</ul>
+<p>1. 对 <code class="inline-code">node.left</code> 执行左旋 <code class="inline-code">node.left = rotate_left(node.left)</code></p>
+<p>2. 对 <code class="inline-code">node</code> 执行右旋 <code class="inline-code">return rotate_right(node)</code></p>
+<ul>
+<li><strong>时间复杂度</strong>：$ O(1) $（两次旋转各 $ O(1) $）</li>
+</ul>
+
+<p>#### 右左旋（RL 旋转）</p>
+
+<ul>
+<li><strong>含义</strong>：先对右子节点右旋，再对当前节点左旋</li>
+<li><strong>触发条件</strong>：RL 型失衡，即 $ BF(node) \leq -2 $ 且 $ BF(node.right) > 0 $</li>
+<li><strong>操作步骤</strong>：</li>
+</ul>
+<p>1. 对 <code class="inline-code">node.right</code> 执行右旋 <code class="inline-code">node.right = rotate_right(node.right)</code></p>
+<p>2. 对 <code class="inline-code">node</code> 执行左旋 <code class="inline-code">return rotate_left(node)</code></p>
+<ul>
+<li><strong>时间复杂度</strong>：$ O(1) $（两次旋转各 $ O(1) $）</li>
+</ul>
+
+<h4>代码示例</h4>
+
+<p><pre class="code-block"><code class="language-python">class AVLNode:
+    def __init__(self, value):                      # 节点构造函数
+        self.value = value                           # 存储节点值
+        self.left = None                             # 左子节点初始化为空
+        self.right = None                            # 右子节点初始化为空
+        self.height = 1                              # 新节点高度为1（叶子节点）
+
+class AVLTree:
+    def __init__(self):                              # AVL树构造函数
+        self.root = None                             # 根节点初始化为空
+
+    def get_height(self, node):                      # 获取节点高度
+        if node is None:                             # 若节点为空
+            return 0                                 # 空节点高度为0
+        return node.height                           # 返回节点高度
+
+    def get_balance(self, node):                     # 计算平衡因子
+        if node is None:                             # 若节点为空
+            return 0                                 # 平衡因子为0
+        return self.get_height(node.left) - self.get_height(node.right)  # BF = 左子树高 - 右子树高
+
+    def update_height(self, node):                   # 更新节点高度
+        node.height = 1 + max(                       # 高度 = 1 + max(左子树高, 右子树高)
+            self.get_height(node.left),              # 左子树高度
+            self.get_height(node.right)              # 右子树高度
+        )
+
+    def rotate_left(self, z):                        # 左旋操作（处理RR型失衡）
+        y = z.right                                  # y为z的右子节点（将成为新根）
+        T2 = y.left                                  # T2为y的左子树（需要重新挂接）
+        y.left = z                                   # z成为y的左子节点
+        z.right = T2                                 # T2成为z的右子树
+        self.update_height(z)                        # 先更新z的高度（z现在在下面）
+        self.update_height(y)                        # 再更新y的高度（y现在在上面）
+        return y                                     # 返回新的子树根节点y
+
+    def rotate_right(self, z):                       # 右旋操作（处理LL型失衡）
+        y = z.left                                   # y为z的左子节点（将成为新根）
+        T3 = y.right                                 # T3为y的右子树（需要重新挂接）
+        y.right = z                                  # z成为y的右子节点
+        z.left = T3                                  # T3成为z的左子树
+        self.update_height(z)                        # 先更新z的高度
+        self.update_height(y)                        # 再更新y的高度
+        return y                                     # 返回新的子树根节点y
+
+    def insert(self, value):                         # 公共插入接口
+        self.root = self._insert(self.root, value)   # 从根节点开始递归插入
+
+    def _insert(self, node, value):                  # 递归插入核心逻辑
+        if node is None:                             # 若到达空位置
+            return AVLNode(value)                    # 创建并返回新节点
+
+        if value &lt; node.value:                       # 若值小于当前节点
+            node.left = self._insert(node.left, value)   # 递归插入左子树
+        elif value &gt; node.value:                      # 若值大于当前节点
+            node.right = self._insert(node.right, value) # 递归插入右子树
+        else:                                        # 若值已存在
+            return node                              # 不允许重复值，直接返回
+
+        self.update_height(node)                     # 更新当前节点高度
+
+        balance = self.get_balance(node)             # 计算平衡因子
+
+        # LL型: 左子树偏高，且新节点插入在左子树的左子树
+        if balance &gt; 1 and value &lt; node.left.value:  # BF&gt;1 且插入在左子节点左侧
+            return self.rotate_right(node)           # 右旋恢复平衡
+
+        # RR型: 右子树偏高，且新节点插入在右子树的右子树
+        if balance &lt; -1 and value &gt; node.right.value:  # BF&lt;-1 且插入在右子节点右侧
+            return self.rotate_left(node)            # 左旋恢复平衡
+
+        # LR型: 左子树偏高，但新节点插入在左子树的右子树
+        if balance &gt; 1 and value &gt; node.left.value:  # BF&gt;1 且插入在左子节点右侧
+            node.left = self.rotate_left(node.left)  # 先对左子节点左旋
+            return self.rotate_right(node)           # 再对当前节点右旋
+
+        # RL型: 右子树偏高，但新节点插入在右子树的左子树
+        if balance &lt; -1 and value &lt; node.right.value:  # BF&lt;-1 且插入在右子节点左侧
+            node.right = self.rotate_right(node.right)  # 先对右子节点右旋
+            return self.rotate_left(node)            # 再对当前节点左旋
+
+        return node                                  # 未失衡，直接返回当前节点
+
+    def search(self, value):                         # 查找接口
+        return self._search(self.root, value)        # 从根节点开始递归查找
+
+    def _search(self, node, value):                  # 递归查找核心逻辑
+        if node is None:                             # 若节点为空
+            return False                             # 未找到，返回False
+        if value == node.value:                      # 找到目标值
+            return True                              # 返回True
+        elif value &lt; node.value:                     # 若值小于当前节点
+            return self._search(node.left, value)    # 在左子树中查找
+        else:                                        # 若值大于当前节点
+            return self._search(node.right, value)   # 在右子树中查找
+
+    def inorder(self):                               # 中序遍历接口
+        result = []                                  # 结果列表
+        self._inorder(self.root, result)             # 递归中序遍历
+        return result                                # 返回有序结果
+
+    def _inorder(self, node, result):                # 递归中序遍历
+        if node:                                     # 若节点不为空
+            self._inorder(node.left, result)         # 先遍历左子树
+            result.append(node.value)                # 访问当前节点
+            self._inorder(node.right, result)        # 再遍历右子树
+
+# 使用示例
+avl = AVLTree()                                      # 创建AVL树
+values = [10, 20, 30, 40, 50, 25]                    # 待插入的值
+for v in values:                                     # 依次插入
+    avl.insert(v)                                    # 插入每个值
+print(&quot;中序遍历:&quot;, avl.inorder())                     # 输出有序序列: [10, 20, 25, 30, 40, 50]
+print(&quot;查找30:&quot;, avl.search(30))                     # 输出: True
+print(&quot;查找99:&quot;, avl.search(99))                     # 输出: False</code></pre></p>
+
+<h4>复杂度分析</h4>
+
+<p><strong>时间复杂度</strong>：</p>
+
+<div class="table-wrapper"><table class="algo-table"><thead><tr><th>操作</th><th>时间复杂度</th><th>推导</th></tr></thead><tbody><tr><td>查找</td><td>$ O(\log n) $</td><td>树高 $ h \leq 1.44 \log_2(n+2) $，查找路径长度 $ \leq h $</td></tr><tr><td>插入</td><td>$ O(\log n) $</td><td>查找插入位置 $ O(\log n) $ + 回溯调整 $ O(\log n) $ + 最多 1 次旋转 $ O(1) $</td></tr><tr><td>删除</td><td>$ O(\log n) $</td><td>查找删除节点 $ O(\log n) $ + 回溯调整 $ O(\log n) $ + 最多 $ O(\log n) $ 次旋转</td></tr></tbody></table></div>
+
+<p>推导：AVL 树高度 $ h = O(\log n) $，所有操作都需要从根遍历到叶子，路径长度为 $ O(\log n) $。插入时回溯路径上最多在一个节点触发旋转（旋转后子树高度恢复，不再向上传播），所以插入的旋转次数为 $ O(1) $。删除时回溯路径上可能多个节点都需要旋转，旋转次数为 $ O(\log n) $。</p>
+
+<p><strong>空间复杂度</strong>：</p>
+
+<div class="table-wrapper"><table class="algo-table"><thead><tr><th>场景</th><th>空间复杂度</th><th>说明</th></tr></thead><tbody><tr><td>存储</td><td>$ O(n) $</td><td>每个节点存储值、左右指针、高度，共 $ n $ 个节点</td></tr><tr><td>递归栈</td><td>$ O(\log n) $</td><td>递归深度等于树高 $ O(\log n) $</td></tr></tbody></table></div>
+
+<h4>应用场景</h4>
+
+<ul>
+<li><strong>数据库索引</strong>：早期数据库系统使用 AVL 树作为内存索引结构，保证查询效率稳定</li>
+<li><strong>内存中的有序映射/集合</strong>：C++ STL 中部分实现使用 AVL 树变体管理有序容器</li>
+<li><strong>文件系统</strong>：部分文件系统使用 AVL 树管理磁盘块分配信息</li>
+<li><strong>路由表</strong>：网络路由器中使用 AVL 树快速查找路由前缀</li>
+<li><strong>编译器符号表</strong>：编译过程中使用 AVL 树管理变量名与位置的映射</li>
+<li><strong>适合读多写少的场景</strong>：AVL 树严格平衡使查找路径更短，但写操作旋转开销比红黑树大</li>
+</ul>
+
+<h4>参考文档</h4>
+
+<ul>
+<li><a href="https://baike.baidu.com/item/AVL树/10986648" target="_blank" class="ref-link">AVL 树 - 百度百科</a></li>
+<li><a href="https://blog.csdn.net/2401_84149564/article/details/152051060" target="_blank" class="ref-link">平衡二叉树(AVL树)详解 - CSDN</a></li>
+<li><a href="https://blog.csdn.net/weixin_31528001/article/details/164593267" target="_blank" class="ref-link">AVL 树 C++ 实现 - CSDN</a></li>
+<li><a href="https://www.geeksforgeeks.org/avl-tree-set-1-insertion/" target="_blank" class="ref-link">AVL Trees - GeeksforGeeks</a></li>
+</ul>
+
+<hr>
+
+<h3>BERT 预训练模型</h3>
+
+<p><strong>类别</strong>：NLP | <strong>难度</strong>：困难</p>
+
+<h4>算法简介</h4>
+
+<p>BERT（Bidirectional Encoder Representations from Transformers）是 Google 于 2018 年发布的预训练语言模型，基于 Transformer 编码器架构，通过双向自注意力机制捕获文本的深层语义表示。BERT 的核心创新在于使用了<strong>掩码语言模型（Masked Language Model, MLM）</strong>和<strong>下一句预测（Next Sentence Prediction, NSP）</strong>两个预训练任务，使模型能够学习上下文相关的双向表示。</p>
+
+<p>BERT 的出现是 NLP 领域的里程碑事件，它在 11 个 NLP 基准测试中刷新了记录，推动了"预训练 + 微调"范式成为 NLP 的标准方法论。BERT 的模型配置包含大量超参数（如 <code class="inline-code">hidden_size</code>、<code class="inline-code">num_hidden_layers</code>、<code class="inline-code">num_attention_heads</code> 等），这些参数直接影响模型的表示能力、计算开销和内存占用。理解每个参数的含义和调优策略，是有效使用和微调 BERT 的关键。</p>
+
+<h4>原理示意图</h4>
+
+<p><div class="algo-image"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 900 580" font-family="sans-serif">
+  <rect width="900" height="580" fill="#1e293b" rx="12"/>
+  <text x="450" y="30" text-anchor="middle" fill="#818cf8" font-size="16" font-weight="600">BERT 模型架构示意</text>
+
+  <!-- 输入层 -->
+  <text x="120" y="65" text-anchor="middle" fill="#94a3b8" font-size="12" font-weight="600">输入处理</text>
+  <rect x="60" y="75" width="120" height="30" rx="4" fill="#334155" stroke="#6366f1" stroke-width="1.5"/>
+  <text x="120" y="94" text-anchor="middle" fill="#e2e8f0" font-size="11">Token Embeddings</text>
+  <rect x="60" y="115" width="120" height="30" rx="4" fill="#334155" stroke="#6366f1" stroke-width="1.5"/>
+  <text x="120" y="134" text-anchor="middle" fill="#e2e8f0" font-size="11">Position Embeddings</text>
+  <rect x="60" y="155" width="120" height="30" rx="4" fill="#334155" stroke="#6366f1" stroke-width="1.5"/>
+  <text x="120" y="174" text-anchor="middle" fill="#e2e8f0" font-size="11">Segment Embeddings</text>
+  <text x="120" y="205" text-anchor="middle" fill="#f97316" font-size="11">↓ 相加求和</text>
+  <rect x="70" y="215" width="100" height="25" rx="4" fill="#1e3a5f" stroke="#6366f1" stroke-width="2"/>
+  <text x="120" y="232" text-anchor="middle" fill="#818cf8" font-size="11">Input Embedding</text>
+
+  <!-- Transformer Encoder 堆叠 -->
+  <text x="450" y="65" text-anchor="middle" fill="#94a3b8" font-size="12" font-weight="600">Transformer Encoder × num_hidden_layers</text>
+
+  <!-- 第一层 -->
+  <rect x="300" y="75" width="300" height="50" rx="6" fill="#0f172a" stroke="#22c55e" stroke-width="2"/>
+  <text x="450" y="96" text-anchor="middle" fill="#22c55e" font-size="11" font-weight="600">Multi-Head Self-Attention</text>
+  <text x="450" y="113" text-anchor="middle" fill="#94a3b8" font-size="9">num_attention_heads × (hidden_size/num_attention_heads)</text>
+
+  <rect x="300" y="130" width="300" height="30" rx="4" fill="#0f172a" stroke="#6366f1" stroke-width="1.5"/>
+  <text x="450" y="149" text-anchor="middle" fill="#6366f1" font-size="10">Add &amp; LayerNorm (Residual + Norm)</text>
+
+  <rect x="300" y="165" width="300" height="40" rx="6" fill="#0f172a" stroke="#f97316" stroke-width="2"/>
+  <text x="450" y="183" text-anchor="middle" fill="#f97316" font-size="11" font-weight="600">Feed-Forward Network (FFN)</text>
+  <text x="450" y="197" text-anchor="middle" fill="#94a3b8" font-size="9">hidden_size → intermediate_size → hidden_size</text>
+
+  <rect x="300" y="210" width="300" height="30" rx="4" fill="#0f172a" stroke="#6366f1" stroke-width="1.5"/>
+  <text x="450" y="229" text-anchor="middle" fill="#6366f1" font-size="10">Add &amp; LayerNorm (Residual + Norm)</text>
+
+  <!-- 省略号 -->
+  <text x="450" y="260" text-anchor="middle" fill="#94a3b8" font-size="20">⋮</text>
+  <text x="450" y="278" text-anchor="middle" fill="#94a3b8" font-size="9">重复 num_hidden_layers 次</text>
+
+  <!-- 最后一层 -->
+  <rect x="300" y="290" width="300" height="50" rx="6" fill="#0f172a" stroke="#22c55e" stroke-width="2"/>
+  <text x="450" y="311" text-anchor="middle" fill="#22c55e" font-size="11" font-weight="600">Multi-Head Self-Attention</text>
+  <text x="450" y="328" text-anchor="middle" fill="#94a3b8" font-size="9">最后一层 Encoder</text>
+
+  <rect x="300" y="345" width="300" height="30" rx="4" fill="#0f172a" stroke="#6366f1" stroke-width="1.5"/>
+  <text x="450" y="364" text-anchor="middle" fill="#6366f1" font-size="10">Add &amp; LayerNorm</text>
+
+  <rect x="300" y="380" width="300" height="40" rx="6" fill="#0f172a" stroke="#f97316" stroke-width="2"/>
+  <text x="450" y="398" text-anchor="middle" fill="#f97316" font-size="11" font-weight="600">Feed-Forward Network (FFN)</text>
+  <text x="450" y="412" text-anchor="middle" fill="#94a3b8" font-size="9">hidden_size → intermediate_size → hidden_size</text>
+
+  <rect x="300" y="425" width="300" height="30" rx="4" fill="#0f172a" stroke="#6366f1" stroke-width="1.5"/>
+  <text x="450" y="444" text-anchor="middle" fill="#6366f1" font-size="10">Add &amp; LayerNorm</text>
+
+  <!-- 输出 -->
+  <text x="750" y="65" text-anchor="middle" fill="#94a3b8" font-size="12" font-weight="600">输出</text>
+  <rect x="680" y="75" width="140" height="30" rx="4" fill="#334155" stroke="#818cf8" stroke-width="2"/>
+  <text x="750" y="94" text-anchor="middle" fill="#818cf8" font-size="11">Hidden States (768)</text>
+  <rect x="680" y="115" width="140" height="30" rx="4" fill="#334155" stroke="#818cf8" stroke-width="2"/>
+  <text x="750" y="134" text-anchor="middle" fill="#818cf8" font-size="11">[CLS] Pooler Output</text>
+  <rect x="680" y="155" width="140" height="30" rx="4" fill="#1e3a5f" stroke="#22c55e" stroke-width="2"/>
+  <text x="750" y="174" text-anchor="middle" fill="#22c55e" font-size="11">MLM Head (预训练)</text>
+  <rect x="680" y="195" width="140" height="30" rx="4" fill="#1e3a5f" stroke="#f97316" stroke-width="2"/>
+  <text x="750" y="214" text-anchor="middle" fill="#f97316" font-size="11">NSP Head (预训练)</text>
+
+  <!-- 连接线 -->
+  <line x1="170" y1="227" x2="300" y2="100" stroke="#475569" stroke-width="1.5" stroke-dasharray="4,2"/>
+  <line x1="600" y1="440" x2="680" y2="90" stroke="#475569" stroke-width="1.5" stroke-dasharray="4,2"/>
+
+  <!-- 参数标注 -->
+  <text x="160" y="75" fill="#6366f1" font-size="9">vocab_size</text>
+  <text x="160" y="155" fill="#6366f1" font-size="9">max_position_embeddings</text>
+  <text x="160" y="115" fill="#6366f1" font-size="9">type_vocab_size</text>
+  <text x="610" y="95" fill="#22c55e" font-size="9">num_attention_heads</text>
+  <text x="610" y="180" fill="#f97316" font-size="9">intermediate_size</text>
+  <text x="610" y="260" fill="#94a3b8" font-size="9">hidden_size 全程不变</text>
+
+  <defs>
+    <marker id="arrow2" markerWidth="8" markerHeight="6" refX="4" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#475569"/>
+    </marker>
+  </defs>
+</svg></div></p>
+
+<h4>数学公式</h4>
+
+<p><strong>1. 自注意力机制（Scaled Dot-Product Attention）</strong></p>
+
+<p><div class="math-block">$$ \text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ Q $：查询矩阵（Query），形状为 $ (N, L, d_k) $，其中 $ N $ 为批次大小，$ L $ 为序列长度，$ d_k $ 为每个注意力头的维度</li>
+<li>$ K $：键矩阵（Key），形状为 $ (N, L, d_k) $</li>
+<li>$ V $：值矩阵（Value），形状为 $ (N, L, d_v) $，通常 $ d_k = d_v = d_{\text{model}} / h $</li>
+<li>$ d_k $：每个注意力头的维度，$ d_k = \text{hidden\_size} / \text{num\_attention\_heads} $</li>
+<li>$ K^T $：键矩阵的转置，形状为 $ (N, d_k, L) $</li>
+<li>$ \sqrt{d_k} $：缩放因子，防止点积结果过大导致 softmax 梯度消失</li>
+<li>$ \text{softmax} $：对最后一维进行归一化，使注意力权重和为 1</li>
+</ul>
+
+<p><strong>2. 多头注意力（Multi-Head Attention）</strong></p>
+
+<p><div class="math-block">$$ \text{MultiHead}(Q, K, V) = \text{Concat}(\text{head}_1, \ldots, \text{head}_h) W^O $$</div></p>
+
+<p><div class="math-block">$$ \text{head}_i = \text{Attention}(QW_i^Q, KW_i^K, VW_i^V) $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ h $：注意力头数（<code class="inline-code">num_attention_heads</code>），默认 12</li>
+<li>$ \text{head}_i $：第 $ i $ 个注意力头的输出</li>
+<li>$ W_i^Q \in \mathbb{R}^{d_{\text{model}} \times d_k} $：第 $ i $ 个头的查询投影矩阵</li>
+<li>$ W_i^K \in \mathbb{R}^{d_{\text{model}} \times d_k} $：第 $ i $ 个头的键投影矩阵</li>
+<li>$ W_i^V \in \mathbb{R}^{d_{\text{model}} \times d_v} $：第 $ i $ 个头的值投影矩阵</li>
+<li>$ W^O \in \mathbb{R}^{hd_v \times d_{\text{model}}} $：输出投影矩阵</li>
+<li>$ \text{Concat} $：将所有头的输出在特征维度上拼接</li>
+</ul>
+
+<p><strong>3. 前馈网络（Feed-Forward Network）</strong></p>
+
+<p><div class="math-block">$$ \text{FFN}(x) = \max(0, xW_1 + b_1)W_2 + b_2 $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ x $：输入向量，维度为 <code class="inline-code">hidden_size</code>（如 768）</li>
+<li>$ W_1 \in \mathbb{R}^{d_{\text{model}} \times d_{\text{ff}}} $：第一层权重矩阵，将维度从 <code class="inline-code">hidden_size</code> 扩展到 <code class="inline-code">intermediate_size</code>（如 3072）</li>
+<li>$ b_1 $：第一层偏置</li>
+<li>$ \max(0, \cdot) $：GELU 激活函数（BERT 中默认使用 GELU 而非 ReLU）</li>
+<li>$ W_2 \in \mathbb{R}^{d_{\text{ff}} \times d_{\text{model}}} $：第二层权重矩阵，将维度从 <code class="inline-code">intermediate_size</code> 压缩回 <code class="inline-code">hidden_size</code></li>
+<li>$ b_2 $：第二层偏置</li>
+</ul>
+
+<p><strong>4. 层归一化（Layer Normalization）</strong></p>
+
+<p><div class="math-block">$$ \text{LayerNorm}(x) = \gamma \cdot \frac{x - \mu}{\sqrt{\sigma^2 + \epsilon}} + \beta $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ x $：输入向量</li>
+<li>$ \mu $：$ x $ 在隐藏维度上的均值</li>
+<li>$ \sigma^2 $：$ x $ 在隐藏维度上的方差</li>
+<li>$ \epsilon $：防止除零的小常数（<code class="inline-code">layer_norm_eps</code>，默认 $ 10^{-12} $）</li>
+<li>$ \gamma, \beta $：可学习的缩放和平移参数</li>
+</ul>
+
+<h4>核心要点</h4>
+
+<ul>
+<li>BERT 仅使用 Transformer 的编码器部分（不使用解码器），因此是双向的</li>
+<li>输入由 Token Embedding + Position Embedding + Segment Embedding 三部分相加而成</li>
+<li>预训练任务：MLM（随机遮盖 15% 的 token 并预测）+ NSP（判断两句话是否相邻）</li>
+<li><code class="inline-code">[CLS]</code> token 的最终隐藏状态用于句子级分类任务</li>
+<li><code class="inline-code">hidden_size</code> 必须能被 <code class="inline-code">num_attention_heads</code> 整除</li>
+<li>BERT-base 有约 110M 参数，BERT-large 有约 340M 参数</li>
+</ul>
+
+<h4>技术细节与参数详解</h4>
+
+<p>#### 模型配置参数（BertConfig）</p>
+
+<p>#### 参数1：vocab_size</p>
+<ul>
+<li><strong>含义</strong>：词表大小，即模型能识别的不同 token 的数量</li>
+<li><strong>类型</strong>：int</li>
+<li><strong>默认值</strong>：30522（BERT-base English）</li>
+<li><strong>取值范围</strong>：$ \geq 1 $，通常为数千到数十万</li>
+<li><strong>对结果的影响</strong>：决定了 Token Embedding 表的大小（$ vocab\_size \times hidden\_size $），值越大模型能处理的词汇越丰富但参数量增加</li>
+<li><strong>推荐设置</strong>：英文任务用 30522，中文任务用 21128（bert-base-chinese）</li>
+</ul>
+
+<p>#### 参数2：hidden_size</p>
+<ul>
+<li><strong>含义</strong>：隐藏层维度，即每个 token 的表示向量维度</li>
+<li><strong>类型</strong>：int</li>
+<li><strong>默认值</strong>：768（BERT-base），1024（BERT-large）</li>
+<li><strong>取值范围</strong>：正整数，必须能被 <code class="inline-code">num_attention_heads</code> 整除</li>
+<li><strong>对结果的影响</strong>：直接决定模型表示能力，维度越大表示能力越强但计算量和内存增加</li>
+<li><strong>推荐设置</strong>：base 模型用 768，large 模型用 1024，轻量级模型可设为 256/512</li>
+</ul>
+
+<p>#### 参数3：num_hidden_layers</p>
+<ul>
+<li><strong>含义</strong>：Transformer 编码器的层数（堆叠的 Encoder Block 数量）</li>
+<li><strong>类型</strong>：int</li>
+<li><strong>默认值</strong>：12（BERT-base），24（BERT-large）</li>
+<li><strong>取值范围</strong>：$ \geq 1 $，通常 4~48</li>
+<li><strong>对结果的影响</strong>：层数越多模型越深，能学习更抽象的语义表示，但训练更慢、更容易过拟合</li>
+<li><strong>推荐设置</strong>：base 用 12 层，轻量级用 4~6 层，large 用 24 层</li>
+</ul>
+
+<p>#### 参数4：num_attention_heads</p>
+<ul>
+<li><strong>含义</strong>：多头注意力机制中的注意力头数</li>
+<li><strong>类型</strong>：int</li>
+<li><strong>默认值</strong>：12（BERT-base），16（BERT-large）</li>
+<li><strong>取值范围</strong>：$ \geq 1 $，必须满足 <code class="inline-code">hidden_size % num_attention_heads == 0</code></li>
+<li><strong>对结果的影响</strong>：头数越多，模型能同时关注不同子空间的信息，但每个头的维度 $ d_k = hidden\_size / num\_heads $ 减小，可能降低单头表达能力</li>
+<li><strong>推荐设置</strong>：通常等于 <code class="inline-code">hidden_size / 64</code>（每头 64 维），如 768/64=12</li>
+</ul>
+
+<p>#### 参数5：intermediate_size</p>
+<ul>
+<li><strong>含义</strong>：前馈网络（FFN）中间层的维度</li>
+<li><strong>类型</strong>：int</li>
+<li><strong>默认值</strong>：3072（BERT-base），4096（BERT-large）</li>
+<li><strong>取值范围</strong>：正整数，通常为 <code class="inline-code">hidden_size</code> 的 4 倍</li>
+<li><strong>对结果的影响</strong>：决定 FFN 的表达能力，值越大非线性变换能力越强，但参数量和计算量增加</li>
+<li><strong>推荐设置</strong>：设为 <code class="inline-code">hidden_size × 4</code></li>
+</ul>
+
+<p>#### 参数6：hidden_act</p>
+<ul>
+<li><strong>含义</strong>：FFN 中的激活函数</li>
+<li><strong>类型</strong>：str 或 Callable</li>
+<li><strong>默认值</strong>："gelu"</li>
+<li><strong>取值范围</strong>："gelu"、"relu"、"silu"（"swish"）、"tanh"、"sigmoid"</li>
+<li><strong>对结果的影响</strong>：不同激活函数有不同的非线性特性，GELU 在 BERT 中效果最佳</li>
+<li><strong>推荐设置</strong>：保持默认 "gelu"</li>
+</ul>
+
+<p>#### 参数7：hidden_dropout_prob</p>
+<ul>
+<li><strong>含义</strong>：全连接层和 Embedding 层的 Dropout 概率</li>
+<li><strong>类型</strong>：float</li>
+<li><strong>默认值</strong>：0.1</li>
+<li><strong>取值范围</strong>：$ [0, 1) $</li>
+<li><strong>对结果的影响</strong>：值越大正则化效果越强但可能欠拟合，值越小越容易过拟合</li>
+<li><strong>推荐设置</strong>：0.1（标准值），大数据集可降到 0.05，小数据集可升到 0.2</li>
+</ul>
+
+<p>#### 参数8：attention_probs_dropout_prob</p>
+<ul>
+<li><strong>含义</strong>：注意力权重（softmax 后）的 Dropout 概率</li>
+<li><strong>类型</strong>：float</li>
+<li><strong>默认值</strong>：0.1</li>
+<li><strong>取值范围</strong>：$ [0, 1) $</li>
+<li><strong>对结果的影响</strong>：随机丢弃部分注意力连接，防止模型过度关注某些 token</li>
+<li><strong>推荐设置</strong>：0.1，通常与 <code class="inline-code">hidden_dropout_prob</code> 保持一致</li>
+</ul>
+
+<p>#### 参数9：max_position_embeddings</p>
+<ul>
+<li><strong>含义</strong>：模型能处理的最大序列长度</li>
+<li><strong>类型</strong>：int</li>
+<li><strong>默认值</strong>：512</li>
+<li><strong>取值范围</strong>：$ \geq 1 $，通常 512 或 1024</li>
+<li><strong>对结果的影响</strong>：直接限制输入文本的最大长度，超过此长度的文本需要截断。增加此值会显著增加 Position Embedding 参数量和内存占用</li>
+<li><strong>推荐设置</strong>：512（标准），长文本任务可用 Longformer/BigBird 等变体替代</li>
+</ul>
+
+<p>#### 参数10：type_vocab_size</p>
+<ul>
+<li><strong>含义</strong>：句子类型（Segment）的词表大小，用于区分输入中的不同句子</li>
+<li><strong>类型</strong>：int</li>
+<li><strong>默认值</strong>：2</li>
+<li><strong>取值范围</strong>：$ \geq 1 $</li>
+<li><strong>对结果的影响</strong>：BERT 的 NSP 任务需要区分句子 A 和 B，因此为 2。单句任务只用 1 种类型</li>
+<li><strong>推荐设置</strong>：2（标准值，支持双句输入）</li>
+</ul>
+
+<p>#### 参数11：initializer_range</p>
+<ul>
+<li><strong>含义</strong>：权重矩阵初始化的标准差（截断正态分布）</li>
+<li><strong>类型</strong>：float</li>
+<li><strong>默认值</strong>：0.02</li>
+<li><strong>取值范围</strong>：$ > 0 $</li>
+<li><strong>对结果的影响</strong>：初始化标准差过大导致训练不稳定，过小导致梯度消失</li>
+<li><strong>推荐设置</strong>：0.02（Transformer 标准设置）</li>
+</ul>
+
+<p>#### 参数12：layer_norm_eps</p>
+<ul>
+<li><strong>含义</strong>：LayerNorm 中防止除零的 $ \epsilon $ 常数</li>
+<li><strong>类型</strong>：float</li>
+<li><strong>默认值</strong>：1e-12</li>
+<li><strong>取值范围</strong>：$ > 0 $，通常 $ 10^{-5} $ 到 $ 10^{-12} $</li>
+<li><strong>对结果的影响</strong>：值越大数据归一化越平滑但可能影响表示精度</li>
+<li><strong>推荐设置</strong>：1e-12（BERT 默认），1e-5（部分其他模型如 GPT-2）</li>
+</ul>
+
+<p>#### 输入参数</p>
+
+<p>#### 参数13：input_ids</p>
+<ul>
+<li><strong>含义</strong>：输入文本经 Tokenizer 转换后的 token ID 序列</li>
+<li><strong>类型</strong>：torch.LongTensor，形状 $ (batch\_size, sequence\_length) $</li>
+<li><strong>取值范围</strong>：$ [0, vocab\_size - 1] $</li>
+<li><strong>对结果的影响</strong>：是模型最核心的输入，直接决定模型处理的内容</li>
+<li><strong>推荐设置</strong>：必须包含 <code class="inline-code">[CLS]</code> 和 <code class="inline-code">[SEP]</code> 特殊 token</li>
+</ul>
+
+<p>#### 参数14：attention_mask</p>
+<ul>
+<li><strong>含义</strong>：注意力掩码，标记哪些位置是真实 token（1）、哪些是 padding（0）</li>
+<li><strong>类型</strong>：torch.LongTensor，形状 $ (batch\_size, sequence\_length) $</li>
+<li><strong>取值范围</strong>：$ \{0, 1\} $，1 表示关注该位置，0 表示忽略</li>
+<li><strong>对结果的影响</strong>：确保 padding 位置不参与注意力计算，避免无意义的 token 干扰结果</li>
+<li><strong>推荐设置</strong>：batch 推理时必须提供，单条样本可不提供</li>
+</ul>
+
+<p>#### 参数15：token_type_ids（segment_ids）</p>
+<ul>
+<li><strong>含义</strong>：标记每个 token 属于哪个句子，用于区分句子 A 和 B</li>
+<li><strong>类型</strong>：torch.LongTensor，形状 $ (batch\_size, sequence\_length) $</li>
+<li><strong>取值范围</strong>：$ [0, type\_vocab\_size - 1] $，通常为 0 或 1</li>
+<li><strong>对结果的影响</strong>：使模型能区分输入中的不同句子，对 NSP 和句对分类任务至关重要</li>
+<li><strong>推荐设置</strong>：单句任务全 0，句对任务前句为 0 后句为 1</li>
+</ul>
+
+<p>#### 参数16：position_ids</p>
+<ul>
+<li><strong>含义</strong>：位置编码索引，标记每个 token 在序列中的位置</li>
+<li><strong>类型</strong>：torch.LongTensor，形状 $ (batch\_size, sequence\_length) $</li>
+<li><strong>默认值</strong>：自动生成 $ [0, 1, 2, \ldots, L-1] $</li>
+<li><strong>取值范围</strong>：$ [0, max\_position\_embeddings - 1] $</li>
+<li><strong>对结果的影响</strong>：为模型提供位置信息，错误的位置编码会导致语义混乱</li>
+<li><strong>推荐设置</strong>：通常无需手动指定，模型自动生成</li>
+</ul>
+
+<h4>代码示例</h4>
+
+<p><pre class="code-block"><code class="language-python">import torch                                            # 导入 PyTorch 核心库
+from transformers import BertTokenizer, BertModel, BertConfig  # 导入 BERT 相关组件
+
+# 1. 加载预训练 Tokenizer 和模型
+tokenizer = BertTokenizer.from_pretrained(&#x27;bert-base-uncased&#x27;)  # 加载英文 BERT tokenizer
+model = BertModel.from_pretrained(&#x27;bert-base-uncased&#x27;)          # 加载预训练 BERT 模型权重
+config = model.config                                  # 获取模型配置对象
+
+# 2. 查看关键配置参数
+print(f&quot;hidden_size: {config.hidden_size}&quot;)            # 输出: 768（隐藏层维度）
+print(f&quot;num_hidden_layers: {config.num_hidden_layers}&quot;)  # 输出: 12（编码器层数）
+print(f&quot;num_attention_heads: {config.num_attention_heads}&quot;)  # 输出: 12（注意力头数）
+print(f&quot;intermediate_size: {config.intermediate_size}&quot;)  # 输出: 3072（FFN中间层维度）
+print(f&quot;vocab_size: {config.vocab_size}&quot;)              # 输出: 30522（词表大小）
+print(f&quot;max_position_embeddings: {config.max_position_embeddings}&quot;)  # 输出: 512（最大序列长度）
+
+# 3. 准备输入文本
+texts = [&quot;Hello, how are you?&quot;, &quot;I am fine, thank you.&quot;]  # 两个输入句子
+
+# 4. Tokenizer 编码
+inputs = tokenizer(                                     # 使用 tokenizer 处理输入文本
+    texts,                                             # 待编码的文本列表
+    padding=True,                                      # 自动 padding 到批次内最长序列
+    truncation=True,                                   # 超过 max_length 自动截断
+    max_length=512,                                    # 最大序列长度设为 512
+    return_tensors=&quot;pt&quot;                                # 返回 PyTorch 张量格式
+)
+
+print(f&quot;input_ids shape: {inputs[&#x27;input_ids&#x27;].shape}&quot;)  # 输出: (2, 8)
+print(f&quot;attention_mask shape: {inputs[&#x27;attention_mask&#x27;].shape}&quot;)  # 输出: (2, 8)
+print(f&quot;token_type_ids shape: {inputs[&#x27;token_type_ids&#x27;].shape}&quot;)  # 输出: (2, 8)
+
+# 5. 模型前向传播
+with torch.no_grad():                                  # 关闭梯度计算（推理模式）
+    outputs = model(                                   # 调用 BERT 模型
+        input_ids=inputs[&#x27;input_ids&#x27;],                 # 传入 token ID 序列
+        attention_mask=inputs[&#x27;attention_mask&#x27;],       # 传入注意力掩码
+        token_type_ids=inputs[&#x27;token_type_ids&#x27;],       # 传入句子类型 ID
+        output_hidden_states=True,                     # 输出所有层的隐藏状态
+        output_attentions=True                         # 输出所有层的注意力权重
+    )
+
+# 6. 解析模型输出
+last_hidden_state = outputs.last_hidden_state          # 最后一层的隐藏状态
+# 形状: (batch_size, sequence_length, hidden_size) = (2, 8, 768)
+print(f&quot;last_hidden_state: {last_hidden_state.shape}&quot;)  # 输出: torch.Size([2, 8, 768])
+
+pooler_output = outputs.pooler_output                  # [CLS] token 的池化输出
+# 形状: (batch_size, hidden_size) = (2, 768)
+# 经过 tanh 激活的全连接层处理，用于句子级分类
+print(f&quot;pooler_output: {pooler_output.shape}&quot;)        # 输出: torch.Size([2, 768])
+
+hidden_states = outputs.hidden_states                  # 所有层的隐藏状态（含 Embedding 层）
+# 共 num_hidden_layers + 1 = 13 个张量
+print(f&quot;hidden_states layers: {len(hidden_states)}&quot;)   # 输出: 13
+
+attentions = outputs.attentions                        # 所有层的注意力权重
+# 共 num_hidden_layers = 12 个张量
+print(f&quot;attentions layers: {len(attentions)}&quot;)         # 输出: 12
+
+# 7. 自定义 BERT 配置（轻量级模型）
+custom_config = BertConfig(                            # 创建自定义配置
+    vocab_size=30522,                                  # 词表大小
+    hidden_size=256,                                   # 隐藏层维度（缩小为 256）
+    num_hidden_layers=4,                               # 编码器层数（减少为 4 层）
+    num_attention_heads=4,                             # 注意力头数（256/4=64 每头）
+    intermediate_size=1024,                            # FFN 中间层维度（256×4=1024）
+    max_position_embeddings=512,                       # 最大序列长度
+    hidden_act=&quot;gelu&quot;,                                 # 激活函数使用 GELU
+    hidden_dropout_prob=0.1,                           # 隐藏层 Dropout 概率
+    attention_probs_dropout_prob=0.1,                  # 注意力 Dropout 概率
+    layer_norm_eps=1e-12                               # LayerNorm epsilon
+)
+custom_model = BertModel(custom_config)                # 用自定义配置初始化模型（随机权重）
+print(f&quot;Custom model params: {sum(p.numel() for p in custom_model.parameters()) / 1e6:.1f}M&quot;)  # 输出参数量（约 15M）</code></pre></p>
+
+<h4>复杂度分析</h4>
+
+<p><strong>时间复杂度</strong>：</p>
+
+<div class="table-wrapper"><table class="algo-table"><thead><tr><th>操作</th><th>时间复杂度</th><th>推导</th></tr></thead><tbody><tr><td>自注意力</td><td>$ O(L^2 \cdot d) $</td><td>$ QK^T $ 计算 $ (L \times d) \times (d \times L) = O(L^2 d) $，softmax + 乘 $ V $ 也是 $ O(L^2 d) $</td></tr><tr><td>FFN</td><td>$ O(L \cdot d \cdot d_{ff}) $</td><td>两层线性变换：$ (L \times d) \times (d \times d_{ff}) + (L \times d_{ff}) \times (d_{ff} \times d) $</td></tr><tr><td>单层</td><td>$ O(L^2 \cdot d + L \cdot d \cdot d_{ff}) $</td><td>注意力 + FFN 之和</td></tr><tr><td>整体</td><td>$ O(N \cdot (L^2 \cdot d + L \cdot d \cdot d_{ff})) $</td><td>$ N $ 为层数，$ L $ 为序列长度</td></tr></tbody></table></div>
+
+<p><strong>变量说明</strong>：$ L $ = 序列长度（<code class="inline-code">sequence_length</code>），$ d $ = 隐藏维度（<code class="inline-code">hidden_size</code>），$ d_{ff} $ = FFN 中间维度（<code class="inline-code">intermediate_size</code>），$ N $ = 编码器层数（<code class="inline-code">num_hidden_layers</code>）</p>
+
+<p><strong>空间复杂度</strong>：</p>
+
+<div class="table-wrapper"><table class="algo-table"><thead><tr><th>组件</th><th>空间复杂度</th><th>说明</th></tr></thead><tbody><tr><td>模型参数</td><td>$ O(12Nd^2) $</td><td>每层约 $ 12d^2 $ 参数（注意力 $ 4d^2 $ + FFN $ 8d^2 $），BERT-base 约 110M</td></tr><tr><td>激活值</td><td>$ O(N \cdot L^2 + N \cdot L \cdot d) $</td><td>注意力矩阵 $ N \times L^2 $ + 隐藏状态 $ N \times L \times d $</td></tr></tbody></table></div>
+
+<h4>应用场景</h4>
+
+<ul>
+<li><strong>文本分类</strong>：情感分析、垃圾邮件检测、新闻分类（用 <code class="inline-code">[CLS]</code> 输出接分类头）</li>
+<li><strong>命名实体识别（NER）</strong>：为序列中每个 token 预测实体类别标签</li>
+<li><strong>问答系统</strong>：给定问题和段落，预测答案的起始和结束位置</li>
+<li><strong>文本相似度匹配</strong>：判断两句话是否语义等价</li>
+<li><strong>特征提取</strong>：作为下游模型的文本特征提取器，输出句向量</li>
+<li><strong>多模态扩展</strong>：BERT 架构被扩展用于视觉-语言模型（如 ViLBERT、CLIP）</li>
+</ul>
+
+<h4>参考文档</h4>
+
+<ul>
+<li><a href="https://arxiv.org/abs/1810.04805" target="_blank" class="ref-link">BERT: Pre-training of Deep Bidirectional Transformers - arXiv</a></li>
+<li><a href="https://blog.csdn.net/m0_73697499/article/details/143759425" target="_blank" class="ref-link">BertConfig 参数详解 - CSDN</a></li>
+<li><a href="https://huggingface.co/docs/transformers/model_doc/bert" target="_blank" class="ref-link">HuggingFace Transformers Documentation</a></li>
+<li><a href="https://www.cnblogs.com/jfdwd/p/11264931.html" target="_blank" class="ref-link">BERT 源码解析 - 博客园</a></li>
+</ul>
+
+<hr>
+
+<h3>标签平滑</h3>
+
+<p><strong>类别</strong>：训练技巧 | <strong>难度</strong>：入门</p>
+
+<h4>算法简介</h4>
+
+<p>标签平滑（Label Smoothing）是一种简单而有效的正则化技术，用于分类任务中防止模型过度自信（overconfidence）。在传统的分类训练中，标签采用 one-hot 编码——正确类别概率为 1，其他类别为 0。这种"非黑即白"的硬标签会驱使模型无限增大正确类别的 logit 值，导致过拟合和泛化能力下降。</p>
+
+<p>标签平滑的核心思想是：将 one-hot 标签中的 1 降低为 $ 1 - \epsilon $，将 0 提升为 $ \epsilon / (K-1) $（$ K $ 为类别数），形成"软标签"。例如在 10 类分类中，$ \epsilon = 0.1 $ 时，正确类别的标签从 1.0 变为 0.9，其他类别从 0.0 变为 0.0111。这种小幅度的"不确定性注入"可以有效约束模型的 logit 值，使其不会过于极端，从而提升泛化能力。</p>
+
+<p>标签平滑由 Szegedy 等人在 Inception-v3 论文中首次提出，随后在图像分类、机器翻译（Transformer）、语音识别等领域被广泛采用。PyTorch 从 1.10 版本开始在 <code class="inline-code">CrossEntropyLoss</code> 中内置了 <code class="inline-code">label_smoothing</code> 参数。</p>
+
+<h4>原理示意图</h4>
+
+<p><div class="algo-image"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 900 380" font-family="sans-serif">
+  <rect width="900" height="380" fill="#1e293b" rx="12"/>
+  <text x="450" y="30" text-anchor="middle" fill="#818cf8" font-size="16" font-weight="600">标签平滑原理示意</text>
+
+  <!-- One-hot 标签 -->
+  <text x="200" y="65" text-anchor="middle" fill="#ef4444" font-size="13" font-weight="600">传统 One-hot 标签（硬标签）</text>
+  <rect x="80" y="80" width="50" height="80" rx="4" fill="#1a5e1a" stroke="#22c55e" stroke-width="2"/>
+  <text x="105" y="125" text-anchor="middle" fill="#fff" font-size="16" font-weight="700">1.0</text>
+  <text x="105" y="172" text-anchor="middle" fill="#94a3b8" font-size="9">Cat</text>
+
+  <rect x="135" y="80" width="50" height="80" rx="4" fill="#1e293b" stroke="#ef4444" stroke-width="1.5"/>
+  <text x="160" y="125" text-anchor="middle" fill="#ef4444" font-size="16" font-weight="700">0.0</text>
+  <text x="160" y="172" text-anchor="middle" fill="#94a3b8" font-size="9">Dog</text>
+
+  <rect x="190" y="80" width="50" height="80" rx="4" fill="#1e293b" stroke="#ef4444" stroke-width="1.5"/>
+  <text x="215" y="125" text-anchor="middle" fill="#ef4444" font-size="16" font-weight="700">0.0</text>
+  <text x="215" y="172" text-anchor="middle" fill="#94a3b8" font-size="9">Bird</text>
+
+  <rect x="245" y="80" width="50" height="80" rx="4" fill="#1e293b" stroke="#ef4444" stroke-width="1.5"/>
+  <text x="270" y="125" text-anchor="middle" fill="#ef4444" font-size="16" font-weight="700">0.0</text>
+  <text x="270" y="172" text-anchor="middle" fill="#94a3b8" font-size="9">Fish</text>
+
+  <text x="200" y="200" text-anchor="middle" fill="#ef4444" font-size="10">模型趋近无限自信，logit → +∞</text>
+
+  <!-- 箭头 -->
+  <path d="M 320 120 L 370 120" fill="none" stroke="#818cf8" stroke-width="2" marker-end="url(#arrow3)"/>
+  <text x="345" y="110" text-anchor="middle" fill="#818cf8" font-size="10">标签平滑</text>
+  <text x="345" y="135" text-anchor="middle" fill="#818cf8" font-size="9">ε = 0.1</text>
+
+  <!-- 平滑标签 -->
+  <text x="600" y="65" text-anchor="middle" fill="#22c55e" font-size="13" font-weight="600">平滑后的标签（软标签）</text>
+  <rect x="480" y="80" width="50" height="72" rx="4" fill="#1a5e1a" stroke="#22c55e" stroke-width="2"/>
+  <text x="505" y="120" text-anchor="middle" fill="#fff" font-size="14" font-weight="700">0.9</text>
+  <text x="505" y="165" text-anchor="middle" fill="#94a3b8" font-size="9">Cat</text>
+
+  <rect x="535" y="80" width="50" height="12" rx="4" fill="#1a3d1a" stroke="#f97316" stroke-width="1.5"/>
+  <text x="560" y="90" text-anchor="middle" fill="#f97316" font-size="9">0.033</text>
+  <text x="560" y="165" text-anchor="middle" fill="#94a3b8" font-size="9">Dog</text>
+
+  <rect x="590" y="80" width="50" height="12" rx="4" fill="#1a3d1a" stroke="#f97316" stroke-width="1.5"/>
+  <text x="615" y="90" text-anchor="middle" fill="#f97316" font-size="9">0.033</text>
+  <text x="615" y="165" text-anchor="middle" fill="#94a3b8" font-size="9">Bird</text>
+
+  <rect x="645" y="80" width="50" height="12" rx="4" fill="#1a3d1a" stroke="#f97316" stroke-width="1.5"/>
+  <text x="670" y="90" text-anchor="middle" fill="#f97316" font-size="9">0.033</text>
+  <text x="670" y="165" text-anchor="middle" fill="#94a3b8" font-size="9">Fish</text>
+
+  <text x="600" y="200" text-anchor="middle" fill="#22c55e" font-size="10">模型有适度"不确定"，logit 受到约束</text>
+
+  <!-- 对比说明 -->
+  <rect x="40" y="230" width="820" height="135" fill="#0f172a" rx="8"/>
+  <text x="60" y="255" fill="#818cf8" font-size="12" font-weight="600">效果对比</text>
+
+  <text x="60" y="280" fill="#ef4444" font-size="11">硬标签: loss 驱使 logit → +∞, softmax → 1.0, 模型"过度自信"，泛化变差</text>
+  <text x="60" y="300" fill="#22c55e" font-size="11">软标签: loss 有上界, logit 受限, softmax 趋近 1-ε 而非 1.0, 模型"适度自信"，泛化更好</text>
+
+  <text x="60" y="325" fill="#94a3b8" font-size="10">关键洞察: 标签平滑的本质是给正确类别的 logit 设置了一个"天花板"，使其不会无限增长。</text>
+  <text x="60" y="345" fill="#94a3b8" font-size="10">数学上，它等价于在交叉熵损失中混合了一个均匀分布，起到正则化效果。</text>
+
+  <defs>
+    <marker id="arrow3" markerWidth="8" markerHeight="6" refX="4" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#818cf8"/>
+    </marker>
+  </defs>
+</svg></div></p>
+
+<h4>数学公式</h4>
+
+<p><strong>1. 标签平滑公式</strong></p>
+
+<p><div class="math-block">$$ \tilde{y}_i = \begin{cases} 1 - \epsilon + \frac{\epsilon}{K} & \text{if } i = y \\ \frac{\epsilon}{K} & \text{if } i \neq y \end{cases} $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ \tilde{y}_i $：平滑后第 $ i $ 类的目标概率</li>
+<li>$ y $：真实类别索引</li>
+<li>$ K $：总类别数</li>
+<li>$ \epsilon $：平滑因子（smoothing factor），控制平滑强度</li>
+</ul>
+
+<p>等价表述：将 one-hot 标签与均匀分布 $ u = 1/K $ 混合：</p>
+
+<p><div class="math-block">$$ \tilde{y} = (1 - \epsilon) \cdot \text{one\_hot}(y) + \epsilon \cdot \frac{1}{K} \mathbf{1} $$</div></p>
+
+<p><strong>2. 带标签平滑的交叉熵损失</strong></p>
+
+<p><div class="math-block">$$ \mathcal{L}_{\text{smooth}} = -\sum_{i=1}^{K} \tilde{y}_i \log(p_i) = -\sum_{i=1}^{K} \left[(1-\epsilon) \cdot y_i + \frac{\epsilon}{K}\right] \log(p_i) $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ p_i $：模型对第 $ i $ 类的预测概率（softmax 输出）</li>
+<li>$ y_i $：one-hot 编码中第 $ i $ 类的值（1 或 0）</li>
+<li>$ \tilde{y}_i $：平滑后第 $ i $ 类的目标概率</li>
+<li>$ \epsilon $：平滑因子</li>
+</ul>
+
+<p>展开后可分为两部分：</p>
+
+<p><div class="math-block">$$ \mathcal{L}_{\text{smooth}} = (1-\epsilon) \cdot \underbrace{\left(-\log(p_y)\right)}_{\text{标准交叉熵}} + \epsilon \cdot \underbrace{\left(-\frac{1}{K}\sum_{i=1}^{K} \log(p_i)\right)}_{\text{均匀分布交叉熵}} $$</div></p>
+
+<p><strong>3. Logit 天花板推导</strong></p>
+
+<p>对 softmax 函数 $ p_i = \frac{e^{z_i}}{\sum_j e^{z_j}} $，当模型最优拟合平滑标签时，$ p_y \to 1 - \epsilon + \epsilon/K $。可推导出最优 logit 差：</p>
+
+<p><div class="math-block">$$ z_y - z_{\text{other}} \approx \log\left(\frac{(1-\epsilon)(K-1)}{\epsilon(1-1/K)} + 1\right) \approx \log\left(\frac{K-1}{\epsilon} \cdot \frac{1-\epsilon}{K}\right) $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ z_y $：正确类别的 logit 值</li>
+<li>$ z_{\text{other}} $：其他类别的 logit 值</li>
+<li>这个公式说明标签平滑给 logit 差设置了上界，防止模型过度自信</li>
+</ul>
+
+<h4>核心要点</h4>
+
+<ul>
+<li>标签平滑将 one-hot 硬标签转换为软标签，注入适度不确定性</li>
+<li>平滑因子 $ \epsilon $ 控制平滑强度，通常取 0.1</li>
+<li>标签平滑隐式地给 logit 值设置了上界，防止数值过大</li>
+<li>在图像分类（ImageNet）中通常提升 0.5%~1% 的 Top-1 准确率</li>
+<li>在 Transformer 机器翻译中是标准配置（$ \epsilon = 0.1 $）</li>
+<li>与其他正则化（Dropout、Weight Decay）正交，可叠加使用</li>
+<li>PyTorch 1.10+ 内置支持 <code class="inline-code">CrossEntropyLoss(label_smoothing=0.1)</code></li>
+</ul>
+
+<h4>技术细节与参数详解</h4>
+
+<p>#### 核心参数</p>
+
+<p>#### 参数1：label_smoothing（ε，平滑因子）</p>
+<ul>
+<li><strong>含义</strong>：控制标签平滑的强度，即从正确类别中"借走"多少概率质量分配给其他类别</li>
+<li><strong>类型</strong>：float</li>
+<li><strong>默认值</strong>：0.0（不使用标签平滑）</li>
+<li><strong>取值范围</strong>：$ [0, 1) $</li>
+<li><strong>对结果的影响</strong>：</li>
+<li>$ \epsilon = 0 $：退化为标准交叉熵，模型可能过度自信</li>
+<li>$ \epsilon = 0.05 $：轻度平滑，适合大数据集</li>
+<li>$ \epsilon = 0.1 $：标准设置，大多数任务的最佳值</li>
+<li>$ \epsilon = 0.2 $：较强平滑，适合小数据集或噪声标签</li>
+<li>$ \epsilon \to 1 $：标签趋于均匀分布，模型无法学到任何信息</li>
+<li><strong>推荐设置</strong>：0.1（图像分类/翻译通用最佳值），0.05~0.15 范围内调优</li>
+</ul>
+
+<p>#### PyTorch CrossEntropyLoss 参数详解</p>
+
+<p>#### 参数2：weight（类别权重）</p>
+<ul>
+<li><strong>含义</strong>：为每个类别分配不同的权重，用于处理类别不平衡</li>
+<li><strong>类型</strong>：torch.Tensor，形状 $ (K,) $</li>
+<li><strong>默认值</strong>：None</li>
+<li><strong>取值范围</strong>：$ > 0 $ 的正数</li>
+<li><strong>对结果的影响</strong>：高权重类别的误分类会被更重地惩罚</li>
+<li><strong>推荐设置</strong>：根据类别频率设置 $ w_i = N / (K \cdot N_i) $</li>
+</ul>
+
+<p>#### 参数3：ignore_index</p>
+<ul>
+<li><strong>含义</strong>：指定一个类别索引，该索引的样本不参与损失计算（如 padding 位置）</li>
+<li><strong>类型</strong>：int</li>
+<li><strong>默认值</strong>：-100</li>
+<li><strong>取值范围</strong>：$ [-100, K-1] $</li>
+<li><strong>对结果的影响</strong>：被忽略的样本梯度为 0，不影响模型更新</li>
+<li><strong>推荐设置</strong>：序列标注任务中用 -100 标记 padding token</li>
+</ul>
+
+<p>#### 参数4：reduction</p>
+<ul>
+<li><strong>含义</strong>：指定损失值的归约方式</li>
+<li><strong>类型</strong>：str</li>
+<li><strong>默认值</strong>："mean"</li>
+<li><strong>取值范围</strong>："none"（不归约，返回每个样本的损失）、"mean"（取均值）、"sum"（取总和）</li>
+<li><strong>对结果的影响</strong>："mean" 最常用，"sum" 需要手动除以样本数</li>
+<li><strong>推荐设置</strong>："mean"</li>
+</ul>
+
+<p>#### 参数5：label_smoothing（PyTorch 内置）</p>
+<ul>
+<li><strong>含义</strong>：在 <code class="inline-code">torch.nn.CrossEntropyLoss</code> 中直接启用标签平滑，同参数1 的 $ \epsilon $</li>
+<li><strong>类型</strong>：float</li>
+<li><strong>默认值</strong>：0.0</li>
+<li><strong>取值范围</strong>：$ [0, 1) $</li>
+<li><strong>对结果的影响</strong>：$ \epsilon > 0 $ 时自动将硬标签转为软标签计算损失</li>
+<li><strong>推荐设置</strong>：0.1</li>
+</ul>
+
+<h4>代码示例</h4>
+
+<p><pre class="code-block"><code class="language-python">import torch                                          # 导入 PyTorch
+import torch.nn as nn                                  # 导入神经网络模块
+import torch.nn.functional as F                        # 导入函数式接口
+
+# ============================================================
+# 方式一：PyTorch 内置标签平滑（推荐，PyTorch &gt;= 1.10）
+# ============================================================
+# 创建带标签平滑的交叉熵损失函数
+criterion = nn.CrossEntropyLoss(                       # 实例化交叉熵损失
+    label_smoothing=0.1,                               # 平滑因子 ε=0.1
+    reduction=&#x27;mean&#x27;                                   # 损失取平均
+)
+
+# 模拟数据
+logits = torch.randn(4, 10)                            # 4个样本, 10类 的模型输出
+# tensor shape: (batch_size=4, num_classes=10)
+targets = torch.tensor([0, 3, 7, 9])                   # 4个样本的真实标签
+
+# 计算损失
+loss = criterion(logits, targets)                      # 前向计算损失
+print(f&quot;Label smoothing loss: {loss.item():.4f}&quot;)      # 输出损失值
+
+# ============================================================
+# 方式二：手动实现标签平滑（理解原理）
+# ============================================================
+def label_smoothing_loss(logits, targets, epsilon=0.1, num_classes=10):
+    &quot;&quot;&quot;                                               # 手动实现标签平滑交叉熵
+    logits: (N, K) 模型输出                            # 未经 softmax 的原始输出
+    targets: (N,) 真实标签                             # 整数索引
+    epsilon: 平滑因子                                  # 默认 0.1
+    num_classes: 类别数                                # 默认 10
+    &quot;&quot;&quot;
+    N = logits.size(0)                                # 获取批次大小 N
+    K = num_classes                                   # 获取类别数 K
+
+    # 步骤1: 将 logit 通过 log_softmax 转为 log 概率
+    log_probs = F.log_softmax(logits, dim=-1)         # (N, K) log 概率
+
+    # 步骤2: 构造平滑后的软标签
+    # one_hot: (N, K)，正确位置为 1，其余为 0
+    one_hot = F.one_hot(targets, num_classes=K).float()  # 转为 one-hot 编码
+
+    # 平滑标签 = (1-ε) * one_hot + ε / K
+    smooth_targets = one_hot * (1 - epsilon) + epsilon / K  # 混合 one-hot 和均匀分布
+
+    # 步骤3: 计算交叉熵损失
+    # L = -sum(smooth_targets * log_probs) / N
+    loss = (-smooth_targets * log_probs).sum(dim=-1).mean()  # 逐元素相乘求和再取平均
+
+    return loss                                       # 返回标量损失
+
+# 测试手动实现
+manual_loss = label_smoothing_loss(logits, targets, epsilon=0.1, num_classes=10)
+print(f&quot;Manual label smoothing loss: {manual_loss.item():.4f}&quot;)  # 应与内置结果接近
+
+# ============================================================
+# 方式三：对比有/无标签平滑的效果
+# ============================================================
+# 不使用标签平滑
+criterion_no_smooth = nn.CrossEntropyLoss(label_smoothing=0.0)  # ε=0, 标准交叉熵
+loss_no_smooth = criterion_no_smooth(logits, targets)  # 计算标准损失
+print(f&quot;Without smoothing: {loss_no_smooth.item():.4f}&quot;)  # 输出无平滑损失
+
+# 使用标签平滑
+criterion_smooth = nn.CrossEntropyLoss(label_smoothing=0.1)  # ε=0.1
+loss_smooth = criterion_smooth(logits, targets)        # 计算平滑损失
+print(f&quot;With smoothing: {loss_smooth.item():.4f}&quot;)     # 输出平滑损失
+
+# ============================================================
+# 实际训练示例：在模型训练中使用标签平滑
+# ============================================================
+model = nn.Linear(768, 10)                             # 简单的线性分类器 (768维→10类)
+optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)  # Adam 优化器
+criterion = nn.CrossEntropyLoss(label_smoothing=0.1)  # 带标签平滑的损失函数
+
+# 模拟训练循环
+for epoch in range(5):                                 # 训练 5 个 epoch
+    dummy_input = torch.randn(16, 768)                 # 模拟输入 (batch=16, dim=768)
+    dummy_target = torch.randint(0, 10, (16,))         # 随机生成标签
+
+    optimizer.zero_grad()                              # 清零梯度
+    output = model(dummy_input)                        # 前向传播
+    loss = criterion(output, dummy_target)             # 计算带标签平滑的损失
+    loss.backward()                                    # 反向传播
+    optimizer.step()                                   # 更新参数
+
+    print(f&quot;Epoch {epoch+1}, Loss: {loss.item():.4f}&quot;)  # 打印每个 epoch 的损失</code></pre></p>
+
+<h4>复杂度分析</h4>
+
+<p><strong>时间复杂度</strong>：</p>
+
+<div class="table-wrapper"><table class="algo-table"><thead><tr><th>操作</th><th>时间复杂度</th><th>推导</th></tr></thead><tbody><tr><td>标签平滑转换</td><td>$ O(N \cdot K) $</td><td>对 $ N $ 个样本的 $ K $ 个类别标签进行混合运算</td></tr><tr><td>损失计算</td><td>$ O(N \cdot K) $</td><td>与标准交叉熵相同，额外常数倍开销可忽略</td></tr><tr><td>总增量</td><td>$ O(N \cdot K) $</td><td>与标准交叉熵相比，时间复杂度完全相同</td></tr></tbody></table></div>
+
+<p><strong>空间复杂度</strong>：</p>
+
+<div class="table-wrapper"><table class="algo-table"><thead><tr><th>组件</th><th>空间复杂度</th><th>说明</th></tr></thead><tbody><tr><td>标准交叉熵</td><td>$ O(N \cdot K) $</td><td>存储 log_softmax 输出</td></tr><tr><td>标签平滑</td><td>$ O(N \cdot K) $</td><td>额外存储平滑标签矩阵（PyTorch 内置实现无需显式存储）</td></tr></tbody></table></div>
+
+<p>标签平滑的计算开销几乎为零，不影响训练速度。</p>
+
+<h4>应用场景</h4>
+
+<ul>
+<li><strong>图像分类</strong>：ImageNet 训练中标配，Inception-v3、ResNet 等均使用 $ \epsilon = 0.1 $</li>
+<li><strong>机器翻译</strong>：Transformer 原论文中使用 $ \epsilon = 0.1 $，是 NMT 的标配</li>
+<li><strong>语音识别</strong>：ASR 模型中使用标签平滑处理噪声标注</li>
+<li><strong>知识蒸馏</strong>：软标签天然与知识蒸馏兼容，学生模型同时学习平滑标签和教师输出</li>
+<li><strong>噪声标签学习</strong>：当训练标签存在标注错误时，标签平滑可减轻噪声影响</li>
+<li><strong>对抗防御</strong>：标签平滑使模型对对抗样本的 logit 变化更不敏感</li>
+</ul>
+
+<h4>参考文档</h4>
+
+<ul>
+<li><a href="https://arxiv.org/abs/1512.00567" target="_blank" class="ref-link">Rethinking the Inception Architecture for Computer Vision - arXiv</a></li>
+<li><a href="https://developer.baidu.com/article/details/3332270" target="_blank" class="ref-link">标签平滑技术深度解析 - 百度开发者中心</a></li>
+<li><a href="https://pytorch.org/docs/stable/generated/torch.nn.CrossEntropyLoss.html" target="_blank" class="ref-link">PyTorch CrossEntropyLoss 文档</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/433048073" target="_blank" class="ref-link">Label Smoothing 在 PyTorch 中的实现 - 知乎</a></li>
+</ul>
+
+<blockquote>
+<p>AI生成</p>
+</blockquote>
+  </div>
+  <div class="footer">
+    <p>由 TeleAgent · 每日算法推送 技能自动生成 | 2026-09-10 19:20</p>
+  </div>
+</div>
+</body>
+</html>
