@@ -1,0 +1,1267 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>每日算法讲解 · 2026年09月11日</title>
+<!-- MathJax for LaTeX math formula rendering -->
+<script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\(', '\)']],
+      displayMath: [['$$', '$$'], ['\[', '\]']],
+      processEscapes: true
+    },
+    svg: { fontCache: 'global' }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" id="MathJax-script" async></script>
+<style>
+:root {
+  --primary: #6366f1;
+  --primary-dark: #4f46e5;
+  --bg: #0f172a;
+  --card-bg: #1e293b;
+  --text: #e2e8f0;
+  --text-dim: #94a3b8;
+  --accent: #818cf8;
+  --border: #334155;
+  --code-bg: #0d1117;
+  --code-text: #e6edf3;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans SC", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.8;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+.container { max-width: 1400px; margin: 0 auto; padding: 24px 32px; }
+.header {
+  text-align: center;
+  padding: 40px 0 30px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 32px;
+}
+.header h1 {
+  font-size: 28px;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.header h1 .date { color: var(--accent); }
+.header .subtitle { color: var(--text-dim); font-size: 15px; }
+.repo-link {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 6px 16px;
+  background: var(--primary);
+  color: #fff;
+  border-radius: 20px;
+  text-decoration: none;
+  font-size: 13px;
+  transition: background 0.2s;
+}
+.repo-link:hover { background: var(--primary-dark); }
+.history-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 32px;
+  padding: 16px;
+  background: var(--card-bg);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+.history-nav a {
+  padding: 4px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  color: var(--text-dim);
+  text-decoration: none;
+  background: rgba(99,102,241,0.08);
+  transition: all 0.2s;
+}
+.history-nav a:hover { color: var(--text); background: rgba(99,102,241,0.2); }
+.history-nav a.active { color: #fff; background: var(--primary); }
+.history-nav a.back-index { color: var(--accent); font-weight: 600; background: rgba(99,102,241,0.15); border: 1px solid rgba(99,102,241,0.3); }
+.history-nav a.back-index:hover { color: #fff; background: var(--primary); border-color: var(--primary); }
+.content { margin-bottom: 40px; max-width: 1100px; }
+.content h2 {
+  font-size: 24px;
+  color: var(--accent);
+  margin: 40px 0 16px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--primary);
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+.content h2:first-child { border-top: none; padding-top: 0; }
+.content h3 {
+  font-size: 18px;
+  color: var(--text);
+  margin: 24px 0 12px;
+}
+.content h4 {
+  font-size: 16px;
+  color: var(--accent);
+  margin: 20px 0 10px;
+}
+.content p { margin-bottom: 12px; color: var(--text); }
+.content ul { margin: 8px 0 16px 20px; }
+.content li { margin-bottom: 6px; }
+.content strong { color: var(--accent); }
+.content blockquote {
+  border-left: 4px solid var(--primary);
+  padding: 12px 16px;
+  margin: 16px 0;
+  background: rgba(99,102,241,0.08);
+  border-radius: 0 8px 8px 0;
+}
+.content blockquote p { color: var(--text-dim); margin: 4px 0; }
+.content hr {
+  border: none;
+  height: 1px;
+  background: var(--border);
+  margin: 32px 0;
+}
+.code-block {
+  background: var(--code-bg);
+  border-radius: 10px;
+  padding: 18px 24px;
+  overflow-x: auto;
+  margin: 16px 0;
+  border: 1px solid var(--border);
+  max-width: 100%;
+}
+.code-block code {
+  font-family: "JetBrains Mono", "Fira Code", "Consolas", monospace;
+  font-size: 14px;
+  color: var(--code-text);
+  line-height: 1.6;
+  white-space: pre;
+}
+.inline-code {
+  background: rgba(99,102,241,0.15);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: "Consolas", monospace;
+  font-size: 0.9em;
+  color: var(--accent);
+}
+/* Math formula block */
+.content .math-block {
+  background: rgba(99,102,241,0.06);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 24px;
+  margin: 16px 0;
+  overflow-x: auto;
+  max-width: 100%;
+}
+.content .math-label {
+  font-size: 13px; color: var(--text-dim); margin-bottom: 6px; }
+.content .math-vars {
+  margin: 8px 0 16px 20px; }
+.content .math-vars li { margin-bottom: 4px; color: var(--text-dim); }
+.footer {
+  text-align: center;
+  padding: 24px 0;
+  border-top: 1px solid var(--border);
+  color: var(--text-dim);
+  font-size: 13px;
+}
+.tag {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  background: rgba(99,102,241,0.15);
+  color: var(--accent);
+  margin-left: 8px;
+}
+.content .ref-link {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px dashed rgba(99,102,241,0.4);
+  transition: all 0.2s;
+  word-break: break-all;
+}
+.content .ref-link:hover {
+  color: #fff;
+  border-bottom-color: var(--primary);
+}
+.content li {
+  word-break: break-all;
+}
+/* Table */
+.table-wrapper {
+  overflow-x: auto;
+  margin: 16px 0;
+  max-width: 100%;
+}
+.algo-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  background: var(--card-bg);
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+.algo-table thead {
+  background: rgba(99,102,241,0.15);
+}
+.algo-table th {
+  padding: 10px 16px;
+  text-align: left;
+  color: var(--accent);
+  font-weight: 600;
+  border-bottom: 2px solid var(--primary);
+  white-space: nowrap;
+}
+.algo-table td {
+  padding: 8px 16px;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  word-break: break-all;
+}
+.algo-table tr:last-child td {
+  border-bottom: none;
+}
+.algo-table tr:hover td {
+  background: rgba(99,102,241,0.06);
+}
+/* Algorithm architecture image */
+.algo-image {
+  margin: 20px 0;
+  text-align: center;
+}
+.algo-image img {
+  max-width: 100%;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+.algo-image .image-caption {
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--text-dim);
+}
+.algo-image svg {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+/* ======== 移动端响应式适配 ======== */
+@media (max-width: 768px) {
+  .container { max-width: 100%; padding: 16px 14px; }
+  .header { padding: 24px 0 20px; margin-bottom: 20px; }
+  .header h1 { font-size: 20px; margin-bottom: 4px; }
+  .header .subtitle { font-size: 13px; }
+  .repo-link { margin-top: 10px; padding: 5px 14px; font-size: 12px; }
+  .history-nav { gap: 6px; padding: 10px 12px; margin-bottom: 20px; }
+  .history-nav a { padding: 3px 10px; font-size: 12px; }
+  .content { max-width: 100%; margin-bottom: 28px; }
+  .content h2 { font-size: 20px; margin: 28px 0 12px; }
+  .content h3 { font-size: 17px; margin: 20px 0 10px; }
+  .content h4 { font-size: 15px; margin: 16px 0 8px; }
+  .content p { font-size: 14px; margin-bottom: 10px; }
+  .content ul { margin: 6px 0 12px 16px; }
+  .content li { font-size: 14px; margin-bottom: 5px; }
+  .content blockquote { padding: 10px 12px; margin: 12px 0; }
+  .content blockquote p { font-size: 13px; }
+  .content .math-block { padding: 10px 14px; margin: 12px 0; }
+  .code-block { padding: 12px 14px; margin: 12px 0; }
+  .code-block code { font-size: 12px; line-height: 1.5; }
+  .inline-code { font-size: 0.88em; padding: 1px 5px; }
+  .algo-table { font-size: 12px; }
+  .algo-table th { padding: 6px 10px; }
+  .algo-table td { padding: 6px 10px; }
+  .algo-image { margin: 14px 0; }
+  .algo-image svg { max-width: 100%; height: auto; }
+  .footer { padding: 18px 0; font-size: 12px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>每日算法讲解 · <span class="date">2026年09月11日</span></h1>
+    <p class="subtitle">每天 1 个基础算法 + 2 个 AI/机器学习算法，持续精进</p>
+    <a href="https://syypretend.github.io/test/daily-algorithm" target="_blank" class="repo-link">GitHub 仓库</a>
+  </div>
+  <div class="history-nav"><a href="index.html" class="back-index">← 历史索引</a>
+<a href="2026-09-11.html" class="active">09月11日</a>
+<a href="2026-09-10.html">09月10日</a>
+<a href="2026-09-09.html">09月09日</a>
+<a href="2026-09-08.html">09月08日</a>
+<a href="2026-09-07.html">09月07日</a>
+</div>
+  <div class="content">
+  <hr>
+<p>AIGC:</p>
+<p>ContentProducer: '001191110102MAD55U9H0F10002'</p>
+<p>ContentPropagator: '001191110102MAD55U9H0F10002'</p>
+<p>Label: '1'</p>
+<p>ProduceID: 'c2f26685-b3e0-4dbd-a39a-e8abec491822'</p>
+<p>PropagateID: 'c2f26685-b3e0-4dbd-a39a-e8abec491822'</p>
+<p>ReservedCode1: '3b9407b4-b26f-427d-b11b-9d534d1f3ada'</p>
+<p>ReservedCode2: '3b9407b4-b26f-427d-b11b-9d534d1f3ada'</p>
+<hr>
+
+<h2>每日算法讲解 · 2026-09-11</h2>
+
+<blockquote>
+<p>今日内容：1 个基础算法 + 2 个 AI/机器学习算法 | 逐参数详解</p>
+</blockquote>
+
+<hr>
+
+<h3>B+ 树</h3>
+
+<p><strong>类别</strong>：数据结构 | <strong>难度</strong>：中等</p>
+
+<h4>算法简介</h4>
+
+<p>B+ 树（B+ Tree）是现代关系型数据库（MySQL InnoDB、PostgreSQL、Oracle）和文件系统中最核心的索引数据结构，是 B 树的增强版本。它的核心设计思想是：<strong>所有数据（或指向数据的指针）只存储在叶子节点，内部节点（非叶子节点）只存储键值用于路由导航</strong>，同时叶子节点通过双向链表串联，形成一个有序的序列。</p>
+
+<p>这种设计带来了三大优势：第一，<strong>扇出（fanout）极高</strong>——每个节点容纳大量键，树高极低（通常 3~4 层即可支撑上千万条数据），每次查询只需 3~4 次磁盘 I/O；第二，<strong>范围查询高效</strong>——找到下界后沿叶子链表顺序扫描即可，无需回溯内部节点；第三，<strong>磁盘友好</strong>——每个节点恰好对应一个磁盘页（page），读写按页进行，充分利用磁盘块局部性。相比 AVL 树/红黑树（内存结构），B+ 树是专门为"磁盘块存储 + 范围查询"优化的多路平衡树。</p>
+
+<h4>原理示意图</h4>
+
+<p><div class="algo-image"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 900 480" font-family="sans-serif">
+  <rect width="900" height="480" fill="#1e293b" rx="12"/>
+  <text x="450" y="30" text-anchor="middle" fill="#818cf8" font-size="16" font-weight="600">B+ 树结构：内部节点只存键，叶子节点存数据并串成链表</text>
+
+  <!-- 根节点（内部节点） -->
+  <rect x="330" y="60" width="240" height="55" rx="8" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="450" y="82" text-anchor="middle" fill="#94a3b8" font-size="10">根节点（内部节点，只存键）</text>
+  <rect x="345" y="90" width="50" height="18" rx="3" fill="#1e3a5f" stroke="#6366f1" stroke-width="1"/>
+  <text x="370" y="103" text-anchor="middle" fill="#818cf8" font-size="11">50</text>
+  <rect x="405" y="90" width="50" height="18" rx="3" fill="#1e3a5f" stroke="#6366f1" stroke-width="1"/>
+  <text x="430" y="103" text-anchor="middle" fill="#818cf8" font-size="11">80</text>
+  <rect x="465" y="90" width="50" height="18" rx="3" fill="#1e3a5f" stroke="#6366f1" stroke-width="1"/>
+  <text x="490" y="103" text-anchor="middle" fill="#818cf8" font-size="11">120</text>
+
+  <!-- 指针箭头到第二层 -->
+  <line x1="370" y1="115" x2="180" y2="175" stroke="#6366f1" stroke-width="1.5" marker-end="url(#ar4)"/>
+  <line x1="430" y1="115" x2="450" y2="175" stroke="#6366f1" stroke-width="1.5" marker-end="url(#ar4)"/>
+  <line x1="510" y1="115" x2="700" y2="175" stroke="#6366f1" stroke-width="1.5" marker-end="url(#ar4)"/>
+
+  <!-- 第二层内部节点 -->
+  <rect x="100" y="175" width="160" height="50" rx="6" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="180" y="195" text-anchor="middle" fill="#94a3b8" font-size="9">内部节点</text>
+  <text x="125" y="213" text-anchor="middle" fill="#818cf8" font-size="10">20</text>
+  <text x="160" y="213" text-anchor="middle" fill="#818cf8" font-size="10">35</text>
+  <text x="205" y="213" text-anchor="middle" fill="#818cf8" font-size="10">45</text>
+
+  <rect x="380" y="175" width="140" height="50" rx="6" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="450" y="195" text-anchor="middle" fill="#94a3b8" font-size="9">内部节点</text>
+  <text x="410" y="213" text-anchor="middle" fill="#818cf8" font-size="10">60</text>
+  <text x="450" y="213" text-anchor="middle" fill="#818cf8" font-size="10">70</text>
+  <text x="490" y="213" text-anchor="middle" fill="#818cf8" font-size="10">75</text>
+
+  <rect x="640" y="175" width="140" height="50" rx="6" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="710" y="195" text-anchor="middle" fill="#94a3b8" font-size="9">内部节点</text>
+  <text x="670" y="213" text-anchor="middle" fill="#818cf8" font-size="10">90</text>
+  <text x="710" y="213" text-anchor="middle" fill="#818cf8" font-size="10">105</text>
+  <text x="750" y="213" text-anchor="middle" fill="#818cf8" font-size="10">115</text>
+
+  <!-- 箭头到叶子 -->
+  <line x1="140" y1="225" x2="90" y2="300" stroke="#6366f1" stroke-width="1.5" marker-end="url(#arrow4)"/>
+  <line x1="180" y1="225" x2="190" y2="300" stroke="#6366f1" stroke-width="1.5" marker-end="url(#arrow4)"/>
+  <line x1="225" y1="225" x2="295" y2="300" stroke="#6366f1" stroke-width="1.5" marker-end="url(#arrow4)"/>
+  <line x1="410" y1="225" x2="380" y2="300" stroke="#6366f1" stroke-width="1.5" marker-end="url(#arrow4)"/>
+  <line x1="490" y1="225" x2="500" y2="300" stroke="#6366f1" stroke-width="1.5" marker-end="url(#arrow4)"/>
+  <line x1="670" y1="225" x2="650" y2="300" stroke="#6366f1" stroke-width="1.5" marker-end="url(#arrow4)"/>
+  <line x1="750" y1="225" x2="800" y2="300" stroke="#6366f1" stroke-width="1.5" marker-end="url(#arrow4)"/>
+
+  <!-- 叶子节点（数据） -->
+  <rect x="30" y="300" width="120" height="60" rx="6" fill="#1a5e1a" stroke="#22c55e" stroke-width="2"/>
+  <text x="90" y="320" text-anchor="middle" fill="#22c55e" font-size="9">叶子节点</text>
+  <text x="90" y="345" text-anchor="middle" fill="#e2e8f0" font-size="10">10 | 12 | 15 | 18</text>
+
+  <rect x="160" y="300" width="120" height="60" rx="6" fill="#1a5e1a" stroke="#22c55e" stroke-width="2"/>
+  <text x="220" y="320" text-anchor="middle" fill="#22c55e" font-size="9">叶子节点</text>
+  <text x="220" y="345" text-anchor="middle" fill="#e2e8f0" font-size="10">20 | 22 | 28 | 30</text>
+
+  <rect x="290" y="300" width="120" height="60" rx="6" fill="#1a5e1a" stroke="#22c55e" stroke-width="2"/>
+  <text x="350" y="320" text-anchor="middle" fill="#22c55e" font-size="9">叶子节点</text>
+  <text x="350" y="345" text-anchor="middle" fill="#e2e8f0" font-size="10">32 | 35 | 40 | 42</text>
+
+  <rect x="420" y="300" width="120" height="60" rx="6" fill="#1a5e1a" stroke="#22c55e" stroke-width="2"/>
+  <text x="480" y="320" text-anchor="middle" fill="#22c55e" font-size="9">叶子节点</text>
+  <text x="480" y="345" text-anchor="middle" fill="#e2e8f0" font-size="10">45 | 50 | 55 | 58</text>
+
+  <rect x="550" y="300" width="120" height="60" rx="6" fill="#1a5e1a" stroke="#22c55e" stroke-width="2"/>
+  <text x="610" y="320" text-anchor="middle" fill="#22c55e" font-size="9">叶子节点</text>
+  <text x="610" y="345" text-anchor="middle" fill="#e2e8f0" font-size="10">60 | 68 | 70 | 72</text>
+
+  <rect x="680" y="300" width="120" height="60" rx="6" fill="#1a5e1a" stroke="#22c55e" stroke-width="2"/>
+  <text x="740" y="320" text-anchor="middle" fill="#22c55e" font-size="9">叶子节点</text>
+  <text x="740" y="345" text-anchor="middle" fill="#e2e8f0" font-size="10">75 | 80 | 90 | 105</text>
+
+  <rect x="810" y="300" width="80" height="60" rx="6" fill="#1a5e1a" stroke="#22c55e" stroke-width="2"/>
+  <text x="850" y="320" text-anchor="middle" fill="#22c55e" font-size="9">叶子节点</text>
+  <text x="850" y="345" text-anchor="middle" fill="#e2e8f0" font-size="10">115|120|130</text>
+
+  <!-- 叶子链表（双向） -->
+  <line x1="150" y1="330" x2="160" y2="330" stroke="#22c55e" stroke-width="2.5" marker-end="url(#arrow4)"/>
+  <line x1="280" y1="330" x2="290" y2="330" stroke="#22c55e" stroke-width="2.5" marker-end="url(#arrow4)"/>
+  <line x1="410" y1="330" x2="420" y2="330" stroke="#22c55e" stroke-width="2.5" marker-end="url(#arrow4)"/>
+  <line x1="540" y1="330" x2="550" y2="330" stroke="#22c55e" stroke-width="2.5" marker-end="url(#arrow4)"/>
+  <line x1="670" y1="330" x2="680" y2="330" stroke="#22c55e" stroke-width="2.5" marker-end="url(#arrow4)"/>
+  <line x1="800" y1="330" x2="810" y2="330" stroke="#22c55e" stroke-width="2.5" marker-end="url(#arrow4)"/>
+
+  <!-- 图例 -->
+  <rect x="30" y="395" width="840" height="70" fill="#0f172a" rx="6"/>
+  <text x="50" y="420" fill="#e2e8f0" font-size="12">关键特性:</text>
+  <text x="200" y="420" fill="#94a3b8" font-size="11">① 内部节点只存键 → 扇出高、树矮</text>
+  <text x="500" y="420" fill="#94a3b8" font-size="11">② 数据全在叶子 → 查询路径固定</text>
+  <text x="200" y="445" fill="#94a3b8" font-size="11">③ 叶子链表串联 → 范围查询 O(log n + k)</text>
+  <text x="500" y="445" fill="#94a3b8" font-size="11">④ 每节点一磁盘页 → I/O 友好</text>
+
+  <defs>
+    <marker id="arrow4" markerWidth="8" markerHeight="6" refX="4" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#6366f1"/>
+    </marker>
+  </defs>
+</svg></div></p>
+
+<h4>数学公式</h4>
+
+<p><strong>1. B+ 树高度与容量关系</strong></p>
+
+<p>设 B+ 树的阶（order）为 $ m $（每个节点最多 $ m $ 个孩子，即最多 $ m-1 $ 个键），则高度为 $ h $ 的 B+ 树最多能存储的键数：</p>
+
+<p><div class="math-block">$$ N_{\max} = (m-1) \cdot m^{h-1} \cdot \text{(叶子指针/叶子容量)} $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ m $：B+ 树的阶（内部节点最多孩子数），即扇出度</li>
+<li>$ h $：树的高度（根为第 1 层）</li>
+<li>$ N_{\max} $：叶子节点最多可容纳的数据条目数</li>
+</ul>
+
+<p>简化理解（每个节点 $ m $ 个孩子）：总键数 $ N \approx m^h $，因此 $ h \approx \log_m N $。当 $ m = 500 $（MySQL InnoDB 典型值）时，3 层树即可存储 $ 500^3 = 1.25 $ 亿条记录。</p>
+
+<p><strong>2. 查询/插入/删除的时间复杂度</strong></p>
+
+<p><div class="math-block">$$ T_{\text{search}} = O(\log_m n) $$</div></p>
+
+<p><div class="math-block">$$ T_{\text{insert}} = T_{\text{delete}} = O(\log_m n) $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ n $：树中数据条目总数</li>
+<li>$ m $：阶数（扇出度）</li>
+<li>由于 $ m $ 通常数百，$ \log_m n $ 极小（如 $ m=500, n=10^8 $ 时 $ \log_m n = 3 $）</li>
+</ul>
+
+<p><strong>3. 范围查询复杂度</strong></p>
+
+<p><div class="math-block">$$ T_{\text{range}} = O(\log_m n + k) $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ k $：范围内命中的数据条目数</li>
+<li>$ O(\log_m n) $：定位下界的成本</li>
+<li>$ O(k) $：沿叶子链表顺序扫描 $ k $ 个条目的成本</li>
+<li>相比 B 树的范围查询 $ O(\log_m n + k \cdot \log_m n) $（B 树需要反复回溯内部节点），B+ 树效率高得多</li>
+</ul>
+
+<h4>核心要点</h4>
+
+<ul>
+<li>B+ 树是 B 树的增强版：<strong>数据只存叶子，内部节点只存键</strong></li>
+<li>叶子节点之间通过双向链表连接，天然支持高效范围查询</li>
+<li>树高与磁盘 I/O 次数直接挂钩，通常 3~4 层支撑上亿数据</li>
+<li>插入时节点满则分裂（split），删除时节点过空则合并（merge）/借位（borrow）</li>
+<li>所有叶子节点深度相同（完美平衡），查询路径固定</li>
+<li>MySQL InnoDB 主键索引、二级索引、文件系统目录索引都基于 B+ 树</li>
+</ul>
+
+<h4>技术细节与参数详解</h4>
+
+<p>#### 结构参数</p>
+
+<p>#### 参数1：order（m，阶数）</p>
+<ul>
+<li><strong>含义</strong>：B+ 树中一个节点最多拥有的子节点数，阶数 = 扇出度</li>
+<li><strong>类型</strong>：int（正整数）</li>
+<li><strong>默认值</strong>：MySQL InnoDB 中由页大小（16KB）和键大小决定，典型约 500</li>
+<li><strong>取值范围</strong>：$ m \geq 3 $，实际取 $ m = \lfloor \text{page\_size} / \text{key\_size} \rfloor $ 附近</li>
+<li><strong>对结果的影响</strong>：阶数越大，树越矮（磁盘 I/O 越少），但节点分裂/合并时移动的键越多</li>
+<li><strong>推荐设置</strong>：数据库系统自动按页大小推导；应用层手写时常用 $ m=4 \sim 8 $</li>
+</ul>
+
+<p>#### 参数2：节点容量（键/孩子上限）</p>
+<ul>
+<li><strong>含义</strong>：一个节点最多可容纳的键数（内部节点）= $ m-1 $，叶子节点可容纳数据条目上限 = 页容量</li>
+<li><strong>类型</strong>：int</li>
+<li><strong>默认值</strong>：由页大小与条目大小决定（InnoDB 中一页 16KB 约容纳 15 条 ~ 数千条）</li>
+<li><strong>取值范围</strong>：由 <code class="inline-code">order</code> 和页大小共同决定</li>
+<li><strong>对结果的影响</strong>：决定分裂频率和树高</li>
+<li><strong>推荐设置</strong>：让节点尽量填满以降低树高</li>
+</ul>
+
+<p>#### 参数3：分裂策略（Split）</p>
+<ul>
+<li><strong>含义</strong>：插入后节点超过容量时，将节点分成两半的机制</li>
+<li><strong>类型</strong>：策略（2-3 分裂 / 50% 分裂 / 80% 分裂）</li>
+<li><strong>默认值</strong>：50% 分裂（把一半键上移到父节点）</li>
+<li><strong>对结果的影响</strong>：50% 分裂实现简单但会产生较多半空节点；延迟分裂可提高空间利用率</li>
+<li><strong>推荐设置</strong>：InnoDB 默认按页半满分裂</li>
+</ul>
+
+<p>#### 参数4：合并策略（Merge / Underflow）</p>
+<ul>
+<li><strong>含义</strong>：删除后节点键数低于下限（一般 $ \lceil m/2 \rceil - 1 $）时，与兄弟合并或从兄弟借位</li>
+<li><strong>类型</strong>：策略</li>
+<li><strong>默认值</strong>：先尝试从兄弟借位（Borrow），失败则合并（Merge）</li>
+<li><strong>对结果的影响</strong>：借位保持空间利用率高；合并减少树高但增加 I/O</li>
+<li><strong>推荐设置</strong>：工程上优先借位，其次合并</li>
+</ul>
+
+<p>#### 参数5：叶子指针（Leaf Pointer）</p>
+<ul>
+<li><strong>含义</strong>：指向叶子节点实际存储数据记录的指针（或行 ID）</li>
+<li><strong>类型</strong>：指针 / 聚簇键</li>
+<li><strong>默认值</strong>：InnoDB 中指向主键行数据</li>
+<li><strong>对结果的影响</strong>：决定"覆盖索引"能否免回表查询</li>
+<li><strong>推荐设置</strong>：覆盖索引（把查询字段全部放入索引）避免回表</li>
+</ul>
+
+<p>#### 参数6：兄弟链表指针（Sibling Pointer）</p>
+<ul>
+<li><strong>含义</strong>：叶子节点之间的双向链接，实现范围扫描</li>
+<li><strong>类型</strong>：指针</li>
+<li><strong>默认值</strong>：左/右兄弟</li>
+<li><strong>对结果的影响</strong>：缺失此链表的 B+ 树范围查询性能急剧下降</li>
+<li><strong>推荐设置</strong>：必须保留，这是 B+ 树相对 B 树的关键优势</li>
+</ul>
+
+<p>#### 参数7：页大小（Page Size）</p>
+<ul>
+<li><strong>含义</strong>：磁盘一次读写的最小单位，也是 B+ 树节点的物理尺寸</li>
+<li><strong>类型</strong>：int（字节）</li>
+<li><strong>默认值</strong>：MySQL InnoDB 16KB</li>
+<li><strong>取值范围</strong>：4KB / 8KB / 16KB / 32KB / 64KB</li>
+<li><strong>对结果的影响</strong>：页越大，单节点容量越大、树越矮，但内存缓冲池占用越多</li>
+<li><strong>推荐设置</strong>：SSD 上可用 4KB~8KB，HDD 上 16KB 更合适</li>
+</ul>
+
+<h4>代码示例</h4>
+
+<p><pre class="code-block"><code class="language-python"># B+ 树核心概念演示：阶数、容量、分裂逻辑（演示数据层面，不实现磁盘 I/O）
+# 关键注释见每行
+
+class BPlusNode:                    # B+ 树节点类
+    def __init__(self, order):      # 初始化节点
+        self.order = order          # 阶数（最多孩子数）
+        self.keys = []              # 节点中的键列表
+        self.children = []          # 子节点指针（内部节点用）
+        self.records = []           # 叶子节点存储的记录（叶子用）
+        self.next = None            # 叶子节点右兄弟指针（范围扫描用）
+        self.is_leaf = False        # 是否为叶子节点
+
+def calc_capacity(order):           # 计算节点容量
+    max_keys = order - 1            # 内部节点最多键数 = 阶 - 1
+    max_children = order            # 节点最多孩子数 = 阶
+    print(f&quot;阶={order}: 内部节点最多 {max_keys} 个键, 最多 {max_children} 个孩子&quot;)
+    return max_keys, max_children   # 返回键上限和孩子上限
+
+def calc_height(order, n):          # 计算 B+ 树高度
+    import math
+    # 总数据量 n，叶子容量约 order，树高 h ≈ log_m(n)
+    height = math.ceil(math.log(n, order))   # 以 order 为底的对数向上取整
+    print(f&quot;阶={order}, 数据量 n={n}: 树高 ≈ {height} 层&quot;)
+    return height                   # 返回高度
+
+def should_split(node):             # 判断节点是否需要分裂
+    max_keys = node.order - 1       # 节点键数上限
+    if len(node.keys) &gt; max_keys:   # 若键数超过上限
+        print(&quot;需要分裂!&quot;)            # 输出提示
+        return True                 # 返回需要分裂
+    return False                     # 否则不需分裂
+
+def split_leaf(node):                # 叶子节点分裂演示
+    mid = len(node.keys) // 2        # 计算中点
+    new_node = BNode(node.order, is_leaf=True)   # 新叶子
+    new_node.keys = node.keys[mid:]  # 右半键分给新节点
+    node.keys = node.keys[:mid]      # 左半键保留原节点
+    new_node.next = node.next        # 新节点指向原右兄弟
+    node.next = new_node             # 原节点指向新节点
+    print(f&quot;分裂后: 左[{node.keys}], 右[{new_node.keys}]&quot;)  # 输出分裂结果
+
+# 示例演示
+calc_capacity(order=4)               # 输出: 阶=4: 内部节点最多 3 个键, 最多 4 个孩子
+calc_height(order=500, n=125_000_000)  # 输出: 3 层可容纳 1.25 亿条
+split_leaf(order=4, keys=[10,20,30,40])  # 输出: 左[10,20], 右[30,40]</code></pre></p>
+
+<h4>复杂度分析</h4>
+
+<p><strong>时间复杂度</strong>：</p>
+
+<div class="table-wrapper"><table class="algo-table"><thead><tr><th>操作</th><th>时间复杂度</th><th>推导</th></tr></thead><tbody><tr><td>查找</td><td>$ O(\log_m n) $</td><td>从根到叶子沿路径下钻，每层做一次二分定位，树高 $ h = \log_m n $</td></tr><tr><td>插入</td><td>$ O(\log_m n) $</td><td>下钻定位 + 分裂可能逐层上溢，分裂次数 $ O(h) $</td></tr><tr><td>删除</td><td>$ O(\log_m n) $</td><td>下钻定位 + 借位/合并逐层调整，最坏 $ O(h) $</td></tr><tr><td>范围查询</td><td>$ O(\log_m n + k) $</td><td>定位下界 $ O(\log_m n) $ + 沿叶子链表扫 $ k $ 条</td></tr></tbody></table></div>
+
+<p><strong>空间复杂度</strong>：</p>
+<ul>
+<li>内部节点：$ O(n/m) $ 个节点，存键约 $ O(n) $ 量级</li>
+<li>叶子节点：$ O(n/m) $ 个节点，每个存 $ O(m) $ 键值 → 总体 $ O(n) $</li>
+<li>节点空间利用率通常约 50%~70%（半满原则）</li>
+</ul>
+
+<h4>应用场景</h4>
+
+<ul>
+<li><strong>数据库主键索引</strong>：MySQL InnoDB 聚簇索引（主键）的底层实现</li>
+<li><strong>数据库二级索引</strong>：InnoDB 二级索引叶子存主键值，通过回表查询</li>
+<li><strong>文件系统</strong>：NTFS、ext4 的目录索引、文件块分配</li>
+<li><strong>OLTP 高并发查询</strong>：亿级记录下仅需 3~4 次磁盘 I/O</li>
+<li><strong>范围/区间查询</strong>：<code class="inline-code">BETWEEN</code>、<code class="inline-code">ORDER BY</code>、分页查询高效利用叶子链表</li>
+<li><strong>LSM-Tree 的辅助</strong>：RocksDB 的 MemTable 用跳表，但磁盘层用 SST 索引（B+ 树思想）</li>
+</ul>
+
+<h4>参考文档</h4>
+
+<ul>
+<li><a href="https://blog.csdn.net/github_39078243/article/details/154650625" target="_blank" class="ref-link">B+Tree - CSDN 现代数据库数据结构</a></li>
+<li><a href="https://cloud.tencent.com/developer/article/1345042" target="_blank" class="ref-link">数据库 B+ 树索引 - 腾讯云</a></li>
+<li><a href="https://blog.csdn.net/a1256afafaafr/article/details/147889668" target="_blank" class="ref-link">InnoDB 中的 B+ 树 - CSDN</a></li>
+<li><a href="https://blog.csdn.net/sinat_28461591/article/details/148522205" target="_blank" class="ref-link">B+ 树原理与最优索引策略 - CSDN</a></li>
+<li><a href="https://cloud.baidu.com/article/4118009" target="_blank" class="ref-link">百度智能云 B+树深度解析</a></li>
+</ul>
+
+<hr>
+
+<h3>GPT 系列</h3>
+
+<p><strong>类别</strong>：NLP / 大模型 | <strong>难度</strong>：困难</p>
+
+<h4>算法简介</h4>
+
+<p>GPT（Generative Pre-trained Transformer）是 OpenAI 提出的一系列<strong>自回归</strong>（Autoregressive）<strong>Decoder-only</strong> 预训练语言模型。核心思想是：只用 Transformer 的<strong>解码器</strong>部分（去掉编码器和交叉注意力），通过<strong>因果注意力（Causal Attention）</strong>——每个 token 只能看到它左边的 token——用"预测下一个词"（Next Token Prediction）的目标在超大规模文本上预训练，然后通过提示（Prompt）直接用于各类下游任务。</p>
+
+<p>GPT 系列沿革：GPT-1（2018，12 层，117M 参数，无监督预训练）→ GPT-2（2019，15 亿参数，零样本能力）→ GPT-3（2020，1750 亿参数，Few-shot 能力）→ InstructGPT / ChatGPT（RLHF 对齐）→ GPT-4（2023，多模态、更强）。Decoder-only 架构因其<strong>单向自回归、推理高效（KV Cache）、通用生成</strong>特性，成为当今大模型（LLaMA、Qwen、DeepSeek 等）的主流选择。</p>
+
+<p>GPT 的采样参数（temperature、top_k、top_p、frequency_penalty、presence_penalty、max_tokens 等）决定了生成文本的<strong>随机性、多样性与连贯性</strong>，是 API 调用和工程调优的核心。</p>
+
+<h4>原理示意图</h4>
+
+<p><div class="algo-image"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 900 520" font-family="sans-serif">
+  <rect width="900" height="520" fill="#1e293b" rx="12"/>
+  <text x="450" y="30" text-anchor="middle" fill="#818cf8" font-size="16" font-weight="600">GPT Decoder-only 架构与因果注意力示意</text>
+
+  <!-- 输入 token -->
+  <text x="120" y="65" text-anchor="middle" fill="#94a3b8" font-size="12">输入</text>
+  <rect x="60" y="80" width="60" height="28" rx="4" fill="#1e3a5f" stroke="#6366f1" stroke-width="1.5"/>
+  <text x="90" y="98" text-anchor="middle" fill="#e2e8f0" font-size="11">[CLS]</text>
+  <rect x="125" y="80" width="60" height="28" rx="4" fill="#1e3a5f" stroke="#6366f1" stroke-width="1.5"/>
+  <text x="155" y="98" text-anchor="middle" fill="#e2e8f0" font-size="11">我</text>
+  <rect x="190" y="80" width="60" height="28" rx="4" fill="#1e3a5f" stroke="#6366f1" stroke-width="1.5"/>
+  <text x="220" y="98" text-anchor="middle" fill="#e2e8f0" font-size="11">爱</text>
+  <rect x="255" y="80" width="60" height="28" rx="4" fill="#1e3a5f" stroke="#6366f1" stroke-width="1.5"/>
+  <text x="285" y="98" text-anchor="middle" fill="#e2e8f0" font-size="11">学</text>
+
+  <!-- Decoder 层 -->
+  <text x="450" y="130" text-anchor="middle" fill="#94a3b8" font-size="12">Decoder 层 × N（每层含 Masked Multi-Head Attention + FFN）</text>
+
+  <rect x="60" y="140" width="700" height="40" rx="6" fill="#0f172a" stroke="#22c55e" stroke-width="2"/>
+  <text x="410" y="158" text-anchor="middle" fill="#22c55e" font-size="11">Masked Multi-Head Self-Attention（因果掩码）</text>
+  <text x="410" y="173" text-anchor="middle" fill="#94a3b8" font-size="9">每个位置只能看到自己和左边的 token</text>
+
+  <rect x="60" y="185" width="700" height="30" rx="4" fill="#0f172a" stroke="#6366f1" stroke-width="1.5"/>
+  <text x="300" y="204" text-anchor="middle" fill="#6366f1" font-size="10">Add &amp; Norm（残差 + 层归一化）</text>
+
+  <rect x="60" y="220" width="700" height="40" rx="6" fill="#0f172a" stroke="#f97316" stroke-width="2"/>
+  <text x="300" y="238" text-anchor="middle" fill="#f97316" font-size="11">Feed-Forward Network（FFN: GELU 等激活）</text>
+  <text x="300" y="253" text-anchor="middle" fill="#94a3b8" font-size="9">hidden → intermediate → hidden</text>
+
+  <rect x="60" y="265" width="700" height="30" rx="4" fill="#0f172a" stroke="#6366f1" stroke-width="1.5"/>
+  <text x="300" y="284" text-anchor="middle" fill="#6366f1" font-size="10">Add &amp; Norm</text>
+
+  <!-- 输出头 -->
+  <text x="120" y="315" text-anchor="middle" fill="#94a3b8" font-size="12">输出头</text>
+  <rect x="60" y="325" width="700" height="35" rx="6" fill="#1e3a5f" stroke="#818cf8" stroke-width="2"/>
+  <text x="300" y="347" text-anchor="middle" fill="#818cf8" font-size="11">LM Head（语言模型头：hidden → vocab_size 概率分布）</text>
+
+  <!-- 概率分布 -->
+  <text x="250" y="395" text-anchor="middle" fill="#94a3b8" font-size="12">下一个 token 概率分布</text>
+  <rect x="110" y="405" width="50" height="45" rx="3" fill="#1a5e1a" stroke="#22c55e" stroke-width="1.5"/>
+  <text x="135" y="430" text-anchor="middle" fill="#22c55e" font-size="10">习</text>
+  <rect x="165" y="405" width="50" height="45" rx="3" fill="#1e293b" stroke="#6366f1" stroke-width="1.5"/>
+  <text x="190" y="430" text-anchor="middle" fill="#94a3b8" font-size="10">算</text>
+  <rect x="220" y="405" width="50" height="45" rx="3" fill="#1e293b" stroke="#6366f1" stroke-width="1.5"/>
+  <text x="245" y="430" text-anchor="middle" fill="#94a3b8" font-size="10">了</text>
+  <rect x="275" y="405" width="50" height="45" rx="3" fill="#1e293b" stroke="#6366f1" stroke-width="1.5"/>
+  <text x="300" y="430" text-anchor="middle" fill="#94a3b8" font-size="10">…</text>
+
+  <!-- 采样参数 -->
+  <text x="620" y="395" text-anchor="middle" fill="#94a3b8" font-size="12">采样策略</text>
+  <text x="640" y="415" fill="#818cf8" font-size="11">temperature 缩放</text>
+  <text x="640" y="433" fill="#818cf8" font-size="11">top_k 截断</text>
+  <text x="640" y="451" fill="#818cf8" font-size="11">top_p 核采样</text>
+
+  <defs>
+    <marker id="arrow5" markerWidth="8" markerHeight="6" refX="4" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#6366f1"/>
+    </marker>
+  </defs>
+</svg></div></p>
+
+<h4>数学公式</h4>
+
+<p><strong>1. 语言模型（条件概率分解）</strong></p>
+
+<p><div class="math-block">$$ P(w_1, w_2, \ldots, w_T) = \prod_{t=1}^{T} P(w_t \mid w_1, \ldots, w_{t-1}) $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ w_t $：第 $ t $ 个词（token）</li>
+<li>$ P(w_t \mid w_1, \ldots, w_{t-1}) $：给定前 $ t-1 $ 个词后，下一个词的条件概率</li>
+<li>语言模型的任务就是学习这个条件概率分布</li>
+</ul>
+
+<p>#### 2. Softmax 与温度缩放</p>
+
+<p><div class="math-block">$$ P(w_t) = \frac{\exp(z_{w_t} / T)}{\sum_{v \in V} \exp(z_v / T)} $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ z_v $：模型输出的 logit（对词汇表第 $ v $ 个词的得分）</li>
+<li>$ T $：温度参数（temperature）</li>
+<li>$ V $：词汇表大小</li>
+<li>$ T \to 0 $：概率分布变得尖锐，趋于 argmax（贪婪）</li>
+<li>$ T \to \infty $：分布趋于均匀（完全随机）</li>
+<li>$ T = 1 $：保持模型原始分布</li>
+</ul>
+
+<p>#### 3. Top-k 截断</p>
+
+<p><div class="math-block">$$ V_{k} = \{v : z_v \in \text{Top-}k \text{ of } z\} $$</div></p>
+
+<p><div class="math-block">$$ P(w_t) = \frac{\exp(z_{w_t} / T)}{\sum_{v \in V_k} \exp(z_v / T)} \cdot \mathbb{1}(w_t \in V_k) $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ V_k $：概率最高的 $ k $ 个 token 的集合</li>
+<li>$ \mathbb{1}(w_t \in V_k) $：指示函数，只在 $ w_t $ 属于 top-k 时保留概率</li>
+<li>作用：丢弃低概率尾巴，防止生成低质量词</li>
+</ul>
+
+<p>#### 4. Top-p 核采样</p>
+
+<p><div class="math-block">$$ V_p = \min_{k} \left\{ \text{累积概率} \sum_{i=1}^{k} p_{(i)} \geq p \right\} $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ p_{(i)} $：按概率降序排列后的第 $ i $ 个 token 的概率</li>
+<li>$ V_p $：累积概率达到 $ p $ 的最小 token 集合</li>
+<li>动态选择候选集：分布尖锐时集合小、平缓时集合大</li>
+</ul>
+
+<p><strong>5. 惩罚项（Penalty）</strong></p>
+
+<p><div class="math-block">$$ \text{logit}'_v = z_v - \text{frequency\_penalty} \cdot f_v - \text{presence\_penalty} \cdot \mathbb{1}(v \in S) $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ f_v $：token $ v $ 在已有生成文本中出现的次数</li>
+<li>$ \mathbb{1}(v \in S) $：指示函数，表示 token $ v $ 是否已出现在生成文本中</li>
+<li>frequency_penalty：按次数惩罚，抑制重复</li>
+<li>presence_penalty：二值惩罚，只要出现过就惩罚</li>
+</ul>
+
+<h4>核心要点</h4>
+
+<ul>
+<li>GPT 是 Decoder-only、自回归、因果注意力的预训练语言模型</li>
+<li>预训练任务 = 预测下一个词（最大化条件概率）</li>
+<li>采样参数控制输出的随机性与多样性，需与任务匹配</li>
+<li>KV Cache 是推理优化关键（解码时缓存所有层的历史 K/V）</li>
+<li>GPT-3 起具备上下文学习（In-Context Learning）能力</li>
+<li>与 BERT（Encoder-only）对比：BERT 适合理解任务，GPT 适合生成任务</li>
+</ul>
+
+<h4>技术细节与参数详解</h4>
+
+<p>#### 模型架构参数</p>
+
+<p>#### 参数1：hidden_size（隐藏维度）</p>
+<ul>
+<li><strong>含义</strong>：Transformer 每层特征向量维度</li>
+<li><strong>类型</strong>：int</li>
+<li><strong>默认值</strong>：GPT-2 small 768；GPT-3 12288</li>
+<li><strong>取值范围</strong>：正偶数，常为 512~12288</li>
+<li><strong>对结果的影响</strong>：决定模型表示能力与显存占用</li>
+<li><strong>推荐设置</strong>：按任务数据量与算力平衡</li>
+</ul>
+
+<p>#### 参数2：num_hidden_layers（Decoder 层数）</p>
+<ul>
+<li><strong>含义</strong>：Decoder 堆叠层数</li>
+<li><strong>类型</strong>：int</li>
+<li><strong>默认值</strong>：GPT-2 12 层；GPT-3 96 层</li>
+<li><strong>取值范围</strong>：1~100+</li>
+<li><strong>对结果的影响</strong>：层数越深语义越抽象，但梯度与显存成本上升</li>
+<li><strong>推荐设置</strong>：小模型 12 层，大规模 40~96 层</li>
+</ul>
+
+<p>#### 参数3：num_attention_heads</p>
+<ul>
+<li><strong>含义</strong>：多头自注意力头数</li>
+<li><strong>类型</strong>：int</li>
+<li><strong>默认值</strong>：GPT-2 small 12；GPT-3 96</li>
+<li><strong>取值范围</strong>：需满足 hidden_size % heads == 0</li>
+<li><strong>对结果的影响</strong>：多头并行捕获不同子空间关系</li>
+<li><strong>推荐设置</strong>：每头维度 64 左右</li>
+</ul>
+
+<p>#### 参数4：intermediate_size（FFN 中间维）</p>
+<ul>
+<li><strong>含义</strong>：前馈网络隐层宽度</li>
+<li><strong>类型</strong>：int</li>
+<li><strong>默认值</strong>：GPT-2 3072；GPT-3 49152</li>
+<li><strong>取值范围</strong>：通常 4×hidden_size</li>
+<li><strong>对结果的影响</strong>：FFN 是非线性的主体，容量主要来自这里</li>
+<li><strong>推荐设置</strong>：4×hidden_size</li>
+</ul>
+
+<p>#### 采样参数（API 常用）</p>
+
+<p>#### 参数5：temperature</p>
+<ul>
+<li><strong>含义</strong>：控制输出随机性的温度参数，缩放 logits</li>
+<li><strong>类型</strong>：float</li>
+<li><strong>默认值</strong>：OpenAI API 默认 1.0</li>
+<li><strong>取值范围</strong>：$ (0, 2] $，0 以上任意正数</li>
+<li><strong>对结果的影响</strong>：temperature 越低，分布越尖锐（贪婪），越高越均匀（随机）</li>
+<li><strong>推荐设置</strong>：数学/代码/结构化输出：0~0.3；创意写作：0.7~1.0；头脑风暴：1.2~1.5</li>
+</ul>
+
+<p>#### 参数6：top_k</p>
+<ul>
+<li><strong>含义</strong>：只从概率最高的 k 个 token 中采样</li>
+<li><strong>类型</strong>：int</li>
+<li><strong>默认值</strong>：OpenAI 无默认（通常不设置，用 top_p 代替）</li>
+<li><strong>取值范围</strong>：1 ~ 词表大小</li>
+<li><strong>对结果的影响</strong>：top_k 过小限制多样性，过大失去过滤效果</li>
+<li><strong>推荐设置</strong>：30~100 之间，或配合 top_p 使用</li>
+</ul>
+
+<p>#### 参数7：top_p（核采样）</p>
+<ul>
+<li><strong>含义</strong>：只从累积概率达到 p 的最小 token 集合中采样</li>
+<li><strong>类型</strong>：float</li>
+<li><strong>默认值</strong>：OpenAI API 默认 1.0（不截断）</li>
+<li><strong>取值范围</strong>：$ (0, 1] $</li>
+<li><strong>对结果的影响</strong>：动态过滤低概率 token，比 top_k 更自适应</li>
+<li><strong>推荐设置</strong>：0.9~0.95 兼顾质量与多样性</li>
+</ul>
+
+<p>#### 参数8：frequency_penalty</p>
+<ul>
+<li><strong>含义</strong>：按 token 出现次数施加惩罚，抑制重复</li>
+<li><strong>类型</strong>：float</li>
+<li><strong>默认值</strong>：0.0</li>
+<li><strong>取值范围</strong>：$ [-2.0, 2.0] $（正值抑制重复）</li>
+<li><strong>对结果的影响</strong>：越大，模型越倾向避免重复使用的词</li>
+<li><strong>推荐设置</strong>：0.5~1.0 用于长文本生成；0 用于对话</li>
+</ul>
+
+<p>#### 参数9：presence_penalty</p>
+<ul>
+<li><strong>含义</strong>：只要 token 出现过就惩罚（不管次数）</li>
+<li><strong>类型</strong>：float</li>
+<li><strong>默认值</strong>：0.0</li>
+<li><strong>取值范围</strong>：$ [-2.0, 2.0] $（正值鼓励新词）</li>
+<li><strong>对结果的影响</strong>：鼓励模型引入新主题词，增加多样性</li>
+<li><strong>推荐设置</strong>：0.3~0.6 鼓励探索；0 保连贯</li>
+</ul>
+
+<p>#### 参数10：max_tokens</p>
+<ul>
+<li><strong>含义</strong>：一次生成的最大 token 数（输入+输出 ≤ 上下文窗口）</li>
+<li><strong>类型</strong>：int</li>
+<li><strong>默认值</strong>：OpenAI 中 max_completion_tokens 默认 4096</li>
+<li><strong>取值范围</strong>：1 ~ 模型上下文窗口</li>
+<li><strong>对结果的影响</strong>：决定输出长度上限；超过会被截断</li>
+<li><strong>推荐设置</strong>：根据任务需求设定，不要无脑拉满</li>
+</ul>
+
+<p>#### 参数11：stop（停止序列）</p>
+<ul>
+<li><strong>含义</strong>：遇到指定字符串停止生成</li>
+<li><strong>类型</strong>：list[str]</li>
+<li><strong>默认值</strong>：None</li>
+<li><strong>取值范围</strong>：字符串数组</li>
+<li><strong>对结果的影响</strong>：可控制生成何时结束（如 <code class="inline-code">\n</code>、<code class="inline-code">\n\n</code>、<code class="inline-code">EOF</code>）</li>
+<li><strong>推荐设置</strong>：多轮对话常用 ["\n", "User:", "Human:"] 等</li>
+</ul>
+
+<p>#### 参数12：n / best_of / logprobs</p>
+<ul>
+<li><strong>含义</strong>：返回多少条候选输出 / 采多少个最优 / 是否返回 logprobs</li>
+<li><strong>类型</strong>：int / bool</li>
+<li><strong>默认值</strong>：n=1, best_of=1, logprobs=False</li>
+<li><strong>取值范围</strong>：n=1~多条；logprobs True/False</li>
+<li><strong>对结果的影响</strong>：logprobs 可分析模型置信度</li>
+<li><strong>推荐设置</strong>：调试用 logprobs=True，常规 n=1</li>
+</ul>
+
+<p>#### 参数13：echo / user / stream</p>
+<ul>
+<li><strong>含义</strong>：回显输入 / 用户标识 / 流式输出</li>
+<li><strong>类型</strong>：bool / str / bool</li>
+<li><strong>默认值</strong>：echo=False, user=None, stream=False</li>
+<li><strong>对结果的影响</strong>：stream 开启可边生成边返回（SSE）</li>
+<li><strong>推荐设置</strong>：对话场景开启 stream=True 提升体验</li>
+</ul>
+
+<h4>代码示例</h4>
+
+<p><pre class="code-block"><code class="language-python">import openai                     # OpenAI SDK（或兼容库）
+
+client = openai.OpenAI(api_key=&quot;your-api-key&quot;)  # 创建客户端（配置密钥）
+
+response = client.chat.completions.create(      # 调用聊天补全接口
+    model=&quot;gpt-4o-mini&quot;,                        # 模型名（最新推荐 gpt-4o 系列）
+    messages=[                                  # 对话消息（OpenAI 格式）
+        {&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: &quot;你是一个乐于助人的AI助手。&quot;},
+        {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;请写一段关于夏天的英文短诗。&quot;}
+    ],
+    temperature=0.8,        # 温度：0.8 偏向创意（创作任务推荐 0.7-1.0）
+    max_tokens=300,         # 最大生成 300 token
+    top_p=0.95,             # 核采样 0.95（保留高概率部分）
+    frequency_penalty=0.0,  # 频率惩罚 0（不抑制重复，让自由发挥）
+    presence_penalty=0.3,   # 存在惩罚 0.3（鼓励引入新词，防呆板）
+    stream=False            # 非流式返回
+)
+
+# 输出结果
+print(response.choices[0].message.content)   # 打印生成文本</code></pre></p>
+
+<h4>复杂度分析</h4>
+
+<p><strong>时间复杂度</strong>：</p>
+
+<div class="table-wrapper"><table class="algo-table"><thead><tr><th>操作</th><th>复杂度</th><th>推导</th></tr></thead><tbody><tr><td>预训练每步</td><td>$ O(N_{layers} \cdot L^2 \cdot d + N_{layers} \cdot L \cdot d_{ff}) $</td><td>每层自注意力 $ O(L^2 d) $ + FFN $ O(L d_{ff}) $</td></tr><tr><td>推理生成（单 token）</td><td>$ O(N_{layers} \cdot (L \cdot d + d_{ff})) $</td><td>因果掩码只需关注之前 token，配合 KV Cache 无需重复计算</td></tr><tr><td>完整序列生成</td><td>$ O(N_{layers} \cdot L^2 \cdot d) $</td><td>每步 +1 长度，$ O(1+2+...+L) = O(L^2) $</td></tr></tbody></table></div>
+
+<p><strong>空间复杂度</strong>：</p>
+<ul>
+<li>参数：$ O(N_{layers} \cdot d^2) $（每层含 Q/K/V 投影 + FFN 权重）</li>
+<li>KV Cache：$ O(N_{layers} \cdot L \cdot d) $（每层缓存历史 K/V）</li>
+</ul>
+
+<h4>应用场景</h4>
+
+<ul>
+<li><strong>文本生成</strong>：文章、文案、代码补全</li>
+<li><strong>对话系统</strong>：ChatGPT 聊天助手</li>
+<li><strong>翻译与摘要</strong>：零样本 / few-shot 完成</li>
+<li><strong>In-Context Learning</strong>：提示词中给示例，无需微调</li>
+<li><strong>工具调用（Function Calling）</strong>：GPT-4 起支持结构化输出调用外部工具</li>
+<li><strong>多模态</strong>：GPT-4o 融合图像、语音</li>
+</ul>
+
+<h4>参考文档</h4>
+
+<ul>
+<li><a href="https://arxiv.org/abs/2005.14165" target="_blank" class="ref-link">GPT-1 / GPT-2 / GPT-3 论文</a>（Language Models are Few-Shot Learners）</li>
+<li><a href="https://blog.csdn.net/jarodyv/article/details/128994176" target="_blank" class="ref-link">ChatGPT 模型采样算法详解 - CSDN</a></li>
+<li><a href="https://blog.csdn.net/xxue345678/article/details/149443957" target="_blank" class="ref-link">大模型 API 参数详解 - CSDN</a></li>
+<li><a href="https://www.cnblogs.com/frankcui/p/18671142" target="_blank" class="ref-link">大模型核心参数解析 - 博客园</a></li>
+<li><a href="https://lemonstone.blog.csdn.net/article/details/158889044" target="_blank" class="ref-link">Decoder-only 架构深度解析 - CSDN</a></li>
+</ul>
+
+<hr>
+
+<h3>早停策略</h3>
+
+<p><strong>类别</strong>：训练技巧 | <strong>难度</strong>：入门</p>
+
+<h4>算法简介</h4>
+
+<p>早停（Early Stopping）是深度学习中最常用的<strong>防止过拟合</strong>的正则化技术之一。核心思想：训练过程中持续监控<strong>验证集</strong>上的某个指标（如 <code class="inline-code">val_loss</code>），当该指标不再改善时，停止训练，并（可选）恢复到验证指标最优时的模型权重。</p>
+
+<p>原理：训练初期模型欠拟合，训练损失和验证损失同时下降；随着训练推进，模型开始在训练集上"死记硬背"，训练损失继续下降但验证损失开始上升——这就是过拟合。早停在此刻终止训练，避免模型记住噪声。它无需改变模型结构或损失函数，是一种"免费的"正则化，且同时节省大量计算时间。</p>
+
+<p>早停的关键超参数包括：<code class="inline-code">monitor</code>（监控什么指标）、<code class="inline-code">patience</code>（容忍多少轮不改善）、<code class="inline-code">min_delta</code>（最小改善阈值）、<code class="inline-code">mode</code>（min/max/auto）、<code class="inline-code">baseline</code>（基线阈值）、<code class="inline-code">restore_best_weights</code>（是否恢复最优权重）。Keras/TF、PyTorch（手动实现）、PaddlePaddle 均提供内置支持。</p>
+
+<h4>原理示意图</h4>
+
+<p><div class="algo-image"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 900 380" font-family="sans-serif">
+  <rect width="900" height="380" fill="#1e293b" rx="12"/>
+  <text x="450" y="30" text-anchor="middle" fill="#818cf8" font-size="16" font-weight="600">早停策略：验证损失停止下降时终止训练</text>
+
+  <!-- 坐标轴 -->
+  <line x1="80" y1="300" x2="820" y2="300" stroke="#94a3b8" stroke-width="2"/>
+  <line x1="80" y1="300" x2="80" y2="50" stroke="#94a3b8" stroke-width="2"/>
+  <text x="450" y="330" text-anchor="middle" fill="#94a3b8" font-size="12">训练轮次 (Epoch)</text>
+  <text x="40" y="175" text-anchor="middle" fill="#94a3b8" font-size="12" transform="rotate(-90,40,175)">Loss</text>
+
+  <!-- 训练损失曲线 -->
+  <path d="M 80 90 Q 200 100 320 130 Q 500 170 700 240" fill="none" stroke="#22c55e" stroke-width="2.5"/>
+  <text x="700" y="260" fill="#22c55e" font-size="11">训练损失（持续下降）</text>
+
+  <!-- 验证损失曲线 -->
+  <path d="M 80 100 Q 220 110 340 135 Q 460 160 520 180 Q 580 210 600 230 Q 610 240 620 270" fill="none" stroke="#f97316" stroke-width="2.5" stroke-dasharray="6,3"/>
+  <text x="620" y="290" fill="#f97316" font-size="11">验证损失（先降后升 = 过拟合）</text>
+
+  <!-- 最佳点与停止点 -->
+  <circle cx="480" cy="165" r="6" fill="#818cf8"/>
+  <text x="430" y="155" fill="#818cf8" font-size="11">最佳点</text>
+  <line x1="480" y1="165" x2="480" y2="300" stroke="#818cf8" stroke-width="1" stroke-dasharray="3,3"/>
+
+  <circle cx="600" cy="230" r="6" fill="#ef4444"/>
+  <text x="575" y="220" fill="#ef4444" font-size="11">停止点</text>
+  <line x1="600" y1="230" x2="600" y2="300" stroke="#ef4444" stroke-width="1" stroke-dasharray="3,3"/>
+
+  <!-- patience 区间 -->
+  <rect x="480" y="60" width="120" height="28" fill="none" stroke="#6366f1" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <text x="540" y="78" text-anchor="middle" fill="#6366f1" font-size="10">patience=3</text>
+
+  <!-- 图例 -->
+  <text x="200" y="365" fill="#22c55e" font-size="11">正常训练区</text>
+  <text x="340" y="365" fill="#f97316" font-size="11">过拟合区（验证损失回升）</text>
+  <text x="560" y="365" fill="#818cf8" font-size="11">早停返回权重</text>
+</svg></div></p>
+
+<h4>数学公式</h4>
+
+<p>#### 1. 停止条件</p>
+
+<p><div class="math-block">$$ E_{\text{stop}} = \arg\min_{e} \text{val\_metric}(e) + \text{patience} $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ e $：epoch 编号</li>
+<li>$ \text{val\_metric}(e) $：第 $ e $ 轮的验证指标</li>
+<li>$ \text{patience} $：容忍的连续不改善轮数</li>
+<li>当连续 <code class="inline-code">patience</code> 轮验证指标未超过历史最优（+min_delta）时停止</li>
+</ul>
+
+<p>#### 2. 最优权重恢复</p>
+
+<p><div class="math-block">$$ \theta^* = \arg\min_{\theta_e} \text{val\_loss}(e) $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ \theta_e $：第 $ e $ 轮的模型权重</li>
+<li>$ \theta^* $：验证损失最小的权重，早停后应恢复到它</li>
+</ul>
+
+<p>#### 3. 改善判定（mode=min）</p>
+
+<p><div class="math-block">$$ \text{improved} = \text{val\_loss}(e) < \text{best\_val\_loss} - \text{min\_delta} $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>只有验证指标改善幅度超过 <code class="inline-code">min_delta</code> 才视为"改善"</li>
+<li>未改善则 patience 计数 +1，达到上限则停止</li>
+</ul>
+
+<h4>核心要点</h4>
+
+<ul>
+<li>早停是"免费"的正则化：不需要改模型结构，节省训练时间</li>
+<li><strong>必须监控验证集指标</strong>，而非训练集（训练集 loss 总在降）</li>
+<li><code class="inline-code">monitor</code> 与 <code class="inline-code">model.compile()</code> 中 metrics 名称需严格匹配（带 <code class="inline-code">val_</code> 前缀）</li>
+<li><code class="inline-code">restore_best_weights=True</code> 保证返回最优权重而非最后权重</li>
+<li>与 <code class="inline-code">ModelCheckpoint</code> 配合可持久化最优权重</li>
+<li>早停与 Dropout、Weight Decay、Label Smoothing 可叠加使用</li>
+</ul>
+
+<h4>技术细节与参数详解（以 Keras <code class="inline-code">EarlyStopping</code> 为例）</h4>
+
+<p>#### 参数1：monitor（监控指标）</p>
+<ul>
+<li><strong>含义</strong>：监控哪个验证指标来判断是否停止</li>
+<li><strong>类型</strong>：str</li>
+<li><strong>默认值</strong>：<code class="inline-code">'val_loss'</code></li>
+<li><strong>取值范围</strong>：任何 <code class="inline-code">model.fit()</code> 记录的量，如 <code class="inline-code">'val_loss'</code>、<code class="inline-code">'val_accuracy'</code>、<code class="inline-code">'val_auc'</code></li>
+<li><strong>对结果的影响</strong>：监控 loss 更通用；监控 accuracy 需配合 mode='max'</li>
+<li><strong>推荐</strong>：默认 <code class="inline-code">'val_loss'</code>（分类任务注意用 <code class="inline-code">val_loss</code> 而非 <code class="inline-code">loss</code>）</li>
+</ul>
+
+<p>#### 参数2：mode（模式）</p>
+<ul>
+<li><strong>含义</strong>：指标是越小越好还是越大越好</li>
+<li><strong>类型</strong>：str</li>
+<li><strong>默认值</strong>：<code class="inline-code">'auto'</code>（自动判断）</li>
+<li><strong>取值范围</strong>：<code class="inline-code">'min'</code>（loss 类）、<code class="inline-code">'max'</code>（accuracy/auc 类）、<code class="inline-code">'auto'</code></li>
+<li><strong>对结果的影响</strong>：选错会停止在错误时机</li>
+<li><strong>推荐</strong>：loss 用 'min'，准确率/AUC 用 'max'</li>
+</ul>
+
+<p>#### 参数3：patience（容忍轮数）</p>
+<ul>
+<li><strong>含义</strong>：验证指标连续多少轮不改善才停止</li>
+<li><strong>类型</strong>：int</li>
+<li><strong>默认值</strong>：0（Keras），PyTorch 教程常用 5~10</li>
+<li><strong>取值范围</strong>：$ [0, \text{总epoch}] $</li>
+<li><strong>对结果的影响</strong>：太小提前停止（欠拟合），太大浪费计算/过拟合</li>
+<li><strong>推荐</strong>：小模型 3~10；大模型 10~20；训练波动大时加大 patience</li>
+</ul>
+
+<p>#### 参数4：min_delta（最小改善阈值）</p>
+<ul>
+<li><strong>含义</strong>：指标至少改善多少才认为"改善"</li>
+<li><strong>类型</strong>：float</li>
+<li><strong>默认值</strong>：0</li>
+<li><strong>取值范围</strong>：$ [0, \infty) $</li>
+<li><strong>对结果的影响</strong>：过小对噪声敏感，过大无视微小提升</li>
+<li><strong>推荐</strong>：loss 场景 1e-4~1e-3；指标小（如 AUC 0.001 级）可用 1e-5</li>
+</ul>
+
+<p>#### 参数5：verbose（日志）</p>
+<ul>
+<li><strong>含义</strong>：是否打印早停信息</li>
+<li><strong>类型</strong>：int</li>
+<li><strong>默认值</strong>：0（Keras）</li>
+<li><strong>取值范围</strong>：0 / 1 / 2</li>
+<li><strong>对结果的影响</strong>：verbose=1 打印停止/恢复信息</li>
+<li><strong>推荐</strong>：训练时 1 便于观察</li>
+</ul>
+
+<p>#### 参数6：baseline（基线）</p>
+<ul>
+<li><strong>含义</strong>：历史最优必须超过的基线值</li>
+<li><strong>类型</strong>：float</li>
+<li><strong>默认值</strong>：None</li>
+<li><strong>取值范围</strong>：与指标同量级</li>
+<li><strong>对结果的影响</strong>：设置基线可过滤早期噪声（必须超过 baseline 才算改善）</li>
+<li><strong>推荐</strong>：当你想保证最低质量时可设置</li>
+</ul>
+
+<p>#### 参数7：restore_best_weights</p>
+<ul>
+<li><strong>含义</strong>：训练结束后是否恢复验证最优时的权重</li>
+<li><strong>类型</strong>：bool</li>
+<li><strong>默认值</strong>：False（Keras 2.x）</li>
+<li><strong>对结果的影响</strong>：False 时返回最后 epoch 权重（通常较差）；True 返回最优权重</li>
+<li><strong>推荐</strong>：必须设为 True（这是实践中的常见坑）</li>
+</ul>
+
+<h4>代码示例</h4>
+
+<p><pre class="code-block"><code class="language-python"># 使用 Keras / TensorFlow 的 EarlyStopping
+import tensorflow as tf                     # TensorFlow 2.x
+
+model = tf.keras.Sequential([               # 构建简单模型
+    tf.keras.layers.Dense(128, activation=&#x27;relu&#x27;, input_shape=(784,)),
+    tf.keras.layers.Dropout(0.2),           # Dropout 正则化
+    tf.keras.layers.Dense(10, activation=&#x27;softmax&#x27;)
+])
+
+model.compile(                              # 编译模型
+    optimizer=&#x27;adam&#x27;,                       # Adam 优化器
+    loss=&#x27;sparse_categorical_crossentropy&#x27;, # 稀疏交叉熵
+    metrics=[&#x27;accuracy&#x27;]                    # 监控准确率
+)
+
+early_stop = tf.keras.callbacks.EarlyStopping(
+    monitor=&#x27;val_loss&#x27;,     # 监控验证集损失（必须带 val_ 前缀）
+    patience=5,             # 容忍 5 轮无改善
+    min_delta=1e-4,         # 最小改善阈值
+    mode=&#x27;min&#x27;,             # 越小越好
+    verbose=1,              # 打印日志
+    baseline=None,          # 不设基线
+    restore_best_weights=True  # 恢复最优权重（关键！）
+)
+
+history = model.fit(                        # 训练
+    x_train, y_train,                       # 训练数据
+    epochs=100,                             # 最多 100 轮
+    validation_data=(x_val, y_val),         # 验证集
+    callbacks=[early_stop],                 # 挂早停回调
+    batch_size=32
+)
+# 训练会提前停止；model 的权重为验证最优时的权重
+
+# ---------- PyTorch 手动实现 ----------
+import torch
+
+def train_with_early_stopping(model, train_loader, val_loader, optimizer, epochs=50, patience=5):
+    best_val_loss = float(&#x27;inf&#x27;)    # 最佳验证损失
+    best_state = None               # 最佳权重副本
+    no_improve = 0                  # 连续无改善计数
+
+    for epoch in range(epochs):
+        model.train()               # 训练模式
+        for x, y in train_loader:   # 遍历训练集
+            optimizer.zero_grad()   # 清零梯度
+            out = model(x)          # 前向
+            loss = F.cross_entropy(out, y)  # 损失
+            loss.backward()         # 反向
+            optimizer.step()        # 更新
+
+        # 验证
+        model.eval()                # 评估模式
+        val_loss = 0.0
+        with torch.no_grad():
+            for x, y in val_loader:
+                out = model(x)
+                val_loss += F.cross_entropy(out, y).item()
+        val_loss /= len(val_loader) # 平均验证损失
+
+        if val_loss &lt; best_val_loss - 1e-4:  # 是否改善超过 min_delta
+            best_val_loss = val_loss          # 更新最优
+            best_state = model.state_dict().copy()  # 保存最优权重
+            no_improve = 0                    # 重置计数
+        else:
+            no_improve += 1                   # 无改善计数+1
+            if no_improve &gt;= patience:        # 达到耐心值
+                print(f&quot;Early stop at epoch {epoch}&quot;)
+                model.load_state_dict(best_state)  # 恢复最优权重
+                break                          # 退出训练</code></pre></p>
+
+<h4>复杂度分析</h4>
+
+<p><strong>时间复杂度</strong>：</p>
+<ul>
+<li>额外开销：每个 epoch 一次验证集前向，$ O(V \cdot d) $（$ V $ 为验证集大小）</li>
+<li>总训练时间：取决于早停时机，通常节省 20%~60%</li>
+<li>早停不改变单步复杂度</li>
+</ul>
+
+<p><strong>空间复杂度</strong>：</p>
+<ul>
+<li>需要保存一份最优权重副本（$ O(\text{param\_count}) $，通常 1 个模型大小）</li>
+</ul>
+
+<h4>应用场景</h4>
+
+<ul>
+<li>所有神经网络的训练（分类、回归、生成）</li>
+<li>大模型微调（LoRA）时防止灾难性遗忘</li>
+<li>训练时间受限、算力有限的场景</li>
+<li>与其他正则化技术叠加使用</li>
+</ul>
+
+<h4>参考文档</h4>
+
+<ul>
+<li><a href="https://keras.io/api/callbacks/early_stopping/" target="_blank" class="ref-link">Keras EarlyStopping 官方文档</a></li>
+<li><a href="https://www.mindspore.cn/docs/zh-CN/r1.8/api_python/mindspore/mindspore.EarlyStopping.html" target="_blank" class="ref-link">MindSpore EarlyStopping API</a></li>
+<li><a href="https://www.paddlepaddle.org.cn/documentation/docs/zh/api/paddle/callbacks/EarlyStopping_cn.html" target="_blank" class="ref-link">PaddlePaddle EarlyStopping 文档</a></li>
+<li><a href="https://blog.csdn.net/weixin_46649052/article/details/109692013" target="_blank" class="ref-link">TF2.0 EarlyStopping 详解 - CSDN</a></li>
+</ul>
+
+<blockquote>
+<p>AI生成</p>
+</blockquote>
+  </div>
+  <div class="footer">
+    <p>由 TeleAgent · 每日算法推送 技能自动生成 | 2026-09-11 09:11</p>
+  </div>
+</div>
+</body>
+</html>
