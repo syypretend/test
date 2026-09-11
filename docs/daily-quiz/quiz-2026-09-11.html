@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>每日算法 AI 出题 · 2026-09-11</title>
+  <!-- KaTeX 数学公式渲染 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
+  <style>
+    :root {
+      --bg: #0d1117;
+      --card-bg: #161b22;
+      --border: #30363d;
+      --text: #e6edf3;
+      --text-dim: #8b949e;
+      --accent: #58a6ff;
+      --green: #3fb950;
+      --orange: #d29922;
+      --red: #f85149;
+      --purple: #a855f7;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", sans-serif;
+      line-height: 1.7;
+      padding: 16px;
+      max-width: 860px;
+      margin: 0 auto;
+    }
+    .header {
+      text-align: center;
+      padding: 24px 0 16px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 24px;
+    }
+    .header h1 {
+      font-size: 1.5em;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+    .header .subtitle {
+      color: var(--text-dim);
+      font-size: 0.9em;
+    }
+    .header .date-tag {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 2px 12px;
+      border-radius: 12px;
+      background: var(--border);
+      font-size: 0.8em;
+      color: var(--text-dim);
+    }
+
+    /* 题目卡片 */
+    .question-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .question-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+    .type-badge {
+      padding: 2px 10px;
+      border-radius: 10px;
+      font-size: 0.75em;
+      color: white;
+      font-weight: 600;
+    }
+    .difficulty { font-size: 0.85em; }
+    .qid-label { color: var(--text-dim); font-size: 0.8em; margin-left: auto; }
+    .question-title {
+      font-size: 1.25em;
+      margin-bottom: 12px;
+      color: var(--text);
+    }
+    .question-body { margin-bottom: 14px; }
+    .question-body code.inline-code {
+      background: var(--border);
+      padding: 1px 5px;
+      border-radius: 3px;
+      font-size: 0.9em;
+    }
+
+    /* 信息块 */
+    .info-block {
+      background: rgba(88,166,255,0.05);
+      border-left: 3px solid var(--accent);
+      padding: 10px 14px;
+      margin: 10px 0;
+      border-radius: 0 6px 6px 0;
+    }
+    .info-label {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.85em;
+      display: block;
+      margin-bottom: 4px;
+    }
+    .info-block pre {
+      white-space: pre-wrap;
+      font-family: "JetBrains Mono", "Fira Code", monospace;
+      font-size: 0.85em;
+      color: var(--text);
+    }
+
+    /* 示例 */
+    .example-block {
+      background: rgba(63,185,80,0.05);
+      border: 1px solid rgba(63,185,80,0.2);
+      border-radius: 8px;
+      padding: 12px;
+      margin: 10px 0;
+    }
+    .example-title {
+      color: var(--green);
+      font-weight: 600;
+      font-size: 0.85em;
+      margin-bottom: 6px;
+    }
+    .example-io {
+      font-family: monospace;
+      font-size: 0.85em;
+      white-space: pre-wrap;
+      margin: 2px 0;
+    }
+    .io-label { color: var(--text-dim); }
+    .example-explanation {
+      color: var(--text-dim);
+      font-size: 0.85em;
+      margin-top: 6px;
+      padding-top: 6px;
+      border-top: 1px dashed var(--border);
+    }
+
+    /* 选项 */
+    .options-container { margin: 12px 0; }
+    .option-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      padding: 10px 14px;
+      margin: 6px 0;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .option-item:hover { border-color: var(--accent); background: rgba(88,166,255,0.05); }
+    .option-item.correct { border-color: var(--green); background: rgba(63,185,80,0.1); }
+    .option-item.wrong { border-color: var(--red); background: rgba(248,81,73,0.1); }
+    .option-item input[type=radio] { accent-color: var(--accent); margin-top: 4px; }
+    .option-letter {
+      font-weight: 700;
+      color: var(--accent);
+      min-width: 20px;
+    }
+    .option-text { flex: 1; font-size: 0.9em; }
+    .option-feedback {
+      margin: 8px 0;
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-size: 0.85em;
+      display: none;
+    }
+    .option-feedback.show { display: block; }
+    .option-feedback.correct {
+      background: rgba(63,185,80,0.1);
+      color: var(--green);
+    }
+    .option-feedback.wrong { background: rgba(248,81,73,0.1); color: var(--red); }
+
+    /* 代码编辑器 */
+    .code-section {
+      margin: 16px 0;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .code-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 14px;
+      background: rgba(88,166,255,0.08);
+      border-bottom: 1px solid var(--border);
+      font-size: 0.85em;
+      color: var(--accent);
+    }
+    .editor-wrap {
+      position: relative;
+    }
+    .code-editor {
+      min-height: 180px;
+      max-height: 400px;
+      overflow: auto;
+      padding: 12px;
+      font-family: "JetBrains Mono", "Fira Code", "Cascadia Code", monospace;
+      font-size: 13px;
+      line-height: 1.5;
+      white-space: pre;
+      color: var(--text);
+      background: #0d1117;
+      outline: none;
+      tabs: 4;
+    }
+    .btn-run {
+      background: var(--green);
+      color: white;
+      border: none;
+      padding: 4px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.85em;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .btn-run:hover { opacity: 0.85; }
+    .btn-run:disabled { opacity: 0.5; cursor: not-allowed; }
+    .code-result {
+      padding: 12px;
+      background: #0d1117;
+      border-top: 1px solid var(--border);
+      font-family: monospace;
+      font-size: 0.85em;
+      white-space: pre-wrap;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+    .code-result .test-pass { color: var(--green); }
+    .code-result .test-fail { color: var(--red); }
+    .code-result .stderr { color: var(--orange); }
+
+    /* 显示解析按钮 */
+    .btn-reveal {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      margin-top: 16px;
+      background: transparent;
+      border: 2px dashed var(--border);
+      border-radius: 8px;
+      color: var(--text-dim);
+      font-size: 0.95em;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .btn-reveal:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(88,166,255,0.03);
+    }
+    .btn-reveal.loading {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    /* 解析区域 */
+    .solution-section {
+      margin-top: 16px;
+      animation: fadeIn 0.4s ease;
+    }
+    @keyframes fadeIn { from{opacity:0; transform:translateY(10px) } to{opacity:1; transform:translateY(0) } }
+    .solution-divider {
+      text-align: center;
+      color: var(--text-dim);
+      font-size: 0.8em;
+      margin: 16px 0;
+      letter-spacing: 1px;
+    }
+    .answer-highlight {
+      background: rgba(63,185,80,0.1);
+      border: 1px solid var(--green);
+      border-radius: 8px;
+      padding: 10px 16px;
+      margin: 10px 0;
+      font-size: 1.05em;
+      color: var(--green);
+      font-weight: 600;
+    }
+    .solution-block {
+      margin: 14px 0;
+      padding: 14px;
+      background: rgba(255,255,255,0.02);
+      border-radius: 8px;
+    }
+    .solution-block h4 {
+      color: var(--accent);
+      margin-bottom: 8px;
+      font-size: 0.95em;
+    }
+    .solution-block ul.answer-points {
+      padding-left: 20px;
+    }
+    .solution-block ul.answer-points li {
+      margin: 6px 0;
+      font-size: 0.9em;
+    }
+    .code-block {
+      background: #0d1117;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 12px;
+      font-family: "JetBrains Mono", "Fira Code", monospace;
+      font-size: 0.85em;
+      overflow-x: auto;
+      white-space: pre;
+      color: var(--text);
+    }
+    .complexity-tag {
+      display: inline-block;
+      padding: 2px 10px;
+      margin-right: 8px;
+      border-radius: 6px;
+      background: var(--border);
+      font-size: 0.85em;
+      font-family: monospace;
+    }
+    .derivation-content {
+      font-size: 0.9em;
+      line-height: 1.8;
+    }
+
+    /* 运行中加载动画 */
+    .spinner {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      border: 2px solid var(--text-dim);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* 底部 */
+    .footer {
+      text-align: center;
+      padding: 24px 0;
+      color: var(--text-dim);
+      font-size: 0.8em;
+      border-top: 1px solid var(--border);
+      margin-top: 24px;
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 8px; }
+      .question-card { padding: 14px; }
+      .question-title { font-size: 1.1em; }
+      .code-editor { font-size: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <h1>每日算法 AI 出题</h1>
+  <div class="subtitle">算法 2 道 + AI 2 道</div>
+  <div class="date-tag">📅 2026-09-11 ｜ 算法 2 道 · AI 2 道</div>
+</div>
+
+<div class="question-card" data-qid="1">
+
+    <div class="question-header">
+      <span class="type-badge" style="background:#3b82f6">算法编程</span>
+      <span class="difficulty">⭐⭐</span>
+      <span class="qid-label">第 1 题</span>
+    </div>
+<h2 class="question-title">搜索旋转排序数组</h2>
+<div class="question-body">一个原本按升序排列的整数数组 <code class="inline-code">nums</code>，在某个未知的下标 <code class="inline-code">k</code> 处进行了旋转（<code class="inline-code">0 &lt;= k &lt; nums.length</code>）。例如 <code class="inline-code">[0,1,2,4,5,6,7]</code> 在下标 3 处旋转后变为 <code class="inline-code">[4,5,6,7,0,1,2]</code>。<br>
+<br>
+给定旋转后的数组 <code class="inline-code">nums</code> 和一个整数 <code class="inline-code">target</code>，如果 <code class="inline-code">target</code> 存在于数组中则返回它的下标，否则返回 <code class="inline-code">-1</code>。<br>
+<br>
+**要求：时间复杂度 $O(\log n)$。**</div>
+<div class="info-block"><span class="info-label">输入</span><pre>nums: List[int] —— 旋转后的升序数组
+target: int —— 要查找的目标值</pre></div>
+<div class="info-block"><span class="info-label">输出</span><pre>int —— target 的下标，不存在则返回 -1</pre></div>
+<div class="example-block">
+<div class="example-title">示例 1</div>
+<pre class="example-io"><span class="io-label">输入：</span>nums = [4,5,6,7,0,1,2], target = 0</pre>
+<pre class="example-io"><span class="io-label">输出：</span>4</pre>
+<div class="example-explanation">0 出现在下标 4 处</div>
+</div>
+<div class="example-block">
+<div class="example-title">示例 2</div>
+<pre class="example-io"><span class="io-label">输入：</span>nums = [4,5,6,7,0,1,2], target = 3</pre>
+<pre class="example-io"><span class="io-label">输出：</span>-1</pre>
+<div class="example-explanation">3 不在数组中，返回 -1</div>
+</div>
+<div class="example-block">
+<div class="example-title">示例 3</div>
+<pre class="example-io"><span class="io-label">输入：</span>nums = [1], target = 0</pre>
+<pre class="example-io"><span class="io-label">输出：</span>-1</pre>
+<div class="example-explanation">单元素数组，0 不在其中</div>
+</div>
+<div class="info-block"><span class="info-label">约束</span><div>1 &lt;= nums.length &lt;= 5000
+-10^4 &lt;= nums[i] &lt;= 10^4
+nums 中的值互不相同
+nums 已按升序排列并进行了旋转</div></div>
+
+    <div class="code-section">
+      <div class="code-header">
+        <span>🧑‍💻 在线代码编辑器</span>
+        <button class="btn-run" onclick="runCode(1)" id="run_btn_1">▶ 运行</button>
+      </div>
+      <div class="editor-wrap">
+        <div class="code-editor" id="editor_1" contenteditable="true" spellcheck="false">def search(nums, target):
+    # 在此编写你的代码
+    pass</div>
+      </div>
+      <div class="code-result" id="result_1" style="display:none;"></div>
+      <input type="hidden" id="func_name_1" value="search">
+      <input type="hidden" id="test_cases_1" value='[[[4, 5, 6, 7, 0, 1, 2], 0], [[4, 5, 6, 7, 0, 1, 2], 3], [[1], 0], [[1], 1], [[3, 1], 1], [[3, 1], 3], [[5, 1, 3], 5], [[5, 1, 3], 3], [[5, 1, 3], 1], [[6, 7, 8, 1, 2, 3, 4, 5], 8], [[6, 7, 8, 1, 2, 3, 4, 5], 5], [[6, 7, 8, 1, 2, 3, 4, 5], 6], [[1, 2, 3, 4, 5, 6, 7, 8], 4], [[1, 2, 3, 4, 5, 6, 7, 8], 9]]'>
+      <input type="hidden" id="expected_outputs_1" value='[4, -1, -1, 0, 1, 0, 0, 2, 1, 2, 7, 0, 3, -1]'>
+    </div>
+
+    <button class="btn-reveal" onclick="revealSolution(1)" id="reveal_btn_1">
+      📖 显示答案与解析
+    </button>
+<div class="solution-section" id="solution_1" style="display:none;">
+<div class="solution-divider">--- 以下为答案与解析 ---</div>
+<div class="solution-block"><h4>💡 解题思路</h4><div>核心思路是利用二分查找。尽管数组被旋转了，但二分后必有一半是严格有序的。每次取 mid 后，先判断哪半边有序：<br>
+1. 若 <code class="inline-code">nums[left] &lt;= nums[mid]</code>，说明左半边 <code class="inline-code">[left, mid]</code> 有序。此时若 <code class="inline-code">target</code> 在 <code class="inline-code">[nums[left], nums[mid])</code> 范围内，则搜左半边，否则搜右半边。<br>
+2. 否则右半边 <code class="inline-code">[mid, right]</code> 有序。此时若 <code class="inline-code">target</code> 在 <code class="inline-code">(nums[mid], nums[right]]</code> 范围内，则搜右半边，否则搜左半边。<br>
+<br>
+关键点：每次二分后判断有序半边 + 缩小范围，保证 $O(\log n)$。</div></div>
+<div class="solution-block"><h4>📝 参考代码（python）</h4><pre class="code-block">def search(nums, target):
+    left, right = 0, len(nums) - 1
+    while left &lt;= right:
+        mid = (left + right) // 2
+        if nums[mid] == target:
+            return mid
+        # 左半边有序
+        if nums[left] &lt;= nums[mid]:
+            if nums[left] &lt;= target &lt; nums[mid]:
+                right = mid - 1
+            else:
+                left = mid + 1
+        # 右半边有序
+        else:
+            if nums[mid] &lt; target &lt;= nums[right]:
+                left = mid + 1
+            else:
+                right = mid - 1
+    return -1</pre></div>
+<div class="solution-block"><h4>⚡ 复杂度分析</h4><div>
+<span class="complexity-tag">时间 O(log n)</span>
+<span class="complexity-tag">空间 O(1)</span>
+</div></div>
+<div class="solution-block"><h4>🎯 考点</h4><div>二分查找变体、旋转数组的有序半边判断、边界条件处理</div></div>
+</div>
+</div>
+<div class="question-card" data-qid="2">
+
+    <div class="question-header">
+      <span class="type-badge" style="background:#10b981">算法概念</span>
+      <span class="difficulty">⭐</span>
+      <span class="qid-label">第 2 题</span>
+    </div>
+<h2 class="question-title">动态规划的最优子结构性质</h2>
+<div class="question-body">关于动态规划（Dynamic Programming）的最优子结构性质，以下哪个说法是**正确**的？</div>
+<div class="options-container">
+
+            <label class="option-item" data-letter="A">
+              <input type="radio" name="quiz_2" value="A" onchange="checkAnswer(2, 'A')">
+              <span class="option-letter">A</span>
+              <span class="option-text">A. 最优子结构是指原问题的最优解一定包含所有子问题的最优解</span>
+            </label>
+
+            <label class="option-item" data-letter="B">
+              <input type="radio" name="quiz_2" value="B" onchange="checkAnswer(2, 'B')">
+              <span class="option-letter">B</span>
+              <span class="option-text">B. 最优子结构是指原问题的最优解可以由其子问题的最优解组合构造而成</span>
+            </label>
+
+            <label class="option-item" data-letter="C">
+              <input type="radio" name="quiz_2" value="C" onchange="checkAnswer(2, 'C')">
+              <span class="option-letter">C</span>
+              <span class="option-text">C. 任何具有最优子结构的问题都可以用动态规划求解</span>
+            </label>
+
+            <label class="option-item" data-letter="D">
+              <input type="radio" name="quiz_2" value="D" onchange="checkAnswer(2, 'D')">
+              <span class="option-letter">D</span>
+              <span class="option-text">D. 最优子结构意味着子问题之间必须相互独立、互不影响</span>
+            </label>
+</div>
+<div class="option-feedback" id="feedback_2"></div>
+
+    <button class="btn-reveal" onclick="revealSolution(2)" id="reveal_btn_2">
+      📖 显示答案与解析
+    </button>
+<div class="solution-section" id="solution_2" style="display:none;">
+<div class="solution-divider">--- 以下为答案与解析 ---</div>
+<div class="answer-highlight">✅ 正确答案：B</div>
+<div class="solution-block"><h4>💡 解题思路</h4><div>最优子结构是动态规划适用的两大必要条件之一（另一个是重叠子问题）。其含义是：原问题的最优解可以由其子问题的最优解来构造。这意味着我们可以自底向上或自顶向下地通过求解子问题来得到原问题的解。</div></div>
+<div class="solution-block"><h4>🎯 考点</h4><div>最优子结构定义、动态规划两大必要条件（最优子结构+重叠子问题）、与分治/贪心的区别</div></div>
+<div class="solution-block"><h4>🔍 逐项分析</h4><ul class="answer-points">
+<li>A 错误：最优子结构并非要求包含**所有**子问题的最优解，而是说存在一条路径——原问题的最优解由某些子问题的最优解构成。例如 01 背包中，dp[i][w] 只依赖 dp[i-1][w] 和 dp[i-1][w-weight[i]] 两个子问题，不是所有子问题。</li>
+<li>B 正确：这正是最优子结构的定义。原问题的最优解由子问题的最优解组合构造而成。例如 LIS（最长递增子序列）：<code class="inline-code">dp[i] = max(dp[j] + 1)</code> for all j &lt; i where nums[j] &lt; nums[i]，dp[i] 的最优值由子问题 dp[j] 的最优值构造。</li>
+<li>C 错误：仅有最优子结构不够，还必须有**重叠子问题**。例如归并排序有最优子结构但子问题不重叠（分治即可），不能用 DP。贪心算法也需要某种最优子结构，但不一定适用 DP。</li>
+<li>D 错误：最优子结构不要求子问题独立。实际上 DP 中子问题往往高度重叠（如斐波那契、最长公共子序列），正是重叠性使得 DP 比朴素递归更高效。子问题独立是贪心算法的某些适用条件，不是 DP 的要求。</li>
+</ul></div>
+</div>
+</div>
+<div class="question-card" data-qid="3">
+
+    <div class="question-header">
+      <span class="type-badge" style="background:#a855f7">AI公式推导</span>
+      <span class="difficulty">⭐⭐⭐</span>
+      <span class="qid-label">第 3 题</span>
+    </div>
+<h2 class="question-title">神经网络反向传播四公式完整推导</h2>
+<div class="question-body">考虑一个 $L$ 层全连接前馈神经网络，激活函数为 $\sigma$（sigmoid），损失函数采用均方误差 $C = \frac{1}{2n}\sum_{x} \|y(x) - a^L(x)\|^2$（对单个样本简记 $C = \frac{1}{2}\|y - a^L\|^2$）。<br>
+<br>
+记各层加权输入 $z^l = w^l a^{l-1} + b^l$，各层激活 $a^l = \sigma(z^l)$，定义误差 $\delta^l = \frac{\partial C}{\partial z^l}$。<br>
+<br>
+请完整推导反向传播的**四个基本公式**：<br>
+1. 输出层误差公式<br>
+2. 误差反向传播公式<br>
+3. 权重梯度公式<br>
+4. 偏置梯度公式</div>
+
+    <button class="btn-reveal" onclick="revealSolution(3)" id="reveal_btn_3">
+      📖 显示答案与解析
+    </button>
+<div class="solution-section" id="solution_3" style="display:none;">
+<div class="solution-divider">--- 以下为答案与解析 ---</div>
+<div class="solution-block"><h4>🎯 考点</h4><div>链式法则、输出层误差公式、误差反向传播、权重梯度 = 前层激活 × 当前层误差、偏置梯度 = 当前层误差</div></div>
+<div class="solution-block"><h4>📐 推导过程</h4><div class="derivation-content">**符号约定**：$a^l$ 为第 $l$ 层激活向量，$z^l$ 为加权输入，$w^l$ 为权重矩阵（$w^l_{jk}$ 表示第 $l-1$ 层第 $k$ 个神经元到第 $l$ 层第 $j$ 个神经元的权重），$b^l$ 为偏置向量，$\sigma$ 逐元素作用于向量，$\odot$ 为 Hadamard 积（逐元素乘）。<br>
+<br>
+---<br>
+<br>
+**公式一：输出层误差**<br>
+<br>
+$$\delta^L = \nabla_a C \odot \sigma&#x27;(z^L)$$<br>
+<br>
+推导：由链式法则，<br>
+$$\delta^L_j = \frac{\partial C}{\partial z^L_j} = \sum_k \frac{\partial C}{\partial a^L_k} \cdot \frac{\partial a^L_k}{\partial z^L_j}$$<br>
+<br>
+由于 $a^L_k = \sigma(z^L_k)$，故 $\frac{\partial a^L_k}{\partial z^L_j} = \sigma&#x27;(z^L_j) \cdot \delta_{kj}$（Kronecker delta，仅当 $k=j$ 时为 1）。<br>
+<br>
+代入得：<br>
+$$\delta^L_j = \frac{\partial C}{\partial a^L_j} \cdot \sigma&#x27;(z^L_j)$$<br>
+<br>
+写成向量形式：<br>
+$$\boxed{\delta^L = \nabla_a C \odot \sigma&#x27;(z^L)}$$<br>
+<br>
+对于 MSE 损失，$\nabla_a C = (a^L - y)$，故 $\delta^L = (a^L - y) \odot \sigma&#x27;(z^L)$。<br>
+<br>
+---<br>
+<br>
+**公式二：误差反向传播**<br>
+<br>
+$$\delta^l = ((w^{l+1})^T \delta^{l+1}) \odot \sigma&#x27;(z^l)$$<br>
+<br>
+推导：由链式法则展开 $\delta^l_j = \frac{\partial C}{\partial z^l_j}$，先对下一层的 $z^{l+1}$ 求和：<br>
+$$\delta^l_j = \sum_k \frac{\partial C}{\partial z^{l+1}_k} \cdot \frac{\partial z^{l+1}_k}{\partial z^l_j} = \sum_k \delta^{l+1}_k \cdot \frac{\partial z^{l+1}_k}{\partial z^l_j}$$<br>
+<br>
+而 $z^{l+1}_k = \sum_j w^{l+1}_{kj} a^l_j + b^{l+1}_k = \sum_j w^{l+1}_{kj} \sigma(z^l_j) + b^{l+1}_k$，故：<br>
+$$\frac{\partial z^{l+1}_k}{\partial z^l_j} = w^{l+1}_{kj} \cdot \sigma&#x27;(z^l_j)$$<br>
+<br>
+代回：<br>
+$$\delta^l_j = \sum_k \delta^{l+1}_k \cdot w^{l+1}_{kj} \cdot \sigma&#x27;(z^l_j) = \sigma&#x27;(z^l_j) \sum_k w^{l+1}_{kj} \delta^{l+1}_k$$<br>
+<br>
+注意到 $\sum_k w^{l+1}_{kj} \delta^{l+1}_k = ((w^{l+1})^T \delta^{l+1})_j$（权重矩阵转置乘以误差向量），写成向量形式：<br>
+$$\boxed{\delta^l = ((w^{l+1})^T \delta^{l+1}) \odot \sigma&#x27;(z^l)}$$<br>
+<br>
+这就是误差从第 $l+1$ 层反向传播到第 $l$ 层的公式。<br>
+<br>
+---<br>
+<br>
+**公式三：权重梯度**<br>
+<br>
+$$\frac{\partial C}{\partial w^l_{jk}} = a^{l-1}_k \cdot \delta^l_j$$<br>
+<br>
+推导：由链式法则，<br>
+$$\frac{\partial C}{\partial w^l_{jk}} = \sum_m \frac{\partial C}{\partial z^l_m} \cdot \frac{\partial z^l_m}{\partial w^l_{jk}} = \delta^l_j \cdot \frac{\partial z^l_j}{\partial w^l_{jk}}$$<br>
+<br>
+因为 $z^l_j = \sum_k w^l_{jk} a^{l-1}_k + b^l_j$，故 $\frac{\partial z^l_j}{\partial w^l_{jk}} = a^{l-1}_k$。<br>
+<br>
+代入得：<br>
+$$\boxed{\frac{\partial C}{\partial w^l_{jk}} = a^{l-1}_k \cdot \delta^l_j}$$<br>
+<br>
+直觉：**权重梯度 = 上一层激活值 × 当前层误差**。即进入该权重的信号强度（$a^{l-1}_k$）乘以该权重对误差的影响（$\delta^l_j$）。<br>
+<br>
+---<br>
+<br>
+**公式四：偏置梯度**<br>
+<br>
+$$\frac{\partial C}{\partial b^l_j} = \delta^l_j$$<br>
+<br>
+推导：由链式法则，<br>
+$$\frac{\partial C}{\partial b^l_j} = \sum_m \frac{\partial C}{\partial z^l_m} \cdot \frac{\partial z^l_m}{\partial b^l_j} = \delta^l_j \cdot \frac{\partial z^l_j}{\partial b^l_j}$$<br>
+<br>
+因为 $z^l_j = \sum_k w^l_{jk} a^{l-1}_k + b^l_j$，故 $\frac{\partial z^l_j}{\partial b^l_j} = 1$。<br>
+<br>
+代入得：<br>
+$$\boxed{\frac{\partial C}{\partial b^l_j} = \delta^l_j}$$<br>
+<br>
+偏置梯度恰好等于该层误差，这是反向传播中最简洁的结论。<br>
+<br>
+---<br>
+<br>
+**算法总结**：<br>
+1. 前向传播：逐层计算 $z^l = w^l a^{l-1} + b^l$，$a^l = \sigma(z^l)$<br>
+2. 输出层误差：$\delta^L = \nabla_a C \odot \sigma&#x27;(z^L)$<br>
+3. 反向传播：对 $l = L-1, L-2, \ldots, 2$，计算 $\delta^l = ((w^{l+1})^T \delta^{l+1}) \odot \sigma&#x27;(z^l)$<br>
+4. 梯度：$\frac{\partial C}{\partial w^l} = \delta^l (a^{l-1})^T$，$\frac{\partial C}{\partial b^l} = \delta^l$</div></div>
+<div class="solution-block"><h4>🧠 直觉解释</h4><div>反向传播本质上是用链式法则将损失函数对输出的偏导逐层传回网络，得到每一层每个参数的梯度。四个公式分别解决：①最后一层误差怎么算，②误差怎么往回传一层，③知道了误差和输入怎么更新权重，④偏置更新恰好等于误差。</div></div>
+</div>
+</div>
+<div class="question-card" data-qid="4">
+
+    <div class="question-header">
+      <span class="type-badge" style="background:#f59e0b">AI面试问答</span>
+      <span class="difficulty">⭐⭐</span>
+      <span class="qid-label">第 4 题</span>
+    </div>
+<h2 class="question-title">Early Stopping 早停策略的原理与实践</h2>
+<div class="question-body">面试官问：&quot;在模型训练中，Early Stopping（早停）是一种常用的正则化手段。请详细解释早停的原理、实现方式，以及它与其他正则化方法（如 L2、Dropout）相比有什么优劣。&quot;</div>
+
+    <button class="btn-reveal" onclick="revealSolution(4)" id="reveal_btn_4">
+      📖 显示答案与解析
+    </button>
+<div class="solution-section" id="solution_4" style="display:none;">
+<div class="solution-divider">--- 以下为答案与解析 ---</div>
+<div class="solution-block"><h4>📌 回答要点</h4><ul class="answer-points">
+<li>**原理**：在训练过程中持续监控验证集损失（validation loss），当验证集损失连续若干个 epoch 不再下降（或开始上升）时停止训练。其直觉来自于训练曲线的三个阶段——欠拟合阶段（训练/验证损失均下降）、最佳拟合点（验证损失最低）、过拟合阶段（训练损失继续下降但验证损失上升）。早停就是在最佳拟合点附近停住。</li>
+<li>**实现方式**：设定 patience（耐心值）参数，当验证集损失连续 patience 个 epoch 未刷新最低值时触发停止。同时保存验证集损失最低时的模型权重（best checkpoint），训练结束后恢复为最优权重而非最后一步的权重。</li>
+<li>**关键超参数**：① patience（容忍多少个 epoch 不改善），② min_delta（判定为&quot;改善&quot;的最小变化阈值，避免微小波动误判），③ restore_best_weights（是否恢复最优权重）。</li>
+<li>**为什么是正则化**：早停在模型开始过拟合之前就停止训练，相当于限制了模型的复杂度——训练时间越短，模型能拟合的函数复杂度越低。这与限制参数范数（L2）或随机丢弃神经元（Dropout）从不同角度达到抑制过拟合的效果。</li>
+<li>**与 L2/Dropout 对比**：早停无需修改损失函数或网络结构，是&quot;训练策略层面&quot;的正则化，实施简单、计算开销几乎为零（仅需多维护一个验证集和最优权重副本）。可以与 L2、Dropout 组合使用，实践中三者叠加是常见配置。</li>
+</ul></div>
+<div class="solution-block"><h4>⭐ 加分项</h4><ul class="answer-points">
+<li>早停可以与学习率调度器配合使用：如 ReduceLROnPlateau 也在监控验证集指标，可以先降低学习率再触发早停，给模型更多&quot;挣扎&quot;机会，减少因学习率过大导致的假性不收敛。</li>
+<li>在深度学习中，早停的 patience 通常设为 5-20（与数据集规模和模型复杂度相关）；min_delta 应设为一个略大于验证集指标噪声水平的值，可用实验估计。</li>
+<li>早停的理论基础：它在参数空间中等价于 L2 正则化的效果（在一定假设下，提前停止 SGD 相当于在损失函数中加入 L2 惩罚项，正则化强度与训练步数成反比），称为半正则化（semi-regularization）。</li>
+<li>工程实践中的注意事项：验证集不宜太小（否则指标噪声大、容易误触早停）；时间敏感场景下可设置最大 epoch 数作为兜底；分布式训练中需要确保所有节点使用相同的验证集和相同的判断逻辑。</li>
+</ul></div>
+<div class="solution-block"><h4>🔮 追问预测</h4><ul class="answer-points">
+<li>追问1：&quot;如果验证集损失在下降过程中有波动， patience 设太小会不会过早停止？&quot; → 回答：是的，可以通过增大 patience、设置 min_delta 阈值、或使用验证集指标的滑动平均来平滑噪声，避免因短期波动误判。</li>
+<li>追问2：&quot;早停和 L2 正则化的等价关系是什么？&quot; → 回答：在二次损失和梯度下降的设定下，训练 $t$ 步后的参数 $w(t) \approx (I - \eta H)^t w(0)$，而 L2 正则化的解满足 $w_\lambda = (H + \lambda I)^{-1} H w_0$。可以证明存在一个映射 $t \leftrightarrow \lambda$，使得有限步训练的效果等价于某个 $\lambda$ 的 L2 正则化。训练步数越少等价于 $\lambda$ 越大（正则化越强）。</li>
+<li>追问3：&quot;分布式训练中如何实现早停？&quot; → 回答：需要所有 worker 对验证集做同步评估（通常在某一 rank 上做验证后广播结果），且只有一个进程负责判断和发起停止信号。需注意各 rank 的 random seed 差异和 batch 划分方式对验证指标的影响。</li>
+</ul></div>
+</div>
+</div>
+
+<div class="footer">
+  坚持每日练习，积少成多 💪<br>
+  Powered by TeleAgent · daily-algo-ai-quiz
+</div>
+
+<script>
+// ===== Pyodide 隔离执行测试运行器 =====
+const RUNNER_CODE = "\nimport json, traceback, io, contextlib\n\ndef run_tests(user_code, func_name, test_cases, expected):\n    ns = {}\n    user_stdout = io.StringIO()\n    user_error = None\n\n    try:\n        with contextlib.redirect_stdout(user_stdout):\n            exec(user_code, ns)\n    except Exception:\n        user_error = traceback.format_exc()\n\n    user_out = user_stdout.getvalue()\n\n    if user_error:\n        return {\"error\": user_error, \"stdout\": user_out}\n\n    func = ns.get(func_name)\n    if func is None:\n        return {\"error\": \"未找到函数 \" + str(func_name) + \"，请确保代码中定义了该函数\", \"stdout\": user_out}\n\n    test_results = []\n    for i, tc in enumerate(test_cases):\n        try:\n            actual = func(*tc)\n            exp = expected[i]\n            passed = actual == exp\n            test_results.append({\n                \"passed\": passed,\n                \"input\": str(tc),\n                \"expected\": str(exp),\n                \"actual\": str(actual)\n            })\n        except Exception as e:\n            exp = str(expected[i]) if i < len(expected) else \"N/A\"\n            test_results.append({\n                \"passed\": False,\n                \"input\": str(tc),\n                \"expected\": exp,\n                \"actual\": \"Error: \" + str(e)\n            })\n\n    return {\"stdout\": user_out, \"tests\": test_results}\n";
+
+// ===== 显示/隐藏解析 =====
+function revealSolution(qid) {
+  const sol = document.getElementById('solution_' + qid);
+  const btn = document.getElementById('reveal_btn_' + qid);
+  if (sol.style.display === 'none') {
+    sol.style.display = 'block';
+    btn.innerHTML = '📕 收起解析';
+    // 渲染该区域数学公式
+    if (typeof renderMathInElement !== 'undefined') {
+      renderMathInElement(sol, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false}
+        ]
+      });
+    }
+  } else {
+    sol.style.display = 'none';
+    btn.innerHTML = '📖 显示答案与解析';
+  }
+}
+
+// ===== 选择题作答反馈 =====
+function checkAnswer(qid, selected) {
+  const card = document.querySelector(`[data-qid="${qid}"]`);
+  if (!card) return;
+  const correctAnswer = card.getAttribute('data-correct') || '';
+  // 从全局 quizData 获取
+  const qData = window.__quizData__.questions.find(q => q.id == qid);
+  if (!qData || !qData.correct_answer) return;
+
+  const correct = qData.correct_answer;
+  const feedback = document.getElementById('feedback_' + qid);
+  const options = card.querySelectorAll('.option-item');
+
+  options.forEach(opt => {
+    const letter = opt.getAttribute('data-letter');
+    opt.classList.remove('correct', 'wrong');
+    if (letter === correct) {
+      opt.classList.add('correct');
+    } else if (letter === selected && selected !== correct) {
+      opt.classList.add('wrong');
+    }
+  });
+
+  if (feedback) {
+    feedback.className = 'option-feedback show ' + (selected === correct ? 'correct' : 'wrong');
+    feedback.textContent = selected === correct
+      ? '✅ 回答正确！'
+      : `❌ 正确答案是 ${correct}，再想想？`;
+    feedback.style.display = 'block';
+  }
+}
+
+// ===== Pyodide 代码执行 =====
+let pyodideReady = null;
+let pyodideLoading = false;
+
+function loadPyodideAsync() {
+  if (pyodideReady) return pyodideReady;
+  if (pyodideLoading) return pyodideReady;
+  pyodideLoading = true;
+
+  pyodideReady = new Promise((resolve, reject) => {
+    if (typeof loadPyodide !== 'undefined') {
+      loadPyodide({
+        indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.25.0/full/'
+      }).then(py => {
+        pyodideLoading = false;
+        resolve(py);
+      }).catch(reject);
+    } else {
+      // 动态加载 Pyodide
+      const script = document.createElement('script');
+      script.src = 'https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js';
+      script.onload = () => {
+        loadPyodide({
+          indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.25.0/full/'
+        }).then(py => {
+          pyodideLoading = false;
+          resolve(py);
+        }).catch(reject);
+      };
+      script.onerror = () => {
+        pyodideLoading = false;
+        reject(new Error('Pyodide 加载失败，请检查网络连接'));
+      };
+      document.head.appendChild(script);
+    }
+  });
+  return pyodideReady;
+}
+
+async function runCode(qid) {
+    const editor = document.getElementById('editor_' + qid);
+    const resultDiv = document.getElementById('result_' + qid);
+    const btn = document.getElementById('run_btn_' + qid);
+    const code = editor.innerText;
+    const funcNameInput = document.getElementById('func_name_' + qid);
+    const funcName = funcNameInput ? funcNameInput.value : 'solve';
+    const tcInput = document.getElementById('test_cases_' + qid);
+    const eoInput = document.getElementById('expected_outputs_' + qid);
+    let testCases = [];
+    let expectedOutputs = [];
+    try {
+        testCases = JSON.parse(tcInput.value || '[]');
+        expectedOutputs = JSON.parse(eoInput.value || '[]');
+    } catch(e) {}
+
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span> 运行中...';
+    resultDiv.style.display = 'block';
+    resultDiv.innerHTML = '<span style="color:var(--text-dim)">⏳ 正在加载 Python 运行环境...</span>';
+
+    try {
+        const pyodide = await loadPyodideAsync();
+        resultDiv.innerHTML = '<span style="color:var(--text-dim)">⏳ 正在执行代码...</span>';
+
+        // 确保 run_tests 函数只定义一次
+        if (!window.__runner_ready__) {
+            pyodide.runPython(RUNNER_CODE);
+            window.__runner_ready__ = true;
+        }
+
+        // 调用 run_tests 函数，通过返回值获取结果（不依赖 stdout，每次调用独立）
+        const runTests = pyodide.globals.get('run_tests');
+        const pyResult = runTests(code, funcName, testCases, expectedOutputs);
+        // pyResult 是 Python dict，转为 JS 对象
+        const result = pyResult.toJs({dict_converter: Object.fromEntries});
+
+        let resultHtml = '';
+
+        // 显示用户代码标准输出
+        if (result.stdout && result.stdout.trim()) {
+            resultHtml += '<div style="color:var(--text)">📝 标准输出：</div>';
+            resultHtml += '<pre style="color:var(--text);margin:4px 0;">' + escapeHtml(result.stdout) + '</pre>';
+        }
+
+        // 显示错误信息
+        if (result.error) {
+            resultHtml += '<div class="stderr">⚠️ 错误信息：</div>';
+            resultHtml += '<pre class="stderr" style="margin:4px 0;">' + escapeHtml(result.error) + '</pre>';
+        }
+
+        // 显示测试用例结果
+        if (result.tests && result.tests.length > 0) {
+            let allPassed = result.tests.every(t => t.passed);
+            resultHtml += '<div style="margin-top:8px;color:' + (allPassed ? 'var(--green)' : 'var(--accent)') + '">';
+            resultHtml += allPassed ? '🎉 全部通过！' : '🧪 测试用例结果：';
+            resultHtml += '</div>';
+
+            for (let i = 0; i < result.tests.length; i++) {
+                const t = result.tests[i];
+                if (t.passed) {
+                    resultHtml += '<div class="test-pass">✅ 用例 ' + (i+1) + ' 通过</div>';
+                } else {
+                    resultHtml += '<div class="test-fail">❌ 用例 ' + (i+1) + ' 未通过</div>';
+                    resultHtml += '<pre style="color:var(--text-dim);margin:2px 0;">  输入: ' + escapeHtml(t.input) + '\n  期望: ' + escapeHtml(t.expected) + '\n  实际: ' + escapeHtml(t.actual) + '</pre>';
+                }
+            }
+        }
+
+        if (!resultHtml) {
+            resultHtml = '<span style="color:var(--text-dim)">（代码执行完毕，无输出）</span>';
+        }
+
+        resultDiv.innerHTML = resultHtml;
+
+    } catch(e) {
+        resultDiv.innerHTML = '<div class="stderr">❌ ' + escapeHtml(e.message || String(e)) + '</div>';
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = '▶ 运行';
+    }
+}
+
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+// Ctrl+Enter 运行代码
+document.addEventListener('keydown', (e) => {
+  if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+    const focused = document.activeElement;
+    if (focused && focused.classList.contains('code-editor')) {
+      const qid = focused.id.replace('editor_', '');
+      runCode(qid);
+    }
+  }
+});
+
+// Tab 键在编辑器中插入空格
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Tab' && document.activeElement.classList.contains('code-editor')) {
+    e.preventDefault();
+    document.execCommand('insertText', false, '    ');
+  }
+});
+
+// 将 quiz 数据存入全局变量供选择题使用
+window.__quizData__ = {"date": "2026-09-11", "title": "每日算法 AI 出题", "subtitle": "算法 2 道 + AI 2 道", "questions": [{"id": 1, "type": "algorithm_code", "type_label": "算法编程", "difficulty": 2, "title": "搜索旋转排序数组", "description": "一个原本按升序排列的整数数组 `nums`，在某个未知的下标 `k` 处进行了旋转（`0 <= k < nums.length`）。例如 `[0,1,2,4,5,6,7]` 在下标 3 处旋转后变为 `[4,5,6,7,0,1,2]`。\n\n给定旋转后的数组 `nums` 和一个整数 `target`，如果 `target` 存在于数组中则返回它的下标，否则返回 `-1`。\n\n**要求：时间复杂度 $O(\\log n)$。**", "input_format": "nums: List[int] —— 旋转后的升序数组\ntarget: int —— 要查找的目标值", "output_format": "int —— target 的下标，不存在则返回 -1", "examples": [{"input": "nums = [4,5,6,7,0,1,2], target = 0", "output": "4", "explanation": "0 出现在下标 4 处"}, {"input": "nums = [4,5,6,7,0,1,2], target = 3", "output": "-1", "explanation": "3 不在数组中，返回 -1"}, {"input": "nums = [1], target = 0", "output": "-1", "explanation": "单元素数组，0 不在其中"}], "constraints": "1 <= nums.length <= 5000\n-10^4 <= nums[i] <= 10^4\nnums 中的值互不相同\nnums 已按升序排列并进行了旋转", "solution": {"approach": "核心思路是利用二分查找。尽管数组被旋转了，但二分后必有一半是严格有序的。每次取 mid 后，先判断哪半边有序：\n1. 若 `nums[left] <= nums[mid]`，说明左半边 `[left, mid]` 有序。此时若 `target` 在 `[nums[left], nums[mid])` 范围内，则搜左半边，否则搜右半边。\n2. 否则右半边 `[mid, right]` 有序。此时若 `target` 在 `(nums[mid], nums[right]]` 范围内，则搜右半边，否则搜左半边。\n\n关键点：每次二分后判断有序半边 + 缩小范围，保证 $O(\\log n)$。", "code": "def search(nums, target):\n    left, right = 0, len(nums) - 1\n    while left <= right:\n        mid = (left + right) // 2\n        if nums[mid] == target:\n            return mid\n        # 左半边有序\n        if nums[left] <= nums[mid]:\n            if nums[left] <= target < nums[mid]:\n                right = mid - 1\n            else:\n                left = mid + 1\n        # 右半边有序\n        else:\n            if nums[mid] < target <= nums[right]:\n                left = mid + 1\n            else:\n                right = mid - 1\n    return -1", "starter_code": "def search(nums, target):\n    # 在此编写你的代码\n    pass", "code_language": "python", "complexity_time": "O(log n)", "complexity_space": "O(1)", "key_points": "二分查找变体、旋转数组的有序半边判断、边界条件处理", "test_cases": [[[4, 5, 6, 7, 0, 1, 2], 0], [[4, 5, 6, 7, 0, 1, 2], 3], [[1], 0], [[1], 1], [[3, 1], 1], [[3, 1], 3], [[5, 1, 3], 5], [[5, 1, 3], 3], [[5, 1, 3], 1], [[6, 7, 8, 1, 2, 3, 4, 5], 8], [[6, 7, 8, 1, 2, 3, 4, 5], 5], [[6, 7, 8, 1, 2, 3, 4, 5], 6], [[1, 2, 3, 4, 5, 6, 7, 8], 4], [[1, 2, 3, 4, 5, 6, 7, 8], 9]], "expected_outputs": [4, -1, -1, 0, 1, 0, 0, 2, 1, 2, 7, 0, 3, -1]}}, {"id": 2, "type": "algorithm_concept", "type_label": "算法概念", "difficulty": 1, "title": "动态规划的最优子结构性质", "description": "关于动态规划（Dynamic Programming）的最优子结构性质，以下哪个说法是**正确**的？", "options": ["A. 最优子结构是指原问题的最优解一定包含所有子问题的最优解", "B. 最优子结构是指原问题的最优解可以由其子问题的最优解组合构造而成", "C. 任何具有最优子结构的问题都可以用动态规划求解", "D. 最优子结构意味着子问题之间必须相互独立、互不影响"], "correct_answer": "B", "solution": {"approach": "最优子结构是动态规划适用的两大必要条件之一（另一个是重叠子问题）。其含义是：原问题的最优解可以由其子问题的最优解来构造。这意味着我们可以自底向上或自顶向下地通过求解子问题来得到原问题的解。", "option_analysis": ["A 错误：最优子结构并非要求包含**所有**子问题的最优解，而是说存在一条路径——原问题的最优解由某些子问题的最优解构成。例如 01 背包中，dp[i][w] 只依赖 dp[i-1][w] 和 dp[i-1][w-weight[i]] 两个子问题，不是所有子问题。", "B 正确：这正是最优子结构的定义。原问题的最优解由子问题的最优解组合构造而成。例如 LIS（最长递增子序列）：`dp[i] = max(dp[j] + 1)` for all j < i where nums[j] < nums[i]，dp[i] 的最优值由子问题 dp[j] 的最优值构造。", "C 错误：仅有最优子结构不够，还必须有**重叠子问题**。例如归并排序有最优子结构但子问题不重叠（分治即可），不能用 DP。贪心算法也需要某种最优子结构，但不一定适用 DP。", "D 错误：最优子结构不要求子问题独立。实际上 DP 中子问题往往高度重叠（如斐波那契、最长公共子序列），正是重叠性使得 DP 比朴素递归更高效。子问题独立是贪心算法的某些适用条件，不是 DP 的要求。"], "key_points": "最优子结构定义、动态规划两大必要条件（最优子结构+重叠子问题）、与分治/贪心的区别"}}, {"id": 3, "type": "ai_derivation", "type_label": "AI公式推导", "difficulty": 3, "title": "神经网络反向传播四公式完整推导", "description": "考虑一个 $L$ 层全连接前馈神经网络，激活函数为 $\\sigma$（sigmoid），损失函数采用均方误差 $C = \\frac{1}{2n}\\sum_{x} \\|y(x) - a^L(x)\\|^2$（对单个样本简记 $C = \\frac{1}{2}\\|y - a^L\\|^2$）。\n\n记各层加权输入 $z^l = w^l a^{l-1} + b^l$，各层激活 $a^l = \\sigma(z^l)$，定义误差 $\\delta^l = \\frac{\\partial C}{\\partial z^l}$。\n\n请完整推导反向传播的**四个基本公式**：\n1. 输出层误差公式\n2. 误差反向传播公式\n3. 权重梯度公式\n4. 偏置梯度公式", "solution": {"derivation": "**符号约定**：$a^l$ 为第 $l$ 层激活向量，$z^l$ 为加权输入，$w^l$ 为权重矩阵（$w^l_{jk}$ 表示第 $l-1$ 层第 $k$ 个神经元到第 $l$ 层第 $j$ 个神经元的权重），$b^l$ 为偏置向量，$\\sigma$ 逐元素作用于向量，$\\odot$ 为 Hadamard 积（逐元素乘）。\n\n---\n\n**公式一：输出层误差**\n\n$$\\delta^L = \\nabla_a C \\odot \\sigma'(z^L)$$\n\n推导：由链式法则，\n$$\\delta^L_j = \\frac{\\partial C}{\\partial z^L_j} = \\sum_k \\frac{\\partial C}{\\partial a^L_k} \\cdot \\frac{\\partial a^L_k}{\\partial z^L_j}$$\n\n由于 $a^L_k = \\sigma(z^L_k)$，故 $\\frac{\\partial a^L_k}{\\partial z^L_j} = \\sigma'(z^L_j) \\cdot \\delta_{kj}$（Kronecker delta，仅当 $k=j$ 时为 1）。\n\n代入得：\n$$\\delta^L_j = \\frac{\\partial C}{\\partial a^L_j} \\cdot \\sigma'(z^L_j)$$\n\n写成向量形式：\n$$\\boxed{\\delta^L = \\nabla_a C \\odot \\sigma'(z^L)}$$\n\n对于 MSE 损失，$\\nabla_a C = (a^L - y)$，故 $\\delta^L = (a^L - y) \\odot \\sigma'(z^L)$。\n\n---\n\n**公式二：误差反向传播**\n\n$$\\delta^l = ((w^{l+1})^T \\delta^{l+1}) \\odot \\sigma'(z^l)$$\n\n推导：由链式法则展开 $\\delta^l_j = \\frac{\\partial C}{\\partial z^l_j}$，先对下一层的 $z^{l+1}$ 求和：\n$$\\delta^l_j = \\sum_k \\frac{\\partial C}{\\partial z^{l+1}_k} \\cdot \\frac{\\partial z^{l+1}_k}{\\partial z^l_j} = \\sum_k \\delta^{l+1}_k \\cdot \\frac{\\partial z^{l+1}_k}{\\partial z^l_j}$$\n\n而 $z^{l+1}_k = \\sum_j w^{l+1}_{kj} a^l_j + b^{l+1}_k = \\sum_j w^{l+1}_{kj} \\sigma(z^l_j) + b^{l+1}_k$，故：\n$$\\frac{\\partial z^{l+1}_k}{\\partial z^l_j} = w^{l+1}_{kj} \\cdot \\sigma'(z^l_j)$$\n\n代回：\n$$\\delta^l_j = \\sum_k \\delta^{l+1}_k \\cdot w^{l+1}_{kj} \\cdot \\sigma'(z^l_j) = \\sigma'(z^l_j) \\sum_k w^{l+1}_{kj} \\delta^{l+1}_k$$\n\n注意到 $\\sum_k w^{l+1}_{kj} \\delta^{l+1}_k = ((w^{l+1})^T \\delta^{l+1})_j$（权重矩阵转置乘以误差向量），写成向量形式：\n$$\\boxed{\\delta^l = ((w^{l+1})^T \\delta^{l+1}) \\odot \\sigma'(z^l)}$$\n\n这就是误差从第 $l+1$ 层反向传播到第 $l$ 层的公式。\n\n---\n\n**公式三：权重梯度**\n\n$$\\frac{\\partial C}{\\partial w^l_{jk}} = a^{l-1}_k \\cdot \\delta^l_j$$\n\n推导：由链式法则，\n$$\\frac{\\partial C}{\\partial w^l_{jk}} = \\sum_m \\frac{\\partial C}{\\partial z^l_m} \\cdot \\frac{\\partial z^l_m}{\\partial w^l_{jk}} = \\delta^l_j \\cdot \\frac{\\partial z^l_j}{\\partial w^l_{jk}}$$\n\n因为 $z^l_j = \\sum_k w^l_{jk} a^{l-1}_k + b^l_j$，故 $\\frac{\\partial z^l_j}{\\partial w^l_{jk}} = a^{l-1}_k$。\n\n代入得：\n$$\\boxed{\\frac{\\partial C}{\\partial w^l_{jk}} = a^{l-1}_k \\cdot \\delta^l_j}$$\n\n直觉：**权重梯度 = 上一层激活值 × 当前层误差**。即进入该权重的信号强度（$a^{l-1}_k$）乘以该权重对误差的影响（$\\delta^l_j$）。\n\n---\n\n**公式四：偏置梯度**\n\n$$\\frac{\\partial C}{\\partial b^l_j} = \\delta^l_j$$\n\n推导：由链式法则，\n$$\\frac{\\partial C}{\\partial b^l_j} = \\sum_m \\frac{\\partial C}{\\partial z^l_m} \\cdot \\frac{\\partial z^l_m}{\\partial b^l_j} = \\delta^l_j \\cdot \\frac{\\partial z^l_j}{\\partial b^l_j}$$\n\n因为 $z^l_j = \\sum_k w^l_{jk} a^{l-1}_k + b^l_j$，故 $\\frac{\\partial z^l_j}{\\partial b^l_j} = 1$。\n\n代入得：\n$$\\boxed{\\frac{\\partial C}{\\partial b^l_j} = \\delta^l_j}$$\n\n偏置梯度恰好等于该层误差，这是反向传播中最简洁的结论。\n\n---\n\n**算法总结**：\n1. 前向传播：逐层计算 $z^l = w^l a^{l-1} + b^l$，$a^l = \\sigma(z^l)$\n2. 输出层误差：$\\delta^L = \\nabla_a C \\odot \\sigma'(z^L)$\n3. 反向传播：对 $l = L-1, L-2, \\ldots, 2$，计算 $\\delta^l = ((w^{l+1})^T \\delta^{l+1}) \\odot \\sigma'(z^l)$\n4. 梯度：$\\frac{\\partial C}{\\partial w^l} = \\delta^l (a^{l-1})^T$，$\\frac{\\partial C}{\\partial b^l} = \\delta^l$", "intuition": "反向传播本质上是用链式法则将损失函数对输出的偏导逐层传回网络，得到每一层每个参数的梯度。四个公式分别解决：①最后一层误差怎么算，②误差怎么往回传一层，③知道了误差和输入怎么更新权重，④偏置更新恰好等于误差。", "key_points": "链式法则、输出层误差公式、误差反向传播、权重梯度 = 前层激活 × 当前层误差、偏置梯度 = 当前层误差"}}, {"id": 4, "type": "ai_interview", "type_label": "AI面试问答", "difficulty": 2, "title": "Early Stopping 早停策略的原理与实践", "description": "面试官问：\"在模型训练中，Early Stopping（早停）是一种常用的正则化手段。请详细解释早停的原理、实现方式，以及它与其他正则化方法（如 L2、Dropout）相比有什么优劣。\"", "solution": {"answer_points": ["**原理**：在训练过程中持续监控验证集损失（validation loss），当验证集损失连续若干个 epoch 不再下降（或开始上升）时停止训练。其直觉来自于训练曲线的三个阶段——欠拟合阶段（训练/验证损失均下降）、最佳拟合点（验证损失最低）、过拟合阶段（训练损失继续下降但验证损失上升）。早停就是在最佳拟合点附近停住。", "**实现方式**：设定 patience（耐心值）参数，当验证集损失连续 patience 个 epoch 未刷新最低值时触发停止。同时保存验证集损失最低时的模型权重（best checkpoint），训练结束后恢复为最优权重而非最后一步的权重。", "**关键超参数**：① patience（容忍多少个 epoch 不改善），② min_delta（判定为\"改善\"的最小变化阈值，避免微小波动误判），③ restore_best_weights（是否恢复最优权重）。", "**为什么是正则化**：早停在模型开始过拟合之前就停止训练，相当于限制了模型的复杂度——训练时间越短，模型能拟合的函数复杂度越低。这与限制参数范数（L2）或随机丢弃神经元（Dropout）从不同角度达到抑制过拟合的效果。", "**与 L2/Dropout 对比**：早停无需修改损失函数或网络结构，是\"训练策略层面\"的正则化，实施简单、计算开销几乎为零（仅需多维护一个验证集和最优权重副本）。可以与 L2、Dropout 组合使用，实践中三者叠加是常见配置。"], "bonus": ["早停可以与学习率调度器配合使用：如 ReduceLROnPlateau 也在监控验证集指标，可以先降低学习率再触发早停，给模型更多\"挣扎\"机会，减少因学习率过大导致的假性不收敛。", "在深度学习中，早停的 patience 通常设为 5-20（与数据集规模和模型复杂度相关）；min_delta 应设为一个略大于验证集指标噪声水平的值，可用实验估计。", "早停的理论基础：它在参数空间中等价于 L2 正则化的效果（在一定假设下，提前停止 SGD 相当于在损失函数中加入 L2 惩罚项，正则化强度与训练步数成反比），称为半正则化（semi-regularization）。", "工程实践中的注意事项：验证集不宜太小（否则指标噪声大、容易误触早停）；时间敏感场景下可设置最大 epoch 数作为兜底；分布式训练中需要确保所有节点使用相同的验证集和相同的判断逻辑。"], "followup_predictions": ["追问1：\"如果验证集损失在下降过程中有波动， patience 设太小会不会过早停止？\" → 回答：是的，可以通过增大 patience、设置 min_delta 阈值、或使用验证集指标的滑动平均来平滑噪声，避免因短期波动误判。", "追问2：\"早停和 L2 正则化的等价关系是什么？\" → 回答：在二次损失和梯度下降的设定下，训练 $t$ 步后的参数 $w(t) \\approx (I - \\eta H)^t w(0)$，而 L2 正则化的解满足 $w_\\lambda = (H + \\lambda I)^{-1} H w_0$。可以证明存在一个映射 $t \\leftrightarrow \\lambda$，使得有限步训练的效果等价于某个 $\\lambda$ 的 L2 正则化。训练步数越少等价于 $\\lambda$ 越大（正则化越强）。", "追问3：\"分布式训练中如何实现早停？\" → 回答：需要所有 worker 对验证集做同步评估（通常在某一 rank 上做验证后广播结果），且只有一个进程负责判断和发起停止信号。需注意各 rank 的 random seed 差异和 batch 划分方式对验证指标的影响。"]}}]};
+</script>
+</body>
+</html>
