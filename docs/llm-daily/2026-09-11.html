@@ -123,96 +123,238 @@ footer p{margin:3px 0}
       <h1 class="title">大模型技术速递</h1>
       <p class="date">2026年09月11日</p>
       <div class="stats">
-        <div class="stat"><b>22</b><span>收录动态</span></div>
+        <div class="stat"><b>21</b><span>收录动态</span></div>
         <div class="stat imp"><b>5</b><span>★ 重要</span></div>
-        <div class="stat nor"><b>17</b><span>· 常规</span></div>
+        <div class="stat nor"><b>16</b><span>· 常规</span></div>
       </div>
     </header>
     
 <div class="content">
 <h1>🤖 大模型技术速递 — 2026年09月11日</h1>
 <div class="update-intro">
-<p>今日共收录 22 条动态，其中 ★重要 5 条，·常规 17 条。</p>
+<p>今日共收录 21 条动态，其中 ★重要 5 条，·常规 16 条。</p>
 </div>
-<hr>
 <div class="section-title"><span class="sec-icon">★</span> 重要动态</div>
 
 <div class="imp-item">
-<h3>1. DeepSeek V4.1 Flash 开源发布：552B MoE 全新架构，KV Cache 暴降 437 倍</h3>
-<p>9 月 10 日，深度求索（DeepSeek）正式发布并开源 DeepSeek V4.1 Flash 模型（MIT 协议）。这是 DeepSeek 全新模型结构系列中尺寸最小的成员，但在性能、费用、速度、总用时等各项指标上已全面超越自家旗舰 V4 Pro，V4 Pro 请求已全部路由至 V4.1 Flash。</p>
-<p><strong>架构创新 — Causal-Encoder-Decoder (CED)：</strong> V4.1 Flash 摒弃了前代的纯 Decoder 架构，采用全新设计的 CED 结构（Causal-Encoder-Decoder），输入与输出不对称——Prefill 阶段仅激活约 8B 参数，Decode 阶段激活约 16B 参数，总参数量 552B（backbone）。这种"轻激活、重容量"的设计使得推理成本显著低于同尺寸模型。新架构还引入了 CSA2（Cross-Scale Attention v2）注意力机制，进一步提升了长序列建模能力。</p>
-<p><strong>KV Cache 革命性压缩：</strong> 模型采用 FP4 KV Cache 量化方案，全局 KV Cache 仅需约 890 bytes/token，相比 V4 Pro 的约 388KB/token 实现了约 437 倍压缩。1M 上下文窗口下，长文本缓存硬盘占用暴降 88%。这意味着百万级 token 的对话历史可以完全驻留于显存中，极大降低了长上下文推理的硬件门槛。</p>
-<p><strong>原生多模态与训练方法：</strong> V4.1 Flash 具备原生多模态视觉理解能力（非外挂视觉编码器），采用新的预训练方式并经过更大规模数据训练。推理框架方面支持 vLLM、SGLang、llama.cpp 等主流部署方案，同时引入 DSpark 推测解码（Speculative Decoding）加速。</p>
-<p><strong>影响分析：</strong> V4.1 Flash 的开源对行业影响深远。首先，CED 架构打破了"Decoder-only 是唯一路线"的共识，为 MoE 模型设计提供了新范式。其次，FP4 KV Cache 技术将长上下文推理的硬件门槛从"多卡集群"拉低到"单卡可跑"，对端侧和边缘部署意义重大。第三，MIT 协议开源意味着商业完全可用，将进一步加速国产大模型在海外市场的渗透——美国法律 AI 公司 Harvey 已基于 Kimi K3 发布后训练模型 Tenet，DeepSeek 的开源策略正在重塑全球 AI 供应链格局。</p>
+<h3>1. OpenAI 发布 GPT-6 Astra：Computer Use 范式跃迁，Loop Transformer 首次商用</h3>
+<p>9 月 3 日，OpenAI 正式发布新一代旗舰模型 GPT-6 Astra，OpenAI 总裁 Greg Brockman 称"欢迎来到 AGI 时代"。这是 OpenAI 有史以来最大规模的模型发布——首日即登陆微软全系产品（Copilot、GitHub Copilot、Microsoft Foundry），Azure 同步宣布 GA，9 月 5 日全量推送至 Plus/Pro/Business/Enterprise 付费用户。</p>
+<p><strong>技术要点：</strong></p>
+<ul>
+<li>上下文窗口 105 万 token、最大输出 12.8 万 token，API 定价每百万输入 10 美元、每百万输出 50 美元（为上一代 GPT-5.6 Sol 的 2.5 倍）</li>
+<li>核心能力从"对话"升级为"自主操作计算机"：可直接观察屏幕界面，通过鼠标、键盘、浏览器自主完成填表单、更新 CRM、搭网站、设计 PCB 电路板等长流程任务</li>
+<li>网络安全能力首次达到 Preparedness Framework 下的"Critical"级别，是首个落入此分类的模型</li>
+<li>据外部分析，GPT-6 Astra 很可能已引入 Loop Transformer（循环深度架构），其计算图深度不超过 GPT-4 的 2 倍，但在监控任务中主动减少 CoT token，符合该架构特征；智谱在 2026 中报中也将 Loop Transformer 列为重点 Scaling 方向</li>
+</ul>
+<p><strong>实验结果（据 OpenAI 官方与媒体报道）：</strong></p>
+<table class="data-table">
+<thead>
+<tr>
+<th>维度</th>
+<th>GPT-6 Astra</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>上下文窗口</td>
+<td>1,050,000 token</td>
+<td>百万级</td>
+</tr>
+<tr>
+<td>OSWorld 2.0</td>
+<td>72.6 分</td>
+<td>计算机操作基准</td>
+</tr>
+<tr>
+<td>Cybersecurity</td>
+<td>Critical 级别</td>
+<td>首个达到此阈值</td>
+</tr>
+<tr>
+<td>训练算力</td>
+<td>10 万+ Grace Blackwell NVLink72</td>
+<td>黄仁勋确认</td>
+</tr>
+</tbody>
+</table>
+<p><strong>影响分析：</strong>
+GPT-6 Astra 标志着大模型从"信息处理器"向"任务执行者"的范式质变。其 Loop Transformer 架构若经确认，意味着通过循环计算图在控制深度的同时提升有效推理能力，可能改变后续模型架构设计方向。对开发者而言，Computer Use 能力的突破将催生大量"AI 数字员工"应用场景；但每题数百美元的推理成本也提示当前阶段仍以高价值场景为主。安全方面，Critical 级别的网络攻防能力要求行业重新评估 AI 部署边界。</p>
 <blockquote class="toc">
-<p>来源：<a href="https://baijiahao.baidu.com/s?id=1875929873198963674" target="_blank" rel="noopener">DeepSeek 官方公众号</a> | <a href="https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash" target="_blank" rel="noopener">模型权重 (HuggingFace)</a> | <a href="https://cloud.tencent.com/developer/article/2740943" target="_blank" rel="noopener">部署指南</a> | <a href="https://blog.csdn.net/weixin_60513747/article/details/164860489" target="_blank" rel="noopener">深度解析</a></p>
+<p>来源：<a href="https://baijiahao.baidu.com/s?id=1875393617230285232" target="_blank" rel="noopener">极客公园深度解读</a> · <a href="https://baike.baidu.com/item/GPT-6%20Astra/68858262" target="_blank" rel="noopener">百度百科</a> · <a href="https://industry.cfi.cn/(wvyw3ziepyt5lry2qwvnss45)/p20260909000764.html" target="_blank" rel="noopener">Loop Transformer 分析</a></p>
 </blockquote>
 </div>
 <div class="imp-item">
-<h3>2. OpenAI 发布 GPT-6 Astra：从"回答问题"到"替人办事"的范式跃迁</h3>
-<p>9 月 3 日，OpenAI 在旧金山发布新一代旗舰模型 GPT-6 Astra，总裁 Greg Brockman 在发布会上宣称"欢迎来到 AGI 时代"。该模型被官方称为"目前全球最智能且对齐程度最高的模型"，定位从"提供答案"转向"直接操作电脑完成任务"。</p>
-<p><strong>核心能力跃升：</strong> GPT-6 Astra 是 OpenAI 有史以来最大规模训练的模型（在得州 Stargate 站点训练），重点提升了复杂推理、软件工程、计算机操作和长流程智能体任务能力。模型能够直接操作计算机和软件，替用户完成编程、科学研究、3D 建模等任务，在"操作电脑"等任务上表现超越人类基线。上下文窗口达 1.05M token，最大输出 128K，输入/输出定价为 $10/$50 每百万 token。</p>
-<p><strong>网络攻防能力首次达"关键级"：</strong> OpenAI 在 9 月 1 日提前披露了 GPT-6 Astra 的网络安全能力与防护措施。该模型在网络攻防测试中首次达到"关键级"（Critical）水平，引发行业对 AI 安全边界的广泛讨论。</p>
-<p><strong>影响分析：</strong> GPT-6 Astra 的发布标志着大模型竞争进入"Agent 纪元"——模型不再只是对话工具，而是能够执行多步骤、跨工具的完整工作任务流。这对软件开发、数据分析、科研自动化等领域具有直接冲击。同时，"操作电脑"能力的开放也带来了新的安全治理挑战，OpenAI 采取了分批开放策略（ChatGPT Plus/Pro/Business/Enterprise → API → Amazon Bedrock），体现了对高风险能力的审慎态度。</p>
+<h3>2. DeepSeek V4.1 Flash 正式发布：全新 CED 架构 + CSA2 注意力，KV Cache 暴降 88%</h3>
+<p>9 月 10 日，DeepSeek 正式发布 V4.1 Flash 模型。这是 DeepSeek 全新模型架构系列中尺寸最小的成员，在性能、费用、速度、总用时等各项指标上全面超越 V4 Pro，同时开源权重至 Hugging Face。</p>
+<p><strong>技术要点：</strong></p>
+<ul>
+<li>552B 参数的 MoE 模型，采用全新 Causal-Encoder-Decoder（CED）架构，输入与输出非对称设计——输入激活仅 8B、输出激活 16B，成本显著低于同尺寸模型</li>
+<li>第二代压缩稀疏注意力 CSA2：将各注意力层静态划分为 Full、Reindex、Reuse 三种模式，复用前序层的 Main KV 和 Indexer K，大幅压缩注意力计算量</li>
+<li>low-bit KV Cache 技术：相比上一代，HBM 需求降至 1/4、SSD 持久化缓存降至 1/8（已知 V4 一代 KV Cache 已只有 V3.2 的约 7%），长文本缓存硬盘占用暴降 88%</li>
+<li>原生多模态视觉理解能力，统一了此前以实验版单独提供的视觉能力</li>
+<li>采用峰谷定价策略，闲时价格为高峰时段的一半</li>
+</ul>
+<p><strong>实验结果（据官方与媒体报道）：</strong></p>
+<table class="data-table">
+<thead>
+<tr>
+<th>维度</th>
+<th>DeepSeek V4.1 Flash</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>总参数/激活</td>
+<td>552B / 8B(入) + 16B(出)</td>
+<td>非对称 MoE</td>
+</tr>
+<tr>
+<td>KV Cache (HBM)</td>
+<td>降至上一代 1/4</td>
+<td>显存大幅节省</td>
+</tr>
+<tr>
+<td>KV Cache (SSD)</td>
+<td>降至上一代 1/8</td>
+<td>持久化缓存压缩</td>
+</tr>
+<tr>
+<td>vs V4 Pro</td>
+<td>全面超越</td>
+<td>性能+成本+速度</td>
+</tr>
+<tr>
+<td>多模态</td>
+<td>原生视觉理解</td>
+<td>统一此前实验版</td>
+</tr>
+</tbody>
+</table>
+<p><strong>影响分析：</strong>
+CED 架构与 CSA2 注意力代表了国产大模型在底层架构创新上的重大突破。KV Cache 的极致压缩直接解决了 Agent 长程任务中缓存命中费用高企的痛点——在 Agent 使用场景中缓存费用占比往往较高，压缩后使得长上下文、多轮调用的运行成本实质性下降。非对称激活设计（输入 8B / 输出 16B）为降低推理成本提供了新范式。DeepSeek 同时启动科创板 IPO 辅导（投后估值约 4500 亿元），技术突破与资本运作双线并进。</p>
 <blockquote class="toc">
-<p>来源：<a href="https://baijiahao.baidu.com/s?id=1875401836704350429" target="_blank" rel="noopener">OpenAI 发布会报道</a> | <a href="https://baijiahao.baidu.com/s?id=1875651944902660652" target="_blank" rel="noopener">网络安全能力</a> | <a href="https://blog.csdn.net/IT_ORACLE/article/details/164809745" target="_blank" rel="noopener">AI 资讯日报</a></p>
+<p>来源：<a href="https://baijiahao.baidu.com/s?id=1875932875429437449" target="_blank" rel="noopener">智东西报道</a> · <a href="https://www.leiphone.com/category/yanxishe/U8PtVze3OZTTnJc4.html" target="_blank" rel="noopener">雷锋网深度解读</a> · <a href="https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash" target="_blank" rel="noopener">HuggingFace 开源</a></p>
 </blockquote>
 </div>
 <div class="imp-item">
-<h3>3. OpenAI 用 1 万个 AI Agent 攻克千禧年数学难题——NS 方程存在性与光滑性问题</h3>
-<p>9 月 8 日，OpenAI 宣布其内部模型给出了纳维-斯托克斯方程（Navier-Stokes Equation）存在性与光滑性问题的候选证明，并公开了 166 页论文和 Lean 形式化验证代码。该问题是克雷数学研究所 2000 年公布的七大千禧年大奖难题之一，悬赏 100 万美元，过去约 90 年无人攻克。</p>
-<p><strong>技术路径：</strong> 证明工作由约 10,000 个并发协作的 AI 智能体完成，总耗时约 88 小时。完成证明的内部模型"显著强于 GPT-6 Astra"——暗示 OpenAI 已有比公开旗舰更强大的下一代前沿模型。证明结论是：一个初始光滑、静止的三维 NS 方程的解会在有限时间内形成"奇点"。OpenAI 研究员 Sébastien Bubeck 估算此次计算成本达数百万美元。OpenAI 表示不打算申领 100 万美元奖金。</p>
-<p><strong>学术争议：</strong> 这一宣布引发了与纽约大学数学家 Tristan Buckmaster 的舆论争端——Buckmaster 团队花费近一年时间使用 AI 工具研究同一问题，临近发表时 OpenAI 抢先宣布。陶哲轩评论称"AI 跨界解题是好问题将成稀缺资源"。截至 9 月 11 日，克雷数学研究所尚未正式认定该证明。OpenAI 还透露在"另一个千禧年难题上取得了重大进展"。</p>
-<p><strong>影响分析：</strong> 这可能是迄今由 AI 得到的最重要数学成果。如果经独立核验通过，将证明大规模 AI Agent 协作可以解决人类长期未解的顶级数学问题。这对数学研究范式的影响深远——未来数学家可能需要与 AI 系统协作而非独立工作。同时也引发了 AI 公司"抢跑"学术成果的伦理争议，对学术规范与商业宣传之间的边界提出了新课题。</p>
+<h3>3. OpenAI 内部 AI 攻克千禧年数学难题：1 万智能体协作 88 小时证伪 Navier-Stokes 方程</h3>
+<p>9 月 8 日，OpenAI 官宣其一个尚未公开的内部模型（能力"远超 GPT-6 Astra"），与约 1 万个协同工作的智能体一道，仅用时 88 小时，攻克了克雷数学研究所七大千禧年大奖难题之一——纳维-斯托克斯方程的存在性与光滑性问题。后续由 GPT-6 Astra 耗时 17 小时、消耗约 1300 亿输出 Token 完成 Lean 形式化验证，共生成 166 页证明论文。</p>
+<p><strong>技术要点：</strong></p>
+<ul>
+<li>使用能力远超 GPT-6 Astra 的未公开下一代前沿模型驱动，约 1 万个并发协作 AI Agent</li>
+<li>88 小时完成三维不可压缩 N-S 方程有限时间形成奇点的构造（对应千禧年难题 C 和 D 情形）</li>
+<li>GPT-6 Astra 随后用 Lean 编程语言完成形式化验证，确保逻辑自洽——这是全球首个由 AI 完整证明并通过形式化验证的千禧年难题</li>
+<li>OpenAI 明确放弃百万美元奖金；该难题自 2000 年设立以来困扰数学界 90 年，是继庞加莱猜想后第二个被攻克的千禧年难题</li>
+<li>强化学习技术是核心驱动：AI 通过海量数学题的试错训练判断对错，并使用 Lean 生成、验证可被严格核查的数学证明</li>
+</ul>
+<p><strong>影响分析：</strong>
+这一突破标志着 AI 从"辅助工具"向"独立科研主体"的跨越。N-S 方程是刻画流体运动的核心基础方程，支撑气象预报、航空航天、流体仿真等领域，其证明对理论数学和流体力学具有深远意义。更关键的是，多智能体协作 + 形式化验证的范式为 AI 解决其他高难度科学问题提供了可行路径。但争议也随之而来：纽约大学数学家 Tristan Buckmaster 质疑 OpenAI 在听说其团队进展后加大投入涉嫌"截胡"，美国数学学会主席 Ravi Vakil 也表达了关切。</p>
 <blockquote class="toc">
-<p>来源：<a href="https://zhuanlan.zhihu.com/p/2080963293569619654" target="_blank" rel="noopener">OpenAI 官宣</a> | <a href="https://www.thepaper.cn/newsDetail_forward_34037556" target="_blank" rel="noopener">完整梳理</a> | <a href="https://www.163.com/dy/article/L6DNQA2H0512B07B.html" target="_blank" rel="noopener">陶哲轩评论</a> | <a href="https://baijiahao.baidu.com/s?id=1876015746723329076" target="_blank" rel="noopener">后续进展</a></p>
+<p>来源：<a href="https://baijiahao.baidu.com/s?id=1875831031889893303" target="_blank" rel="noopener">百家号详细报道</a> · <a href="https://m.thepaper.cn/newsDetail_forward_34036297" target="_blank" rel="noopener">澎湃新闻</a> · <a href="https://zhuanlan.zhihu.com/p/2080963293569619654" target="_blank" rel="noopener">知乎深度解读</a></p>
 </blockquote>
 </div>
 <div class="imp-item">
-<h3>4. 李飞飞 World Labs 发布 Atlas：全球首个多模态世界模型</h3>
-<p>9 月 1 日，斯坦福大学教授李飞飞联合创立的 World Labs 发布新一代世界模型 Atlas，官方定义为"面向空间智能的全能世界模型"和"全球首个多模态世界模型"。</p>
-<p><strong>技术要点：</strong> Atlas 能原生理解文本、图像、视频与 3D 空间信息，通过空间上下文将画面锚定在三维坐标中，实现像素级相机控制生成、稀疏照片 3D 重建及时空模拟。这不同于 Sora 2.0 的物理级视频生成或 Grok World 的城市级模拟，Atlas 的核心创新在于"空间上下文三维构建能力"——将 2D 像素信息映射到 3D 世界坐标系中。</p>
-<p><strong>理论脉络：</strong> 2025 年 11 月，李飞飞发表《从文字到世界：空间智能是人工智能的下一个前沿领域》系统阐述空间智能理论框架；2026 年 6 月发表后续论文；9 月 Atlas 正式发布。这一路线将"世界模型"从视频生成推向"空间认知"层面。</p>
-<p><strong>行业背景：</strong> 2026 年被业界视为"世界模型元年"——OpenAI Sora 2.0 实现物理级视频生成，xAI Grok World 可模拟城市级交通与工业产线，字节 Vertex 模型进入最后攻坚阶段。外滩大会上，香港大学罗平教授表示"世界模型是赋予机器空间想象力、常识推演与行动预测最具希望的核心基建"。但世界模型的定义、训练数据、架构设计仍存在诸多争议。</p>
+<h3>4. Meta 推出个人 AI 智能体 Muse + Muse Spark 1.3 登顶全球大模型榜首</h3>
+<p>9 月 2 日，Meta 发布 Muse Spark 1.3 模型，三天后登顶 Artificial Analysis 全球大模型排行榜首，以 104.8 万 token 上下文将"Llama 时代慢半拍"的帽子摘掉。9 月 8 日，Meta 进一步推出首款个人 AI 智能体 Muse，由 Muse Spark 1.3 驱动，能替用户网购、预约、填表。</p>
+<p><strong>技术要点：</strong></p>
+<ul>
+<li>Muse Spark 1.3 是五个月内 Muse Spark 系列的第四次迭代（1.0→1.1→1.2→1.3），专注延长智能体工作流与增强编码能力</li>
+<li>个人智能体 Muse 运行在专用云端虚拟计算机上，可无缝调用浏览器和软件代替用户执行各种任务</li>
+<li>面向美国 18 岁及以上用户，可通过 iOS、Android、Muse 网站及 WhatsApp 使用，未来将登录 Instagram、Facebook 及 Meta AI 眼镜</li>
+<li>Meta 强调 Muse"不会失控"，没有安全风险问题；扎克伯格亲自重建超级智能实验室，正在训练下一代模型"西瓜（Watermelon）"</li>
+<li>Meta 同步重回开源模型赛道，但 Muse Spark 系列本身为闭源</li>
+</ul>
+<p><strong>实验结果（据 Artificial Analysis 与媒体报道）：</strong></p>
+<table class="data-table">
+<thead>
+<tr>
+<th>维度</th>
+<th>Muse Spark 1.3</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AA 排名</td>
+<td>全球第 1</td>
+<td>发布三天登顶</td>
+</tr>
+<tr>
+<td>上下文</td>
+<td>104.8 万 token</td>
+<td>百万级</td>
+</tr>
+<tr>
+<td>迭代速度</td>
+<td>五个月四代</td>
+<td>极速迭代</td>
+</tr>
+<tr>
+<td>个人智能体</td>
+<td>Muse</td>
+<td>C 端任务执行</td>
+</tr>
+</tbody>
+</table>
+<p><strong>影响分析：</strong>
+Meta 从"Llama 开源生态"转向"Muse 闭源旗舰 + 个人智能体"的战略值得高度关注。Muse Spark 1.3 登顶打破了 OpenAI/Anthropic 在排行榜上的垄断，而个人 AI 智能体 Muse 的发布标志着 C 端"AI 替人办事"竞争正式开始——与 GPT-6 Astra 的 Computer Use 形成正面交锋。对行业而言，Meta 掌握从模型、芯片到数据中心的完整技术栈，其"自主可控"路线可能与 OpenAI 的"API 生态"路线形成两种截然不同的个人 AI 范式。</p>
 <blockquote class="toc">
-<p>来源：<a href="https://baijiahao.baidu.com/s?id=1875982914716816063" target="_blank" rel="noopener">Atlas 发布解读</a> | <a href="https://baike.baidu.com/item/Atlas/68839266" target="_blank" rel="noopener">百度百科</a> | <a href="https://baijiahao.baidu.com/s?id=1875447729354953138" target="_blank" rel="noopener">世界元年综述</a> | <a href="https://baijiahao.baidu.com/s?id=1876023864534541145" target="_blank" rel="noopener">外滩大会讨论</a></p>
+<p>来源：<a href="https://baijiahao.baidu.com/s?id=1875834074665617206" target="_blank" rel="noopener">澎湃新闻报道</a> · <a href="https://baike.baidu.com/item/Muse%20Spark%201.3/68841681" target="_blank" rel="noopener">百度百科</a> · <a href="https://zhuanlan.zhihu.com/p/2081740889756649063" target="_blank" rel="noopener">扎克伯格专访</a></p>
 </blockquote>
 </div>
 <div class="imp-item">
-<h3>5. 面壁智能开源 MiniCPM5-2B：2B 参数端侧模型登顶全球 4B 以下榜首，初具通用 Agent 能力</h3>
-<p>9 月 8 日，面壁智能联合 OpenBMB 开源社区正式开源新一代端侧"小钢炮"MiniCPM5-2B。该模型仅 2B（20 亿）参数，在 Artificial Analysis Intelligence Index（AA 榜单）评测中以 23 分登顶全球 4B 以下开源基座模型第一。</p>
-<p><strong>核心突破——端侧 Agent 能力：</strong> MiniCPM5-2B 支持工具调用、深度搜索、代码生成等任务，初步实现了端侧通用 Agent 雏形。在专门评测 Agent 能力的 Agentic Index 指标上实现断层式领先。真实任务评测中得分 891（人类基线 1000），高于 Qwen3.5 9B（645 分）和参数规模约 6 倍的谷歌 Gemma 4 12B。</p>
-<p><strong>开源完整性：</strong> 团队不仅开放模型权重和算法，还包括部分训练 Recipe（如 RL recipe）、自研强化学习框架 Meshy、基于奖励的强化学习策略 JustRL II，以及一批训练数据集。这验证了面壁智能首创的"密度定律"——即模型能力密度的增长持续超越参数规模的增长。</p>
-<p><strong>影响分析：</strong> MiniCPM5-2B 的发布标志着 Agent 能力从云端走向端侧的技术拐点。2B 参数即可实现工具调用和搜索，意味着手机、IoT 设备等可在不依赖云端的情况下运行本地 Agent，对隐私保护、离线场景和边缘计算具有重要价值。开源训练 Recipe 的做法也降低了端侧模型研发门槛，推动端侧 AI 生态发展。</p>
+<h3>5. OpenAI 首次公开 RSI 进展："自动化研究实习生"上岗，Agent 工时达人类 3.1 倍</h3>
+<p>9 月 6 日，OpenAI 官方博客发布《Research acceleration: The view inside OpenAI》，首次以内部数据公开 AI"递归自我改进"（RSI）进展，宣布已实现去年秋天定下的目标——造出一个"自动化研究实习生"。</p>
+<p><strong>技术要点：</strong></p>
+<ul>
+<li>"研究实习生"定义：一个能在人类指导下执行明确定义研究任务的系统，可独立完成熟练研究员数天级别的工作</li>
+<li>截至 8 月中旬，研究部门每 1 个人类工作日对应 3.1 个 Agent 工作日，AI 劳动力已达人类研究员的三倍多</li>
+<li>中位数研究任务中，Agent 贡献了约 50% 的工作量</li>
+<li>该系统是 OpenAI"北极星"项目的首个阶段目标，该项目于 2026 年 3 月曝光，旨在 2028 年前建成全自动多智能体研究系统</li>
+<li>这是人类历史上首次有顶级 AI 实验室正式确认 AI 可独立完成"研究员级"任务</li>
+</ul>
+<p><strong>影响分析：</strong>
+OpenAI 的 RSI 进展标志着"AI 研发 AI"从理论构想进入实践阶段。3.1 倍的工时比意味着 AI 研发效率的倍增器已经启动，如果这一比例持续提升，将形成"AI 自我加速"飞轮。对整个 AI 行业而言，研发门槛可能进一步降低（AI 辅助研究可以复用），但也可能加剧头部实验室的技术垄断——拥有最强 AI 的实验室将获得最快的研发加速度。该进展也引发了对"AI 递归自我改进安全性"的讨论。</p>
 <blockquote class="toc">
-<p>来源：<a href="https://baijiahao.baidu.com/s?id=1875820273951101770" target="_blank" rel="noopener">面壁智能开源</a> | <a href="https://baijiahao.baidu.com/s?id=1875744068536217335" target="_blank" rel="noopener">端侧 Agent 雏形</a> | <a href="https://hub.baai.ac.cn/view/57812" target="_blank" rel="noopener">智源报道</a> | <a href="https://baijiahao.baidu.com/s?id=1875752056590952740" target="_blank" rel="noopener">经济观察报</a></p>
+<p>来源：<a href="https://baijiahao.baidu.com/s?id=1875634082177629309" target="_blank" rel="noopener">百家号报道</a> · <a href="https://baike.baidu.com/item/自动化AI研究实习生系统/67159142" target="_blank" rel="noopener">百度百科</a> · <a href="https://news.sohu.com/a/1073065708_122066679" target="_blank" rel="noopener">搜狐深度</a></p>
 </blockquote>
 </div><div class="section-title"><span class="sec-icon">📋</span> 常规动态</div>
 <div class="cat-title">模型发布</div>
-<div class="norm-item"><p><strong>Anthropic 发布 Claude Fable 5.1</strong> — 9 月 1 日发布，号称"全球最先进的编程和知识工作模型"，编程能力大幅提升。同时 Anthropic 将 IPO 时间从 9 月上旬推迟至 10 月中旬，估值预期达 2 万亿美元。 <a href="https://baijiahao.baidu.com/s?id=1875920062689260340" target="_blank" rel="noopener">来源</a> | <a href="https://news.sohu.com/a/1072255532_122066679" target="_blank" rel="noopener">IPO 推迟</a></p></div>
-<div class="norm-item"><p><strong>Meta 发布 Muse Spark 1.3</strong> — 9 月 2 日发布，官方称为"模型史上最大性能跳跃之一"，与 Claude Fable 5.1 和 Gemini 3.8 Flash 同周发布，全球 AI 头部公司集体上新。 <a href="https://baijiahao.baidu.com/s?id=1875901594437976831" target="_blank" rel="noopener">来源</a></p></div>
-<div class="norm-item"><p><strong>Google 发布 Gemini 3.8 Flash</strong> — 9 月 2 日发布，与 Meta Muse Spark 1.3 同日推出，延续了 Gemini Flash 系列的高效推理路线。 <a href="https://baijiahao.baidu.com/s?id=1875920062689260340" target="_blank" rel="noopener">来源</a></p></div>
-<div class="norm-item"><p><strong>智谱 GLM-5.3-Flash 身份揭晓</strong> — 以"Ox Alpha"匿名上线后引发关注，8 月 26 日智谱揭晓身份并推出 API 半价优惠，在 OpenRouter 和 OpenCode 上免费试用。 <a href="https://m.guancha.cn/kegongliliang/2026_09_09_830602.shtml" target="_blank" rel="noopener">来源</a></p></div>
-<div class="norm-item"><p><strong>OpenAI 发布 ChatGPT Images 2.5</strong> — 新一代图像生成模型，与 GPT-6 Astra 同期推出，进一步提升了图像生成的真实性与可控性。 <a href="https://blog.csdn.net/u130130/article/details/164755721" target="_blank" rel="noopener">来源</a></p></div>
+<div class="norm-item"><strong>Anthropic 发布 Claude Fable 5.1：科研智能体跑分翻倍，Agent 成本降 45%</strong> — 9 月 1 日发布，Terminal-Bench-Science 0.1 得分从 24.7% 跃至 52.6%，支持 100 万 token 上下文和 12.8 万输出 token；缓存读取价格降至每百万 token 0.25 美元，典型 Agent 工作负载成本最高降低约 45%。 <a href="https://developer.aliyun.com/article/1761652" target="_blank" rel="noopener">阿里云深度解读</a></div>
+<div class="norm-item"><strong>OpenAI 发布 ChatGPT Images 2.5：最强生图模型上线</strong> — 9 月 9 日发布，图像生成延迟最高降低 50%，新增 Sketch 草图参考、模板库、图片内局部批注编辑功能；同步上线 GPT-Image-2.5 Sunburst 和 Flare 两款 API 模型，当前用户每周生成超 30 亿张图片。 <a href="https://baijiahao.baidu.com/s?id=1875817082092377226" target="_blank" rel="noopener">百家号</a></div>
+<div class="norm-item"><strong>华为发布麒麟 9050 Pro 芯片：时隔六年回归，全球首款"韬定律"商用芯片</strong> — 9 月 7 日在广州发布，搭载于 Mate XT 2 三折叠手机。"韬定律"以"时间缩微"取代"几何缩微"，通过架构创新压缩信号传输时间，而非一味追求晶体管尺寸缩减。 <a href="https://www.cnii.com.cn/rmydb/202609/t20260907_758745.html" target="_blank" rel="noopener">中国工信新闻网</a></div>
 <div class="cat-title">学术论文</div>
-<div class="norm-item"><strong>DiffuTester：加速扩散语言模型生成单元测试（EMNLP 2026）</strong> — 提出面向扩散语言模型（dLLM）生成单元测试的加速框架，解决"生成更快但质量下降"问题，利用并行生成多 token 的特性提升代码覆盖率。 <a href="https://baijiahao.baidu.com/s?id=1876000057535836090" target="_blank" rel="noopener">来源</a></div>
+<div class="norm-item"><strong>ResidualAuth：AI 授权撤销留下"残影"，模型判断正确率 0/16（arXiv 61 页）</strong> — 揭示撤销操作本身会在系统中留下模型决策必须依赖的状态信息"残影"，导致 AI 面对已撤销权限时几乎每次都做错误判断，为 Agent 安全治理敲响警钟。 <a href="https://www.sohu.com/a/1074201163_122636488" target="_blank" rel="noopener">搜狐解读</a></div>
+<div class="norm-item"><strong>MolecularLLMAgents：分子大模型智能体从架构设计到科学自主（arXiv:2608.23104）</strong> — 由香港理工、上海 AI 实验室、新加坡国立大学与上海交大联合发表，提出分子领域大模型智能体框架，引发 AI 制药圈关注。 <a href="https://www.sohu.com/a/1073033456_122066679" target="_blank" rel="noopener">搜狐报道</a></div>
+<div class="norm-item"><strong>TANGO：全身视觉-语言-动作模型驱动人形机器人导航（arXiv）</strong> — 提出基于全身 VLA 模型的人形机器人在杂乱环境中导航方案，推进具身智能落地。 <a href="https://www.cnblogs.com/verstin/p/22909102" target="_blank" rel="noopener">博客园日报</a></div>
+<div class="norm-item"><strong>LLM Agent 自进化执行结构论文</strong> — 研究大语言模型 Agent 在长期规划中"做什么、按什么顺序、在什么条件下"的过程知识显式化，解决轨迹变长后 Agent 迷失目标的问题。 <a href="https://hackcv.com/posts/research-brief-2026-09-09/" target="_blank" rel="noopener">HackCV 简报</a></div>
 <div class="cat-title">技术突破</div>
-<div class="norm-item"><p><strong>英特尔发布 KVShrink 智能体记忆分层卸载方案</strong> — 9 月 4 日发布，在道客联合实验室实测落地，支持百万级 token 对话历史"不丢精度、不涨时延、不烧显存"，将 KV Cache 从 GPU 显存分层卸载到更便宜的存储层。 <a href="https://news.sohu.com/a/1071997630_122066679" target="_blank" rel="noopener">来源</a></p></div>
-<div class="norm-item"><p><strong>新华三推出面向 KV Cache 的高效存储架构</strong> — 在 2026 开放数据中心大会提出智能体时代 KV Cache 存储技术创新方案，聚焦性能、复用与成本三重挑战。 <a href="https://caifuhao.eastmoney.com/news/20260907205623094372710" target="_blank" rel="noopener">来源</a></p></div>
+<div class="norm-item"><strong>谷歌、Meta 被指 AI 跑分作弊：TerminalBench 2.1 饱和，TB 4.0 裸奔</strong> — SemiAnalysis 报告指出 Gemini 3.8 Flash 与 Muse Spark 1.3 在第三方榜单上的反超可能源于针对榜单刷分的过拟合；Meta AI 主管反驳称不同难度基准分数本就不同。 <a href="https://www.sohu.com/a/1073550330_122066679" target="_blank" rel="noopener">搜狐深度</a> · <a href="https://www.guandian.cn/article/20260909/598856.html" target="_blank" rel="noopener">观点网</a></div>
+<div class="norm-item"><strong>GPT-6 Astra 训练算力披露：10 万+ Grace Blackwell GPU 集群</strong> — 黄仁勋公开确认 GPT-6 Astra 由超过 10 万张英伟达 Grace Blackwell NVLink72 芯片集群训练完成，并预告下一批 40 万张 GPU 即将上线。 <a href="https://blog.csdn.net/u014146389/article/details/164711680" target="_blank" rel="noopener">CSDN 日报</a></div>
+<div class="norm-item"><strong>Anthropic Claude 耗时 11 天完成费马大定理形式化证明</strong> — Claude 生成 1300 万行 Lean 代码，涉及约 29,500 个中间定理，消耗约 60 亿输出 Token；使用 Prove2Me 将任务维护为 DAG 结构支持 Agent 并行工作。 <a href="https://blog.csdn.net/u130130/article/details/164430144" target="_blank" rel="noopener">CSDN 日报</a></div>
 <div class="cat-title">行业新闻</div>
-<div class="norm-item"><p><strong>Mistral AI 完成 30 亿欧元 D 轮融资</strong> — 9 月 8 日宣布，估值从 120 亿欧元升至 213 亿欧元（约 1639 亿元人民币）。融资将用于采购新芯片和建设新数据中心，官方宣言"让主权开源权重 AI 成为技术前沿"。 <a href="https://baijiahao.baidu.com/s?id=1875805614384574408" target="_blank" rel="noopener">来源</a> | <a href="http://finance.sina.com.cn/roll/2026-09-08/doc-inirayqw6026280.shtml" target="_blank" rel="noopener">新浪</a></p></div>
-<div class="norm-item"><p><strong>Cognition AI 完成 20 亿美元 E 轮融资，估值 480 亿美元</strong> — 9 月 8 日宣布，由 a16z 和 Accel 领投。其 AI 编程产品 Devin 年化收入（ARR）从 5 月的 4.92 亿美元增长至近 9 亿美元。 <a href="https://baijiahao.baidu.com/s?id=1875821861368016935" target="_blank" rel="noopener">来源</a> | <a href="http://finance.sina.com.cn/roll/2026-09-09/doc-inirfqcu3704413.shtml" target="_blank" rel="noopener">新浪</a></p></div>
-<div class="norm-item"><p><strong>DeepSeek 启动第二轮融资，计划募资 500 亿元</strong> — 2026 年中国风险投资转向"产业主导"，DeepSeek 成为标杆案例。上半年股权投资市场完成 5944 起投资，投资金额约 5654 亿元，同比上升 31.9%。 <a href="https://baijiahao.baidu.com/s?id=1875903791898575706" target="_blank" rel="noopener">来源</a></p></div>
-<div class="norm-item"><p><strong>中国大模型周调用量达 40.48 万亿 Token</strong> — OpenRouter 数据显示环比增长 9.88%，国产多个模型 Token 量级已达 10T 级别，《科创板日报》将 2026 年定义为"大模型出海元年"。 <a href="https://baijiahao.baidu.com/s?id=1876017619725765935" target="_blank" rel="noopener">来源</a></p></div>
-<div class="norm-item"><p><strong>寰宇心生（WorldMind）完成数千万元种子轮融资</strong> — 9 月成立即获元生资本投资，聚焦具身智能、世界模型与脑科学的交叉融合，资金用于核心技术研发和世界模型训练基础设施。 <a href="https://baijiahao.baidu.com/s?id=1875652211842918635" target="_blank" rel="noopener">来源</a></p></div>
-<div class="norm-item"><p><strong>2026 中国 AIGC 创新应用交流会在京召开</strong> — 9 月 10 日在首钢园举办，以"从模型创新到场景落地"为主题，探讨大模型迭代、智能体商业化落地与产业场景应用。 <a href="https://quality.huanqiu.com/article/4T9ddJdkMvM" target="_blank" rel="noopener">来源</a></p></div>
+<div class="norm-item"><strong>国家人工智能基金 14 亿元入股快手可灵 AI</strong> — 8 月 31 日快手公告，可灵 AI 获国家人工智能产业投资基金 14 亿元注资，正大集团旗下正大机器人注资约 1.31 亿元，视频生成大模型赛道获国家级资本加持。 <a href="https://baijiahao.baidu.com/s?id=1875584595102047505" target="_blank" rel="noopener">百家号</a></div>
+<div class="norm-item"><strong>最高法出台首部涉 AI 纠纷裁判规则</strong> — 9 月 7 日发布《关于依法审理涉人工智能纠纷案件的意见》，聚焦 AI 换脸、大数据杀熟、仿冒名人带货、自动驾驶、知识产权保护等问题，明确裁判规则与行为边界。 <a href="https://www.court.gov.cn/zixun/xiangqing/511171.html" target="_blank" rel="noopener">最高人民法院</a></div>
+<div class="norm-item"><strong>DeepSeek 启动科创板 IPO 辅导，投后估值约 4500 亿元</strong> — 已聘请中信证券筹备科创板 IPO，计划年内启动上市流程；2026 年前 7 个月营收约 4.75 亿元，约为 2025 年全年的十倍。 <a href="https://baijiahao.baidu.com/s?id=1875859626611113190" target="_blank" rel="noopener">百家号</a></div>
+<div class="norm-item"><strong>Anthropic 有望 9 月下旬公开招股书，年化收入已达约 200 亿美元</strong> — 据 Bloomberg 报道，Anthropic 年化收入从年初约 200 亿美元持续增长，与智谱发布上市后首份中期业绩形成中美大模型公司商业化对比。 <a href="https://xueqiu.com/6902145880/408712710" target="_blank" rel="noopener">雪球</a></div>
+<div class="norm-item"><strong>Anthropic 发布 2026 年 9 月威胁情报报告</strong> — 报告涉及模型蒸馏、网络攻击、国家级监控、武器研发等 AI 滥用行为，提到有机构利用 Claude 制造火箭、导弹等敏感内容。 <a href="https://zhuanlan.zhihu.com/p/2081733365019981567" target="_blank" rel="noopener">知乎报道</a></div>
 <div class="cat-title">开源项目</div>
-<div class="norm-item"><p><strong>UltraData Agent SFT/RL 开源数据集发布</strong> — 包含约 50 万 Agent SFT 样本和 8 万+ RL 样本，配套 Base/SFT/Final 模型（Apache 2.0），支持 vLLM、SGLang 和 DSpark 推测解码，是本周开源生态最值得关注的项目。 <a href="https://zhuanlan.zhihu.com/p/2080931539819426142" target="_blank" rel="noopener">来源</a></p></div>
-<div class="norm-item"><p><strong>CVE-2026-86124：AutoAgent Sandbox RCE 漏洞</strong> — HKUDS AutoAgent 的 Sandbox TCP Command Server 存在严重认证缺陷（CVSS 9.8 Critical），本用于隔离 Agent 的 Sandbox 反而成为主机攻击入口。 <a href="https://zhuanlan.zhihu.com/p/2079959400480098249" target="_blank" rel="noopener">来源</a></p></div>
-<div class="norm-item"><p><strong>MCP 供应链安全问题集中爆发</strong> — 9 月 7-8 日Knowns 爆出一组 MCP/工具协议漏洞，包括工具生态投毒、描述劫持、Rug Pull 和寄生工具链等攻击向量，Agent 安全成为 2026 AI 落地的"第一命题"。 <a href="https://cloud.tencent.com/developer/article/2738687" target="_blank" rel="noopener">来源</a> | <a href="https://baijiahao.baidu.com/s?id=1875845187058172228" target="_blank" rel="noopener">Agent 安全</a></p></div>
-<div class="norm-item"><p><strong>AI 网关概念兴起</strong> — 企业 AI 调用统一管理入口成为刚需，AI 网关连接业务系统与各类大模型/Agent，完成身份验证、协议转换、模型选择、流量控制与安全检查。 <a href="https://baijiahao.baidu.com/s?id=1876004882331123161" target="_blank" rel="noopener">来源</a></p></div>
+<div class="norm-item"><strong>OpenMAIC：清华出品多智能体交互式课堂，GitHub 星标超 3.3 万</strong> — 清华 THU-MAIC 团队开源的开放式多智能体交互式课堂系统，输入一句话即可生成完整可交互 AI 课堂；9 月 8 日在巴黎联合国教科文组织 2026 数字学习周上演示，8 月已覆盖全球 154 个国家和地区。 <a href="https://zhuanlan.zhihu.com/p/2080234811290133112" target="_blank" rel="noopener">知乎</a> · <a href="https://www.163.com/dy/article/L6DFK3L705561FZG.html" target="_blank" rel="noopener">网易报道</a></div>
+<div class="norm-item"><strong>DeepSeek V4.1 Flash 权重开源至 Hugging Face</strong> — 模型文件、Tokenizer、技术报告已开放，旧版 V4 Flash 与 V4 Flash Vision Exp 已下线并自动路由至新模型。 <a href="https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash" target="_blank" rel="noopener">HuggingFace</a></div>
+<div class="norm-item"><strong>archify 登顶 GitHub 周榜：单周新增 19,480 星</strong> — 把架构图、时序图变成 Agent 可直接产出的产物；同期 scientific-agent-skills（+5,491 星）和 patent-disclosure-skill（+1,996 星）也上榜，Agent Skills 类项目多数落在具体行业场景。 <a href="https://my.oschina.net/u/9763067/blog/19755479" target="_blank" rel="noopener">OSCHINA</a></div>
 <hr>
-<p><em>本速递由星辰超级智能体自动生成 | 数据截至 2026-09-11 18:00</em></p>
+<div class="section-title"><span class="sec-icon">📊</span> 本周趋势小结</div>
+<ol>
+<li><strong>大模型从"对话"到"代操作"的范式跃迁已成定局</strong>：GPT-6 Astra 的 Computer Use、Meta Muse 的个人智能体、DeepSeek V4.1 Flash 的 Agent 基准优化，三条路线同时指向"AI 替人完成任务"。C 端"AI 数字员工"市场即将爆发。</li>
+<li><strong>AI 科研能力从"辅助"走向"自主"</strong>：OpenAI 攻克千禧年数学难题（1 万智能体协作 88 小时）+ "自动化研究实习生"工时达人类 3.1 倍 + Claude 11 天完成费马大定理形式化证明，三件事同周发生，标志着 AI 正在成为独立的科研主体。</li>
+<li><strong>架构创新进入新周期</strong>：GPT-6 Astra 的 Loop Transformer、DeepSeek V4.1 Flash 的 CED + CSA2 + low-bit KV Cache、Loop Transformer 被智谱列为重点 Scaling 方向，模型架构从"堆参数"转向"计算图创新 + 注意力压缩 + 缓存优化"。</li>
+<li><strong>AI 治理与安全压力陡增</strong>：最高法出台首部涉 AI 纠纷裁判规则、ResidualAuth 揭示授权撤销残影问题、跑分作弊争议、Anthropic 威胁情报报告，AI 安全已从技术问题升级为法律与社会议题。</li>
+</ol>
+<hr>
+<p><em>本速递由星辰超级智能体自动生成 | 数据截至 2026-09-11 18:00</em>
+<em>信息来源：arXiv · 极客公园 · 智东西 · 澎湃新闻 · 量子位 · IT之家 · 36Kr · CSDN 等</em></p>
 <blockquote class="toc">
 <p>AI生成</p>
 </blockquote>
