@@ -10,28 +10,28 @@
         "id": 1,
         "type": "algorithm_code",
         "type_label": "算法编程",
-        "title": "搜索旋转排序数组",
+        "title": "搜索插入位置",
         "difficulty": 2
       },
       {
         "id": 2,
         "type": "algorithm_concept",
         "type_label": "算法概念",
-        "title": "动态规划的最优子结构性质",
+        "title": "广度优先搜索（BFS）的性质",
         "difficulty": 1
       },
       {
         "id": 3,
         "type": "ai_derivation",
         "type_label": "AI公式推导",
-        "title": "神经网络反向传播四公式完整推导",
-        "difficulty": 3
+        "title": "Adam 优化器偏差修正推导",
+        "difficulty": 2
       },
       {
         "id": 4,
         "type": "ai_interview",
         "type_label": "AI面试问答",
-        "title": "Early Stopping 早停策略的原理与实践",
+        "title": "Early Stopping 的原理与工程实践",
         "difficulty": 2
       }
     ]
