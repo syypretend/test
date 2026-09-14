@@ -1,0 +1,1451 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>每日算法讲解 · 2026年09月14日</title>
+<!-- MathJax for LaTeX math formula rendering -->
+<script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\(', '\)']],
+      displayMath: [['$$', '$$'], ['\[', '\]']],
+      processEscapes: true
+    },
+    svg: { fontCache: 'global' }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" id="MathJax-script" async></script>
+<style>
+:root {
+  --primary: #6366f1;
+  --primary-dark: #4f46e5;
+  --bg: #0f172a;
+  --card-bg: #1e293b;
+  --text: #e2e8f0;
+  --text-dim: #94a3b8;
+  --accent: #818cf8;
+  --border: #334155;
+  --code-bg: #0d1117;
+  --code-text: #e6edf3;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans SC", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.8;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+.container { max-width: 1400px; margin: 0 auto; padding: 24px 32px; }
+.header {
+  text-align: center;
+  padding: 40px 0 30px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 32px;
+}
+.header h1 {
+  font-size: 28px;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.header h1 .date { color: var(--accent); }
+.header .subtitle { color: var(--text-dim); font-size: 15px; }
+.repo-link {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 6px 16px;
+  background: var(--primary);
+  color: #fff;
+  border-radius: 20px;
+  text-decoration: none;
+  font-size: 13px;
+  transition: background 0.2s;
+}
+.repo-link:hover { background: var(--primary-dark); }
+.history-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 32px;
+  padding: 16px;
+  background: var(--card-bg);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+.history-nav a {
+  padding: 4px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  color: var(--text-dim);
+  text-decoration: none;
+  background: rgba(99,102,241,0.08);
+  transition: all 0.2s;
+}
+.history-nav a:hover { color: var(--text); background: rgba(99,102,241,0.2); }
+.history-nav a.active { color: #fff; background: var(--primary); }
+.history-nav a.back-index { color: var(--accent); font-weight: 600; background: rgba(99,102,241,0.15); border: 1px solid rgba(99,102,241,0.3); }
+.history-nav a.back-index:hover { color: #fff; background: var(--primary); border-color: var(--primary); }
+.content { margin-bottom: 40px; max-width: 1100px; }
+.content h2 {
+  font-size: 24px;
+  color: var(--accent);
+  margin: 40px 0 16px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--primary);
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+.content h2:first-child { border-top: none; padding-top: 0; }
+.content h3 {
+  font-size: 18px;
+  color: var(--text);
+  margin: 24px 0 12px;
+}
+.content h4 {
+  font-size: 16px;
+  color: var(--accent);
+  margin: 20px 0 10px;
+}
+.content p { margin-bottom: 12px; color: var(--text); }
+.content ul { margin: 8px 0 16px 20px; }
+.content li { margin-bottom: 6px; }
+.content strong { color: var(--accent); }
+.content blockquote {
+  border-left: 4px solid var(--primary);
+  padding: 12px 16px;
+  margin: 16px 0;
+  background: rgba(99,102,241,0.08);
+  border-radius: 0 8px 8px 0;
+}
+.content blockquote p { color: var(--text-dim); margin: 4px 0; }
+.content hr {
+  border: none;
+  height: 1px;
+  background: var(--border);
+  margin: 32px 0;
+}
+.code-block {
+  background: var(--code-bg);
+  border-radius: 10px;
+  padding: 18px 24px;
+  overflow-x: auto;
+  margin: 16px 0;
+  border: 1px solid var(--border);
+  max-width: 100%;
+}
+.code-block code {
+  font-family: "JetBrains Mono", "Fira Code", "Consolas", monospace;
+  font-size: 14px;
+  color: var(--code-text);
+  line-height: 1.6;
+  white-space: pre;
+}
+.inline-code {
+  background: rgba(99,102,241,0.15);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: "Consolas", monospace;
+  font-size: 0.9em;
+  color: var(--accent);
+}
+/* Math formula block */
+.content .math-block {
+  background: rgba(99,102,241,0.06);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 24px;
+  margin: 16px 0;
+  overflow-x: auto;
+  max-width: 100%;
+}
+.content .math-label {
+  font-size: 13px; color: var(--text-dim); margin-bottom: 6px; }
+.content .math-vars {
+  margin: 8px 0 16px 20px; }
+.content .math-vars li { margin-bottom: 4px; color: var(--text-dim); }
+.footer {
+  text-align: center;
+  padding: 24px 0;
+  border-top: 1px solid var(--border);
+  color: var(--text-dim);
+  font-size: 13px;
+}
+.tag {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  background: rgba(99,102,241,0.15);
+  color: var(--accent);
+  margin-left: 8px;
+}
+.content .ref-link {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px dashed rgba(99,102,241,0.4);
+  transition: all 0.2s;
+  word-break: break-all;
+}
+.content .ref-link:hover {
+  color: #fff;
+  border-bottom-color: var(--primary);
+}
+.content li {
+  word-break: break-all;
+}
+/* Table */
+.table-wrapper {
+  overflow-x: auto;
+  margin: 16px 0;
+  max-width: 100%;
+}
+.algo-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  background: var(--card-bg);
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+.algo-table thead {
+  background: rgba(99,102,241,0.15);
+}
+.algo-table th {
+  padding: 10px 16px;
+  text-align: left;
+  color: var(--accent);
+  font-weight: 600;
+  border-bottom: 2px solid var(--primary);
+  white-space: nowrap;
+}
+.algo-table td {
+  padding: 8px 16px;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  word-break: break-all;
+}
+.algo-table tr:last-child td {
+  border-bottom: none;
+}
+.algo-table tr:hover td {
+  background: rgba(99,102,241,0.06);
+}
+/* Algorithm architecture image */
+.algo-image {
+  margin: 20px 0;
+  text-align: center;
+}
+.algo-image img {
+  max-width: 100%;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+.algo-image .image-caption {
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--text-dim);
+}
+.algo-image svg {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+/* ======== 移动端响应式适配 ======== */
+@media (max-width: 768px) {
+  .container { max-width: 100%; padding: 16px 14px; }
+  .header { padding: 24px 0 20px; margin-bottom: 20px; }
+  .header h1 { font-size: 20px; margin-bottom: 4px; }
+  .header .subtitle { font-size: 13px; }
+  .repo-link { margin-top: 10px; padding: 5px 14px; font-size: 12px; }
+  .history-nav { gap: 6px; padding: 10px 12px; margin-bottom: 20px; }
+  .history-nav a { padding: 3px 10px; font-size: 12px; }
+  .content { max-width: 100%; margin-bottom: 28px; }
+  .content h2 { font-size: 20px; margin: 28px 0 12px; }
+  .content h3 { font-size: 17px; margin: 20px 0 10px; }
+  .content h4 { font-size: 15px; margin: 16px 0 8px; }
+  .content p { font-size: 14px; margin-bottom: 10px; }
+  .content ul { margin: 6px 0 12px 16px; }
+  .content li { font-size: 14px; margin-bottom: 5px; }
+  .content blockquote { padding: 10px 12px; margin: 12px 0; }
+  .content blockquote p { font-size: 13px; }
+  .content .math-block { padding: 10px 14px; margin: 12px 0; }
+  .code-block { padding: 12px 14px; margin: 12px 0; }
+  .code-block code { font-size: 12px; line-height: 1.5; }
+  .inline-code { font-size: 0.88em; padding: 1px 5px; }
+  .algo-table { font-size: 12px; }
+  .algo-table th { padding: 6px 10px; }
+  .algo-table td { padding: 6px 10px; }
+  .algo-image { margin: 14px 0; }
+  .algo-image svg { max-width: 100%; height: auto; }
+  .footer { padding: 18px 0; font-size: 12px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>每日算法讲解 · <span class="date">2026年09月14日</span></h1>
+    <p class="subtitle">每天 1 个基础算法 + 2 个 AI/机器学习算法，持续精进</p>
+    <a href="https://syypretend.github.io/test/daily-algorithm" target="_blank" class="repo-link">GitHub 仓库</a>
+  </div>
+  <div class="history-nav"><a href="index.html" class="back-index">← 历史索引</a>
+<a href="2026-09-14.html" class="active">09月14日</a>
+<a href="2026-09-11.html">09月11日</a>
+<a href="2026-09-10.html">09月10日</a>
+<a href="2026-09-09.html">09月09日</a>
+<a href="2026-09-08.html">09月08日</a>
+<a href="2026-09-07.html">09月07日</a>
+</div>
+  <div class="content">
+  <h2>每日算法讲解 · 2026-09-14</h2>
+
+<blockquote>
+<p>今日内容：1 个基础算法 + 2 个 AI/机器学习算法 | 逐参数详解</p>
+</blockquote>
+
+<hr>
+
+<h3>Trie 树</h3>
+
+<p><strong>类别</strong>：数据结构 | <strong>难度</strong>：中等</p>
+
+<h4>算法简介</h4>
+
+<p>Trie 树（发音同 "try"），又称前缀树、字典树、单词查找树，是一种专门用于<strong>存储和检索字符串集合</strong>的多叉树结构。它的核心思想是：利用字符串的公共前缀来节约存储空间，将具有相同前缀的字符串共享同一条路径，从而实现极快的前缀匹配。</p>
+
+<p>Trie 的每个节点代表一个字符（或字符的累积），从根节点到任意节点的路径拼接起来就是一个字符串前缀。每个节点包含两个核心组件：<code class="inline-code">children</code>（子节点映射，记录下一个字符到子节点的对应关系）和 <code class="inline-code">is_end</code>（布尔标记，表示从根到该节点是否构成一个完整单词）。</p>
+
+<p>Trie 的查询时间复杂度与<strong>字符串长度</strong>成正比（$ O(L) $），而与<strong>集合大小无关</strong>，这是它区别于哈希表（平均 $ O(1) $ 但常数大、无前缀能力）和二叉搜索树（$ O(L \cdot \log n) $）的核心优势。它广泛应用于搜索引擎自动补全、拼写检查、敏感词过滤、IP 路由（最长前缀匹配）等场景。</p>
+
+<h4>原理示意图</h4>
+
+<p><div class="algo-image"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 900 430" font-family="sans-serif">
+  <!-- 深色背景 -->
+  <rect width="900" height="430" fill="#1e293b" rx="12"/>
+  <!-- 标题 -->
+  <text x="450" y="28" text-anchor="middle" fill="#818cf8" font-size="15" font-weight="600">Trie 树：存储 cat / car / card / dog / door / done 的结构</text>
+
+  <!-- 根节点 -->
+  <circle cx="450" cy="70" r="22" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="450" y="76" text-anchor="middle" fill="#e2e8f0" font-size="12">root</text>
+
+  <!-- c 分支 -->
+  <line x1="450" y1="92" x2="250" y2="150" stroke="#6366f1" stroke-width="2"/>
+  <text x="340" y="115" fill="#94a3b8" font-size="11">c</text>
+  <circle cx="250" cy="170" r="20" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="250" y="176" text-anchor="middle" fill="#e2e8f0" font-size="12">c</text>
+
+  <!-- c→a -->
+  <line x1="250" y1="190" x2="200" y2="245" stroke="#6366f1" stroke-width="2"/>
+  <text x="215" y="215" fill="#94a3b8" font-size="11">a</text>
+  <circle cx="200" cy="265" r="20" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="200" y="271" text-anchor="middle" fill="#e2e8f0" font-size="12">a</text>
+
+  <!-- a→t (cat) -->
+  <line x1="200" y1="285" x2="150" y2="340" stroke="#6366f1" stroke-width="2"/>
+  <text x="165" y="310" fill="#94a3b8" font-size="11">t</text>
+  <circle cx="150" cy="360" r="20" fill="#1a3a2a" stroke="#22c55e" stroke-width="2.5"/>
+  <text x="150" y="366" text-anchor="middle" fill="#22c55e" font-size="12">t</text>
+  <text x="150" y="395" text-anchor="middle" fill="#22c55e" font-size="10">cat ✓ is_end</text>
+
+  <!-- a→r (car) -->
+  <line x1="200" y1="285" x2="250" y2="340" stroke="#6366f1" stroke-width="2"/>
+  <text x="235" y="310" fill="#94a3b8" font-size="11">r</text>
+  <circle cx="250" cy="360" r="20" fill="#1a3a2a" stroke="#22c55e" stroke-width="2.5"/>
+  <text x="250" y="366" text-anchor="middle" fill="#22c55e" font-size="12">r</text>
+  <text x="250" y="395" text-anchor="middle" fill="#22c55e" font-size="10">car ✓ is_end</text>
+
+  <!-- r→d (card) -->
+  <line x1="250" y1="380" x2="300" y2="400" stroke="#6366f1" stroke-width="1.5" stroke-dasharray="3,2"/>
+  <text x="268" y="388" fill="#94a3b8" font-size="10">d</text>
+  <circle cx="320" cy="405" r="0"/>
+  <circle cx="315" cy="405" r="16" fill="#1a3a2a" stroke="#22c55e" stroke-width="2.5"/>
+  <text x="315" y="410" text-anchor="middle" fill="#22c55e" font-size="11">d</text>
+  <text x="360" y="410" fill="#22c55e" font-size="10">card ✓</text>
+
+  <!-- d 分支 -->
+  <line x1="450" y1="92" x2="650" y2="150" stroke="#f97316" stroke-width="2"/>
+  <text x="560" y="115" fill="#94a3b8" font-size="11">d</text>
+  <circle cx="650" cy="170" r="20" fill="#334155" stroke="#f97316" stroke-width="2"/>
+  <text x="650" y="176" text-anchor="middle" fill="#e2e8f0" font-size="12">d</text>
+
+  <!-- d→o -->
+  <line x1="650" y1="190" x2="600" y2="245" stroke="#f97316" stroke-width="2"/>
+  <text x="615" y="215" fill="#94a3b8" font-size="11">o</text>
+  <circle cx="600" cy="265" r="20" fill="#334155" stroke="#f97316" stroke-width="2"/>
+  <text x="600" y="271" text-anchor="middle" fill="#e2e8f0" font-size="12">o</text>
+
+  <!-- o→g (dog) -->
+  <line x1="600" y1="285" x2="560" y2="340" stroke="#f97316" stroke-width="2"/>
+  <text x="575" y="310" fill="#94a3b8" font-size="11">g</text>
+  <circle cx="560" cy="360" r="20" fill="#1a3a2a" stroke="#22c55e" stroke-width="2.5"/>
+  <text x="560" y="366" text-anchor="middle" fill="#22c55e" font-size="12">g</text>
+  <text x="560" y="395" text-anchor="middle" fill="#22c55e" font-size="10">dog ✓ is_end</text>
+
+  <!-- o→r (door 中间) -->
+  <line x1="600" y1="285" x2="640" y2="340" stroke="#f97316" stroke-width="2"/>
+  <text x="625" y="310" fill="#94a3b8" font-size="11">r</text>
+  <circle cx="640" cy="360" r="20" fill="#334155" stroke="#f97316" stroke-width="2"/>
+  <text x="640" y="366" text-anchor="middle" fill="#e2e8f0" font-size="12">r</text>
+
+  <!-- r→d... 不画了，标注即可 -->
+  <text x="640" y="395" text-anchor="middle" fill="#94a3b8" font-size="10">door / done 路径略</text>
+
+  <!-- 图例 -->
+  <rect x="60" y="55" width="16" height="16" rx="4" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="84" y="68" fill="#94a3b8" font-size="12">中间节点（只是路径，非完整词）</text>
+  <rect x="60" y="80" width="16" height="16" rx="4" fill="#1a3a2a" stroke="#22c55e" stroke-width="2.5"/>
+  <text x="84" y="93" fill="#94a3b8" font-size="12">单词结尾节点（is_end = True）</text>
+
+  <!-- 关键特性说明 -->
+  <text x="450" y="425" text-anchor="middle" fill="#818cf8" font-size="12" font-weight="600">公共前缀共享路径：car 与 card 共享 "ca" 前缀 → 查询复杂度仅与词长 L 有关，与词库大小无关</text>
+</svg></div></p>
+
+<h4>数学公式</h4>
+
+<p><strong>1. 查询/插入/删除时间复杂度</strong></p>
+
+<p><div class="math-block">$$ T_{\text{op}} = O(L) $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ L $：被操作字符串的长度</li>
+<li><strong>含义</strong>：三种核心操作都只需从根节点沿路径最多走 $ L $ 步，每步在 children 中做一次映射查找。与集合中存储了多少个单词无关，这是 Trie 的核心优势</li>
+</ul>
+
+<p><strong>2. 空间复杂度</strong></p>
+
+<p><div class="math-block">$$ S = O\left(\sum_{w \in \mathcal{W}} |w| \times \text{sizeof(Node)}\right) \approx O(N \cdot \bar{L} \cdot |\Sigma|) $$</div></p>
+
+<p>最坏情况（无公共前缀，所有字符串互为"前缀不共享"）：</p>
+
+<p><div class="math-block">$$ S_{\text{worst}} = O(N \cdot L \cdot |\Sigma|) $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ \mathcal{W} $：存储的单词集合</li>
+<li>$ |w| $：单词 $ w $ 的长度</li>
+<li>$ N $：单词总数</li>
+<li>$ \bar{L} $：平均单词长度</li>
+<li>$ |\Sigma| $：字符集大小（小写字母为 26，ASCII 为 128，Unicode 为全部字符）</li>
+<li><strong>含义</strong>：若用数组存储 children（每个节点 $ |\Sigma| $ 个指针槽位），空间开销大；若用字典/哈希表存储 children，空间仅为实际出现的字符，最坏 $ O(N \cdot L) $</li>
+</ul>
+
+<p><strong>3. 前缀共享节省率</strong></p>
+
+<p><div class="math-block">$$ \text{节省率} = 1 - \frac{\text{Trie 节点数}}{\sum_{w \in \mathcal{W}} |w|} $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>节点数 = 去重后的所有前缀数量（含根）</li>
+<li>$ \sum |w| $ = 所有单词字符总数（朴素存储）</li>
+<li><strong>含义</strong>：前缀重合度越高，节省率越高。例如 "card/cardiology/cards" 三个词共 18 个字符，但 Trie 中仅需 12 个节点</li>
+</ul>
+
+<h4>核心要点</h4>
+
+<ul>
+<li>用空间换时间：公共前缀共享路径，查询复杂度 $ O(L) $ 与词库规模无关</li>
+<li>每个节点两大组件：<code class="inline-code">children</code>（字符→子节点映射）+ <code class="inline-code">is_end</code>（完整单词结尾标记）</li>
+<li><code class="inline-code">search</code> 与 <code class="inline-code">startsWith</code> 的关键区别：前者必须走到尾且 <code class="inline-code">is_end=True</code>，后者只需路径存在</li>
+<li>查询稳定性极好：无哈希冲突问题，最坏也是 $ O(L) $，不像哈希表有退化风险</li>
+<li>三种典型实现：数组式（快、费内存，适合定长字符集如 a-z）、字典式（省内存、支持任意字符）、双数组/AC 自动机（工程优化版）</li>
+<li>大量前缀敏感场景的首选：自动补全、拼写检查、敏感词过滤（配合 DFS/AC 自动机）、IP 路由最长前缀匹配</li>
+</ul>
+
+<h4>技术细节与参数详解</h4>
+
+<p>#### 参数1：children（子节点容器）</p>
+
+<ul>
+<li><strong>含义</strong>：存储当前节点的所有子节点，键为下一个字符，值为子节点对象。是 Trie 的核心结构参数</li>
+<li><strong>类型</strong>：数组 / 字典（哈希表） / 链表</li>
+<li><strong>默认值</strong>：视实现而定。数组式通常为 <code class="inline-code">None</code> 数组（长度=字符集大小）；Python 常用 <code class="inline-code">dict</code>（空字典）</li>
+<li><strong>取值范围</strong>：</li>
+<li>数组式：固定长度 $ |\Sigma| $ 的数组（a-z 为 26）</li>
+<li>字典式：任意大小的哈希表</li>
+<li><strong>对结果的影响</strong>：</li>
+<li>数组式：查找 $ O(1) $ 且无哈希计算，但每个节点占用 $ |\Sigma| $ 个指针位，内存开销大（26 指针 × 8 字节 = 208 字节/节点）</li>
+<li>字典式：只存实际出现的字符，内存省，但查找有哈希开销（常数变大），且字符集不受限（可存中文、emoji）</li>
+<li><strong>推荐设置</strong>：字符集小且固定（如纯小写英文）用数组式；字符集大或不确定（中文、URL、代码 token）用字典式</li>
+</ul>
+
+<p>#### 参数2：is_end（单词结尾标记）</p>
+
+<ul>
+<li><strong>含义</strong>：布尔标记，表示"从根节点到当前节点的路径"是否构成一个完整的、被存储的单词</li>
+<li><strong>类型</strong>：布尔值</li>
+<li><strong>默认值</strong>：<code class="inline-code">False</code>（新节点默认不是单词结尾）</li>
+<li><strong>取值范围</strong>：<code class="inline-code">True</code> / <code class="inline-code">False</code></li>
+<li><strong>对结果的影响</strong>：</li>
+<li><code class="inline-code">is_end=True</code>：该节点同时可拥有子节点（如 "car" 是词且 "card" 也是词）</li>
+<li><code class="inline-code">search("car")</code> 只查路径存在不查 <code class="inline-code">is_end</code> 会导致误报：把 "ca"（仅是前缀）当成已存储的词</li>
+<li><strong>推荐设置</strong>：必须使用。这是 <code class="inline-code">search</code> 与 <code class="inline-code">startsWith</code> 区分的唯一依据，丢失它 Trie 语义就不完整</li>
+</ul>
+
+<p>#### 参数3：字符集大小 |Σ|（alphabet size）</p>
+
+<ul>
+<li><strong>含义</strong>：Trie 中允许出现的字符总数，决定数组式 children 的长度</li>
+<li><strong>类型</strong>：整数</li>
+<li><strong>默认值</strong>：LeetCode 208 题设为 26（仅小写 a-z）</li>
+<li><strong>取值范围</strong>：26（小写） / 52（含大小写） / 128（ASCII） / 256（扩展 ASCII） / 65536+（Unicode）</li>
+<li><strong>对结果的影响</strong>：$ |\Sigma| $ 越大，数组式实现的每个节点内存越大（线性增长）；超过 256 后数组式不再实用，必须改字典式</li>
+<li><strong>推荐设置</strong>：英文场景 26 或 128；中文/多语言场景用字典式，不设固定大小</li>
+</ul>
+
+<p>#### 参数4：大小写敏感策略（case handling）</p>
+
+<ul>
+<li><strong>含义</strong>：是否在插入/查询前统一字符大小写（如全部 lowercase）</li>
+<li><strong>类型</strong>：布尔/枚举</li>
+<li><strong>默认值</strong>：敏感（不转换）</li>
+<li><strong>取值范围</strong>：不转换 / 全转小写 / 全转大写</li>
+<li><strong>对结果的影响</strong>：</li>
+<li>不转换："Apple" 和 "apple" 是两个不同的词（占两条路径）</li>
+<li>转小写：二者视为同一词，节省空间但丢失语义区分（人名场景不适合）</li>
+<li><strong>推荐设置</strong>：敏感词过滤、自动补全等通常统一小写；编程语言关键字/标识符检索必须保持敏感</li>
+</ul>
+
+<p>#### 参数5：节点值/权重（node value / weight）</p>
+
+<ul>
+<li><strong>含义</strong>：给节点附加数据，如词频（用于热门词排序）、子树叶子计数（用于补全排序）、指向业务数据的引用</li>
+<li><strong>类型</strong>：任意（整数词频 / 对象引用）</li>
+<li><strong>默认值</strong>：无</li>
+<li><strong>取值范围</strong>：视业务需求</li>
+<li><strong>对结果的影响</strong>：附加词频后，自动补全可按热度返回 Top-K 而非字典序；附加子树计数可 $ O(1) $ 判断某前缀下有多少词</li>
+<li><strong>推荐设置</strong>：自动补全场景强烈建议加 <code class="inline-code">count</code> 字段；纯存在性查询可省略</li>
+</ul>
+
+<p>#### 参数6：压缩开关（compression，如 Radix Tree）</p>
+
+<ul>
+<li><strong>含义</strong>：将只有单链分叉的路径合并为单节点存储多字符（Patricia/Radix 树）</li>
+<li><strong>类型</strong>：布尔/策略</li>
+<li><strong>默认值</strong>：不压缩（标准 Trie）</li>
+<li><strong>取值范围</strong>：不压缩 / 路径压缩（Radix Trie）</li>
+<li><strong>对结果的影响</strong>：</li>
+<li>不压缩：插入/删除实现简单，但单链节点浪费内存（如 "cardiology" 造成 10 个只有 1 个子节点的节点）</li>
+<li>压缩后：内存大幅减少，但节点需存字符串片段、边界字符比较更复杂（需要按片段而非单字符匹配）</li>
+<li><strong>推荐设置</strong>：教学/面试/一般场景用标准 Trie；海量字符串（千万级）存储用压缩 Trie</li>
+</ul>
+
+<p>#### 参数7：fail 指针（AC 自动机扩展）</p>
+
+<ul>
+<li><strong>含义</strong>：Aho-Corasick 自动机在 Trie 基础上为每个节点加 fail 指针，指向"当前字符串的最长后缀对应的节点"，实现多模式串一次扫描</li>
+<li><strong>类型</strong>：节点指针</li>
+<li><strong>默认值</strong>：无（标准 Trie 无此参数）</li>
+<li><strong>取结果的影响</strong>：加 fail 指针后，敏感词过滤从"逐模式串查询"变为"文本单遍扫描即完成所有模式匹配"，复杂度从 $ O(\text{模式串数} \times L \times N) $ 降为 $ O(N + \text{匹配次数}) $</li>
+<li><strong>推荐设置</strong>：单一前缀查询用标准 Trie；多模式串同时匹配（敏感词、病毒特征码）必须用 AC 自动机</li>
+</ul>
+
+<h4>代码示例</h4>
+
+<p><pre class="code-block"><code class="language-python">class TrieNode:
+    &quot;&quot;&quot;Trie 节点类&quot;&quot;&quot;
+    def __init__(self):
+        self.children = {}    # 子节点映射：{字符: TrieNode}，字典式实现省内存且支持任意字符
+        self.is_end = False   # 单词结尾标记：True 表示从根到该节点构成一个完整单词
+
+
+class Trie:
+    &quot;&quot;&quot;前缀树（字典树）标准实现：insert / search / startsWith 三大核心操作&quot;&quot;&quot;
+    def __init__(self):
+        self.root = TrieNode()   # 根节点不存字符，仅作为入口
+
+
+    def insert(self, word: str) -&gt; None:
+        &quot;&quot;&quot;插入单词 word：逐字符沿树下行，不存在则建新节点，末节点 is_end 置 True&quot;&quot;&quot;
+        node = self.root                       # 从根节点出发
+        for ch in word:                        # 遍历单词的每个字符
+            if ch not in node.children:        # 当前字符对应的子节点不存在
+                node.children[ch] = TrieNode() # 创建新子节点
+            node = node.children[ch]           # 移动到子节点，继续处理下一字符
+        node.is_end = True                     # 到达单词末尾，标记为完整单词
+
+
+    def search(self, word: str) -&gt; bool:
+        &quot;&quot;&quot;查询单词 word 是否被完整存储：必须走到尾且 is_end=True&quot;&quot;&quot;
+        node = self._find_node(word)           # 沿路径查找最后一个字符对应的节点
+        return node is not None and node.is_end # 路径存在 且 是单词结尾 → 找到
+
+
+    def startsWith(self, prefix: str) -&gt; bool:
+        &quot;&quot;&quot;查询是否存在以 prefix 为前缀的单词：只需路径存在，不要求 is_end&quot;&quot;&quot;
+        return self._find_node(prefix) is not None  # 节点存在即有此前缀
+
+
+    def _find_node(self, s: str):
+        &quot;&quot;&quot;辅助方法：沿字符串 s 对应的路径下行，返回终点节点；路径中断返回 None&quot;&quot;&quot;
+        node = self.root                       # 从根节点出发
+        for ch in s:                           # 逐字符匹配
+            if ch not in node.children:        # 字符无对应子节点 → 路径中断
+                return None                    # 前缀不存在
+            node = node.children[ch]           # 移动到下一节点
+        return node                            # 返回终点节点（可能为 None）
+
+    def autocomplete(self, prefix: str, limit: int = 10) -&gt; list:
+        &quot;&quot;&quot;自动补全：返回所有以 prefix 开头的单词（DFS 收集子树所有单词）&quot;&quot;&quot;
+        start = self._find_node(prefix)        # 定位前缀终点节点
+        if start is None:                       # 前缀都不存在，无补全结果
+            return []
+        results = []                           # 收集补全候选词
+        self._dfs_collect(start, prefix, results, limit)  # DFS 遍历子树
+        return results
+
+    def _dfs_collect(self, node, path, results, limit):
+        &quot;&quot;&quot;DFS 收集子树中的所有完整单词（可加词频排序，此处按字典序）&quot;&quot;&quot;
+        if len(results) &gt;= limit:              # 已达数量上限，剪枝返回
+            return
+        if node.is_end:                        # 当前节点是完整单词结尾
+            results.append(path)               # 收入结果集
+        for ch in sorted(node.children):       # 按字符顺序遍历（保证字典序输出）
+            self._dfs_collect(node.children[ch], path + ch, results, limit)
+
+
+# 使用示例
+trie = Trie()                                  # 创建 Trie
+for w in [&quot;cat&quot;, &quot;car&quot;, &quot;card&quot;, &quot;dog&quot;, &quot;door&quot;, &quot;done&quot;]:
+    trie.insert(w)                             # 批量插入单词
+print(trie.search(&quot;car&quot;))                     # True（完整存储的词）
+print(trie.search(&quot;ca&quot;))                       # False（只是前缀，非完整词）
+print(trie.startsWith(&quot;ca&quot;))                   # True（存在 ca 开头的词）
+print(trie.autocomplete(&quot;do&quot;))                 # [&#x27;dog&#x27;, &#x27;done&#x27;, &#x27;door&#x27;]</code></pre></p>
+
+<h4>复杂度分析</h4>
+
+<p><strong>时间复杂度</strong>：</p>
+
+<div class="table-wrapper"><table class="algo-table"><thead><tr><th>操作</th><th>复杂度</th><th>推导</th></tr></thead><tbody><tr><td>insert</td><td>$ O(L) $</td><td>每字符一次 children 查找+移动，共 $ L $ 次</td></tr><tr><td>search</td><td>$ O(L) $</td><td>同上，末尾多一次 is_end 判断</td></tr><tr><td>startsWith</td><td>$ O(L) $</td><td>同 search 但不判 is_end</td></tr><tr><td>自动补全</td><td>$ O(L + \text{子树大小}) $</td><td>定位前缀 $ O(L) $ + DFS 收集整个子树</td></tr><tr><td>删除</td><td>$ O(L) $</td><td>下行定位 + 回收无分支节点</td></tr></tbody></table></div>
+
+<p><strong>空间复杂度</strong>：字典式 $ O(\sum|w|) $ 最坏无共享时；实际由去重前缀数决定，公共前缀越多越省。数组式为 $ O(\sum|w| \cdot |\Sigma|) $。</p>
+
+<p><strong>对比推导</strong>：二叉搜索树存 $ N $ 个词查一个词需 $ O(L \cdot \log N) $（每字符比较是一整词比较 $ O(L) $，树高 $ \log N $）；哈希表平均 $ O(L) $（哈希本身要读全串）但无前缀查询能力；Trie 查询 $ O(L) $ 且天然支持前缀/补全，是前缀敏感场景的最优解。</p>
+
+<h4>应用场景</h4>
+
+<ul>
+<li><strong>搜索引擎自动补全</strong>：输入前缀即时返回候选词，配合词频权重返回 Top-K</li>
+<li><strong>拼写检查</strong>：编辑距离 1 的候选词集与 Trie 结合，快速找近似词</li>
+<li><strong>敏感词过滤</strong>：标准 Trie 逐位置查询，或 AC 自动机单遍扫描多模式串</li>
+<li><strong>IP 路由最长前缀匹配</strong>：路由表前缀（如 192.168.0.0/16）用二叉/多位 Trie 查找</li>
+<li><strong>IDE 代码补全</strong>：变量名、函数名检索，前缀匹配毫秒级响应</li>
+</ul>
+
+<h4>参考文档</h4>
+
+<ul>
+<li><a href="https://blog.csdn.net/weixin_44048117/article/details/161755671" target="_blank" class="ref-link">【树】208. 实现 Trie (前缀树)</a></li>
+<li><a href="https://blog.csdn.net/gitblog_00776/article/details/164752409" target="_blank" class="ref-link">用Go实现 LeetCode 208:Trie 前缀树模板与 insert/search/startsWith 全解</a></li>
+<li><a href="https://www.php.cn/faq/2204834.html" target="_blank" class="ref-link">Python字典树Trie怎么写_前缀树实现与敏感词过滤应用</a></li>
+<li><a href="https://blog.csdn.net/L_H21/article/details/148613145" target="_blank" class="ref-link">图论----4.实现 Trie (前缀树)</a></li>
+<li><a href="https://www.cnblogs.com/xidian2014/p/8746752.html" target="_blank" class="ref-link">208 Implement Trie (Prefix Tree) 字典树</a></li>
+</ul>
+
+<hr>
+
+<h3>Beam Search 解码</h3>
+
+<p><strong>类别</strong>：NLP解码 | <strong>难度</strong>：中等</p>
+
+<h4>算法简介</h4>
+
+<p>Beam Search（束搜索/集束搜索）是序列生成任务（机器翻译、文本摘要、语音识别、图像描述）中最经典的解码策略。它与贪心解码的本质区别是：贪心每一步只保留概率最高的 1 个候选 token，而 Beam Search 每一步保留概率最高的 $ k $ 个候选序列（$ k $ 即束宽 beam width），在"多条路径并行探索"和"计算成本"之间取得平衡。</p>
+
+<p>可以把它理解为"保留多个备胎的贪心算法"：局部最优的第一步未必通向全局最优——例如概率 0.5 的 token A 开头后续路径整体概率很高，而第一步 0.7 的 token B 后面全是低概率词。Beam Search 通过同时跟踪 $ k $ 条这样的路径，显著降低"第一步选错满盘皆输"的风险。</p>
+
+<p>每一步的流程是：将所有现存束（beam）分别扩展出词表的每个 token，计算每条扩展路径的累积对数概率，然后从所有扩展结果中选出全局最优的 $ k $ 条作为新束。当束生成 EOS（结束符）时，该束完成，移出活跃集。所有束完成后，按最终得分（常经长度惩罚调整）选出最优序列输出。</p>
+
+<p>Beam Search 的工程要点集中在参数调优：<code class="inline-code">num_beams</code>（束宽）决定探索宽度，<code class="inline-code">length_penalty</code>（长度惩罚）纠正"模型偏爱短序列"的偏差，<code class="inline-code">no_repeat_ngram_size</code> 与 <code class="inline-code">repetition_penalty</code> 对抗重复循环，<code class="inline-code">early_stopping</code> 控制终止时机。</p>
+
+<h4>原理示意图</h4>
+
+<p><div class="algo-image"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 900 500" font-family="sans-serif">
+  <!-- 深色背景 -->
+  <rect width="900" height="500" fill="#1e293b" rx="12"/>
+  <!-- 标题 -->
+  <text x="450" y="26" text-anchor="middle" fill="#818cf8" font-size="15" font-weight="600">Beam Search 解码流程（num_beams = 2）</text>
+
+  <!-- 第一步 -->
+  <text x="80" y="70" fill="#94a3b8" font-size="12">Step 1</text>
+  <rect x="80" y="80" width="140" height="34" rx="6" fill="#334155" stroke="#6366f1" stroke-width="1.5"/>
+  <text x="150" y="101" text-anchor="middle" fill="#e2e8f0" font-size="12">输入 prompt</text>
+  <line x1="220" y1="97" x2="270" y2="97" stroke="#6366f1" stroke-width="2" marker-end="url(#arrowB)"/>
+
+  <!-- 扩展所有 token，保留 top-2 -->
+  <rect x="270" y="60" width="200" height="74" rx="8" fill="#1e2a4a" stroke="#6366f1" stroke-width="1.5"/>
+  <text x="370" y="82" text-anchor="middle" fill="#818cf8" font-size="12" font-weight="600">生成全部候选 token</text>
+  <text x="370" y="102" text-anchor="middle" fill="#e2e8f0" font-size="11">the: 0.7 | a: 0.2 | ...</text>
+  <text x="370" y="120" text-anchor="middle" fill="#f97316" font-size="11">保留 top-k=2: [the, a]</text>
+
+  <!-- Step 2 -->
+  <line x1="470" y1="97" x2="520" y2="97" stroke="#6366f1" stroke-width="2" marker-end="url(#arrowB)"/>
+  <text x="540" y="70" fill="#94a3b8" font-size="12">Step 2: 每条束再扩展</text>
+  <rect x="520" y="80" width="180" height="30" rx="6" fill="#334155" stroke="#22c55e" stroke-width="1.5"/>
+  <text x="610" y="99" text-anchor="middle" fill="#22c55e" font-size="11">beam1: "the" → cat/dog/...</text>
+  <rect x="520" y="120" width="180" height="30" rx="6" fill="#334155" stroke="#22c55e" stroke-width="1.5"/>
+  <text x="610" y="139" text-anchor="middle" fill="#22c55e" font-size="11">beam2: "a" → cat/dog/...</text>
+
+  <!-- 评分与筛选 -->
+  <line x1="700" y1="130" x2="750" y2="130" stroke="#6366f1" stroke-width="2" marker-end="url(#arrowB)"/>
+  <rect x="750" y="100" width="130" height="60" rx="8" fill="#1e2a4a" stroke="#f97316" stroke-width="1.5"/>
+  <text x="815" y="122" text-anchor="middle" fill="#f97316" font-size="11" font-weight="600">按累积 log 概率</text>
+  <text x="815" y="140" text-anchor="middle" fill="#f97316" font-size="11">全局排序留 top-2</text>
+
+  <!-- 循环说明 -->
+  <text x="450" y="185" text-anchor="middle" fill="#94a3b8" font-size="12">重复扩展→评分→筛选，直到每条束生成 &lt;EOS&gt;</text>
+
+  <!-- 最终候选池 -->
+  <text x="80" y="225" fill="#94a3b8" font-size="12">完成后的候选池（每条束一个完整序列）</text>
+  <rect x="80" y="235" width="340" height="96" rx="8" fill="#1e2a4a" stroke="#6366f1" stroke-width="1.5"/>
+  <rect x="95" y="250" width="310" height="22" rx="4" fill="#334155"/>
+  <text x="250" y="265" text-anchor="middle" fill="#e2e8f0" font-size="11">beam1: "the cat sat"  score=-2.1</text>
+  <rect x="95" y="278" width="310" height="22" rx="4" fill="#334155"/>
+  <text x="250" y="293" text-anchor="middle" fill="#e2e8f0" font-size="11">beam2: "the cat on"  score=-2.5</text>
+  <rect x="95" y="300" width="310" height="22" rx="4" fill="#334155"/>
+  <text x="250" y="315" text-anchor="middle" fill="#e2e8f0" font-size="11">beam3: "a dog ran"   score=-2.8</text>
+
+  <!-- 得分公式 -->
+  <text x="80" y="365" fill="#94a3b8" font-size="12">最终得分（带长度惩罚）</text>
+  <rect x="80" y="375" width="640" height="46" rx="8" fill="#0f172a" stroke="#818cf8" stroke-width="1.5"/>
+  <text x="400" y="394" text-anchor="middle" fill="#818cf8" font-size="13">score = Σ log P(token) ÷ (length ^ length_penalty)</text>
+  <text x="400" y="412" text-anchor="middle" fill="#94a3b8" font-size="11">length_penalty &gt; 1 奖励长序列；&lt; 1 奖励短序列；= 1 无惩罚</text>
+
+  <!-- 箭头定义 -->
+  <defs>
+    <marker id="arrowB" markerWidth="8" markerHeight="6" refX="4" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#6366f1"/>
+    </marker>
+  </defs>
+
+  <text x="450" y="480" text-anchor="middle" fill="#818cf8" font-size="12" font-weight="600">核心权衡：num_beams=1 退化为贪心；num_beams 越大越接近全局最优但计算线性增长 k 倍</text>
+</svg></div></p>
+
+<h4>数学公式</h4>
+
+<p><strong>1. 候选序列累积得分（对数概率）</strong></p>
+
+<p><div class="math-block">$$ S(y_{1:T}) = \sum_{t=1}^{T} \log P(y_t \mid y_{1:t-1}, x) $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ y_{1:T} $：候选生成序列（$ y_1, y_2, \ldots, y_T $）</li>
+<li>$ P(y_t \mid y_{1:t-1}, x) $：给定输入 $ x $ 与已生成前缀，第 $ t $ 步选中 $ y_t $ 的条件概率</li>
+<li>$ \log $：将连乘转为连加以避免数值下溢（大量小概率相乘会溢出为 0）</li>
+<li><strong>含义</strong>：序列联合概率的对数，因为 $ P(y_{1:T}) = \prod_t P(y_t|\cdot) $，取 log 后变加法</li>
+</ul>
+
+<p><strong>2. 长度惩罚后的最终得分</strong></p>
+
+<p><div class="math-block">$$ \text{score}(y) = \frac{S(y)}{(T_y)^{\alpha}} $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ T_y $：候选序列 $ y $ 的长度</li>
+<li>$ \alpha $：length_penalty 参数</li>
+<li>$ \alpha = 1.0 $：标准长度归一化，长短序列公平比较</li>
+<li>$ \alpha > 1.0 $：奖励长序列（分母变大反而让得分更高需注意符号——由于 $ S $ 为负，除以更大的数使负分变小、排序上升）</li>
+<li>$ \alpha = 0 $：退化为不归一化，模型强偏好短序列</li>
+<li><strong>含义</strong>：对数概率是负数累加，越长越负。若不除以长度，束搜索天然偏向"先碰到 EOS"的短序列</li>
+</ul>
+
+<p><strong>3. 每步保留束的选择</strong></p>
+
+<p><div class="math-block">$$ \mathcal{B}_t = \text{top-}k\left(\{ (b, y) : b \in \mathcal{B}_{t-1}, y \in \mathcal{V} \}\right) $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ \mathcal{B}_t $：第 $ t $ 步保留的 $ k $ 条束的集合</li>
+<li>$ b $：上一条束（含其累积得分）</li>
+<li>$ y $：词表 $ \mathcal{V} $ 中的任意 token</li>
+<li>$ \text{top-}k $：从 $ k \times |\mathcal{V}| $ 个扩展组合中选出累积得分最高的 $ k $ 个</li>
+<li><strong>含义</strong>：束搜索每步是全局排序截断，不是每条束各自保留 top-k（这一点是常见误解）</li>
+</ul>
+
+<p><strong>4. 无重复 n-gram 约束</strong></p>
+
+<p><div class="math-block">$$ \forall i \neq j: \quad (y_{i:i+n}) \neq (y_{j:j+n}) $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ y_{i:i+n} $：序列中从位置 $ i $ 开始长度为 $ n $ 的 n-gram 片段</li>
+<li>$ n $：no_repeat_ngram_size 参数值</li>
+<li><strong>含义</strong>：强制任意两个 n-gram 不相同，从候选生成阶段就阻断"短语复读"循环</li>
+</ul>
+
+<h4>核心要点</h4>
+
+<ul>
+<li>与贪心的区别：贪心 = beam width 1，每步全局只留 1 条；Beam Search 留 $ k $ 条并行探索，抗"一步选错满盘输"</li>
+<li>得分是对数概率累加（防下溢），最终比较前必须做长度归一化/惩罚，否则强偏短句</li>
+<li>num_beams 增大 → 质量提升但成本线性增长；1-4 常用于对话，4-8 常用于翻译/摘要</li>
+<li>length_penalty > 1 缓解短句偏好；no_repeat_ngram_size=3~4 对抗重复循环</li>
+<li>early_stopping=True 时任一束出 EOS 即整批停止；False 时所有束完成才停</li>
+<li>开放式生成（写小说/聊天）不适合 Beam Search：它倾向于高概率的"安全废话"（如 the the the），多样性差；适合有标准答案的任务（翻译/摘要/代码）</li>
+</ul>
+
+<h4>技术细节与参数详解</h4>
+
+<p>#### 参数1：num_beams（束宽 / beam width）</p>
+
+<ul>
+<li><strong>含义</strong>：每一步保留的候选序列数量，是 Beam Search 最核心的参数</li>
+<li><strong>类型</strong>：整数</li>
+<li><strong>默认值</strong>：Hugging Face generate() 默认 1（即贪心）；翻译/摘要实践常用 4-8</li>
+<li><strong>取值范围</strong>：1 到词表大小（实际 1-64）</li>
+<li><strong>对结果的影响</strong>：</li>
+<li>$ k=1 $：完全退化为贪心解码，最快但易陷入局部最优</li>
+<li>$ k=4 $：翻译/摘要的甜点值，质量与速度平衡</li>
+<li>$ k=8\sim16 $：闭集任务（语音识别、受限生成）进一步提升，但收益递减</li>
+<li>$ k $ 每增大 1，每步候选扩展与排序成本增加约一倍（线性增长）</li>
+<li><strong>推荐设置</strong>：机器翻译 4-5；文本摘要 4；语音识别 8-16；对话/创作类改用采样（top_p/temperature）而非加大束宽</li>
+</ul>
+
+<p>#### 参数2：length_penalty（长度惩罚因子）</p>
+
+<ul>
+<li><strong>含义</strong>：最终得分公式中的指数 $ \alpha $，得分除以 $ T^{\alpha} $，校正束搜索对短序列的系统性偏好</li>
+<li><strong>类型</strong>：浮点数</li>
+<li><strong>默认值</strong>：1.0（Hugging Face）</li>
+<li><strong>取值范围</strong>：0 到任意正数（HF 允许负数但意义反转，慎用）</li>
+<li><strong>对结果的影响</strong>：</li>
+<li>$ \alpha=0 $：无归一化，极端偏短——第一个 EOS 就赢</li>
+<li>$ \alpha=1 $：完全按平均每 token log 概率比较，长短公平</li>
+<li>$ \alpha=1.2 $：温和奖励长序列，翻译常用（预期输出较长时）</li>
+<li>$ \alpha=2.0 $：强推长序列，可能强行续写</li>
+<li><strong>推荐设置</strong>：翻译/摘要 1.0-1.2；短答案任务（问答）0.8-1.0；若输出总被截断可增大；若输出冗长灌水可减小</li>
+</ul>
+
+<p>#### 参数3：no_repeat_ngram_size（禁重复 n-gram 长度）</p>
+
+<ul>
+<li><strong>含义</strong>：禁止生成序列中出现任何重复的连续 $ n $ 个 token 组合</li>
+<li><strong>类型</strong>：整数，0 表示禁用</li>
+<li><strong>默认值</strong>：0（HF）/ 3（部分摘要实践）</li>
+<li><strong>取值范围</strong>：0 - 10</li>
+<li><strong>对结果的影响</strong>：</li>
+<li>$ n=3 $：最常见的防复读设置，拦截 "I like it, I like it, I like it" 类循环</li>
+<li>$ n $ 过大（≥6）：合法的重复修辞（如排比句、代码中的常见结构）也被禁止，输出质量反降</li>
+<li>$ n=0 $：不约束，重复风险由模型本身决定</li>
+<li><strong>推荐设置</strong>：摘要/翻译 3；对话 2-3；代码生成慎用（语法要求重复 token，建议改用 repetition_penalty）</li>
+</ul>
+
+<p>#### 参数4：repetition_penalty（重复惩罚）</p>
+
+<ul>
+<li><strong>含义</strong>：对已生成过的 token 在下一步扩展时降低其 logit，抑制已经出现过的词再次出现（CTRL 论文提出）</li>
+<li><strong>类型</strong>：浮点数</li>
+<li><strong>默认值</strong>：1.0（不惩罚）</li>
+<li><strong>取值范围</strong>：1.0 - 2.0（>1 惩罚；<1 鼓励重复，慎用）</li>
+<li><strong>对结果的影响</strong>：</li>
+<li>$ 1.0 $：无惩罚</li>
+<li>$ 1.1\sim1.2 $：温和去重，对话常用</li>
+<li>$ 1.3+ $：明显抑制重复，但可能连必要的功能词（the、的）也被压制，语句变怪</li>
+<li><strong>推荐设置</strong>：与 no_repeat_ngram_size 二选一或小值并用；对话 1.1-1.15；代码生成不用（需要重复 token）</li>
+</ul>
+
+<p>#### 参数5：early_stopping（提前终止）</p>
+
+<ul>
+<li><strong>含义</strong>：控制"所有束完成"还是"部分束完成"即可停止</li>
+<li><strong>类型</strong>：布尔/字符串</li>
+<li><strong>默认值</strong>：False（HF 中 generate）</li>
+<li><strong>取值范围</strong>：True / False / "never"（HF 新版）</li>
+<li><strong>对结果的影响</strong>：</li>
+<li><code class="inline-code">True</code>：凑够 num_beams 条完成束即停，更快，但可能漏掉"起步慢后劲足"的序列</li>
+<li><code class="inline-code">False</code>：所有束都出 EOS 才停，更彻底，质量略稳但更慢</li>
+<li><strong>推荐设置</strong>：生产翻译/摘要 True（速度优先）；离线评测 False（质量优先）</li>
+</ul>
+
+<p>#### 参数6：max_length / max_new_tokens（生成长度上限）</p>
+
+<ul>
+<li><strong>含义</strong>：解码的最大长度，防止束永不终止</li>
+<li><strong>类型</strong>：整数</li>
+<li><strong>默认值</strong>：HF 默认 max_length=20（很短！实际必须显式设置）</li>
+<li><strong>取值范围</strong>：1 - 模型上下文长度</li>
+<li><strong>对结果的影响</strong>：与 length_penalty 联动——上限太小会强制截断好束；上限太大配合 $ \alpha=0 $ 会偏向到顶才停</li>
+<li><strong>推荐设置</strong>：翻译 128-256；摘要 64-128；务必显式设置，勿依赖默认值</li>
+</ul>
+
+<p>#### 参数7：num_return_sequences（返回束数）</p>
+
+<ul>
+<li><strong>含义</strong>：从最终 $ k $ 条束中实际返回多少条给调用方</li>
+<li><strong>类型</strong>：整数</li>
+<li><strong>默认值</strong>：1（只返回最优束）</li>
+<li><strong>取值范围</strong>：1 - num_beams</li>
+<li><strong>对结果的影响</strong>：设为 num_beams 可拿到全部候选（如后续用重打分模型挑选）；设 1 只拿冠军束</li>
+<li><strong>推荐设置</strong>：一般 1；需要多候选重排（如 n-best 重打分）时等于 num_beams</li>
+</ul>
+
+<p>#### 参数8：diversity 相关（num_beam_groups / diversity_penalty）</p>
+
+<ul>
+<li><strong>含义</strong>：Diverse Beam Search——将 $ k $ 条束分成 $ g $ 组，组间通过 Hamming 多样性惩罚强制不同组探索不同方向</li>
+<li><strong>类型</strong>：整数/浮点数</li>
+<li><strong>默认值</strong>：禁用</li>
+<li><strong>取值范围</strong>：num_beam_groups 整除 num_beams；diversity_penalty 常取 1.0-3.0</li>
+<li><strong>对结果的影响</strong>：启用后候选束之间的相似度显著下降，适合"生成多个不同风格的候选"场景</li>
+<li><strong>推荐设置</strong>：仅在需要多样化候选集（如数据增强、多方案生成）时启用；常规任务不用</li>
+</ul>
+
+<h4>代码示例</h4>
+
+<p><pre class="code-block"><code class="language-python">from transformers import AutoModelForSeq2SeqLM, AutoTokenizer  # 导入 HF 的序列到序列模型与分词器
+
+# 加载模型与分词器（以 mT5/BART 类模型为例）
+model_name = &quot;facebook/bart-large-cnn&quot;                       # 摘要任务模型
+tokenizer = AutoTokenizer.from_pretrained(model_name)       # 加载分词器
+model = AutoModelForSeq2SeqLM.from_pretrained(model_name)    # 加载模型
+
+article = &quot;&quot;&quot;Beam Search 是序列生成中的经典解码算法。与贪心解码每步只保留
+一个最优候选不同，Beam Search 保留 num_beams 条候选路径并行探索……&quot;&quot;&quot;
+
+inputs = tokenizer(article, return_tensors=&quot;pt&quot;, max_length=1024,
+                    truncation=True)                          # 编码输入，超长截断
+
+# 核心：Beam Search 生成（每个参数都有注释）
+output_ids = model.generate(
+    **inputs,                                                # 输入张量
+    num_beams=4,                                             # 束宽：保留 4 条候选束并行扩展
+    max_length=128,                                          # 生成上限 128 token，防截断防失控
+    min_length=30,                                           # 最短 30 token，避免过短摘要
+    length_penalty=1.2,                                      # 长度惩罚：温和奖励较长序列，缓解 EOS 偏好
+    no_repeat_ngram_size=3,                                  # 禁止任何 3-gram 重复，防短语循环
+    repetition_penalty=1.0,                                  # 重复惩罚 1.0=不启用（与 n-gram 约束二选一）
+    early_stopping=True,                                     # 凑够 num_beams 条完成束即终止，提速
+    num_return_sequences=1,                                  # 最终只返回得分最高的 1 条
+)
+
+summary = tokenizer.decode(output_ids[0], skip_special_tokens=True)  # 解码为文本，跳过特殊 token
+print(summary)
+
+
+# ===== 手写 Beam Search 核心逻辑（理解原理用）=====
+import torch
+import torch.nn.functional as F
+
+def beam_search_decode(model, input_ids, num_beams=4, max_len=50,
+                       length_penalty=1.0, eos_id=2):
+    &quot;&quot;&quot;手写 Beam Search：展示每步扩展-评分-截断全过程&quot;&quot;&quot;
+    batch_size = input_ids.shape[0]                          # 批大小（简化为 1）
+    # 初始化 k 条束：全部为输入序列的复制，累积 log 概率为 0
+    beams = [(input_ids.clone(), 0.0)]                       # (序列, 累积得分)
+    finished = []                                            # 已完成（出 EOS）的束
+    for step in range(max_len):                              # 逐步解码
+        candidates = []                                      # 本轮所有扩展候选
+        for seq, score in beams:                            # 遍历每条活跃束
+            logits = model(seq).logits[:, -1, :]             # 只取最后位置的 logits
+            log_probs = F.log_softmax(logits, dim=-1)       # log-softmax 得对数概率
+            topk_lp, topk_ids = log_probs.topk(num_beams)   # 该束只扩展概率前 k 的 token（工程剪枝）
+            for lp, tok in zip(topk_lp[0], topk_ids[0]):   # 逐个候选 token
+                new_seq = torch.cat([seq, tok.view(1, 1)], dim=1)  # token 拼接到序列尾
+                candidates.append((new_seq, score + lp.item()))    # 累积得分 = 旧分 + 新 token log 概率
+        # 全局排序取 top-k：注意是所有束的扩展一起排，不是每束各自保留
+        candidates.sort(key=lambda x: x[1], reverse=True)
+        beams = []                                          # 重建活跃束集合
+        for seq, score in candidates[:num_beams]:          # 只留全局最优 k 条
+            if seq[0, -1].item() == eos_id:                # 该束生成 EOS → 完成
+                finished.append((seq, score))               # 移入完成池
+            else:
+                beams.append((seq, score))                  # 仍是活跃束
+        if len(finished) &gt;= num_beams:                      # early_stopping=True 的终止条件
+            break                                            # 凑够完成束即停
+    # 最终按长度惩罚得分挑选最优：score / T^α
+    finished.sort(key=lambda x: x[1] / (x[0].shape[1] ** length_penalty),
+                  reverse=True)                              # 除以长度^惩罚因子后排序
+    return finished[0][0]                                   # 返回最优序列</code></pre></p>
+
+<h4>复杂度分析</h4>
+
+<p><strong>时间复杂度</strong>：每步扩展 $ k $ 条束 × 每束取 top-k 候选（$ O(|\mathcal{V}|\log k) $ 堆选择），生成 $ T $ 步：</p>
+
+<p><div class="math-block">$$ T_{\text{beam}} = O(T \cdot k \cdot |\mathcal{V}|) $$</div></p>
+
+<ul>
+<li>变量：$ k $=num_beams，$ T $=生成长度，$ |\mathcal{V}| $=词表大小</li>
+<li>对比贪心：$ O(T \cdot |\mathcal{V}|) $，Beam Search 是它的 $ k $ 倍</li>
+</ul>
+
+<p><strong>空间复杂度</strong>：$ O(k \cdot T) $ 存储 $ k $ 条束各自最长 $ T $ 个 token；加上 KV Cache 则为 $ O(k \cdot T \cdot d \cdot L) $（$ d $=隐藏维度、$ L $=层数），这也是大束宽吃显存的原因。</p>
+
+<p><strong>收益递减规律</strong>：$ k $ 从 1→4 质量提升明显，4→10 提升放缓，10 以后在开放式任务上反而下降（高概率=平庸），因此不建议盲目堆束宽。</p>
+
+<h4>应用场景</h4>
+
+<ul>
+<li><strong>机器翻译</strong>：Beam Search 的经典主场，num_beams=4-5 是学术标准配置</li>
+<li><strong>文本摘要</strong>：BART/T5 类模型标配，配合 length_penalty 控制摘要长度</li>
+<li><strong>语音识别（ASR）</strong>：beam 8-16 + 语言模型重打分，显著降 WER</li>
+<li><strong>图像描述生成</strong>：CNN+LSTM 时代标配解码，现多用于评测对比</li>
+<li><strong>受限代码生成</strong>：有明确正确性目标的生成（SQL、函数补全）比纯采样更稳</li>
+</ul>
+
+<h4>参考文档</h4>
+
+<ul>
+<li><a href="https://blog.csdn.net/weixin_26846533/article/details/160678638" target="_blank" class="ref-link">别再只调num_beams了!HF Beam Search 的 length_penalty 和 no_repeat_ngram_size 实战调优</a></li>
+<li><a href="https://blog.csdn.net/weixin_42426841/article/details/142291073" target="_blank" class="ref-link">什么是 Beam Search?深入理解模型生成策略</a></li>
+<li><a href="https://blog.csdn.net/gitblog_00131/article/details/153612990" target="_blank" class="ref-link">SciTLDR解码参数优化指南:beam search和长度惩罚的最佳实践</a></li>
+<li><a href="https://blog.csdn.net/weixin_35749440/article/details/157913694" target="_blank" class="ref-link">算法优化:Qwen3-ASR-1.7B的Beam Search参数调优指南</a></li>
+<li><a href="https://agent.csdn.net/6a3a4d2a662f9a54cb8310fe.html" target="_blank" class="ref-link">大语言模型解码策略实战:Beam Search与Tilted Sampling的工程对比与优化</a></li>
+</ul>
+
+<hr>
+
+<h3>思维树 Tree-of-Thought</h3>
+
+<p><strong>类别</strong>：大模型推理 | <strong>难度</strong>：困难</p>
+
+<h4>算法简介</h4>
+
+<p>Tree-of-Thought（ToT，思维树）是普林斯顿大学团队 2023 年在 NeurIPS 上提出的 LLM 推理框架，核心思想是：将大模型的"思维生成能力"与传统 AI 的"树形搜索算法"结合，模拟人类解决复杂问题时的深思熟虑过程——多路径探索、动态评估、必要时回溯重来。</p>
+
+<p>传统推理范式的局限是线性的：IO prompting 直接问直接答；CoT（思维链）虽然分步推理，但<strong>只有一条路走到黑</strong>——一旦中间某步推理失误，后面全部建立在错误之上，且无法回头。ToT 则把推理过程组织为一棵树：每个节点是一个"思维状态"（thought state，即一段连贯的中间推理步骤），LLM 在每个节点生成多个候选想法（分支），由 LLM 自身担任"评估器"为每个状态打分（sure/likely/impossible），再配合 BFS/DFS 搜索策略在树上探索：保留有前途的分支、放弃无前途的分支、必要时回溯到上一层换路径。</p>
+
+<p>这带来两个关键能力突破：<strong>前瞻（look ahead）</strong>——评估当前想法能否通向好的未来；<strong>回溯（backtrack）</strong>——发现死路后回头换路。在 24 点游戏、创意写作、填字谜题三大基准上，GPT-4 配合 ToT 的成功率从 CoT 的约 4%（24 点）跃升至 74%，是提示工程领域最具影响力的推理框架之一。</p>
+
+<h4>原理示意图</h4>
+
+<p><div class="algo-image"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 900 540" font-family="sans-serif">
+  <!-- 深色背景 -->
+  <rect width="900" height="540" fill="#1e293b" rx="12"/>
+  <!-- 标题 -->
+  <text x="450" y="26" text-anchor="middle" fill="#818cf8" font-size="15" font-weight="600">Tree-of-Thought：思维状态树 + 分支 + 评估 + 回溯</text>
+
+  <!-- 根：问题 -->
+  <rect x="360" y="45" width="180" height="40" rx="8" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="450" y="70" text-anchor="middle" fill="#e2e8f0" font-size="12">问题输入（根状态）</text>
+
+  <!-- 第一层：3 个候选想法 -->
+  <line x1="420" y1="85" x2="180" y2="140" stroke="#6366f1" stroke-width="1.5"/>
+  <line x1="450" y1="85" x2="450" y2="140" stroke="#6366f1" stroke-width="1.5"/>
+  <line x1="480" y1="85" x2="720" y2="140" stroke="#6366f1" stroke-width="1.5"/>
+
+  <rect x="90" y="140" width="180" height="48" rx="8" fill="#1a3a2a" stroke="#22c55e" stroke-width="2"/>
+  <text x="180" y="160" text-anchor="middle" fill="#22c55e" font-size="11">想法A: 递增子序列…</text>
+  <text x="180" y="178" text-anchor="middle" fill="#22c55e" font-size="10">评估: sure ✓</text>
+
+  <rect x="360" y="140" width="180" height="48" rx="8" fill="#3b2a1a" stroke="#f97316" stroke-width="2"/>
+  <text x="450" y="160" text-anchor="middle" fill="#f97316" font-size="11">想法B: 排序后贪心…</text>
+  <text x="450" y="178" text-anchor="middle" fill="#f97316" font-size="10">评估: likely ?</text>
+
+  <rect x="630" y="140" width="180" height="48" rx="8" fill="#3b1a1a" stroke="#ef4444" stroke-width="2"/>
+  <text x="720" y="160" text-anchor="middle" fill="#ef4444" font-size="11">想法C: 暴力枚举…</text>
+  <text x="720" y="178" text-anchor="middle" fill="#ef4444" font-size="10">评估: impossible ✗</text>
+
+  <!-- 第二层：从 A 展开 -->
+  <line x1="180" y1="188" x2="100" y2="250" stroke="#6366f1" stroke-width="1.5"/>
+  <line x1="180" y1="188" x2="260" y2="250" stroke="#6366f1" stroke-width="1.5"/>
+
+  <rect x="20" y="250" width="170" height="48" rx="8" fill="#1a3a2a" stroke="#22c55e" stroke-width="2"/>
+  <text x="105" y="270" text-anchor="middle" fill="#22c55e" font-size="11">A1: DP 定义转移…</text>
+  <text x="105" y="288" text-anchor="middle" fill="#22c55e" font-size="10">评估: sure ✓</text>
+
+  <rect x="185" y="250" width="170" height="48" rx="8" fill="#3b2a1a" stroke="#f97316" stroke-width="2"/>
+  <text x="270" y="270" text-anchor="middle" fill="#f97316" font-size="11">A2: 分治再合并…</text>
+  <text x="270" y="288" text-anchor="middle" fill="#f97316" font-size="10">评估: likely ?</text>
+
+  <!-- B 的展开（被剪枝） -->
+  <line x1="450" y1="188" x2="450" y2="250" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <text x="458" y="222" fill="#ef4444" font-size="10">搜索预算用尽 → 剪枝</text>
+
+  <!-- 第三层：从 A1 展开 -->
+  <line x1="105" y1="298" x2="105" y2="360" stroke="#6366f1" stroke-width="1.5"/>
+  <rect x="20" y="360" width="170" height="48" rx="8" fill="#1a3a2a" stroke="#22c55e" stroke-width="2"/>
+  <text x="105" y="380" text-anchor="middle" fill="#22c55e" font-size="11">A1-1: 实现并验证…</text>
+  <text x="105" y="398" text-anchor="middle" fill="#22c55e" font-size="10">评估: sure ✓ 解!</text>
+
+  <!-- 回溯示意 -->
+  <path d="M 260 322 Q 400 330 450 300" stroke="#818cf8" stroke-width="1.5" fill="none" stroke-dasharray="5,3" marker-end="url(#arrowT)"/>
+  <text x="380" y="345" fill="#818cf8" font-size="10">回溯：死路→返回上层换路</text>
+
+  <!-- 右侧：搜索策略说明 -->
+  <rect x="640" y="250" width="230" height="160" rx="10" fill="#0f172a" stroke="#818cf8" stroke-width="1.5"/>
+  <text x="755" y="275" text-anchor="middle" fill="#818cf8" font-size="12" font-weight="600">搜索策略选择</text>
+  <text x="660" y="300" fill="#e2e8f0" font-size="11">• BFS（宽度优先）：</text>
+  <text x="672" y="318" fill="#94a3b8" font-size="10">逐层展开，适合浅树</text>
+  <text x="672" y="334" fill="#94a3b8" font-size="10">（一步思路大、层数少）</text>
+  <text x="660" y="356" fill="#e2e8f0" font-size="11">• DFS（深度优先）：</text>
+  <text x="672" y="374" fill="#94a3b8" font-size="10">深入到底再回溯，适合深树</text>
+  <text x="672" y="390" fill="#94a3b8" font-size="10">（每步小、层数多）</text>
+
+  <!-- 底部：CoT vs ToT 对比 -->
+  <text x="450" y="455" text-anchor="middle" fill="#818cf8" font-size="13" font-weight="600">CoT vs ToT</text>
+  <rect x="120" y="470" width="300" height="50" rx="8" fill="#334155" stroke="#6366f1" stroke-width="1.5"/>
+  <text x="270" y="490" text-anchor="middle" fill="#e2e8f0" font-size="11">CoT：单链线性，一步错步步错</text>
+  <text x="270" y="508" text-anchor="middle" fill="#94a3b8" font-size="10">无法回溯，无多路径择优</text>
+  <rect x="480" y="470" width="300" height="50" rx="8" fill="#1a3a2a" stroke="#22c55e" stroke-width="1.5"/>
+  <text x="630" y="490" text-anchor="middle" fill="#22c55e" font-size="11">ToT：树形多路径，可评估可回溯</text>
+  <text x="630" y="508" text-anchor="middle" fill="#94a3b8" font-size="10">前瞻 + 自我评估 + 剪枝，选最优路径</text>
+
+  <!-- 箭头定义 -->
+  <defs>
+    <marker id="arrowT" markerWidth="8" markerHeight="6" refX="4" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#818cf8"/>
+    </marker>
+  </defs>
+</svg></div></p>
+
+<h4>数学公式</h4>
+
+<p><strong>1. 思维状态与转移（树形化推理）</strong></p>
+
+<p><div class="math-block">$$ s_{t+1}^{(i)} = \text{LLM}_{\text{gen}}(x, s_1, s_2, \ldots, s_t), \quad s_{t+1}^{(i)} \in \mathcal{C}(s_{1:t}) $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ x $：原始问题输入</li>
+<li>$ s_t $：第 $ t $ 步的思维状态（一段中间推理，非单个 token）</li>
+<li>$ s_{t+1}^{(i)} $：第 $ t+1 $ 层的第 $ i $ 个候选想法</li>
+<li>$ \mathcal{C}(s_{1:t}) $：给定当前部分解的所有可能下一步想法集合</li>
+<li>$ \text{LLM}_{\text{gen}} $：负责"提出候选想法"的模型调用（采样 $ k $ 个不同想法）</li>
+<li><strong>含义</strong>：与 CoT 一步只产一个 token 不同，ToT 每步产出 $ k $ 个<strong>完整思维片段</strong>候选</li>
+</ul>
+
+<p><strong>2. 状态评估函数（LLM 自评）</strong></p>
+
+<p><div class="math-block">$$ V(s_{1:t}, x) = \text{LLM}_{\text{eval}}(x, s_{1:t}) \in \{\text{sure}, \text{likely}, \text{impossible}\} $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ V $：评估函数，给"当前部分解"打分</li>
+<li>$ \text{LLM}_{\text{eval}} $：同一个 LLM 扮演评估者，判断该思维状态的前途</li>
+<li>sure：有信心，优先扩展；likely：有希望，可继续；impossible：无望，剪枝</li>
+<li><strong>含义</strong>：LLM 既当"生成者"又当"评估者"，无需训练额外价值网络（区别于 MCTS 中的已学习 evaluator）</li>
+</ul>
+
+<p><strong>3. 搜索目标（寻找最优思维路径）</strong></p>
+
+<p><div class="math-block">$$ y^* = \arg\max_{s_{1:K}} \prod_{t=1}^{K} P(s_t \mid x, s_{1:t-1}) \cdot V(s_{1:t}) $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ y^* $：最终输出的最优解路径（从根到某叶的完整思维链）</li>
+<li>$ K $：树的深度（问题分解步数）</li>
+<li>$ P(s_t \mid \cdot) $：生成器给该想法的采样概率（用于采样多样性）</li>
+<li>$ V(s_{1:t}) $：评估器对路径的评分（用于剪枝与选择）</li>
+<li><strong>含义</strong>：ToT 的目标是找到"生成概率与评估得分综合最优"的完整推理路径</li>
+</ul>
+
+<p><strong>4. 剪枝条件（DFS 回溯触发）</strong></p>
+
+<p><div class="math-block">$$ \text{prune}(s_{1:t}) \iff V(s_{1:t}, x) = \text{impossible} \lor \text{budget}(s_{1:t}) \geq B $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ \text{prune} $：剪枝操作（放弃当前分支，回溯到父节点）</li>
+<li>$ V=\text{impossible} $：评估判定无望</li>
+<li>$ \text{budget}(\cdot) $：当前分支已消耗的 LLM 调用/步数</li>
+<li>$ B $：预设搜索预算（防止无限扩展）</li>
+<li><strong>含义</strong>：两个剪枝触发条件：评估判死，或预算耗尽；触发后回溯换兄弟分支</li>
+</ul>
+
+<p><strong>5. 与 CoT 的能力对比（24 点游戏）</strong></p>
+
+<p><div class="math-block">$$ \text{成功}$(CoT) \approx 4\% \quad \ll \quad \text{成功}(\text{ToT}) \approx 74\% $$</div></p>
+
+<p><strong>变量解释</strong>：成功率基于 GPT-4 在 Game of 24 基准上的实测：CoT 仅 4%，ToT 达 74%，提升约 18 倍。<strong>含义</strong>：在需要搜索、试错、回溯的规划类任务上，树形推理对线性推理的优势是压倒性的。</p>
+
+<h4>核心要点</h4>
+
+<ul>
+<li>核心公式化：ToT = 思维分解（大步 reasoning）+ 每节点多候选想法 + LLM 自评 + BFS/DFS 树搜索 + 回溯剪枝</li>
+<li>与 CoT 的本质区别：CoT 是"单链不可回头"，ToT 是"树形可评估可回溯"，模拟人类深思熟虑</li>
+<li>LLM 一角三用：生成器（出想法）、评估器（打分剪枝）、汇总器（终局比较），全程免训练、纯提示实现</li>
+<li>评估三档制（sure/likely/impossible）是关键工程设计：粗粒度打分比细粒度数值更稳，LLM 自评噪声更小</li>
+<li>24 点游戏上 GPT-4 从 CoT 4% → ToT 74%，创意写作与填字同样大幅超越</li>
+<li>成本代价显著：LLM 调用次数是 CoT 的数十倍以上，适合高价值难题，不适合普通问答</li>
+<li>后续演进：GoT（图思维，节点可合并）、MCTS 变体（AlphaZero 式树搜索+价值网络）、ToT 简化版（BoT 分层检索）</li>
+</ul>
+
+<h4>技术细节与参数详解</h4>
+
+<p>#### 参数1：thought decomposition（思维分解粒度）</p>
+
+<ul>
+<li><strong>含义</strong>：每个思维节点包含的推理步大小——是"一句话想法"还是"一段推理"，决定树的形态</li>
+<li><strong>类型</strong>：策略枚举</li>
+<li><strong>默认值</strong>：视任务定：24 点用一步（一个算式）、创意写作用一段（一个段落草稿）</li>
+<li><strong>取值范围</strong>：单词级 / 短句级（1-2 步）/ 段落级（几步） / 完整方案级</li>
+<li><strong>对结果的影响</strong>：</li>
+<li>粒度太细（token/词级）：树深且分支爆炸，评估失去语义（单 token 难以评估前途），退化为昂贵版搜索</li>
+<li>粒度太粗（整段级）：步数少，但单步生成质量压力大，一次失误整段报废</li>
+<li><strong>推荐设置</strong>：让"一个思维"= 可被独立评估的最小有意义单元：数学题一步运算；作文一段草稿；代码一个函数设计</li>
+</ul>
+
+<p>#### 参数2：k / num_candidates（每节点候选想法数）</p>
+
+<ul>
+<li><strong>含义</strong>：每个思维状态下采样生成多少个候选下一步想法（分支因子 branching factor）</li>
+<li><strong>类型</strong>：整数</li>
+<li><strong>默认值</strong>：论文中 BFS 用 $ k=1\sim5 $，DFS 常用 3-5</li>
+<li><strong>取值范围</strong>：1 - 20</li>
+<li><strong>对结果的影响</strong>：</li>
+<li>$ k=1 $：无分支，退化为 CoT（失去 ToT 意义）</li>
+<li>$ k=3\sim5 $：兼顾多样性与成本，多数任务甜点值</li>
+<li>$ k $ 过大：候选间相似度高（都是模型"舒适区"想法），成本线性上升收益小</li>
+<li><strong>推荐设置</strong>：3-5 起步；若发现候选想法高度雷同，改用高 temperature 采样增强多样性</li>
+</ul>
+
+<p>#### 参数3：search strategy（搜索策略 BFS/DFS）</p>
+
+<ul>
+<li><strong>含义</strong>：在思维树上遍历的顺序——逐层展开还是深入到底再回头</li>
+<li><strong>类型</strong>：枚举</li>
+<li><strong>默认值</strong>：论文按任务选择：创意写作（浅树）用 BFS；24 点/填字（深树）用 DFS</li>
+<li><strong>取值范围</strong>：BFS / DFS / 束式（beam over states）</li>
+<li><strong>对结果的影响</strong>：</li>
+<li>BFS：每层全评估后进下一层，适合"层数少、每步大"的任务；内存持有整层状态</li>
+<li>DFS：一条路走到死路再回溯，适合"层数多、每步小"的任务；内存只需当前路径</li>
+<li><strong>推荐设置</strong>：问题分解浅（≤3 层）选 BFS；深（≥4 层）选 DFS 或 DFS+剪枝预算</li>
+</ul>
+
+<p>#### 参数4：evaluation strategy（评估方式）</p>
+
+<ul>
+<li><strong>含义</strong>：LLM 对每个思维状态打分的形式</li>
+<li><strong>类型</strong>：枚举</li>
+<li><strong>默认值</strong>：三档分类（sure/likely/impossible）—— 论文默认</li>
+<li><strong>取值范围</strong>：</li>
+<li>三档分类（value 样本内打分）</li>
+<li>数值打分（1-10 分）</li>
+<li>两两比较（pairwise compare，多个状态互相比出最优）</li>
+<li><strong>对结果的影响</strong>：</li>
+<li>三档制：稳定、成本低，粗粒度反而降低 LLM 自评噪声</li>
+<li>数值制：细粒度但噪声大（同一状态多次打分分差大）</li>
+<li>两两比较：最准但调用次数平方级增长，仅小候选集可用</li>
+<li><strong>推荐设置</strong>：默认三档制；对最终候选挑冠军时可用两两比较精调</li>
+</ul>
+
+<p>#### 参数5：b（每层保留状态数，BFS 用）</p>
+
+<ul>
+<li><strong>含义</strong>：BFS 每层评估后保留多少个最有希望的思维状态进入下一层</li>
+<li><strong>类型</strong>：整数</li>
+<li><strong>默认值</strong>：论文创意写作用 $ b=1\sim2 $</li>
+<li><strong>取值范围</strong>：1 - k</li>
+<li><strong>对结果的影响</strong>：$ b $ 越大保留越多样、探索越广、成本越高；$ b=1 $ 退化为"每层只留冠军"的链式推理（但仍有跨层评估与重启）</li>
+<li><strong>推荐设置</strong>：浅树任务 $ b=1\sim2 $ 即可；并行预算充足可加到 3-4</li>
+</ul>
+
+<p>#### 参数6：B / search budget（搜索预算）</p>
+
+<ul>
+<li><strong>含义</strong>：单问题允许的最大 LLM 调用次数/节点扩展数，是剪枝与终止的硬约束</li>
+<li><strong>类型</strong>：整数（调用次数）</li>
+<li><strong>默认值</strong>：论文 24 点实验约 100 次节点访问</li>
+<li><strong>取值范围</strong>：数十到数百</li>
+<li><strong>对结果的影响</strong>：预算太小→早停错过解；太大→成本失控（ToT 本就比 CoT 贵 10-100 倍）</li>
+<li><strong>推荐设置</strong>：离线难题求解 100-200；在线交互式场景 20-50 并配强剪枝</li>
+</ul>
+
+<p>#### 参数7：temperature（生成多样性温度）</p>
+
+<ul>
+<li><strong>含义</strong>：采样候选想法时的温度——影响候选想法之间的差异度</li>
+<li><strong>类型</strong>：浮点数</li>
+<li><strong>默认值</strong>：论文用 0.7-1.0（需要多样性）</li>
+<li><strong>取值范围</strong>：0 - 1.5</li>
+<li><strong>对结果的影响</strong>：温度太低（<0.3）候选想法趋同，k 个分支形同虚设；太高（>1.2）想法发散但质量参差，评估负担加重</li>
+<li><strong>推荐设置</strong>：候选生成 0.7-1.0；终局比较/评估时降为 0（要稳定）</li>
+</ul>
+
+<p>#### 参数8：prompt 模板设计（propose prompt vs evaluate prompt）</p>
+
+<ul>
+<li><strong>含义</strong>：两类提示词的设计质量直接决定 ToT 效果：propose prompt（生成候选想法）与 evaluate prompt（评估状态前途）</li>
+<li><strong>类型</strong>：文本模板</li>
+<li><strong>默认值</strong>：论文为每任务手写（无通用默认）</li>
+<li><strong>取值范围</strong>：任意提示工程方案</li>
+<li><strong>对结果的影响</strong>：propose prompt 决定"想法空间覆盖度"（是否提示"给出 k 个不同"会显著增加多样性）；evaluate prompt 决定剪枝准确率（示例 few-shot 评估比零样本评估更稳）</li>
+<li><strong>推荐设置</strong>：propose prompt 明确要求"k 个不同且相互独立"的想法；evaluate prompt 提供 sure/likely/impossible 的判断标准与示例</li>
+</ul>
+
+<h4>代码示例</h4>
+
+<p><pre class="code-block"><code class="language-python">import openai                    # 导入 OpenAI SDK（ToT 仅需普通 LLM API，无需训练）
+from typing import List, Optional  # 类型注解
+import math                      # 数学工具
+
+
+# ============ 思维状态节点 ============
+class ThoughtNode:
+    &quot;&quot;&quot;思维树节点：一个&#x27;思维状态&#x27;= 到此为止的完整推理路径&quot;&quot;&quot;
+    def __init__(self, state: str, parent=None):
+        self.state = state       # 当前思维内容（如 &quot;2+8=10&quot;）
+        self.parent = parent     # 父节点（回溯的关键）
+        self.children = []       # 子节点列表
+        self.value = None        # 评估得分（sure/likely/impossible）
+        self.visited = False     # DFS 用：是否已扩展过
+
+    def path(self) -&gt; List[str]:
+        &quot;&quot;&quot;从根到当前节点的完整思维路径（回溯输出解时用）&quot;&quot;&quot;
+        if self.parent is None:  # 根节点
+            return [self.state]
+        return self.parent.path() + [self.state]  # 递归拼接父路径
+
+
+# ============ ToT 主类 ============
+class TreeOfThoughts:
+    &quot;&quot;&quot;Tree-of-Thought 推理框架（DFS 实现，24 点游戏示例）&quot;&quot;&quot;
+
+    def __init__(self, client, model=&quot;gpt-4&quot;,
+                 num_candidates=5,       # k：每节点候选想法数（分支因子）
+                 max_depth=4,            # 树深上限（问题分解步数）
+                 budget=100):            # 搜索预算（LLM 调用上限）
+        self.client = client             # LLM API 客户端
+        self.model = model               # 使用的模型
+        self.k = num_candidates         # 分支因子 k
+        self.max_depth = max_depth       # 最大深度
+        self.budget = budget             # 预算
+        self.calls = 0                  # 已消耗调用数
+
+    def _chat(self, prompt: str, temperature=0.7) -&gt; str:
+        &quot;&quot;&quot;LLM 调用封装（统一计数预算）&quot;&quot;&quot;
+        self.calls += 1                  # 预算计数
+        resp = self.client.chat.completions.create(
+            model=self.model,            # 模型名
+            messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: prompt}],  # 用户消息
+            temperature=temperature,     # 温度：候选生成用高值保多样性
+        )
+        return resp.choices[0].message.content  # 返回文本
+
+    def propose(self, problem: str, path: List[str]) -&gt; List[str]:
+        &quot;&quot;&quot;生成器：给定问题与已走路径，提出 k 个候选下一步想法&quot;&quot;&quot;
+        path_str = &quot;\n&quot;.join(f&quot;Step {i+1}: {s}&quot; for i, s in enumerate(path))  # 格式化路径
+        prompt = f&quot;&quot;&quot;You are solving: {problem}
+Current reasoning so far:
+{path_str}
+
+Propose {self.k} DIFFERENT possible next steps.
+Each step should be a short, self-contained thought (one operation for math).
+Output exactly {self.k} numbered candidates, one per line.&quot;&quot;&quot;     # 要求相互独立、互不重复
+        out = self._chat(prompt, temperature=0.9)  # 高温度采样保证分支多样性
+        lines = [l.strip().lstrip(&quot;0123456789. &quot;) for l in out.strip().split(&quot;\n&quot;) if l.strip()]
+        return lines[:self.k]         # 解析出 k 个候选想法
+
+    def evaluate(self, problem: str, path: List[str]) -&gt; str:
+        &quot;&quot;&quot;评估器：判断当前思维路径的前途（三档制）&quot;&quot;&quot;
+        path_str = &quot;\n&quot;.join(f&quot;Step {i+1}: {s}&quot; for i, s in enumerate(path))
+        prompt = f&quot;&quot;&quot;Problem: {problem}
+Reasoning so far:
+{path_str}
+
+Evaluate whether this partial reasoning can lead to a correct final answer.
+Reply with exactly one word:
+- sure: promising, continue
+- likely: might work
+- impossible: dead end, should backtrack&quot;&quot;&quot;
+        out = self._chat(prompt, temperature=0)  # 评估用温度 0 保证稳定
+        for tag in [&quot;sure&quot;, &quot;likely&quot;, &quot;impossible&quot;]:  # 解析三档结果
+            if tag in out.lower():
+                return tag
+        return &quot;likely&quot;               # 解析失败降级为 likely
+
+    def solve(self, problem: str) -&gt; Optional[List[str]]:
+        &quot;&quot;&quot;DFS 求解主入口：带评估剪枝与预算控制&quot;&quot;&quot;
+        root = ThoughtNode(&quot;&quot;)         # 根节点（空思维）
+        return self._dfs(problem, root, [], 0)  # 从根开始 DFS
+
+    def _dfs(self, problem, node, path, depth):
+        &quot;&quot;&quot;DFS 递归：扩展-评估-剪枝-回溯&quot;&quot;&quot;
+        if depth &gt;= self.max_depth:    # 达到深度上限 → 终局判断
+            return self._terminal_check(problem, path)  # 是解则返回路径
+        if self.calls &gt;= self.budget:  # 预算耗尽 → 剪枝（防成本失控）
+            return None
+        for idea in self.propose(problem, path):  # 生成 k 个候选想法
+            new_path = path + [idea]   # 拼接新路径
+            verdict = self.evaluate(problem, new_path)  # LLM 自评
+            if verdict == &quot;impossible&quot;:  # 判死 → 剪枝，试下一个兄弟
+                continue                 # 跳过该分支（等价于回溯换路）
+            child = ThoughtNode(idea, node)  # 建子节点
+            node.children.append(child)        # 挂到树上
+            result = self._dfs(problem, child, new_path, depth + 1)  # 深入递归
+            if result is not None:      # 子树找到解 → 直接向上传播
+                return result
+            # 子树无解 → 自然回溯，继续 for 循环试下一个兄弟想法
+        return None                      # 所有候选都失败 → 向上返回 None（回溯）
+
+    def _terminal_check(self, problem, path):
+        &quot;&quot;&quot;终局检查：叶子节点是否为有效完整解&quot;&quot;&quot;
+        path_str = &quot;\n&quot;.join(f&quot;Step {i+1}: {s}&quot; for i, s in enumerate(path))
+        prompt = f&quot;&quot;&quot;Problem: {problem}
+Complete reasoning:
+{path_str}
+
+Is this a correct and complete solution? Answer YES or NO.&quot;&quot;&quot;
+        out = self._chat(prompt, temperature=0)  # 零温度判断
+        return path if &quot;YES&quot; in out.upper() else None  # 是解返回路径，否则回溯
+
+
+# ============ 使用示例：24 点游戏 ============
+# client = openai.OpenAI(api_key=&quot;...&quot;)           # 创建客户端
+# tot = TreeOfThoughts(client, model=&quot;gpt-4&quot;,
+#                       num_candidates=5,        # k=5 个候选想法
+#                       max_depth=4,             # 3 个数合并 3 次即 4 层
+#                       budget=100)              # 100 次 LLM 调用预算
+# solution = tot.solve(&quot;Use 2, 8, 8, 4 with arithmetic to make 24&quot;)  # 求解
+# if solution:
+#     for i, step in enumerate(solution):        # 输出完整思维路径
+#         print(f&quot;Step {i+1}: {step}&quot;)</code></pre></p>
+
+<h4>复杂度分析</h4>
+
+<p><strong>LLM 调用次数复杂度</strong>（ToT 的真正"复杂度"不是计算而是 API 调用成本）：</p>
+
+<p><div class="math-block">$$ C_{\text{ToT}} = O\left(\sum_{d=1}^{D} b^{d} \cdot k \cdot c\right) $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ D $：树的深度（思维分解层数）</li>
+<li>$ k $：每节点候选想法数</li>
+<li>$ b $：每层实际保留的状态数（BFS）</li>
+<li>$ c $：每状态评估所需调用数（三档制 $ c=1 $；两两比较 $ c=\binom{k}{2} $）</li>
+<li><strong>含义</strong>：DFS 最坏情况 $ O(k^D) $（全不剪枝），实际因评估剪枝远低于此；论文 24 点平均约 100 次调用</li>
+</ul>
+
+<p><strong>对比 CoT</strong>：CoT 恒为 1 次调用；ToT 是它的数十到数百倍。这是 ToT 的核心权衡：<strong>用推理时的计算量换准确率</strong>——属于 "test-time compute scaling" 思想的代表工作。</p>
+
+<p><strong>空间复杂度</strong>：BFS 需持有整层状态 $ O(b \cdot k \cdot |s|) $（$ |s| $ 为单状态文本长度）；DFS 仅需当前路径 $ O(D \cdot |s|) $ 加已存子树。</p>
+
+<h4>应用场景</h4>
+
+<ul>
+<li><strong>数学推理与谜题</strong>：24 点、数独、逻辑谜题——需要试错与回溯的搜索密集型任务</li>
+<li><strong>创意写作</strong>：段落级计划多方案并行起草、评估、择优、展开</li>
+<li><strong>复杂规划与决策</strong>：Agent 任务分解（先探索多套计划，评估后选定一套执行）</li>
+<li><strong>代码架构设计</strong>：对同一需求生成多套设计思路，评估可行性后细化最优方案</li>
+<li><strong>科研假设探索</strong>：多假设并行推演，剪枝无望方向（如 GoT 图思维进一步支持假设合并）</li>
+</ul>
+
+<h4>参考文档</h4>
+
+<ul>
+<li><a href="https://blog.csdn.net/weixin_43156294/article/details/160223418" target="_blank" class="ref-link">智能体(Tree-of-Thought)架构范式</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/641369005" target="_blank" class="ref-link">TOT(Tree of Thought) | 让GPT-4像人类一样思考</a></li>
+<li><a href="https://blog.csdn.net/m0_67081842/article/details/161035441" target="_blank" class="ref-link">Tree of Thoughts详解:思维树搜索算法</a></li>
+<li><a href="https://blog.csdn.net/qq_52964132/article/details/149074485" target="_blank" class="ref-link">思维树(Tree of Thoughts): 超越链式思维的AI推理新范式</a></li>
+<li><a href="https://blog.csdn.net/2202_75469062/article/details/157359715" target="_blank" class="ref-link">第14课 单 Agent 任务规划(ToT)</a></li>
+<li><a href="https://blog.csdn.net/2302_79444404/article/details/156047499" target="_blank" class="ref-link">AI核心知识56——大语言模型之ToT</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/633653864" target="_blank" class="ref-link">Paper Reading 思维树 Tree of Thoughts（知乎）</a></li>
+</ul>
+
+  </div>
+  <div class="footer">
+    <p>由 TeleAgent · 每日算法推送 技能自动生成 | 2026-09-14 19:24</p>
+  </div>
+</div>
+</body>
+</html>
