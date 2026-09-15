@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>每日算法 AI 出题 · 第 5 期 · 2026-09-15</title>
+  <!-- KaTeX 数学公式渲染 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
+  <style>
+    :root {
+      --bg: #0d1117;
+      --card-bg: #161b22;
+      --border: #30363d;
+      --text: #e6edf3;
+      --text-dim: #8b949e;
+      --accent: #58a6ff;
+      --green: #3fb950;
+      --orange: #d29922;
+      --red: #f85149;
+      --purple: #a855f7;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", sans-serif;
+      line-height: 1.7;
+      padding: 16px;
+      max-width: 860px;
+      margin: 0 auto;
+    }
+    .header {
+      text-align: center;
+      padding: 24px 0 16px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 24px;
+    }
+    .header h1 {
+      font-size: 1.5em;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+    .header .subtitle {
+      color: var(--text-dim);
+      font-size: 0.9em;
+    }
+    .header .date-tag {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 2px 12px;
+      border-radius: 12px;
+      background: var(--border);
+      font-size: 0.8em;
+      color: var(--text-dim);
+    }
+
+    /* 题目卡片 */
+    .question-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .question-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+    .type-badge {
+      padding: 2px 10px;
+      border-radius: 10px;
+      font-size: 0.75em;
+      color: white;
+      font-weight: 600;
+    }
+    .difficulty { font-size: 0.85em; }
+    .qid-label { color: var(--text-dim); font-size: 0.8em; margin-left: auto; }
+    .question-title {
+      font-size: 1.25em;
+      margin-bottom: 12px;
+      color: var(--text);
+    }
+    .question-body { margin-bottom: 14px; }
+    .question-body code.inline-code {
+      background: var(--border);
+      padding: 1px 5px;
+      border-radius: 3px;
+      font-size: 0.9em;
+    }
+
+    /* 信息块 */
+    .info-block {
+      background: rgba(88,166,255,0.05);
+      border-left: 3px solid var(--accent);
+      padding: 10px 14px;
+      margin: 10px 0;
+      border-radius: 0 6px 6px 0;
+    }
+    .info-label {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.85em;
+      display: block;
+      margin-bottom: 4px;
+    }
+    .info-block pre {
+      white-space: pre-wrap;
+      font-family: "JetBrains Mono", "Fira Code", monospace;
+      font-size: 0.85em;
+      color: var(--text);
+    }
+
+    /* 示例 */
+    .example-block {
+      background: rgba(63,185,80,0.05);
+      border: 1px solid rgba(63,185,80,0.2);
+      border-radius: 8px;
+      padding: 12px;
+      margin: 10px 0;
+    }
+    .example-title {
+      color: var(--green);
+      font-weight: 600;
+      font-size: 0.85em;
+      margin-bottom: 6px;
+    }
+    .example-io {
+      font-family: monospace;
+      font-size: 0.85em;
+      white-space: pre-wrap;
+      margin: 2px 0;
+    }
+    .io-label { color: var(--text-dim); }
+    .example-explanation {
+      color: var(--text-dim);
+      font-size: 0.85em;
+      margin-top: 6px;
+      padding-top: 6px;
+      border-top: 1px dashed var(--border);
+    }
+
+    /* 选项 */
+    .options-container { margin: 12px 0; }
+    .option-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      padding: 10px 14px;
+      margin: 6px 0;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .option-item:hover { border-color: var(--accent); background: rgba(88,166,255,0.05); }
+    .option-item.correct { border-color: var(--green); background: rgba(63,185,80,0.1); }
+    .option-item.wrong { border-color: var(--red); background: rgba(248,81,73,0.1); }
+    .option-item input[type=radio] { accent-color: var(--accent); margin-top: 4px; }
+    .option-letter {
+      font-weight: 700;
+      color: var(--accent);
+      min-width: 20px;
+    }
+    .option-text { flex: 1; font-size: 0.9em; }
+    .option-feedback {
+      margin: 8px 0;
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-size: 0.85em;
+      display: none;
+    }
+    .option-feedback.show { display: block; }
+    .option-feedback.correct {
+      background: rgba(63,185,80,0.1);
+      color: var(--green);
+    }
+    .option-feedback.wrong { background: rgba(248,81,73,0.1); color: var(--red); }
+
+    /* 代码编辑器 */
+    .code-section {
+      margin: 16px 0;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .code-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 14px;
+      background: rgba(88,166,255,0.08);
+      border-bottom: 1px solid var(--border);
+      font-size: 0.85em;
+      color: var(--accent);
+    }
+    .editor-wrap {
+      position: relative;
+    }
+    .code-editor {
+      min-height: 180px;
+      max-height: 400px;
+      overflow: auto;
+      padding: 12px;
+      font-family: "JetBrains Mono", "Fira Code", "Cascadia Code", monospace;
+      font-size: 13px;
+      line-height: 1.5;
+      white-space: pre;
+      color: var(--text);
+      background: #0d1117;
+      outline: none;
+      tabs: 4;
+    }
+    .btn-run {
+      background: var(--green);
+      color: white;
+      border: none;
+      padding: 4px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.85em;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .btn-run:hover { opacity: 0.85; }
+    .btn-run:disabled { opacity: 0.5; cursor: not-allowed; }
+    .code-result {
+      padding: 12px;
+      background: #0d1117;
+      border-top: 1px solid var(--border);
+      font-family: monospace;
+      font-size: 0.85em;
+      white-space: pre-wrap;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+    .code-result .test-pass { color: var(--green); }
+    .code-result .test-fail { color: var(--red); }
+    .code-result .stderr { color: var(--orange); }
+
+    /* 显示解析按钮 */
+    .btn-reveal {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      margin-top: 16px;
+      background: transparent;
+      border: 2px dashed var(--border);
+      border-radius: 8px;
+      color: var(--text-dim);
+      font-size: 0.95em;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .btn-reveal:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(88,166,255,0.03);
+    }
+    .btn-reveal.loading {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    /* 解析区域 */
+    .solution-section {
+      margin-top: 16px;
+      animation: fadeIn 0.4s ease;
+    }
+    @keyframes fadeIn { from{opacity:0; transform:translateY(10px) } to{opacity:1; transform:translateY(0) } }
+    .solution-divider {
+      text-align: center;
+      color: var(--text-dim);
+      font-size: 0.8em;
+      margin: 16px 0;
+      letter-spacing: 1px;
+    }
+    .answer-highlight {
+      background: rgba(63,185,80,0.1);
+      border: 1px solid var(--green);
+      border-radius: 8px;
+      padding: 10px 16px;
+      margin: 10px 0;
+      font-size: 1.05em;
+      color: var(--green);
+      font-weight: 600;
+    }
+    .solution-block {
+      margin: 14px 0;
+      padding: 14px;
+      background: rgba(255,255,255,0.02);
+      border-radius: 8px;
+    }
+    .solution-block h4 {
+      color: var(--accent);
+      margin-bottom: 8px;
+      font-size: 0.95em;
+    }
+    .solution-block ul.answer-points {
+      padding-left: 20px;
+    }
+    .solution-block ul.answer-points li {
+      margin: 6px 0;
+      font-size: 0.9em;
+    }
+    .code-block {
+      background: #0d1117;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 12px;
+      font-family: "JetBrains Mono", "Fira Code", monospace;
+      font-size: 0.85em;
+      overflow-x: auto;
+      white-space: pre;
+      color: var(--text);
+    }
+    .complexity-tag {
+      display: inline-block;
+      padding: 2px 10px;
+      margin-right: 8px;
+      border-radius: 6px;
+      background: var(--border);
+      font-size: 0.85em;
+      font-family: monospace;
+    }
+    .derivation-content {
+      font-size: 0.9em;
+      line-height: 1.8;
+    }
+
+    /* 运行中加载动画 */
+    .spinner {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      border: 2px solid var(--text-dim);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* 底部 */
+    .footer {
+      text-align: center;
+      padding: 24px 0;
+      color: var(--text-dim);
+      font-size: 0.8em;
+      border-top: 1px solid var(--border);
+      margin-top: 24px;
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 8px; }
+      .question-card { padding: 14px; }
+      .question-title { font-size: 1.1em; }
+      .code-editor { font-size: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <h1>每日算法 AI 出题 · 第 5 期</h1>
+  <div class="subtitle">算法 2 道 + AI 2 道</div>
+  <div class="date-tag">📅 2026-09-15 ｜ 算法 2 道 · AI 2 道</div>
+</div>
+
+<div class="question-card" data-qid="1">
+
+    <div class="question-header">
+      <span class="type-badge" style="background:#3b82f6">算法编程</span>
+      <span class="difficulty">⭐⭐</span>
+      <span class="qid-label">第 1 题</span>
+    </div>
+<h2 class="question-title">前缀计数（Trie 字典树）</h2>
+<div class="question-body">给定一个单词列表 <code class="inline-code">words</code> 和一个前缀字符串 <code class="inline-code">prefix</code>，请统计 <code class="inline-code">words</code> 中以 <code class="inline-code">prefix</code> 为前缀的单词数量。<br>
+<br>
+例如 <code class="inline-code">words = [&quot;apple&quot;, &quot;app&quot;, &quot;application&quot;]</code>，<code class="inline-code">prefix = &quot;app&quot;</code>，则以 &quot;app&quot; 为前缀的单词有 3 个（apple、app、application），返回 3。<br>
+<br>
+请使用 **Trie（字典树/前缀树）** 数据结构实现。</div>
+<div class="info-block"><span class="info-label">输入</span><pre>第一行为单词列表 `words`（字符串数组），第二行为前缀字符串 `prefix`。</pre></div>
+<div class="info-block"><span class="info-label">输出</span><pre>返回一个整数，表示以 `prefix` 为前缀的单词数量。</pre></div>
+<div class="example-block">
+<div class="example-title">示例 1</div>
+<pre class="example-io"><span class="io-label">输入：</span>words = [&quot;apple&quot;, &quot;app&quot;, &quot;application&quot;, &quot;apt&quot;, &quot;banana&quot;], prefix = &quot;app&quot;</pre>
+<pre class="example-io"><span class="io-label">输出：</span>3</pre>
+<div class="example-explanation">apple、app、application 以 &quot;app&quot; 为前缀，apt 以 &quot;a&quot; 开头但第二字符是 p 不是 p... 实际 apt 的前三个字符是 &quot;apt&quot; ≠ &quot;app&quot;，因此只有 apple、app、application 共 3 个。</div>
+</div>
+<div class="example-block">
+<div class="example-title">示例 2</div>
+<pre class="example-io"><span class="io-label">输入：</span>words = [&quot;cat&quot;, &quot;car&quot;, &quot;card&quot;, &quot;care&quot;, &quot;careful&quot;], prefix = &quot;car&quot;</pre>
+<pre class="example-io"><span class="io-label">输出：</span>4</pre>
+<div class="example-explanation">car、card、care、careful 均以 &quot;car&quot; 为前缀，共 4 个。</div>
+</div>
+<div class="info-block"><span class="info-label">约束</span><div>- $1 \le words.length \le 10^5$
+- $1 \le words[i].length \le 100$
+- $1 \le prefix.length \le 100$
+- 所有单词和前缀仅由小写英文字母组成
+- 函数签名：`def solve(words, prefix) -&gt; int`</div></div>
+
+    <div class="code-section">
+      <div class="code-header">
+        <span>🧑‍💻 在线代码编辑器</span>
+        <button class="btn-run" onclick="runCode(1)" id="run_btn_1">▶ 运行</button>
+      </div>
+      <div class="editor-wrap">
+        <div class="code-editor" id="editor_1" contenteditable="true" spellcheck="false">def solve(words, prefix):
+    # 请在此处编写代码
+    # 提示：使用 Trie（字典树）数据结构
+    # 每个 TrieNode 维护 children 字典和 count 计数
+    pass</div>
+      </div>
+      <div class="code-result" id="result_1" style="display:none;"></div>
+      <input type="hidden" id="func_name_1" value="solve">
+      <input type="hidden" id="test_cases_1" value='[[[&quot;apple&quot;, &quot;app&quot;, &quot;application&quot;, &quot;apt&quot;, &quot;banana&quot;], &quot;app&quot;], [[&quot;a&quot;], &quot;a&quot;], [[&quot;a&quot;], &quot;b&quot;], [[&quot;a&quot;], &quot;ab&quot;], [[&quot;ab&quot;], &quot;a&quot;], [[&quot;cat&quot;, &quot;car&quot;, &quot;card&quot;, &quot;care&quot;, &quot;careful&quot;], &quot;car&quot;], [[&quot;cat&quot;, &quot;car&quot;, &quot;card&quot;, &quot;care&quot;, &quot;careful&quot;], &quot;dog&quot;], [[&quot;aaa&quot;, &quot;aa&quot;, &quot;a&quot;], &quot;a&quot;], [[&quot;aaa&quot;, &quot;aa&quot;, &quot;a&quot;], &quot;aa&quot;], [[&quot;aaa&quot;, &quot;aa&quot;, &quot;a&quot;], &quot;aaa&quot;], [[&quot;aaa&quot;, &quot;aa&quot;, &quot;a&quot;], &quot;aaaa&quot;], [[&quot;test&quot;], &quot;test&quot;]]'>
+      <input type="hidden" id="expected_outputs_1" value='[3, 1, 0, 0, 1, 4, 0, 3, 2, 1, 0, 1]'>
+    </div>
+
+    <button class="btn-reveal" onclick="revealSolution(1)" id="reveal_btn_1">
+      📖 显示答案与解析
+    </button>
+<div class="solution-section" id="solution_1" style="display:none;">
+<div class="solution-divider">--- 以下为答案与解析 ---</div>
+<div class="solution-block"><h4>💡 解题思路</h4><div>构建一棵 Trie 字典树。每个节点维护一个 <code class="inline-code">count</code> 字段，记录经过该节点的单词数量。插入时沿字符路径递增每个节点的 count。查询时沿前缀字符走到对应节点，返回该节点的 count 即可。若前缀路径不存在则返回 0。</div></div>
+<div class="solution-block"><h4>📝 参考代码（python）</h4><pre class="code-block">class TrieNode:
+    __slots__ = [&#x27;children&#x27;, &#x27;count&#x27;, &#x27;is_end&#x27;]
+    def __init__(self):
+        self.children = {}
+        self.count = 0
+        self.is_end = False
+
+def solve(words, prefix):
+    root = TrieNode()
+    for word in words:
+        node = root
+        for ch in word:
+            if ch not in node.children:
+                node.children[ch] = TrieNode()
+            node = node.children[ch]
+            node.count += 1
+        node.is_end = True
+
+    node = root
+    for ch in prefix:
+        if ch not in node.children:
+            return 0
+        node = node.children[ch]
+    return node.count</pre></div>
+<div class="solution-block"><h4>⚡ 复杂度分析</h4><div>
+<span class="complexity-tag">时间 O(N * L + M)，N 为单词数，L 为平均单词长度，M 为前缀长度</span>
+<span class="complexity-tag">空间 O(N * L * 26)，最坏情况下 Trie 存储所有字符节点</span>
+</div></div>
+<div class="solution-block"><h4>🎯 考点</h4><div>Trie 字典树的构建与查询；节点 count 字段记录经过该路径的单词数；前缀匹配只需沿路径走到目标节点取 count</div></div>
+</div>
+</div>
+<div class="question-card" data-qid="2">
+
+    <div class="question-header">
+      <span class="type-badge" style="background:#10b981">算法概念</span>
+      <span class="difficulty">⭐⭐</span>
+      <span class="qid-label">第 2 题</span>
+    </div>
+<h2 class="question-title">排序算法的稳定性与复杂度</h2>
+<div class="question-body">关于常见排序算法的性质，以下说法**正确**的是？<br>
+<br>
+**选项**：<br>
+- A. 快速排序是稳定排序，最坏时间复杂度为 $O(n \log n)$<br>
+- B. 归并排序是稳定排序，最坏时间复杂度为 $O(n \log n)$<br>
+- C. 堆排序是稳定排序，最坏时间复杂度为 $O(n^2)$<br>
+- D. 冒泡排序是不稳定排序，最坏时间复杂度为 $O(n \log n)$</div>
+<div class="options-container">
+
+            <label class="option-item" data-letter="A">
+              <input type="radio" name="quiz_2" value="A" onchange="checkAnswer(2, 'A')">
+              <span class="option-letter">A</span>
+              <span class="option-text">快速排序是稳定排序，最坏时间复杂度为 $O(n \log n)$</span>
+            </label>
+
+            <label class="option-item" data-letter="B">
+              <input type="radio" name="quiz_2" value="B" onchange="checkAnswer(2, 'B')">
+              <span class="option-letter">B</span>
+              <span class="option-text">归并排序是稳定排序，最坏时间复杂度为 $O(n \log n)$</span>
+            </label>
+
+            <label class="option-item" data-letter="C">
+              <input type="radio" name="quiz_2" value="C" onchange="checkAnswer(2, 'C')">
+              <span class="option-letter">C</span>
+              <span class="option-text">堆排序是稳定排序，最坏时间复杂度为 $O(n^2)$</span>
+            </label>
+
+            <label class="option-item" data-letter="D">
+              <input type="radio" name="quiz_2" value="D" onchange="checkAnswer(2, 'D')">
+              <span class="option-letter">D</span>
+              <span class="option-text">冒泡排序是不稳定排序，最坏时间复杂度为 $O(n \log n)$</span>
+            </label>
+</div>
+<div class="option-feedback" id="feedback_2"></div>
+
+    <button class="btn-reveal" onclick="revealSolution(2)" id="reveal_btn_2">
+      📖 显示答案与解析
+    </button>
+<div class="solution-section" id="solution_2" style="display:none;">
+<div class="solution-divider">--- 以下为答案与解析 ---</div>
+<div class="answer-highlight">✅ 正确答案：B</div>
+<div class="solution-block"><h4>💡 解题思路</h4><div>逐一判断每个排序算法的稳定性和最坏时间复杂度。</div></div>
+<div class="solution-block"><h4>🎯 考点</h4><div>排序稳定性定义：相等元素排序后相对顺序不变则为稳定。常见稳定排序：归并、冒泡、插入、基数。常见不稳定排序：快排、堆排、选择。掌握各排序算法的最好/最坏/平均复杂度是面试基础。</div></div>
+<div class="solution-block"><h4>🔍 逐项分析</h4><ul class="answer-points">
+<li>**A 错误**：快速排序是**不稳定**排序（相等元素的相对顺序可能改变），最坏时间复杂度为 $O(n^2)$（当每次 partition 选到最值作为基准时退化）。选项声称稳定且最坏 $O(n \log n)$，两个判断都错。</li>
+<li>**B 正确**：归并排序是**稳定**排序（合并时相等元素取左侧优先即可保持稳定），最坏/最好/平均时间复杂度均为 $O(n \log n)$，空间复杂度 $O(n)$。两个判断都正确。</li>
+<li>**C 错误**：堆排序是**不稳定**排序（调整堆时相等元素的相对顺序可能改变），最坏时间复杂度为 $O(n \log n)$ 而非 $O(n^2)$。两个判断都错。</li>
+<li>**D 错误**：冒泡排序是**稳定**排序（相邻交换时相等元素不交换则保持顺序），最坏时间复杂度为 $O(n^2)$（逆序数组）。选项两个判断都错。</li>
+</ul></div>
+</div>
+</div>
+<div class="question-card" data-qid="3">
+
+    <div class="question-header">
+      <span class="type-badge" style="background:#a855f7">AI公式推导</span>
+      <span class="difficulty">⭐⭐</span>
+      <span class="qid-label">第 3 题</span>
+    </div>
+<h2 class="question-title">线性回归正规方程（Normal Equation）闭式解推导</h2>
+<div class="question-body">给定训练数据集 $\{(x^{(i)}, y^{(i)})\}_{i=1}^{n}$，其中 $x^{(i)} \in \mathbb{R}^d$（含偏置项 $x_0 = 1$），$y^{(i)} \in \mathbb{R}$。线性回归模型预测 $\hat{y}^{(i)} = \theta^T x^{(i)}$，损失函数为均方误差（MSE）。<br>
+<br>
+请使用矩阵形式推导：**最小化损失函数 $J(\theta) = \frac{1}{2n}\|X\theta - y\|^2$ 关于 $\theta$ 的正规方程，并求出 $\theta$ 的闭式解。**<br>
+<br>
+其中 $X \in \mathbb{R}^{n \times d}$ 为设计矩阵，$y \in \mathbb{R}^n$ 为目标向量，$\theta \in \mathbb{R}^d$ 为参数向量。</div>
+
+    <button class="btn-reveal" onclick="revealSolution(3)" id="reveal_btn_3">
+      📖 显示答案与解析
+    </button>
+<div class="solution-section" id="solution_3" style="display:none;">
+<div class="solution-divider">--- 以下为答案与解析 ---</div>
+<div class="solution-block"><h4>🎯 考点</h4><div>矩阵二次型求导：$\nabla_\theta (\theta^T A \theta) = 2A\theta$（A 对称）；正规方程 $X^TX\theta = X^Ty$ 的推导与闭式解；$X^TX$ 可逆条件（列满秩）；不可逆时用伪逆或加 L2 正则化（岭回归）。</div></div>
+<div class="solution-block"><h4>📐 推导过程</h4><div class="derivation-content">**符号定义**：<br>
+- 设计矩阵 $X = [x^{(1)T}; x^{(2)T}; \cdots; x^{(n)T}] \in \mathbb{R}^{n \times d}$，每行是一个样本<br>
+- 目标向量 $y = [y^{(1)}, y^{(2)}, \cdots, y^{(n)}]^T \in \mathbb{R}^n$<br>
+- 参数向量 $\theta \in \mathbb{R}^d$<br>
+- 预测向量 $\hat{y} = X\theta \in \mathbb{R}^n$<br>
+<br>
+**损失函数**（省略 $\frac{1}{2n}$ 常数不影响极值点）：<br>
+$$J(\theta) = \frac{1}{2}\|X\theta - y\|^2 = \frac{1}{2}(X\theta - y)^T(X\theta - y)$$<br>
+<br>
+**Step 1：展开二次型**<br>
+$$J(\theta) = \frac{1}{2}\left[(X\theta)^T(X\theta) - (X\theta)^T y - y^T(X\theta) + y^T y\right]$$<br>
+$$= \frac{1}{2}\left[\theta^T X^T X \theta - 2\theta^T X^T y + y^T y\right]$$<br>
+<br>
+（利用 $(X\theta)^T y = \theta^T X^T y$ 是标量，等于其转置 $y^T X \theta$）<br>
+<br>
+**Step 2：对 $\theta$ 求梯度**<br>
+<br>
+利用两个矩阵微积分恒等式：<br>
+- $\nabla_\theta (\theta^T A \theta) = (A + A^T)\theta$，当 $A$ 对称时 $= 2A\theta$<br>
+- $\nabla_\theta (b^T \theta) = b$<br>
+<br>
+因为 $X^T X$ 是对称矩阵（$(X^T X)^T = X^T X$），令 $A = X^T X$，$b = X^T y$：<br>
+$$\nabla_\theta J(\theta) = \frac{1}{2}\left[2 X^T X \theta - 2 X^T y\right] = X^T X \theta - X^T y$$<br>
+<br>
+**Step 3：令梯度为零，得正规方程**<br>
+$$X^T X \theta - X^T y = 0$$<br>
+$$\boxed{X^T X \, \theta = X^T y}$$<br>
+<br>
+**Step 4：求解闭式解**<br>
+<br>
+当 $X^T X$ 可逆（即 $X$ 列满秩，$n \geq d$ 且特征间无共线性）时：<br>
+$$\boxed{\theta = (X^T X)^{-1} X^T y}$$<br>
+<br>
+**Step 5：可逆性讨论**<br>
+<br>
+当 $X^T X$ 不可逆时（特征数 &gt; 样本数，或特征共线性），使用伪逆（Moore-Penrose 伪逆）：<br>
+$$\theta = (X^T X)^{+} X^T y = X^{+} y$$<br>
+<br>
+或在损失函数中加入 L2 正则化项 $\frac{\lambda}{2}\|\theta\|^2$（岭回归），此时：<br>
+$$\theta = (X^T X + \lambda I)^{-1} X^T y$$<br>
+<br>
+$\lambda &gt; 0$ 时 $X^T X + \lambda I$ 一定可逆（正定矩阵）。</div></div>
+<div class="solution-block"><h4>🧠 直觉解释</h4><div>正规方程 $X^T X \theta = X^T y$ 的几何含义是：残差向量 $X\theta - y$ 与 $X$ 的列空间正交（即残差不能被特征线性表出进一步减小），这正是投影到列空间的最优解。闭式解 $\theta = (X^T X)^{-1} X^T y$ 就是将 $y$ 投影到 $X$ 列空间后在原始坐标系下的系数。</div></div>
+</div>
+</div>
+<div class="question-card" data-qid="4">
+
+    <div class="question-header">
+      <span class="type-badge" style="background:#f59e0b">AI面试问答</span>
+      <span class="difficulty">⭐⭐</span>
+      <span class="qid-label">第 4 题</span>
+    </div>
+<h2 class="question-title">Batch Normalization 与 Layer Normalization 的区别与应用场景</h2>
+<div class="question-body">面试官问：&quot;Batch Normalization 和 Layer Normalization 都是深度学习中常用的归一化方法，请详细说明它们的原理区别、计算方式差异，以及为什么 Transformer 用 LayerNorm 而不用 BatchNorm？&quot;</div>
+
+    <button class="btn-reveal" onclick="revealSolution(4)" id="reveal_btn_4">
+      📖 显示答案与解析
+    </button>
+<div class="solution-section" id="solution_4" style="display:none;">
+<div class="solution-divider">--- 以下为答案与解析 ---</div>
+<div class="solution-block"><h4>📌 回答要点</h4><ul class="answer-points">
+<li>**计算维度不同**：BatchNorm 沿 **batch 维度** 归一化，对每个特征通道在 batch 内统计均值和方差（$\mu_B, \sigma_B^2$ 计算时 batch 内所有样本同一通道参与）；LayerNorm 沿 **特征维度** 归一化，对每个样本的所有特征独立统计均值和方差（$\mu, \sigma^2$ 在单个样本的所有特征上计算），与 batch 无关。</li>
+<li>**公式对比**：<br>
+BatchNorm：$\hat{x}_{ij} = \frac{x_{ij} - \mu_B^{(j)}}{\sqrt{\sigma_B^{(j)2} + \epsilon}}$，其中 $\mu_B^{(j)} = \frac{1}{B}\sum_{i=1}^{B} x_{ij}$<br>
+LayerNorm：$\hat{x}_{ij} = \frac{x_{ij} - \mu_i}{\sqrt{\sigma_i^2 + \epsilon}}$，其中 $\mu_i = \frac{1}{d}\sum_{j=1}^{d} x_{ij}$</li>
+<li>**训练/推理行为差异**：BatchNorm 训练时用 batch 统计量，推理时用训练阶段累积的滑动平均（running mean/var），存在训练-推理不一致问题；LayerNorm 训练和推理行为一致，无需维护 running 统计量。</li>
+<li>**为什么 Transformer 用 LayerNorm**：① 序列长度可变，BatchNorm 在变长序列中对不同位置的统计量不一致；② batch size 受限（大模型训练常用梯度累积、微调时 batch=1），BatchNorm 在小 batch 下统计量不可靠；③ Transformer 每个位置独立处理，LayerNorm 对单个样本归一化更自然；④ LayerNorm 不依赖 batch 维度，推理时行为与训练一致。</li>
+<li>**适用场景**：BatchNorm 适合 CNN（固定尺寸输入、大 batch 训练、特征通道有明确语义）；LayerNorm 适合 RNN/Transformer（变长序列、可变 batch、自回归推理）。</li>
+</ul></div>
+<div class="solution-block"><h4>⭐ 加分项</h4><ul class="answer-points">
+<li>**RMSNorm**：LayerNorm 的简化变体，去掉均值减法只做方差归一化（$\hat{x}_i = \frac{x_i}{\sqrt{\frac{1}{d}\sum_j x_j^2 + \epsilon}} \cdot \gamma$），计算量减少约 20-30%，LLaMA 等大模型广泛采用，实验证明效果与 LayerNorm 相当。</li>
+<li>**DeepNorm**：微软提出，通过修改残差连接初始化实现极深 Transformer（1000+层），归一化因子 $\alpha$ 控制梯度规模。</li>
+<li>**归一化位置**：Pre-LN（归一化在注意力/前馈之前）比 Post-LN（原始 Transformer 位置）训练更稳定，不需要 warmup，现代大模型普遍使用 Pre-LN。</li>
+<li>**BatchNorm 的泛化性争议**：有研究表明 BatchNorm 的正则化效果部分来自训练时 batch 统计量的随机性，推理时这种随机性消失可能影响泛化。</li>
+</ul></div>
+<div class="solution-block"><h4>🔮 追问预测</h4><ul class="answer-points">
+<li>**追问：BatchNorm 中的 $\gamma$ 和 $\beta$ 的作用是什么？** — 回答思路：缩放和平移可学习参数，通过 $y = \gamma \hat{x} + \beta$ 恢复网络表达能力。若归一化后直接使用，激活值分布被强行限制在固定区间，可能降低模型拟合能力；$\gamma$ 和 $\beta$ 让网络自行决定最优的分布范围，极端情况可还原原始分布（$\gamma = \sigma, \beta = \mu$）。</li>
+<li>**追问：为什么 BatchNorm 能加速训练？** — 回答思路：① 缓解内部协变量偏移（ICS），使每层输入分布更稳定；② 平滑损失景观，允许更大学习率；③ 有轻微正则化效果（batch 统计量引入噪声）。注意：MIT 2018 论文指出 ICS 可能不是 BN 有效的核心原因，平滑损失景观才是。</li>
+<li>**追问：LayerNorm 中为什么不用 batch 统计量？** — 回答思路：自回归模型推理时 batch=1，batch 统计量无意义；训练时的序列长度变化导致不同位置统计量不一致；LayerNorm 逐样本归一化，无上述问题。</li>
+</ul></div>
+</div>
+</div>
+
+<div class="footer">
+  坚持每日练习，积少成多 💪<br>
+  Powered by TeleAgent · daily-algo-ai-quiz
+</div>
+
+<script>
+// ===== Pyodide 隔离执行测试运行器 =====
+const RUNNER_CODE = "\nimport json, traceback, io, contextlib\n\ndef run_tests(user_code, func_name, test_cases, expected):\n    ns = {}\n    user_stdout = io.StringIO()\n    user_error = None\n\n    try:\n        with contextlib.redirect_stdout(user_stdout):\n            exec(user_code, ns)\n    except Exception:\n        user_error = traceback.format_exc()\n\n    user_out = user_stdout.getvalue()\n\n    if user_error:\n        return {\"error\": user_error, \"stdout\": user_out}\n\n    func = ns.get(func_name)\n    if func is None:\n        return {\"error\": \"未找到函数 \" + str(func_name) + \"，请确保代码中定义了该函数\", \"stdout\": user_out}\n\n    test_results = []\n    for i, tc in enumerate(test_cases):\n        try:\n            actual = func(*tc)\n            exp = expected[i]\n            passed = actual == exp\n            test_results.append({\n                \"passed\": passed,\n                \"input\": str(tc),\n                \"expected\": str(exp),\n                \"actual\": str(actual)\n            })\n        except Exception as e:\n            exp = str(expected[i]) if i < len(expected) else \"N/A\"\n            test_results.append({\n                \"passed\": False,\n                \"input\": str(tc),\n                \"expected\": exp,\n                \"actual\": \"Error: \" + str(e)\n            })\n\n    return {\"stdout\": user_out, \"tests\": test_results}\n";
+
+// ===== 显示/隐藏解析 =====
+function revealSolution(qid) {
+  const sol = document.getElementById('solution_' + qid);
+  const btn = document.getElementById('reveal_btn_' + qid);
+  if (sol.style.display === 'none') {
+    sol.style.display = 'block';
+    btn.innerHTML = '📕 收起解析';
+    // 渲染该区域数学公式
+    if (typeof renderMathInElement !== 'undefined') {
+      renderMathInElement(sol, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false}
+        ]
+      });
+    }
+  } else {
+    sol.style.display = 'none';
+    btn.innerHTML = '📖 显示答案与解析';
+  }
+}
+
+// ===== 选择题作答反馈 =====
+function checkAnswer(qid, selected) {
+  const card = document.querySelector(`[data-qid="${qid}"]`);
+  if (!card) return;
+  const correctAnswer = card.getAttribute('data-correct') || '';
+  // 从全局 quizData 获取
+  const qData = window.__quizData__.questions.find(q => q.id == qid);
+  if (!qData || !qData.correct_answer) return;
+
+  const correct = qData.correct_answer;
+  const feedback = document.getElementById('feedback_' + qid);
+  const options = card.querySelectorAll('.option-item');
+
+  options.forEach(opt => {
+    const letter = opt.getAttribute('data-letter');
+    opt.classList.remove('correct', 'wrong');
+    if (letter === correct) {
+      opt.classList.add('correct');
+    } else if (letter === selected && selected !== correct) {
+      opt.classList.add('wrong');
+    }
+  });
+
+  if (feedback) {
+    feedback.className = 'option-feedback show ' + (selected === correct ? 'correct' : 'wrong');
+    feedback.textContent = selected === correct
+      ? '✅ 回答正确！'
+      : `❌ 正确答案是 ${correct}，再想想？`;
+    feedback.style.display = 'block';
+  }
+}
+
+// ===== Pyodide 代码执行 =====
+let pyodideReady = null;
+let pyodideLoading = false;
+
+function loadPyodideAsync() {
+  if (pyodideReady) return pyodideReady;
+  if (pyodideLoading) return pyodideReady;
+  pyodideLoading = true;
+
+  pyodideReady = new Promise((resolve, reject) => {
+    if (typeof loadPyodide !== 'undefined') {
+      loadPyodide({
+        indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.25.0/full/'
+      }).then(py => {
+        pyodideLoading = false;
+        resolve(py);
+      }).catch(reject);
+    } else {
+      // 动态加载 Pyodide
+      const script = document.createElement('script');
+      script.src = 'https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js';
+      script.onload = () => {
+        loadPyodide({
+          indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.25.0/full/'
+        }).then(py => {
+          pyodideLoading = false;
+          resolve(py);
+        }).catch(reject);
+      };
+      script.onerror = () => {
+        pyodideLoading = false;
+        reject(new Error('Pyodide 加载失败，请检查网络连接'));
+      };
+      document.head.appendChild(script);
+    }
+  });
+  return pyodideReady;
+}
+
+async function runCode(qid) {
+    const editor = document.getElementById('editor_' + qid);
+    const resultDiv = document.getElementById('result_' + qid);
+    const btn = document.getElementById('run_btn_' + qid);
+    const code = editor.innerText;
+    const funcNameInput = document.getElementById('func_name_' + qid);
+    const funcName = funcNameInput ? funcNameInput.value : 'solve';
+    const tcInput = document.getElementById('test_cases_' + qid);
+    const eoInput = document.getElementById('expected_outputs_' + qid);
+    let testCases = [];
+    let expectedOutputs = [];
+    try {
+        testCases = JSON.parse(tcInput.value || '[]');
+        expectedOutputs = JSON.parse(eoInput.value || '[]');
+    } catch(e) {}
+
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span> 运行中...';
+    resultDiv.style.display = 'block';
+    resultDiv.innerHTML = '<span style="color:var(--text-dim)">⏳ 正在加载 Python 运行环境...</span>';
+
+    try {
+        const pyodide = await loadPyodideAsync();
+        resultDiv.innerHTML = '<span style="color:var(--text-dim)">⏳ 正在执行代码...</span>';
+
+        // 确保 run_tests 函数只定义一次
+        if (!window.__runner_ready__) {
+            pyodide.runPython(RUNNER_CODE);
+            window.__runner_ready__ = true;
+        }
+
+        // 调用 run_tests 函数，通过返回值获取结果（不依赖 stdout，每次调用独立）
+        const runTests = pyodide.globals.get('run_tests');
+        const pyResult = runTests(code, funcName, testCases, expectedOutputs);
+        // pyResult 是 Python dict，转为 JS 对象
+        const result = pyResult.toJs({dict_converter: Object.fromEntries});
+
+        let resultHtml = '';
+
+        // 显示用户代码标准输出
+        if (result.stdout && result.stdout.trim()) {
+            resultHtml += '<div style="color:var(--text)">📝 标准输出：</div>';
+            resultHtml += '<pre style="color:var(--text);margin:4px 0;">' + escapeHtml(result.stdout) + '</pre>';
+        }
+
+        // 显示错误信息
+        if (result.error) {
+            resultHtml += '<div class="stderr">⚠️ 错误信息：</div>';
+            resultHtml += '<pre class="stderr" style="margin:4px 0;">' + escapeHtml(result.error) + '</pre>';
+        }
+
+        // 显示测试用例结果
+        if (result.tests && result.tests.length > 0) {
+            let allPassed = result.tests.every(t => t.passed);
+            resultHtml += '<div style="margin-top:8px;color:' + (allPassed ? 'var(--green)' : 'var(--accent)') + '">';
+            resultHtml += allPassed ? '🎉 全部通过！' : '🧪 测试用例结果：';
+            resultHtml += '</div>';
+
+            for (let i = 0; i < result.tests.length; i++) {
+                const t = result.tests[i];
+                if (t.passed) {
+                    resultHtml += '<div class="test-pass">✅ 用例 ' + (i+1) + ' 通过</div>';
+                } else {
+                    resultHtml += '<div class="test-fail">❌ 用例 ' + (i+1) + ' 未通过</div>';
+                    resultHtml += '<pre style="color:var(--text-dim);margin:2px 0;">  输入: ' + escapeHtml(t.input) + '\n  期望: ' + escapeHtml(t.expected) + '\n  实际: ' + escapeHtml(t.actual) + '</pre>';
+                }
+            }
+        }
+
+        if (!resultHtml) {
+            resultHtml = '<span style="color:var(--text-dim)">（代码执行完毕，无输出）</span>';
+        }
+
+        resultDiv.innerHTML = resultHtml;
+
+    } catch(e) {
+        resultDiv.innerHTML = '<div class="stderr">❌ ' + escapeHtml(e.message || String(e)) + '</div>';
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = '▶ 运行';
+    }
+}
+
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+// Ctrl+Enter 运行代码
+document.addEventListener('keydown', (e) => {
+  if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+    const focused = document.activeElement;
+    if (focused && focused.classList.contains('code-editor')) {
+      const qid = focused.id.replace('editor_', '');
+      runCode(qid);
+    }
+  }
+});
+
+// Tab 键在编辑器中插入空格
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Tab' && document.activeElement.classList.contains('code-editor')) {
+    e.preventDefault();
+    document.execCommand('insertText', false, '    ');
+  }
+});
+
+// 将 quiz 数据存入全局变量供选择题使用
+window.__quizData__ = {"date": "2026-09-15", "title": "每日算法 AI 出题 · 第 5 期", "subtitle": "算法 2 道 + AI 2 道", "questions": [{"id": 1, "type": "algorithm_code", "type_label": "算法编程", "difficulty": 2, "title": "前缀计数（Trie 字典树）", "description": "给定一个单词列表 `words` 和一个前缀字符串 `prefix`，请统计 `words` 中以 `prefix` 为前缀的单词数量。\n\n例如 `words = [\"apple\", \"app\", \"application\"]`，`prefix = \"app\"`，则以 \"app\" 为前缀的单词有 3 个（apple、app、application），返回 3。\n\n请使用 **Trie（字典树/前缀树）** 数据结构实现。", "input_format": "第一行为单词列表 `words`（字符串数组），第二行为前缀字符串 `prefix`。", "output_format": "返回一个整数，表示以 `prefix` 为前缀的单词数量。", "examples": [{"input": "words = [\"apple\", \"app\", \"application\", \"apt\", \"banana\"], prefix = \"app\"", "output": "3", "explanation": "apple、app、application 以 \"app\" 为前缀，apt 以 \"a\" 开头但第二字符是 p 不是 p... 实际 apt 的前三个字符是 \"apt\" ≠ \"app\"，因此只有 apple、app、application 共 3 个。"}, {"input": "words = [\"cat\", \"car\", \"card\", \"care\", \"careful\"], prefix = \"car\"", "output": "4", "explanation": "car、card、care、careful 均以 \"car\" 为前缀，共 4 个。"}], "constraints": "- $1 \\le words.length \\le 10^5$\n- $1 \\le words[i].length \\le 100$\n- $1 \\le prefix.length \\le 100$\n- 所有单词和前缀仅由小写英文字母组成\n- 函数签名：`def solve(words, prefix) -> int`", "solution": {"approach": "构建一棵 Trie 字典树。每个节点维护一个 `count` 字段，记录经过该节点的单词数量。插入时沿字符路径递增每个节点的 count。查询时沿前缀字符走到对应节点，返回该节点的 count 即可。若前缀路径不存在则返回 0。", "code": "class TrieNode:\n    __slots__ = ['children', 'count', 'is_end']\n    def __init__(self):\n        self.children = {}\n        self.count = 0\n        self.is_end = False\n\ndef solve(words, prefix):\n    root = TrieNode()\n    for word in words:\n        node = root\n        for ch in word:\n            if ch not in node.children:\n                node.children[ch] = TrieNode()\n            node = node.children[ch]\n            node.count += 1\n        node.is_end = True\n\n    node = root\n    for ch in prefix:\n        if ch not in node.children:\n            return 0\n        node = node.children[ch]\n    return node.count", "starter_code": "def solve(words, prefix):\n    # 请在此处编写代码\n    # 提示：使用 Trie（字典树）数据结构\n    # 每个 TrieNode 维护 children 字典和 count 计数\n    pass", "code_language": "python", "complexity_time": "O(N * L + M)，N 为单词数，L 为平均单词长度，M 为前缀长度", "complexity_space": "O(N * L * 26)，最坏情况下 Trie 存储所有字符节点", "key_points": "Trie 字典树的构建与查询；节点 count 字段记录经过该路径的单词数；前缀匹配只需沿路径走到目标节点取 count", "test_cases": [[["apple", "app", "application", "apt", "banana"], "app"], [["a"], "a"], [["a"], "b"], [["a"], "ab"], [["ab"], "a"], [["cat", "car", "card", "care", "careful"], "car"], [["cat", "car", "card", "care", "careful"], "dog"], [["aaa", "aa", "a"], "a"], [["aaa", "aa", "a"], "aa"], [["aaa", "aa", "a"], "aaa"], [["aaa", "aa", "a"], "aaaa"], [["test"], "test"]], "expected_outputs": [3, 1, 0, 0, 1, 4, 0, 3, 2, 1, 0, 1]}}, {"id": 2, "type": "algorithm_concept", "type_label": "算法概念", "difficulty": 2, "title": "排序算法的稳定性与复杂度", "description": "关于常见排序算法的性质，以下说法**正确**的是？\n\n**选项**：\n- A. 快速排序是稳定排序，最坏时间复杂度为 $O(n \\log n)$\n- B. 归并排序是稳定排序，最坏时间复杂度为 $O(n \\log n)$\n- C. 堆排序是稳定排序，最坏时间复杂度为 $O(n^2)$\n- D. 冒泡排序是不稳定排序，最坏时间复杂度为 $O(n \\log n)$", "options": ["快速排序是稳定排序，最坏时间复杂度为 $O(n \\log n)$", "归并排序是稳定排序，最坏时间复杂度为 $O(n \\log n)$", "堆排序是稳定排序，最坏时间复杂度为 $O(n^2)$", "冒泡排序是不稳定排序，最坏时间复杂度为 $O(n \\log n)$"], "correct_answer": "B", "solution": {"approach": "逐一判断每个排序算法的稳定性和最坏时间复杂度。", "option_analysis": ["**A 错误**：快速排序是**不稳定**排序（相等元素的相对顺序可能改变），最坏时间复杂度为 $O(n^2)$（当每次 partition 选到最值作为基准时退化）。选项声称稳定且最坏 $O(n \\log n)$，两个判断都错。", "**B 正确**：归并排序是**稳定**排序（合并时相等元素取左侧优先即可保持稳定），最坏/最好/平均时间复杂度均为 $O(n \\log n)$，空间复杂度 $O(n)$。两个判断都正确。", "**C 错误**：堆排序是**不稳定**排序（调整堆时相等元素的相对顺序可能改变），最坏时间复杂度为 $O(n \\log n)$ 而非 $O(n^2)$。两个判断都错。", "**D 错误**：冒泡排序是**稳定**排序（相邻交换时相等元素不交换则保持顺序），最坏时间复杂度为 $O(n^2)$（逆序数组）。选项两个判断都错。"], "key_points": "排序稳定性定义：相等元素排序后相对顺序不变则为稳定。常见稳定排序：归并、冒泡、插入、基数。常见不稳定排序：快排、堆排、选择。掌握各排序算法的最好/最坏/平均复杂度是面试基础。"}}, {"id": 3, "type": "ai_derivation", "type_label": "AI公式推导", "difficulty": 2, "title": "线性回归正规方程（Normal Equation）闭式解推导", "description": "给定训练数据集 $\\{(x^{(i)}, y^{(i)})\\}_{i=1}^{n}$，其中 $x^{(i)} \\in \\mathbb{R}^d$（含偏置项 $x_0 = 1$），$y^{(i)} \\in \\mathbb{R}$。线性回归模型预测 $\\hat{y}^{(i)} = \\theta^T x^{(i)}$，损失函数为均方误差（MSE）。\n\n请使用矩阵形式推导：**最小化损失函数 $J(\\theta) = \\frac{1}{2n}\\|X\\theta - y\\|^2$ 关于 $\\theta$ 的正规方程，并求出 $\\theta$ 的闭式解。**\n\n其中 $X \\in \\mathbb{R}^{n \\times d}$ 为设计矩阵，$y \\in \\mathbb{R}^n$ 为目标向量，$\\theta \\in \\mathbb{R}^d$ 为参数向量。", "solution": {"derivation": "**符号定义**：\n- 设计矩阵 $X = [x^{(1)T}; x^{(2)T}; \\cdots; x^{(n)T}] \\in \\mathbb{R}^{n \\times d}$，每行是一个样本\n- 目标向量 $y = [y^{(1)}, y^{(2)}, \\cdots, y^{(n)}]^T \\in \\mathbb{R}^n$\n- 参数向量 $\\theta \\in \\mathbb{R}^d$\n- 预测向量 $\\hat{y} = X\\theta \\in \\mathbb{R}^n$\n\n**损失函数**（省略 $\\frac{1}{2n}$ 常数不影响极值点）：\n$$J(\\theta) = \\frac{1}{2}\\|X\\theta - y\\|^2 = \\frac{1}{2}(X\\theta - y)^T(X\\theta - y)$$\n\n**Step 1：展开二次型**\n$$J(\\theta) = \\frac{1}{2}\\left[(X\\theta)^T(X\\theta) - (X\\theta)^T y - y^T(X\\theta) + y^T y\\right]$$\n$$= \\frac{1}{2}\\left[\\theta^T X^T X \\theta - 2\\theta^T X^T y + y^T y\\right]$$\n\n（利用 $(X\\theta)^T y = \\theta^T X^T y$ 是标量，等于其转置 $y^T X \\theta$）\n\n**Step 2：对 $\\theta$ 求梯度**\n\n利用两个矩阵微积分恒等式：\n- $\\nabla_\\theta (\\theta^T A \\theta) = (A + A^T)\\theta$，当 $A$ 对称时 $= 2A\\theta$\n- $\\nabla_\\theta (b^T \\theta) = b$\n\n因为 $X^T X$ 是对称矩阵（$(X^T X)^T = X^T X$），令 $A = X^T X$，$b = X^T y$：\n$$\\nabla_\\theta J(\\theta) = \\frac{1}{2}\\left[2 X^T X \\theta - 2 X^T y\\right] = X^T X \\theta - X^T y$$\n\n**Step 3：令梯度为零，得正规方程**\n$$X^T X \\theta - X^T y = 0$$\n$$\\boxed{X^T X \\, \\theta = X^T y}$$\n\n**Step 4：求解闭式解**\n\n当 $X^T X$ 可逆（即 $X$ 列满秩，$n \\geq d$ 且特征间无共线性）时：\n$$\\boxed{\\theta = (X^T X)^{-1} X^T y}$$\n\n**Step 5：可逆性讨论**\n\n当 $X^T X$ 不可逆时（特征数 > 样本数，或特征共线性），使用伪逆（Moore-Penrose 伪逆）：\n$$\\theta = (X^T X)^{+} X^T y = X^{+} y$$\n\n或在损失函数中加入 L2 正则化项 $\\frac{\\lambda}{2}\\|\\theta\\|^2$（岭回归），此时：\n$$\\theta = (X^T X + \\lambda I)^{-1} X^T y$$\n\n$\\lambda > 0$ 时 $X^T X + \\lambda I$ 一定可逆（正定矩阵）。", "intuition": "正规方程 $X^T X \\theta = X^T y$ 的几何含义是：残差向量 $X\\theta - y$ 与 $X$ 的列空间正交（即残差不能被特征线性表出进一步减小），这正是投影到列空间的最优解。闭式解 $\\theta = (X^T X)^{-1} X^T y$ 就是将 $y$ 投影到 $X$ 列空间后在原始坐标系下的系数。", "key_points": "矩阵二次型求导：$\\nabla_\\theta (\\theta^T A \\theta) = 2A\\theta$（A 对称）；正规方程 $X^TX\\theta = X^Ty$ 的推导与闭式解；$X^TX$ 可逆条件（列满秩）；不可逆时用伪逆或加 L2 正则化（岭回归）。"}}, {"id": 4, "type": "ai_interview", "type_label": "AI面试问答", "difficulty": 2, "title": "Batch Normalization 与 Layer Normalization 的区别与应用场景", "description": "面试官问：\"Batch Normalization 和 Layer Normalization 都是深度学习中常用的归一化方法，请详细说明它们的原理区别、计算方式差异，以及为什么 Transformer 用 LayerNorm 而不用 BatchNorm？\"", "solution": {"answer_points": ["**计算维度不同**：BatchNorm 沿 **batch 维度** 归一化，对每个特征通道在 batch 内统计均值和方差（$\\mu_B, \\sigma_B^2$ 计算时 batch 内所有样本同一通道参与）；LayerNorm 沿 **特征维度** 归一化，对每个样本的所有特征独立统计均值和方差（$\\mu, \\sigma^2$ 在单个样本的所有特征上计算），与 batch 无关。", "**公式对比**：\nBatchNorm：$\\hat{x}_{ij} = \\frac{x_{ij} - \\mu_B^{(j)}}{\\sqrt{\\sigma_B^{(j)2} + \\epsilon}}$，其中 $\\mu_B^{(j)} = \\frac{1}{B}\\sum_{i=1}^{B} x_{ij}$\nLayerNorm：$\\hat{x}_{ij} = \\frac{x_{ij} - \\mu_i}{\\sqrt{\\sigma_i^2 + \\epsilon}}$，其中 $\\mu_i = \\frac{1}{d}\\sum_{j=1}^{d} x_{ij}$", "**训练/推理行为差异**：BatchNorm 训练时用 batch 统计量，推理时用训练阶段累积的滑动平均（running mean/var），存在训练-推理不一致问题；LayerNorm 训练和推理行为一致，无需维护 running 统计量。", "**为什么 Transformer 用 LayerNorm**：① 序列长度可变，BatchNorm 在变长序列中对不同位置的统计量不一致；② batch size 受限（大模型训练常用梯度累积、微调时 batch=1），BatchNorm 在小 batch 下统计量不可靠；③ Transformer 每个位置独立处理，LayerNorm 对单个样本归一化更自然；④ LayerNorm 不依赖 batch 维度，推理时行为与训练一致。", "**适用场景**：BatchNorm 适合 CNN（固定尺寸输入、大 batch 训练、特征通道有明确语义）；LayerNorm 适合 RNN/Transformer（变长序列、可变 batch、自回归推理）。"], "bonus": ["**RMSNorm**：LayerNorm 的简化变体，去掉均值减法只做方差归一化（$\\hat{x}_i = \\frac{x_i}{\\sqrt{\\frac{1}{d}\\sum_j x_j^2 + \\epsilon}} \\cdot \\gamma$），计算量减少约 20-30%，LLaMA 等大模型广泛采用，实验证明效果与 LayerNorm 相当。", "**DeepNorm**：微软提出，通过修改残差连接初始化实现极深 Transformer（1000+层），归一化因子 $\\alpha$ 控制梯度规模。", "**归一化位置**：Pre-LN（归一化在注意力/前馈之前）比 Post-LN（原始 Transformer 位置）训练更稳定，不需要 warmup，现代大模型普遍使用 Pre-LN。", "**BatchNorm 的泛化性争议**：有研究表明 BatchNorm 的正则化效果部分来自训练时 batch 统计量的随机性，推理时这种随机性消失可能影响泛化。"], "followup_predictions": ["**追问：BatchNorm 中的 $\\gamma$ 和 $\\beta$ 的作用是什么？** — 回答思路：缩放和平移可学习参数，通过 $y = \\gamma \\hat{x} + \\beta$ 恢复网络表达能力。若归一化后直接使用，激活值分布被强行限制在固定区间，可能降低模型拟合能力；$\\gamma$ 和 $\\beta$ 让网络自行决定最优的分布范围，极端情况可还原原始分布（$\\gamma = \\sigma, \\beta = \\mu$）。", "**追问：为什么 BatchNorm 能加速训练？** — 回答思路：① 缓解内部协变量偏移（ICS），使每层输入分布更稳定；② 平滑损失景观，允许更大学习率；③ 有轻微正则化效果（batch 统计量引入噪声）。注意：MIT 2018 论文指出 ICS 可能不是 BN 有效的核心原因，平滑损失景观才是。", "**追问：LayerNorm 中为什么不用 batch 统计量？** — 回答思路：自回归模型推理时 batch=1，batch 统计量无意义；训练时的序列长度变化导致不同位置统计量不一致；LayerNorm 逐样本归一化，无上述问题。"]}}]};
+</script>
+</body>
+</html>
