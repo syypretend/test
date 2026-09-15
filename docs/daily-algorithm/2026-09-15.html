@@ -1,0 +1,1364 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>每日算法讲解 · 2026年09月15日</title>
+<!-- MathJax for LaTeX math formula rendering -->
+<script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\(', '\)']],
+      displayMath: [['$$', '$$'], ['\[', '\]']],
+      processEscapes: true
+    },
+    svg: { fontCache: 'global' }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" id="MathJax-script" async></script>
+<style>
+:root {
+  --primary: #6366f1;
+  --primary-dark: #4f46e5;
+  --bg: #0f172a;
+  --card-bg: #1e293b;
+  --text: #e2e8f0;
+  --text-dim: #94a3b8;
+  --accent: #818cf8;
+  --border: #334155;
+  --code-bg: #0d1117;
+  --code-text: #e6edf3;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans SC", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.8;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+.container { max-width: 1400px; margin: 0 auto; padding: 24px 32px; }
+.header {
+  text-align: center;
+  padding: 40px 0 30px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 32px;
+}
+.header h1 {
+  font-size: 28px;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.header h1 .date { color: var(--accent); }
+.header .subtitle { color: var(--text-dim); font-size: 15px; }
+.repo-link {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 6px 16px;
+  background: var(--primary);
+  color: #fff;
+  border-radius: 20px;
+  text-decoration: none;
+  font-size: 13px;
+  transition: background 0.2s;
+}
+.repo-link:hover { background: var(--primary-dark); }
+.history-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 32px;
+  padding: 16px;
+  background: var(--card-bg);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+.history-nav a {
+  padding: 4px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  color: var(--text-dim);
+  text-decoration: none;
+  background: rgba(99,102,241,0.08);
+  transition: all 0.2s;
+}
+.history-nav a:hover { color: var(--text); background: rgba(99,102,241,0.2); }
+.history-nav a.active { color: #fff; background: var(--primary); }
+.history-nav a.back-index { color: var(--accent); font-weight: 600; background: rgba(99,102,241,0.15); border: 1px solid rgba(99,102,241,0.3); }
+.history-nav a.back-index:hover { color: #fff; background: var(--primary); border-color: var(--primary); }
+.content { margin-bottom: 40px; max-width: 1100px; }
+.content h2 {
+  font-size: 24px;
+  color: var(--accent);
+  margin: 40px 0 16px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--primary);
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+.content h2:first-child { border-top: none; padding-top: 0; }
+.content h3 {
+  font-size: 18px;
+  color: var(--text);
+  margin: 24px 0 12px;
+}
+.content h4 {
+  font-size: 16px;
+  color: var(--accent);
+  margin: 20px 0 10px;
+}
+.content p { margin-bottom: 12px; color: var(--text); }
+.content ul { margin: 8px 0 16px 20px; }
+.content li { margin-bottom: 6px; }
+.content strong { color: var(--accent); }
+.content blockquote {
+  border-left: 4px solid var(--primary);
+  padding: 12px 16px;
+  margin: 16px 0;
+  background: rgba(99,102,241,0.08);
+  border-radius: 0 8px 8px 0;
+}
+.content blockquote p { color: var(--text-dim); margin: 4px 0; }
+.content hr {
+  border: none;
+  height: 1px;
+  background: var(--border);
+  margin: 32px 0;
+}
+.code-block {
+  background: var(--code-bg);
+  border-radius: 10px;
+  padding: 18px 24px;
+  overflow-x: auto;
+  margin: 16px 0;
+  border: 1px solid var(--border);
+  max-width: 100%;
+}
+.code-block code {
+  font-family: "JetBrains Mono", "Fira Code", "Consolas", monospace;
+  font-size: 14px;
+  color: var(--code-text);
+  line-height: 1.6;
+  white-space: pre;
+}
+.inline-code {
+  background: rgba(99,102,241,0.15);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: "Consolas", monospace;
+  font-size: 0.9em;
+  color: var(--accent);
+}
+/* Math formula block */
+.content .math-block {
+  background: rgba(99,102,241,0.06);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 24px;
+  margin: 16px 0;
+  overflow-x: auto;
+  max-width: 100%;
+}
+.content .math-label {
+  font-size: 13px; color: var(--text-dim); margin-bottom: 6px; }
+.content .math-vars {
+  margin: 8px 0 16px 20px; }
+.content .math-vars li { margin-bottom: 4px; color: var(--text-dim); }
+.footer {
+  text-align: center;
+  padding: 24px 0;
+  border-top: 1px solid var(--border);
+  color: var(--text-dim);
+  font-size: 13px;
+}
+.tag {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  background: rgba(99,102,241,0.15);
+  color: var(--accent);
+  margin-left: 8px;
+}
+.content .ref-link {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px dashed rgba(99,102,241,0.4);
+  transition: all 0.2s;
+  word-break: break-all;
+}
+.content .ref-link:hover {
+  color: #fff;
+  border-bottom-color: var(--primary);
+}
+.content li {
+  word-break: break-all;
+}
+/* Table */
+.table-wrapper {
+  overflow-x: auto;
+  margin: 16px 0;
+  max-width: 100%;
+}
+.algo-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  background: var(--card-bg);
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+.algo-table thead {
+  background: rgba(99,102,241,0.15);
+}
+.algo-table th {
+  padding: 10px 16px;
+  text-align: left;
+  color: var(--accent);
+  font-weight: 600;
+  border-bottom: 2px solid var(--primary);
+  white-space: nowrap;
+}
+.algo-table td {
+  padding: 8px 16px;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  word-break: break-all;
+}
+.algo-table tr:last-child td {
+  border-bottom: none;
+}
+.algo-table tr:hover td {
+  background: rgba(99,102,241,0.06);
+}
+/* Algorithm architecture image */
+.algo-image {
+  margin: 20px 0;
+  text-align: center;
+}
+.algo-image img {
+  max-width: 100%;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+.algo-image .image-caption {
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--text-dim);
+}
+.algo-image svg {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+/* ======== 移动端响应式适配 ======== */
+@media (max-width: 768px) {
+  .container { max-width: 100%; padding: 16px 14px; }
+  .header { padding: 24px 0 20px; margin-bottom: 20px; }
+  .header h1 { font-size: 20px; margin-bottom: 4px; }
+  .header .subtitle { font-size: 13px; }
+  .repo-link { margin-top: 10px; padding: 5px 14px; font-size: 12px; }
+  .history-nav { gap: 6px; padding: 10px 12px; margin-bottom: 20px; }
+  .history-nav a { padding: 3px 10px; font-size: 12px; }
+  .content { max-width: 100%; margin-bottom: 28px; }
+  .content h2 { font-size: 20px; margin: 28px 0 12px; }
+  .content h3 { font-size: 17px; margin: 20px 0 10px; }
+  .content h4 { font-size: 15px; margin: 16px 0 8px; }
+  .content p { font-size: 14px; margin-bottom: 10px; }
+  .content ul { margin: 6px 0 12px 16px; }
+  .content li { font-size: 14px; margin-bottom: 5px; }
+  .content blockquote { padding: 10px 12px; margin: 12px 0; }
+  .content blockquote p { font-size: 13px; }
+  .content .math-block { padding: 10px 14px; margin: 12px 0; }
+  .code-block { padding: 12px 14px; margin: 12px 0; }
+  .code-block code { font-size: 12px; line-height: 1.5; }
+  .inline-code { font-size: 0.88em; padding: 1px 5px; }
+  .algo-table { font-size: 12px; }
+  .algo-table th { padding: 6px 10px; }
+  .algo-table td { padding: 6px 10px; }
+  .algo-image { margin: 14px 0; }
+  .algo-image svg { max-width: 100%; height: auto; }
+  .footer { padding: 18px 0; font-size: 12px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>每日算法讲解 · <span class="date">2026年09月15日</span></h1>
+    <p class="subtitle">每天 1 个基础算法 + 2 个 AI/机器学习算法，持续精进</p>
+    <a href="https://syypretend.github.io/test/daily-algorithm" target="_blank" class="repo-link">GitHub 仓库</a>
+  </div>
+  <div class="history-nav"><a href="index.html" class="back-index">← 历史索引</a>
+<a href="2026-09-15.html" class="active">09月15日</a>
+<a href="2026-09-14.html">09月14日</a>
+<a href="2026-09-11.html">09月11日</a>
+<a href="2026-09-10.html">09月10日</a>
+<a href="2026-09-09.html">09月09日</a>
+<a href="2026-09-08.html">09月08日</a>
+<a href="2026-09-07.html">09月07日</a>
+</div>
+  <div class="content">
+  <h2>每日算法讲解 · 2026-09-15</h2>
+
+<blockquote>
+<p>今日内容：1 个基础算法 + 2 个 AI/机器学习算法 | 逐参数详解</p>
+<p>学习进度：基础算法 7/60，AI 算法 13/99，累计推送 18 天（第 1 轮·首轮学习）</p>
+</blockquote>
+
+<hr>
+
+<h3>并查集</h3>
+
+<p><strong>类别</strong>：数据结构 | <strong>难度</strong>：入门</p>
+
+<h4>算法简介</h4>
+
+<p>并查集（Union-Find / Disjoint Set Union, DSU）是一种用于管理不相交集合（Disjoint Sets）的树型数据结构。它主要支持两种核心操作：<strong>查找（Find）</strong>——确定某个元素属于哪个集合（返回集合的代表元素/根节点），以及<strong>合并（Union）</strong>——将两个元素所在的集合合并为一个集合。</p>
+
+<p>并查集的核心思想是用森林来表示集合：每棵树代表一个集合，树的根节点是该集合的代表元素。初始时，每个元素自成一个集合。通过路径压缩和按秩合并两种优化策略，并查集的单次操作时间复杂度可降至近似 $ O(\alpha(n)) $，其中 $ \alpha $ 是阿克曼函数的反函数，在所有实际应用中该值不超过 4，因此可近似看作常数时间。</p>
+
+<p>并查集在图论问题中有着广泛应用，包括连通分量判定、最小生成树（Kruskal 算法）、动态连通性检测、朋友圈/社交网络分组等。</p>
+
+<h4>原理示意图</h4>
+
+<p><div class="algo-image"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 900 520" font-family="sans-serif">
+  <rect width="900" height="520" fill="#1e293b" rx="12"/>
+  <text x="450" y="30" text-anchor="middle" fill="#818cf8" font-size="16" font-weight="600">并查集：路径压缩 + 按秩合并 示意图</text>
+
+  <!-- 左侧：初始状态 -->
+  <text x="150" y="65" text-anchor="middle" fill="#94a3b8" font-size="13" font-weight="600">① 初始状态：每个元素自成集合</text>
+  <circle cx="60" cy="100" r="20" fill="#334155" stroke="#6366f1"/>
+  <text x="60" y="105" text-anchor="middle" fill="#e2e8f0" font-size="12">1</text>
+  <circle cx="110" cy="100" r="20" fill="#334155" stroke="#6366f1"/>
+  <text x="110" y="105" text-anchor="middle" fill="#e2e8f0" font-size="12">2</text>
+  <circle cx="160" cy="100" r="20" fill="#334155" stroke="#6366f1"/>
+  <text x="160" y="105" text-anchor="middle" fill="#e2e8f0" font-size="12">3</text>
+  <circle cx="210" cy="100" r="20" fill="#334155" stroke="#6366f1"/>
+  <text x="210" y="105" text-anchor="middle" fill="#e2e8f0" font-size="12">4</text>
+  <circle cx="60" cy="160" r="20" fill="#334155" stroke="#6366f1"/>
+  <text x="60" y="165" text-anchor="middle" fill="#e2e8f0" font-size="12">5</text>
+  <circle cx="110" cy="160" r="20" fill="#334155" stroke="#6366f1"/>
+  <text x="110" y="165" text-anchor="middle" fill="#e2e8f0" font-size="12">6</text>
+  <text x="135" y="200" text-anchor="middle" fill="#22c55e" font-size="11">parent[i]=i（各自为根）</text>
+
+  <!-- 中间：Union 操作 -->
+  <text x="460" y="65" text-anchor="middle" fill="#94a3b8" font-size="13" font-weight="600">② Union(1,2) → Union(3,4) → Union(1,5)</text>
+  <!-- 集合 {1,2,5} -->
+  <circle cx="400" cy="110" r="20" fill="#4f46e5" stroke="#818cf8"/>
+  <text x="400" y="115" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="600">1</text>
+  <text x="430" y="95" fill="#22c55e" font-size="10">rank=1</text>
+  <circle cx="360" cy="170" r="20" fill="#334155" stroke="#6366f1"/>
+  <text x="360" y="175" text-anchor="middle" fill="#e2e8f0" font-size="12">2</text>
+  <line x1="360" y1="150" x2="395" y2="130" stroke="#6366f1" stroke-width="2"/>
+  <circle cx="440" cy="170" r="20" fill="#334155" stroke="#6366f1"/>
+  <text x="440" y="175" text-anchor="middle" fill="#e2e8f0" font-size="12">5</text>
+  <line x1="440" y1="150" x2="410" y2="130" stroke="#6366f1" stroke-width="2"/>
+
+  <!-- 集合 {3,4} -->
+  <circle cx="520" cy="110" r="20" fill="#4f46e5" stroke="#818cf8"/>
+  <text x="520" y="115" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="600">3</text>
+  <text x="550" y="95" fill="#22c55e" font-size="10">rank=1</text>
+  <circle cx="560" cy="170" r="20" fill="#334155" stroke="#6366f1"/>
+  <text x="560" y="175" text-anchor="middle" fill="#e2e8f0" font-size="12">4</text>
+  <line x1="560" y1="150" x2="535" y2="130" stroke="#6366f1" stroke-width="2"/>
+
+  <!-- 元素6 仍独立 -->
+  <circle cx="470" cy="230" r="20" fill="#334155" stroke="#6366f1"/>
+  <text x="470" y="235" text-anchor="middle" fill="#e2e8f0" font-size="12">6</text>
+
+  <text x="460" y="275" text-anchor="middle" fill="#f97316" font-size="11">按秩合并：低秩树挂到高秩树下</text>
+
+  <!-- 右侧：路径压缩 -->
+  <text x="770" y="65" text-anchor="middle" fill="#94a3b8" font-size="13" font-weight="600">③ Find(5) 触发路径压缩</text>
+  <!-- 压缩前 -->
+  <text x="770" y="95" text-anchor="middle" fill="#f97316" font-size="11">压缩前</text>
+  <circle cx="770" cy="120" r="18" fill="#4f46e5" stroke="#818cf8"/>
+  <text x="770" y="125" text-anchor="middle" fill="#e2e8f0" font-size="11" font-weight="600">1</text>
+  <circle cx="740" cy="170" r="18" fill="#334155" stroke="#6366f1"/>
+  <text x="740" y="175" text-anchor="middle" fill="#e2e8f0" font-size="11">3</text>
+  <line x1="740" y1="152" x2="765" y2="138" stroke="#6366f1" stroke-width="2"/>
+  <circle cx="800" cy="170" r="18" fill="#334155" stroke="#6366f1"/>
+  <text x="800" y="175" text-anchor="middle" fill="#e2e8f0" font-size="11">5</text>
+  <line x1="800" y1="152" x2="780" y2="138" stroke="#f97316" stroke-width="2" stroke-dasharray="4,2"/>
+  <text x="820" y="165" fill="#f97316" font-size="10">←压缩</text>
+
+  <!-- 压缩后 -->
+  <text x="770" y="215" text-anchor="middle" fill="#22c55e" font-size="11">压缩后</text>
+  <circle cx="770" cy="240" r="18" fill="#4f46e5" stroke="#818cf8"/>
+  <text x="770" y="245" text-anchor="middle" fill="#e2e8f0" font-size="11" font-weight="600">1</text>
+  <circle cx="730" cy="290" r="18" fill="#334155" stroke="#22c55e"/>
+  <text x="730" y="295" text-anchor="middle" fill="#e2e8f0" font-size="11">3</text>
+  <line x1="730" y1="272" x2="762" y2="258" stroke="#22c55e" stroke-width="2"/>
+  <circle cx="810" cy="290" r="18" fill="#334155" stroke="#22c55e"/>
+  <text x="810" y="295" text-anchor="middle" fill="#e2e8f0" font-size="11">5</text>
+  <line x1="810" y1="272" x2="778" y2="258" stroke="#22c55e" stroke-width="2"/>
+  <text x="770" y="330" text-anchor="middle" fill="#22c55e" font-size="11">沿途节点直接指向根</text>
+
+  <!-- 底部：关键操作伪代码 -->
+  <rect x="30" y="360" width="840" height="145" rx="8" fill="#0f172a" stroke="#334155"/>
+  <text x="50" y="385" fill="#818cf8" font-size="12" font-weight="600">核心操作伪代码</text>
+  <text x="50" y="405" fill="#94a3b8" font-size="11" font-family="monospace">Find(x):  if parent[x]==x → return x;  parent[x]=Find(parent[x]);  return parent[x]</text>
+  <text x="50" y="425" fill="#94a3b8" font-size="11" font-family="monospace">Union(x,y):  rx=Find(x), ry=Find(y);  if rx==ry → return;  if rank[rx] < rank[ry] → swap;  parent[ry]=rx;  if rank[rx]==rank[ry] → rank[rx]++</text>
+  <text x="50" y="450" fill="#f97316" font-size="11" font-weight="600">路径压缩：</text>
+  <text x="120" y="450" fill="#94a3b8" font-size="11">Find 时将沿途节点直接挂到根，压扁树高 → 近似 O(1) 查询</text>
+  <text x="50" y="475" fill="#f97316" font-size="11" font-weight="600">按秩合并：</text>
+  <text x="120" y="475" fill="#94a3b8" font-size="11">Union 时将矮树挂到高树下，rank 仅在两树等高时才 +1 → 控制树高增长</text>
+  <text x="50" y="498" fill="#22c55e" font-size="11" font-weight="600">两者结合：</text>
+  <text x="120" y="498" fill="#94a3b8" font-size="11">单次操作均摊时间 O(α(n))，α 为阿克曼函数逆函数，实际 ≤ 4</text>
+</svg></div></p>
+
+<h4>数学公式</h4>
+
+<p><strong>1. 阿克曼函数逆函数 α(n) —— 单次操作均摊复杂度</strong></p>
+
+<p><div class="math-block">$$ T_{\text{amortized}} = O(\alpha(n)) $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ n $：元素总数（集合中元素个数）</li>
+<li>$ \alpha(n) $：阿克曼函数 $ A(m, n) $ 的反函数。阿克曼函数增长极快，其反函数增长极慢，对于所有实际可能的 $ n $（$ n \leq 2^{65536} $），$ \alpha(n) \leq 4 $</li>
+<li>含义：同时使用路径压缩与按秩合并时，$ m $ 次操作（Find + Union）的总时间复杂度为 $ O(m \cdot \alpha(n)) $，即均摊每次 $ O(\alpha(n)) $</li>
+</ul>
+
+<p><strong>2. 树高上界 —— 按秩合并保证</strong></p>
+
+<p><div class="math-block">$$ h \leq \lfloor \log_2 n \rfloor $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ h $：树的最大高度</li>
+<li>$ n $：该树中的元素总数</li>
+<li>含义：仅使用按秩合并（不使用路径压缩）时，树高不超过 $ \lfloor \log_2 n \rfloor $。这是因为 rank 为 $ k $ 的树至少包含 $ 2^k $ 个节点</li>
+</ul>
+
+<p><strong>3. Find 操作最坏时间（仅按秩合并，无路径压缩）</strong></p>
+
+<p><div class="math-block">$$ T_{\text{find}} = O(\log n) $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ n $：元素总数</li>
+<li>含义：没有路径压缩时，Find 需要从叶节点走到根，路径长度最多为树高 $ \log n $</li>
+</ul>
+
+<h4>核心要点</h4>
+
+<ul>
+<li>并查集用森林表示不相交集合，每棵树代表一个集合，根节点为集合代表</li>
+<li><strong>路径压缩</strong>：在 Find 过程中将沿途节点直接指向根，显著降低后续查询的路径长度</li>
+<li><strong>按秩合并</strong>：Union 时将矮树挂到高树下，控制树高增长；rank 近似于树高</li>
+<li>两种优化结合后，单次操作均摊复杂度为 $ O(\alpha(n)) $，实际中近似 $ O(1) $</li>
+<li>路径压缩递归写法简洁但有栈溢出风险，迭代写法更适合大规模数据</li>
+<li>初始化时每个元素 parent 指向自身，rank 初始化为 0</li>
+</ul>
+
+<h4>技术细节与参数详解</h4>
+
+<p>#### 参数1：parent 数组</p>
+
+<ul>
+<li><strong>含义</strong>：存储每个元素的父节点。<code class="inline-code">parent[i]</code> 表示元素 <code class="inline-code">i</code> 的父节点编号；若 <code class="inline-code">parent[i] == i</code>，则 <code class="inline-code">i</code> 是根节点（集合代表）</li>
+<li><strong>类型</strong>：一维数组（列表），长度为元素总数 $ n $</li>
+<li><strong>默认值</strong>：初始化时 <code class="inline-code">parent[i] = i</code>，即每个元素自成集合</li>
+<li><strong>取值范围</strong>：数组下标 $ 0 \sim n-1 $，每个元素值为 $ 0 \sim n-1 $ 的整数</li>
+<li><strong>对结果的影响</strong>：parent 数组是并查集的核心数据结构。Find 操作通过沿 parent 指针向上追溯到根；Union 操作修改 parent 指针实现合并。路径压缩直接修改 parent 值</li>
+<li><strong>推荐设置</strong>：初始化为 <code class="inline-code">list(range(n))</code>，即 <code class="inline-code">[0, 1, 2, ..., n-1]</code></li>
+</ul>
+
+<p>#### 参数2：rank 数组</p>
+
+<ul>
+<li><strong>含义</strong>：存储每个元素作为根时所在树的"秩"（近似高度）。用于按秩合并时决定哪棵树挂到哪棵树下</li>
+<li><strong>类型</strong>：一维数组（列表），长度为元素总数 $ n $</li>
+<li><strong>默认值</strong>：初始化为全 0，即 <code class="inline-code">rank[i] = 0</code> 对所有 $ i $</li>
+<li><strong>取值范围</strong>：非负整数，最大值约为 $ \lfloor \log_2 n \rfloor $</li>
+<li><strong>对结果的影响</strong>：rank 用于按秩合并策略。合并时将 rank 小的树挂到 rank 大的树下，避免树高线性增长。注意 rank 不是精确的树高（路径压缩会改变实际树高但不更新 rank），但始终是树高的上界</li>
+<li><strong>推荐设置</strong>：初始化为 <code class="inline-code">[0] * n</code></li>
+</ul>
+
+<p>#### 参数3：路径压缩策略（path compression）</p>
+
+<ul>
+<li><strong>含义</strong>：在 Find 操作中，将查找路径上的所有节点直接指向根节点，从而"压扁"树的形态</li>
+<li><strong>类型</strong>：算法策略（非数值参数），有两种实现方式：递归式和迭代式</li>
+<li><strong>默认值</strong>：递归式（代码更简洁）</li>
+<li><strong>取值范围</strong>：递归式 / 迭代式</li>
+<li><strong>对结果的影响</strong>：路径压缩是并查集性能的关键。不使用路径压缩时，Find 最坏 $ O(\log n) $；使用后均摊 $ O(\alpha(n)) $。递归式简洁但大规模数据有栈溢出风险（$ n > 10^5 $ 时需注意），迭代式更安全</li>
+<li><strong>推荐设置</strong>：小规模数据用递归式（简洁），大规模数据（$ n > 10^5 $）用迭代式（安全）</li>
+</ul>
+
+<p>#### 参数4：按秩合并策略（union by rank）</p>
+
+<ul>
+<li><strong>含义</strong>：在 Union 操作中，比较两棵树的 rank，将 rank 小的树挂到 rank 大的树下；若 rank 相等，任选一个作为根并将其 rank 加 1</li>
+<li><strong>类型</strong>：算法策略（非数值参数）</li>
+<li><strong>默认值</strong>：启用（与路径压缩配合使用）</li>
+<li><strong>取值范围</strong>：按秩合并 / 按大小合并（union by size）/ 不使用优化</li>
+<li><strong>对结果的影响</strong>：按秩合并保证树高为 $ O(\log n) $；与路径压缩结合后达到 $ O(\alpha(n)) $。按大小合并（将小集合挂到大集合下）效果类似，且实现稍简单。不使用任何优化时，最坏情况树退化为链，Find 为 $ O(n) $</li>
+<li><strong>推荐设置</strong>：按秩合并或按大小合并，两者性能差异可忽略</li>
+</ul>
+
+<h4>代码示例</h4>
+
+<p><pre class="code-block"><code class="language-python">class UnionFind:
+    &quot;&quot;&quot;并查集（Union-Find）数据结构，支持路径压缩与按秩合并&quot;&quot;&quot;
+
+    def __init__(self, n):
+        # 初始化：n 个元素，每个元素自成集合
+        self.parent = list(range(n))  # parent[i]=i 表示 i 是根节点
+        self.rank = [0] * n            # rank[i]=0，秩初始化为 0
+        self.count = n                 # 连通分量数，初始为 n（各自独立）
+
+    def find(self, x):
+        &quot;&quot;&quot;查找元素 x 的根节点（代表元素），带路径压缩（递归式）&quot;&quot;&quot;
+        if self.parent[x] != x:                  # 如果 x 不是根节点
+            self.parent[x] = self.find(self.parent[x])  # 递归找根，同时压缩路径
+        return self.parent[x]                    # 返回根节点
+
+    def find_iterative(self, x):
+        &quot;&quot;&quot;查找元素 x 的根节点（迭代式，避免栈溢出）&quot;&quot;&quot;
+        root = x                                  # 先找到根
+        while self.parent[root] != root:           # 沿 parent 指针向上走
+            root = self.parent[root]              # 更新 root 为父节点
+        # 第二遍：路径压缩，将沿途节点直接指向根
+        while self.parent[x] != root:             # 从 x 再走一遍
+            nxt = self.parent[x]                  # 保存下一个节点
+            self.parent[x] = root                  # 当前节点直接指向根
+            x = nxt                               # 移动到下一个节点
+        return root                               # 返回根节点
+
+    def union(self, x, y):
+        &quot;&quot;&quot;合并 x 和 y 所在的集合，使用按秩合并&quot;&quot;&quot;
+        rx = self.find(x)                         # 找到 x 的根
+        ry = self.find(y)                         # 找到 y 的根
+        if rx == ry:                              # 已在同一集合，无需合并
+            return False                          # 返回 False 表示未合并
+        # 按秩合并：rank 小的树挂到 rank 大的树下
+        if self.rank[rx] &lt; self.rank[ry]:         # rx 的树更矮
+            self.parent[rx] = ry                  # 把 rx 挂到 ry 下
+        elif self.rank[rx] &gt; self.rank[ry]:      # ry 的树更矮
+            self.parent[ry] = rx                 # 把 ry 挂到 rx 下
+        else:                                     # 两树等高
+            self.parent[ry] = rx                  # 任选一个作为根
+            self.rank[rx] += 1                    # 根的 rank +1
+        self.count -= 1                           # 连通分量数 -1
+        return True                               # 返回 True 表示成功合并
+
+    def connected(self, x, y):
+        &quot;&quot;&quot;判断 x 和 y 是否在同一集合&quot;&quot;&quot;
+        return self.find(x) == self.find(y)       # 比较根节点是否相同
+
+    def get_count(self):
+        &quot;&quot;&quot;返回当前连通分量数&quot;&quot;&quot;
+        return self.count                         # 返回剩余集合数
+
+
+# === 使用示例 ===
+uf = UnionFind(6)                                 # 创建 6 个元素的并查集
+print(uf.connected(0, 1))                         # False：0 和 1 不连通
+uf.union(0, 1)                                    # 合并 {0} 和 {1}
+uf.union(2, 3)                                    # 合并 {2} 和 {3}
+uf.union(0, 5)                                    # 合并 {0,1} 和 {5}
+print(uf.connected(1, 5))                         # True：1 和 5 现在同一集合
+print(uf.get_count())                             # 3：剩余 3 个集合 {0,1,5}, {2,3}, {4}</code></pre></p>
+
+<h4>复杂度分析</h4>
+
+<p><strong>时间复杂度</strong>：</p>
+
+<p>使用路径压缩 + 按秩合并后，$ m $ 次 Find/Union 操作的总时间为：</p>
+
+<p><div class="math-block">$$ T(m, n) = \Theta(m \cdot \alpha(m, n)) $$</div></p>
+
+<p>其中 $ \alpha(m, n) $ 是阿克曼函数的逆函数。</p>
+
+<p><strong>推导过程</strong>：</p>
+
+<p>1. <strong>仅按秩合并（无路径压缩）</strong>：每次 Union 保证 rank 为 $ k $ 的树至少有 $ 2^k $ 个节点（归纳法：rank=0 时 1 个节点；两棵 rank=k 的树合并后 rank=k+1，节点数 $ \geq 2 \cdot 2^k = 2^{k+1} $）。因此树高 $ h \leq \lfloor \log_2 n \rfloor $，单次 Find 为 $ O(\log n) $</p>
+
+<p>2. <strong>加入路径压缩</strong>：路径压缩使查找路径上的节点直接指向根。Tarjan 证明，路径压缩 + 按秩合并的组合使得单次操作均摊时间降至 $ O(\alpha(n)) $。该证明基于势能分析（potential method），核心是将树的"复杂度"定义为势能，每次操作消耗的势能被阿克曼函数逆函数所界</p>
+
+<p>3. <strong>$ \alpha(n) $ 的实际值</strong>：对于 $ n \leq 2^{65536} $（远超任何实际数据规模），$ \alpha(n) \leq 4 $。因此在所有实际应用中，并查集单次操作可视为 $ O(1) $</p>
+
+<p><strong>空间复杂度</strong>：$ O(n) $，存储 parent 数组和 rank 数组，各需 $ n $ 个元素空间</p>
+
+<h4>应用场景</h4>
+
+<ul>
+<li><strong>连通分量判定</strong>：无向图中连通分量的数量与归属</li>
+<li><strong>Kruskal 最小生成树算法</strong>：判断加入的边是否形成环（两端点是否已连通）</li>
+<li><strong>动态连通性问题</strong>：动态维护元素间的连通关系，支持合并与查询</li>
+<li><strong>社交网络分析</strong>：朋友圈划分、社区发现（将有关联的人归入同一集合）</li>
+<li><strong>网络连通性检测</strong>：判断网络中任意两点是否连通</li>
+<li><strong>等价类划分</strong>：将等价关系下的元素分组（如类型推断中的等价类型）</li>
+</ul>
+
+<h4>参考文档</h4>
+
+<ul>
+<li><a href="https://blog.csdn.net/m0_61840987/article/details/143624398" target="_blank" class="ref-link">并查集之路径压缩、按秩合并详细解读</a></li>
+<li><a href="https://blog.csdn.net/weixin_51303042/article/details/152137076" target="_blank" class="ref-link">并查集(Union-Find)数据结构详解</a></li>
+<li><a href="https://blog.csdn.net/ucjcklc/article/details/156766394" target="_blank" class="ref-link">并查集(Disjoint Set Union)详解：原理、优化与应用</a></li>
+<li><a href="https://www.zhihu.com/question/51899055" target="_blank" class="ref-link">Kruskal 算法时间复杂度推导</a></li>
+</ul>
+
+<hr>
+
+<h3>YOLO 目标检测</h3>
+
+<p><strong>类别</strong>：计算机视觉 | <strong>难度</strong>：困难</p>
+
+<h4>算法简介</h4>
+
+<p>YOLO（You Only Look Once）是一种端到端的实时目标检测算法。与传统两阶段检测器（如 Faster R-CNN 先生成候选区域再分类）不同，YOLO 将目标检测视为单次回归问题：输入一张图像，只需一次前向传播即可直接输出所有检测到的边界框位置和类别概率。</p>
+
+<p>YOLO 的核心思路是将输入图像划分为 $ S \times S $ 的网格，每个网格负责预测中心落在该网格内的目标。每个网格预测 $ B $ 个边界框，每个边界框包含 5 个值（$ x, y, w, h, \text{confidence} $）以及 $ C $ 个类别条件概率。最终输出张量维度为 $ S \times S \times (B \times 5 + C) $。</p>
+
+<p>YOLO 经历了多代演进（YOLOv1~v12），每代在精度和速度上不断提升。当前主流版本 YOLOv8/v11 采用 anchor-free 架构、CIoU 损失、DFL（Distribution Focal Loss）等改进，在 COCO 数据集上达到 SOTA 级别的速度-精度平衡。YOLO 广泛应用于自动驾驶、视频监控、工业质检、医疗影像等领域。</p>
+
+<h4>原理示意图</h4>
+
+<p><div class="algo-image"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 900 560" font-family="sans-serif">
+  <rect width="900" height="560" fill="#1e293b" rx="12"/>
+  <text x="450" y="28" text-anchor="middle" fill="#818cf8" font-size="16" font-weight="600">YOLO 目标检测：网格划分 + 预测 + NMS 全流程</text>
+
+  <!-- 1. 输入图像 + 网格划分 -->
+  <text x="150" y="55" text-anchor="middle" fill="#94a3b8" font-size="12" font-weight="600">① 输入图像 → S×S 网格</text>
+  <rect x="50" y="65" width="200" height="200" fill="#0f172a" stroke="#6366f1" stroke-width="2" rx="4"/>
+  <!-- 7x7 网格线 -->
+  <g stroke="#334155" stroke-width="0.5">
+    <line x1="78" y1="65" x2="78" y2="265"/><line x1="106" y1="65" x2="106" y2="265"/>
+    <line x1="134" y1="65" x2="134" y2="265"/><line x1="162" y1="65" x2="162" y2="265"/>
+    <line x1="190" y1="65" x2="190" y2="265"/><line x1="218" y1="65" x2="218" y2="265"/>
+    <line x1="50" y1="93" x2="250" y2="93"/><line x1="50" y1="121" x2="250" y2="121"/>
+    <line x1="50" y1="149" x2="250" y2="149"/><line x1="50" y1="177" x2="250" y2="177"/>
+    <line x1="50" y1="205" x2="250" y2="205"/><line x1="50" y1="233" x2="250" y2="233"/>
+  </g>
+  <!-- 目标框 -->
+  <rect x="120" y="100" width="60" height="50" fill="none" stroke="#22c55e" stroke-width="2"/>
+  <text x="150" y="128" text-anchor="middle" fill="#22c55e" font-size="10">car</text>
+  <rect x="80" y="180" width="40" height="40" fill="none" stroke="#f97316" stroke-width="2"/>
+  <text x="100" y="205" text-anchor="middle" fill="#f97316" font-size="10">dog</text>
+  <!-- 高亮负责网格 -->
+  <rect x="106" y="93" width="28" height="28" fill="#6366f1" fill-opacity="0.2" stroke="#818cf8" stroke-width="1.5"/>
+  <rect x="78" y="177" width="28" height="28" fill="#6366f1" fill-opacity="0.2" stroke="#818cf8" stroke-width="1.5"/>
+  <text x="150" y="280" text-anchor="middle" fill="#94a3b8" font-size="10">中心在网格内 → 该网格负责预测</text>
+
+  <!-- 2. CNN 预测 -->
+  <text x="450" y="55" text-anchor="middle" fill="#94a3b8" font-size="12" font-weight="600">② CNN 单次前向传播</text>
+  <rect x="350" y="75" width="200" height="50" rx="6" fill="#334155" stroke="#6366f1"/>
+  <text x="450" y="105" text-anchor="middle" fill="#e2e8f0" font-size="11">Backbone (CSPDarknet)</text>
+  <line x1="450" y1="125" x2="450" y2="140" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow2)"/>
+  <rect x="350" y="145" width="200" height="40" rx="6" fill="#334155" stroke="#6366f1"/>
+  <text x="450" y="170" text-anchor="middle" fill="#e2e8f0" font-size="11">Neck (FPN + PAN)</text>
+  <line x1="450" y1="185" x2="450" y2="200" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow2)"/>
+  <rect x="350" y="205" width="200" height="40" rx="6" fill="#4f46e5" stroke="#818cf8"/>
+  <text x="450" y="230" text-anchor="middle" fill="#e2e8f0" font-size="11" font-weight="600">Detection Head</text>
+  <line x1="450" y1="245" x2="450" y2="260" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow2)"/>
+  <text x="450" y="280" text-anchor="middle" fill="#22c55e" font-size="10">输出：S×S×(B×5+C) 张量</text>
+  <text x="450" y="295" text-anchor="middle" fill="#94a3b8" font-size="10">每个网格 → B个框(x,y,w,h,conf) + C个类别</text>
+
+  <!-- 箭头定义 -->
+  <defs>
+    <marker id="arrow2" markerWidth="8" markerHeight="6" refX="4" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#6366f1"/>
+    </marker>
+    <marker id="arrow3" markerWidth="8" markerHeight="6" refX="4" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#f97316"/>
+    </marker>
+  </defs>
+
+  <!-- 3. NMS 后处理 -->
+  <text x="770" y="55" text-anchor="middle" fill="#94a3b8" font-size="12" font-weight="600">③ NMS 去重</text>
+  <!-- 多个重叠框 -->
+  <rect x="680" y="75" width="180" height="100" fill="#0f172a" stroke="#334155" rx="4"/>
+  <rect x="700" y="90" width="60" height="50" fill="none" stroke="#f97316" stroke-width="1.5" stroke-dasharray="3,2"/>
+  <rect x="710" y="95" width="65" height="55" fill="none" stroke="#f97316" stroke-width="1.5" stroke-dasharray="3,2"/>
+  <rect x="690" y="85" width="58" height="52" fill="none" stroke="#f97316" stroke-width="1.5" stroke-dasharray="3,2"/>
+  <text x="770" y="140" text-anchor="middle" fill="#f97316" font-size="9">多个重叠候选框</text>
+  <line x1="770" y1="180" x2="770" y2="195" stroke="#f97316" stroke-width="2" marker-end="url(#arrow3)"/>
+  <rect x="680" y="200" width="180" height="100" fill="#0f172a" stroke="#334155" rx="4"/>
+  <rect x="710" y="225" width="62" height="55" fill="none" stroke="#22c55e" stroke-width="2.5"/>
+  <text x="741" y="255" text-anchor="middle" fill="#22c55e" font-size="10">car 0.92</text>
+  <text x="770" y="285" text-anchor="middle" fill="#22c55e" font-size="9">保留最高置信度框，删除 IoU>阈值 的框</text>
+
+  <!-- 4. 损失函数构成 -->
+  <rect x="50" y="320" width="810" height="80" rx="8" fill="#0f172a" stroke="#334155"/>
+  <text x="70" y="345" fill="#818cf8" font-size="12" font-weight="600">YOLO 损失函数 = 分类损失 + 定位损失 + 置信度损失</text>
+  <text x="70" y="365" fill="#22c55e" font-size="11">分类损失</text>
+  <text x="150" y="365" fill="#94a3b8" font-size="11">：BCE Loss / VariFocal Loss — 预测类别概率与真实标签的交叉熵</text>
+  <text x="70" y="383" fill="#f97316" font-size="11">定位损失</text>
+  <text x="150" y="383" fill="#94a3b8" font-size="11">：CIoU Loss — 衡量预测框与真实框的重叠度、中心距离、宽高比</text>
+  <text x="70" y="400" fill="#818cf8" font-size="11">置信度损失</text>
+  <text x="150" y="400" fill="#94a3b8" font-size="11">：BCE Loss — 预测框包含目标的置信度（anchor-free 版本中由 DFL 代替）</text>
+
+  <!-- 5. 关键参数表 -->
+  <rect x="50" y="420" width="810" height="120" rx="8" fill="#0f172a" stroke="#334155"/>
+  <text x="70" y="445" fill="#818cf8" font-size="12" font-weight="600">推理关键参数</text>
+  <text x="70" y="465" fill="#e2e8f0" font-size="10" font-family="monospace">conf=0.25  (置信度阈值，低于此值的框被丢弃)</text>
+  <text x="70" y="480" fill="#e2e8f0" font-size="10" font-family="monospace">iou=0.7    (NMS IoU 阈值，重叠超过此值则抑制低分框)</text>
+  <text x="70" y="495" fill="#e2e8f0" font-size="10" font-family="monospace">imgsz=640  (输入分辨率，正方形边长)</text>
+  <text x="70" y="510" fill="#e2e8f0" font-size="10" font-family="monospace">max_det=300 (每张图最大检测框数)</text>
+  <text x="70" y="525" fill="#e2e8f0" font-size="10" font-family="monospace">agnostic_nms=False (是否跨类别做 NMS)</text>
+</svg></div></p>
+
+<h4>数学公式</h4>
+
+<p><strong>1. IoU（Intersection over Union）—— 边界框重叠度量</strong></p>
+
+<p><div class="math-block">$$ \text{IoU} = \frac{|B^{p} \cap B^{gt}|}{|B^{p} \cup B^{gt}|} $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ B^{p} $：预测框（predicted bounding box）的面积</li>
+<li>$ B^{gt} $：真实框（ground-truth bounding box）的面积</li>
+<li>$ |B^{p} \cap B^{gt}| $：预测框与真实框交集的面积</li>
+<li>$ |B^{p} \cup B^{gt}| $：预测框与真实框并集的面积</li>
+<li>IoU 取值范围 $ [0, 1] $，1 表示完全重叠，0 表示完全不重叠</li>
+</ul>
+
+<p><strong>2. CIoU（Complete IoU）Loss —— YOLOv8 定位损失</strong></p>
+
+<p><div class="math-block">$$ \mathcal{L}_{\text{CIoU}} = 1 - \text{IoU} + \frac{\rho^2(\mathbf{b}^{p}, \mathbf{b}^{gt})}{c^2} + \alpha v $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ \text{IoU} $：预测框与真实框的交并比</li>
+<li>$ \rho(\mathbf{b}^{p}, \mathbf{b}^{gt}) $：预测框中心点 $ \mathbf{b}^{p} $ 与真实框中心点 $ \mathbf{b}^{gt} $ 之间的欧氏距离</li>
+<li>$ c $：包含两个框的最小外接矩形的对角线长度</li>
+<li>$ v $：宽高比一致性度量，$ v = \frac{4}{\pi^2}\left(\arctan\frac{w^{gt}}{h^{gt}} - \arctan\frac{w^{p}}{h^{p}}\right)^2 $</li>
+<li>$ \alpha $：宽高比权重参数，$ \alpha = \frac{v}{(1 - \text{IoU}) + v} $（自适应平衡，随 IoU 增大而增大）</li>
+<li>$ w^{p}, h^{p} $：预测框的宽和高</li>
+<li>$ w^{gt}, h^{gt} $：真实框的宽和高</li>
+</ul>
+
+<p><strong>3. YOLOv1 置信度公式</strong></p>
+
+<p><div class="math-block">$$ \text{Conf} = P(\text{Object}) \times P(\text{Class}_i | \text{Object}) \times \text{IoU}_{\text{pred}}^{\text{truth}} $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ P(\text{Object}) $：该网格中存在目标的概率</li>
+<li>$ P(\text{Class}_i | \text{Object}) $：在存在目标的条件下，目标为第 $ i $ 类的条件概率</li>
+<li>$ \text{IoU}_{\text{pred}}^{\text{truth}} $：预测框与真实框的 IoU</li>
+<li>含义：置信度 = 目标存在概率 × 类别条件概率 × 位置准确度</li>
+</ul>
+
+<p><strong>4. 检测精度指标 mAP（mean Average Precision）</strong></p>
+
+<p><div class="math-block">$$ \text{mAP} = \frac{1}{|\mathcal{C}|} \sum_{c \in \mathcal{C}} \text{AP}_c, \quad \text{AP}_c = \int_0^1 P_c(R) \, dR $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ |\mathcal{C}| $：类别总数</li>
+<li>$ \text{AP}_c $：第 $ c $ 类的平均精度（PR 曲线下面积）</li>
+<li>$ P_c(R) $：第 $ c $ 类在召回率 $ R $ 处的精确率</li>
+<li>mAP@0.5 表示 IoU 阈值为 0.5 时的 mAP；mAP@0.5:0.95 表示 IoU 从 0.5 到 0.95 步长 0.05 取平均</li>
+</ul>
+
+<h4>核心要点</h4>
+
+<ul>
+<li>YOLO 将目标检测统一为单次回归问题，一次前向传播输出所有检测结果，速度远超两阶段检测器</li>
+<li>网格划分机制：$ S \times S $ 网格，每个网格负责中心落在其区域内的目标</li>
+<li><strong>置信度阈值（conf）</strong>：过滤低质量检测框，值越高精度越高但召回率下降</li>
+<li><strong>NMS IoU 阈值（iou）</strong>：去除重叠框，值越高保留越多框，值越低去重越激进</li>
+<li><strong>CIoU Loss</strong>：同时考虑重叠面积、中心距离和宽高比，收敛速度优于传统 IoU/GIoU 损失</li>
+<li>YOLOv8+ 采用 anchor-free 架构，省去先验锚框设计，直接预测框的中心点和边界</li>
+<li><strong>DFL（Distribution Focal Loss）</strong>：将边界框坐标建模为一般分布，提升定位精度</li>
+</ul>
+
+<h4>技术细节与参数详解</h4>
+
+<p>#### 参数1：conf（置信度阈值）</p>
+
+<ul>
+<li><strong>含义</strong>：预测框的置信度低于此值的将被过滤掉，不作为最终检测结果输出。置信度 = 模型对"该框包含目标"的把握程度</li>
+<li><strong>类型</strong>：浮点数</li>
+<li><strong>默认值</strong>：YOLOv5/v6/v7/v8/v9/v10/v11 均为 <code class="inline-code">0.25</code>；早期 YOLOv3/v4 为 <code class="inline-code">0.5</code></li>
+<li><strong>取值范围</strong>：$ [0.0, 1.0] $</li>
+<li><strong>对结果的影响</strong>：值越低，保留的框越多，召回率（Recall）越高但可能引入误检（False Positives）；值越高，精度（Precision）越高但可能漏检。<code class="inline-code">conf=0.25</code> 是速度与精度平衡的工程默认值；<code class="inline-code">conf=0.5</code> 更保守，适合高精度要求场景</li>
+<li><strong>推荐设置</strong>：通用场景用默认 <code class="inline-code">0.25</code>；高精度要求（如医疗、安防）设为 <code class="inline-code">0.4~0.5</code>；高召回要求（如安防报警）设为 <code class="inline-code">0.1~0.15</code></li>
+</ul>
+
+<p>#### 参数2：iou（NMS IoU 阈值）</p>
+
+<ul>
+<li><strong>含义</strong>：在非极大值抑制（NMS）后处理阶段，两个同类别检测框的 IoU 超过此值时，置信度较低的框被抑制（删除）。用于去除对同一目标的重复检测</li>
+<li><strong>类型</strong>：浮点数</li>
+<li><strong>默认值</strong>：<code class="inline-code">0.7</code>（YOLOv8 Ultralytics 默认）</li>
+<li><strong>取值范围</strong>：$ [0.0, 1.0] $</li>
+<li><strong>对结果的影响</strong>：值越低，去重越激进，可能误删密集场景中不同目标的框（如人群检测中小间距行人）；值越高，保留越多框，可能导致同一目标输出多个框。<code class="inline-code">0.45~0.7</code> 是常见范围</li>
+<li><strong>推荐设置</strong>：通用场景 <code class="inline-code">0.45~0.7</code>；密集小目标场景设为 <code class="inline-code">0.8~0.9</code>（保留更多框）；稀疏大目标场景设为 <code class="inline-code">0.4~0.5</code>（去重更彻底）</li>
+</ul>
+
+<p>#### 参数3：imgsz（输入图像尺寸）</p>
+
+<ul>
+<li><strong>含义</strong>：推理时输入图像被缩放到的正方形边长（像素）。YOLO 内部将图像 letterbox 到此尺寸后送入网络</li>
+<li><strong>类型</strong>：整数</li>
+<li><strong>默认值</strong>：<code class="inline-code">640</code></li>
+<li><strong>取值范围</strong>：通常为 32 的倍数（因网络有 stride=32 的下采样），常见 <code class="inline-code">320, 416, 640, 1280</code></li>
+<li><strong>对结果的影响</strong>：值越大，小目标检测精度越高，但推理速度越慢、显存占用越大；值越小速度越快但精度下降。<code class="inline-code">640</code> 是 YOLOv8 精度与速度的最佳平衡点</li>
+<li><strong>推荐设置</strong>：实时场景用 <code class="inline-code">416~640</code>；高精度场景用 <code class="inline-code">1280</code>；边缘设备用 <code class="inline-code">320~416</code></li>
+</ul>
+
+<p>#### 参数4：max_det（最大检测框数）</p>
+
+<ul>
+<li><strong>含义</strong>：每张图像最终输出的最大检测框数量。超出此数量的低置信度框被截断</li>
+<li><strong>类型</strong>：整数</li>
+<li><strong>默认值</strong>：<code class="inline-code">300</code></li>
+<li><strong>取值范围</strong>：正整数，通常 $ 1 \sim 1000 $</li>
+<li><strong>对结果的影响</strong>：值过小可能漏检密集场景中的目标；值过大会增加后处理时间和输出体积。绝大多数场景 <code class="inline-code">300</code> 足够</li>
+<li><strong>推荐设置</strong>：通用 <code class="inline-code">300</code>；密集人群/零件检测设为 <code class="inline-code">500~1000</code>；单目标场景设为 <code class="inline-code">10~50</code>（加速）</li>
+</ul>
+
+<p>#### 参数5：agnostic_nms（类别无关 NMS）</p>
+
+<ul>
+<li><strong>含义</strong>：是否在 NMS 中跨类别进行抑制。<code class="inline-code">False</code>（默认）时，NMS 只在同类别框之间执行；<code class="inline-code">True</code> 时，不区分类别，IoU 超过阈值的框中低分者被抑制</li>
+<li><strong>类型</strong>：布尔值</li>
+<li><strong>默认值</strong>：<code class="inline-code">False</code></li>
+<li><strong>取值范围</strong>：<code class="inline-code">True</code> / <code class="inline-code">False</code></li>
+<li><strong>对结果的影响</strong>：<code class="inline-code">False</code>（类别感知 NMS）：同一位置不同类别可共存（如同时检测到"人"和"自行车"）；<code class="inline-code">True</code>（类别无关 NMS）：同一位置只保留最高置信度的框，无论类别。<code class="inline-code">True</code> 适用于目标不会同时属于多类的场景</li>
+<li><strong>推荐设置</strong>：通用场景 <code class="inline-code">False</code>；单类别检测或重叠目标必属同类的场景 <code class="inline-code">True</code></li>
+</ul>
+
+<p>#### 参数6：device（推理设备）</p>
+
+<ul>
+<li><strong>含义</strong>：指定推理使用的计算设备</li>
+<li><strong>类型</strong>：字符串</li>
+<li><strong>默认值</strong>：<code class="inline-code">None</code>（自动检测，优先 GPU）</li>
+<li><strong>取值范围</strong>：<code class="inline-code">'cpu'</code>、<code class="inline-code">'cuda:0'</code>、<code class="inline-code">'cuda:1'</code>、<code class="inline-code">None</code>（自动）</li>
+<li><strong>对结果的影响</strong>：GPU 推理速度远超 CPU（10~50 倍差距）。本机无 NVIDIA GPU 时只能用 CPU</li>
+<li><strong>推荐设置</strong>：有 GPU 用 <code class="inline-code">'cuda:0'</code>；无 GPU 用 <code class="inline-code">'cpu'</code>；自动检测用 <code class="inline-code">None</code></li>
+</ul>
+
+<p>#### 参数7：half（半精度推理）</p>
+
+<ul>
+<li><strong>含义</strong>：是否使用 FP16（半精度浮点）推理，减少显存占用并加速推理</li>
+<li><strong>类型</strong>：布尔值</li>
+<li><strong>默认值</strong>：<code class="inline-code">False</code></li>
+<li><strong>取值范围</strong>：<code class="inline-code">True</code> / <code class="inline-code">False</code></li>
+<li><strong>对结果的影响</strong>：<code class="inline-code">True</code> 时推理速度提升约 30~50%，显存减半，精度损失极小（<0.1% mAP）。需 GPU 支持（NVIDIA Tensor Core）</li>
+<li><strong>推荐设置</strong>：有 GPU 且追求速度时 <code class="inline-code">True</code>；无 GPU 或需精确结果时 <code class="inline-code">False</code></li>
+</ul>
+
+<h4>代码示例</h4>
+
+<p><pre class="code-block"><code class="language-python">from ultralytics import YOLO  # 导入 Ultralytics YOLO 官方库
+
+# 加载预训练模型（YOLOv8n 为最小版本，适合快速推理）
+model = YOLO(&#x27;yolov8n.pt&#x27;)  # 加载 YOLOv8-nano 预训练权重（COCO 80 类）
+
+# === 推理（预测） ===
+results = model.predict(
+    source=&#x27;bus.jpg&#x27;,        # 输入图像路径（也支持目录/视频/URL/截图）
+    conf=0.25,               # 置信度阈值：低于 0.25 的框被丢弃
+    iou=0.7,                 # NMS IoU 阈值：重叠超 0.7 的同类别框去重
+    imgsz=640,               # 输入尺寸：图像被 letterbox 到 640×640
+    max_det=300,             # 最大检测框数
+    agnostic_nms=False,      # 类别感知 NMS：不同类别不做跨类抑制
+    device=&#x27;cpu&#x27;,            # 推理设备（有 GPU 用 &#x27;cuda:0&#x27;）
+    half=False,              # 半精度推理（GPU 可设 True 加速）
+    verbose=False,           # 不打印详细日志
+)
+
+# 遍历每张图的检测结果
+for result in results:
+    boxes = result.boxes           # 获取所有检测框
+    for box in boxes:
+        cls_id = int(box.cls[0])          # 类别 ID（整数）
+        conf = float(box.conf[0])         # 置信度（浮点）
+        xyxy = box.xyxy[0].tolist()       # 边界框坐标 [x1,y1,x2,y2]
+        cls_name = model.names[cls_id]   # 类别名（如 &#x27;person&#x27;）
+        print(f&quot;检测到 {cls_name}，置信度 {conf:.2f}，位置 {xyxy}&quot;)
+
+# === 训练 ===
+model.train(
+    data=&#x27;coco128.yaml&#x27;,      # 数据集配置文件（含路径、类别数、类别名）
+    epochs=100,               # 训练轮数
+    imgsz=640,                # 训练输入尺寸
+    batch=16,                 # 批大小（GPU 显存不够时减小）
+    lr0=0.01,                 # 初始学习率（余弦退火调度）
+    device=&#x27;cpu&#x27;,             # 训练设备
+    workers=4,                # 数据加载线程数
+    patience=50,              # 早停耐心值：50 轮无提升则停止
+)</code></pre></p>
+
+<h4>复杂度分析</h4>
+
+<p><strong>时间复杂度</strong>：</p>
+
+<p>1. <strong>前向推理</strong>：$ O(1) $ 相对于目标数量（单次 CNN 前向传播固定）。CNN 骨干网络的计算量取决于输入尺寸和模型大小：</p>
+<ul>
+<li>YOLOv8n：约 11 GFLOPs（$ 640 \times 640 $ 输入）</li>
+<li>YOLOv8x：约 337 GFLOPs</li>
+<li>推理时间：YOLOv8n 在 RTX 4090 上约 1.2ms/帧（800+ FPS），在 CPU 上约 100~300ms/帧</li>
+</ul>
+
+<p>2. <strong>NMS 后处理</strong>：$ O(N^2) $ 其中 $ N $ 为候选框数量。YOLOv8 输出 $ S \times S \times A $ 个候选（$ S=80, A=1 $ 时约 6400 个），conf 过滤后 $ N $ 大幅减少。实际 NMS 耗时通常 < 5ms</p>
+
+<p>3. <strong>总推理时间</strong>：$ T = T_{\text{CNN}} + T_{\text{NMS}} + T_{\text{pre/post}} $，其中 CNN 前向传播是主要瓶颈</p>
+
+<p><strong>空间复杂度</strong>：模型参数 + 激活值。YOLOv8n 约 3.2M 参数（11 MB），YOLOv8x 约 68.2M 参数（260 MB）。推理时激活值取决于 batch_size 和 imgsz</p>
+
+<h4>应用场景</h4>
+
+<ul>
+<li><strong>自动驾驶</strong>：实时检测车辆、行人、交通标志、红绿灯等</li>
+<li><strong>视频监控与安防</strong>：入侵检测、人流统计、异常行为检测</li>
+<li><strong>工业质检</strong>：产品表面缺陷检测、零件计数、装配验证</li>
+<li><strong>医疗影像</strong>：X 光/MRI 中的病灶定位、细胞检测</li>
+<li><strong>农业</strong>：果实检测与计数、病虫害识别、杂草检测</li>
+<li><strong>零售</strong>：货架商品识别与盘点、自动结账</li>
+<li><strong>无人机</strong>：航拍目标检测、电力巡线、搜救</li>
+</ul>
+
+<h4>参考文档</h4>
+
+<ul>
+<li><a href="https://blog.csdn.net/bayinglong/article/details/156857706" target="_blank" class="ref-link">YOLO 中 conf、iou、max_det 参数设置详解</a></li>
+<li><a href="https://blog.csdn.net/weixin_45303602/article/details/140125504" target="_blank" class="ref-link">YOLOv8 超参数解析</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/142755610" target="_blank" class="ref-link">IoU、GIoU、DIoU、CIoU 损失函数详解</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/394892530" target="_blank" class="ref-link">目标检测损失函数进化史</a></li>
+<li><a href="https://blog.csdn.net/weixin_36231030/article/details/156637678" target="_blank" class="ref-link">YOLOv8 NMS 参数优化实战</a></li>
+</ul>
+
+<hr>
+
+<h3>RLVR 强化学习可验证奖励</h3>
+
+<p><strong>类别</strong>：大模型对齐 | <strong>难度</strong>：困难</p>
+
+<h4>算法简介</h4>
+
+<p>RLVR（Reinforcement Learning with Verifiable Rewards，带可验证奖励的强化学习）是一种新型的大语言模型对齐训练范式。其核心思想是：使用可程序化、自动验证的奖励信号来指导模型学习，不再依赖主观的人工打分或训练奖励模型（Reward Model），而是通过明确可验证的"对/错"信号（如数学题答案是否正确、代码能否通过测试用例）来驱动模型优化。</p>
+
+<p>RLVR 的关键突破在于解决了传统 RLHF（基于人类反馈的强化学习）中奖励模型容易"钻空子"（reward hacking）的问题。因为规则验证器是确定性的——答案对就是对，错就是错，模型无法通过"讨好"一个不完美的奖励模型来获得虚假高分。这使得模型能够通过反复试错不断变强，被广泛应用于 DeepSeek-R1 等推理模型的训练中。</p>
+
+<p>RLVR 通常配合 GRPO（Group Relative Policy Optimization）算法使用。GRPO 摒弃了 PPO 中昂贵的 Critic（价值网络），通过对同一 prompt 生成一组（Group）回答，用组内相对奖励归一化来估计优势函数，大幅降低了训练开销。</p>
+
+<h4>原理示意图</h4>
+
+<p><div class="algo-image"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 900 580" font-family="sans-serif">
+  <rect width="900" height="580" fill="#1e293b" rx="12"/>
+  <text x="450" y="28" text-anchor="middle" fill="#818cf8" font-size="16" font-weight="600">RLVR + GRPO：可验证奖励强化学习训练流程</text>
+
+  <!-- 1. Prompt 输入 -->
+  <rect x="50" y="50" width="160" height="50" rx="6" fill="#334155" stroke="#6366f1"/>
+  <text x="130" y="80" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="600">Prompt: 数学题</text>
+  <text x="130" y="95" text-anchor="middle" fill="#94a3b8" font-size="9">"求 7×8+15 的值"</text>
+
+  <defs>
+    <marker id="arrow_r" markerWidth="8" markerHeight="6" refX="4" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#6366f1"/>
+    </marker>
+    <marker id="arrow_g" markerWidth="8" markerHeight="6" refX="4" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#22c55e"/>
+    </marker>
+    <marker id="arrow_o" markerWidth="8" markerHeight="6" refX="4" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#f97316"/>
+    </marker>
+  </defs>
+
+  <!-- 2. 采样 G 个回答 -->
+  <text x="310" y="45" text-anchor="middle" fill="#94a3b8" font-size="11" font-weight="600">策略模型采样 G 个回答</text>
+  <rect x="240" y="55" width="140" height="35" rx="4" fill="#0f172a" stroke="#f97316" stroke-width="1.5"/>
+  <text x="310" y="77" text-anchor="middle" fill="#f97316" font-size="10">o₁: "56+15=71"</text>
+  <rect x="240" y="95" width="140" height="35" rx="4" fill="#0f172a" stroke="#22c55e" stroke-width="1.5"/>
+  <text x="310" y="117" text-anchor="middle" fill="#22c55e" font-size="10">o₂: "7×8=56, 56+15=71"</text>
+  <rect x="240" y="135" width="140" height="35" rx="4" fill="#0f172a" stroke="#ef4444" stroke-width="1.5"/>
+  <text x="310" y="157" text-anchor="middle" fill="#ef4444" font-size="10">o₃: "7×8=54, 54+15=69"</text>
+  <text x="310" y="185" text-anchor="middle" fill="#94a3b8" font-size="9">...共 G=4~16 个回答</text>
+  <line x1="210" y1="75" x2="238" y2="75" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow_r)"/>
+
+  <!-- 3. 规则验证器 -->
+  <text x="500" y="45" text-anchor="middle" fill="#94a3b8" font-size="11" font-weight="600">可验证规则验证器</text>
+  <rect x="430" y="55" width="140" height="115" rx="8" fill="#4f46e5" stroke="#818cf8" stroke-width="2"/>
+  <text x="500" y="80" text-anchor="middle" fill="#e2e8f0" font-size="11" font-weight="600">Rule-Based</text>
+  <text x="500" y="97" text-anchor="middle" fill="#e2e8f0" font-size="11" font-weight="600">Verifier</text>
+  <text x="500" y="118" text-anchor="middle" fill="#94a3b8" font-size="9">提取最终答案</text>
+  <text x="500" y="132" text-anchor="middle" fill="#94a3b8" font-size="9">与 ground truth</text>
+  <text x="500" y="146" text-anchor="middle" fill="#94a3b8" font-size="9">精确匹配</text>
+  <text x="500" y="160" text-anchor="middle" fill="#22c55e" font-size="9">→ reward ∈ {0, 1}</text>
+  <line x1="380" y1="75" x2="428" y2="75" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow_r)"/>
+
+  <!-- 4. 奖励信号 -->
+  <text x="660" y="45" text-anchor="middle" fill="#94a3b8" font-size="11" font-weight="600">奖励信号</text>
+  <rect x="610" y="55" width="100" height="30" rx="4" fill="#0f172a" stroke="#f97316"/>
+  <text x="660" y="74" text-anchor="middle" fill="#f97316" font-size="11">r₁ = 0</text>
+  <rect x="610" y="90" width="100" height="30" rx="4" fill="#0f172a" stroke="#22c55e"/>
+  <text x="660" y="109" text-anchor="middle" fill="#22c55e" font-size="11">r₂ = 1</text>
+  <rect x="610" y="125" width="100" height="30" rx="4" fill="#0f172a" stroke="#ef4444"/>
+  <text x="660" y="144" text-anchor="middle" fill="#ef4444" font-size="11">r₃ = 0</text>
+  <line x1="570" y1="75" x2="608" y2="75" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow_r)"/>
+
+  <!-- 5. GRPO 优势计算 -->
+  <rect x="50" y="210" width="800" height="100" rx="8" fill="#0f172a" stroke="#334155"/>
+  <text x="70" y="235" fill="#818cf8" font-size="12" font-weight="600">GRPO 组内相对优势计算</text>
+  <text x="70" y="258" fill="#94a3b8" font-size="11" font-family="monospace">A_i = (r_i − mean(r₁...r_G)) / std(r₁...r_G)</text>
+  <text x="70" y="278" fill="#94a3b8" font-size="10">o₁: A₁ = (0 − 0.33) / 0.47 = −0.70  →  负优势，降低生成此类回答的概率</text>
+  <text x="70" y="293" fill="#94a3b8" font-size="10">o₂: A₂ = (1 − 0.33) / 0.47 = +1.42  →  正优势，增加生成此类回答的概率</text>
+  <text x="70" y="308" fill="#94a3b8" font-size="10">o₃: A₃ = (0 − 0.33) / 0.47 = −0.70  →  负优势，降低概率</text>
+
+  <!-- 6. 策略更新 -->
+  <rect x="50" y="330" width="800" height="110" rx="8" fill="#0f172a" stroke="#334155"/>
+  <text x="70" y="355" fill="#818cf8" font-size="12" font-weight="600">GRPO 策略更新（PPO-Clip + KL 惩罚）</text>
+  <text x="70" y="378" fill="#94a3b8" font-size="11" font-family="monospace">L(θ) = E[ min(r̂(t)·A, clip(r̂(t), 1−ε, 1+ε)·A) ] − β·KL(π_θ ‖ π_ref)</text>
+  <text x="70" y="398" fill="#f97316" font-size="10">r̂(t) = π_θ(o_i|q) / π_old(o_i|q)  → 新旧策略概率比</text>
+  <text x="70" y="413" fill="#f97316" font-size="10">clip(r̂, 1−ε, 1+ε)  → 限制策略更新幅度，防止训练崩溃</text>
+  <text x="70" y="428" fill="#f97316" font-size="10">β·KL  → KL 散度惩罚，防止模型偏离参考模型太远（避免遗忘通用能力）</text>
+
+  <!-- 7. 关键参数 -->
+  <rect x="50" y="460" width="800" height="100" rx="8" fill="#0f172a" stroke="#334155"/>
+  <text x="70" y="485" fill="#818cf8" font-size="12" font-weight="600">关键超参数</text>
+  <text x="70" y="505" fill="#e2e8f0" font-size="10" font-family="monospace">G (组大小)=4~16  |  ε (clip)=0.2  |  β (KL系数)=0.04  |  lr=1e-6~1e-5</text>
+  <text x="70" y="523" fill="#e2e8f0" font-size="10" font-family="monospace">temperature=0.7~1.0  |  max_response_len=8192~32768  |  KL_type=kld 或 k2</text>
+  <text x="70" y="545" fill="#22c55e" font-size="10">优势：无需 Critic 网络 → 省 50%+ 显存 | 无需 Reward Model → 避免 reward hacking | 确定性奖励 → 信号清晰</text>
+</svg></div></p>
+
+<h4>数学公式</h4>
+
+<p><strong>1. GRPO 目标函数（核心公式）</strong></p>
+
+<p><div class="math-block">$$ \mathcal{J}_{\text{GRPO}}(\theta) = \mathbb{E}_{q \sim Q, \{o_i\}_{i=1}^{G} \sim \pi_{\theta_{\text{old}}}(o|q)} \left[ \frac{1}{G} \sum_{i=1}^{G} \frac{1}{|o_i|} \sum_{t=1}^{|o_i|} \left\{ \min\left[ \hat{r}_{i,t} \hat{A}_{i,t}, \; \text{clip}\left(\hat{r}_{i,t}, 1-\varepsilon, 1+\varepsilon\right) \hat{A}_{i,t} \right] - \beta \, D_{\text{KL}}\left[\pi_\theta \| \pi_{\text{ref}}\right] \right\} \right] $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ q $：从问题分布 $ Q $ 中采样的 prompt（如数学题）</li>
+<li>$ o_i $：旧策略 $ \pi_{\theta_{\text{old}}} $ 对同一 prompt $ q $ 生成的第 $ i $ 个回答，共 $ G $ 个</li>
+<li>$ |o_i| $：回答 $ o_i $ 的 token 数</li>
+<li>$ \hat{r}_{i,t} $：重要性采样比率，$ \hat{r}_{i,t} = \frac{\pi_\theta(o_{i,t} | q, o_{i,<t})}{\pi_{\theta_{\text{old}}}(o_{i,t} | q, o_{i,<t})} $，即新旧策略在 token $ t $ 处的概率比</li>
+<li>$ \hat{A}_{i,t} $：组内相对优势函数（见公式 2）</li>
+<li>$ \varepsilon $：PPO-Clip 裁剪范围，限制策略更新步长</li>
+<li>$ \beta $：KL 散度惩罚系数</li>
+<li>$ D_{\text{KL}}[\pi_\theta \| \pi_{\text{ref}}] $：当前策略 $ \pi_\theta $ 与参考策略 $ \pi_{\text{ref}} $（通常是 SFT 模型）之间的 KL 散度</li>
+<li>$ \min[\cdot, \text{clip}(\cdot)] $：PPO 的截断策略——取原始梯度和截断梯度的较小值，确保保守更新</li>
+</ul>
+
+<p><strong>2. 组内相对优势函数（GRPO 核心）</strong></p>
+
+<p><div class="math-block">$$ \hat{A}_{i,t} = \frac{r_i - \text{mean}(\{r_1, r_2, \ldots, r_G\})}{\text{std}(\{r_1, r_2, \ldots, r_G\})} $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ r_i $：第 $ i $ 个回答 $ o_i $ 从规则验证器获得的奖励（0 或 1，或连续值）</li>
+<li>$ \text{mean}(\cdot) $：组内 $ G $ 个回答奖励的均值</li>
+<li>$ \text{std}(\cdot) $：组内 $ G $ 个回答奖励的标准差</li>
+<li>含义：将绝对奖励转化为相对优势——比组内平均水平好的回答获得正优势，差的获得负优势。这替代了 PPO 中 Critic 网络的基线估计，无需训练价值网络</li>
+</ul>
+
+<p><strong>3. 可验证奖励函数</strong></p>
+
+<p><div class="math-block">$$ r_i = \mathbb{1}[\text{extract}(o_i) \equiv \text{answer}(q)] $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ \text{extract}(o_i) $：从模型回答 $ o_i $ 中提取最终答案的函数（如正则匹配 <code class="inline-code">\boxed{...}</code> 或 <code class="inline-code">#### ...</code> 格式）</li>
+<li>$ \text{answer}(q) $：问题 $ q $ 的标准答案（ground truth）</li>
+<li>$ \equiv $：精确匹配（数学答案）或通过测试用例（代码）</li>
+<li>$ \mathbb{1}[\cdot] $：指示函数，条件为真返回 1，否则返回 0</li>
+<li>含义：奖励是确定性的二值（0/1）信号，无需人工标注或奖励模型</li>
+</ul>
+
+<p><strong>4. KL 散度惩罚项</strong></p>
+
+<p><div class="math-block">$$ D_{\text{KL}}[\pi_\theta \| \pi_{\text{ref}}] = \sum_{t} \pi_\theta(o_{i,t}) \log \frac{\pi_\theta(o_{i,t})}{\pi_{\text{ref}}(o_{i,t})} $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ \pi_\theta(o_{i,t}) $：当前策略对 token $ t $ 的输出概率</li>
+<li>$ \pi_{\text{ref}}(o_{i,t}) $：参考模型（SFT 模型）对 token $ t $ 的输出概率</li>
+<li>含义：KL 散度衡量当前策略与参考模型的分布差异。$ \beta $ 越大，模型越受约束于参考模型（防止遗忘通用能力）；$ \beta $ 越小，模型越自由探索</li>
+</ul>
+
+<h4>核心要点</h4>
+
+<ul>
+<li>RLVR 使用可程序化验证的奖励（数学答案对错、代码测试通过）替代人工标注或奖励模型，消除了 reward hacking 问题</li>
+<li>GRPO 摒弃 Critic 网络，用组内相对奖励归一化估计优势函数，节省约 50%+ 显存</li>
+<li>奖励信号是二值（0/1）的，清晰且无噪声，模型容易学到有用的推理模式</li>
+<li>KL 散度惩罚防止模型为追求奖励而偏离参考模型太远，保持通用语言能力</li>
+<li>PPO-Clip 限制策略更新步长，确保训练稳定性</li>
+<li>RLVR 在数学推理、代码生成等有明确对错标准的任务上效果显著（DeepSeek-R1 即用此方法训练）</li>
+<li>局限性：仅适用于有可验证答案的任务，无法直接用于开放式生成（如创意写作）</li>
+</ul>
+
+<h4>技术细节与参数详解</h4>
+
+<p>#### 参数1：G（组大小，group size）</p>
+
+<ul>
+<li><strong>含义</strong>：对每个 prompt 采样多少个回答用于组内比较。GRPO 的"Group"即指此参数</li>
+<li><strong>类型</strong>：整数</li>
+<li><strong>默认值</strong>：通常为 <code class="inline-code">4~16</code>，DeepSeek-R1 训练中用 <code class="inline-code">8</code> 或更大</li>
+<li><strong>取值范围</strong>：正整数，常见 $ 4 \sim 64 $</li>
+<li><strong>对结果的影响</strong>：G 越大，组内统计量（mean、std）越准确，优势估计方差越小，训练越稳定；但显存和计算开销线性增长。G 过小（如 2）时优势估计噪声大，训练不稳定</li>
+<li><strong>推荐设置</strong>：小型实验 <code class="inline-code">4~8</code>；大规模训练 <code class="inline-code">8~16</code>；显存充裕可 <code class="inline-code">16~32</code></li>
+</ul>
+
+<p>#### 参数2：ε（epsilon，PPO-Clip 裁剪范围）</p>
+
+<ul>
+<li><strong>含义</strong>：限制策略更新步长的裁剪参数。重要性采样比率 $ \hat{r}_{i,t} $ 被截断到 $ [1-\varepsilon, 1+\varepsilon] $ 区间内</li>
+<li><strong>类型</strong>：浮点数</li>
+<li><strong>默认值</strong>：<code class="inline-code">0.2</code>（沿用 PPO 经典默认值）</li>
+<li><strong>取值范围</strong>：$ (0, 0.5) $，常见 $ 0.1 \sim 0.3 $</li>
+<li><strong>对结果的影响</strong>：$ \varepsilon $ 越小，策略更新越保守，训练越稳定但收敛越慢；$ \varepsilon $ 越大，更新幅度越大，收敛更快但可能不稳定。<code class="inline-code">0.2</code> 是稳定性与效率的经典平衡点</li>
+<li><strong>推荐设置</strong>：通用场景 <code class="inline-code">0.2</code>；追求稳定 <code class="inline-code">0.1</code>；快速实验 <code class="inline-code">0.3</code></li>
+</ul>
+
+<p>#### 参数3：β（beta，KL 散度惩罚系数）</p>
+
+<ul>
+<li><strong>含义</strong>：控制当前策略与参考模型之间 KL 散度惩罚的强度。惩罚项为 $ \beta \cdot D_{\text{KL}} $</li>
+<li><strong>类型</strong>：浮点数</li>
+<li><strong>默认值</strong>：<code class="inline-code">0.04</code>（DeepSeek-R1 使用）或 <code class="inline-code">0.001~0.1</code></li>
+<li><strong>取值范围</strong>：$ [0, 1] $，常见 $ 0.001 \sim 0.1 $</li>
+<li><strong>对结果的影响</strong>：$ \beta $ 越大，模型越受约束于参考模型，通用能力保持越好但推理能力提升受限；$ \beta $ 越小（甚至 0），模型自由探索推理策略但可能"遗忘"通用语言能力（如流畅性下降）。$ \beta=0 $ 时称为"无 KL 惩罚"模式，DeepSeek-R1-Zero 使用此设置</li>
+<li><strong>推荐设置</strong>：通用场景 <code class="inline-code">0.04</code>；激进训练设为 <code class="inline-code">0.001~0.01</code>；保守训练 <code class="inline-code">0.1</code></li>
+</ul>
+
+<p>#### 参数4：temperature（采样温度）</p>
+
+<ul>
+<li><strong>含义</strong>：策略模型生成回答时的温度参数。控制采样多样性</li>
+<li><strong>类型</strong>：浮点数</li>
+<li><strong>默认值</strong>：<code class="inline-code">0.7~1.0</code></li>
+<li><strong>取值范围</strong>：$ (0, +\infty) $，常见 $ 0.5 \sim 1.5 $</li>
+<li><strong>对结果的影响</strong>：温度越高，采样越随机，生成的回答越多样，有利于探索（exploration）但单个回答质量波动大；温度越低，采样越确定（趋向 greedy），多样性不足导致组内比较信息量低。RLVR 训练中需要一定多样性以获得有区分度的优势信号</li>
+<li><strong>推荐设置</strong>：训练前期（探索阶段）<code class="inline-code">0.8~1.0</code>；训练后期（利用阶段）<code class="inline-code">0.6~0.8</code>；通用 <code class="inline-code">0.7</code></li>
+</ul>
+
+<p>#### 参数5：lr（学习率）</p>
+
+<ul>
+<li><strong>含义</strong>：策略模型参数更新的学习率（AdamW 优化器）</li>
+<li><strong>类型</strong>：浮点数</li>
+<li><strong>默认值</strong>：<code class="inline-code">1e-6 ~ 1e-5</code></li>
+<li><strong>取值范围</strong>：$ 10^{-7} \sim 10^{-4} $</li>
+<li><strong>对结果的影响</strong>：学习率过大导致训练不稳定、策略震荡；过小则收敛极慢。大模型 RL 训练对学习率极为敏感，需要仔细调参。通常使用余弦退火调度</li>
+<li><strong>推荐设置</strong>：7B 模型 <code class="inline-code">1e-6~5e-6</code>；70B 模型 <code class="inline-code">1e-7~1e-6</code>；配合 warmup</li>
+</ul>
+
+<p>#### 参数6：max_response_len（最大生成长度）</p>
+
+<ul>
+<li><strong>含义</strong>：策略模型对每个 prompt 生成的最大 token 数。推理任务通常需要长思维链（Chain-of-Thought）</li>
+<li><strong>类型</strong>：整数</li>
+<li><strong>默认值</strong>：<code class="inline-code">8192~32768</code>（DeepSeek-R1 使用 32K）</li>
+<li><strong>取值范围</strong>：正整数，受模型上下文窗口限制</li>
+<li><strong>对结果的影响</strong>：值过小会截断推理过程，模型无法完成完整思维链；值过大增加显存和计算开销。DeepSeek-R1 发现训练过程中模型自然发展出更长的推理链，需要足够大的 max_response_len</li>
+<li><strong>推荐设置</strong>：数学推理 <code class="inline-code">8192~16384</code>；复杂推理（如代码+数学）<code class="inline-code">16384~32768</code></li>
+</ul>
+
+<p>#### 参数7：KL_type（KL 散度计算方式）</p>
+
+<ul>
+<li><strong>含义</strong>：KL 散度的具体计算方式</li>
+<li><strong>类型</strong>：字符串</li>
+<li><strong>默认值</strong>：<code class="inline-code">kld</code>（标准 KL 散度）</li>
+<li><strong>取值范围</strong>：<code class="inline-code">kld</code>（标准 KL）、<code class="inline-code">k2</code>（近似 KL，计算更快）</li>
+<li><strong>对结果的影响</strong>：<code class="inline-code">kld</code> 精确但计算开销大；<code class="inline-code">k2</code> 是近似公式（$ D_{\text{KL}} \approx \frac{1}{2}(\pi_\theta / \pi_{\text{ref}} - 1 - \log(\pi_\theta / \pi_{\text{ref}})) $），速度更快但可能有轻微偏差</li>
+<li><strong>推荐设置</strong>：小模型用 <code class="inline-code">kld</code>（精确）；大模型用 <code class="inline-code">k2</code>（效率优先）</li>
+</ul>
+
+<h4>代码示例</h4>
+
+<p><pre class="code-block"><code class="language-python">import torch  # 导入 PyTorch 深度学习框架
+from transformers import AutoModelForCausalLM, AutoTokenizer  # 导入 HuggingFace 模型和分词器
+
+# === RLVR + GRPO 训练伪代码（核心逻辑） ===
+
+class GRPOTrainer:
+    &quot;&quot;&quot;GRPO 算法训练器（简化实现，展示核心逻辑）&quot;&quot;&quot;
+
+    def __init__(self, model_name, ref_model_name, beta=0.04, epsilon=0.2,
+                 group_size=8, temperature=0.7, lr=1e-6, max_len=8192):
+        self.model = AutoModelForCausalLM.from_pretrained(model_name)  # 策略模型（可训练）
+        self.ref_model = AutoModelForCausalLM.from_pretrained(ref_model_name)  # 参考模型（冻结）
+        self.ref_model.eval()  # 参考模型设为评估模式（不更新参数）
+        self.tokenizer = AutoTokenizer.from_pretrained(model_name)     # 分词器
+        self.beta = beta               # KL 散度惩罚系数
+        self.epsilon = epsilon         # PPO-Clip 裁剪范围
+        self.G = group_size            # 组大小：每个 prompt 采样 G 个回答
+        self.temperature = temperature # 采样温度
+        self.optimizer = torch.optim.AdamW(self.model.parameters(), lr=lr)  # AdamW 优化器
+        self.max_len = max_len         # 最大生成长度
+
+    def compute_reward(self, response, ground_truth):
+        &quot;&quot;&quot;可验证奖励函数：数学答案精确匹配&quot;&quot;&quot;
+        # 从回答中提取最终答案（如 \boxed{} 格式）
+        import re
+        match = re.search(r&#x27;\\boxed\{([^}]+)\}&#x27;, response)  # 正则匹配 \boxed{...}
+        if match:
+            answer = match.group(1).strip()                  # 提取答案字符串
+            return 1.0 if answer == ground_truth else 0.0    # 精确匹配返回 1，否则 0
+        return 0.0                                            # 未找到答案格式返回 0
+
+    def compute_advantages(self, rewards):
+        &quot;&quot;&quot;计算组内相对优势（GRPO 核心）&quot;&quot;&quot;
+        mean_r = sum(rewards) / len(rewards)    # 组内奖励均值
+        std_r = (sum((r - mean_r) ** 2 for r in rewards) / len(rewards)) ** 0.5  # 标准差
+        std_r = max(std_r, 1e-8)                # 防止除零
+        advantages = [(r - mean_r) / std_r for r in rewards]  # 归一化优势
+        return advantages                       # 返回每个回答的优势值
+
+    def compute_kl_divergence(self, logits, ref_logits):
+        &quot;&quot;&quot;计算 KL 散度惩罚项&quot;&quot;&quot;
+        log_probs = torch.log_softmax(logits, dim=-1)       # 当前策略 log 概率
+        ref_log_probs = torch.log_softmax(ref_logits, dim=-1)  # 参考模型 log 概率
+        kl = (log_probs - ref_log_probs).exp() * (log_probs - ref_log_probs)  # KL 逐 token 计算
+        return kl.mean()                                     # 返回平均 KL 散度
+
+    def train_step(self, prompts, ground_truths):
+        &quot;&quot;&quot;单次训练步骤&quot;&quot;&quot;
+        total_loss = 0  # 累计损失
+
+        for prompt, gt in zip(prompts, ground_truths):
+            # 1. 采样 G 个回答
+            inputs = self.tokenizer(prompt, return_tensors=&#x27;pt&#x27;)  # 编码 prompt
+            responses = []   # 存储生成的回答
+            rewards = []     # 存储每个回答的奖励
+
+            for _ in range(self.G):  # 采样 G 次
+                with torch.no_grad():  # 采样阶段不计算梯度
+                    output = self.model.generate(
+                        **inputs,
+                        max_new_tokens=self.max_len,   # 最大生成长度
+                        do_sample=True,                 # 启用随机采样
+                        temperature=self.temperature,  # 采样温度
+                        pad_token_id=self.tokenizer.eos_token_id,
+                    )
+                response = self.tokenizer.decode(output[0][inputs[&#x27;input_ids&#x27;].shape[1]:],
+                                                  skip_special_tokens=True)
+                responses.append(response)                           # 保存回答文本
+                rewards.append(self.compute_reward(response, gt))   # 计算可验证奖励
+
+            # 2. 计算组内相对优势
+            advantages = self.compute_advantages(rewards)  # GRPO 核心：组内归一化
+
+            # 3. 计算策略损失 + KL 惩罚
+            loss = 0
+            for i, (response, adv) in enumerate(zip(responses, advantages)):
+                full_text = prompt + response            # 拼接完整序列
+                full_input = self.tokenizer(full_text, return_tensors=&#x27;pt&#x27;, truncation=True,
+                                            max_length=self.max_len)
+
+                # 当前策略的 log 概率
+                logits = self.model(**full_input).logits          # 当前策略输出
+                log_probs = torch.log_softmax(logits, dim=-1)    # log 概率分布
+
+                # 参考模型的 log 概率（不更新梯度）
+                with torch.no_grad():
+                    ref_logits = self.ref_model(**full_input).logits
+                    ref_log_probs = torch.log_softmax(ref_logits, dim=-1)
+
+                # 重要性采样比率 r̂ = exp(log_πθ - log_πref)
+                ratio = (log_probs[:, :-1] - ref_log_probs[:, :-1]).exp()
+
+                # PPO-Clip 损失
+                clipped_ratio = torch.clamp(ratio, 1 - self.epsilon, 1 + self.epsilon)
+                policy_loss = -torch.min(ratio * adv, clipped_ratio * adv).mean()
+
+                # KL 散度惩罚
+                kl_penalty = self.compute_kl_divergence(logits, ref_logits)
+
+                loss += policy_loss + self.beta * kl_penalty  # 总损失
+
+            loss = loss / self.G  # 组内平均
+            total_loss += loss
+
+        # 4. 反向传播 + 参数更新
+        self.optimizer.zero_grad()        # 清零梯度
+        total_loss.backward()             # 反向传播
+        torch.nn.utils.clip_grad_norm_(self.model.parameters(), 1.0)  # 梯度裁剪（防爆炸）
+        self.optimizer.step()             # 更新参数
+
+        return {&#x27;loss&#x27;: total_loss.item(), &#x27;mean_reward&#x27;: sum(rewards) / len(rewards)}
+
+# === 使用示例 ===
+trainer = GRPOTrainer(
+    model_name=&#x27;deepseek-7b-base&#x27;,      # 策略模型（初始为 SFT 模型）
+    ref_model_name=&#x27;deepseek-7b-sft&#x27;,   # 参考模型（SFT 模型，冻结）
+    beta=0.04,                          # KL 散度惩罚系数
+    epsilon=0.2,                        # PPO-Clip 裁断范围
+    group_size=8,                       # 每个 prompt 采样 8 个回答
+    temperature=0.7,                    # 采样温度
+    lr=1e-6,                            # 学习率
+    max_len=8192,                       # 最大生成长度
+)
+
+# 训练数据：数学题 + 标准答案
+prompts = [&quot;请计算：7×8+15 = ?\n请将最终答案放在 \\boxed{} 中。&quot;]
+ground_truths = [&quot;71&quot;]
+
+# 执行训练步骤
+metrics = trainer.train_step(prompts, ground_truths)
+print(f&quot;Loss: {metrics[&#x27;loss&#x27;]:.4f}, Mean Reward: {metrics[&#x27;mean_reward&#x27;]:.2f}&quot;)</code></pre></p>
+
+<h4>复杂度分析</h4>
+
+<p><strong>时间复杂度</strong>：</p>
+
+<p>1. <strong>采样阶段</strong>：每个 prompt 生成 $ G $ 个回答，每个回答最多 $ L $ 个 token。生成复杂度为 $ O(G \cdot L \cdot C_{\text{forward}}) $，其中 $ C_{\text{forward}} $ 是模型单次前向传播的计算量（与模型参数量和序列长度相关）</p>
+
+<p>2. <strong>策略更新阶段</strong>：对每个回答计算当前策略和参考模型的前向传播（用于计算 log 概率和 KL 散度），复杂度 $ O(G \cdot L \cdot C_{\text{forward}}) $；反向传播 $ O(G \cdot L \cdot C_{\text{backward}}) $，其中 $ C_{\text{backward}} \approx 2 \cdot C_{\text{forward}} $</p>
+
+<p>3. <strong>总训练复杂度</strong>（单步）：</p>
+<p><div class="math-block">$$ T_{\text{step}} = O\left(G \cdot L \cdot (C_{\text{sample}} + 3 \cdot C_{\text{forward}})\right) $$</div></p>
+<p>相比 PPO 需要额外的 Critic 前向传播（$ +C_{\text{forward}} $），GRPO 节省了 Critic 的计算和训练开销</p>
+
+<p><strong>空间复杂度</strong>：</p>
+
+<ul>
+<li>策略模型参数：$ O(P) $，$ P $ 为模型参数量（如 7B 模型约 14 GB FP16）</li>
+<li>参考模型参数：$ O(P) $（与策略模型相同，但不需要优化器状态）</li>
+<li>生成缓存：$ O(G \cdot L \cdot d) $，$ d $ 为隐藏层维度，$ G $ 个回答的 KV Cache</li>
+<li><strong>总显存</strong>：约 $ 3P $（策略模型 + 参考模型 + 优化器状态/梯度），比 PPO（约 $ 4P $，额外含 Critic）节省约 25%</li>
+</ul>
+
+<h4>应用场景</h4>
+
+<ul>
+<li><strong>数学推理训练</strong>：训练模型解数学题，奖励为答案是否与标准答案一致（如 GSM8K、MATH 数据集）</li>
+<li><strong>代码生成训练</strong>：训练模型写代码，奖励为代码是否通过单元测试用例（如 HumanEval、MBPP）</li>
+<li><strong>逻辑推理训练</strong>：训练模型做逻辑推理题，奖励为结论正确性</li>
+<li><strong>DeepSeek-R1 系列</strong>：R1-Zero 直接用 RLVR 从基础模型训练，无需 SFT；R1 在 SFT 后用 RLVR 进一步提升推理能力</li>
+<li><strong>形式化验证</strong>：训练模型生成形式化证明，奖励为证明是否通过 Lean/Coq 验证器检查</li>
+<li><strong>多轮对话中的工具使用</strong>：奖励为模型是否正确调用工具并获得正确结果</li>
+</ul>
+
+<h4>参考文档</h4>
+
+<ul>
+<li><a href="https://www.cnblogs.com/sddai/p/19416537" target="_blank" class="ref-link">RLVR 可验证奖励强化学习详解</a></li>
+<li><a href="https://blog.csdn.net/ekkoalex/article/details/156058081" target="_blank" class="ref-link">GRPO 算法讲解</a></li>
+<li><a href="https://blog.csdn.net/qq_74321610/article/details/150271029" target="_blank" class="ref-link">GRPO 损失函数原理与代码讲解</a></li>
+<li><a href="https://blog.csdn.net/m0_59162248/article/details/152924016" target="_blank" class="ref-link">VERL 框架实战 GRPO 算法详解</a></li>
+<li><a href="https://baijiahao.baidu.com/s?id=1865632115983867209" target="_blank" class="ref-link">2026 年面向 LLM 的 RL 方法总结</a></li>
+<li><a href="https://baijiahao.baidu.com/s?id=1855732984214429786" target="_blank" class="ref-link">RLVR/GRPO 关键缺陷分析</a></li>
+</ul>
+
+<blockquote>
+<p>AI生成</p>
+</blockquote>
+  </div>
+  <div class="footer">
+    <p>由 TeleAgent · 每日算法推送 技能自动生成 | 2026-09-15 10:24</p>
+  </div>
+</div>
+</body>
+</html>
