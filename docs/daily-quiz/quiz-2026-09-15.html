@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>每日算法 AI 出题 · 第 5 期 · 2026-09-15</title>
+  <title>每日算法 AI 出题 · 第 6 期 · 2026-09-15</title>
   <!-- KaTeX 数学公式渲染 -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
@@ -366,7 +366,7 @@
 <body>
 
 <div class="header">
-  <h1>每日算法 AI 出题 · 第 5 期</h1>
+  <h1>每日算法 AI 出题 · 第 6 期</h1>
   <div class="subtitle">算法 2 道 + AI 2 道</div>
   <div class="date-tag">📅 2026-09-15 ｜ 算法 2 道 · AI 2 道</div>
 </div>
@@ -378,31 +378,32 @@
       <span class="difficulty">⭐⭐</span>
       <span class="qid-label">第 1 题</span>
     </div>
-<h2 class="question-title">前缀计数（Trie 字典树）</h2>
-<div class="question-body">给定一个单词列表 <code class="inline-code">words</code> 和一个前缀字符串 <code class="inline-code">prefix</code>，请统计 <code class="inline-code">words</code> 中以 <code class="inline-code">prefix</code> 为前缀的单词数量。<br>
+<h2 class="question-title">N 皇后 II（回溯法）</h2>
+<div class="question-body">n 皇后问题研究的是如何将 $n$ 个皇后放置在 $n \times n$ 的棋盘上，并且使皇后彼此之间不能相互攻击（即任意两个皇后不能处于同一行、同一列或同一对角线）。<br>
 <br>
-例如 <code class="inline-code">words = [&quot;apple&quot;, &quot;app&quot;, &quot;application&quot;]</code>，<code class="inline-code">prefix = &quot;app&quot;</code>，则以 &quot;app&quot; 为前缀的单词有 3 个（apple、app、application），返回 3。<br>
-<br>
-请使用 **Trie（字典树/前缀树）** 数据结构实现。</div>
-<div class="info-block"><span class="info-label">输入</span><pre>第一行为单词列表 `words`（字符串数组），第二行为前缀字符串 `prefix`。</pre></div>
-<div class="info-block"><span class="info-label">输出</span><pre>返回一个整数，表示以 `prefix` 为前缀的单词数量。</pre></div>
+给定整数 $n$，返回 n 皇后问题的**不同解法数量**。</div>
+<div class="info-block"><span class="info-label">输入</span><pre>一个整数 $n$，表示棋盘大小为 $n \times n$。</pre></div>
+<div class="info-block"><span class="info-label">输出</span><pre>一个整数，表示 n 皇后问题的解法总数。</pre></div>
 <div class="example-block">
 <div class="example-title">示例 1</div>
-<pre class="example-io"><span class="io-label">输入：</span>words = [&quot;apple&quot;, &quot;app&quot;, &quot;application&quot;, &quot;apt&quot;, &quot;banana&quot;], prefix = &quot;app&quot;</pre>
-<pre class="example-io"><span class="io-label">输出：</span>3</pre>
-<div class="example-explanation">apple、app、application 以 &quot;app&quot; 为前缀，apt 以 &quot;a&quot; 开头但第二字符是 p 不是 p... 实际 apt 的前三个字符是 &quot;apt&quot; ≠ &quot;app&quot;，因此只有 apple、app、application 共 3 个。</div>
+<pre class="example-io"><span class="io-label">输入：</span>n = 4</pre>
+<pre class="example-io"><span class="io-label">输出：</span>2</pre>
+<div class="example-explanation">4 皇后问题共有 2 种不同的解法。</div>
 </div>
 <div class="example-block">
 <div class="example-title">示例 2</div>
-<pre class="example-io"><span class="io-label">输入：</span>words = [&quot;cat&quot;, &quot;car&quot;, &quot;card&quot;, &quot;care&quot;, &quot;careful&quot;], prefix = &quot;car&quot;</pre>
-<pre class="example-io"><span class="io-label">输出：</span>4</pre>
-<div class="example-explanation">car、card、care、careful 均以 &quot;car&quot; 为前缀，共 4 个。</div>
+<pre class="example-io"><span class="io-label">输入：</span>n = 1</pre>
+<pre class="example-io"><span class="io-label">输出：</span>1</pre>
+<div class="example-explanation">1×1 棋盘只有一种放法。</div>
 </div>
-<div class="info-block"><span class="info-label">约束</span><div>- $1 \le words.length \le 10^5$
-- $1 \le words[i].length \le 100$
-- $1 \le prefix.length \le 100$
-- 所有单词和前缀仅由小写英文字母组成
-- 函数签名：`def solve(words, prefix) -&gt; int`</div></div>
+<div class="example-block">
+<div class="example-title">示例 3</div>
+<pre class="example-io"><span class="io-label">输入：</span>n = 8</pre>
+<pre class="example-io"><span class="io-label">输出：</span>92</pre>
+<div class="example-explanation">经典的 8 皇后问题共有 92 种解法。</div>
+</div>
+<div class="info-block"><span class="info-label">约束</span><div>- $1 \le n \le 12$
+- 函数签名：`def solve(n: int) -&gt; int`</div></div>
 
     <div class="code-section">
       <div class="code-header">
@@ -410,16 +411,16 @@
         <button class="btn-run" onclick="runCode(1)" id="run_btn_1">▶ 运行</button>
       </div>
       <div class="editor-wrap">
-        <div class="code-editor" id="editor_1" contenteditable="true" spellcheck="false">def solve(words, prefix):
+        <div class="code-editor" id="editor_1" contenteditable="true" spellcheck="false">def solve(n: int) -&gt; int:
     # 请在此处编写代码
-    # 提示：使用 Trie（字典树）数据结构
-    # 每个 TrieNode 维护 children 字典和 count 计数
+    # 提示：使用回溯法逐行放置皇后
+    # 用集合记录已占用的列和对角线
     pass</div>
       </div>
       <div class="code-result" id="result_1" style="display:none;"></div>
       <input type="hidden" id="func_name_1" value="solve">
-      <input type="hidden" id="test_cases_1" value='[[[&quot;apple&quot;, &quot;app&quot;, &quot;application&quot;, &quot;apt&quot;, &quot;banana&quot;], &quot;app&quot;], [[&quot;a&quot;], &quot;a&quot;], [[&quot;a&quot;], &quot;b&quot;], [[&quot;a&quot;], &quot;ab&quot;], [[&quot;ab&quot;], &quot;a&quot;], [[&quot;cat&quot;, &quot;car&quot;, &quot;card&quot;, &quot;care&quot;, &quot;careful&quot;], &quot;car&quot;], [[&quot;cat&quot;, &quot;car&quot;, &quot;card&quot;, &quot;care&quot;, &quot;careful&quot;], &quot;dog&quot;], [[&quot;aaa&quot;, &quot;aa&quot;, &quot;a&quot;], &quot;a&quot;], [[&quot;aaa&quot;, &quot;aa&quot;, &quot;a&quot;], &quot;aa&quot;], [[&quot;aaa&quot;, &quot;aa&quot;, &quot;a&quot;], &quot;aaa&quot;], [[&quot;aaa&quot;, &quot;aa&quot;, &quot;a&quot;], &quot;aaaa&quot;], [[&quot;test&quot;], &quot;test&quot;]]'>
-      <input type="hidden" id="expected_outputs_1" value='[3, 1, 0, 0, 1, 4, 0, 3, 2, 1, 0, 1]'>
+      <input type="hidden" id="test_cases_1" value='[[1], [2], [3], [4], [5], [6], [7], [8], [9], [10], [11], [12]]'>
+      <input type="hidden" id="expected_outputs_1" value='[1, 0, 0, 2, 10, 4, 40, 92, 352, 724, 2680, 14200]'>
     </div>
 
     <button class="btn-reveal" onclick="revealSolution(1)" id="reveal_btn_1">
@@ -427,36 +428,43 @@
     </button>
 <div class="solution-section" id="solution_1" style="display:none;">
 <div class="solution-divider">--- 以下为答案与解析 ---</div>
-<div class="solution-block"><h4>💡 解题思路</h4><div>构建一棵 Trie 字典树。每个节点维护一个 <code class="inline-code">count</code> 字段，记录经过该节点的单词数量。插入时沿字符路径递增每个节点的 count。查询时沿前缀字符走到对应节点，返回该节点的 count 即可。若前缀路径不存在则返回 0。</div></div>
-<div class="solution-block"><h4>📝 参考代码（python）</h4><pre class="code-block">class TrieNode:
-    __slots__ = [&#x27;children&#x27;, &#x27;count&#x27;, &#x27;is_end&#x27;]
-    def __init__(self):
-        self.children = {}
-        self.count = 0
-        self.is_end = False
-
-def solve(words, prefix):
-    root = TrieNode()
-    for word in words:
-        node = root
-        for ch in word:
-            if ch not in node.children:
-                node.children[ch] = TrieNode()
-            node = node.children[ch]
-            node.count += 1
-        node.is_end = True
-
-    node = root
-    for ch in prefix:
-        if ch not in node.children:
-            return 0
-        node = node.children[ch]
-    return node.count</pre></div>
+<div class="solution-block"><h4>💡 解题思路</h4><div>使用**回溯法**逐行放置皇后。对于每一行，尝试将该行的皇后放在每个可能的列上，检查是否与已放置的皇后冲突（同列、同主对角线、同副对角线）。用三个集合分别记录已占用的列、主对角线（row - col）、副对角线（row + col）。若当前位置不冲突则放置并递归到下一行；递归返回后撤销放置（回溯）。当所有 n 行都放置完毕时，计数器加 1。</div></div>
+<div class="solution-block"><h4>📝 参考代码（python）</h4><pre class="code-block">def solve(n: int) -&gt; int:
+    if n &lt;= 0:
+        return 0
+    
+    count = 0
+    cols = set()    # 已占用的列
+    diag1 = set()  # 已占用的主对角线 (row - col)
+    diag2 = set()  # 已占用的副对角线 (row + col)
+    
+    def backtrack(row):
+        nonlocal count
+        if row == n:
+            count += 1
+            return
+        for col in range(n):
+            d1 = row - col
+            d2 = row + col
+            if col in cols or d1 in diag1 or d2 in diag2:
+                continue
+            # 放置皇后
+            cols.add(col)
+            diag1.add(d1)
+            diag2.add(d2)
+            backtrack(row + 1)
+            # 回溯：撤销放置
+            cols.remove(col)
+            diag1.remove(d1)
+            diag2.remove(d2)
+    
+    backtrack(0)
+    return count</pre></div>
 <div class="solution-block"><h4>⚡ 复杂度分析</h4><div>
-<span class="complexity-tag">时间 O(N * L + M)，N 为单词数，L 为平均单词长度，M 为前缀长度</span>
-<span class="complexity-tag">空间 O(N * L * 26)，最坏情况下 Trie 存储所有字符节点</span>
+<span class="complexity-tag">时间 O(n!)，第一行有 n 种选择，第二行最多 n-1 种，依此类推</span>
+<span class="complexity-tag">空间 O(n)，递归深度为 n，三个集合各最多存储 n 个元素</span>
 </div></div>
-<div class="solution-block"><h4>🎯 考点</h4><div>Trie 字典树的构建与查询；节点 count 字段记录经过该路径的单词数；前缀匹配只需沿路径走到目标节点取 count</div></div>
+<div class="solution-block"><h4>🎯 考点</h4><div>回溯法经典应用；用集合 O(1) 判断列和对角线冲突；主对角线 row-col 相同、副对角线 row+col 相同；回溯时需撤销选择（对称地 remove）</div></div>
 </div>
 </div>
 <div class="question-card" data-qid="2">
@@ -466,38 +474,38 @@ def solve(words, prefix):
       <span class="difficulty">⭐⭐</span>
       <span class="qid-label">第 2 题</span>
     </div>
-<h2 class="question-title">排序算法的稳定性与复杂度</h2>
-<div class="question-body">关于常见排序算法的性质，以下说法**正确**的是？<br>
+<h2 class="question-title">贪心算法的性质与适用条件</h2>
+<div class="question-body">关于贪心算法（Greedy Algorithm），以下说法**正确**的是？<br>
 <br>
 **选项**：<br>
-- A. 快速排序是稳定排序，最坏时间复杂度为 $O(n \log n)$<br>
-- B. 归并排序是稳定排序，最坏时间复杂度为 $O(n \log n)$<br>
-- C. 堆排序是稳定排序，最坏时间复杂度为 $O(n^2)$<br>
-- D. 冒泡排序是不稳定排序，最坏时间复杂度为 $O(n \log n)$</div>
+- A. 贪心算法一定能得到全局最优解，因为它每步都取当前最优<br>
+- B. 贪心算法的时间复杂度一定比动态规划低<br>
+- C. 贪心算法适用的前提是问题具有贪心选择性质和最优子结构，且贪心选择不会影响子问题的最优解<br>
+- D. 贪心算法和动态规划都可以解决所有优化问题，区别仅在于实现方式不同</div>
 <div class="options-container">
 
             <label class="option-item" data-letter="A">
               <input type="radio" name="quiz_2" value="A" onchange="checkAnswer(2, 'A')">
               <span class="option-letter">A</span>
-              <span class="option-text">快速排序是稳定排序，最坏时间复杂度为 $O(n \log n)$</span>
+              <span class="option-text">贪心算法一定能得到全局最优解，因为它每步都取当前最优</span>
             </label>
 
             <label class="option-item" data-letter="B">
               <input type="radio" name="quiz_2" value="B" onchange="checkAnswer(2, 'B')">
               <span class="option-letter">B</span>
-              <span class="option-text">归并排序是稳定排序，最坏时间复杂度为 $O(n \log n)$</span>
+              <span class="option-text">贪心算法的时间复杂度一定比动态规划低</span>
             </label>
 
             <label class="option-item" data-letter="C">
               <input type="radio" name="quiz_2" value="C" onchange="checkAnswer(2, 'C')">
               <span class="option-letter">C</span>
-              <span class="option-text">堆排序是稳定排序，最坏时间复杂度为 $O(n^2)$</span>
+              <span class="option-text">贪心算法适用的前提是问题具有贪心选择性质和最优子结构，且贪心选择不会影响子问题的最优解</span>
             </label>
 
             <label class="option-item" data-letter="D">
               <input type="radio" name="quiz_2" value="D" onchange="checkAnswer(2, 'D')">
               <span class="option-letter">D</span>
-              <span class="option-text">冒泡排序是不稳定排序，最坏时间复杂度为 $O(n \log n)$</span>
+              <span class="option-text">贪心算法和动态规划都可以解决所有优化问题，区别仅在于实现方式不同</span>
             </label>
 </div>
 <div class="option-feedback" id="feedback_2"></div>
@@ -507,14 +515,14 @@ def solve(words, prefix):
     </button>
 <div class="solution-section" id="solution_2" style="display:none;">
 <div class="solution-divider">--- 以下为答案与解析 ---</div>
-<div class="answer-highlight">✅ 正确答案：B</div>
-<div class="solution-block"><h4>💡 解题思路</h4><div>逐一判断每个排序算法的稳定性和最坏时间复杂度。</div></div>
-<div class="solution-block"><h4>🎯 考点</h4><div>排序稳定性定义：相等元素排序后相对顺序不变则为稳定。常见稳定排序：归并、冒泡、插入、基数。常见不稳定排序：快排、堆排、选择。掌握各排序算法的最好/最坏/平均复杂度是面试基础。</div></div>
+<div class="answer-highlight">✅ 正确答案：C</div>
+<div class="solution-block"><h4>💡 解题思路</h4><div>逐一分析贪心算法的核心性质和适用条件。</div></div>
+<div class="solution-block"><h4>🎯 考点</h4><div>贪心算法的两个前提：贪心选择性质（局部最优选择不破坏全局最优）和最优子结构（最优解包含子问题最优解）。贪心 vs DP 的核心区别：贪心做出不可撤回的选择，DP 穷举所有子问题取最优。经典贪心问题：活动选择、Huffman 编码、Dijkstra 最短路、Kruskal/Prim 最小生成树。经典反例：01 背包不能用贪心。</div></div>
 <div class="solution-block"><h4>🔍 逐项分析</h4><ul class="answer-points">
-<li>**A 错误**：快速排序是**不稳定**排序（相等元素的相对顺序可能改变），最坏时间复杂度为 $O(n^2)$（当每次 partition 选到最值作为基准时退化）。选项声称稳定且最坏 $O(n \log n)$，两个判断都错。</li>
-<li>**B 正确**：归并排序是**稳定**排序（合并时相等元素取左侧优先即可保持稳定），最坏/最好/平均时间复杂度均为 $O(n \log n)$，空间复杂度 $O(n)$。两个判断都正确。</li>
-<li>**C 错误**：堆排序是**不稳定**排序（调整堆时相等元素的相对顺序可能改变），最坏时间复杂度为 $O(n \log n)$ 而非 $O(n^2)$。两个判断都错。</li>
-<li>**D 错误**：冒泡排序是**稳定**排序（相邻交换时相等元素不交换则保持顺序），最坏时间复杂度为 $O(n^2)$（逆序数组）。选项两个判断都错。</li>
+<li>**A 错误**：贪心算法每步取局部最优，但**不保证**全局最优。经典反例：01 背包问题中若按价值密度贪心选择，可能无法得到最优解（例如物品 A 价值 6 重量 2、物品 B 价值 10 重量 5、背包容量 5，贪心选 A+A=12，但选 B=10 更优？不，这里贪心选 A+B=16... 更好的反例：A 价值 3 重量 1、B 价值 4 重量 2、C 价值 5 重量 3，容量 3，贪心按密度选 A+A=6 但 B+C=9 更优）。只有当问题具有**贪心选择性质**时才能保证全局最优。</li>
+<li>**B 错误**：贪心算法通常比动态规划快（因为不做全面搜索），但不是**一定**更快。某些问题的贪心解法可能需要排序预处理 $O(n \log n)$，而该问题的 DP 解法也可能是 $O(n \log n)$。复杂度取决于具体问题和实现方式，不能一概而论。</li>
+<li>**C 正确**：这是贪心算法适用的两个核心前提：①**贪心选择性质**——可以做出局部最优选择而不影响全局最优解（即当前的选择不会限制后续选择导致整体非最优）；②**最优子结构**——问题的最优解包含子问题的最优解。两者缺一不可，这是贪心算法正确性的理论基础。</li>
+<li>**D 错误**：贪心和动态规划**并非可以解决所有优化问题**。有些问题两者都无法高效解决（如某些 NP-hard 问题）。且两者有本质区别：贪心是自顶向下的单次选择（不回退），DP 是自底向上（或带记忆化的自顶向下）的穷举所有子问题最优解。贪心不能解决需要考虑所有子问题组合的问题（如 01 背包），DP 也不能高效解决状态空间爆炸的问题。</li>
 </ul></div>
 </div>
 </div>
@@ -522,65 +530,99 @@ def solve(words, prefix):
 
     <div class="question-header">
       <span class="type-badge" style="background:#a855f7">AI公式推导</span>
-      <span class="difficulty">⭐⭐</span>
+      <span class="difficulty">⭐⭐⭐</span>
       <span class="qid-label">第 3 题</span>
     </div>
-<h2 class="question-title">线性回归正规方程（Normal Equation）闭式解推导</h2>
-<div class="question-body">给定训练数据集 $\{(x^{(i)}, y^{(i)})\}_{i=1}^{n}$，其中 $x^{(i)} \in \mathbb{R}^d$（含偏置项 $x_0 = 1$），$y^{(i)} \in \mathbb{R}$。线性回归模型预测 $\hat{y}^{(i)} = \theta^T x^{(i)}$，损失函数为均方误差（MSE）。<br>
+<h2 class="question-title">RNN 沿时间反向传播（BPTT）梯度推导与梯度消失分析</h2>
+<div class="question-body">给定一个简单的循环神经网络（RNN），其前向传播为：<br>
 <br>
-请使用矩阵形式推导：**最小化损失函数 $J(\theta) = \frac{1}{2n}\|X\theta - y\|^2$ 关于 $\theta$ 的正规方程，并求出 $\theta$ 的闭式解。**<br>
+$$h_t = \tanh(W_{hh} h_{t-1} + W_{xh} x_t + b_h)$$<br>
 <br>
-其中 $X \in \mathbb{R}^{n \times d}$ 为设计矩阵，$y \in \mathbb{R}^n$ 为目标向量，$\theta \in \mathbb{R}^d$ 为参数向量。</div>
+$$y_t = W_{hy} h_t + b_y$$<br>
+<br>
+损失函数为 $L = \sum_{t=1}^{T} L_t$，其中 $L_t$ 为时刻 $t$ 的损失。<br>
+<br>
+请推导：<br>
+1. 损失 $L$ 对隐藏状态 $h_t$ 的梯度 $\frac{\partial L}{\partial h_t}$ 的完整表达式<br>
+2. 损失 $L$ 对权重 $W_{hh}$ 的梯度 $\frac{\partial L}{\partial W_{hh}}$<br>
+3. 分析为什么 RNN 在长序列上会出现**梯度消失**问题</div>
 
     <button class="btn-reveal" onclick="revealSolution(3)" id="reveal_btn_3">
       📖 显示答案与解析
     </button>
 <div class="solution-section" id="solution_3" style="display:none;">
 <div class="solution-divider">--- 以下为答案与解析 ---</div>
-<div class="solution-block"><h4>🎯 考点</h4><div>矩阵二次型求导：$\nabla_\theta (\theta^T A \theta) = 2A\theta$（A 对称）；正规方程 $X^TX\theta = X^Ty$ 的推导与闭式解；$X^TX$ 可逆条件（列满秩）；不可逆时用伪逆或加 L2 正则化（岭回归）。</div></div>
+<div class="solution-block"><h4>🎯 考点</h4><div>BPTT 本质是沿时间维度展开的链式法则；梯度通过 $\text{diag}(1-h^2) \cdot W_{hh}$ 连乘传播；tanh 导数 $\leq 1$ 导致梯度消失；LSTM 用加法路径和门控机制缓解梯度消失；梯度裁剪（gradient clipping）可缓解梯度爆炸但无法解决消失问题。</div></div>
 <div class="solution-block"><h4>📐 推导过程</h4><div class="derivation-content">**符号定义**：<br>
-- 设计矩阵 $X = [x^{(1)T}; x^{(2)T}; \cdots; x^{(n)T}] \in \mathbb{R}^{n \times d}$，每行是一个样本<br>
-- 目标向量 $y = [y^{(1)}, y^{(2)}, \cdots, y^{(n)}]^T \in \mathbb{R}^n$<br>
-- 参数向量 $\theta \in \mathbb{R}^d$<br>
-- 预测向量 $\hat{y} = X\theta \in \mathbb{R}^n$<br>
+- $W_{hh} \in \mathbb{R}^{d_h \times d_h}$：隐藏状态权重矩阵<br>
+- $W_{xh} \in \mathbb{R}^{d_h \times d_x}$：输入权重矩阵<br>
+- $W_{hy} \in \mathbb{R}^{d_y \times d_h}$：输出权重矩阵<br>
+- $h_t = \tanh(W_{hh} h_{t-1} + W_{xh} x_t + b_h)$，令 $z_t = W_{hh} h_{t-1} + W_{xh} x_t + b_h$，则 $h_t = \tanh(z_t)$<br>
+- $L = \sum_{t=1}^{T} L_t$，其中 $L_t$ 依赖于 $h_t$<br>
 <br>
-**损失函数**（省略 $\frac{1}{2n}$ 常数不影响极值点）：<br>
-$$J(\theta) = \frac{1}{2}\|X\theta - y\|^2 = \frac{1}{2}(X\theta - y)^T(X\theta - y)$$<br>
+---<br>
 <br>
-**Step 1：展开二次型**<br>
-$$J(\theta) = \frac{1}{2}\left[(X\theta)^T(X\theta) - (X\theta)^T y - y^T(X\theta) + y^T y\right]$$<br>
-$$= \frac{1}{2}\left[\theta^T X^T X \theta - 2\theta^T X^T y + y^T y\right]$$<br>
+**Part 1：$\frac{\partial L}{\partial h_t}$ 的完整表达式**<br>
 <br>
-（利用 $(X\theta)^T y = \theta^T X^T y$ 是标量，等于其转置 $y^T X \theta$）<br>
+$h_t$ 对后续损失有两条路径的影响：<br>
+- **直接路径**：$h_t$ 通过 $y_t$ 影响 $L_t$，贡献 $\frac{\partial L_t}{\partial h_t}$<br>
+- **间接路径**：$h_t$ 通过 $h_{t+1}, h_{t+2}, \ldots, h_T$ 影响后续所有损失<br>
 <br>
-**Step 2：对 $\theta$ 求梯度**<br>
+因此：<br>
+$$\frac{\partial L}{\partial h_t} = \frac{\partial L_t}{\partial h_t} + \frac{\partial L}{\partial h_{t+1}} \cdot \frac{\partial h_{t+1}}{\partial h_t}$$<br>
 <br>
-利用两个矩阵微积分恒等式：<br>
-- $\nabla_\theta (\theta^T A \theta) = (A + A^T)\theta$，当 $A$ 对称时 $= 2A\theta$<br>
-- $\nabla_\theta (b^T \theta) = b$<br>
+展开 $\frac{\partial h_{t+1}}{\partial h_t}$（链式法则通过 $z_{t+1}$）：<br>
+$$\frac{\partial h_{t+1}}{\partial h_t} = \frac{\partial h_{t+1}}{\partial z_{t+1}} \cdot \frac{\partial z_{t+1}}{\partial h_t} = \text{diag}(1 - h_{t+1}^2) \cdot W_{hh}$$<br>
 <br>
-因为 $X^T X$ 是对称矩阵（$(X^T X)^T = X^T X$），令 $A = X^T X$，$b = X^T y$：<br>
-$$\nabla_\theta J(\theta) = \frac{1}{2}\left[2 X^T X \theta - 2 X^T y\right] = X^T X \theta - X^T y$$<br>
+其中 $\text{diag}(1 - h_{t+1}^2)$ 是 $\tanh&#x27;$ 的雅可比矩阵（对角矩阵，因为 $\tanh&#x27;(z) = 1 - \tanh^2(z) = 1 - h^2$）。<br>
 <br>
-**Step 3：令梯度为零，得正规方程**<br>
-$$X^T X \theta - X^T y = 0$$<br>
-$$\boxed{X^T X \, \theta = X^T y}$$<br>
+所以完整表达式为：<br>
+$$\boxed{\frac{\partial L}{\partial h_t} = \frac{\partial L_t}{\partial h_t} + \left(\frac{\partial L}{\partial h_{t+1}} \odot (1 - h_{t+1}^2)\right)^T W_{hh}}$$<br>
 <br>
-**Step 4：求解闭式解**<br>
+（$\odot$ 表示逐元素乘法，$1 - h_{t+1}^2$ 是 $\tanh$ 导数在 $h_{t+1}$ 处的值）<br>
 <br>
-当 $X^T X$ 可逆（即 $X$ 列满秩，$n \geq d$ 且特征间无共线性）时：<br>
-$$\boxed{\theta = (X^T X)^{-1} X^T y}$$<br>
+---<br>
 <br>
-**Step 5：可逆性讨论**<br>
+**Part 2：$\frac{\partial L}{\partial W_{hh}}$ 的梯度**<br>
 <br>
-当 $X^T X$ 不可逆时（特征数 &gt; 样本数，或特征共线性），使用伪逆（Moore-Penrose 伪逆）：<br>
-$$\theta = (X^T X)^{+} X^T y = X^{+} y$$<br>
+$W_{hh}$ 出现在每个时刻的 $z_t = W_{hh} h_{t-1} + \cdots$ 中，因此需要沿所有时间步累加：<br>
+$$\frac{\partial L}{\partial W_{hh}} = \sum_{t=1}^{T} \frac{\partial L}{\partial h_t} \cdot \frac{\partial h_t}{\partial W_{hh}}$$<br>
 <br>
-或在损失函数中加入 L2 正则化项 $\frac{\lambda}{2}\|\theta\|^2$（岭回归），此时：<br>
-$$\theta = (X^T X + \lambda I)^{-1} X^T y$$<br>
+对每个时刻 $t$，通过 $z_t$ 应用链式法则：<br>
+$$\frac{\partial h_t}{\partial W_{hh}} = \frac{\partial h_t}{\partial z_t} \cdot \frac{\partial z_t}{\partial W_{hh}} = \text{diag}(1 - h_t^2) \cdot h_{t-1}$$<br>
 <br>
-$\lambda &gt; 0$ 时 $X^T X + \lambda I$ 一定可逆（正定矩阵）。</div></div>
-<div class="solution-block"><h4>🧠 直觉解释</h4><div>正规方程 $X^T X \theta = X^T y$ 的几何含义是：残差向量 $X\theta - y$ 与 $X$ 的列空间正交（即残差不能被特征线性表出进一步减小），这正是投影到列空间的最优解。闭式解 $\theta = (X^T X)^{-1} X^T y$ 就是将 $y$ 投影到 $X$ 列空间后在原始坐标系下的系数。</div></div>
+因此：<br>
+$$\boxed{\frac{\partial L}{\partial W_{hh}} = \sum_{t=1}^{T} \left(\frac{\partial L}{\partial h_t} \odot (1 - h_t^2)\right) h_{t-1}^T}$$<br>
+<br>
+这是一个外积求和：每个时刻贡献一个 $d_h \times d_h$ 的矩阵。<br>
+<br>
+---<br>
+<br>
+**Part 3：梯度消失分析**<br>
+<br>
+将 Part 1 的递推式展开，考虑从时刻 $T$ 反向传播到时刻 $k$ 的梯度：<br>
+$$\frac{\partial L}{\partial h_k} \approx \frac{\partial L_T}{\partial h_T} \cdot \prod_{t=k+1}^{T} \frac{\partial h_t}{\partial h_{t-1}}$$<br>
+<br>
+其中每个雅可比矩阵：<br>
+$$\frac{\partial h_t}{\partial h_{t-1}} = \text{diag}(1 - h_t^2) \cdot W_{hh}$$<br>
+<br>
+取范数：<br>
+$$\left\|\frac{\partial h_t}{\partial h_{t-1}}\right\| \leq \|\text{diag}(1 - h_t^2)\| \cdot \|W_{hh}\| \leq \gamma \cdot \|W_{hh}\|$$<br>
+<br>
+其中 $\gamma = \max_t |1 - h_t^2|$。由于 $\tanh$ 的导数 $\tanh&#x27;(z) = 1 - \tanh^2(z)$，其最大值为 1（在 $z = 0$ 时），但实际中 $|h_t| &lt; 1$ 时 $\tanh&#x27;(z) &lt; 1$。<br>
+<br>
+当 $T - k$ 很大时：<br>
+$$\left\|\frac{\partial L}{\partial h_k}\right\| \leq \left(\gamma \cdot \|W_{hh}\|\right)^{T-k}$$<br>
+<br>
+**梯度消失**：当 $\gamma \cdot \|W_{hh}\| &lt; 1$ 时（即 $W_{hh}$ 的特征值幅度小于 $1/\gamma$），连乘项指数衰减：<br>
+$$(\gamma \cdot \|W_{hh}\|)^{T-k} \to 0 \quad \text{当 } T - k \to \infty$$<br>
+<br>
+这意味着早期时刻（$k$ 较小）的梯度趋近于 0，网络无法学习长距离依赖。<br>
+<br>
+**补充：梯度爆炸**：当 $\gamma \cdot \|W_{hh}\| &gt; 1$ 时，连乘项指数增长，梯度爆炸。<br>
+<br>
+**LSTM 的解决方案**：LSTM 引入门控机制（遗忘门 $f_t$、输入门 $i_t$、输出门 $o_t$）和细胞状态 $C_t$。细胞状态的更新为 $C_t = f_t \odot C_{t-1} + i_t \odot \tilde{C}_t$，梯度沿细胞状态传播时 $\frac{\partial C_t}{\partial C_{t-1}} = f_t$，遗忘门可以学习到接近 1 的值，使梯度可以无衰减地长距离传播，从而缓解梯度消失问题。</div></div>
+<div class="solution-block"><h4>🧠 直觉解释</h4><div>RNN 梯度沿时间反向传播时，每经过一个时间步就要乘以一个雅可比矩阵 $\text{diag}(1-h_t^2) \cdot W_{hh}$，连乘多次后若该矩阵的谱半径小于 1 则梯度指数衰减（消失），大于 1 则指数增长（爆炸）。tanh 的导数最大为 1，且实际中通常小于 1，因此梯度消失是 RNN 的主要问题。LSTM 通过加法（而非乘法）的细胞状态更新路径，使梯度可以长距离传播。</div></div>
 </div>
 </div>
 <div class="question-card" data-qid="4">
@@ -590,8 +632,8 @@ $\lambda &gt; 0$ 时 $X^T X + \lambda I$ 一定可逆（正定矩阵）。</div>
       <span class="difficulty">⭐⭐</span>
       <span class="qid-label">第 4 题</span>
     </div>
-<h2 class="question-title">Batch Normalization 与 Layer Normalization 的区别与应用场景</h2>
-<div class="question-body">面试官问：&quot;Batch Normalization 和 Layer Normalization 都是深度学习中常用的归一化方法，请详细说明它们的原理区别、计算方式差异，以及为什么 Transformer 用 LayerNorm 而不用 BatchNorm？&quot;</div>
+<h2 class="question-title">支持向量机（SVM）的原理、对偶问题与核技巧</h2>
+<div class="question-body">面试官问：&quot;请详细解释支持向量机（SVM）的基本原理，什么是支持向量？为什么要用对偶问题求解？核技巧的本质是什么？SVM 和逻辑回归有什么区别？&quot;</div>
 
     <button class="btn-reveal" onclick="revealSolution(4)" id="reveal_btn_4">
       📖 显示答案与解析
@@ -599,24 +641,22 @@ $\lambda &gt; 0$ 时 $X^T X + \lambda I$ 一定可逆（正定矩阵）。</div>
 <div class="solution-section" id="solution_4" style="display:none;">
 <div class="solution-divider">--- 以下为答案与解析 ---</div>
 <div class="solution-block"><h4>📌 回答要点</h4><ul class="answer-points">
-<li>**计算维度不同**：BatchNorm 沿 **batch 维度** 归一化，对每个特征通道在 batch 内统计均值和方差（$\mu_B, \sigma_B^2$ 计算时 batch 内所有样本同一通道参与）；LayerNorm 沿 **特征维度** 归一化，对每个样本的所有特征独立统计均值和方差（$\mu, \sigma^2$ 在单个样本的所有特征上计算），与 batch 无关。</li>
-<li>**公式对比**：<br>
-BatchNorm：$\hat{x}_{ij} = \frac{x_{ij} - \mu_B^{(j)}}{\sqrt{\sigma_B^{(j)2} + \epsilon}}$，其中 $\mu_B^{(j)} = \frac{1}{B}\sum_{i=1}^{B} x_{ij}$<br>
-LayerNorm：$\hat{x}_{ij} = \frac{x_{ij} - \mu_i}{\sqrt{\sigma_i^2 + \epsilon}}$，其中 $\mu_i = \frac{1}{d}\sum_{j=1}^{d} x_{ij}$</li>
-<li>**训练/推理行为差异**：BatchNorm 训练时用 batch 统计量，推理时用训练阶段累积的滑动平均（running mean/var），存在训练-推理不一致问题；LayerNorm 训练和推理行为一致，无需维护 running 统计量。</li>
-<li>**为什么 Transformer 用 LayerNorm**：① 序列长度可变，BatchNorm 在变长序列中对不同位置的统计量不一致；② batch size 受限（大模型训练常用梯度累积、微调时 batch=1），BatchNorm 在小 batch 下统计量不可靠；③ Transformer 每个位置独立处理，LayerNorm 对单个样本归一化更自然；④ LayerNorm 不依赖 batch 维度，推理时行为与训练一致。</li>
-<li>**适用场景**：BatchNorm 适合 CNN（固定尺寸输入、大 batch 训练、特征通道有明确语义）；LayerNorm 适合 RNN/Transformer（变长序列、可变 batch、自回归推理）。</li>
+<li>**SVM 基本原理**：SVM 寻找一个超平面 $w^T x + b = 0$ 将不同类别分开，目标是使**间隔（margin）最大化**。间隔定义为 $\frac{2}{\|w\|}$，因此最大化间隔等价于最小化 $\frac{1}{2}\|w\|^2$。对于线性可分情况，优化问题为：$\min_{w,b} \frac{1}{2}\|w\|^2$，约束 $y_i(w^T x_i + b) \geq 1$。对于软间隔（允许一定误分类），引入松弛变量 $\xi_i \geq 0$，目标变为 $\min \frac{1}{2}\|w\|^2 + C \sum \xi_i$，$C$ 为惩罚参数控制间隔宽度与误分类的权衡。</li>
+<li>**支持向量**：距离决策边界最近的样本点（满足 $y_i(w^T x_i + b) = 1$，即在间隔边界上）称为支持向量。**只有支持向量决定超平面**，其他样本点不影响（对应的拉格朗日乘子 $\alpha_i = 0$）。这是 SVM 的核心特性——模型仅由少量关键样本决定，具有稀疏性。删除非支持向量不影响解。</li>
+<li>**对偶问题的必要性**：原始问题通过拉格朗日乘子法转化为对偶问题 $\max_\alpha \sum \alpha_i - \frac{1}{2}\sum_{i,j} \alpha_i \alpha_j y_i y_j x_i^T x_j$，约束 $\sum \alpha_i y_i = 0$，$0 \le \alpha_i \le C$。引入对偶的三个原因：①**自然引入核函数**——对偶问题中 $x_i$ 仅以内积 $x_i^T x_j$ 形式出现，可替换为 $K(x_i, x_j)$ 实现非线性；②**降低计算复杂度**——原始问题优化 $w$ 维度为 $d$（特征数），对偶问题优化 $\alpha$ 维度为 $n$（样本数），当 $d \gg n$ 时对偶更高效；③**KKT 条件**给出支持向量的判定标准（$\alpha_i &gt; 0$ 对应支持向量）。</li>
+<li>**核技巧的本质**：核技巧将低维空间的非线性问题映射到高维空间变为线性可分，但**不需要显式计算高维映射 $\phi(x)$**，只需定义核函数 $K(x_i, x_j) = \phi(x_i)^T \phi(x_j)$。常用核函数：线性核 $K = x_i^T x_j$；多项式核 $K = (x_i^T x_j + r)^d$；高斯核（RBF）$K = \exp(-\gamma \|x_i - x_j\|^2)$，$\gamma$ 控制核宽度。Mercer 定理保证了核函数的合法性（半正定）。</li>
+<li>**SVM vs 逻辑回归**：①**损失函数**——SVM 用 hinge loss $\max(0, 1 - y \cdot f(x))$，逻辑回归用对数损失 $\log(1 + e^{-y f(x)})$；②**决策边界**——SVM 只依赖支持向量（稀疏），逻辑回归依赖所有样本（非稀疏）；③**概率输出**——SVM 不直接输出概率（需 Platt scaling 后处理），逻辑回归天然输出概率；④**核化**——SVM 天然支持核技巧，逻辑回归核化后计算量更大（需所有样本参与）。</li>
 </ul></div>
 <div class="solution-block"><h4>⭐ 加分项</h4><ul class="answer-points">
-<li>**RMSNorm**：LayerNorm 的简化变体，去掉均值减法只做方差归一化（$\hat{x}_i = \frac{x_i}{\sqrt{\frac{1}{d}\sum_j x_j^2 + \epsilon}} \cdot \gamma$），计算量减少约 20-30%，LLaMA 等大模型广泛采用，实验证明效果与 LayerNorm 相当。</li>
-<li>**DeepNorm**：微软提出，通过修改残差连接初始化实现极深 Transformer（1000+层），归一化因子 $\alpha$ 控制梯度规模。</li>
-<li>**归一化位置**：Pre-LN（归一化在注意力/前馈之前）比 Post-LN（原始 Transformer 位置）训练更稳定，不需要 warmup，现代大模型普遍使用 Pre-LN。</li>
-<li>**BatchNorm 的泛化性争议**：有研究表明 BatchNorm 的正则化效果部分来自训练时 batch 统计量的随机性，推理时这种随机性消失可能影响泛化。</li>
+<li>**SVM 的 VC 维**：间隔越大 VC 维越小，SVM 通过最大化间隔实现了结构风险最小化（SRM），这是其泛化能力的理论基础。即使特征维度很高，只要间隔足够大，泛化能力仍有保证。</li>
+<li>**SMO 算法**：序列最小优化（Sequential Minimal Optimization）是求解 SVM 对偶问题的高效算法，每次只优化两个拉格朗日乘子（因为等式约束 $\sum \alpha_i y_i = 0$ 要求至少同时优化两个），解析求解子问题，避免通用 QP 求解器的高开销。</li>
+<li>**多分类 SVM**：SVM 本质是二分类器，多分类常用 one-vs-rest（训练 K 个分类器）或 one-vs-one（训练 $K(K-1)/2$ 个分类器，投票决定）。</li>
+<li>**SVM 在深度学习时代地位**：在中小样本、高维特征（如文本分类 TF-IDF）场景仍有优势；深度学习在大数据场景下端到端学习更强，但 SVM 作为基线方法仍有价值，尤其在需要明确决策边界和稀疏解的场景。</li>
 </ul></div>
 <div class="solution-block"><h4>🔮 追问预测</h4><ul class="answer-points">
-<li>**追问：BatchNorm 中的 $\gamma$ 和 $\beta$ 的作用是什么？** — 回答思路：缩放和平移可学习参数，通过 $y = \gamma \hat{x} + \beta$ 恢复网络表达能力。若归一化后直接使用，激活值分布被强行限制在固定区间，可能降低模型拟合能力；$\gamma$ 和 $\beta$ 让网络自行决定最优的分布范围，极端情况可还原原始分布（$\gamma = \sigma, \beta = \mu$）。</li>
-<li>**追问：为什么 BatchNorm 能加速训练？** — 回答思路：① 缓解内部协变量偏移（ICS），使每层输入分布更稳定；② 平滑损失景观，允许更大学习率；③ 有轻微正则化效果（batch 统计量引入噪声）。注意：MIT 2018 论文指出 ICS 可能不是 BN 有效的核心原因，平滑损失景观才是。</li>
-<li>**追问：LayerNorm 中为什么不用 batch 统计量？** — 回答思路：自回归模型推理时 batch=1，batch 统计量无意义；训练时的序列长度变化导致不同位置统计量不一致；LayerNorm 逐样本归一化，无上述问题。</li>
+<li>**追问：高斯核中 $\gamma$ 参数如何影响模型？** — 回答思路：$\gamma$ 控制单个样本的影响范围。$\gamma$ 大时核函数衰减快，每个支持向量影响范围小，决策边界复杂（容易过拟合）；$\gamma$ 小时影响范围大，决策边界平滑（可能欠拟合）。通常通过交叉验证选择 $\gamma$ 和 $C$。常用网格搜索（grid search）配合交叉验证确定超参数。</li>
+<li>**追问：SVM 为什么能处理非线性问题？** — 回答思路：通过核技巧将原始空间非线性可分的数据映射到高维特征空间使其线性可分。例如 XOR 问题在 2D 空间线性不可分，但映射到 3D 空间后可分。核技巧避免了显式高维映射的计算开销，通过内积替换实现。高斯核对应无限维特征空间。</li>
+<li>**追问：软间隔中 C 的作用是什么？** — 回答思路：C 是正则化参数，控制间隔宽度与误分类惩罚的权衡。C 大时对误分类惩罚重，间隔窄，容易过拟合；C 小时间隔宽，容忍更多误分类，容易欠拟合。等价于正则化强度的倒数。</li>
 </ul></div>
 </div>
 </div>
@@ -832,7 +872,7 @@ document.addEventListener('keydown', (e) => {
 });
 
 // 将 quiz 数据存入全局变量供选择题使用
-window.__quizData__ = {"date": "2026-09-15", "title": "每日算法 AI 出题 · 第 5 期", "subtitle": "算法 2 道 + AI 2 道", "questions": [{"id": 1, "type": "algorithm_code", "type_label": "算法编程", "difficulty": 2, "title": "前缀计数（Trie 字典树）", "description": "给定一个单词列表 `words` 和一个前缀字符串 `prefix`，请统计 `words` 中以 `prefix` 为前缀的单词数量。\n\n例如 `words = [\"apple\", \"app\", \"application\"]`，`prefix = \"app\"`，则以 \"app\" 为前缀的单词有 3 个（apple、app、application），返回 3。\n\n请使用 **Trie（字典树/前缀树）** 数据结构实现。", "input_format": "第一行为单词列表 `words`（字符串数组），第二行为前缀字符串 `prefix`。", "output_format": "返回一个整数，表示以 `prefix` 为前缀的单词数量。", "examples": [{"input": "words = [\"apple\", \"app\", \"application\", \"apt\", \"banana\"], prefix = \"app\"", "output": "3", "explanation": "apple、app、application 以 \"app\" 为前缀，apt 以 \"a\" 开头但第二字符是 p 不是 p... 实际 apt 的前三个字符是 \"apt\" ≠ \"app\"，因此只有 apple、app、application 共 3 个。"}, {"input": "words = [\"cat\", \"car\", \"card\", \"care\", \"careful\"], prefix = \"car\"", "output": "4", "explanation": "car、card、care、careful 均以 \"car\" 为前缀，共 4 个。"}], "constraints": "- $1 \\le words.length \\le 10^5$\n- $1 \\le words[i].length \\le 100$\n- $1 \\le prefix.length \\le 100$\n- 所有单词和前缀仅由小写英文字母组成\n- 函数签名：`def solve(words, prefix) -> int`", "solution": {"approach": "构建一棵 Trie 字典树。每个节点维护一个 `count` 字段，记录经过该节点的单词数量。插入时沿字符路径递增每个节点的 count。查询时沿前缀字符走到对应节点，返回该节点的 count 即可。若前缀路径不存在则返回 0。", "code": "class TrieNode:\n    __slots__ = ['children', 'count', 'is_end']\n    def __init__(self):\n        self.children = {}\n        self.count = 0\n        self.is_end = False\n\ndef solve(words, prefix):\n    root = TrieNode()\n    for word in words:\n        node = root\n        for ch in word:\n            if ch not in node.children:\n                node.children[ch] = TrieNode()\n            node = node.children[ch]\n            node.count += 1\n        node.is_end = True\n\n    node = root\n    for ch in prefix:\n        if ch not in node.children:\n            return 0\n        node = node.children[ch]\n    return node.count", "starter_code": "def solve(words, prefix):\n    # 请在此处编写代码\n    # 提示：使用 Trie（字典树）数据结构\n    # 每个 TrieNode 维护 children 字典和 count 计数\n    pass", "code_language": "python", "complexity_time": "O(N * L + M)，N 为单词数，L 为平均单词长度，M 为前缀长度", "complexity_space": "O(N * L * 26)，最坏情况下 Trie 存储所有字符节点", "key_points": "Trie 字典树的构建与查询；节点 count 字段记录经过该路径的单词数；前缀匹配只需沿路径走到目标节点取 count", "test_cases": [[["apple", "app", "application", "apt", "banana"], "app"], [["a"], "a"], [["a"], "b"], [["a"], "ab"], [["ab"], "a"], [["cat", "car", "card", "care", "careful"], "car"], [["cat", "car", "card", "care", "careful"], "dog"], [["aaa", "aa", "a"], "a"], [["aaa", "aa", "a"], "aa"], [["aaa", "aa", "a"], "aaa"], [["aaa", "aa", "a"], "aaaa"], [["test"], "test"]], "expected_outputs": [3, 1, 0, 0, 1, 4, 0, 3, 2, 1, 0, 1]}}, {"id": 2, "type": "algorithm_concept", "type_label": "算法概念", "difficulty": 2, "title": "排序算法的稳定性与复杂度", "description": "关于常见排序算法的性质，以下说法**正确**的是？\n\n**选项**：\n- A. 快速排序是稳定排序，最坏时间复杂度为 $O(n \\log n)$\n- B. 归并排序是稳定排序，最坏时间复杂度为 $O(n \\log n)$\n- C. 堆排序是稳定排序，最坏时间复杂度为 $O(n^2)$\n- D. 冒泡排序是不稳定排序，最坏时间复杂度为 $O(n \\log n)$", "options": ["快速排序是稳定排序，最坏时间复杂度为 $O(n \\log n)$", "归并排序是稳定排序，最坏时间复杂度为 $O(n \\log n)$", "堆排序是稳定排序，最坏时间复杂度为 $O(n^2)$", "冒泡排序是不稳定排序，最坏时间复杂度为 $O(n \\log n)$"], "correct_answer": "B", "solution": {"approach": "逐一判断每个排序算法的稳定性和最坏时间复杂度。", "option_analysis": ["**A 错误**：快速排序是**不稳定**排序（相等元素的相对顺序可能改变），最坏时间复杂度为 $O(n^2)$（当每次 partition 选到最值作为基准时退化）。选项声称稳定且最坏 $O(n \\log n)$，两个判断都错。", "**B 正确**：归并排序是**稳定**排序（合并时相等元素取左侧优先即可保持稳定），最坏/最好/平均时间复杂度均为 $O(n \\log n)$，空间复杂度 $O(n)$。两个判断都正确。", "**C 错误**：堆排序是**不稳定**排序（调整堆时相等元素的相对顺序可能改变），最坏时间复杂度为 $O(n \\log n)$ 而非 $O(n^2)$。两个判断都错。", "**D 错误**：冒泡排序是**稳定**排序（相邻交换时相等元素不交换则保持顺序），最坏时间复杂度为 $O(n^2)$（逆序数组）。选项两个判断都错。"], "key_points": "排序稳定性定义：相等元素排序后相对顺序不变则为稳定。常见稳定排序：归并、冒泡、插入、基数。常见不稳定排序：快排、堆排、选择。掌握各排序算法的最好/最坏/平均复杂度是面试基础。"}}, {"id": 3, "type": "ai_derivation", "type_label": "AI公式推导", "difficulty": 2, "title": "线性回归正规方程（Normal Equation）闭式解推导", "description": "给定训练数据集 $\\{(x^{(i)}, y^{(i)})\\}_{i=1}^{n}$，其中 $x^{(i)} \\in \\mathbb{R}^d$（含偏置项 $x_0 = 1$），$y^{(i)} \\in \\mathbb{R}$。线性回归模型预测 $\\hat{y}^{(i)} = \\theta^T x^{(i)}$，损失函数为均方误差（MSE）。\n\n请使用矩阵形式推导：**最小化损失函数 $J(\\theta) = \\frac{1}{2n}\\|X\\theta - y\\|^2$ 关于 $\\theta$ 的正规方程，并求出 $\\theta$ 的闭式解。**\n\n其中 $X \\in \\mathbb{R}^{n \\times d}$ 为设计矩阵，$y \\in \\mathbb{R}^n$ 为目标向量，$\\theta \\in \\mathbb{R}^d$ 为参数向量。", "solution": {"derivation": "**符号定义**：\n- 设计矩阵 $X = [x^{(1)T}; x^{(2)T}; \\cdots; x^{(n)T}] \\in \\mathbb{R}^{n \\times d}$，每行是一个样本\n- 目标向量 $y = [y^{(1)}, y^{(2)}, \\cdots, y^{(n)}]^T \\in \\mathbb{R}^n$\n- 参数向量 $\\theta \\in \\mathbb{R}^d$\n- 预测向量 $\\hat{y} = X\\theta \\in \\mathbb{R}^n$\n\n**损失函数**（省略 $\\frac{1}{2n}$ 常数不影响极值点）：\n$$J(\\theta) = \\frac{1}{2}\\|X\\theta - y\\|^2 = \\frac{1}{2}(X\\theta - y)^T(X\\theta - y)$$\n\n**Step 1：展开二次型**\n$$J(\\theta) = \\frac{1}{2}\\left[(X\\theta)^T(X\\theta) - (X\\theta)^T y - y^T(X\\theta) + y^T y\\right]$$\n$$= \\frac{1}{2}\\left[\\theta^T X^T X \\theta - 2\\theta^T X^T y + y^T y\\right]$$\n\n（利用 $(X\\theta)^T y = \\theta^T X^T y$ 是标量，等于其转置 $y^T X \\theta$）\n\n**Step 2：对 $\\theta$ 求梯度**\n\n利用两个矩阵微积分恒等式：\n- $\\nabla_\\theta (\\theta^T A \\theta) = (A + A^T)\\theta$，当 $A$ 对称时 $= 2A\\theta$\n- $\\nabla_\\theta (b^T \\theta) = b$\n\n因为 $X^T X$ 是对称矩阵（$(X^T X)^T = X^T X$），令 $A = X^T X$，$b = X^T y$：\n$$\\nabla_\\theta J(\\theta) = \\frac{1}{2}\\left[2 X^T X \\theta - 2 X^T y\\right] = X^T X \\theta - X^T y$$\n\n**Step 3：令梯度为零，得正规方程**\n$$X^T X \\theta - X^T y = 0$$\n$$\\boxed{X^T X \\, \\theta = X^T y}$$\n\n**Step 4：求解闭式解**\n\n当 $X^T X$ 可逆（即 $X$ 列满秩，$n \\geq d$ 且特征间无共线性）时：\n$$\\boxed{\\theta = (X^T X)^{-1} X^T y}$$\n\n**Step 5：可逆性讨论**\n\n当 $X^T X$ 不可逆时（特征数 > 样本数，或特征共线性），使用伪逆（Moore-Penrose 伪逆）：\n$$\\theta = (X^T X)^{+} X^T y = X^{+} y$$\n\n或在损失函数中加入 L2 正则化项 $\\frac{\\lambda}{2}\\|\\theta\\|^2$（岭回归），此时：\n$$\\theta = (X^T X + \\lambda I)^{-1} X^T y$$\n\n$\\lambda > 0$ 时 $X^T X + \\lambda I$ 一定可逆（正定矩阵）。", "intuition": "正规方程 $X^T X \\theta = X^T y$ 的几何含义是：残差向量 $X\\theta - y$ 与 $X$ 的列空间正交（即残差不能被特征线性表出进一步减小），这正是投影到列空间的最优解。闭式解 $\\theta = (X^T X)^{-1} X^T y$ 就是将 $y$ 投影到 $X$ 列空间后在原始坐标系下的系数。", "key_points": "矩阵二次型求导：$\\nabla_\\theta (\\theta^T A \\theta) = 2A\\theta$（A 对称）；正规方程 $X^TX\\theta = X^Ty$ 的推导与闭式解；$X^TX$ 可逆条件（列满秩）；不可逆时用伪逆或加 L2 正则化（岭回归）。"}}, {"id": 4, "type": "ai_interview", "type_label": "AI面试问答", "difficulty": 2, "title": "Batch Normalization 与 Layer Normalization 的区别与应用场景", "description": "面试官问：\"Batch Normalization 和 Layer Normalization 都是深度学习中常用的归一化方法，请详细说明它们的原理区别、计算方式差异，以及为什么 Transformer 用 LayerNorm 而不用 BatchNorm？\"", "solution": {"answer_points": ["**计算维度不同**：BatchNorm 沿 **batch 维度** 归一化，对每个特征通道在 batch 内统计均值和方差（$\\mu_B, \\sigma_B^2$ 计算时 batch 内所有样本同一通道参与）；LayerNorm 沿 **特征维度** 归一化，对每个样本的所有特征独立统计均值和方差（$\\mu, \\sigma^2$ 在单个样本的所有特征上计算），与 batch 无关。", "**公式对比**：\nBatchNorm：$\\hat{x}_{ij} = \\frac{x_{ij} - \\mu_B^{(j)}}{\\sqrt{\\sigma_B^{(j)2} + \\epsilon}}$，其中 $\\mu_B^{(j)} = \\frac{1}{B}\\sum_{i=1}^{B} x_{ij}$\nLayerNorm：$\\hat{x}_{ij} = \\frac{x_{ij} - \\mu_i}{\\sqrt{\\sigma_i^2 + \\epsilon}}$，其中 $\\mu_i = \\frac{1}{d}\\sum_{j=1}^{d} x_{ij}$", "**训练/推理行为差异**：BatchNorm 训练时用 batch 统计量，推理时用训练阶段累积的滑动平均（running mean/var），存在训练-推理不一致问题；LayerNorm 训练和推理行为一致，无需维护 running 统计量。", "**为什么 Transformer 用 LayerNorm**：① 序列长度可变，BatchNorm 在变长序列中对不同位置的统计量不一致；② batch size 受限（大模型训练常用梯度累积、微调时 batch=1），BatchNorm 在小 batch 下统计量不可靠；③ Transformer 每个位置独立处理，LayerNorm 对单个样本归一化更自然；④ LayerNorm 不依赖 batch 维度，推理时行为与训练一致。", "**适用场景**：BatchNorm 适合 CNN（固定尺寸输入、大 batch 训练、特征通道有明确语义）；LayerNorm 适合 RNN/Transformer（变长序列、可变 batch、自回归推理）。"], "bonus": ["**RMSNorm**：LayerNorm 的简化变体，去掉均值减法只做方差归一化（$\\hat{x}_i = \\frac{x_i}{\\sqrt{\\frac{1}{d}\\sum_j x_j^2 + \\epsilon}} \\cdot \\gamma$），计算量减少约 20-30%，LLaMA 等大模型广泛采用，实验证明效果与 LayerNorm 相当。", "**DeepNorm**：微软提出，通过修改残差连接初始化实现极深 Transformer（1000+层），归一化因子 $\\alpha$ 控制梯度规模。", "**归一化位置**：Pre-LN（归一化在注意力/前馈之前）比 Post-LN（原始 Transformer 位置）训练更稳定，不需要 warmup，现代大模型普遍使用 Pre-LN。", "**BatchNorm 的泛化性争议**：有研究表明 BatchNorm 的正则化效果部分来自训练时 batch 统计量的随机性，推理时这种随机性消失可能影响泛化。"], "followup_predictions": ["**追问：BatchNorm 中的 $\\gamma$ 和 $\\beta$ 的作用是什么？** — 回答思路：缩放和平移可学习参数，通过 $y = \\gamma \\hat{x} + \\beta$ 恢复网络表达能力。若归一化后直接使用，激活值分布被强行限制在固定区间，可能降低模型拟合能力；$\\gamma$ 和 $\\beta$ 让网络自行决定最优的分布范围，极端情况可还原原始分布（$\\gamma = \\sigma, \\beta = \\mu$）。", "**追问：为什么 BatchNorm 能加速训练？** — 回答思路：① 缓解内部协变量偏移（ICS），使每层输入分布更稳定；② 平滑损失景观，允许更大学习率；③ 有轻微正则化效果（batch 统计量引入噪声）。注意：MIT 2018 论文指出 ICS 可能不是 BN 有效的核心原因，平滑损失景观才是。", "**追问：LayerNorm 中为什么不用 batch 统计量？** — 回答思路：自回归模型推理时 batch=1，batch 统计量无意义；训练时的序列长度变化导致不同位置统计量不一致；LayerNorm 逐样本归一化，无上述问题。"]}}]};
+window.__quizData__ = {"date": "2026-09-15", "title": "每日算法 AI 出题 · 第 6 期", "subtitle": "算法 2 道 + AI 2 道", "questions": [{"id": 1, "type": "algorithm_code", "type_label": "算法编程", "difficulty": 2, "title": "N 皇后 II（回溯法）", "description": "n 皇后问题研究的是如何将 $n$ 个皇后放置在 $n \\times n$ 的棋盘上，并且使皇后彼此之间不能相互攻击（即任意两个皇后不能处于同一行、同一列或同一对角线）。\n\n给定整数 $n$，返回 n 皇后问题的**不同解法数量**。", "input_format": "一个整数 $n$，表示棋盘大小为 $n \\times n$。", "output_format": "一个整数，表示 n 皇后问题的解法总数。", "examples": [{"input": "n = 4", "output": "2", "explanation": "4 皇后问题共有 2 种不同的解法。"}, {"input": "n = 1", "output": "1", "explanation": "1×1 棋盘只有一种放法。"}, {"input": "n = 8", "output": "92", "explanation": "经典的 8 皇后问题共有 92 种解法。"}], "constraints": "- $1 \\le n \\le 12$\n- 函数签名：`def solve(n: int) -> int`", "solution": {"approach": "使用**回溯法**逐行放置皇后。对于每一行，尝试将该行的皇后放在每个可能的列上，检查是否与已放置的皇后冲突（同列、同主对角线、同副对角线）。用三个集合分别记录已占用的列、主对角线（row - col）、副对角线（row + col）。若当前位置不冲突则放置并递归到下一行；递归返回后撤销放置（回溯）。当所有 n 行都放置完毕时，计数器加 1。", "code": "def solve(n: int) -> int:\n    if n <= 0:\n        return 0\n    \n    count = 0\n    cols = set()    # 已占用的列\n    diag1 = set()  # 已占用的主对角线 (row - col)\n    diag2 = set()  # 已占用的副对角线 (row + col)\n    \n    def backtrack(row):\n        nonlocal count\n        if row == n:\n            count += 1\n            return\n        for col in range(n):\n            d1 = row - col\n            d2 = row + col\n            if col in cols or d1 in diag1 or d2 in diag2:\n                continue\n            # 放置皇后\n            cols.add(col)\n            diag1.add(d1)\n            diag2.add(d2)\n            backtrack(row + 1)\n            # 回溯：撤销放置\n            cols.remove(col)\n            diag1.remove(d1)\n            diag2.remove(d2)\n    \n    backtrack(0)\n    return count", "starter_code": "def solve(n: int) -> int:\n    # 请在此处编写代码\n    # 提示：使用回溯法逐行放置皇后\n    # 用集合记录已占用的列和对角线\n    pass", "code_language": "python", "complexity_time": "O(n!)，第一行有 n 种选择，第二行最多 n-1 种，依此类推", "complexity_space": "O(n)，递归深度为 n，三个集合各最多存储 n 个元素", "key_points": "回溯法经典应用；用集合 O(1) 判断列和对角线冲突；主对角线 row-col 相同、副对角线 row+col 相同；回溯时需撤销选择（对称地 remove）", "test_cases": [[1], [2], [3], [4], [5], [6], [7], [8], [9], [10], [11], [12]], "expected_outputs": [1, 0, 0, 2, 10, 4, 40, 92, 352, 724, 2680, 14200]}}, {"id": 2, "type": "algorithm_concept", "type_label": "算法概念", "difficulty": 2, "title": "贪心算法的性质与适用条件", "description": "关于贪心算法（Greedy Algorithm），以下说法**正确**的是？\n\n**选项**：\n- A. 贪心算法一定能得到全局最优解，因为它每步都取当前最优\n- B. 贪心算法的时间复杂度一定比动态规划低\n- C. 贪心算法适用的前提是问题具有贪心选择性质和最优子结构，且贪心选择不会影响子问题的最优解\n- D. 贪心算法和动态规划都可以解决所有优化问题，区别仅在于实现方式不同", "options": ["贪心算法一定能得到全局最优解，因为它每步都取当前最优", "贪心算法的时间复杂度一定比动态规划低", "贪心算法适用的前提是问题具有贪心选择性质和最优子结构，且贪心选择不会影响子问题的最优解", "贪心算法和动态规划都可以解决所有优化问题，区别仅在于实现方式不同"], "correct_answer": "C", "solution": {"approach": "逐一分析贪心算法的核心性质和适用条件。", "option_analysis": ["**A 错误**：贪心算法每步取局部最优，但**不保证**全局最优。经典反例：01 背包问题中若按价值密度贪心选择，可能无法得到最优解（例如物品 A 价值 6 重量 2、物品 B 价值 10 重量 5、背包容量 5，贪心选 A+A=12，但选 B=10 更优？不，这里贪心选 A+B=16... 更好的反例：A 价值 3 重量 1、B 价值 4 重量 2、C 价值 5 重量 3，容量 3，贪心按密度选 A+A=6 但 B+C=9 更优）。只有当问题具有**贪心选择性质**时才能保证全局最优。", "**B 错误**：贪心算法通常比动态规划快（因为不做全面搜索），但不是**一定**更快。某些问题的贪心解法可能需要排序预处理 $O(n \\log n)$，而该问题的 DP 解法也可能是 $O(n \\log n)$。复杂度取决于具体问题和实现方式，不能一概而论。", "**C 正确**：这是贪心算法适用的两个核心前提：①**贪心选择性质**——可以做出局部最优选择而不影响全局最优解（即当前的选择不会限制后续选择导致整体非最优）；②**最优子结构**——问题的最优解包含子问题的最优解。两者缺一不可，这是贪心算法正确性的理论基础。", "**D 错误**：贪心和动态规划**并非可以解决所有优化问题**。有些问题两者都无法高效解决（如某些 NP-hard 问题）。且两者有本质区别：贪心是自顶向下的单次选择（不回退），DP 是自底向上（或带记忆化的自顶向下）的穷举所有子问题最优解。贪心不能解决需要考虑所有子问题组合的问题（如 01 背包），DP 也不能高效解决状态空间爆炸的问题。"], "key_points": "贪心算法的两个前提：贪心选择性质（局部最优选择不破坏全局最优）和最优子结构（最优解包含子问题最优解）。贪心 vs DP 的核心区别：贪心做出不可撤回的选择，DP 穷举所有子问题取最优。经典贪心问题：活动选择、Huffman 编码、Dijkstra 最短路、Kruskal/Prim 最小生成树。经典反例：01 背包不能用贪心。"}}, {"id": 3, "type": "ai_derivation", "type_label": "AI公式推导", "difficulty": 3, "title": "RNN 沿时间反向传播（BPTT）梯度推导与梯度消失分析", "description": "给定一个简单的循环神经网络（RNN），其前向传播为：\n\n$$h_t = \\tanh(W_{hh} h_{t-1} + W_{xh} x_t + b_h)$$\n\n$$y_t = W_{hy} h_t + b_y$$\n\n损失函数为 $L = \\sum_{t=1}^{T} L_t$，其中 $L_t$ 为时刻 $t$ 的损失。\n\n请推导：\n1. 损失 $L$ 对隐藏状态 $h_t$ 的梯度 $\\frac{\\partial L}{\\partial h_t}$ 的完整表达式\n2. 损失 $L$ 对权重 $W_{hh}$ 的梯度 $\\frac{\\partial L}{\\partial W_{hh}}$\n3. 分析为什么 RNN 在长序列上会出现**梯度消失**问题", "solution": {"derivation": "**符号定义**：\n- $W_{hh} \\in \\mathbb{R}^{d_h \\times d_h}$：隐藏状态权重矩阵\n- $W_{xh} \\in \\mathbb{R}^{d_h \\times d_x}$：输入权重矩阵\n- $W_{hy} \\in \\mathbb{R}^{d_y \\times d_h}$：输出权重矩阵\n- $h_t = \\tanh(W_{hh} h_{t-1} + W_{xh} x_t + b_h)$，令 $z_t = W_{hh} h_{t-1} + W_{xh} x_t + b_h$，则 $h_t = \\tanh(z_t)$\n- $L = \\sum_{t=1}^{T} L_t$，其中 $L_t$ 依赖于 $h_t$\n\n---\n\n**Part 1：$\\frac{\\partial L}{\\partial h_t}$ 的完整表达式**\n\n$h_t$ 对后续损失有两条路径的影响：\n- **直接路径**：$h_t$ 通过 $y_t$ 影响 $L_t$，贡献 $\\frac{\\partial L_t}{\\partial h_t}$\n- **间接路径**：$h_t$ 通过 $h_{t+1}, h_{t+2}, \\ldots, h_T$ 影响后续所有损失\n\n因此：\n$$\\frac{\\partial L}{\\partial h_t} = \\frac{\\partial L_t}{\\partial h_t} + \\frac{\\partial L}{\\partial h_{t+1}} \\cdot \\frac{\\partial h_{t+1}}{\\partial h_t}$$\n\n展开 $\\frac{\\partial h_{t+1}}{\\partial h_t}$（链式法则通过 $z_{t+1}$）：\n$$\\frac{\\partial h_{t+1}}{\\partial h_t} = \\frac{\\partial h_{t+1}}{\\partial z_{t+1}} \\cdot \\frac{\\partial z_{t+1}}{\\partial h_t} = \\text{diag}(1 - h_{t+1}^2) \\cdot W_{hh}$$\n\n其中 $\\text{diag}(1 - h_{t+1}^2)$ 是 $\\tanh'$ 的雅可比矩阵（对角矩阵，因为 $\\tanh'(z) = 1 - \\tanh^2(z) = 1 - h^2$）。\n\n所以完整表达式为：\n$$\\boxed{\\frac{\\partial L}{\\partial h_t} = \\frac{\\partial L_t}{\\partial h_t} + \\left(\\frac{\\partial L}{\\partial h_{t+1}} \\odot (1 - h_{t+1}^2)\\right)^T W_{hh}}$$\n\n（$\\odot$ 表示逐元素乘法，$1 - h_{t+1}^2$ 是 $\\tanh$ 导数在 $h_{t+1}$ 处的值）\n\n---\n\n**Part 2：$\\frac{\\partial L}{\\partial W_{hh}}$ 的梯度**\n\n$W_{hh}$ 出现在每个时刻的 $z_t = W_{hh} h_{t-1} + \\cdots$ 中，因此需要沿所有时间步累加：\n$$\\frac{\\partial L}{\\partial W_{hh}} = \\sum_{t=1}^{T} \\frac{\\partial L}{\\partial h_t} \\cdot \\frac{\\partial h_t}{\\partial W_{hh}}$$\n\n对每个时刻 $t$，通过 $z_t$ 应用链式法则：\n$$\\frac{\\partial h_t}{\\partial W_{hh}} = \\frac{\\partial h_t}{\\partial z_t} \\cdot \\frac{\\partial z_t}{\\partial W_{hh}} = \\text{diag}(1 - h_t^2) \\cdot h_{t-1}$$\n\n因此：\n$$\\boxed{\\frac{\\partial L}{\\partial W_{hh}} = \\sum_{t=1}^{T} \\left(\\frac{\\partial L}{\\partial h_t} \\odot (1 - h_t^2)\\right) h_{t-1}^T}$$\n\n这是一个外积求和：每个时刻贡献一个 $d_h \\times d_h$ 的矩阵。\n\n---\n\n**Part 3：梯度消失分析**\n\n将 Part 1 的递推式展开，考虑从时刻 $T$ 反向传播到时刻 $k$ 的梯度：\n$$\\frac{\\partial L}{\\partial h_k} \\approx \\frac{\\partial L_T}{\\partial h_T} \\cdot \\prod_{t=k+1}^{T} \\frac{\\partial h_t}{\\partial h_{t-1}}$$\n\n其中每个雅可比矩阵：\n$$\\frac{\\partial h_t}{\\partial h_{t-1}} = \\text{diag}(1 - h_t^2) \\cdot W_{hh}$$\n\n取范数：\n$$\\left\\|\\frac{\\partial h_t}{\\partial h_{t-1}}\\right\\| \\leq \\|\\text{diag}(1 - h_t^2)\\| \\cdot \\|W_{hh}\\| \\leq \\gamma \\cdot \\|W_{hh}\\|$$\n\n其中 $\\gamma = \\max_t |1 - h_t^2|$。由于 $\\tanh$ 的导数 $\\tanh'(z) = 1 - \\tanh^2(z)$，其最大值为 1（在 $z = 0$ 时），但实际中 $|h_t| < 1$ 时 $\\tanh'(z) < 1$。\n\n当 $T - k$ 很大时：\n$$\\left\\|\\frac{\\partial L}{\\partial h_k}\\right\\| \\leq \\left(\\gamma \\cdot \\|W_{hh}\\|\\right)^{T-k}$$\n\n**梯度消失**：当 $\\gamma \\cdot \\|W_{hh}\\| < 1$ 时（即 $W_{hh}$ 的特征值幅度小于 $1/\\gamma$），连乘项指数衰减：\n$$(\\gamma \\cdot \\|W_{hh}\\|)^{T-k} \\to 0 \\quad \\text{当 } T - k \\to \\infty$$\n\n这意味着早期时刻（$k$ 较小）的梯度趋近于 0，网络无法学习长距离依赖。\n\n**补充：梯度爆炸**：当 $\\gamma \\cdot \\|W_{hh}\\| > 1$ 时，连乘项指数增长，梯度爆炸。\n\n**LSTM 的解决方案**：LSTM 引入门控机制（遗忘门 $f_t$、输入门 $i_t$、输出门 $o_t$）和细胞状态 $C_t$。细胞状态的更新为 $C_t = f_t \\odot C_{t-1} + i_t \\odot \\tilde{C}_t$，梯度沿细胞状态传播时 $\\frac{\\partial C_t}{\\partial C_{t-1}} = f_t$，遗忘门可以学习到接近 1 的值，使梯度可以无衰减地长距离传播，从而缓解梯度消失问题。", "intuition": "RNN 梯度沿时间反向传播时，每经过一个时间步就要乘以一个雅可比矩阵 $\\text{diag}(1-h_t^2) \\cdot W_{hh}$，连乘多次后若该矩阵的谱半径小于 1 则梯度指数衰减（消失），大于 1 则指数增长（爆炸）。tanh 的导数最大为 1，且实际中通常小于 1，因此梯度消失是 RNN 的主要问题。LSTM 通过加法（而非乘法）的细胞状态更新路径，使梯度可以长距离传播。", "key_points": "BPTT 本质是沿时间维度展开的链式法则；梯度通过 $\\text{diag}(1-h^2) \\cdot W_{hh}$ 连乘传播；tanh 导数 $\\leq 1$ 导致梯度消失；LSTM 用加法路径和门控机制缓解梯度消失；梯度裁剪（gradient clipping）可缓解梯度爆炸但无法解决消失问题。"}}, {"id": 4, "type": "ai_interview", "type_label": "AI面试问答", "difficulty": 2, "title": "支持向量机（SVM）的原理、对偶问题与核技巧", "description": "面试官问：\"请详细解释支持向量机（SVM）的基本原理，什么是支持向量？为什么要用对偶问题求解？核技巧的本质是什么？SVM 和逻辑回归有什么区别？\"", "solution": {"answer_points": ["**SVM 基本原理**：SVM 寻找一个超平面 $w^T x + b = 0$ 将不同类别分开，目标是使**间隔（margin）最大化**。间隔定义为 $\\frac{2}{\\|w\\|}$，因此最大化间隔等价于最小化 $\\frac{1}{2}\\|w\\|^2$。对于线性可分情况，优化问题为：$\\min_{w,b} \\frac{1}{2}\\|w\\|^2$，约束 $y_i(w^T x_i + b) \\geq 1$。对于软间隔（允许一定误分类），引入松弛变量 $\\xi_i \\geq 0$，目标变为 $\\min \\frac{1}{2}\\|w\\|^2 + C \\sum \\xi_i$，$C$ 为惩罚参数控制间隔宽度与误分类的权衡。", "**支持向量**：距离决策边界最近的样本点（满足 $y_i(w^T x_i + b) = 1$，即在间隔边界上）称为支持向量。**只有支持向量决定超平面**，其他样本点不影响（对应的拉格朗日乘子 $\\alpha_i = 0$）。这是 SVM 的核心特性——模型仅由少量关键样本决定，具有稀疏性。删除非支持向量不影响解。", "**对偶问题的必要性**：原始问题通过拉格朗日乘子法转化为对偶问题 $\\max_\\alpha \\sum \\alpha_i - \\frac{1}{2}\\sum_{i,j} \\alpha_i \\alpha_j y_i y_j x_i^T x_j$，约束 $\\sum \\alpha_i y_i = 0$，$0 \\le \\alpha_i \\le C$。引入对偶的三个原因：①**自然引入核函数**——对偶问题中 $x_i$ 仅以内积 $x_i^T x_j$ 形式出现，可替换为 $K(x_i, x_j)$ 实现非线性；②**降低计算复杂度**——原始问题优化 $w$ 维度为 $d$（特征数），对偶问题优化 $\\alpha$ 维度为 $n$（样本数），当 $d \\gg n$ 时对偶更高效；③**KKT 条件**给出支持向量的判定标准（$\\alpha_i > 0$ 对应支持向量）。", "**核技巧的本质**：核技巧将低维空间的非线性问题映射到高维空间变为线性可分，但**不需要显式计算高维映射 $\\phi(x)$**，只需定义核函数 $K(x_i, x_j) = \\phi(x_i)^T \\phi(x_j)$。常用核函数：线性核 $K = x_i^T x_j$；多项式核 $K = (x_i^T x_j + r)^d$；高斯核（RBF）$K = \\exp(-\\gamma \\|x_i - x_j\\|^2)$，$\\gamma$ 控制核宽度。Mercer 定理保证了核函数的合法性（半正定）。", "**SVM vs 逻辑回归**：①**损失函数**——SVM 用 hinge loss $\\max(0, 1 - y \\cdot f(x))$，逻辑回归用对数损失 $\\log(1 + e^{-y f(x)})$；②**决策边界**——SVM 只依赖支持向量（稀疏），逻辑回归依赖所有样本（非稀疏）；③**概率输出**——SVM 不直接输出概率（需 Platt scaling 后处理），逻辑回归天然输出概率；④**核化**——SVM 天然支持核技巧，逻辑回归核化后计算量更大（需所有样本参与）。"], "bonus": ["**SVM 的 VC 维**：间隔越大 VC 维越小，SVM 通过最大化间隔实现了结构风险最小化（SRM），这是其泛化能力的理论基础。即使特征维度很高，只要间隔足够大，泛化能力仍有保证。", "**SMO 算法**：序列最小优化（Sequential Minimal Optimization）是求解 SVM 对偶问题的高效算法，每次只优化两个拉格朗日乘子（因为等式约束 $\\sum \\alpha_i y_i = 0$ 要求至少同时优化两个），解析求解子问题，避免通用 QP 求解器的高开销。", "**多分类 SVM**：SVM 本质是二分类器，多分类常用 one-vs-rest（训练 K 个分类器）或 one-vs-one（训练 $K(K-1)/2$ 个分类器，投票决定）。", "**SVM 在深度学习时代地位**：在中小样本、高维特征（如文本分类 TF-IDF）场景仍有优势；深度学习在大数据场景下端到端学习更强，但 SVM 作为基线方法仍有价值，尤其在需要明确决策边界和稀疏解的场景。"], "followup_predictions": ["**追问：高斯核中 $\\gamma$ 参数如何影响模型？** — 回答思路：$\\gamma$ 控制单个样本的影响范围。$\\gamma$ 大时核函数衰减快，每个支持向量影响范围小，决策边界复杂（容易过拟合）；$\\gamma$ 小时影响范围大，决策边界平滑（可能欠拟合）。通常通过交叉验证选择 $\\gamma$ 和 $C$。常用网格搜索（grid search）配合交叉验证确定超参数。", "**追问：SVM 为什么能处理非线性问题？** — 回答思路：通过核技巧将原始空间非线性可分的数据映射到高维特征空间使其线性可分。例如 XOR 问题在 2D 空间线性不可分，但映射到 3D 空间后可分。核技巧避免了显式高维映射的计算开销，通过内积替换实现。高斯核对应无限维特征空间。", "**追问：软间隔中 C 的作用是什么？** — 回答思路：C 是正则化参数，控制间隔宽度与误分类惩罚的权衡。C 大时对误分类惩罚重，间隔窄，容易过拟合；C 小时间隔宽，容忍更多误分类，容易欠拟合。等价于正则化强度的倒数。"]}}]};
 </script>
 </body>
 </html>
