@@ -1,5 +1,42 @@
 [
   {
+    "date": "2026-09-15",
+    "filename": "quiz-2026-09-15.html",
+    "url": "https://syypretend.github.io/test/daily-quiz/quiz-2026-09-15.html",
+    "title": "每日算法 AI 出题 · 第 5 期",
+    "subtitle": "算法 2 道 + AI 2 道",
+    "questions": [
+      {
+        "id": 1,
+        "type": "algorithm_code",
+        "type_label": "算法编程",
+        "title": "前缀计数（Trie 字典树）",
+        "difficulty": 2
+      },
+      {
+        "id": 2,
+        "type": "algorithm_concept",
+        "type_label": "算法概念",
+        "title": "排序算法的稳定性与复杂度",
+        "difficulty": 2
+      },
+      {
+        "id": 3,
+        "type": "ai_derivation",
+        "type_label": "AI公式推导",
+        "title": "线性回归正规方程（Normal Equation）闭式解推导",
+        "difficulty": 2
+      },
+      {
+        "id": 4,
+        "type": "ai_interview",
+        "type_label": "AI面试问答",
+        "title": "Batch Normalization 与 Layer Normalization 的区别与应用场景",
+        "difficulty": 2
+      }
+    ]
+  },
+  {
     "date": "2026-09-11",
     "filename": "quiz-2026-09-11.html",
     "url": "https://syypretend.github.io/test/daily-quiz/quiz-2026-09-11.html",
