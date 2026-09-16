@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<title>大模型技术速递 — 2026年09月16日</title>
+<style>
+:root{
+  --bg:#0b0e14; --card:#141926; --card2:#1a2133;
+  --text:#e8ecf5; --dim:#96a0b5; --accent:#5b8cff; --accent2:#8b5cf6;
+  --green:#2dd4a7; --star:#ffb84d; --border:rgba(255,255,255,.07);
+  --radius:14px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  background:linear-gradient(170deg,#0a0d14 0%,#0d1424 45%,#0b111d 100%);
+  color:var(--text);line-height:1.8;font-size:15px;
+  -webkit-font-smoothing:antialiased;min-height:100vh;
+}
+.wrap{max-width:760px;margin:0 auto;padding:0 14px 48px}
+
+/* 头部 */
+header.hero{
+  text-align:center;padding:36px 16px 26px;
+  background:radial-gradient(120% 140% at 50% 0%,rgba(91,140,255,.18) 0%,rgba(124,92,246,.08) 45%,transparent 75%);
+  border-bottom:1px solid var(--border);
+}
+.badge{display:inline-flex;align-items:center;gap:6px;background:rgba(91,140,255,.14);
+  border:1px solid rgba(91,140,255,.32);padding:5px 14px;border-radius:999px;
+  font-size:12px;font-weight:600;letter-spacing:1px;color:#9dc2ff;margin-bottom:16px}
+h1.title{font-size:clamp(20px,5vw,27px);font-weight:800;letter-spacing:.5px;
+  background:linear-gradient(120deg,#fff,#a8c8ff);-webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;margin-bottom:6px}
+.date{color:#96a9c0;font-size:14px;margin-bottom:20px}
+.stats{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.stat{flex:1;max-width:130px;background:rgba(255,255,255,.04);border:1px solid var(--border);
+  border-radius:12px;padding:10px 6px;text-align:center}
+.stat b{display:block;font-size:22px;font-weight:800;color:var(--accent)}
+.stat.imp b{color:var(--star)} .stat.nor b{color:var(--green)}
+.stat span{font-size:11px;color:var(--dim)}
+
+/* 正文 */
+.content{padding:20px 6px 0}
+.update-intro{background:linear-gradient(135deg,rgba(91,140,255,.1),rgba(124,92,246,.07));
+  border:1px solid rgba(91,140,255,.22);border-left:3px solid var(--accent);
+  border-radius:10px;padding:10px 14px;font-size:13px;color:var(--dim);margin-bottom:24px}
+.update-intro p{margin:0}
+
+/* 章节标题 */
+.section-title{display:flex;align-items:center;gap:8px;font-size:19px;font-weight:800;
+  margin:34px 0 16px;padding-bottom:9px;border-bottom:2px solid rgba(91,140,255,.28)}
+.sec-icon{font-size:17px}
+
+/* 重要动态条目 */
+.imp-item{background:var(--card2);border:1px solid var(--border);
+  border-radius:var(--radius);padding:16px 16px 14px;margin-bottom:16px;
+  box-shadow:0 4px 18px rgba(0,0,0,.25)}
+.imp-item h3{font-size:15.5px;font-weight:700;line-height:1.5;margin-bottom:8px;color:#f0f4ff}
+.imp-item p{color:var(--text);font-size:14px;margin:7px 0}
+.imp-item strong{color:#cfe0ff;font-weight:600}
+.imp-item ul,.imp-item ol{padding-left:20px;margin:6px 0}
+.imp-item li{margin:4px 0;font-size:13.8px;color:var(--text)}
+.imp-item li::marker{color:var(--accent)}
+
+/* 常规动态卡片 */
+.cat-title{font-size:14.5px;font-weight:700;color:#b9c8e8;margin:22px 0 10px;
+  padding-left:10px;border-left:3px solid var(--accent2)}
+.norm-item{background:var(--card);border:1px solid var(--border);border-radius:12px;
+  padding:11px 13px;margin-bottom:9px;font-size:13.8px;color:var(--dim);
+  transition:transform .15s,border-color .15s}
+.norm-item:hover{transform:translateX(3px);border-color:rgba(91,140,255,.4)}
+.norm-item strong{color:var(--text);font-weight:600}
+.norm-item a{color:var(--accent);text-decoration:none;font-size:12.8px;word-break:break-all}
+.norm-item a:hover{text-decoration:underline}
+.norm-item p{margin:0}
+
+/* 表格 */
+.data-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px;border-radius:10px;overflow:hidden}
+.data-table th{background:rgba(91,140,255,.16);padding:9px 10px;text-align:left;font-weight:600;color:#d3e2ff}
+.data-table td{padding:8px 10px;border-top:1px solid var(--border);background:rgba(255,255,255,.03)}
+.data-table tr:hover td{background:rgba(91,140,255,.06)}
+
+/* 引用/链接块 */
+.toc{border-left:3px solid var(--accent2);border-radius:0 10px 10px 0;
+  padding:10px 14px;margin:12px 0;background:rgba(255,255,255,.03);color:var(--dim);font-size:13.5px}
+.toc p{margin:0}
+.toc a{color:var(--accent);word-break:break-all}
+
+/* 代码 */
+pre{background:#0d1119;border:1px solid var(--border);border-radius:10px;padding:13px;overflow-x:auto;font-size:12.5px;margin:10px 0}
+code{font-family:"SF Mono",Consolas,"Courier New",monospace;font-size:12.5px}
+h4{font-size:14px;margin:14px 0 6px;color:#cfdbef}
+p{margin:8px 0}
+hr{border:none;border-top:1px solid var(--border);margin:24px 0}
+strong{color:#dbe6ff}
+ul,ol{padding-left:20px;margin:6px 0}
+
+/* 页脚 */
+footer{text-align:center;margin-top:36px;padding:22px 10px 6px;border-top:1px solid var(--border);
+  color:var(--dim);font-size:12.5px}
+footer p{margin:3px 0}
+
+@media(max-width:480px){
+  body{font-size:14px}
+  header.hero{padding:26px 14px 20px}
+  .stats{gap:8px}
+  .stat{max-width:110px}
+  .section-title{font-size:17px}
+  .imp-item{padding:13px 12px 11px}
+  .data-table{font-size:12px}
+  .data-table th,.data-table td{padding:7px 8px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+    <header class="hero">
+      <div class="badge">🤖 LLM TECH DAILY</div>
+      <h1 class="title">大模型技术速递</h1>
+      <p class="date">2026年09月16日</p>
+      <div class="stats">
+        <div class="stat"><b>23</b><span>收录动态</span></div>
+        <div class="stat imp"><b>4</b><span>★ 重要</span></div>
+        <div class="stat nor"><b>19</b><span>· 常规</span></div>
+      </div>
+    </header>
+    
+<div class="content">
+<h1>🤖 大模型技术速递 — 2026年09月16日</h1>
+<div class="update-intro">
+<p>今日共收录 23 条动态，其中 ★重要 4 条，·常规 19 条。</p>
+</div>
+<div class="section-title"><span class="sec-icon">★</span> 重要动态</div>
+
+<div class="imp-item">
+<h3>1. GPT-6 Astra：循环架构代际跨越，ARC-AGI-3 通过率从个位数飙至 99.9%</h3>
+<p><strong>一句话概要</strong>：OpenAI 于 9 月 3 日正式发布新一代旗舰模型 GPT-6 Astra，总裁 Greg Brockman 以"欢迎来到 AGI 时代"定调，模型在推理、编程、计算机操作等维度实现代际跨越。</p>
+<p><strong>技术要点</strong>：GPT-6 Astra 引入了 Loop Transformer（循环 Transformer）架构，允许模型在推理过程中反复迭代自身输出，从而在不显著增加参数量的前提下大幅提升复杂推理能力。关键创新还包括与原生 Computer Use 集成——模型可直接操作操作系统界面完成在线研究、编程、数据分析，并生成文档、电子表格和演示文稿。此外，OpenAI 同步公开了机器人操控实验，展示 Astra 在物理世界任务中的泛化潜力。在个性化记忆方面，Astra 支持跨会话上下文保持，可记住用户偏好与历史交互。</p>
+<p><strong>实验结果</strong>：根据 OpenAI 官方数据，与前代 GPT-5.6 Sol 相比：ARC-AGI-3 测试通过率从个位数跃升至 99.9%；FrontierMath Tier 4 达 98%；OSWorld 2.0 任务完成率从 65.7% 提升至 72.6%，且平均耗时从 75 分钟锐减至 40 分钟。编程任务的 Token 消耗仅为此前三分之一，推理效率大幅提升。</p>
+<p><strong>影响分析</strong>：Astra 的发布标志着大模型从"文本生成"正式进入"真实工作流自动化"阶段。Loop Transformer 架构为解决长链推理问题提供了新范式，可能影响后续模型设计方向。Computer Use 能力的成熟意味着 AI Agent 不再是概念演示，而是可实际部署的生产力工具。分批灰度发布策略本身也反映出算力供给和工程稳定性已成为与模型能力同等重要的约束条件。标准 API 定价为每百万输入 Token 10 美元、每百万输出 Token 50 美元，Fast 模式提供约 2 倍处理速度但价格翻倍。</p>
+<blockquote class="toc">
+<p>来源：<a href="https://baijiahao.baidu.com/s?id=1875964471945870066" target="_blank" rel="noopener">计算机|GPT-6：循环架构升级，抬升智能上限</a> ｜ <a href="https://baijiahao.baidu.com/s?id=1875946032117400788" target="_blank" rel="noopener">GPT-6 Astra 发布，AGI 时代来了吗？</a> ｜ <a href="https://baike.baidu.com/item/GPT-6/66920449" target="_blank" rel="noopener">百度百科：GPT-6</a></p>
+</blockquote>
+</div>
+<div class="imp-item">
+<h3>2. OpenAI 万智能体 88 小时攻破千禧年难题，菲尔兹奖得主联名公开信质疑</h3>
+<p><strong>一句话概要</strong>：9 月 8 日，OpenAI 宣布调动约 1 万个 AI 智能体协同工作，仅用 88 小时即给出纳维-斯托克斯方程存在性与光滑性问题的证明，同步公开 166 页论文和 Lean 形式化验证代码。此后，25 位菲尔兹奖得主联合发布公开声明，质疑 AI 公司将数学问题作为基准测试的做法对数学共同体有害。</p>
+<p><strong>技术要点</strong>：OpenAI 使用一个尚未公开的内部模型驱动约一万个并发 AI 智能体，采用"流水线式"协作模式——智能体分工承担猜想提出、反例搜索、证明构造、形式化验证等不同环节。整个过程中智能体之间共产生约 270 万条消息，吞吐约 1300 亿个输出 Token，耗费数百万美元算力。最终产出的 166 页论文附带了 Lean 形式化验证代码，试图从机器可验证层面保证证明的严格性。</p>
+<p><strong>争议焦点</strong>：纽约大学学者 Thomas Wolf 公开质疑该工作更接近"大规模反例搜索"而非完整数学证明。原研究者 Tristan Buckmaster 亦指出 OpenAI 抢发了其未发表的工作成果。9 月 15 日，邓煜、陶哲轩等 25 位菲尔兹奖得主联合发布《人工智能在数学中的严重错位》公开声明，指出 AI 公司把解决数学问题当作基准测试推进，对数学共同体有害。陶哲轩进一步预警：随着 AI 横跨更多学科，"好问题"本身将成为稀缺资源。</p>
+<p><strong>影响分析</strong>：这一事件折射出 AI 与基础科学研究关系的深层张力。一方面，万智能体协作展示了 AI 在复杂数学推理中的工程可行性，Lean 形式化验证为 AI 产出的数学证明提供了可信度保障框架。另一方面，菲尔兹奖得主的集体发声提示学界需要建立 AI 参与数学研究的学术规范与伦理边界。对未来 LLM 研发的启示在于：大规模智能体协作可能是突破复杂推理瓶颈的关键技术路线，但需要与人类专家形成有效的验证与监督机制。</p>
+<blockquote class="toc">
+<p>来源：<a href="https://baijiahao.baidu.com/s?id=1876290464979544311" target="_blank" rel="noopener">当一万个 AI 智能体撞开数学的门</a> ｜ <a href="https://baijiahao.baidu.com/s?id=1876390235522397828" target="_blank" rel="noopener">菲尔兹奖得主公开信背后</a> ｜ <a href="https://cpt-magician.blog.csdn.net/article/details/164990749" target="_blank" rel="noopener">OpenAI 宣称破解千禧年难题，数学家却说是「反例搜索」？</a></p>
+</blockquote>
+</div>
+<div class="imp-item">
+<h3>3. ZGCM-1：7 名博士生 3 个月从零训练 7B 大模型，代码数据日志全开放</h3>
+<p><strong>一句话概要</strong>：北京中关村学院 7 名博士生利用一个暑假，从零训练出 7B 稠密基础模型 ZGCM-1，并将各阶段训练数据、模型权重、训练代码、中间 checkpoint 和日志全部开源，实现了完全可复现的训练流程。</p>
+<p><strong>技术要点</strong>：ZGCM-1 是一个完全开源、从零训练的 7B 稠密基础模型，面向数学推理与智能体搜索场景优化。项目团队公开了完整的训练配方——包括数据配比、学习率调度、初始化策略和各阶段超参数设置。中间 checkpoint 和训练日志的开放使得研究者可以追溯模型能力随训练进展的演变曲线，这在当前主流开源模型中极为罕见（通常只发布最终权重）。</p>
+<p><strong>实验结果</strong>：在多项通用评测中，ZGCM-1 与 Qwen3-8B 等同规模模型表现相近；在部分数学推理和搜索评测中，该模型甚至能与 Qwen3-235B-A22B、GLM-5.1 等更大规模模型相竞争。这意味着小团队通过精心的数据配比和训练策略设计，也能在特定领域达到接近大厂模型的水平。</p>
+<p><strong>影响分析</strong>：ZGCM-1 的全开放策略为学术界和独立开发者提供了一个罕见的"从头复现"参照系。完整训练日志的公开有助于理解大模型训练过程中的能力涌现时机和关键转折点，对改进训练策略具有直接参考价值。该项目也证明：在 7B 参数规模下，通过高质量的数学数据配比和针对性训练，可以在特定领域实现"以小博大"。对资源受限的研究者而言，这是一条可操作的模型研发路径。</p>
+<blockquote class="toc">
+<p>来源：<a href="https://baijiahao.baidu.com/s?id=1876362615566628138" target="_blank" rel="noopener">7 名博士生仅用 3 个月从零训练 7B 大模型</a> ｜ <a href="https://zhuanlan.zhihu.com/p/22987183" target="_blank" rel="noopener">ZGCM-1 论文（arXiv）</a></p>
+</blockquote>
+</div>
+<div class="imp-item">
+<h3>4. 中国大模型"压力测试周"：DeepSeek 调价、Kimi 辟谣、智谱 50 亿美元融资</h3>
+<p><strong>一句话概要</strong>：9 月 9 日至 13 日，DeepSeek、Kimi（月之暗面）、智谱三家中国大模型代表企业在同一周内分别经历产品调价、舆论危机和资本运作三重压力测试，折射出行业从"技术神话"进入"现实考场"的转折。</p>
+<p><strong>DeepSeek——V4.1 Flash 发布与价格下调</strong>：9 月 9 日，DeepSeek 宣布 V4.1 Flash 模型在性能、费用、速度上全面超越 V4 Pro。9 月 10 日起调整 Flash 系列定价：空闲时段缓存命中输入降至 0.02 元/百万 Token（降幅 60%），缓存未命中输入降至 1 元（降幅 33%），输出降至 4 元（降幅 11%）；高峰时段价格为空闲时段的 2 倍。在新旧版本切换中，DeepSeek 最终选择保留 V4 Pro API，而非直接下线，回应了用户对兼容性的关切。</p>
+<p><strong>Kimi（月之暗面）——企业合作启动与紧急辟谣</strong>：Kimi K3 在多项独立基准测试中跻身全球头部阵营，与 Claude、GPT-6 处于同一梯队。同期 Kimi 启动企业合作伙伴计划，拓展商业化路径。但因网传创始人及团队不实信息，Kimi 被迫紧急辟谣，反映了头部创业公司在高速增长中面临的舆论压力。</p>
+<p><strong>智谱——50 亿美元融资</strong>：9 月 13 日，"全球大模型第一股"智谱（02513.HK）公告拟同步开展 H 股配售（最多发行 2196.5 万股新 H 股）及约 30 亿美元可转债发行，合计融资规模约 50 亿美元。在全球 AI 资本市场波动背景下，国际机构的踊跃认购反映出对中国大模型企业价值的认可。</p>
+<p><strong>影响分析</strong>：三家公司的同期经历勾勒出中国大模型行业从"技术追赶"转向"商业落地"的拐点。DeepSeek 的激进定价策略正在重塑行业价格基准，加速大模型 API 的"水电化"进程。Kimi 的辟谣事件暴露出创业公司在规模化扩张中的治理脆弱性。智谱的大额融资则为下一代模型研发储备了资本弹药。整体来看，行业竞争已经从单一的技术能力比拼，演变为产品力、定价策略、资本储备和合规治理的综合博弈。</p>
+<blockquote class="toc">
+<p>来源：<a href="http://finance.sina.com.cn/jjxw/2026-09-14/doc-inirveaw4465690.shtml" target="_blank" rel="noopener">大模型重压之下：DeepSeek 改口、Kimi 辟谣、智谱融资</a> ｜ <a href="https://www.163.com/dy/article/L6F3OL1S05118I96.html" target="_blank" rel="noopener">DeepSeek 官宣降价</a> ｜ <a href="http://finance.sina.com.cn/wm/2026-09-15/doc-inirwmwe3771963.shtml" target="_blank" rel="noopener">大模型第一股，完成约 50 亿美元融资</a></p>
+</blockquote>
+</div><div class="section-title"><span class="sec-icon">📋</span> 常规动态</div>
+<div class="cat-title">模型发布</div>
+<div class="norm-item"><p><strong>Anthropic 发布 Claude Fable 5.1 / Mythos 5.1 双轨模型</strong> — 9 月 1 日，Anthropic 推出 Claude Fable 5.1（面向所有人开放）和 Mythos 5.1（仅通过 Trusted Access Program 向审核通过的网络安全和生命科学机构提供）。Mythos 5.1 可用于发现软件漏洞但不生成利用代码。核心亮点为性能翻倍、成本大降、解决企业数据合规痛点。 <a href="https://baike.baidu.com/item/Trusted%20Access%20Program/68581218" target="_blank" rel="noopener">来源</a></p></div>
+<div class="norm-item"><p><strong>Google 发布 Gemini 3.8 Flash 与 Flash Cyber</strong> — 9 月 2 日，Google 推出 Gemini 3.8 Flash 系列及安全专用版 Flash Cyber，这是自 2026 年 5 月起的第四次 Flash 迭代，平均不到两个月一个新版本，迭代节奏从年度赛跑进入季度竞赛。 <a href="https://blog.csdn.net/johnsong2009/article/details/165363619" target="_blank" rel="noopener">来源</a></p></div>
+<div class="norm-item"><p><strong>Suno 发布 v6 系列 AI 音乐模型</strong> — 9 月 9 日，Suno 联合华纳音乐、BMG、Believe 推出 v6 系列音乐生成模型，基于正版版权数据集训练。v6 支持局部歌词/旋律编辑、多模态输入（文本、音频、图像），同时停用全部旧模型。包含三个版本面向不同用户群体。 <a href="https://m.163.com/dy/article/L6DDHK7N05568W0A.html" target="_blank" rel="noopener">来源</a></p></div>
+<div class="norm-item"><p><strong>国产大模型密集开源</strong> — 8 月下旬至 9 月，腾讯混元 Hy4 preview、GLM-5.3-Flash、Qwen3.8-Flash-Next（基于 Qwen4 架构预览）及 DeepSeek-V4-Flash-Vision-Exp 等国产模型接连发布或开源。面壁智能于 9 月 8 日联合 OpenBMB 开源 MiniCPM5-2B。阿里旗舰模型 Qwen3.8-Max 首次开放权重。 <a href="https://weibo.com/2311077472/Rhi2OfQu0" target="_blank" rel="noopener">来源</a></p></div>
+<div class="cat-title">学术论文</div>
+<div class="norm-item"><p><strong>Mr.LHDR：多模态长程深度研究智能体基准</strong> — 该论文提出评测真实世界多模态长程深度研究智能体的基准。每题由隐藏的节点-关系图构造，平均需 12.1 个必要中间结论、依赖深度 10.4，且至少包含一个会改变推理状态的非文本模态线索，填补了长程多模态推理评测的空白。 <a href="https://hackcv.com/posts/research-brief-2026-09-12/" target="_blank" rel="noopener">来源</a></p></div>
+<div class="norm-item"><p><strong>AI 参与科研的边界讨论持续发酵</strong> — 光明日报推出"探问 AI 参与科研的边界"系列报道，围绕 AI 时代的学术规范建立、人类科研能力退化风险、人才培养方式调整等议题展开深度讨论，引发学界广泛关注。 <a href="https://baijiahao.baidu.com/s?id=1876429978099981433" target="_blank" rel="noopener">来源</a></p></div>
+<div class="norm-item"><p><strong>TensorRT-LLM 1.3 快速迭代</strong> — NVIDIA 发布新的 1.3.0rc26 开发镜像，TensorRT-LLM 1.3 分支持续快速迭代，开源模型的竞争重点已从"再发布一个 Chat 模型"转向 Model → GGUF / FP8 量化部署优化方向。 <a href="https://zhuanlan.zhihu.com/p/2082744833655967936" target="_blank" rel="noopener">来源</a></p></div>
+<div class="cat-title">技术突破</div>
+<div class="norm-item"><p><strong>中国移动新一代大模型异构混合推理系统亮相</strong> — 在 2026 算力大会上，中国移动首次展示将国产通用 GPU 与类脑芯片深度融合的异构推理系统。创新实现 Transformer 模型 PD/AF 分离推理模式——Attention 计算交由国产 GPU 承载，FFN 模块交由类脑芯片处理，对标英伟达下一代国际先进异构推理方案。 <a href="https://baijiahao.baidu.com/s?id=1876174199479084700" target="_blank" rel="noopener">来源</a></p></div>
+<div class="norm-item"><p><strong>苹果发布 2nm A20 Pro 芯片</strong> — 9 月 9 日，苹果在秋季发布会推出首款 2nm 制程 A20 Pro 芯片，配备双神经引擎共 32 核心，提升端侧 AI 性能。同场发布首款折叠屏 iPhone Duo，并推出硬件级图像防伪签名功能。 <a href="https://baijiahao.baidu.com/s?id=1875875638126793003" target="_blank" rel="noopener">来源</a></p></div>
+<div class="norm-item"><p><strong>NASA 与 IBM 发布开源月球研究大模型</strong> — NASA 与 IBM 联合发布面向月球科学研究的开源大模型，已在 HuggingFace 平台被下载破万次。该模型基于月球遥感数据训练，支持月表地质特征识别、资源分布预测等任务，为阿尔忒弥斯登月计划提供 AI 辅助。 <a href="https://it.sohu.com/a/1074437932_122066679" target="_blank" rel="noopener">来源</a></p></div>
+<div class="cat-title">行业新闻</div>
+<div class="norm-item"><p><strong>OpenRouter 周调用达 126 万亿 Token，中国模型占 8/10</strong> — OpenRouter 平台周调用总量约 126 万亿 Token，TOP10 模型中中国大模型占据 8 席，腾讯混元 Hy 系列凭借 Hy4 preview 和 Hy3 合计调用量领先。商务部就"模型蒸馏"指控回应称于事无凭、于法无据。 <a href="https://stock.finance.sina.com.cn/stock/go.php/vReport_Show/kind/search/rptid/842719920591/index.phtml" target="_blank" rel="noopener">来源</a></p></div>
+<div class="norm-item"><p><strong>大模型训练进入十万卡时代，三巨头集体"踩刹车"</strong> — 2026 年 Q3 全球大模型竞赛进入新一轮高强度对垒，国内外厂商在 9 月密集发布新旗舰。但与此同时，OpenAI、Google、Anthropic 三巨头均放慢了下一代超大模型预训练节奏，算力供给与工程稳定性成为核心约束。 <a href="https://baijiahao.baidu.com/s?id=1876417048947763437" target="_blank" rel="noopener">来源</a></p></div>
+<div class="norm-item"><p><strong>服贸会展示大模型行业落地全景</strong> — 2026 年中国国际服务贸易交易会上，大模型在金融、教育、医疗、文旅、法治等领域的实际应用集中展示。中国铁塔发布空间治理大模型"铁塔经纬"，已形成 7 个细分行业模型并在 17 省市商业化应用。 <a href="https://app.xinhuanet.com/news/article.html?articleId=2026091131725474e84f4de6a8dd04b56ff8d633" target="_blank" rel="noopener">来源</a></p></div>
+<div class="norm-item"><p><strong>PEC 2026 AI 创新者大会召开</strong> — 9 月 12 日，PEC 2026 AI 创新者大会暨第三届提示工程峰会在北京召开，发布《2026 全球 Token 产业全景图谱》和《2026 全球人工智能展望报告》。大会线下参会 1600 人，线上观看超 350 万。 <a href="https://baijiahao.baidu.com/s?id=1876193734233924472" target="_blank" rel="noopener">来源</a></p></div>
+<div class="norm-item"><p><strong>2026 人工智能产业大会 10 月将在济南举办</strong> — 大会将于 10 月 14-16 日在山东济南举办，由中国信息通信研究院等主办，集中发布大模型、具身智能等创新成果。 <a href="https://www.sdxc.gov.cn/sdfb/fbsy/202609/t20260916_18120920.htm" target="_blank" rel="noopener">来源</a></p></div>
+<div class="norm-item"><p><strong>陆家嘴金融科技专场关注大模型风控合规</strong> — 9 月 18 日将开启的金融科技专场深入探讨国产算力底座建设、金融机构大模型应用和风控合规，关注算法偏见、模型黑箱等新型风险的治理。 <a href="https://www.yicai.com/news/103365583.html" target="_blank" rel="noopener">来源</a></p></div>
+<div class="cat-title">开源项目</div>
+<div class="norm-item"><p><strong>ZGCM-1：全开放 7B 基础模型</strong> — 北京中关村学院 7 名博士生从零训练的 7B 模型，代码、数据、训练日志、中间 checkpoint 全部开放，支持数学推理与智能体搜索场景。（详见重要动态 #3） <a href="https://baijiahao.baidu.com/s?id=1876362615566628138" target="_blank" rel="noopener">来源</a></p></div>
+<div class="norm-item"><p><strong>IBM Granite PatchTST-FM-r2：商用友好时序预测模型</strong> — IBM 开源时间序列预测基础模型，采用 PatchTST 架构，在多个时序预测基准上达到 SOTA，采用商用友好许可证。 <a href="https://blog.csdn.net/Smoothly_Lu/article/details/164811559" target="_blank" rel="noopener">来源</a></p></div>
+<div class="norm-item"><p><strong>atlas：代码智能体版本控制系统</strong> — 开源项目（4.4k★），为 AI 编程智能体提供版本管理与回溯能力，支持多智能体协作场景下的代码追踪与冲突处理。 <a href="https://zhuanlan.zhihu.com/p/2083146463509590628" target="_blank" rel="noopener">来源</a></p></div>
+<div class="norm-item"><p><strong>Claude-Red：Claude 攻击性安全研究技能库</strong> — 开源项目（4.6k★），提供面向 Claude 模型的安全研究技能集，覆盖漏洞发现、渗透测试与对抗性提示等方向。 <a href="https://zhuanlan.zhihu.com/p/2083146463509590628" target="_blank" rel="noopener">来源</a></p></div>
+<div class="norm-item"><p><strong>YuE：前沿 AI 音乐生成模型</strong> — 开源项目（8.2k★），提供本地化音乐生成能力，支持自然语言到音乐的端到端转换，可与 Suno v6 等商业模型对比测试。 <a href="https://zhuanlan.zhihu.com/p/2083146463509590628" target="_blank" rel="noopener">来源</a></p></div>
+<div class="norm-item"><p><strong>OpenResearch：并行多智能体调研平台</strong> — 开源项目（2.4k★），支持部署多个 AI 智能体并行执行研究调研任务，可自动汇总、去重并生成结构化报告。 <a href="https://zhuanlan.zhihu.com/p/2083146463509590628" target="_blank" rel="noopener">来源</a></p></div>
+<hr>
+<p><em>本速递由星辰超级智能体自动生成 | 数据截至 2026-09-16 09:00 | 覆盖时间窗口：2026-09-09 ~ 2026-09-16</em></p>
+<blockquote class="toc">
+<p>AI生成</p>
+</blockquote>
+</div>
+
+    <footer>
+      <p>本速递由星辰超级智能体自动生成</p>
+      <p>数据截至 2026-09-16 09:00</p>
+      <p>信息来源：arXiv · 机器之心 · 量子位 · IT之家 · 36Kr 等</p>
+    </footer>
+    
+</div>
+</body>
+</html>
