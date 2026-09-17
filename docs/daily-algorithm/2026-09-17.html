@@ -1,0 +1,1387 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>每日算法讲解 · 2026年09月17日</title>
+<!-- MathJax for LaTeX math formula rendering -->
+<script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\(', '\)']],
+      displayMath: [['$$', '$$'], ['\[', '\]']],
+      processEscapes: true
+    },
+    svg: { fontCache: 'global' }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" id="MathJax-script" async></script>
+<style>
+:root {
+  --primary: #6366f1;
+  --primary-dark: #4f46e5;
+  --bg: #0f172a;
+  --card-bg: #1e293b;
+  --text: #e2e8f0;
+  --text-dim: #94a3b8;
+  --accent: #818cf8;
+  --border: #334155;
+  --code-bg: #0d1117;
+  --code-text: #e6edf3;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans SC", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.8;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+.container { max-width: 1400px; margin: 0 auto; padding: 24px 32px; }
+.header {
+  text-align: center;
+  padding: 40px 0 30px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 32px;
+}
+.header h1 {
+  font-size: 28px;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.header h1 .date { color: var(--accent); }
+.header .subtitle { color: var(--text-dim); font-size: 15px; }
+.repo-link {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 6px 16px;
+  background: var(--primary);
+  color: #fff;
+  border-radius: 20px;
+  text-decoration: none;
+  font-size: 13px;
+  transition: background 0.2s;
+}
+.repo-link:hover { background: var(--primary-dark); }
+.history-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 32px;
+  padding: 16px;
+  background: var(--card-bg);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+.history-nav a {
+  padding: 4px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  color: var(--text-dim);
+  text-decoration: none;
+  background: rgba(99,102,241,0.08);
+  transition: all 0.2s;
+}
+.history-nav a:hover { color: var(--text); background: rgba(99,102,241,0.2); }
+.history-nav a.active { color: #fff; background: var(--primary); }
+.history-nav a.back-index { color: var(--accent); font-weight: 600; background: rgba(99,102,241,0.15); border: 1px solid rgba(99,102,241,0.3); }
+.history-nav a.back-index:hover { color: #fff; background: var(--primary); border-color: var(--primary); }
+.content { margin-bottom: 40px; max-width: 1100px; }
+.content h2 {
+  font-size: 24px;
+  color: var(--accent);
+  margin: 40px 0 16px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--primary);
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+.content h2:first-child { border-top: none; padding-top: 0; }
+.content h3 {
+  font-size: 18px;
+  color: var(--text);
+  margin: 24px 0 12px;
+}
+.content h4 {
+  font-size: 16px;
+  color: var(--accent);
+  margin: 20px 0 10px;
+}
+.content p { margin-bottom: 12px; color: var(--text); }
+.content ul { margin: 8px 0 16px 20px; }
+.content li { margin-bottom: 6px; }
+.content strong { color: var(--accent); }
+.content blockquote {
+  border-left: 4px solid var(--primary);
+  padding: 12px 16px;
+  margin: 16px 0;
+  background: rgba(99,102,241,0.08);
+  border-radius: 0 8px 8px 0;
+}
+.content blockquote p { color: var(--text-dim); margin: 4px 0; }
+.content hr {
+  border: none;
+  height: 1px;
+  background: var(--border);
+  margin: 32px 0;
+}
+.code-block {
+  background: var(--code-bg);
+  border-radius: 10px;
+  padding: 18px 24px;
+  overflow-x: auto;
+  margin: 16px 0;
+  border: 1px solid var(--border);
+  max-width: 100%;
+}
+.code-block code {
+  font-family: "JetBrains Mono", "Fira Code", "Consolas", monospace;
+  font-size: 14px;
+  color: var(--code-text);
+  line-height: 1.6;
+  white-space: pre;
+}
+.inline-code {
+  background: rgba(99,102,241,0.15);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: "Consolas", monospace;
+  font-size: 0.9em;
+  color: var(--accent);
+}
+/* Math formula block */
+.content .math-block {
+  background: rgba(99,102,241,0.06);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 24px;
+  margin: 16px 0;
+  overflow-x: auto;
+  max-width: 100%;
+}
+.content .math-label {
+  font-size: 13px; color: var(--text-dim); margin-bottom: 6px; }
+.content .math-vars {
+  margin: 8px 0 16px 20px; }
+.content .math-vars li { margin-bottom: 4px; color: var(--text-dim); }
+.footer {
+  text-align: center;
+  padding: 24px 0;
+  border-top: 1px solid var(--border);
+  color: var(--text-dim);
+  font-size: 13px;
+}
+.tag {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  background: rgba(99,102,241,0.15);
+  color: var(--accent);
+  margin-left: 8px;
+}
+.content .ref-link {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px dashed rgba(99,102,241,0.4);
+  transition: all 0.2s;
+  word-break: break-all;
+}
+.content .ref-link:hover {
+  color: #fff;
+  border-bottom-color: var(--primary);
+}
+.content li {
+  word-break: break-all;
+}
+/* Table */
+.table-wrapper {
+  overflow-x: auto;
+  margin: 16px 0;
+  max-width: 100%;
+}
+.algo-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  background: var(--card-bg);
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+.algo-table thead {
+  background: rgba(99,102,241,0.15);
+}
+.algo-table th {
+  padding: 10px 16px;
+  text-align: left;
+  color: var(--accent);
+  font-weight: 600;
+  border-bottom: 2px solid var(--primary);
+  white-space: nowrap;
+}
+.algo-table td {
+  padding: 8px 16px;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  word-break: break-all;
+}
+.algo-table tr:last-child td {
+  border-bottom: none;
+}
+.algo-table tr:hover td {
+  background: rgba(99,102,241,0.06);
+}
+/* Algorithm architecture image */
+.algo-image {
+  margin: 20px 0;
+  text-align: center;
+}
+.algo-image img {
+  max-width: 100%;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+.algo-image .image-caption {
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--text-dim);
+}
+.algo-image svg {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+/* ======== 移动端响应式适配 ======== */
+@media (max-width: 768px) {
+  .container { max-width: 100%; padding: 16px 14px; }
+  .header { padding: 24px 0 20px; margin-bottom: 20px; }
+  .header h1 { font-size: 20px; margin-bottom: 4px; }
+  .header .subtitle { font-size: 13px; }
+  .repo-link { margin-top: 10px; padding: 5px 14px; font-size: 12px; }
+  .history-nav { gap: 6px; padding: 10px 12px; margin-bottom: 20px; }
+  .history-nav a { padding: 3px 10px; font-size: 12px; }
+  .content { max-width: 100%; margin-bottom: 28px; }
+  .content h2 { font-size: 20px; margin: 28px 0 12px; }
+  .content h3 { font-size: 17px; margin: 20px 0 10px; }
+  .content h4 { font-size: 15px; margin: 16px 0 8px; }
+  .content p { font-size: 14px; margin-bottom: 10px; }
+  .content ul { margin: 6px 0 12px 16px; }
+  .content li { font-size: 14px; margin-bottom: 5px; }
+  .content blockquote { padding: 10px 12px; margin: 12px 0; }
+  .content blockquote p { font-size: 13px; }
+  .content .math-block { padding: 10px 14px; margin: 12px 0; }
+  .code-block { padding: 12px 14px; margin: 12px 0; }
+  .code-block code { font-size: 12px; line-height: 1.5; }
+  .inline-code { font-size: 0.88em; padding: 1px 5px; }
+  .algo-table { font-size: 12px; }
+  .algo-table th { padding: 6px 10px; }
+  .algo-table td { padding: 6px 10px; }
+  .algo-image { margin: 14px 0; }
+  .algo-image svg { max-width: 100%; height: auto; }
+  .footer { padding: 18px 0; font-size: 12px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>每日算法讲解 · <span class="date">2026年09月17日</span></h1>
+    <p class="subtitle">每天 1 个基础算法 + 2 个 AI/机器学习算法，持续精进</p>
+    <a href="https://syypretend.github.io/test/daily-algorithm" target="_blank" class="repo-link">GitHub 仓库</a>
+  </div>
+  <div class="history-nav"><a href="index.html" class="back-index">← 历史索引</a>
+<a href="2026-09-17.html" class="active">09月17日</a>
+<a href="2026-09-15.html">09月15日</a>
+<a href="2026-09-14.html">09月14日</a>
+<a href="2026-09-11.html">09月11日</a>
+<a href="2026-09-10.html">09月10日</a>
+<a href="2026-09-09.html">09月09日</a>
+<a href="2026-09-08.html">09月08日</a>
+<a href="2026-09-07.html">09月07日</a>
+</div>
+  <div class="content">
+  <hr>
+<p>AIGC:</p>
+<p>ContentProducer: '001191110102MAD55U9H0F10002'</p>
+<p>ContentPropagator: '001191110102MAD55U9H0F10002'</p>
+<p>Label: '1'</p>
+<p>ProduceID: '2f74ab40-606d-44bd-bc0e-67c3b65a04b1'</p>
+<p>PropagateID: '2f74ab40-606d-44bd-bc0e-67c3b65a04b1'</p>
+<p>ReservedCode1: 'cbcdaaad-178a-4fdb-9371-e7716dcc5f36'</p>
+<p>ReservedCode2: 'cbcdaaad-178a-4fdb-9371-e7716dcc5f36'</p>
+<hr>
+
+<h2>每日算法讲解 · 2026-09-17</h2>
+
+<blockquote>
+<p>今日内容：1 个基础算法 + 2 个 AI/机器学习算法 | 逐参数详解</p>
+<p>轮次：第 1 轮 · 首轮学习 | 累计第 19 天</p>
+</blockquote>
+
+<hr>
+
+<h3>树状数组（Binary Indexed Tree / Fenwick Tree）</h3>
+
+<p><strong>类别</strong>：数据结构 | <strong>难度</strong>：中等</p>
+
+<h4>算法简介</h4>
+
+<p>树状数组（Binary Indexed Tree，简称 BIT），由 Peter M. Fenwick 于 1994 年提出，是一种以极简代码高效维护"前缀信息"的数据结构。它的核心思想是：将原数组 $ a[1..n] $ 的信息按<strong>二进制低位</strong>（lowbit）分段，存进一个辅助数组 $ c[i] $，其中 $ c[i] $ 恰好覆盖区间 $ [i-\text{lowbit}(i)+1,\ i] $ 的和。于是"单点更新"和"前缀和查询"两个操作都能在 $ O(\log n) $ 时间内完成，空间仅需 $ O(n) $，且常数极小、代码通常不超过 20 行。相比朴素数组（更新 $ O(1) $ / 查询 $ O(n) $）和前缀和数组（更新 $ O(n) $ / 查询 $ O(1) $），树状数组把两者折中到 $ O(\log n) $，非常适合"频繁修改 + 频繁区间求和"的动态场景。它还能扩展出区间加/单点查（差分版）、区间加/区间查（双 BIT）以及求逆序对、动态第 K 大等高级用法。</p>
+
+<h4>原理示意图</h4>
+
+<p><div class="algo-image"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 900 460" font-family="sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="6" refX="4" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#6366f1"/>
+    </marker>
+  </defs>
+  <rect width="900" height="460" fill="#1e293b" rx="12"/>
+  <text x="450" y="30" text-anchor="middle" fill="#818cf8" font-size="15" font-weight="600">树状数组：c[i] 管辖区间与 lowbit 关系（n=8）</text>
+
+  <!-- 原数组 a 行 -->
+  <text x="70" y="70" fill="#94a3b8" font-size="13">a[ ]</text>
+  <rect x="130" y="50" width="70" height="34" rx="5" fill="#334155" stroke="#475569"/><text x="165" y="72" text-anchor="middle" fill="#e2e8f0" font-size="12">a1</text>
+  <rect x="200" y="50" width="70" height="34" rx="5" fill="#334155" stroke="#475569"/><text x="235" y="72" text-anchor="middle" fill="#e2e8f0" font-size="12">a2</text>
+  <rect x="270" y="50" width="70" height="34" rx="5" fill="#334155" stroke="#475569"/><text x="305" y="72" text-anchor="middle" fill="#e2e8f0" font-size="12">a3</text>
+  <rect x="340" y="50" width="70" height="34" rx="5" fill="#334155" stroke="#475569"/><text x="375" y="72" text-anchor="middle" fill="#e2e8f0" font-size="12">a4</text>
+  <rect x="410" y="50" width="70" height="34" rx="5" fill="#334155" stroke="#475569"/><text x="445" y="72" text-anchor="middle" fill="#e2e8f0" font-size="12">a5</text>
+  <rect x="480" y="50" width="70" height="34" rx="5" fill="#334155" stroke="#475569"/><text x="515" y="72" text-anchor="middle" fill="#e2e8f0" font-size="12">a6</text>
+  <rect x="550" y="50" width="70" height="34" rx="5" fill="#334155" stroke="#475569"/><text x="585" y="72" text-anchor="middle" fill="#e2e8f0" font-size="12">a7</text>
+  <rect x="620" y="50" width="70" height="34" rx="5" fill="#334155" stroke="#475569"/><text x="655" y="72" text-anchor="middle" fill="#e2e8f0" font-size="12">a8</text>
+
+  <!-- c 数组行 -->
+  <text x="70" y="150" fill="#94a3b8" font-size="13">c[ ]</text>
+  <rect x="130" y="130" width="70" height="34" rx="5" fill="#1e3a5f" stroke="#6366f1"/><text x="165" y="152" text-anchor="middle" fill="#a5b4fc" font-size="11">a1</text>
+  <rect x="200" y="130" width="70" height="34" rx="5" fill="#1e3a5f" stroke="#6366f1"/><text x="235" y="152" text-anchor="middle" fill="#a5b4fc" font-size="11">a1+a2</text>
+  <rect x="270" y="130" width="70" height="34" rx="5" fill="#1e3a5f" stroke="#6366f1"/><text x="305" y="152" text-anchor="middle" fill="#a5b4fc" font-size="11">a3</text>
+  <rect x="340" y="130" width="70" height="34" rx="5" fill="#1e3a5f" stroke="#6366f1"/><text x="375" y="152" text-anchor="middle" fill="#a5b4fc" font-size="11">a1..a4</text>
+  <rect x="410" y="130" width="70" height="34" rx="5" fill="#1e3a5f" stroke="#6366f1"/><text x="445" y="152" text-anchor="middle" fill="#a5b4fc" font-size="11">a5</text>
+  <rect x="480" y="130" width="70" height="34" rx="5" fill="#1e3a5f" stroke="#6366f1"/><text x="515" y="152" text-anchor="middle" fill="#a5b4fc" font-size="11">a5+a6</text>
+  <rect x="550" y="130" width="70" height="34" rx="5" fill="#1e3a5f" stroke="#6366f1"/><text x="585" y="152" text-anchor="middle" fill="#a5b4fc" font-size="11">a7</text>
+  <rect x="620" y="130" width="70" height="34" rx="5" fill="#1e3a5f" stroke="#6366f1"/><text x="655" y="152" text-anchor="middle" fill="#a5b4fc" font-size="11">a1..a8</text>
+
+  <!-- 覆盖区间连线 -->
+  <line x1="165" y1="130" x2="165" y2="84" stroke="#6366f1" stroke-width="1.2"/>
+  <line x1="235" y1="130" x2="235" y2="84" stroke="#6366f1" stroke-width="1.2"/>
+  <line x1="305" y1="130" x2="305" y2="84" stroke="#6366f1" stroke-width="1.2"/>
+  <line x1="375" y1="130" x2="375" y2="84" stroke="#6366f1" stroke-width="1.2"/>
+  <line x1="445" y1="130" x2="445" y2="84" stroke="#6366f1" stroke-width="1.2"/>
+  <line x1="515" y1="130" x2="515" y2="84" stroke="#6366f1" stroke-width="1.2"/>
+  <line x1="585" y1="130" x2="585" y2="84" stroke="#6366f1" stroke-width="1.2"/>
+  <line x1="655" y1="130" x2="655" y2="84" stroke="#6366f1" stroke-width="1.2"/>
+
+  <!-- 查询前缀和示例 -->
+  <text x="130" y="210" fill="#22c55e" font-size="13">查询 sum(1..7)：7 → 6 → 4（每次 i -= lowbit(i)）</text>
+  <rect x="130" y="225" width="560" height="60" rx="6" fill="#0f3d2e" stroke="#22c55e"/>
+  <text x="150" y="250" fill="#86efac" font-size="12">i=7: c7(a7)  →  i=6: c6(a5+a6)  →  i=4: c4(a1..a4)</text>
+  <text x="150" y="272" fill="#86efac" font-size="12">lowbit(7)=1, lowbit(6)=2, lowbit(4)=4  （即 111→110→100）</text>
+
+  <!-- 更新示例 -->
+  <text x="520" y="210" fill="#f97316" font-size="13">更新 a5 += d：5 → 6 → 8（每次 i += lowbit(i)）</text>
+  <rect x="520" y="225" width="260" height="60" rx="6" fill="#431407" stroke="#f97316"/>
+  <text x="540" y="250" fill="#fdba74" font-size="12">i=5: c5 += d  →  i=6: c6 += d  →  i=8: c8 += d</text>
+  <text x="540" y="272" fill="#fdba74" font-size="12">lowbit(5)=1, lowbit(6)=2, lowbit(8)=8</text>
+
+  <!-- lowbit 公式框 -->
+  <rect x="130" y="310" width="640" height="110" rx="8" fill="#1e1b4b" stroke="#818cf8"/>
+  <text x="160" y="340" fill="#c7d2fe" font-size="14" font-weight="600">核心：lowbit(x) = x &amp; (-x)</text>
+  <text x="160" y="365" fill="#e2e8f0" font-size="12">含义：保留 x 二进制中最低位的 1 及其后面的 0，如 (6)₂=110 → lowbit=10₂=2</text>
+  <text x="160" y="388" fill="#e2e8f0" font-size="12">c[i] 管辖区间长度 = lowbit(i)，即 c[i] 存 a[i-lowbit(i)+1 ... i] 的和</text>
+  <text x="160" y="411" fill="#94a3b8" font-size="12">查询路径下标二进制低位 1 逐个清除：7(111)→6(110)→4(100)；更新路径低位加 1：5(101)→6(110)→8(1000)</text>
+</svg></div></p>
+
+<h4>数学公式</h4>
+
+<p><strong>1. lowbit 定义</strong></p>
+
+<p><div class="math-block">$$ \text{lowbit}(x) = x \;\&\; (-x) $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ x $：正整数下标（$ 1 \le x \le n $）</li>
+<li>$ \& $：按位与运算</li>
+<li>$ -x $：$ x $ 的补码（二进制取反加一），因此 $ x \&\; (-x) $ 恰好保留 $ x $ 二进制中最低位的 1</li>
+</ul>
+
+<p><strong>2. 管辖区间</strong></p>
+
+<p><div class="math-block">$$ c[i] = \sum_{k = i-\text{lowbit}(i)+1}^{i} a[k] $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ c[i] $：树状数组第 $ i $ 个节点存储的区间和</li>
+<li>$ a[k] $：原数组第 $ k $ 个元素（下标从 1 开始）</li>
+<li>$ \text{lowbit}(i) $：节点 $ i $ 管辖的元素个数（区间长度）</li>
+</ul>
+
+<p><strong>3. 前缀和查询</strong></p>
+
+<p><div class="math-block">$$ \text{sum}(i) = \sum_{k=1}^{i} a[k] = \sum_{j \in \{i,\ i-\text{lowbit}(i),\ \ldots\}} c[j] $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ \text{sum}(i) $：前 $ i $ 项前缀和</li>
+<li>$ j $：沿 $ j \leftarrow j-\text{lowbit}(j) $ 路径上的节点集合（终止于 0）</li>
+<li>路径长度不超过 $ \log_2 n + 1 $，故单次查询 $ O(\log n) $</li>
+</ul>
+
+<p><strong>4. 单点更新</strong></p>
+
+<p><div class="math-block">$$ a[i] \leftarrow a[i] + \delta \;\Longrightarrow\; c[j] \leftarrow c[j] + \delta,\quad j \in \{i,\ i+\text{lowbit}(i),\ \ldots\} $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ \delta $：第 $ i $ 个元素的增量（可为正负）</li>
+<li>$ j $：沿 $ j \leftarrow j+\text{lowbit}(j) $ 路径上所有管辖到 $ a[i] $ 的节点（终止于 $ >n $）</li>
+<li>路径长度同样 $ \le \log_2 n + 1 $</li>
+</ul>
+
+<p><strong>5. 区间查询</strong></p>
+
+<p><div class="math-block">$$ \text{rangeSum}(l, r) = \text{sum}(r) - \text{sum}(l-1) $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ l, r $：查询区间左右端点（$ 1 \le l \le r \le n $）</li>
+<li>通过两次前缀查询相减得到区间和，总复杂度 $ O(\log n) $</li>
+</ul>
+
+<p><strong>6. 复杂度推导（为什么是 $ O(\log n) $）</strong></p>
+
+<p>令 $ n $ 为数组长度。查询时每次操作 $ i \leftarrow i - \text{lowbit}(i) $，二进制中 1 的个数严格减少 1；$ i \le n $ 的二进制位数 $ \le \lfloor \log_2 n \rfloor + 1 $，所以最多迭代 $ \lfloor \log_2 n \rfloor + 1 $ 次，时间复杂度 $ T(n) = O(\log n) $。空间上辅助数组 $ c $ 与 $ a $ 等长，空间复杂度 $ S(n) = O(n) $。</p>
+
+<h4>核心要点</h4>
+<ul>
+<li>核心一句话：<strong>用 lowbit 把前缀和按二进制区间切成 $ \log n $ 段</strong>，更新和查询都只动 $ \log n $ 个节点</li>
+<li>下标从 1 开始，$ c[i] $ 管辖长度 = $ \text{lowbit}(i) $，管辖区间为 $ [i-\text{lowbit}(i)+1, i] $</li>
+<li>更新方向 <code class="inline-code">i += lowbit(i)</code>（向上爬），查询方向 <code class="inline-code">i -= lowbit(i)</code>（向左聚合）</li>
+<li>建树可用 <code class="inline-code">add(i, a[i])</code> 循环 $ O(n \log n) $；也可用差分法 $ O(n) $ 建树</li>
+<li>通过差分数组可扩展：区间加 + 单点查、区间加 + 区间查（双 BIT）、求逆序对、求动态第 K 大</li>
+<li>与线段树相比：树状数组代码短、常数小、空间省，但只适合"可减/可结合"操作（和、积、异或），不适合区间最值与懒标记的复杂组合</li>
+</ul>
+
+<h4>技术细节与参数详解</h4>
+
+<p>树状数组并非模型/函数，其"参数"是操作函数中的变量与实现细节，逐项详解如下：</p>
+
+<p>#### 参数 1：数组长度 <code class="inline-code">n</code></p>
+<ul>
+<li><strong>含义</strong>：原数组的元素个数（也是树状数组 $ c $ 的长度上限）</li>
+<li><strong>类型</strong>：正整数（int）</li>
+<li><strong>默认值</strong>：无（由输入数据规模决定）</li>
+<li><strong>取值范围</strong>：$ 1 \le n \le 10^7 $ 量级（内存允许范围内）</li>
+<li><strong>对结果的影响</strong>：决定 BIT 空间与所有操作的对数复杂度基准；$ n $ 越大，单次操作步数越多（$ \lceil \log_2 n \rceil + 1 $）</li>
+<li><strong>推荐设置</strong>：申请 $ n+1 $ 大小（下标 1 基），避免越界</li>
+</ul>
+
+<p>#### 参数 2：下标基数 <code class="inline-code">1-based</code></p>
+<ul>
+<li><strong>含义</strong>：树状数组强制下标从 1 开始，0 号单元空闲（作为查询终止哨兵）</li>
+<li><strong>类型</strong>：实现约定</li>
+<li><strong>默认值</strong>：必须从 1 开始</li>
+<li><strong>对结果的影响</strong>：若从 0 开始，<code class="inline-code">lowbit(0)=0</code> 会陷入死循环</li>
+<li><strong>推荐设置</strong>：读入数据时整体右移一位，或用 <code class="inline-code">idx = 原始idx + 1</code> 映射</li>
+</ul>
+
+<p>#### 参数 3：<code class="inline-code">lowbit(x)</code> 函数</p>
+<ul>
+<li><strong>含义</strong>：返回 $ x $ 二进制中最低位 1 对应的幂值</li>
+<li><strong>类型</strong>：int（实现为 <code class="inline-code">x & -x</code>）</li>
+<li><strong>默认值</strong>：无（纯函数）</li>
+<li><strong>取值范围</strong>：$ 1 \le \text{lowbit}(x) \le x $，且必为 2 的幂</li>
+<li><strong>对结果的影响</strong>：直接决定管辖区间划分方式——区间长度永远等于 lowbit，这是保证 $ \log $ 复杂度的根基</li>
+<li><strong>推荐设置</strong>：优先位运算 <code class="inline-code">x & -x</code>，避免 <code class="inline-code">x - (x & (x-1))</code> 等慢写法；注意用 unsigned/long long 防止溢出</li>
+</ul>
+
+<p>#### 参数 4：更新增量 <code class="inline-code">delta</code></p>
+<ul>
+<li><strong>含义</strong>：单点更新时加到 $ a[i] $ 上的数值（可为负）</li>
+<li><strong>类型</strong>：数值（int/long long/浮点均可）</li>
+<li><strong>默认值</strong>：无</li>
+<li><strong>取值范围</strong>：任意数值（注意累加溢出，视值域选 int64 或 double）</li>
+<li><strong>对结果的影响</strong>：所有管辖到 $ i $ 的节点都加上 <code class="inline-code">delta</code>；传入 0 则无操作</li>
+<li><strong>推荐设置</strong>：根据数据范围选类型，大规模统计用 <code class="inline-code">long long</code></li>
+</ul>
+
+<p>#### 参数 5：查询下标 <code class="inline-code">i</code></p>
+<ul>
+<li><strong>含义</strong>：前缀查询 <code class="inline-code">query(i)</code> 的目标下标（求前 $ i $ 项和）</li>
+<li><strong>类型</strong>：正整数</li>
+<li><strong>取值范围</strong>：$ 1 \le i \le n $</li>
+<li><strong>对结果的影响</strong>：$ i $ 的二进制中 1 的个数决定查询步数（最坏 $ \log n $ 步）；<code class="inline-code">i=n</code> 查询整组和</li>
+<li><strong>边界</strong>：<code class="inline-code">query(0)</code> 直接返回 0（实现需先判断）</li>
+</ul>
+
+<p>#### 参数 6：更新越界处理</p>
+<ul>
+<li><strong>风险</strong>：<code class="inline-code">idx > n</code> 时若循环条件为 <code class="inline-code">i <= n</code> 会直接跳过——用于"区间查询"类扩展时需注意边界</li>
+<li><strong>推荐</strong>：初始化时以 <code class="inline-code">i <= n</code> 为界；若频繁更新 $ idx = n $，保证 $ n $ 为 2 的幂可减少无效判断</li>
+</ul>
+
+<p>#### 参数 7：建树方式（初始化）</p>
+<ul>
+<li><strong>方式 A（朴素）</strong>：<code class="inline-code">for i in 1..n: add(i, a[i])</code>，$ O(n \log n) $</li>
+<li><strong>方式 B（O(n) 差分）</strong>：<code class="inline-code">c[i] += a[i]</code>，再将 <code class="inline-code">c[i]</code> 累加给 <code class="inline-code">c[i + lowbit(i)]</code>，$ O(n) $</li>
+<li><strong>对结果的影响</strong>：不影响最终正确性，只影响初始化耗时；$ n>10^6 $ 时推荐方式 B</li>
+</ul>
+
+<p>#### 参数 8：变体——差分树状数组（区间加 / 单点查）</p>
+<ul>
+<li><strong>含义</strong>：把原数组变换为差分数组 $ d[i] = a[i]-a[i-1] $，用 BIT 维护 $ d $</li>
+<li><strong>操作</strong>：区间 $ [l,r] $ 加 $ v $ → <code class="inline-code">add(l, v); add(r+1, -v)</code>；单点查 $ a[i] $ → <code class="inline-code">query(i)</code></li>
+<li><strong>效果</strong>：区间修改与单点查询均 $ O(\log n) $</li>
+</ul>
+
+<p>#### 参数 9：变体——双树状数组（区间加 / 区间查）</p>
+<ul>
+<li><strong>含义</strong>：维护 $ B_1 $、$ B_2 $ 两个 BIT，实现 $ O(\log n) $ 的区间修改与区间求和</li>
+<li><strong>核心公式</strong>：$ \sum_{i=1}^{x} a[i] = (x+1) \cdot \text{sum}(B_1, x) - \text{sum}(B_2, x) $</li>
+<li><strong>推荐</strong>：两棵 BIT 大小均为 $ n+1 $；实测常数约为单 BIT 的 2 倍，仍远快于线段树</li>
+</ul>
+
+<h4>代码示例</h4>
+
+<p><pre class="code-block"><code class="language-python">class FenwickTree:
+    &quot;&quot;&quot;树状数组：单点更新 + 前缀和查询，复杂度 O(log n)&quot;&quot;&quot;
+
+    def __init__(self, n: int):
+        &quot;&quot;&quot;初始化：n 为数据规模，c 为长度 n+1 的树数组（下标从 1 开始）&quot;&quot;&quot;
+        self.n = n              # 数组长度（最大下标）
+        self.c = [0] * (n + 1)  # 树状数组本体，0 号位空置作为哨兵
+
+    def lowbit(self, x: int) -&gt; int:
+        &quot;&quot;&quot;返回 x 二进制中最低位 1 对应的值（管辖区间长度）&quot;&quot;&quot;
+        return x &amp; -x           # 补码按位与：-x 的二进制是 x 取反加一
+
+    def add(self, i: int, delta) -&gt; None:
+        &quot;&quot;&quot;单点更新：a[i] += delta，同步所有管辖 i 的祖先节点&quot;&quot;&quot;
+        while i &lt;= self.n:      # 从 i 开始向上爬，直到超过 n 为止
+            self.c[i] += delta  # 当前节点累加增量 delta
+            i += self.lowbit(i) # 跳到下一个管辖范围更广的祖先节点
+
+    def query(self, i: int) -&gt; int:
+        &quot;&quot;&quot;前缀查询：返回 sum(a[1] .. a[i])&quot;&quot;&quot;
+        s = 0                   # 累加器初始化
+        while i &gt; 0:            # 下标降到 0 时结束（哨兵）
+            s += self.c[i]      # 累加当前节点区间和
+            i -= self.lowbit(i) # 向左移到下一个不重叠的覆盖区间
+        return s                # 返回前缀和
+
+    def range_sum(self, l: int, r: int) -&gt; int:
+        &quot;&quot;&quot;区间查询：sum(a[l] .. a[r]) = 前缀(r) - 前缀(l-1)&quot;&quot;&quot;
+        return self.query(r) - self.query(l - 1)  # 两次前缀查询相减
+
+    def build_linear(self, a) -&gt; None:
+        &quot;&quot;&quot;O(n) 建树：差分思想，把每个 c[i] 分发给它的父节点&quot;&quot;&quot;
+        for i in range(1, self.n + 1):       # 遍历所有下标
+            self.c[i] += a[i]               # 先将原值放入
+            j = i + self.lowbit(i)          # i 的父节点下标 j
+            if j &lt;= self.n:                 # 若父节点在范围内
+                self.c[j] += self.c[i]      # 累加到父节点
+
+# 使用示例（区间查询 + 逆序对计数）
+if __name__ == &quot;__main__&quot;:
+    bit = FenwickTree(8)                      # 创建长度为 8 的树状数组
+    for i, v in enumerate([3, 1, 4, 1, 5, 9, 2, 6], start=1):
+        bit.add(i, v)                         # 逐个单点更新建树
+    print(&quot;sum(1..5) =&quot;, bit.query(5))        # 前 5 项和：3+1+4+1+5=14
+    print(&quot;sum(3..6) =&quot;, bit.range_sum(3, 6)) # 区间和：4+1+5+9=19
+
+    # 逆序对计数：边插入边统计已插入且大于当前值的个数
+    counter = FenwickTree(6)                  # 值域 [1,6] 的计数树
+    inv = 0                                   # 逆序对计数器
+    for x in [5, 2, 6, 1, 4]:                 # 依次处理每个数
+        inv += counter.query(6) - counter.query(x)  # 已插入且 &gt; x 的数量
+        counter.add(x, 1)                     # 该值出现次数 +1
+    print(&quot;逆序对 =&quot;, inv)                    # 输出 5</code></pre></p>
+
+<h4>复杂度分析</h4>
+
+<ul>
+<li><strong>时间复杂度</strong>：</li>
+<li>单点更新 <code class="inline-code">add</code>：$ O(\log n) $，因为 <code class="inline-code">i += lowbit(i)</code> 最多执行 $ \lfloor \log_2 n \rfloor + 1 $ 次</li>
+<li>前缀查询 <code class="inline-code">query</code>：$ O(\log n) $，沿 <code class="inline-code">i -= lowbit(i)</code> 路径</li>
+<li>区间查询：两次前缀查询，$ O(\log n) $</li>
+<li>建树：朴素 $ O(n \log n) $；差分法 $ O(n) $（每个元素只向父节点传递一次）</li>
+<li><strong>空间复杂度</strong>：辅助数组 $ c $ 长度 $ n+1 $，$ O(n) $；无递归，无额外栈空间</li>
+<li><strong>推导</strong>：$ n $ 的二进制位数 $ b=\lfloor \log_2 n \rfloor + 1 $；查询每次减掉一个 lowbit 至少消掉 1 个二进制 1，更新每次加 lowbit 保证单调，最多 $ b $ 步到终点，因此 $ O(\log n) $</li>
+</ul>
+
+<h4>应用场景</h4>
+
+<ul>
+<li>动态前缀和 / 区间和（流量区间统计、传感器序列汇总）</li>
+<li>区间加 / 单点查（差分版，如多次区间染色次数统计）</li>
+<li>区间加 / 区间查（双 BIT，账目区间变动后的余额快查）</li>
+<li>逆序对计数：值域离散化后按序插入，$ O(n \log n) $</li>
+<li>动态第 K 大 / 值域统计：配合二分或倍增，实现实时 TOP K</li>
+<li>二维扩展：二维 BIT 维护矩阵子矩形和（离线 + 离散化）</li>
+</ul>
+
+<h4>参考文档</h4>
+
+<ul>
+<li><a href="https://cloud.tencent.com/developer/article/2452775" target="_blank" class="ref-link">详解树状数组（腾讯云开发者社区）</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/99167607" target="_blank" class="ref-link">树状数组(Binary Indexed Tree) 详解（知乎）</a></li>
+<li><a href="https://blog.csdn.net/weixin_33326218/article/details/164825585" target="_blank" class="ref-link">树状数组从入门到进阶：lowbit 原理、区间查询与逆序对实战详解（CSDN）</a></li>
+<li><a href="https://blog.csdn.net/troublenbfriend/article/details/143571808" target="_blank" class="ref-link">树状数组（Binary Indexed Tree）详解（CSDN）</a></li>
+</ul>
+
+<hr>
+
+<h3>Vision Transformer（ViT）</h3>
+
+<p><strong>类别</strong>：计算机视觉 | <strong>难度</strong>：困难</p>
+
+<h4>算法简介</h4>
+
+<p>Vision Transformer（ViT）是 2021 年 ICLR 论文《An Image is Worth 16x16 Words》提出的开创性模型，首次将 NLP 的 Transformer 架构<strong>原封不动</strong>地搬到图像分类任务上，证明"注意力可以替代卷积"——当数据量足够大时（如 JFT-300M 预训练），ViT 的性能可以全面超越同期的 ResNet 等 CNN 模型。其核心思想分三步：① 把图像切分成固定大小的 patch（如 16×16 像素），每个 patch 展平后经线性投影变为 token 向量；② 在序列头部拼接一个可学习的 <code class="inline-code">[CLS]</code> 分类 token，并叠加可学习位置编码；③ 送入标准 Transformer Encoder（多头自注意力 + MLP）堆叠，最后取 <code class="inline-code">[CLS]</code> token 经过分类头输出类别概率。与 CNN 的局部归纳偏置（卷积、池化）不同，ViT 从第一层就在全局计算 patch 间的注意力，依靠大规模数据学习到空间结构。它启发了后续 DeiT、Swin、DINO、CLIP 等几乎所有视觉/多模态架构。</p>
+
+<h4>原理示意图</h4>
+
+<p><div class="algo-image"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 900 480" font-family="sans-serif">
+  <defs>
+    <marker id="arrow2" markerWidth="8" markerHeight="6" refX="4" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#6366f1"/>
+    </marker>
+  </defs>
+  <rect width="900" height="480" fill="#1e293b" rx="12"/>
+  <text x="450" y="30" text-anchor="middle" fill="#818cf8" font-size="15" font-weight="600">ViT-Base/16 结构：图像 → Patch 序列 → Transformer → 分类</text>
+
+  <!-- 输入图像 -->
+  <rect x="30" y="60" width="120" height="120" fill="#0f172a" stroke="#475569"/>
+  <text x="90" y="105" text-anchor="middle" fill="#94a3b8" font-size="11">图像</text>
+  <text x="90" y="122" text-anchor="middle" fill="#94a3b8" font-size="11">224×224×3</text>
+  <text x="90" y="139" text-anchor="middle" fill="#64748b" font-size="10">(切分 16×16 patch)</text>
+
+  <!-- 分块 -->
+  <rect x="190" y="60" width="56" height="40" fill="#1e3a5f" stroke="#6366f1"/><text x="218" y="85" text-anchor="middle" fill="#a5b4fc" font-size="10">p1</text>
+  <rect x="190" y="103" width="56" height="40" fill="#1e3a5f" stroke="#6366f1"/><text x="218" y="128" text-anchor="middle" fill="#a5b4fc" font-size="10">p2</text>
+  <rect x="190" y="146" width="56" height="40" fill="#1e3a5f" stroke="#6366f1"/><text x="218" y="171" text-anchor="middle" fill="#a5b4fc" font-size="10">p3</text>
+  <text x="218" y="200" text-anchor="middle" fill="#64748b" font-size="10">... p196</text>
+  <line x1="150" y1="120" x2="190" y2="120" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow2)"/>
+
+  <!-- 线性投影 + cls -->
+  <rect x="300" y="60" width="130" height="150" rx="8" fill="#1e1b4b" stroke="#818cf8"/>
+  <text x="365" y="82" text-anchor="middle" fill="#c7d2fe" font-size="11" font-weight="600">Patch Embedding</text>
+  <text x="365" y="102" text-anchor="middle" fill="#94a3b8" font-size="10">[CLS] token</text>
+  <rect x="330" y="112" width="70" height="22" rx="4" fill="#334155" stroke="#6366f1"/><text x="365" y="127" text-anchor="middle" fill="#e2e8f0" font-size="10">CLS</text>
+  <rect x="330" y="140" width="70" height="22" rx="4" fill="#334155" stroke="#6366f1"/><text x="365" y="155" text-anchor="middle" fill="#e2e8f0" font-size="10">p1·E</text>
+  <rect x="330" y="168" width="70" height="22" rx="4" fill="#334155" stroke="#6366f1"/><text x="365" y="183" text-anchor="middle" fill="#e2e8f0" font-size="10">p2·E</text>
+  <text x="365" y="204" text-anchor="middle" fill="#64748b" font-size="9">... 每个 token 768 维</text>
+  <line x1="246" y1="100" x2="268" y2="100" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow2)"/>
+
+  <!-- 位置编码 -->
+  <text x="450" y="82" text-anchor="middle" fill="#f97316" font-size="11" font-weight="600">+ Pos Embedding</text>
+  <rect x="425" y="92" width="50" height="90" rx="4" fill="#431407" stroke="#f97316"/>
+  <text x="450" y="115" text-anchor="middle" fill="#fdba74" font-size="9">可学习</text>
+  <text x="450" y="130" text-anchor="middle" fill="#fdba74" font-size="9">1D 位置</text>
+  <text x="450" y="145" text-anchor="middle" fill="#fdba74" font-size="9">编码</text>
+  <text x="450" y="160" text-anchor="middle" fill="#fdba74" font-size="9">197×768</text>
+  <line x1="398" y1="120" x2="440" y2="120" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow2)"/>
+
+  <!-- Transformer Encoder -->
+  <rect x="530" y="55" width="160" height="150" rx="8" fill="#0f3d2e" stroke="#22c55e"/>
+  <text x="610" y="78" text-anchor="middle" fill="#86efac" font-size="12" font-weight="600">Transformer Encoder</text>
+  <text x="610" y="100" text-anchor="middle" fill="#86efac" font-size="10">× 12 layers</text>
+  <line x1="555" y1="112" x2="665" y2="112" stroke="#22c55e" stroke-width="1"/>
+  <text x="610" y="130" text-anchor="middle" fill="#e2e8f0" font-size="10">MHA 多头自注意力</text>
+  <text x="610" y="148" text-anchor="middle" fill="#e2e8f0" font-size="10">+ LN + 残差</text>
+  <text x="610" y="166" text-anchor="middle" fill="#e2e8f0" font-size="10">MLP(4x) + LN + 残差</text>
+  <text x="610" y="188" text-anchor="middle" fill="#94a3b8" font-size="9">输出仍为 197×768</text>
+  <line x1="525" y1="120" x2="530" y2="120" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow2)"/>
+
+  <!-- MLP Head -->
+  <rect x="720" y="85" width="150" height="58" rx="8" fill="#312e81" stroke="#a78bfa"/>
+  <text x="795" y="108" text-anchor="middle" fill="#c4b5fd" font-size="12" font-weight="600">MLP Head</text>
+  <text x="795" y="128" text-anchor="middle" fill="#e2e8f0" font-size="10">取 [CLS] → 分类</text>
+  <text x="795" y="143" text-anchor="middle" fill="#e2e8f0" font-size="10">(1000 类概率)</text>
+  <line x1="690" y1="130" x2="720" y2="130" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow2)"/>
+
+  <!-- 输出 -->
+  <rect x="825" y="65" width="55" height="60" rx="6" fill="#0f172a" stroke="#475569"/>
+  <text x="852" y="92" text-anchor="middle" fill="#e2e8f0" font-size="10">标签</text>
+  <text x="852" y="110" text-anchor="middle" fill="#e2e8f0" font-size="10">logits</text>
+  <line x1="815" y1="95" x2="825" y2="95" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow2)"/>
+
+  <!-- 底部公式 -->
+  <text x="450" y="240" text-anchor="middle" fill="#818cf8" font-size="13" font-weight="600">核心公式</text>
+  <text x="450" y="265" text-anchor="middle" fill="#e2e8f0" font-size="12">z₀ = [x_cls ; x_p¹E ; x_p²E ; ... ; x_pᴺE] + E_pos</text>
+  <text x="450" y="290" text-anchor="middle" fill="#e2e8f0" font-size="12">Attention(Q,K,V) = softmax(QKᵀ / √d_k) · V</text>
+  <text x="450" y="315" text-anchor="middle" fill="#e2e8f0" font-size="12">MLP(z) = GELU(z·W₁ + b₁)·W₂ + b₂</text>
+  <text x="450" y="340" text-anchor="middle" fill="#94a3b8" font-size="11">N = 224/16 × 224/16 = 196 个 patch token，加 CLS 共 197 token</text>
+  <text x="450" y="360" text-anchor="middle" fill="#94a3b8" font-size="11">ViT-B/16 参数 ≈ 86M | FLOPs ≈ 17.6G</text>
+</svg></div></p>
+
+<h4>数学公式</h4>
+
+<p><strong>1. Patch 展平与线性投影</strong></p>
+
+<p><div class="math-block">$$ x_p = \text{reshape}(X), \quad z_p = x_p E, \quad E \in \mathbb{R}^{(P^2 \cdot C) \times D} $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ X \in \mathbb{R}^{H \times W \times C} $：输入图像（高 $ H $、宽 $ W $、通道数 $ C $）</li>
+<li>$ P $：patch 边长（ViT-B/16 中 $ P=16 $）</li>
+<li>$ x_p \in \mathbb{R}^{N \times (P^2 C)} $：展平后的 patch，$ N = \frac{HW}{P^2} $ 个 patch</li>
+<li>$ E $：可学习的 patch 嵌入矩阵（线性层权重）</li>
+<li>$ z_p $：patch 嵌入向量（token），维度 $ D $（ViT-B 中 $ D=768 $）</li>
+</ul>
+
+<p><strong>2. 输入序列（CLS token + 位置编码）</strong></p>
+
+<p><div class="math-block">$$ z_0 = \big[\; x_{\text{class}} \;;\; z_p^1 E \; ; \; z_p^2 E \; ; \; \cdots \; ; \; z_p^N E \;\big] + E_{pos}, \quad E_{pos} \in \mathbb{R}^{(N+1) \times D} $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ x_{cls} $：可学习的分类 token（与 token 同维 $ D $，拼接在序列最前）</li>
+<li>$ E_{pos} $：可学习的位置编码矩阵，为每个 token 提供位置信息（1D 足够，2D/相对位置编码效果相当）</li>
+<li>$ z_0 $：送入 Encoder 的输入序列，长度 $ N+1 = 197 $，每行维度 $ D=768 $</li>
+</ul>
+
+<p><strong>3. 多头自注意力（MHA）</strong></p>
+
+<p><div class="math-block">$$ \text{Attention}(Q, K, V) = \text{softmax}\!\Big(\frac{Q K^\top}{\sqrt{d_k}}\Big) V, \quad Q=z W_Q,\ K=z W_K,\ V=z W_V $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ z $：上一层的序列表示（shape $ L \times D $，$ L=197 $）</li>
+<li>$ W_Q, W_K, W_V $：查询、键、值的投影矩阵（每头维度 $ d_k = D/h $）</li>
+<li>$ d_k $：缩放因子，防止点积过大导致 softmax 梯度消失</li>
+<li>$ h $：注意力头数（ViT-B 中 $ h=12 $，每头 $ d_k=64 $）</li>
+<li>多头：把 $ h $ 个头的输出拼接后经 $ W_O $ 合并（<code class="inline-code">Concat(heads)W_O</code>）</li>
+</ul>
+
+<p><strong>4. MLP 前馈层（带 GELU）</strong></p>
+
+<p><div class="math-block">$$ \text{FFN}(x) = \text{GELU}(x W_1 + b_1)\, W_2 + b_2 $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ W_1 \in \mathbb{R}^{D \times 4D} $：第一层（升维，隐藏维度为 4D）</li>
+<li>$ W_2 \in \mathbb{R}^{4D \times D} $：第二层（降回 D）</li>
+<li>$ \text{GELU}(x) = x \cdot \Phi(x) $：高斯误差线性单元，平滑版 ReLU</li>
+<li>ViT-B 中 MLP 隐藏维 $ 4D = 3072 $</li>
+</ul>
+
+<p><strong>5. Encoder 块（Pre-LN + 残差）</strong></p>
+
+<p><div class="math-block">$$ z'_l = \text{MHA}(\text{LN}(z_{l-1})) + z_{l-1}, \qquad z_l = \text{FFN}(\text{LN}(z'_l)) + z'_l $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ \text{LN} $：层归一化（Pre-LN 位置，先归一化再进入子层，训练更稳定）</li>
+<li>$ z_{l-1}, z_l $：第 $ l $ 层输入/输出</li>
+<li>残差连接 $ \oplus $ 防止深层梯度消失</li>
+</ul>
+
+<p><strong>6. 分类输出</strong></p>
+
+<p><div class="math-block">$$ y = \text{MLPHead}\big(\text{LN}(z_L^0)\big) $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ z_L^0 $：最后一层 Encoder 输出的 [CLS] token（第 0 个位置）</li>
+<li>$ \text{MLPHead} $：线性层（或预训练时带 LayerNorm + tanh 的两层 MLP）</li>
+<li>$ y $：类别概率分布（ImageNet 1000 类）</li>
+</ul>
+
+<h4>核心要点</h4>
+<ul>
+<li><strong>图像即序列</strong>：把图像切成 patch，每个 patch 变成一个 token，Transformer 视角下与 NLP 完全统一</li>
+<li><strong>[CLS] token 负责聚合全局信息</strong>：分类结果取自 [CLS] 的输出，不取所有 patch 的均值</li>
+<li><strong>位置编码必不可少</strong>：没有位置信息则 patch 顺序任意排列结果相同，图像空间结构丢失</li>
+<li><strong>归纳偏置少</strong>：无卷积的局部性/平移不变性，需要大量数据（>14M）才比 CNN 强；数据少时用 DeiT 蒸馏或 CNN 更稳</li>
+<li><strong>全局感受野</strong>：第一层注意力就在全图 patch 间计算，长程依赖天然建模</li>
+<li><strong>训练技巧</strong>：混合分辨率微调（如 224→384）、权重衰减、AdamW、数据增强（mixup、CutMix、RandAugment）、EMA</li>
+</ul>
+
+<h4>技术细节与参数详解</h4>
+
+<p>以 timm 的 <code class="inline-code">vit_base_patch16_224</code> / HuggingFace <code class="inline-code">ViTModel</code> 为准，逐参数详解：</p>
+
+<p>#### 参数 1：<code class="inline-code">patch_size</code>（patch 边长 P）</p>
+<ul>
+<li><strong>含义</strong>：图像切块的边长（像素），16×16 或 32×32 等</li>
+<li><strong>类型</strong>：int 或 tuple(int, int)</li>
+<li><strong>默认值</strong>：16（ViT-B/16）</li>
+<li><strong>取值范围</strong>：通常 {14, 16, 32}；需能被图像边长整除</li>
+<li><strong>对结果的影响</strong>：$ P $ 越小 patch 越多，token 序列越长，计算量（注意力 O(L²)）越大，但细节保留更好；$ P=32 $ 的 ViT-B/32 精度明显低于 /16</li>
+<li><strong>推荐设置</strong>：分类常用 16；需兼顾速度可 32；医疗/细粒度用 14 或更小</li>
+</ul>
+
+<p>#### 参数 2：<code class="inline-code">img_size</code>（输入分辨率）</p>
+<ul>
+<li><strong>作用</strong>：训练/推理时的输入图像边长（H=W）</li>
+<li><strong>类型</strong>：int</li>
+<li><strong>默认值</strong>**：224（ImageNet 标准）</li>
+<li><strong>取值范围</strong>：任意可被 patch_size 整除的值（微调时可提升至 384/512）</li>
+<li><strong>对结果的影响</strong>：分辨率越高，token 越多（224→196 token，384→576 token），FLOPs 与内存显著上升，精度有提升</li>
+<li><strong>推荐设置</strong>：推理要求高分辨率时用 384（位置编码需插值）</li>
+</ul>
+
+<p>#### 参数 3：<code class="inline-code">in_chans</code>（输入通道数）</p>
+<ul>
+<li><strong>作用</strong>：输入图像通道数</li>
+<li><strong>类型</strong>：int</li>
+<li><strong>默认值</strong>：3（RGB）</li>
+<li><strong>取值范围</strong>：1（灰度）~ 任意</li>
+<li><strong>对结果的影响</strong>：改投影层输入维，需对应调整 <code class="inline-code">patch_embed.proj</code> 权重</li>
+<li><strong>推荐设置</strong>：常规 RGB 保持 3</li>
+</ul>
+
+<p>#### 参数 4：<code class="inline-code">embed_dim</code>（嵌入维度 D）</p>
+<ul>
+<li><strong>作用</strong>：token 向量维度，即 patch 投影的输出维度</li>
+<li><strong>类型</strong>：int</li>
+<li><strong>默认值</strong>：768（ViT-B）；ViT-S 384、ViT-L 1024、ViT-H 1280</li>
+<li><strong>取值范围</strong>：通常 192~1280，须可被 num_heads 整除</li>
+<li><strong>对结果的影响</strong>：模型容量核心维度——embed_dim 越大表达能力越强，但计算与内存线性/超线性增长</li>
+<li><strong>推荐设置</strong>：桌面级 768（Base），服务器可 1024（Large）</li>
+</ul>
+
+<p>#### 参数 5：<code class="inline-code">depth</code>（Encoder 层数，又称 num_layers）</p>
+<ul>
+<li><strong>作用</strong>：堆叠的 Transformer Block 数量</li>
+<li><strong>类型</strong>：int</li>
+<li><strong>默认值</strong>：12（ViT-B）</li>
+<li><strong>取值范围</strong>：通常 6~32（ViT-L 24、ViT-H 32）</li>
+<li><strong>对结果的影响</strong>：层数越多抽象层次越高，但过深导致训练更难、推理更慢</li>
+<li><strong>推荐设置</strong>：12~24 为最佳精度/成本平衡</li>
+</ul>
+
+<p>#### 参数 6：<code class="inline-code">num_heads</code>（注意力头数 h）</p>
+<ul>
+<li><strong>作用</strong>：多头自注意力头的数量</li>
+<li><strong>类型</strong>：int</li>
+<li><strong>默认值</strong>：12（ViT-B）</li>
+<li><strong>取值范围</strong>：4~16 常见；必须能整除 embed_dim</li>
+<li><strong>对结果的影响</strong>：头数多可学习更多样的关系；每头维度 $ d_k = D/h $，头数过少表达受限，过多则每头维度过小</li>
+<li><strong>推荐设置</strong>：遵循 $ D/h = 64 $ 的经验（768/12）</li>
+</ul>
+
+<p>#### 参数 7：<code class="inline-code">mlp_ratio</code>（MLP 放大倍数）</p>
+<ul>
+<li><strong>作用</strong>：MLP 隐藏层维度 = embed_dim × mlp_ratio</li>
+<li><strong>类型</strong>：float</li>
+<li><strong>默认值</strong>：4.0（4×768=3072）</li>
+<li><strong>取值范围</strong>：2.0~4.0 常见</li>
+<li><strong>对结果的影响</strong>：MLP 占 ViT 参数的 2/3 以上；ratio 小则参数少、精度下降；4.0 为验证最优</li>
+<li><strong>推荐设置</strong>：默认 4.0；轻量模型可降为 2.0~3.0</li>
+</ul>
+
+<p>#### 参数 8：<code class="inline-code">qkv_bias</code>（QKV 偏置）</p>
+<ul>
+<li><strong>作用</strong>：Q/K/V 投影是否带偏置项</li>
+<li><strong>类型</strong>：bool</li>
+<li><strong>默认值</strong>：True</li>
+<li><strong>对结果的影响</strong>：偏置利于稳定训练；<code class="inline-code">bias=True</code> 与 <code class="inline-code">proj_bias</code> 组合使用</li>
+<li><strong>推荐设置</strong>：True（与官方权重对齐）</li>
+</ul>
+
+<p>#### 参数 9：<code class="inline-code">drop_rate</code>（全局 Dropout 概率）</p>
+<ul>
+<li><strong>作用</strong>：对 transformer block 输出施加的 Dropout</li>
+<li><strong>类型</strong>：float</li>
+<li><strong>默认值</strong>：0.0（预训练）；0.1（微调常用）</li>
+<li><strong>取值范围</strong>：0~1</li>
+<li><strong>对结果的影响</strong>：抑制过拟合；过大会欠拟合导致精度下降</li>
+<li><strong>推荐设置</strong>：预训练 0.0~0.1，微调 0.1；数据少时可 0.2</li>
+</ul>
+
+<p>#### 参数 10：<code class="inline-code">attn_drop_rate</code>（注意力 Dropout）</p>
+<ul>
+<li><strong>作用</strong>：softmax 注意力权重上的随机失活</li>
+<li><strong>类型</strong>：float</li>
+<li><strong>默认值</strong>：0.0</li>
+<li><strong>取值范围</strong>：0~1</li>
+<li><strong>对结果影响</strong>：正则化注意力分布，防某几个 patch 主导</li>
+<li><strong>推荐设置</strong>：0.0（预训练）/ 0.1 微调</li>
+</ul>
+
+<p>#### 参数 11：<code class="inline-code">drop_path_rate</code>（Stochastic Depth）</p>
+<ul>
+<li><strong>作用</strong>：随机深度——每个 Block 按概率整层失活（残差路径）</li>
+<li><strong>类型</strong>：float</li>
+<li><strong>默认值</strong>：0.0</li>
+<li><strong>取值范围</strong>：0~1，深层模型常线性增长（0~0.1）</li>
+<li><strong>对结果的影响</strong>：显著改善深层 ViT 训练稳定性，等价于多网络集成</li>
+<li><strong>推荐设置</strong>：ViT-B 0.1、ViT-L/H 0.2~0.3，随深度线性递增</li>
+</ul>
+
+<p>#### 参数 12：<code class="inline-code">norm_layer</code>（归一化层）</p>
+<ul>
+<li><strong>作用</strong>：块内归一化（LN），采用 Pre-LN 结构</li>
+<li><strong>类型</strong>：nn.LayerNorm 或其变体（RMSNorm）</li>
+<li><strong>默认值</strong>：LayerNorm（eps=1e-6，affine=True）</li>
+<li><strong>对结果影响</strong>：Pre-LN 使梯度更稳，无需 warmup 也能训练较深模型</li>
+<li><strong>推荐设置</strong>：默认 LayerNorm；注意力计算可加 QK-Norm 提高数值稳定性</li>
+</ul>
+
+<p>#### 参数 13：<code class="inline-code">pos_embed</code>（位置编码）</p>
+<ul>
+<li><strong>作用</strong>：为 $ N+1 $ 个 token 提供可学习位置信息</li>
+<li><strong>类型</strong>：nn.Parameter，形状 $ (N+1, D) $</li>
+<li><strong>默认值</strong>：可学习 1D 正弦初始化</li>
+<li><strong>取值范围</strong>：1D/2D/相对位置编码</li>
+<li><strong>对结果的影响</strong>：ViT 原实验 1D 与 2D 效果几乎无差别；缺少会严重掉点；分辨率改变时需插值</li>
+<li><strong>推荐设置</strong>：默认可学习 1D；提升分辨率时对 pos_embed 双线性插值并微调</li>
+</ul>
+
+<p>#### 参数 14：<code class="inline-code">cls_token</code></p>
+<ul>
+<li><strong>作用</strong>：聚合全局信息的特殊 token，最终输出作为分类特征</li>
+<li><strong>类型</strong>：nn.Parameter，形状 $ (1, D) $</li>
+<li><strong>默认值</strong>：随机初始化可学习向量</li>
+<li><strong>对结果的影响</strong>：分类/对比学习（CLIP）都依赖 CLS 输出；也可改为全局平均池化（与 CLS 效果相近）</li>
+<li><strong>推荐设置</strong>：默认保留 CLS</li>
+</ul>
+
+<p>#### 参数 15：<code class="inline-code">representation_size</code>（预分类层/ head）</p>
+<ul>
+<li><strong>作用</strong>：分类前插入的全连接降维层（预训练时用）</li>
+<li><strong>类型</strong>：int 或 None</li>
+<li><strong>默认值</strong>：None（直接线性分类）</li>
+<li><strong>对结果的影响</strong>：加中间层便于多任务复用（如分割/检索）</li>
+<li><strong>推荐设置</strong>：分类任务 None；检索微调可设 768</li>
+</ul>
+
+<h4>代码示例</h4>
+
+<p><pre class="code-block"><code class="language-python"># 使用 timm 创建并运行 ViT-Base/16（PyTorch）
+import torch                       # 深度学习张量库
+import timm                        # 图像模型库（timm）
+
+model = timm.create_model(         # 创建模型
+    &quot;vit_base_patch16_224&quot;,        # 模型名：Base/16，输入 224x224
+    pretrained=True,               # 加载 ImageNet 预训练权重
+    num_classes=1000,              # 输出 1000 类
+    drop_rate=0.1,                 # 全局 dropout 0.1
+    attn_drop_rate=0.0,            # 注意力 dropout 0
+    drop_path_rate=0.1,            # 随机深度 0.1
+)
+model.eval()                       # 切到推理模式（关闭 dropout 等）
+
+x = torch.randn(2, 3, 224, 224)    # 2 张 224x224x3 图像输入
+logits = model(x)                  # 前向传播 → (2, 1000) 的类别得分
+pred = logits.argmax(dim=-1)       # 取最大得分下标作为预测类
+print(logits.shape, pred)          # torch.Size([2, 1000]) tensor([...])</code></pre></p>
+
+<p><pre class="code-block"><code class="language-python"># HuggingFace transformers 逐步查看 ViT 内部结构
+from transformers import ViTModel, ViTImageProcessor
+from PIL import Image
+import torch
+
+processor = ViTImageProcessor.from_pretrained(&quot;google/vit-base-patch16-224&quot;)
+model = ViTModel.from_pretrained(&quot;google/vit-base-patch16-224&quot;)
+# 每步注释：加载处理器与模型，输出 Config 中的关键超参数
+cfg = model.config
+print(&quot;hidden_size:&quot;, cfg.hidden_size)          # 768：token 维度 D
+print(&quot;num_hidden_layers:&quot;, cfg.num_hidden_layers)  # 12 层 Encoder
+print(&quot;num_attention_heads:&quot;, cfg.num_attention_heads)  # 12 头
+print(&quot;intermediate_size:&quot;, cfg.intermediate_size)     # 3072 = 4x D
+print(&quot;patch_size:&quot;, cfg.patch_size)             # 16
+
+img = Image.new(&quot;RGB&quot;, (224, 224), color=&quot;red&quot;)  # 造一张红色测试图
+inputs = ViTImageProcessor(images=img, return_tensors=&quot;pt&quot;)  # 预处理
+outputs = model(**inputs)                        # 前向，获得 last_hidden_state
+print(&quot;序列长度:&quot;, outputs.last_hidden_state.shape)  # [1, 197, 768]
+print(&quot;CLS 向量:&quot;, outputs.last_hidden_state[:, 0, :].shape)  # 取 CLS</code></pre></p>
+
+<h4>复杂度分析</h4>
+
+<p>设 patch 数 $ N = HW/P^2 $，token 维 $ D $，层数 $ L $，头数 $ h $：</p>
+
+<ul>
+<li><strong>单头自注意力复杂度</strong>：$ O(L^2 D) $（计算 $ QK^T $ 需 $ L^2 \cdot D $ 次乘法），其中 $ L=N+1 $；多头并行不增加总开销，总注意力为 $ O(L^2 D) $</li>
+<li><strong>MLP 复杂度</strong>：每层 $ O(L D^2) $（两次大矩阵乘法 $ D \times 4D $）</li>
+<li><strong>总时间复杂度</strong>：$ O(L \cdot (L^2 D + L D^2)) = O(L \cdot D \cdot (L + D)) $，对 224 输入 $ L \approx 200 $、$ D=768 $ 时以 $ L \cdot D^2 $ 为主</li>
+<li><strong>空间复杂度</strong>：存储模型参数 $ O(L D^2) $，激活内存 $ O(L^2 \cdot \text{batch} \cdot D) $（注意力矩阵）；长序列时内存易爆炸，因此新模型（Swin、Deformable）会局部化注意力或加窗</li>
+<li><strong>与 CNN 对比</strong>：CNN 复杂度随分辨率线性增长，ViT 随分辨率平方增长（token 数平方），所以 ViT 在高分辨率下成本急剧上升</li>
+</ul>
+
+<h4>应用场景</h4>
+
+<ul>
+<li><strong>图像分类</strong>：ImageNet 1000 类、细粒度分类（鸟类/车型），与 ResNet 同级甚至更优</li>
+<li><strong>作为视觉 Backbone</strong>：成为 CLIP、DINO、SAM 编码器的主干，广泛支撑图文检索、自监督、分割</li>
+<li><strong>视频理解</strong>：TimeSformer / VideoMAE 将 ViT 扩展到时序维</li>
+<li><strong>多模态统一架构</strong>：ViT+Q 与文本 token 一同送入 LLM（如 LLaVA、Fuyu）</li>
+<li><strong>医学影像</strong>：CT/病理切片（用较小 patch 或尺度金字塔）</li>
+<li><strong>遥感图像</strong>：检测/语义分割（Swin/DeiT 变体）</li>
+</ul>
+
+<h4>参考文档</h4>
+
+<ul>
+<li><a href="https://blog.csdn.net/Kenji_Shinji/article/details/149449579" target="_blank" class="ref-link">Vision Transformer(ViT)详解（CSDN）</a></li>
+<li><a href="https://blog.csdn.net/heiioworld1/article/details/127659741" target="_blank" class="ref-link">Vision Transformer详解（CSDN）</a></li>
+<li><a href="https://blog.csdn.net/m0_63855028/article/details/146154577" target="_blank" class="ref-link">ICLR2021 ViT 论文精读（CSDN）</a></li>
+<li><a href="https://huggingface.co/docs/transformers/model_doc/vit" target="_blank" class="ref-link">HuggingFace ViT 文档</a></li>
+</ul>
+
+<hr>
+
+<h3>LLaVA（Large Language and Vision Assistant）</h3>
+
+<p><strong>类别</strong>：多模态 | <strong>难度</strong>：困难</p>
+
+<h4>算法简介</h4>
+
+<p>LLaVA（Large Language and Vision Assistant）由威斯康星大学麦迪逊分校 Haotian Liu 等人于 2023 年 10 月（NeurIPS 2023，论文《Visual Instruction Tuning》）提出，是"视觉指令微调"的开创性工作，常被称为多模态领域的 Alpaca 时刻。它的核心贡献有两点：① <strong>架构极简</strong>——用一个轻量线性层（后升级为 2 层 MLP）把 CLIP 视觉编码器的输出映射到 LLM 的输入空间，将图像变成"视觉 token"拼接到文本序列中，复用冻结或部分微调的 Vicuna/LLaMA 完成图文理解与对话；② <strong>数据方案</strong>——用纯文本 GPT-4 在 COCO 图像上"看图说话"式生成三类指令数据（对话、详细描述、复杂推理），构造了 158K 规模的 LLaVA-Instruct 数据集，实现零样本跨模态对齐。两阶段训练（先冻结双塔只训投影器做对齐，再端到端微调投影器+LLM）使得 7B 级模型即可达到媲美 GPT-4 的视觉对话效果，开启了 LLaVA 系列（1.5/1.6-NeXT）并深刻影响了 Qwen-VL、InternVL 等后续开源多模态大模型。</p>
+
+<h4>原理示意图</h4>
+
+<p><div class="algo-image"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 900 520" font-family="sans-serif">
+  <defs>
+    <marker id="arrow3" markerWidth="8" markerHeight="6" refX="4" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#6366f1"/>
+    </marker>
+  </defs>
+  <rect width="900" height="520" fill="#1e293b" rx="12"/>
+  <text x="450" y="30" text-anchor="middle" fill="#818cf8" font-size="15" font-weight="600">LLaVA 架构：视觉编码器 + 投影器 + LLM 端到端</text>
+
+  <!-- 图像输入 -->
+  <rect x="30" y="60" width="120" height="120" fill="#0f172a" stroke="#475569"/>
+  <text x="90" y="100" text-anchor="middle" fill="#94a3b8" font-size="11">图像 X_v</text>
+  <text x="90" y="118" text-anchor="middle" fill="#94a3b8" font-size="11">336×336</text>
+  <text x="90" y="150" text-anchor="middle" fill="#64748b" font-size="10">(CLIP 预处理)</text>
+
+  <!-- 视觉编码器 -->
+  <rect x="200" y="60" width="150" height="120" rx="8" fill="#1e1b4b" stroke="#818cf8"/>
+  <text x="275" y="85" text-anchor="middle" fill="#c7d2fe" font-size="12" font-weight="600">视觉编码器</text>
+  <text x="275" y="105" text-anchor="middle" fill="#94a3b8" font-size="10">CLIP ViT-L/14</text>
+  <text x="275" y="122" text-anchor="middle" fill="#94a3b8" font-size="10">取倒数第 2 层</text>
+  <text x="275" y="139" text-anchor="middle" fill="#94a3b8" font-size="10">输出 24×24×1024</text>
+  <text x="275" y="156" text-anchor="middle" fill="#64748b" font-size="9">(576 patch 特征)</text>
+  <line x1="150" y1="120" x2="200" y2="120" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow3)"/>
+
+  <!-- 投影器 -->
+  <rect x="400" y="60" width="140" height="120" rx="8" fill="#431407" stroke="#f97316"/>
+  <text x="470" y="85" text-anchor="middle" fill="#fdba74" font-size="12" font-weight="600">投影器 W</text>
+  <text x="470" y="105" text-anchor="middle" fill="#e2e8f0" font-size="10">MLP(2 层 GELU)</text>
+  <text x="470" y="122" text-anchor="middle" fill="#e2e8f0" font-size="10">1024 → 4096</text>
+  <text x="470" y="145" text-anchor="middle" fill="#94a3b8" font-size="9">把视觉特征映射到</text>
+  <text x="470" y="160" text-anchor="middle" fill="#94a3b8" font-size="9">LLM 词嵌入空间</text>
+  <line x1="350" y1="120" x2="400" y2="120" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow3)"/>
+
+  <!-- LLM -->
+  <rect x="590" y="50" width="270" height="140" rx="8" fill="#0f3d2e" stroke="#22c55e"/>
+  <text x="725" y="75" text-anchor="middle" fill="#86efac" font-size="12" font-weight="600">LLM（Vicuna-7B/13B）</text>
+  <text x="725" y="98" text-anchor="middle" fill="#e2e8f0" font-size="10">拼接输入序列：</text>
+  <rect x="610" y="108" width="60" height="22" rx="4" fill="#334155" stroke="#22c55e"/><text x="640" y="123" text-anchor="middle" fill="#e2e8f0" font-size="9">H_v</text>
+  <rect x="675" y="108" width="60" height="22" rx="4" fill="#334155" stroke="#22c55e"/><text x="705" y="123" text-anchor="middle" fill="#e2e8f0" font-size="9">X_q 提问</text>
+  <rect x="740" y="108" width="30" height="22" rx="4" fill="#1e3a5f" stroke="#22c55e"/><text x="755" y="123" text-anchor="middle" fill="#a5b4fc" font-size="9">…</text>
+  <text x="725" y="155" text-anchor="middle" fill="#94a3b8" font-size="10">自回归生成回答 X_a</text>
+  <text x="725" y="175" text-anchor="middle" fill="#64748b" font-size="9">损失：对回答部分算交叉熵</text>
+  <line x1="540" y1="120" x2="590" y2="120" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow3)"/>
+
+  <!-- 输出 -->
+  <rect x="760" y="110" width="110" height="58" rx="8" fill="#312e81" stroke="#a78bfa"/>
+  <text x="815" y="133" text-anchor="middle" fill="#c4b5fd" font-size="12" font-weight="600">输出</text>
+  <text x="815" y="153" text-anchor="middle" fill="#e2e8f0" font-size="10">"图片里是一只猫"</text>
+
+  <!-- 训练阶段 -->
+  <text x="450" y="260" text-anchor="middle" fill="#818cf8" font-size="14" font-weight="600">两阶段训练</text>
+  <rect x="60" y="280" width="370" height="100" rx="8" fill="#1e3a5f" stroke="#6366f1"/>
+  <text x="245" y="305" text-anchor="middle" fill="#a5b4fc" font-size="12" font-weight="600">阶段 1：特征对齐预训练</text>
+  <text x="245" y="325" text-anchor="middle" fill="#e2e8f0" font-size="10">冻结视觉编码器 + LLM，只训投影器 W</text>
+  <text x="245" y="345" text-anchor="middle" fill="#e2e8f0" font-size="10">数据：CC595K 图文对（图→简单描述）</text>
+  <text x="245" y="363" text-anchor="middle" fill="#94a3b8" font-size="9">lr=1e-3 · batch=128</text>
+  <line x1="430" y1="330" x2="470" y2="330" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow3)"/>
+  <rect x="470" y="280" width="370" height="100" rx="8" fill="#0f3d2e" stroke="#22c55e"/>
+  <text x="655" y="305" text-anchor="middle" fill="#86efac" font-size="12" font-weight="600">阶段 2：端到端指令微调</text>
+  <text x="655" y="325" text-anchor="middle" fill="#e2e8f0" font-size="10">冻结视觉编码器，训练投影器 + LLM</text>
+  <text x="655" y="345" text-anchor="middle" fill="#e2e8f0" font-size="10">数据：LLaVA-Instruct-158K（GPT-4 生成）</text>
+  <text x="655" y="363" text-anchor="middle" fill="#94a3b8" font-size="10">lr=2e-5 · epoch=1 · batch=16 · 最大序列 2048</text>
+
+  <!-- 数据示例 -->
+  <rect x="60" y="410" width="780" height="90" rx="8" fill="#1e1b4b" stroke="#818cf8"/>
+  <text x="80" y="435" fill="#c7d2fe" font-size="12" font-weight="600">LLaVA-Instruct-158K 数据：GPT-4 用 COCO 图像生成的三种指令</text>
+  <text x="80" y="460" fill="#e2e8f0" font-size="11">① Conversation：图文对话（"图片里有什么？"）② Detailed description：详细描述 ③ Complex reasoning：复杂推理</text>
+  <text x="80" y="490" fill="#94a3b8" font-size="11">关键 trick：提问时用随机文本填充图像位置（随机 token），防止回答与视觉内容"错位"（数据泄漏）</text>
+  <text x="80" y="520" fill="#64748b" font-size="10">损失只计算回答部分 → 多轮对话数据可并行训练</text>
+</svg></div></p>
+
+<h4>数学公式</h4>
+
+<p><strong>1. 视觉特征提取</strong></p>
+
+<p><div class="math-block">$$ H_v = \text{VisionEncoder}(X_v), \quad H_v \in \mathbb{R}^{N_v \times D_v} $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ X_v $：输入图像（LLaVA 中为 336×336）</li>
+<li>$ \text{VisionEncoder} $：CLIP 的 ViT-L/14 视觉编码器（取倒数第 2 层输出）</li>
+<li>$ H_v $：视觉特征序列，$ N_v=24\times24=576 $ 个 patch 特征，每维 $ D_v=1024 $</li>
+</ul>
+
+<p><strong>2. 视觉 token 投影（对齐 LLM 嵌入空间）</strong></p>
+
+<p><div class="math-block">$$ Z_v = \text{projector}(H_v) = W_2 \cdot \text{GELU}(W_1 H_v + b_1) + b_2 $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ W_1 \in \mathbb{R}^{D_h \times D_v} $、$ b_1 $：第一层 MLP 权重与偏置</li>
+<li>$ W_2 \in \mathbb{R}^{D_{llm} \times D_h} $、$ b_2 $：第二层 MLP 权重与偏置</li>
+<li>$ D_{llm} $：LLM 词嵌入维度（Vicuna-7B 为 4096）</li>
+<li>$ Z_v \in \mathbb{R}^{576 \times D_{llm}} $：映射后的视觉 token（576 个"图像词"）</li>
+</ul>
+
+<p><strong>3. 多模态输入序列拼接</strong></p>
+
+<p><div class="math-block">$$ X_{\text{input}} = [\,T_1,\, Z_v,\, T_2,\, Z_v,\, T_3,\, \ldots,\, Z_v,\, T_n\,] $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ T_i $：文本指令 token 序列片段</li>
+<li>$ Z_v $：插入到 <code class="inline-code"><image></code> 占位符位置（原始版本把全部视觉 token 放最前）</li>
+<li>拼接后总序列长度 = 文本长度 + 576 × 图像出现次数（受 max_seq_length 限制）</li>
+</ul>
+
+<p><strong>4. 自回归语言建模损失（核心训练目标）</strong></p>
+
+<p><div class="math-block">$$ L = -\sum_{t=1}^{M} \log p_{\theta}\big(x_t^{\text{ans}} \mid X_{\text{instr}},\,X_{\text{img}},\,x_{<t}^{\text{ans}}\big) $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ X_{\text{instr}} $：问题/指令 token</li>
+<li>$ X_{\text{img}} $：图像视觉 token</li>
+<li>$ x_t^{\text{ans}} $：回答（target）中第 $ t $ 个 token</li>
+<li>$ \theta $：可训练参数（阶段 1 仅投影器；阶段 2 投影器 + LLM）</li>
+<li>$ M $：回答序列长度；<strong>只对回答部分计算损失</strong>，指令与图像部分被 mask 掉</li>
+</ul>
+
+<h4>核心要点</h4>
+<ul>
+<li><strong>三大组件</strong>：冻结的 CLIP 视觉编码器 + 可训练轻量投影器 + 冻结/微调的 LLM，结构极简</li>
+<li><strong>把图像变成"词"</strong>：576 个视觉 token 拼进文本序列，LLM 把看图当成"读懂一段插入的文本"</li>
+<li><strong>数据是灵魂</strong>：用纯文本 GPT-4 自动生成视觉指令数据（158K），是 LLaVA 成功的核心</li>
+<li><strong>两阶段训练</strong>：先对齐特征（只练投影器），再端到端指令微调（练投影器+LLM），由粗到精</li>
+<li><strong>回答损失屏蔽</strong>：只对回答 token 计算损失，保证"只听该听的"</li>
+<li><strong>随机图像填充</strong>：数据构造时随机化提问位置，防止图文错位，提升对齐鲁棒性</li>
+<li><strong>可扩展</strong>：更换更强的 LLM（LLaMA2/3、Qwen）、视觉编码器或加入高分辨率/多尺度（LLaVA-1.5/NEXT）可平滑升级</li>
+</ul>
+
+<h4>技术细节与参数详解</h4>
+
+<p>以 LLaVA-1.5 官方实现（HuggingFace <code class="inline-code">llava-hf/llava-1.5-7b</code>）为准，逐参数详解：</p>
+
+<p>#### 参数 1：<code class="inline-code">vision_tower</code>（视觉编码器）</p>
+<ul>
+<li><strong>含义</strong>：提取图像特征的预训练视觉模型</li>
+<li><strong>类型</strong>：字符串模型名 / 模型对象</li>
+<li><strong>默认值</strong>：<code class="inline-code">openai/clip-vit-large-patch14-336</code></li>
+<li><strong>取值范围</strong>：CLIP ViT-L/14 及其 224/336 版本、SigLIP、InternViT 等</li>
+<li><strong>对结果的影响</strong>：视觉编码器质量直接决定图像理解上限；336 分辨率（ViT-L/14 336）比 224 精度更高</li>
+<li><strong>推荐设置</strong>：默认 CLIP-ViT-L/14@336；追求更高精度用 SigLIP/InternViT（如 LLaVA-OneVision）</li>
+</ul>
+
+<p>#### 参数 2：<code class="inline-code">vision_feature_layer</code>（取视觉编码器哪一层）</p>
+<ul>
+<li><strong>含义</strong>：取 CLIP 的倒数第几层特征作为输出</li>
+<li><strong>类型</strong>：int</li>
+<li><strong>默认值</strong>：<code class="inline-code">-2</code>（倒数第二层）</li>
+<li><strong>对结果的影响</strong>：倒数第一层（CLS 池化层）会丢失空间细节，倒数第二层保留 patch 级空间信息，利于理解"图中哪里"</li>
+<li><strong>推荐设置</strong>：默认 -2；其余层可作为消融变量</li>
+</ul>
+
+<p>#### 参数 3：<code class="inline-code">vision_feature_select_strategy</code>（视觉特征选择策略）</p>
+<ul>
+<li><strong>含义</strong>：从视觉层输出中选哪部分作为 patch 特征</li>
+<li><strong>类型</strong>：str</li>
+<li><strong>默认值</strong>：<code class="inline-code">patch</code>（LLaVA-1.5 用 patch 而非 cls）</li>
+<li><strong>可选值</strong>：<code class="inline-code">patch</code>（取全部 patch 特征）、<code class="inline-code">cls</code>（只取 CLS token）</li>
+<li><strong>对结果的影响</strong>：<code class="inline-code">patch</code> 保留 576 个空间特征，<code class="inline-code">cls</code> 只有一个全局特征（几乎不用）</li>
+<li><strong>推荐设置</strong>：<code class="inline-code">patch</code></li>
+</ul>
+
+<p>#### 参数 4：<code class="inline-code">mm_projector_type</code>（投影器结构）</p>
+<ul>
+<li><strong>含义</strong>：把视觉特征映射到 LLM 嵌入空间的网络结构</li>
+<li><strong>类型</strong>：字符串</li>
+<li><strong>默认值</strong>：<code class="inline-code">mlp2x_gelu</code>（2 层 MLP + GELU）</li>
+<li><strong>可选值</strong>：<code class="inline-code">linear</code>（单线性层）、<code class="inline-code">mlp2x_gelu</code>、更复杂（如 Q-Former 风格）</li>
+<li><strong>对结果的影响</strong>：MLP 投影（2 层）比线性投影对齐效果更好（表达能力更强），又不会像大投影器那样过拟合</li>
+<li><strong>推荐设置</strong>：<code class="inline-code">mlp2x_gelu</code>（LLaVA-1.5 官方配置）</li>
+</ul>
+
+<p>#### 参数 5：<code class="inline-code">mm_hidden_size</code>（视觉特征维度）</p>
+<ul>
+<li><strong>含义</strong>：视觉编码器输出特征维度</li>
+<li><strong>类型</strong>：int</li>
+<li><strong>默认值</strong>：1024（CLIP ViT-L/14 的 patch 维）</li>
+<li><strong>对结果的影响</strong>：与投影器输入维一致；改视觉塔时需同步改此值</li>
+<li><strong>推荐设置</strong>：1024（CLIP-L）</li>
+</ul>
+
+<p>#### 参数 6：<code class="inline-code">llm</code>（大语言模型底座）</p>
+<ul>
+<li><strong>含义</strong>：承接视觉 token 的 LLM</li>
+<li><strong>类型</strong>：模型名</li>
+<li><strong>默认值</strong>：<code class="inline-code">lmsys/vicuna-7b-v1.5</code>（或 13B）</li>
+<li><strong>可选</strong>：LLaMA、Vicuna、Mistral、Qwen 等</li>
+<li><strong>对结果的影响</strong>：决定生成质量、推理深度与知识广度；13B 比 7B 强但更慢更贵</li>
+<li><strong>推荐设置</strong>：7B 用于实验/边缘，13B 用于生产</li>
+</ul>
+
+<p>#### 参数 7：<code class="inline-code">image_size</code>（输入图像尺寸）</p>
+<ul>
+<li><strong>作用</strong>：送入视觉编码器的图像分辨率</li>
+<li><strong>类型</strong>：int</li>
+<li><strong>默认值</strong>：336（CLIP ViT-L/14@336）</li>
+<li><strong>对结果的影响</strong>：分辨率越高 patch 越多 token 越多、细节越丰富，但显存与延迟上升；336 是精度/成本折中</li>
+<li><strong>推荐设置</strong>：默认 336；物体/文字密集任务可升级到 384/512（anyres 多分辨率）</li>
+</ul>
+
+<p>#### 参数 8：图像 token 数（<code class="inline-code">grid</code>）</p>
+<ul>
+<li><strong>含义</strong>：$ 336/14=24 $，即 24×24=576 个视觉 token</li>
+<li><strong>类型</strong>：int（由图像尺寸与 patch 决定）</li>
+<li><strong>对结果的影响</strong>：token 数直接占用 LLM 上下文窗口（最大序列长度 2048 时图像约占 28%）</li>
+<li><strong>推荐设置</strong>：默认 576；AnyRes 多分辨率会成倍增加 token 数</li>
+</ul>
+
+<p>#### 参数 9：<code class="inline-code">lora</code> 微调（可选）</p>
+<ul>
+<li><strong>含义</strong>：是否用 LoRA 低秩适配微调 LLM 层</li>
+<li><strong>类型</strong>：bool + rank</li>
+<li><strong>默认值</strong>：全参微调（不启用 LoRA）</li>
+<li><strong>对结果的影响</strong>：LoRA 显存占用大幅下降，适合单卡微调；效果略逊全参</li>
+<li><strong>推荐设置</strong>：7B 级单卡（24GB）可用 rank=128 的 LoRA</li>
+</ul>
+
+<p>#### 参数 10：阶段 1 训练参数（特征对齐预训练）</p>
+<ul>
+<li><strong>优化器</strong>：AdamW</li>
+<li><strong>学习率</strong>：<code class="inline-code">lr=1e-3</code>（只训投影器）</li>
+<li><strong>批大小</strong>：128（A100 级别）</li>
+<li><strong>训练轮数</strong>：1 epoch</li>
+<li><strong>数据</strong>：CC3M 清洗子集 595K 图文对（Caption 式）</li>
+<li><strong>影响</strong>：把视觉特征与词嵌入粗对齐，为阶段 2 打底</li>
+</ul>
+
+<p>#### 参数 11：阶段 2 训练参数（端到端指令微调）</p>
+<ul>
+<li><strong>学习率</strong>：<code class="inline-code">lr=2e-5</code>（投影器 1e-4 或 2e-5）</li>
+<li><strong>批大小</strong>：16（global batch）</li>
+<li><strong>轮数</strong>：1 epoch（158K 数据）</li>
+<li><strong>最大序列长度</strong>：<code class="inline-code">max_seq_length=2048</code>（决定图像 token + 文本上下文上限）</li>
+<li><strong>warmup_ratio</strong>：0.03（或 warmup_steps 少部分步）</li>
+<li><strong>梯度累积</strong>：按显存调整（gradient_accumulation_steps）</li>
+<li><strong>冻结策略</strong>：视觉编码器完全冻结，不参与梯度更新（省显存且稳定）</li>
+</ul>
+
+<p>#### 参数 12：<code class="inline-code">mm_vision_tower_lr</code>（视觉塔学习率）</p>
+<ul>
+<li><strong>含义</strong>：是否解冻视觉编码器并以独立学习率训练</li>
+<li><strong>默认值</strong>：不训练（冻结）</li>
+<li><strong>对结果的影响</strong>：完全冻结可省 3-4GB 显存且训练更稳定；高级版（如 LLaVA-OneVision）会部分解冻微调视觉塔</li>
+<li><strong>推荐设置</strong>：默认冻结；数据足够时微调最后几层可提精度</li>
+</ul>
+
+<p>#### 参数 13：<code class="inline-code">padding_side</code> / <code class="inline-code">tokenizer</code> 设置</p>
+<ul>
+<li><strong>含义</strong>：文本 padding 位置与分词器</li>
+<li><strong>默认值</strong>：右侧 padding、Vicuna 的 LlamaTokenizer（bos/eos 处理）</li>
+<li><strong>对结果的影响</strong>：多模态拼接时若 padding 位置错误会导致序列错位</li>
+<li><strong>推荐</strong>：与模型卡保持一致，加载时用 <code class="inline-code">use_fast=True</code></li>
+</ul>
+
+<h4>代码示例</h4>
+
+<p><pre class="code-block"><code class="language-python"># 使用 transformers 加载 LLaVA-1.5 进行图文对话（推理）
+import torch                       # PyTorch 张量库
+from transformers import AutoProcessor, LlavaForConditionalGeneration  # transformers 多模态类
+from PIL import Image              # 图像处理库
+
+model_id = &quot;llava-hf/llava-1.5-7b-hf&quot;      # LLaVA-1.5-7B 权重标识
+processor = AutoProcessor.from_pretrained(model_id)  # 加载处理器（tokenizer+图像预处理）
+model = LlavaForConditionalGeneration.from_pretrained(
+    model_id,                      # 模型标识
+    torch_dtype=torch.float16,     # 半精度推理省显存
+    device_map=&quot;auto&quot;,             # 自动分配到可用设备（GPU）
+)
+
+image = Image.open(&quot;demo.jpg&quot;)     # 打开一张测试图片
+conv = [                            # 多轮对话模板（ChatML 格式）
+    {&quot;role&quot;: &quot;user&quot;,
+     &quot;content&quot;: [{&quot;type&quot;: &quot;image&quot;, &quot;image&quot;: image},   # 图像作为输入
+                 {&quot;type&quot;: &quot;text&quot;, &quot;text&quot;: &quot;描述一下这张图片的内容。&quot;}]},
+]
+prompt = processor.apply_chat_template(conv, add_generation_prompt=True)  # 拼 prompt
+inputs = processor(images=image, text=prompt, return_tensors=&quot;pt&quot;).to(model.device)
+output = model.generate(**inputs, max_new_tokens=512, do_sample=True)    # 生成回答
+answer = processor.decode(output[0][inputs[&quot;input_ids&quot;].shape[1]:], skip_special_tokens=True)  # 解码
+print(answer)</code></pre></p>
+
+<p><pre class="code-block"><code class="language-python"># 两阶段训练核心伪代码（LLaVA 官方流程）
+# 阶段 1：只训练投影器，冻结视觉编码器与 LLM
+for x_img, x_text in cc595k_dataloader:        # 遍历图文对数据
+    z_v = projector(vision_encoder(x_img))     # 前向：视觉特征 → 视觉 token
+    seq = cat(z_v, tokenize(x_text))           # 拼接序列（图像放前面）
+    loss = lm_loss(seq, mask=answer_mask)      # 只对回答部分算交叉熵
+    loss.backward()                            # 反向传播
+    projector_opt.step()                       # 只更新投影器（LLM 冻结）
+    projector_opt.zero_grad()                  # 清梯度
+
+# 阶段 2：端到端指令微调（解锁 LLM）
+for x in llava_instruct_dataloader:            # 158K 指令数据
+    z_v = projector(vision_encoder(x_img))     # 视觉特征
+    seq = concat_with_interleave(x_q, z_v)     # 按模板交错拼接提问与图像
+    loss = lm_loss(seq, mask_answers_only)     # 只对回答 token 交叉熵
+    loss.backward()                            # 全参数反向传播（LLM+投影）
+    opt.step()                                 # 更新投影器与 LLM
+    opt.zero_grad()</code></pre></p>
+
+<h4>复杂度分析</h4>
+
+<p>设视觉 patch 数 $ N_v $（默认 576）、LLM 层数 $ L $、隐层维 $ D $（7B 为 4096）、文本序列长 $ S $，总序列 $ T = N_v + S $：</p>
+
+<ul>
+<li><strong>视觉编码</strong>：ViT-L 对 336×336 图像约 1.3 GFLOPs，与 LLM 相比可忽略</li>
+<li><strong>投影器</strong>：每 token $ O(D_v D_{llm}) $，576 token 总量很小</li>
+<li><strong>LLM 前向（推理）</strong>：单 token 约 $ O(2LD^2) $，生成 $ M $ 个 token 需 $ O(2M L D^2) $；自回归解码无法并行，延迟与 $ M $ 线性相关</li>
+<li><strong>训练</strong>：反向传播约 2~3 倍前向，且注意矩阵 $ O(T^2 D) $，长序列时 $ T=576+2048 $ 使注意力成为瓶颈</li>
+<li><strong>显存</strong>：7B 模型 fp16 推理约 14GB 权重 + KV cache（$ T \times D $ 每层 ×2）；训练用 LoRA 约 24-32GB，全参需 80GB（A100/H100）</li>
+<li><strong>对比纯文本 LLM</strong>：额外开销主要是 576 个视觉 token 的注意力计算与 KV cache，$ T $ 增长约 25%（文本 2048 时）</li>
+</ul>
+
+<h4>应用场景</h4>
+
+<ul>
+<li><strong>通用视觉对话助手</strong>：看图问答、看图闲聊（"这张图讲了什么"）</li>
+<li><strong>文档/截图理解</strong>：OCR 与版面理解（表格、票据、网页截图转结构化）</li>
+<li><strong>视觉定位与推理</strong>：结合 grounding 把答案绑定到图中坐标（LLaVA-Grounding）</li>
+<li><strong>自动化与 Agent</strong>：作为多模态 Agent 的"眼睛"，驱动 GUI 自动化、具身操作</li>
+<li><strong>医疗影像辅助</strong>：放射影像初筛、报告生成（医学微调版）</li>
+<li><strong>教育/无障碍</strong>：为视障用户描述场景、为儿童讲解绘本</li>
+</ul>
+
+<h4>参考文档</h4>
+
+<ul>
+<li><a href="https://lishizheng.blog.csdn.net/article/details/146214220" target="_blank" class="ref-link">LLaVA 技术详解：视觉指令调优（CSDN）</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/2010131537010638915" target="_blank" class="ref-link">【万字硬核】Visual Instruction Tuning：多模态助理的 Alpaca 时刻（知乎）</a></li>
+<li><a href="https://blog.csdn.net/qq_41825704/article/details/136380171" target="_blank" class="ref-link">多模态论文阅读-LLaVA（CSDN）</a></li>
+<li><a href="https://blog.csdn.net/qq_40491305/article/details/131400432" target="_blank" class="ref-link">多模态大语言模型 LLaVA 论文解读（CSDN）</a></li>
+</ul>
+
+<blockquote>
+<p>AI生成</p>
+</blockquote>
+  </div>
+  <div class="footer">
+    <p>由 TeleAgent · 每日算法推送 技能自动生成 | 2026-09-17 11:20</p>
+  </div>
+</div>
+</body>
+</html>
