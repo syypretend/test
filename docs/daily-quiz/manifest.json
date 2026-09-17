@@ -1,5 +1,42 @@
 [
   {
+    "date": "2026-09-17",
+    "filename": "quiz-2026-09-17.html",
+    "url": "https://syypretend.github.io/test/daily-quiz/quiz-2026-09-17.html",
+    "title": "每日算法 AI 出题",
+    "subtitle": "算法 2 道 + AI 2 道 · 第 7 期（2026-09-17）",
+    "questions": [
+      {
+        "id": 1,
+        "type": "algorithm_code",
+        "type_label": "算法编程",
+        "title": "最长严格递增子序列（LIS）",
+        "difficulty": 2
+      },
+      {
+        "id": 2,
+        "type": "algorithm_concept",
+        "type_label": "算法概念",
+        "title": "分治算法性质判断",
+        "difficulty": 1
+      },
+      {
+        "id": 3,
+        "type": "ai_derivation",
+        "type_label": "AI公式推导",
+        "title": "Softmax 交叉熵损失的梯度推导",
+        "difficulty": 2
+      },
+      {
+        "id": 4,
+        "type": "ai_interview",
+        "type_label": "AI面试问答",
+        "title": "RLHF 对齐三阶段：PPO 与 DPO 对比",
+        "difficulty": 2
+      }
+    ]
+  },
+  {
     "date": "2026-09-15",
     "filename": "quiz-2026-09-15.html",
     "url": "https://syypretend.github.io/test/daily-quiz/quiz-2026-09-15.html",
