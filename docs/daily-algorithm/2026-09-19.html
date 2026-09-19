@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>每日算法讲解 · 2026年09月19日</title>
+<!-- MathJax for LaTeX math formula rendering -->
+<script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\(', '\)']],
+      displayMath: [['$$', '$$'], ['\[', '\]']],
+      processEscapes: true
+    },
+    svg: { fontCache: 'global' }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" id="MathJax-script" async></script>
+<style>
+:root {
+  --primary: #6366f1;
+  --primary-dark: #4f46e5;
+  --bg: #0f172a;
+  --card-bg: #1e293b;
+  --text: #e2e8f0;
+  --text-dim: #94a3b8;
+  --accent: #818cf8;
+  --border: #334155;
+  --code-bg: #0d1117;
+  --code-text: #e6edf3;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans SC", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.8;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+.container { max-width: 1400px; margin: 0 auto; padding: 24px 32px; }
+.header {
+  text-align: center;
+  padding: 40px 0 30px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 32px;
+}
+.header h1 {
+  font-size: 28px;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.header h1 .date { color: var(--accent); }
+.header .subtitle { color: var(--text-dim); font-size: 15px; }
+.repo-link {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 6px 16px;
+  background: var(--primary);
+  color: #fff;
+  border-radius: 20px;
+  text-decoration: none;
+  font-size: 13px;
+  transition: background 0.2s;
+}
+.repo-link:hover { background: var(--primary-dark); }
+.history-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 32px;
+  padding: 16px;
+  background: var(--card-bg);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+.history-nav a {
+  padding: 4px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  color: var(--text-dim);
+  text-decoration: none;
+  background: rgba(99,102,241,0.08);
+  transition: all 0.2s;
+}
+.history-nav a:hover { color: var(--text); background: rgba(99,102,241,0.2); }
+.history-nav a.active { color: #fff; background: var(--primary); }
+.history-nav a.back-index { color: var(--accent); font-weight: 600; background: rgba(99,102,241,0.15); border: 1px solid rgba(99,102,241,0.3); }
+.history-nav a.back-index:hover { color: #fff; background: var(--primary); border-color: var(--primary); }
+.content { margin-bottom: 40px; max-width: 1100px; }
+.content h2 {
+  font-size: 24px;
+  color: var(--accent);
+  margin: 40px 0 16px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--primary);
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+.content h2:first-child { border-top: none; padding-top: 0; }
+.content h3 {
+  font-size: 18px;
+  color: var(--text);
+  margin: 24px 0 12px;
+}
+.content h4 {
+  font-size: 16px;
+  color: var(--accent);
+  margin: 20px 0 10px;
+}
+.content p { margin-bottom: 12px; color: var(--text); }
+.content ul { margin: 8px 0 16px 20px; }
+.content li { margin-bottom: 6px; }
+.content strong { color: var(--accent); }
+.content blockquote {
+  border-left: 4px solid var(--primary);
+  padding: 12px 16px;
+  margin: 16px 0;
+  background: rgba(99,102,241,0.08);
+  border-radius: 0 8px 8px 0;
+}
+.content blockquote p { color: var(--text-dim); margin: 4px 0; }
+.content hr {
+  border: none;
+  height: 1px;
+  background: var(--border);
+  margin: 32px 0;
+}
+.code-block {
+  background: var(--code-bg);
+  border-radius: 10px;
+  padding: 18px 24px;
+  overflow-x: auto;
+  margin: 16px 0;
+  border: 1px solid var(--border);
+  max-width: 100%;
+}
+.code-block code {
+  font-family: "JetBrains Mono", "Fira Code", "Consolas", monospace;
+  font-size: 14px;
+  color: var(--code-text);
+  line-height: 1.6;
+  white-space: pre;
+}
+.inline-code {
+  background: rgba(99,102,241,0.15);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: "Consolas", monospace;
+  font-size: 0.9em;
+  color: var(--accent);
+}
+/* Math formula block */
+.content .math-block {
+  background: rgba(99,102,241,0.06);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 24px;
+  margin: 16px 0;
+  overflow-x: auto;
+  max-width: 100%;
+}
+.content .math-label {
+  font-size: 13px; color: var(--text-dim); margin-bottom: 6px; }
+.content .math-vars {
+  margin: 8px 0 16px 20px; }
+.content .math-vars li { margin-bottom: 4px; color: var(--text-dim); }
+.footer {
+  text-align: center;
+  padding: 24px 0;
+  border-top: 1px solid var(--border);
+  color: var(--text-dim);
+  font-size: 13px;
+}
+.tag {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  background: rgba(99,102,241,0.15);
+  color: var(--accent);
+  margin-left: 8px;
+}
+.content .ref-link {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px dashed rgba(99,102,241,0.4);
+  transition: all 0.2s;
+  word-break: break-all;
+}
+.content .ref-link:hover {
+  color: #fff;
+  border-bottom-color: var(--primary);
+}
+.content li {
+  word-break: break-all;
+}
+/* Table */
+.table-wrapper {
+  overflow-x: auto;
+  margin: 16px 0;
+  max-width: 100%;
+}
+.algo-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  background: var(--card-bg);
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+.algo-table thead {
+  background: rgba(99,102,241,0.15);
+}
+.algo-table th {
+  padding: 10px 16px;
+  text-align: left;
+  color: var(--accent);
+  font-weight: 600;
+  border-bottom: 2px solid var(--primary);
+  white-space: nowrap;
+}
+.algo-table td {
+  padding: 8px 16px;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  word-break: break-all;
+}
+.algo-table tr:last-child td {
+  border-bottom: none;
+}
+.algo-table tr:hover td {
+  background: rgba(99,102,241,0.06);
+}
+/* Algorithm architecture image */
+.algo-image {
+  margin: 20px 0;
+  text-align: center;
+}
+.algo-image img {
+  max-width: 100%;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+.algo-image .image-caption {
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--text-dim);
+}
+.algo-image svg {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+/* ======== 移动端响应式适配 ======== */
+@media (max-width: 768px) {
+  .container { max-width: 100%; padding: 16px 14px; }
+  .header { padding: 24px 0 20px; margin-bottom: 20px; }
+  .header h1 { font-size: 20px; margin-bottom: 4px; }
+  .header .subtitle { font-size: 13px; }
+  .repo-link { margin-top: 10px; padding: 5px 14px; font-size: 12px; }
+  .history-nav { gap: 6px; padding: 10px 12px; margin-bottom: 20px; }
+  .history-nav a { padding: 3px 10px; font-size: 12px; }
+  .content { max-width: 100%; margin-bottom: 28px; }
+  .content h2 { font-size: 20px; margin: 28px 0 12px; }
+  .content h3 { font-size: 17px; margin: 20px 0 10px; }
+  .content h4 { font-size: 15px; margin: 16px 0 8px; }
+  .content p { font-size: 14px; margin-bottom: 10px; }
+  .content ul { margin: 6px 0 12px 16px; }
+  .content li { font-size: 14px; margin-bottom: 5px; }
+  .content blockquote { padding: 10px 12px; margin: 12px 0; }
+  .content blockquote p { font-size: 13px; }
+  .content .math-block { padding: 10px 14px; margin: 12px 0; }
+  .code-block { padding: 12px 14px; margin: 12px 0; }
+  .code-block code { font-size: 12px; line-height: 1.5; }
+  .inline-code { font-size: 0.88em; padding: 1px 5px; }
+  .algo-table { font-size: 12px; }
+  .algo-table th { padding: 6px 10px; }
+  .algo-table td { padding: 6px 10px; }
+  .algo-image { margin: 14px 0; }
+  .algo-image svg { max-width: 100%; height: auto; }
+  .footer { padding: 18px 0; font-size: 12px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>每日算法讲解 · <span class="date">2026年09月19日</span></h1>
+    <p class="subtitle">每天 1 个基础算法 + 2 个 AI/机器学习算法，持续精进</p>
+    <a href="https://syypretend.github.io/test/daily-algorithm" target="_blank" class="repo-link">GitHub 仓库</a>
+  </div>
+  <div class="history-nav"><a href="index.html" class="back-index">← 历史索引</a>
+<a href="2026-09-19.html" class="active">09月19日</a>
+</div>
+  <div class="content">
+  <h2>每日算法讲解 · 2026-09-19</h2>
+
+<blockquote>
+<p>第1轮 · 首轮学习 | 今日讲解：单调队列 + GAN 生成对抗网络 + 逻辑回归 | 逐参数详解</p>
+</blockquote>
+
+<hr>
+
+<h3>单调队列</h3>
+
+<p><strong>类别</strong>：数据结构 | <strong>难度</strong>：中等</p>
+
+<h4>算法简介</h4>
+
+<p>单调队列是一种特殊的双端队列（deque），队列中的元素始终保持单调性——要么从队头到队尾<strong>严格单调递减</strong>（用于求滑动窗口最大值），要么<strong>严格单调递增</strong>（用于求最小值）。它的核心应用是滑动窗口极值问题：给定长度为 $ n $ 的序列和窗口大小 $ k $，窗口每次右移一位，要求输出每个窗口内的最大值。暴力解法每滑动一次就扫描窗口内全部 $ k $ 个元素，时间复杂度为 $ O(nk) $，当 $ n $ 达到 $ 10^6 $ 级别时直接超时；而单调队列能把复杂度降到严格的 $ O(n) $，每个元素最多入队一次、出队一次，均摊常数级操作。</p>
+
+<p>单调队列的核心思想是"<strong>淘汰无用候选</strong>"：队头永远保存当前窗口的极值候选；新元素入队前，从队尾弹出所有"比新元素更小且更早过期"的旧元素（求最大值时），因为它们永远不可能再成为窗口极值；队头元素一旦滑出窗口边界就立即出队。与优先队列（堆，$ O(n\log n) $）相比，单调队列少了一个对数因子；与暴力法相比，它省去了反复扫描窗口的代价。单调队列还是优化动态规划转移的常用工具（如斜率优化前的"窗口化 DP"），是算法竞赛与面试中的高频考点。</p>
+
+<h4>原理示意图</h4>
+
+<p><div class="algo-image"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 900 420" font-family="sans-serif">
+  <rect width="900" height="420" fill="#1e293b" rx="12"/>
+  <text x="450" y="30" text-anchor="middle" fill="#818cf8" font-size="15" font-weight="600">单调队列求滑动窗口最大值（窗口 k=3）</text>
+  <!-- 原数组 -->
+  <text x="60" y="70" fill="#94a3b8" font-size="13">原数组 nums</text>
+  <g font-size="14" text-anchor="middle">
+    <rect x="60"  y="82" width="70" height="36" rx="6" fill="#334155" stroke="#475569"/><text x="95"  y="105" fill="#e2e8f0">1</text>
+    <rect x="140" y="82" width="70" height="36" rx="6" fill="#334155" stroke="#475569"/><text x="175" y="105" fill="#e2e8f0">3</text>
+    <rect x="220" y="82" width="70" height="36" rx="6" fill="#334155" stroke="#475569"/><text x="255" y="105" fill="#e2e8f0">-1</text>
+    <rect x="300" y="82" width="70" height="36" rx="6" fill="#334155" stroke="#475569"/><text x="335" y="105" fill="#e2e8f0">-3</text>
+    <rect x="380" y="82" width="70" height="36" rx="6" fill="#334155" stroke="#475569"/><text x="415" y="105" fill="#e2e8f0">5</text>
+    <rect x="460" y="82" width="70" height="36" rx="6" fill="#334155" stroke="#475569"/><text x="495" y="105" fill="#e2e8f0">3</text>
+    <rect x="540" y="82" width="70" height="36" rx="6" fill="#334155" stroke="#475569"/><text x="575" y="105" fill="#e2e8f0">6</text>
+    <rect x="620" y="82" width="70" height="36" rx="6" fill="#334155" stroke="#475569"/><text x="655" y="105" fill="#e2e8f0">2</text>
+  </g>
+  <!-- 第一个窗口框 -->
+  <rect x="52" y="76" width="246" height="48" rx="8" fill="none" stroke="#22c55e" stroke-width="2" stroke-dasharray="6 4"/>
+  <text x="175" y="146" text-anchor="middle" fill="#22c55e" font-size="12">窗口1（下标 0~2）→ 最大值 3</text>
+  <!-- 箭头到队列 -->
+  <line x1="320" y1="160" x2="320" y2="190" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow)"/>
+  <!-- 单调递减队列 -->
+  <text x="60" y="210" fill="#94a3b8" font-size="13">单调递减队列 deque（存下标）</text>
+  <g font-size="14" text-anchor="middle">
+    <rect x="60" y="222" width="80" height="36" rx="6" fill="#6366f1"/><text x="100" y="245" fill="#fff">队头 3</text>
+    <rect x="150" y="222" width="80" height="36" rx="6" fill="#334155" stroke="#6366f1"/><text x="190" y="245" fill="#e2e8f0">-1</text>
+    <text x="300" y="245" fill="#94a3b8" font-size="12">← 已淘汰 1（比 3 小且先过期）</text>
+  </g>
+  <!-- 结果输出 -->
+  <line x1="360" y1="260" x2="500" y2="310" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow)"/>
+  <rect x="430" y="300" width="140" height="44" rx="8" fill="#22c55e"/>
+  <text x="500" y="327" text-anchor="middle" fill="#0f172a" font-size="14" font-weight="600">答案：队头 3</text>
+  <text x="60" y="380" fill="#94a3b8" font-size="12">规则1：新元素从队尾入，弹出所有更小/相等的旧元素（保持严格单调递减）</text>
+  <text x="60" y="398" fill="#94a3b8" font-size="12">规则2：队头下标 &lt;= i-k 说明已滑出窗口，从队头弹出 → 队头始终是窗口最大值</text>
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="6" refX="4" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#6366f1"/>
+    </marker>
+  </defs>
+</svg></div></p>
+
+<blockquote>
+<p>配图说明：数组 <code class="inline-code">[1, 3, -1, -3, 5, 3, 6, 2]</code>，窗口 $ k=3 $。绿色虚线框为第一个窗口，窗口内最大值为 3；单调队列内只保留"可能成为未来窗口极值"的候选元素，队头即当前窗口最大值。</p>
+</blockquote>
+
+<h4>数学公式</h4>
+
+<p>暴力求解滑动窗口最大值的时间复杂度：</p>
+
+<p><div class="math-block">$$ T_{\text{brute}} = O(n \times k) $$</div></p>
+
+<p>其中 $ n $ 为序列长度，$ k $ 为窗口大小——每个窗口都要重新扫描 $ k $ 个元素，共约 $ n $ 个窗口。</p>
+
+<p>单调队列的均摊复杂度：</p>
+
+<p><div class="math-block">$$ T(n) = O(n) $$</div></p>
+
+<p>推导：每个元素<strong>恰好入队一次、恰好出队一次</strong>（要么被新元素从队尾淘汰，要么滑出窗口从队头弹出），总操作次数不超过 $ 2n $，因此均摊到每个元素是 $ O(1) $。</p>
+
+<p>队尾淘汰条件（求最大值，维护严格单调递减队列）：当新元素 $ a_i $ 入队时，</p>
+
+<p><div class="math-block">$$ \text{while } q \neq \emptyset \text{ and } a_{q_{back}} \le a_i : \ q.\text{pop\_back}() $$</div></p>
+
+<p>队头过期条件（窗口左边界为 $ i - k + 1 $，下标严格小于左边界的元素出队）：</p>
+
+<p><div class="math-block">$$ \text{while } q \neq \emptyset \text{ and } q_{front} < i - k + 1 : \ q.\text{popleft}() $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ n $：序列长度</li>
+<li>$ k $：滑动窗口大小</li>
+<li>$ a_i $：序列中第 $ i $ 个元素（下标从 0 开始）</li>
+<li>$ q $：双端队列，<strong>存的是下标</strong>而非值，这样才能判断过期</li>
+<li>$ q_{front} $ / $ q_{back} $：队头 / 队尾下标</li>
+<li>$ i - k + 1 $：当前窗口的左边界下标；当下标小于它时，元素已滑出窗口</li>
+</ul>
+
+<h4>核心要点</h4>
+
+<ul>
+<li>单调队列是"滑动窗口极值问题"的最优解法，复杂度 $ O(n) $，优于暴力 $ O(nk) $ 与堆 $ O(n\log n) $</li>
+<li>队列中<strong>存下标而不是值</strong>，这是与普通队列最大的区别，也是判断"过期"的基础</li>
+<li>求窗口<strong>最大值</strong>维护<strong>单调递减</strong>队列；求窗口<strong>最小值</strong>维护<strong>单调递增</strong>队列</li>
+<li>每个元素恰好入队、出队各一次 → 均摊 $ O(1) $ 每次操作</li>
+<li>队头一定是当前窗口的极值；队尾的"淘汰逻辑"保证了单调性不会失效</li>
+<li>常用于滑动窗口类问题、以及 DP 转移优化（把 $ O(nk) $ 的转移降到 $ O(n) $）</li>
+</ul>
+
+<h4>技术细节与参数详解</h4>
+
+<p>#### 参数1：窗口大小 <code class="inline-code">k</code></p>
+<ul>
+<li><strong>含义</strong>：滑动窗口内覆盖的元素个数，即窗口长度</li>
+<li><strong>类型</strong>：正整数 <code class="inline-code">int</code></li>
+<li><strong>默认值</strong>：无（由题目或业务场景指定）</li>
+<li><strong>取值范围</strong>：$ 1 \le k \le n $；当 $ k = 1 $ 时每个窗口只有一个元素，退化为普通顺序输出；当 $ k = n $ 时只有一个窗口，等价于求全局极值</li>
+<li><strong>对结果的影响</strong>：$ k $ 越大，队列最长时可同时容纳的候选下标越多（最多 $ k $ 个），队头过期的判定阈值 <code class="inline-code">i - k + 1</code> 越小；$ k $ 越小，队列越短，淘汰越频繁</li>
+<li><strong>推荐设置</strong>：按题目/业务给定即可；若可自由选择，$ k $ 的选择与数据特征（如时序窗口）有关</li>
+</ul>
+
+<p>#### 参数2：队列存储内容——下标 vs 值</p>
+<ul>
+<li><strong>含义</strong>：deque 里存的是数组下标，还是元素值</li>
+<li><strong>推荐</strong>：<strong>必须存下标</strong>。原因：判断元素是否"过期"只能靠下标与窗口左边界 <code class="inline-code">i-k+1</code> 比较；若存值，两个值相等的元素无法区分新旧</li>
+<li><strong>对结果的影响</strong>：存下标在取极值时多一次数组寻址 <code class="inline-code">nums[q[0]]</code>，但时间空间都是常数级，可忽略；存值则无法正确淘汰，会产生错误答案</li>
+</ul>
+
+<p>#### 参数3：单调方向（递减 / 递增）</p>
+<ul>
+<li><strong>含义</strong>：队列内元素值的排列方向</li>
+<li><strong>默认</strong>：求最大值用<strong>单调递减</strong>队列（队头最大）；求最小值用<strong>单调递增</strong>队列（队头最小）</li>
+<li><strong>对结果的影响</strong>：方向写反会导致队头不是极值，答案全错；判别口诀："求最大，尾部清小；求最小，尾部清大"</li>
+<li><strong>推荐</strong>：编码时把比较符号写清楚，并用 3-5 个简单用例自测</li>
+</ul>
+
+<p>#### 参数4：队尾淘汰条件</p>
+<ul>
+<li><strong>含义</strong>：新元素 $ a_i $ 入队时，从队尾弹出所有"劣于或等于" $ a_i $ 的旧元素</li>
+<li><strong>公式</strong>：<code class="inline-code">while q and a[q[-1]] <= a[i]: q.pop()</code>（求最大值）；求最小值时把 <code class="inline-code"><=</code> 换成 <code class="inline-code">>=</code></li>
+<li><strong>为什么用 <code class="inline-code"><=</code>（带等号）</strong>：当旧元素与新元素相等时，旧元素更早过期，必然比新元素先滑出窗口，所以旧元素永远不可能成为极值，直接淘汰；保留新元素更优</li>
+<li><strong>对结果的影响</strong>：不淘汰旧元素会破坏单调性，队头将不再是极值；淘汰过多（用 <code class="inline-code"><</code> 而非 <code class="inline-code"><=</code>）会错误丢弃相等候选，导致结果仍有误</li>
+<li><strong>推荐</strong>：最大值场景用 <code class="inline-code"><=</code>，最小值场景用 <code class="inline-code">>=</code></li>
+</ul>
+
+<p>#### 参数5：队头过期淘汰条件</p>
+<ul>
+<li><strong>含义</strong>：窗口滑过之后，队头下标若已离开当前窗口则立即弹出</li>
+<li><strong>公式</strong>：<code class="inline-code">while q and q[0] <= i - k: q.popleft()</code>（下标从 0 计，窗口左边界 = <code class="inline-code">i - k + 1</code>，因此下标 <code class="inline-code"><= i - k</code> 即为过期；也可写 <code class="inline-code">q[0] < i - k + 1</code>）</li>
+<li><strong>边界陷阱</strong>：很多初学者写成 <code class="inline-code">q[0] < i - k</code>，导致边界元素提前/延迟出队，结果错一个位置</li>
+<li><strong>对结果的影响</strong>：不淘汰会返回"陈旧最大值"（窗口已滑走的值）；过早淘汰会漏掉仍有效的最大值</li>
+</ul>
+
+<p>#### 参数6：结果输出时机</p>
+<ul>
+<li><strong>含义</strong>：窗口何时算"装满"，可以输出队头</li>
+<li><strong>条件</strong>：当 <code class="inline-code">i >= k - 1</code>（即下标从 0 开始计数时，扫描过的元素数达到 k）后，每个位置都对应一个完整窗口</li>
+<li><strong>对结果的影响</strong>：输出时机过早（<code class="inline-code">i >= k-1</code> 之前）会输出不完整窗口的伪极值；过晚会漏答</li>
+</ul>
+
+<h4>代码示例</h4>
+
+<p>以 LeetCode 239《滑动窗口最大值》为例，Python 完整可运行代码（每行均有注释）：</p>
+
+<p><pre class="code-block"><code class="language-python">from collections import deque  # 导入双端队列
+
+def max_sliding_window(nums: list[int], k: int) -&gt; list[int]:
+    &quot;&quot;&quot;
+    单调队列求滑动窗口最大值
+    :param nums: 输入序列，长度 n
+    :param k: 窗口大小，1 &lt;= k &lt;= n
+    :return: 每个窗口的最大值列表，长度 n-k+1
+    &quot;&quot;&quot;
+    q = deque()          # 双端队列：只存下标，队头到队尾下标对应的值严格单调递减
+    ans = []             # 收集每个窗口的最大值
+
+    for i, x in enumerate(nums):            # i 为当前下标，x 为当前元素值
+        # 步骤1：队尾淘汰——弹出所有值 &lt;= x 的旧下标
+        while q and nums[q[-1]] &lt;= x:         # 队尾元素值不大于新元素 x
+            q.pop()                           # 它们不可能再成为窗口最大值，直接弹出
+        # 步骤2：当前下标入队尾
+        q.append(i)                           # 新元素下标入队
+        # 步骤3：队头过期淘汰——下标滑出窗口左边界
+        while q and q[0] &lt;= i - k:            # 窗口左边界 = i-k+1，即下标 &lt;= i-k 的已过期
+            q.popleft()                       # 从队头弹出过期下标
+        # 步骤4：窗口已满，队头即当前窗口最大值
+        if i &gt;= k - 1:                        # 扫描到第 k 个元素（下标从0计，i &gt;= k-1）窗口才满
+            ans.append(nums[q[0]])            # 队头下标对应的值就是窗口最大值
+
+    return ans                                # 返回答案数组
+
+# 测试用例
+nums = [1, 3, -1, -3, 5, 3, 6, 7]            # 输入序列
+k = 3                                         # 窗口大小
+print(max_sliding_window(nums, k))            # 输出 [3, 3, 5, 5, 6, 7]</code></pre></p>
+
+<h4>复杂度分析</h4>
+
+<ul>
+<li><strong>时间复杂度</strong>：$ O(n) $。推导：外层 for 循环遍历 $ n $ 个元素；内层两个 while 循环整体上每个元素<strong>至多入队一次、出队一次</strong>（出队要么从队尾被淘汰，要么从队头过期移除），因此所有 while 的总执行次数 $ \le 2n $，均摊到每次操作为 $ O(1) $。总复杂度 $ O(n) $，严格优于暴力 $ O(nk) $ 和堆 $ O(n\log n) $。</li>
+<li><strong>空间复杂度</strong>：$ O(k) $。队列最多同时存 $ k $ 个候选下标（当所有元素都可能是候选时），最坏情况为 $ k $；实际往往远小于 $ k $。</li>
+</ul>
+
+<h4>应用场景</h4>
+
+<ul>
+<li><strong>滑动窗口极值</strong>：LeetCode 239（最大值）、洛谷 P1886（最大最小值）、POJ 2823，数据流实时统计</li>
+<li><strong>动态规划优化</strong>：将形如 $ f[i] = \max_{j \in [i-k, i-1]}(f[j] + w(j)) $ 的转移用单调队列降至 $ O(n) $，经典题目如"烽火传递""修剪草坪"</li>
+<li><strong>金融/时序分析</strong>：K 线数据中滑窗最高价/最低价、均线突破检测、滚动最大回撤计算</li>
+<li><strong>网络监控</strong>：滑动窗口内流量的峰值统计（如 1 分钟窗口内最大 QPS）</li>
+</ul>
+
+<h4>参考文档</h4>
+
+<ul>
+<li><a href="https://cloud.tencent.com/developer/article/2617270" target="_blank" class="ref-link">腾讯云《算法基础篇：数据结构之单调队列——滑动窗口问题的"最优解"神器》</a></li>
+<li><a href="https://bbs.csdn.net/weixin_29611239/article/details/100284527" target="_blank" class="ref-link">CSDN《滑动窗口最大值：从暴力到单调队列的线性优化》</a></li>
+<li><a href="https://blog.csdn.net/weixin_74400487/article/details/160597064" target="_blank" class="ref-link">CSDN《Monotonic Queue（单调队列）》</a></li>
+</ul>
+
+<hr>
+<h3>GAN 生成对抗网络</h3>
+
+<p><strong>类别</strong>：深度学习 | <strong>难度</strong>：困难</p>
+
+<h4>算法简介</h4>
+
+<p>生成对抗网络（Generative Adversarial Network, GAN）由 Ian Goodfellow 等人于 2014 年提出，是深度学习生成模型的开山之作。它由两个神经网络构成：<strong>生成器 Generator（G）</strong> 和 <strong>判别器 Discriminator（D）</strong>。生成器接收随机噪声向量 $ z $，输出伪造样本 $ G(z) $；判别器接收真实样本 $ x $ 与伪造样本 $ G(z) $，输出一个标量判断其"为真的概率"。两者进行一场<strong>最小最大博弈（min-max game）</strong>：判别器努力把真实样本判为真（接近 1）、把伪造样本判为假（接近 0）；生成器努力"骗过"判别器，让 $ D(G(z)) $ 接近 1。当达到<strong>纳什均衡</strong>时，判别器无法区分真假（输出恒为 0.5），此时生成器学到的分布 $ p_g $ 逼近真实数据分布 $ p_{data} $。</p>
+
+<p>GAN 的原始目标函数为 $ \min_G \max_D V(D,G) $。这个博弈是导致 GAN 训练不稳定的根源——G 与 D 的梯度互相牵制，容易出现模式崩塌（mode collapse）、梯度消失、振荡不收敛等问题。后续的大量改进（DCGAN、WGAN、WGAN-GP、SN-GAN、BigGAN 等）都在围绕损失函数、网络结构、正则化与训练技巧修补这些问题。</p>
+
+<h4>原理示意图</h4>
+
+<p><div class="algo-image"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 900 440" font-family="sans-serif">
+  <rect width="900" height="440" fill="#1e293b" rx="12"/>
+  <text x="450" y="30" text-anchor="middle" fill="#818cf8" font-size="15" font-weight="600">GAN 对抗训练架构：生成器 vs 判别器</text>
+  <!-- 噪声 z -->
+  <rect x="60" y="80" width="150" height="50" rx="8" fill="#334155" stroke="#475569"/>
+  <text x="135" y="103" text-anchor="middle" fill="#94a3b8" font-size="12">随机噪声 z</text>
+  <text x="135" y="120" text-anchor="middle" fill="#e2e8f0" font-size="13">(latent_dim=100)</text>
+  <!-- 生成器 -->
+  <rect x="290" y="70" width="180" height="70" rx="10" fill="#6366f1"/>
+  <text x="380" y="100" text-anchor="middle" fill="#fff" font-size="14" font-weight="600">生成器 G(z)</text>
+  <text x="380" y="120" text-anchor="middle" fill="#e0e7ff" font-size="12">转置卷积 / MLP</text>
+  <!-- 伪造样本 -->
+  <rect x="540" y="80" width="160" height="50" rx="8" fill="#f97316"/>
+  <text x="620" y="103" text-anchor="middle" fill="#0f172a" font-size="13">伪造样本 G(z)</text>
+  <!-- 真实样本 -->
+  <rect x="540" y="180" width="160" height="50" rx="8" fill="#22c55e"/>
+  <text x="620" y="203" text-anchor="middle" fill="#0f172a" font-size="13">真实样本 x</text>
+  <!-- 判别器 -->
+  <rect x="390" y="300" width="200" height="70" rx="10" fill="#334155" stroke="#818cf8" stroke-width="2"/>
+  <text x="490" y="330" text-anchor="middle" fill="#e2e8f0" font-size="14" font-weight="600">判别器 D(·)</text>
+  <text x="490" y="350" text-anchor="middle" fill="#94a3b8" font-size="12">输出 0~1 的真假概率</text>
+  <!-- 箭头 -->
+  <line x1="210" y1="105" x2="290" y2="105" stroke="#e2e8f0" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="360" y1="115" x2="540" y2="105" stroke="#e2e8f0" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="620" y1="130" x2="620" y2="180" stroke="#e2e8f0" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="620" y1="230" x2="620" y2="300" stroke="#e2e8f0" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="700" y1="105" x2="790" y2="315" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="700" y1="205" x2="790" y2="330" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)"/>
+  <!-- 反馈 -->
+  <path d="M490 370 L490 400 L100 400 L100 130" fill="none" stroke="#f97316" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#arrow)"/>
+  <text x="180" y="420" fill="#f97316" font-size="12">D 的反馈梯度 → 更新 G（最大化 D(G(z)) 被骗概率）</text>
+  <text x="60" y="75" fill="#94a3b8" font-size="12">min_G max_D V(D,G) = E[log D(x)] + E[log(1 - D(G(z)))]</text>
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="6" refX="4" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#e2e8f0"/>
+    </marker>
+  </defs>
+</svg></div></p>
+
+<blockquote>
+<p>配图说明：噪声 $ z $ 进入生成器 G 得到伪造样本 $ G(z) $；真实样本 $ x $ 与伪造样本 $ G(z) $ 一起送入判别器 D，D 输出真假概率；橙色虚线表示判别器的梯度反馈到生成器，驱动 G 不断提升"以假乱真"的能力。</p>
+</blockquote>
+
+<h4>数学公式</h4>
+
+<p><strong>公式1：原始 GAN 的极小极大目标（核心公式）</strong></p>
+
+<p><div class="math-block">$$ \min_G \max_D V(D, G) = \mathbb{E}_{x \sim p_{data}(x)}[\log D(x)] + \mathbb{E}_{z \sim p_z(z)}[\log(1 - D(G(z)))] $$</div></p>
+
+<ul>
+<li>$ V(D, G) $：价值函数（博弈双方的总体目标）</li>
+<li>$ \mathbb{E} $：期望</li>
+<li>$ x $：从真实数据分布 $ p_{data} $ 中采样的真实样本</li>
+<li>$ z $：从先验噪声分布 $ p_z $（通常为标准高斯分布 $ \mathcal{N}(0, I) $）中采样的噪声向量</li>
+<li>$ G(z) $：生成器把噪声 z 映射为伪造样本</li>
+<li>$ D(x) $：判别器对输入 $ x $ 输出"为真"的概率，范围 $ (0,1) $</li>
+<li>直观含义：D 想让 $ D(x) \to 1 $、$ D(G(z)) \to 0 $，即<strong>最大化</strong> $ V $；G 想让 $ D(G(z)) \to 1 $，即<strong>最小化</strong> $ V $</li>
+</ul>
+
+<p><strong>公式2：判别器损失（二分类交叉熵形式）</strong></p>
+
+<p><div class="math-block">$$ L_D = -\mathbb{E}_{x\sim p_{data}}[\log D(x)] - \mathbb{E}_{z\sim p_z}[\log(1 - D(G(z)))] $$</div></p>
+
+<p>判别器每次更新时，把真实样本当正类（标签 1）、伪造样本当负类（标签 0），训练一个标准二分类器。</p>
+
+<p><strong>公式3：生成器损失（非饱和形式，practical 常用）</strong></p>
+
+<p><div class="math-block">$$ L_G = -\mathbb{E}_{z\sim p_z}[\log D(G(z))] $$</div></p>
+
+<p>用 $ -\log D(G(z)) $ 而非 $ \log(1-D(G(z))) $，避免生成器训练早期梯度消失（饱和区 $ \log(1-D) $ 的梯度在 D 很强时趋近于 0）。</p>
+
+<p><strong>公式4：WGAN-GP 的损失（Wasserstein 距离 + 梯度惩罚）</strong></p>
+
+<p><div class="math-block">$$ L = \mathbb{E}_{z\sim p_z}[D(G(z))] - \mathbb{E}_{x\sim p_{data}}[D(x)] + \lambda\, \mathbb{E}_{\hat{x} \sim p_{\hat{x}}}\big[(\|\nabla_{\hat{x}} D(\hat{x})\|_2 - 1)^2\big] $$</div></p>
+
+<p>其中 $ \hat{x} $ 是真实样本与伪造样本连线上的插值点：$ \hat{x} = \varepsilon x + (1-\varepsilon) G(z) $，$ \varepsilon \sim U[0,1] $；$ \lambda $ 为梯度惩罚系数（默认 10）；$ \|\cdot\|_2 $ 为 L2 范数。WGAN 不再输出概率而是输出"分值"，用 Wasserstein 距离度量分布差异，缓解训练不稳定。</p>
+
+<p><strong>变量解释汇总</strong>：$ p_{data} $ 真实数据分布；$ p_z $ 先验噪声分布（通常是高斯或均匀分布）；$ z $ 潜向量；$ \lambda $ 梯度惩罚权重；$ \varepsilon $ 插值系数；$ D(\cdot) $、$ G(\cdot) $ 分别表示判别器与生成器的输出。</p>
+
+<h4>核心要点</h4>
+
+<ul>
+<li>GAN = 生成器 G + 判别器 D 的对抗博弈，达到纳什均衡时生成分布逼近真实分布</li>
+<li>原始 GAN 训练不稳定：梯度消失、模式崩塌、振荡，是其最著名的痛点</li>
+<li>生成器训练常用非饱和损失 $ -\log D(G(z)) $，避免梯度消失</li>
+<li>DCGAN 引入卷积架构 + BatchNorm，奠定了图像 GAN 的工程范式</li>
+<li>WGAN 用 Wasserstein 距离 + 权重裁剪；WGAN-GP 改用<strong>梯度惩罚</strong>让 Lipschitz 约束稳定</li>
+<li>谱归一化（Spectral Normalization）约束 D 每层 Lipschitz 常数 ≤ 1，是最实用的稳定技巧之一</li>
+<li>调参核心：学习率、Adam 的 beta1、D 与 G 的更新频率比、标签平滑、hinge loss</li>
+</ul>
+
+<h4>技术细节与参数详解</h4>
+
+<p>#### 参数1：潜空间维度 <code class="inline-code">latent_dim</code>（生成器输入噪声维度）</p>
+<ul>
+<li><strong>含义</strong>：噪声向量 z 的维度，即 G 的输入大小</li>
+<li><strong>类型</strong>：正整数 <code class="inline-code">int</code></li>
+<li><strong>默认值</strong>：100（DCGAN 原论文默认）</li>
+<li><strong>取值范围</strong>：32 ~ 1024，图像生成常用 100~512</li>
+<li><strong>对结果的影响</strong>：维度太低，生成多样性不足（易模式崩塌）；维度太高，训练变慢且容易过拟合噪声，没有明显收益</li>
+<li><strong>推荐设置</strong>：图像任务从 100 起步；多模态/大图生成可尝试 256~512</li>
+</ul>
+
+<p>#### 参数2：优化器（Optimizer）</p>
+<ul>
+<li><strong>含义</strong>：更新 G、D 参数的优化算法</li>
+<li><strong>默认值</strong>：Adam（GAN 事实标准）</li>
+<li><strong>为什么不用 SGD</strong>：SGD 对梯度噪声敏感，GAN 的对抗梯度波动大，SGD 易震荡难收敛；Adam 的动量 + 自适应学习率更稳</li>
+<li><strong>推荐设置</strong>：G 与 D 都用 Adam，学习率见参数3</li>
+</ul>
+
+<p>#### 参数3：学习率 <code class="inline-code">learning_rate</code></p>
+<ul>
+<li><strong>含义</strong>：参数更新的步长</li>
+<li><strong>默认</strong>：D 用 <code class="inline-code">2e-4</code>，G 用 <code class="inline-code">4e-4</code>（GAN 常用；原版 DCGAN 两者都用 <code class="inline-code">2e-4</code>）</li>
+<li><strong>取值范围</strong>：<code class="inline-code">1e-5</code> ~ <code class="inline-code">1e-3</code></li>
+<li><strong>对结果的影响</strong>：过大导致 D/G 振荡不收敛（特别是 D 学得太快把梯度打没）；过小收敛极慢</li>
+<li><strong>推荐设置</strong>：D = 2e-4，G = 4e-4（G 略大保持追赶）；发现训练崩溃就降到 1e-4</li>
+</ul>
+
+<p>#### 参数4：Adam 的 <code class="inline-code">beta1</code> 与 <code class="inline-code">beta2</code></p>
+<ul>
+<li><strong>含义</strong>：一阶（动量）与二阶（梯度平方）指数衰减系数</li>
+<li><strong>默认</strong>：标准 Adam 为 <code class="inline-code">(0.9, 0.999)</code>；<strong>GAN 特调为 <code class="inline-code">(0.5, 0.999)</code></strong> 甚至 G 用 <code class="inline-code">(0.0, 0.999)</code></li>
+<li><strong>对结果的影响</strong>：β1 太高（0.9）会让历史梯度惯性过大，参数更新滞后，导致 D/G 跟不上对方的快速变化，训练不稳定；降到 0.5 大幅缓解</li>
+<li><strong>推荐设置</strong>：D 用 <code class="inline-code">betas=(0.5, 0.999)</code>，G 可用 <code class="inline-code">(0.0, 0.999)</code> 或 <code class="inline-code">(0.5, 0.999)</code></li>
+</ul>
+
+<p>#### 参数5：每次更新生成器前，判别器更新的次数 <code class="inline-code">n_critic</code></p>
+<ul>
+<li><strong>含义</strong>：判别器每训练几次才让生成器训练一次</li>
+<li><strong>默认值</strong>：原始 GAN 为 1（交替更新）；WGAN 常用 5</li>
+<li><strong>对结果的影响</strong>：D 太弱 → G 得不到有效反馈，产出垃圾；D 太强 → G 梯度消失，停滞</li>
+<li><strong>推荐设置</strong>：普通 GAN 1~2；WGAN 3~5；训练中观察到 D 损失归零时降低 D 的频率</li>
+</ul>
+
+<p>#### 参数6：梯度惩罚系数 <code class="inline-code">λ</code>（WGAN-GP）</p>
+<ul>
+<li><strong>含义</strong>：对判别器梯度范数偏离 1 的惩罚强度</li>
+<li><strong>默认值</strong>：10</li>
+<li><strong>取值范围</strong>：1~100，越大约束越强</li>
+<li><strong>对结果的影响</strong>：λ 太大导致判别器过于平滑、失去判别力；太小 Lipschitz 约束失效，梯度爆炸</li>
+<li><strong>推荐</strong>：从 10 起调，观察梯度范数分布</li>
+</ul>
+
+<p>#### 参数7：谱归一化 <code class="inline-code">spectral_normalization</code>（布尔）</p>
+<ul>
+<li><strong>含义</strong>：对网络每层权重矩阵做奇异值分解，把最大奇异值归一化到 1，使该层 Lipschitz 常数 ≤ 1</li>
+<li><strong>默认值</strong>：经典 GAN 不用；SN-GAN 必须用</li>
+<li><strong>对结果的影响</strong>：让 D 的梯度有界，训练显著稳定，防止梯度爆炸/消失，且无需 WGAN 的裁剪或惩罚</li>
+<li><strong>推荐设置</strong>：D 上启用（SNGAN 只用 D 也够），G 可选</li>
+</ul>
+
+<p>#### 参数8：hinge loss（合页损失，布尔开关）</p>
+<ul>
+<li><strong>含义</strong>：把交叉熵损失换成 max-margin 形式的合页损失</li>
+<li><strong>公式</strong>：$ L_D = \mathbb{E}[\max(0, 1 - D(x))] + \mathbb{E}[\max(0, 1 + D(G(z)))] $；$ L_G = -\mathbb{E}[D(G(z))] $</li>
+<li><strong>作用</strong>：在 D 已经很强时不再继续压低梯度（hinge 的饱和区间），缓解梯度消失与模式崩塌，BigGAN、SAGAN 等主流架构均使用</li>
+<li><strong>推荐设置</strong>：训练不稳定时优先切换为 hinge loss</li>
+</ul>
+
+<p>#### 参数9：标签平滑 <code class="inline-code">label_smoothing</code></p>
+<ul>
+<li><strong>含义</strong>：把真实标签 1 换成 0.9（或 0.8~1.0 区间），伪造标签 0 换成 0.1</li>
+<li><strong>默认值</strong>：0（不启用）</li>
+<li><strong>作用</strong>：防止 D 输出过度自信（sigmoid 输出极端 0/1），抑制梯度消失；也减弱 D 对"完美辨别"的执念，给 G 喘息空间</li>
+<li><strong>推荐设置</strong>：<code class="inline-code">real=0.9, fake=0.1</code></li>
+</ul>
+
+<p>#### 参数10：批量大小 <code class="inline-code">batch_size</code></p>
+<ul>
+<li><strong>默认</strong>：32~128</li>
+<li><strong>影响</strong>：太小梯度方差大、训练震荡；太大内存开销大且 D 容易过拟合。图像生成常用 32~64</li>
+<li><strong>推荐</strong>：显存允许则 64 起；WGAN 常配 64</li>
+</ul>
+
+<h4>代码示例</h4>
+
+<p>基于 PyTorch 的 MLP 版 GAN，在 MNIST 上手写数字生成（简化可运行，每行注释）：</p>
+
+<p><pre class="code-block"><code class="language-python">import torch                       # PyTorch 主库
+import torch.nn as nn              # 神经网络模块
+from torch.utils.data import DataLoader
+from torchvision import datasets, transforms
+
+latent_dim = 100                   # 参数1：噪声向量维度，生成器输入大小
+batch_size = 64                    # 参数10：每批样本数
+lr_d = 2e-4                        # 参数3：判别器学习率
+lr_g = 4e-4                        # 参数3：生成器学习率
+beta1, beta2 = 0.5, 0.999          # 参数4：GAN 惯用的 Adam 动量
+
+# 生成器：100维噪声 -&gt; 784维(28x28)手写数字
+class Generator(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.net = nn.Sequential(
+            nn.Linear(latent_dim, 128),     # 全连接层：输入噪声 z
+            nn.ReLU(True),                  # 激活函数（DCGAN 用 ReLU）
+            nn.Linear(128, 784),            # 输出层：784 个像素
+            nn.Tanh()                       # 输出像素范围 [-1,1]，与归一化数据一致
+        )
+    def forward(self, z):  # 前向传播
+        return self.net(z)  # 返回伪造图像（784 维向量）
+
+# 判别器：图像 -&gt; 真假概率
+class Discriminator(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.net = nn.Sequential(
+            nn.Linear(784, 128),        # 输入层：接收 784 像素图像
+            nn.LeakyReLU(0.2),          # LeakyReLU，负斜率 0.2，避免稀疏梯度
+            nn.Linear(128, 1),          # 输出单个 logit
+            nn.Sigmoid()                # 映射到 (0,1) 的概率
+        )
+    def forward(self, x):
+        return self.net(x)              # 输出判真概率
+
+G = Generator(); D = Discriminator()          # 实例化 G、D
+loss_fn = nn.BCELoss()                        # 二分类交叉熵损失
+opt_G = torch.optim.Adam(G.parameters(), lr=lr_g, betas=(beta1, beta2))  # 生成器优化器
+opt_D = torch.optim.Adam(D.parameters(), lr=lr_d, betas=(beta1, beta2))  # 判别器优化器
+
+# 数据：MNIST，像素归一化到 [-1,1] 与 Tanh 输出对齐
+train_loader = DataLoader(
+    datasets.MNIST(&#x27;./data&#x27;, train=True, download=True,
+                   transform=transforms.Compose([transforms.ToTensor(),
+                                                 transforms.Normalize([0.5], [0.5])])),
+    batch_size=batch_size, shuffle=True)
+
+for epoch in range(50):                        # 训练轮次
+    for real_imgs, _ in train_loader:          # 每批真实图像
+        real_imgs = real_imgs.view(-1, 784)    # 展平为向量
+        N = real_imgs.size(0)                  # 当前批大小
+        real_label = torch.full((N, 1), 0.9)   # 参数9：标签平滑，真实=0.9
+        fake_label = torch.zeros(N, 1)         # 伪造标签=0（可平滑为 0.1）
+
+        # ---- 更新判别器 D ----
+        z = torch.randn(N, latent_dim)         # 采样噪声
+        fake = G(z).detach()                   # 生成假图，detach 阻断梯度传入 G
+        lossD = loss_fn(D(real_imgs), real_label) + loss_fn(D(fake), fake_label)  # 真图判1+假图判0
+        opt_D.zero_grad(); lossD.backward(); opt_D.step()   # 反向传播并更新 D
+
+        # ---- 更新生成器 G ----
+        z = torch.randn(N, latent_dim)         # 重新采样噪声
+        lossG = loss_fn(D(G(z)), real_label)    # 参数5：让 G 骗过 D（非饱和形式）
+        opt_G.zero_grad(); lossG.backward(); opt_G.step()   # 更新 G
+
+    print(f&quot;epoch {epoch}: D={lossD.item():.3f} G={lossG.item():.3f}&quot;)</code></pre></p>
+
+<h4>复杂度分析</h4>
+
+<ul>
+<li><strong>单次训练步的时间复杂度</strong>：$ O(\text{参量}) $。每一步包含：一次 G 前向（$ O(|W_G|) $，$ |W_G| $ 为生成器参数量）、一次 D 前向（$ O(|W_D|) $）、两次反向传播（各约前向的 2 倍）。因此单步复杂度 $ O(|W_G| + |W_D|) $，与网络规模线性相关。</li>
+<li><strong>整个训练流程</strong>：$ O(epochs \times \frac{n}{batch\_size} \times (|W_G|+|W_D|)) $，$ n $ 为训练样本数；生成器每训练一次可能伴随 $ n\_critic $ 次判别器更新，实际是上式乘以 $ (n\_critic+1) $ 的常数因子。</li>
+<li><strong>空间复杂度</strong>：$ O(|W_G| + |W_D| + batch\_size \times \text{feature\_size}) $，即参数量 + 每批特征缓存（前向中间量）。</li>
+</ul>
+
+<h4>应用场景</h4>
+
+<ul>
+<li><strong>图像生成</strong>：DCGAN、StyleGAN 系列生成高清人脸、艺术画作；动漫头像生成是经典落地场景</li>
+<li><strong>图像编辑与修复</strong>：超分辨率（SRGAN）、老照片修复、图像去模糊、人脸属性编辑</li>
+<li><strong>风格迁移与域迁移</strong>：CycleGAN 实现照片 ↔ 油画、马 ↔ 斑马等无配对转换</li>
+<li><strong>数据增强</strong>：合成少数类样本、扩充训练集缓解类别不平衡（表生成）</li>
+<li><strong>文本/语音/视频生成</strong>：文本到语音、舞蹈动作生成、视频预测</li>
+</ul>
+
+<h4>参考文档</h4>
+
+<ul>
+<li><a href="https://arxiv.org/abs/1406.2661" target="_blank" class="ref-link">Goodfellow et al., Generative Adversarial Nets, NeurIPS 2014（原始论文）</a></li>
+<li><a href="https://cloud.tencent.com/developer/article/2436073" target="_blank" class="ref-link">腾讯云《【AI前沿】深度学习基础：生成对抗网络（GAN）》</a></li>
+<li><a href="https://cloud.tencent.com/developer/article/2458052" target="_blank" class="ref-link">腾讯云《【机器学习】生成对抗网络（GAN）——生成新数据的神经网络》</a></li>
+<li><a href="https://blog.csdn.net/qq690219309/article/details/151311789" target="_blank" class="ref-link">CSDN《第21篇：生成对抗网络（GAN）：创造与对抗的艺术》</a></li>
+<li><a href="https://blog.csdn.net/h0i1j2k3l/article/details/152408116" target="_blank" class="ref-link">CSDN《为什么你的GAN训练总崩溃？详解Hinge Loss如何解决梯度消失问题》</a></li>
+</ul>
+
+<hr>
+<h3>逻辑回归</h3>
+
+<p><strong>类别</strong>：监督学习 | <strong>难度</strong>：入门</p>
+
+<h4>算法简介</h4>
+
+<p>逻辑回归（Logistic Regression）名字里带"回归"，实际是最经典的<strong>线性分类器</strong>。它先把特征做线性加权求和 $ z = \theta^T x + b $，再通过 sigmoid 函数 $ \sigma(z) = \frac{1}{1+e^{-z}} $ 把任意实数映射到 $ (0,1) $ 区间，得到"样本属于正类"的概率，最后以 0.5 为阈值（或按业务调整）输出分类结果。训练时用<strong>交叉熵损失</strong>（对数损失）作为目标函数，配合梯度下降或其变体求解参数 $ \theta $。</p>
+
+<p>逻辑回归的数学本质是<strong>广义线性模型</strong>：它假设 $ \log\frac{p}{1-p} $（对数几率）与特征呈线性关系，因此决策边界天然是线性的。它解释性强（每个特征的权重 $ \theta_j $ 直接反映该特征对对数几率的影响）、训练快、内存占用小，是信用风控、医学统计、点击率预估等场景的<strong>基线模型</strong>首选。逻辑回归还可通过多项式特征扩展、核技巧间接实现非线性分类；多分类通过"一对多（OvR）"或"多项式（softmax）"方式扩展。</p>
+
+<h4>原理示意图</h4>
+
+<p><div class="algo-image"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 900 430" font-family="sans-serif">
+  <rect width="900" height="430" fill="#1e293b" rx="12"/>
+  <text x="450" y="30" text-anchor="middle" fill="#818cf8" font-size="15" font-weight="600">逻辑回归：线性加权 → sigmoid → 分类概率</text>
+  <!-- 输入特征 -->
+  <g font-size="13" text-anchor="middle">
+    <rect x="50" y="60" width="110" height="40" rx="6" fill="#334155" stroke="#475569"/><text x="105" y="84" fill="#e2e8f0">特征 x₁</text>
+    <rect x="50" y="110" width="110" height="40" rx="6" fill="#334155" stroke="#475569"/><text x="105" y="134" fill="#e2e8f0">特征 x₂</text>
+    <rect x="50" y="160" width="110" height="40" rx="6" fill="#334155" stroke="#475569"/><text x="105" y="184" fill="#e2e8f0">特征 x₃ …</text>
+  </g>
+  <!-- 线性加权 -->
+  <rect x="230" y="90" width="170" height="80" rx="10" fill="#6366f1"/>
+  <text x="315" y="120" text-anchor="middle" fill="#fff" font-size="14" font-weight="600">z = Σ θᵢxᵢ + b</text>
+  <text x="315" y="145" text-anchor="middle" fill="#e0e7ff" font-size="12">线性加权求和</text>
+  <!-- sigmoid -->
+  <rect x="470" y="60" width="170" height="80" rx="10" fill="#334155" stroke="#818cf8" stroke-width="2"/>
+  <text x="555" y="110" text-anchor="middle" fill="#e2e8f0" font-size="14" font-weight="600">σ(z)=1/(1+e⁻ᶻ)</text>
+  <text x="555" y="130" text-anchor="middle" fill="#94a3b8" font-size="12">sigmoid 压缩到 (0,1)</text>
+  <!-- 概率输出 -->
+  <rect x="700" y="60" width="150" height="80" rx="10" fill="#22c55e"/>
+  <text x="775" y="100" text-anchor="middle" fill="#0f172a" font-size="14" font-weight="600">p = σ(z)</text>
+  <text x="775" y="120" text-anchor="middle" fill="#0f172a" font-size="12">P(y=1 | x)</text>
+  <!-- 箭头 -->
+  <line x1="160" y1="80" x2="230" y2="90" stroke="#e2e8f0" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="160" y1="130" x2="230" y2="110" stroke="#e2e8f0" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="160" y1="180" x2="230" y2="120" stroke="#e2e8f0" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="400" y1="100" x2="470" y2="100" stroke="#e2e8f0" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="640" y1="100" x2="700" y2="100" stroke="#e2e8f0" stroke-width="2" marker-end="url(#arrow)"/>
+  <!-- 决策规则 -->
+  <rect x="700" y="230" width="150" height="60" rx="8" fill="#f97316"/>
+  <text x="775" y="256" text-anchor="middle" fill="#0f172a" font-size="13" font-weight="600">p ≥ 0.5 → 正类</text>
+  <text x="775" y="276" text-anchor="middle" fill="#0f172a" font-size="12">p &lt; 0.5 → 负类</text>
+  <line x1="775" y1="140" x2="775" y2="190" stroke="#e2e8f0" stroke-width="2" stroke-dasharray="4 4" marker-end="url(#arrow)"/>
+  <!-- sigmoid 曲线 -->
+  <path d="M80 360 Q300 320 450 340 T820 210" fill="none" stroke="#22c55e" stroke-width="3"/>
+  <text x="830" y="200" fill="#22c55e" font-size="13">y=σ(z)</text>
+  <line x1="80" y1="400" x2="830" y2="400" stroke="#475569" stroke-width="2"/>
+  <line x1="450" y1="210" x2="450" y2="400" stroke="#475569" stroke-width="1" stroke-dasharray="4 4"/>
+  <text x="455" y="395" fill="#94a3b8" font-size="12">z=0 → p=0.5（决策边界）</text>
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="6" refX="4" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#e2e8f0"/>
+    </marker>
+  </defs>
+</svg></div></p>
+
+<blockquote>
+<p>配图说明：特征向量 $ x $ 先做线性加权 $ z=\theta^T x + b $，再经 sigmoid 压缩为概率 $ p \in (0,1) $，最后按 0.5 阈值输出类别；sigmoid 曲线在 $ z=0 $ 处 p=0.5，即决策边界。</p>
+</blockquote>
+
+<h4>数学公式</h4>
+
+<p><strong>公式1：线性组合（得分）</strong></p>
+
+<p><div class="math-block">$$ z = \theta^T x + b = \sum_{j=1}^{d} \theta_j x_j + b $$</div></p>
+
+<ul>
+<li>$ \theta $：权重向量，$ \theta_j $ 是第 $ j $ 个特征的权重</li>
+<li>$ x $：特征向量，$ x_j $ 是第 $ j $ 个特征值</li>
+<li>$ b $（或 $ \theta_0 $）：偏置项（截距）</li>
+<li>$ d $：特征数量</li>
+</ul>
+
+<p><strong>公式2：sigmoid 概率</strong></p>
+
+<p><div class="math-block">$$ \hat{p} = \sigma(z) = \frac{1}{1 + e^{-z}} $$</div></p>
+
+<ul>
+<li>$ \hat{p} $：样本属于正类（$ y=1 $）的预测概率，范围 $ (0,1) $</li>
+<li>$ e $：自然常数；当 $ z \to +\infty $ 时 $ \hat{p} \to 1 $，$ z \to -\infty $ 时 $ \hat{p} \to 0 $</li>
+</ul>
+
+<p><strong>公式3：交叉熵损失（带 L2 正则）</strong></p>
+
+<p><div class="math-block">$$ J(\theta) = -\frac{1}{N}\sum_{i=1}^{N}\big[y_i \log \hat{p}_i + (1 - y_i)\log(1 - \hat{p}_i)\big] + \frac{\lambda}{2}\|\theta\|_2^2 $$</div></p>
+
+<ul>
+<li>$ N $：样本总数</li>
+<li>$ y_i $：第 $ i $ 个样本的真实标签（0 或 1）</li>
+<li>$ \hat{p}_i $：模型对第 $ i $ 个样本预测为正类的概率</li>
+<li>$ \lambda $：正则化强度（注意 sklearn 里用 <code class="inline-code">C</code> 表示正则化强度的<strong>倒数</strong>，$ C = 1/\lambda $）</li>
+<li>$ \|\theta\|_2^2 $：权重平方和（L2 正则项），惩罚大权重、防止过拟合</li>
+</ul>
+
+<p><strong>公式4：梯度更新（二元场景）</strong></p>
+
+<p><div class="math-block">$$ \theta_j := \theta_j - \eta \cdot \frac{1}{N}\sum_{i=1}^{N}(\hat{p}_i - y_i)\, x_{ij} - \eta\lambda\theta_j $$</div></p>
+
+<ul>
+<li>$ \eta $：学习率</li>
+<li>$ \hat{p}_i - y_i $：预测概率与真实标签的残差，正是"误差驱动"的更新信号</li>
+<li>$ -\eta\lambda\theta_j $：来自 L2 正则的衰减项</li>
+</ul>
+
+<h4>核心要点</h4>
+
+<ul>
+<li>逻辑回归本质是线性分类器：线性得分 + sigmoid 概率 + 交叉熵损失</li>
+<li>输出的是<strong>概率</strong>而非硬标签，天然支持置信度与排序（如 CTR 排序、风控打分）</li>
+<li>交叉熵损失是凸函数，配合 L2/L1 正则后可稳定收敛，无局部极小困扰</li>
+<li>正则化与 <code class="inline-code">C</code> 是调参核心：<code class="inline-code">C</code> 越小惩罚越强、越欠拟合；越大越容易过拟合</li>
+<li><code class="inline-code">solver</code>（求解器）必须与 <code class="inline-code">penalty</code> 匹配：liblinear 才能用 L1、saga 才支持 elasticnet</li>
+<li>特征相关性高时逻辑回归权重不稳定，需先做标准化/去相关</li>
+<li>多分类：<code class="inline-code">multi_class='ovr'</code>（一对多）或 <code class="inline-code">'multinomial'</code>（softmax 回归）</li>
+</ul>
+
+<h4>技术细节与参数详解（sklearn <code class="inline-code">LogisticRegression</code>）</h4>
+
+<p>构造函数签名：<code class="inline-code">LogisticRegression(penalty='l2', *, dual=False, tol=0.0001, C=1.0, fit_intercept=True, intercept_scaling=1, class_weight=None, random_state=None, solver='lbfgs', max_iter=100, multi_class='auto', verbose=0, warm_start=False, n_jobs=None, l1_ratio=None)</code></p>
+
+<p>#### 参数1：<code class="inline-code">penalty</code>（正则化类型）</p>
+<ul>
+<li><strong>含义</strong>：惩罚项类型，l2 / l1 / elasticnet / none</li>
+<li><strong>默认值</strong>：<code class="inline-code">'l2'</code></li>
+<li><strong>取值范围</strong>：<code class="inline-code">'l1' | 'l2' | 'elasticnet' | 'none'</code></li>
+<li><strong>对结果的影响</strong>：<code class="inline-code">l1</code> 产生稀疏权重（部分系数为 0，可做特征选择）；<code class="inline-code">l2</code> 权重整体收缩但不为零，稳定性好；<code class="inline-code">elasticnet</code> 是 L1+L2 混合，需配 <code class="inline-code">l1_ratio</code></li>
+<li><strong>推荐设置</strong>：默认 L2；高维特征且需特征选择时用 L1（配 <code class="inline-code">solver='saga'</code>）</li>
+</ul>
+
+<p>#### 参数2：<code class="inline-code">C</code>（正则化强度，与 λ 成反比）</p>
+<ul>
+<li><strong>含义</strong>：正则化强度的<strong>倒数</strong>，$ C = 1/\lambda $，越大正则化越弱</li>
+<li><strong>默认值</strong>：<code class="inline-code">1.0</code></li>
+<li><strong>取值范围</strong>：$ (0, +\infty) $ 正浮点数</li>
+<li><strong>对结果的影响</strong>：<code class="inline-code">C</code> 过小 → 惩罚过强、系数趋零、欠拟合（预测能力差）；<code class="inline-code">C</code> 过大 → 惩罚过弱、模型过度拟合训练集</li>
+<li><strong>推荐设置</strong>：默认 1.0 起步，配合网格搜索在 <code class="inline-code">[0.001, 0.01, 0.1, 1, 10, 100]</code> 中选</li>
+</ul>
+
+<p>#### 参数3：<code class="inline-code">solver</code>（求解器）</p>
+<ul>
+<li><strong>含义</strong>：参数优化算法</li>
+<li><strong>默认值</strong>：<code class="inline-code">'lbfgs'</code></li>
+<li><strong>取值范围</strong>：<code class="inline-code">'lbfgs' | 'liblinear' | 'newton-cg' | 'newton-cholesky' | 'sag' | 'saga'</code></li>
+<li><strong>各求解器特点</strong>：</li>
+<li><code class="inline-code">liblinear</code>：坐标下降法，<strong>唯一支持 L1</strong>（小数据）的旧求解器，不支持多分类多项式</li>
+<li><code class="inline-code">lbfgs</code>：拟牛顿法，默认值，适合中小数据，支持 L2/elasticnet/none，收敛快</li>
+<li><code class="inline-code">newton-cg</code> / <code class="inline-code">newton-cholesky</code>：牛顿法变体，适合 L2，样本量中等时稳定</li>
+<li><code class="inline-code">sag</code> / <code class="inline-code">saga</code>：随机平均梯度法，适合<strong>大规模数据</strong>（>10万样本）；<code class="inline-code">saga</code> 还支持 L1、elasticnet</li>
+<li><strong>与 penalty 的搭配约束</strong>：L1 只能用 <code class="inline-code">liblinear</code> 或 <code class="inline-code">saga</code>；<code class="inline-code">lbfgs</code> 不支持 L1；<code class="inline-code">elasticnet</code> 仅 <code class="inline-code">saga</code> 支持</li>
+<li><strong>推荐设置</strong>：数据小用 <code class="inline-code">liblinear</code>，数据大用 <code class="inline-code">saga</code></li>
+</ul>
+
+<p>#### 参数4：<code class="inline-code">max_iter</code>（最大迭代次数）</p>
+<ul>
+<li><strong>含义</strong>：求解器最大迭代轮数</li>
+<li><strong>默认值</strong>：<code class="inline-code">100</code></li>
+<li><strong>对结果的影响</strong>：迭代不足未收敛会警告（"ConvergenceWarning"）且模型次优；过大浪费时间</li>
+<li><strong>推荐设置</strong>：默认 100；数据量大时调到 500~1000，或配合特征标准化减少迭代需求</li>
+</ul>
+
+<p>#### 参数5：<code class="inline-code">tol</code>（收敛容差）</p>
+<ul>
+<li><strong>含义</strong>：损失下降量小于该值即认为收敛</li>
+<li><strong>默认值</strong>：<code class="inline-code">1e-4</code></li>
+<li><strong>对结果的影响</strong>：过大提前收敛、欠拟合；过小迭代更多、耗时更长</li>
+<li><strong>推荐设置</strong>：默认 1e-4 即可；追求更高精度可降到 1e-5</li>
+</ul>
+
+<p>#### 参数6：<code class="inline-code">class_weight</code>（类别权重）</p>
+<ul>
+<li><strong>含义</strong>：给不同类别不同的权重，缓解类别不平衡</li>
+<li><strong>默认值</strong>：<code class="inline-code">None</code></li>
+<li><strong>取值范围</strong>：<code class="inline-code">None | 'balanced' | {0: w0, 1: w1}</code></li>
+<li><strong>对结果的影响</strong>：<code class="inline-code">'balanced'</code> 自动按 <code class="inline-code">n_samples / (n_classes * n_class_count)</code> 加权，少数类被放大，提升少数类召回率（代价是整体准确率略降）</li>
+<li><strong>推荐设置</strong>：正负样本比 < 1:10 时启用 <code class="inline-code">'balanced'</code> 或手工指定权重</li>
+</ul>
+
+<p>#### 参数7：<code class="inline-code">fit_intercept</code>（是否拟合截距）</p>
+<ul>
+<li><strong>含义</strong>：是否学习偏置项 $ b $</li>
+<li><strong>默认值</strong>：<code class="inline-code">True</code></li>
+<li><strong>对结果的影响</strong>：<code class="inline-code">False</code> 时决策边界强制过原点，特征未中心化时通常不适用</li>
+<li><strong>推荐设置</strong>：默认 <code class="inline-code">True</code>；配合特征标准化使用</li>
+</ul>
+
+<p>#### 参数8：<code class="inline-code">multi_class</code>（多分类策略）</p>
+<ul>
+<li><strong>含义</strong>：多分类的实现方式</li>
+<li><strong>默认值</strong>：<code class="inline-code">'auto'</code>（二分类自动；多分类且 solver 支持时选 multinomial）</li>
+<li><strong>取值范围</strong>：<code class="inline-code">'auto' | 'ovr' | 'multinomial'</code></li>
+<li><strong>对结果的影响</strong>：<code class="inline-code">ovr</code> 训练 k 个二分类器，速度快但边界略差；<code class="inline-code">multinomial</code> 用 softmax 一次拟合所有类，边界更合理但计算更重</li>
+<li><strong>推荐设置</strong>：类别数少用 <code class="inline-code">multinomial</code>；类别多、样本大用 <code class="inline-code">ovr</code></li>
+</ul>
+
+<p>#### 参数9：<code class="inline-code">l1_ratio</code>（弹性网络混合比）</p>
+<ul>
+<li><strong>含义</strong>：elasticnet 中 L1 占比：$ \lambda = l1\_ratio \times \lambda_1 + (1 - l1\_ratio) \times \lambda_2 $</li>
+<li><strong>默认值</strong>：<code class="inline-code">None</code>（当 penalty 为 elasticnet 时必须设置）</li>
+<li><strong>取值范围</strong>：$ (0, 1) $；0 退化为纯 L2，1 退化为纯 L1</li>
+<li><strong>推荐设置</strong>：0.5 起调，倾向稀疏（特征选择）调大，倾向稳定调小</li>
+</ul>
+
+<p>#### 参数10：<code class="inline-code">dual</code>（对偶形式）</p>
+<ul>
+<li><strong>含义</strong>：是否求解对偶问题</li>
+<li><strong>默认值</strong>：<code class="inline-code">False</code></li>
+<li><strong>约束</strong>：仅在 <code class="inline-code">penalty='l2'</code> 且 <code class="inline-code">solver='liblinear'</code> 时可设 True</li>
+<li><strong>对结果的影响</strong>：样本数远大于特征数时用原问题（False）更快</li>
+<li><strong>推荐设置</strong>：保持默认 <code class="inline-code">False</code></li>
+</ul>
+
+<p>#### 参数11：<code class="inline-code">random_state</code>（随机种子）</p>
+<ul>
+<li><strong>含义</strong>：随机性来源（如 saga 的随机采样）的种子</li>
+<li><strong>默认值</strong>：<code class="inline-code">None</code></li>
+<li><strong>推荐设置</strong>：复现实验时固定，如 <code class="inline-code">random_state=42</code></li>
+</ul>
+
+<p>#### 参数12：<code class="inline-code">warm_start</code> 与 <code class="inline-code">verbose</code></p>
+<ul>
+<li><code class="inline-code">warm_start</code>（默认 False）：是否沿用上一次拟合的系数作为初始值，用于增量训练</li>
+<li><code class="inline-code">verbose</code>（默认 0）：是否打印训练过程日志（仅部分求解器支持）</li>
+</ul>
+
+<h4>代码示例</h4>
+
+<p>鸢尾花二分类示例（用花瓣宽度作为单特征简化展示），每行均有注释：</p>
+
+<p><pre class="code-block"><code class="language-python">from sklearn.datasets import load_iris   # 鸢尾花数据集
+from sklearn.linear_model import LogisticRegression  # 逻辑回归模型
+from sklearn.model_selection import train_test_split  # 数据集划分
+from sklearn.preprocessing import StandardScaler      # 特征标准化
+from sklearn.metrics import accuracy_score            # 准确率指标
+
+# 1. 加载数据：仅取前两类（setosa / versicolor），用两个特征
+X, y = load_iris(return_X_y=True)          # 加载特征与标签
+X = X[y &lt; 2, :2]                         # 只保留前两类、前两个特征
+y = y[y &lt; 2]                             # 标签变为 0/1 二分类
+
+# 2. 划分训练集 / 测试集（8:2）
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42)   # 固定随机种子保证可复现
+
+# 3. 标准化：让每个特征均值为0、方差为1，加速收敛
+scaler = StandardScaler()                     # 实例化标准化器
+X_train = scaler.fit_transform(X_train)      # 在训练集上拟合并变换
+X_test = scaler.transform(X_test)            # 用训练集的均值方差变换测试集（防止数据泄露）
+
+# 4. 创建逻辑回归模型，逐个参数明确设置
+model = LogisticRegression(
+    penalty=&#x27;l2&#x27;,        # 参数1：L2 正则化（默认）
+    C=1.0,               # 参数2：正则化强度倒数，默认 1.0
+    solver=&#x27;lbfgs&#x27;,      # 参数3：拟牛顿求解器（小数据默认最佳）
+    max_iter=500,        # 参数4：最大迭代 500 次，保证收敛
+    tol=1e-4,            # 参数5：收敛容差 1e-4
+    class_weight=None,   # 参数6：二分类平衡，无需加权
+    fit_intercept=True,  # 参数7：学习偏置项
+    multi_class=&#x27;auto&#x27;,  # 参数8：二分类自动处理
+    random_state=42      # 参数11：固定随机种子
+)
+
+# 4. 训练
+model.fit(X_train, y_train)               # 在训练集上拟合模型
+
+# 5. 评估
+acc = model.score(X_test, y_test)        # 测试集准确率
+proba = model.predict_proba(X_test[:3])  # 输出前 3 个样本的预测概率（正类/负类各一列）
+coef = model.coef_                        # 权重向量 θ
+intercept = model.intercept_              # 偏置项 b
+print(f&quot;准确率: {acc:.3f}&quot;)               # 打印准确率
+print(&quot;权重:&quot;, coef, &quot;截距:&quot;, intercept)  # 打印可解释的参数</code></pre></p>
+
+<h4>复杂度分析</h4>
+
+<ul>
+<li><strong>训练时间复杂度</strong>：依赖求解器。<code class="inline-code">lbfgs</code> 每次迭代 $ O(N \times d) $（$ N $ 样本数、$ d $ 特征数），总迭代次数一般 50~500；<code class="inline-code">saga</code>/<code class="inline-code">sag</code> 每次迭代 $ O(N \times d) $，适合大数据；<code class="inline-code">liblinear</code> 在特征维度高时效率较好。整体约 $ O(iter \times N \times d) $。</li>
+<li><strong>预测时间复杂度</strong>：$ O(d) $ 每次（一次线性组合 + sigmoid），极快。</li>
+<li><strong>空间复杂度</strong>：$ O(d) $ 存权重（多分类 <code class="inline-code">multinomial</code> 为 $ O(k \times d) $，k 为类别数）；训练时求解器还需少量辅助向量，规模通常 $ O(N) $。</li>
+</ul>
+
+<h4>应用场景</h4>
+
+<ul>
+<li><strong>信贷风控评分卡</strong>：预测违约概率，输出分数供审批决策（概率可直接作为分数）</li>
+<li><strong>医疗风险预测</strong>：患病概率预测（如糖尿病、心血管风险），权重体现危险因素</li>
+<li><strong>广告点击率 CTR 预估</strong>：经典的线上排序基线模型，可解释性与速度都重要</li>
+<li><strong>异常检测/欺诈识别</strong>：交易欺诈、垃圾邮件、异常登录的二分类打分</li>
+<li><strong>AB 实验与统计建模</strong>：控制协变量后估计处理效应（倾向得分匹配）</li>
+<li><strong>多分类</strong>：文本情感分类、意图识别（softmax 版）</li>
+</ul>
+
+<h4>参考文档</h4>
+
+<ul>
+<li><a href="https://www.cnblogs.com/cgmcoding/p/13474417.html" target="_blank" class="ref-link">博客园《sklearn.linear_model.LogisticRegression 逻辑回归参数详解》</a></li>
+<li><a href="https://scikit-learn.org.cn/view/378.html" target="_blank" class="ref-link">scikit-learn 中文社区《LogisticRegression》</a></li>
+<li><a href="https://www.cnblogs.com/banshaohuan/p/13308732.html" target="_blank" class="ref-link">博客园《sklearn 中的逻辑回归》</a></li>
+<li><a href="https://www.php.cn/faq/2342517.html" target="_blank" class="ref-link">php中文网《Python 实现逻辑回归的正则化 L1 与 L2 惩罚项参数设置》</a></li>
+</ul>
+
+  </div>
+  <div class="footer">
+    <p>由 TeleAgent · 每日算法推送 技能自动生成 | 2026-09-19 17:02</p>
+  </div>
+</div>
+</body>
+</html>
