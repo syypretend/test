@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>每日算法讲解 · 2026年09月21日</title>
+<!-- MathJax for LaTeX math formula rendering -->
+<script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\(', '\)']],
+      displayMath: [['$$', '$$'], ['\[', '\]']],
+      processEscapes: true
+    },
+    svg: { fontCache: 'global' }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" id="MathJax-script" async></script>
+<style>
+:root {
+  --primary: #6366f1;
+  --primary-dark: #4f46e5;
+  --bg: #0f172a;
+  --card-bg: #1e293b;
+  --text: #e2e8f0;
+  --text-dim: #94a3b8;
+  --accent: #818cf8;
+  --border: #334155;
+  --code-bg: #0d1117;
+  --code-text: #e6edf3;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans SC", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.8;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+.container { max-width: 1400px; margin: 0 auto; padding: 24px 32px; }
+.header {
+  text-align: center;
+  padding: 40px 0 30px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 32px;
+}
+.header h1 {
+  font-size: 28px;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.header h1 .date { color: var(--accent); }
+.header .subtitle { color: var(--text-dim); font-size: 15px; }
+.repo-link {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 6px 16px;
+  background: var(--primary);
+  color: #fff;
+  border-radius: 20px;
+  text-decoration: none;
+  font-size: 13px;
+  transition: background 0.2s;
+}
+.repo-link:hover { background: var(--primary-dark); }
+.history-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 32px;
+  padding: 16px;
+  background: var(--card-bg);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+.history-nav a {
+  padding: 4px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  color: var(--text-dim);
+  text-decoration: none;
+  background: rgba(99,102,241,0.08);
+  transition: all 0.2s;
+}
+.history-nav a:hover { color: var(--text); background: rgba(99,102,241,0.2); }
+.history-nav a.active { color: #fff; background: var(--primary); }
+.history-nav a.back-index { color: var(--accent); font-weight: 600; background: rgba(99,102,241,0.15); border: 1px solid rgba(99,102,241,0.3); }
+.history-nav a.back-index:hover { color: #fff; background: var(--primary); border-color: var(--primary); }
+.content { margin-bottom: 40px; max-width: 1100px; }
+.content h2 {
+  font-size: 24px;
+  color: var(--accent);
+  margin: 40px 0 16px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--primary);
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+.content h2:first-child { border-top: none; padding-top: 0; }
+.content h3 {
+  font-size: 18px;
+  color: var(--text);
+  margin: 24px 0 12px;
+}
+.content h4 {
+  font-size: 16px;
+  color: var(--accent);
+  margin: 20px 0 10px;
+}
+.content p { margin-bottom: 12px; color: var(--text); }
+.content ul { margin: 8px 0 16px 20px; }
+.content li { margin-bottom: 6px; }
+.content strong { color: var(--accent); }
+.content blockquote {
+  border-left: 4px solid var(--primary);
+  padding: 12px 16px;
+  margin: 16px 0;
+  background: rgba(99,102,241,0.08);
+  border-radius: 0 8px 8px 0;
+}
+.content blockquote p { color: var(--text-dim); margin: 4px 0; }
+.content hr {
+  border: none;
+  height: 1px;
+  background: var(--border);
+  margin: 32px 0;
+}
+.code-block {
+  background: var(--code-bg);
+  border-radius: 10px;
+  padding: 18px 24px;
+  overflow-x: auto;
+  margin: 16px 0;
+  border: 1px solid var(--border);
+  max-width: 100%;
+}
+.code-block code {
+  font-family: "JetBrains Mono", "Fira Code", "Consolas", monospace;
+  font-size: 14px;
+  color: var(--code-text);
+  line-height: 1.6;
+  white-space: pre;
+}
+.inline-code {
+  background: rgba(99,102,241,0.15);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: "Consolas", monospace;
+  font-size: 0.9em;
+  color: var(--accent);
+}
+/* Math formula block */
+.content .math-block {
+  background: rgba(99,102,241,0.06);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 24px;
+  margin: 16px 0;
+  overflow-x: auto;
+  max-width: 100%;
+}
+.content .math-label {
+  font-size: 13px; color: var(--text-dim); margin-bottom: 6px; }
+.content .math-vars {
+  margin: 8px 0 16px 20px; }
+.content .math-vars li { margin-bottom: 4px; color: var(--text-dim); }
+.footer {
+  text-align: center;
+  padding: 24px 0;
+  border-top: 1px solid var(--border);
+  color: var(--text-dim);
+  font-size: 13px;
+}
+.tag {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  background: rgba(99,102,241,0.15);
+  color: var(--accent);
+  margin-left: 8px;
+}
+.content .ref-link {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px dashed rgba(99,102,241,0.4);
+  transition: all 0.2s;
+  word-break: break-all;
+}
+.content .ref-link:hover {
+  color: #fff;
+  border-bottom-color: var(--primary);
+}
+.content li {
+  word-break: break-all;
+}
+/* Table */
+.table-wrapper {
+  overflow-x: auto;
+  margin: 16px 0;
+  max-width: 100%;
+}
+.algo-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  background: var(--card-bg);
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+.algo-table thead {
+  background: rgba(99,102,241,0.15);
+}
+.algo-table th {
+  padding: 10px 16px;
+  text-align: left;
+  color: var(--accent);
+  font-weight: 600;
+  border-bottom: 2px solid var(--primary);
+  white-space: nowrap;
+}
+.algo-table td {
+  padding: 8px 16px;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  word-break: break-all;
+}
+.algo-table tr:last-child td {
+  border-bottom: none;
+}
+.algo-table tr:hover td {
+  background: rgba(99,102,241,0.06);
+}
+/* Algorithm architecture image */
+.algo-image {
+  margin: 20px 0;
+  text-align: center;
+}
+.algo-image img {
+  max-width: 100%;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+.algo-image .image-caption {
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--text-dim);
+}
+.algo-image svg {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+/* ======== 移动端响应式适配 ======== */
+@media (max-width: 768px) {
+  .container { max-width: 100%; padding: 16px 14px; }
+  .header { padding: 24px 0 20px; margin-bottom: 20px; }
+  .header h1 { font-size: 20px; margin-bottom: 4px; }
+  .header .subtitle { font-size: 13px; }
+  .repo-link { margin-top: 10px; padding: 5px 14px; font-size: 12px; }
+  .history-nav { gap: 6px; padding: 10px 12px; margin-bottom: 20px; }
+  .history-nav a { padding: 3px 10px; font-size: 12px; }
+  .content { max-width: 100%; margin-bottom: 28px; }
+  .content h2 { font-size: 20px; margin: 28px 0 12px; }
+  .content h3 { font-size: 17px; margin: 20px 0 10px; }
+  .content h4 { font-size: 15px; margin: 16px 0 8px; }
+  .content p { font-size: 14px; margin-bottom: 10px; }
+  .content ul { margin: 6px 0 12px 16px; }
+  .content li { font-size: 14px; margin-bottom: 5px; }
+  .content blockquote { padding: 10px 12px; margin: 12px 0; }
+  .content blockquote p { font-size: 13px; }
+  .content .math-block { padding: 10px 14px; margin: 12px 0; }
+  .code-block { padding: 12px 14px; margin: 12px 0; }
+  .code-block code { font-size: 12px; line-height: 1.5; }
+  .inline-code { font-size: 0.88em; padding: 1px 5px; }
+  .algo-table { font-size: 12px; }
+  .algo-table th { padding: 6px 10px; }
+  .algo-table td { padding: 6px 10px; }
+  .algo-image { margin: 14px 0; }
+  .algo-image svg { max-width: 100%; height: auto; }
+  .footer { padding: 18px 0; font-size: 12px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>每日算法讲解 · <span class="date">2026年09月21日</span></h1>
+    <p class="subtitle">每天 1 个基础算法 + 2 个 AI/机器学习算法，持续精进</p>
+    <a href="https://syypretend.github.io/test/daily-algorithm" target="_blank" class="repo-link">GitHub 仓库</a>
+  </div>
+  <div class="history-nav"><a href="index.html" class="back-index">← 历史索引</a>
+<a href="2026-09-21.html" class="active">09月21日</a>
+</div>
+  <div class="content">
+  <h2>每日算法讲解 · 2026-09-21</h2>
+
+<blockquote>
+<p>今日内容：1 个基础算法 + 2 个 AI/机器学习算法 | 逐参数详解</p>
+</blockquote>
+
+<hr>
+
+<h3>A* 搜索算法</h3>
+
+<p><strong>类别</strong>：图算法 | <strong>难度</strong>：中等</p>
+
+<h4>算法简介</h4>
+
+<p>A<em>（A Star）搜索算法是一种启发式搜索算法，广泛用于路径规划、游戏寻路、机器人导航等场景。它综合了 Dijkstra 算法（保证最短路径）和贪心最佳优先搜索（利用启发信息加速）的优点：每个节点 n 都有一个评价函数 $ f(n) = g(n) + h(n) $，其中 $ g(n) $ 是从起点到当前节点 n 的实际已花费代价，$ h(n) $ 是从当前节点 n 到目标节点的<strong>启发式估计代价</strong>。算法每次从开放集合（open_set）中取出 $ f $ 值最小的节点进行扩展，直到目标节点被取出（或 open_set 为空）。只要启发式函数满足<strong>可采纳性</strong>（即 $ h(n) $ 永远不会高估真实代价），A</em> 就保证能找到最优路径；启发式越接近真实代价，扩展的节点越少，搜索越快。A* 的本质是"现实代价 + 未来预测"的双重评估，比纯 BFS/Dijkstra 更具方向性，比贪心搜索更稳健。</p>
+
+<h4>原理示意图</h4>
+
+<p><div class="algo-image"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 900 420" font-family="sans-serif">
+  <rect width="900" height="420" fill="#1e293b" rx="12"/>
+  <text x="450" y="30" text-anchor="middle" fill="#818cf8" font-size="15" font-weight="600">A* 搜索算法：网格寻路示意（f = g + h）</text>
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="6" refX="4" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#6366f1"/>
+    </marker>
+  </defs>
+  <g stroke="#334155" stroke-width="1">
+    <line x1="60" y1="60" x2="820" y2="60"/><line x1="60" y1="110" x2="820" y2="110"/>
+    <line x1="60" y1="160" x2="820" y2="160"/><line x1="60" y1="210" x2="820" y2="210"/>
+    <line x1="60" y1="260" x2="820" y2="260"/><line x1="60" y1="310" x2="820" y2="310"/>
+    <line x1="60" y1="360" x2="820" y2="360"/>
+    <line x1="60" y1="60" x2="60" y2="360"/><line x1="110" y1="60" x2="110" y2="360"/>
+    <line x1="160" y1="60" x2="160" y2="360"/><line x1="210" y1="60" x2="210" y2="360"/>
+    <line x1="260" y1="60" x2="260" y2="360"/><line x1="310" y1="60" x2="310" y2="360"/>
+    <line x1="360" y1="60" x2="360" y2="360"/><line x1="410" y1="60" x2="410" y2="360"/>
+    <line x1="460" y1="60" x2="460" y2="360"/><line x1="510" y1="60" x2="510" y2="360"/>
+    <line x1="560" y1="60" x2="560" y2="360"/><line x1="610" y1="60" x2="610" y2="360"/>
+    <line x1="660" y1="60" x2="660" y2="360"/><line x1="710" y1="60" x2="710" y2="360"/>
+    <line x1="760" y1="60" x2="760" y2="360"/><line x1="820" y1="60" x2="820" y2="360"/>
+  </g>
+  <rect x="260" y="160" width="50" height="50" fill="#f97316" opacity="0.85" rx="4"/>
+  <rect x="310" y="160" width="50" height="50" fill="#f97316" opacity="0.85" rx="4"/>
+  <rect x="310" y="110" width="50" height="50" fill="#f97316" opacity="0.85" rx="4"/>
+  <rect x="60" y="310" width="50" height="50" fill="#22c55e" rx="4"/>
+  <text x="85" y="343" text-anchor="middle" fill="#052e16" font-size="12" font-weight="700">起点</text>
+  <rect x="760" y="60" width="50" height="50" fill="#ef4444" rx="4"/>
+  <text x="785" y="90" text-anchor="middle" fill="#fff" font-size="12" font-weight="700">终点</text>
+  <polyline points="85,335 135,335 185,335 235,335 285,285 335,285 385,285 435,285 485,285 535,285 585,285 635,235 685,185 735,135 785,85"
+    fill="none" stroke="#6366f1" stroke-width="3" marker-end="url(#arrow)"/>
+  <g fill="#e2e8f0" font-size="11">
+    <text x="135" y="325" text-anchor="middle">14=7+7</text>
+    <text x="235" y="325" text-anchor="middle">16=9+7</text>
+    <text x="335" y="275" text-anchor="middle">14=10+4</text>
+    <text x="435" y="275" text-anchor="middle">16=12+4</text>
+    <text x="535" y="275" text-anchor="middle">18=14+4</text>
+    <text x="685" y="175" text-anchor="middle">18=15+3</text>
+  </g>
+  <g font-size="12">
+    <rect x="70" y="385" width="12" height="12" fill="#6366f1"/>
+    <text x="88" y="396" fill="#e2e8f0">最优路径</text>
+    <rect x="180" y="385" width="12" height="12" fill="#374151"/>
+    <text x="198" y="396" fill="#e2e8f0">障碍物</text>
+    <rect x="290" y="385" width="12" height="12" fill="#22c55e"/>
+    <text x="308" y="396" fill="#e2e8f0">起点 S</text>
+    <rect x="390" y="385" width="12" height="12" fill="#ef4444"/>
+    <text x="408" y="396" fill="#e2e8f0">终点</text>
+    <text x="520" y="396" fill="#94a3b8">每个格子标注 f = g + h</text>
+  </g>
+</svg></div></p>
+
+<h4>数学公式</h4>
+
+<p>A* 的核心是评价函数，它把"已走的路"和"估计还要走的路"加起来作为节点优先级：</p>
+
+<p><div class="math-block">$$ f(n) = g(n) + h(n) $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ n $：当前待评估的节点</li>
+<li>$ f(n) $：节点 n 的综合代价值（越小优先级越高，优先被扩展）</li>
+<li>$ g(n) $：从起点到节点 n 的<strong>实际</strong>最小代价（每一步真实消耗累加）</li>
+<li>$ h(n) $：从节点 n 到目标节点的<strong>启发式估计</strong>代价，是算法"聪明"的来源</li>
+</ul>
+
+<p>为了让 A* 保证找到最优解，启发式必须满足两个性质：</p>
+
+<p><strong>可采纳性（Admissible）</strong>：$ h(n) $ 永远不超过真实最短代价，即 $ h(n) \le h^*(n) $（$ h^* $ 为真实最小代价），这样 A* 是完备且最优的。</p>
+
+<p><strong>一致性 / 单调性（Consistent）</strong>：对任意节点 n 及其后继 n'，满足三角不等式：</p>
+
+<p><div class="math-block">$$ h(n) \le c(n, n') + h(n') $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ c(n, n') $：从 n 移动到相邻节点 n' 的实际单步代价</li>
+<li>一致性比可采纳性更强：满足一致性的 $ h $ 必然可采纳，且保证每个节点第一次被扩展时即已拿到最优 $ g $ 值</li>
+</ul>
+
+<p><strong>常见启发式函数</strong>：</p>
+
+<div class="table-wrapper"><table class="algo-table"><thead><tr><th>启发式</th><th>公式</th><th>适用场景</th></tr></thead><tbody><tr><td>曼哈顿距离</td><td>$ h = |x_1 - x_2| + |y_1 - y_2| $</td><td>只允许上下左右移动的网格</td></tr><tr><td>欧几里得距离</td><td>$ h = \sqrt{(x_1-x_2)^2 + (y_1-y_2)^2} $</td><td>允许任意方向移动（可穿越）</td></tr><tr><td>切比雪夫距离</td><td>$ h = \max(|x_1-x_2|,\ |y_1-y_2|) $</td><td>允许 8 方向移动</td></tr><tr><td>对角线距离</td><td>$ h = D_1 \cdot \Delta x + D_2 \cdot \Delta y $</td><td>含斜向代价的 8 方向移动</td></tr></tbody></table></div>
+
+<h4>核心要点</h4>
+<ul>
+<li>A* = Dijkstra（保证最优）+ 启发式搜索（提高效率）的结合体，通过 $ f = g + h $ 决定扩展顺序</li>
+<li>用<strong>优先队列</strong>维护 open_set，每次弹出 $ f $ 最小的节点；用 closed_set 记录已最优扩展的节点防止重复</li>
+<li>启发式 $ h $ 的可采纳性决定最优性；$ h=0 $ 时 A* 退化为 Dijkstra，$ h $ 越接近真实值搜索越快</li>
+<li>启发式函数满足<strong>一致性</strong>（三角不等式）时每个节点只需扩展一次，性能最好</li>
+<li>用 parent 指针回溯即可得到最终路径；障碍物不可通行时按"跳过"处理</li>
+<li>实际工程中常用<strong>权重 A</strong>*（$ f = g + \varepsilon h $，$ \varepsilon>1 $）换取速度、牺牲最优性</li>
+</ul>
+
+<h4>技术细节与参数详解</h4>
+
+<p>#### 参数 1：启发式函数 h(n)</p>
+<ul>
+<li><strong>含义</strong>：当前节点到目标点的估计剩余代价，决定搜索"方向感"</li>
+<li><strong>类型</strong>：函数（曼哈顿 / 欧几里得 / 切比雪夫 / 自定义）</li>
+<li><strong>默认值</strong>：网格场景通常默认曼哈顿距离</li>
+<li><strong>取值范围</strong>：$ 0 \le h(n) \le h^*(n) $（可采纳）；$ h=0 $ 退化为 Dijkstra</li>
+<li><strong>对结果的影响</strong>：$ h $ 过小 → 扩展节点多、慢但保证最优；$ h $ 过大（>真实值）→ 快但不保证最优</li>
+<li><strong>推荐设置</strong>：4 方向移动用曼哈顿，8 方向用对角线，连续空间用欧几里得；无法确定时宁可用偏小的估计</li>
+</ul>
+
+<p>#### 参数 2：g_score（起点到当前节点的实际代价）</p>
+<ul>
+<li><strong>含义</strong>：从起点沿路径累加的真实代价</li>
+<li><strong>类型</strong>：<code class="inline-code">float</code> 或 <code class="inline-code">int</code>（由单步代价类型决定）</li>
+<li><strong>默认值</strong>：起点为 0，其余节点初始化为 $ +\infty $</li>
+<li><strong>对结果的影响</strong>：值越大优先级越低；算法会在发现更短路径时更新 open 中节点的 g 值</li>
+<li><strong>推荐设置</strong>：要求单步代价非负；若存在负边请改用 Bellman-Ford 等算法</li>
+</ul>
+
+<p>#### 参数 3：open_set（开放集）</p>
+<ul>
+<li><strong>含义</strong>：存放待扩展节点的优先队列（Priority Queue），按 f 值排序</li>
+<li><strong>类型</strong>：二叉堆 / 斐波那契堆</li>
+<li><strong>默认实现</strong>：Python 常用 <code class="inline-code">heapq</code>（小顶堆），插入/弹出均为 $ O(\log N) $</li>
+<li><strong>对结果的影响</strong>：堆结构决定弹出最小 f 节点的效率，直接影响整体复杂度</li>
+<li><strong>推荐设置</strong>：节点极多时可选用斐波那契堆降低弹出成本</li>
+</ul>
+
+<p>#### 参数 4：closed_set（闭集）</p>
+<ul>
+<li><strong>含义</strong>：记录已最优方式扩展过的节点，防止重复扩展</li>
+<li><strong>类型</strong>：<code class="inline-code">set</code> / 哈希表，查询 O(1)</li>
+<li><strong>默认实现</strong>：哈希集合</li>
+<li><strong>对结果的影响</strong>：配合一致性启发式时节点入 closed 即为最优；若启发式不一致可能出现"closed 后再发现更优"，需额外校验</li>
+<li><strong>推荐设置</strong>：与一致性启发式配套使用最安全</li>
+</ul>
+
+<p>#### 参数 5：parent 指针（回溯链）</p>
+<ul>
+<li><strong>含义</strong>：记录每个节点最优前驱，用于最终重建路径</li>
+<li><strong>类型</strong>：字典 <code class="inline-code">{node: parent_node}</code></li>
+<li><strong>默认值</strong>：起点 parent 为 <code class="inline-code">None</code></li>
+<li><strong>对结果的影响</strong>：路径质量与记录时机相关——仅当 g 值被更优路径更新时才改写 parent</li>
+<li><strong>推荐设置</strong>：目标节点出 closed 后沿 parent 链反推到起点即得路径</li>
+</ul>
+
+<p>#### 参数 6：tie-breaking（同 f 值打破平局）</p>
+<ul>
+<li><strong>含义</strong>：多个节点 f 值相同时的取舍策略</li>
+<li><strong>常用策略</strong>：f 相同选 h 更小的（靠近目标）、或选 g 更大的（已走较远）、或按插入顺序</li>
+<li><strong>对结果的影响</strong>：处理不当会导致路径绕路不美观，甚至影响性能</li>
+<li><strong>推荐设置</strong>：f 相同时选 h 更小的节点（更有方向性）</li>
+</ul>
+
+<p>#### 参数 7：权重系数 ε（weighted A*）</p>
+<ul>
+<li><strong>含义</strong>：$ f = g + \varepsilon h $ 中的 $ \varepsilon $，工程化扩展参数</li>
+<li><strong>默认值</strong>：1.0（标准 A*，保证最优）</li>
+<li><strong>取值范围</strong>：通常 $ 1 \le \varepsilon \le 10 $</li>
+<li><strong>对结果的影响</strong>：$ \varepsilon $ 越大越激进、越快但路径越差；用于实时场景做时间-质量折中</li>
+<li><strong>推荐设置</strong>：要求最优解用 1.0；限时寻路可先用 $ \varepsilon=2 $ 起步并动态调低</li>
+</ul>
+
+<h4>代码示例</h4>
+
+<p><pre class="code-block"><code class="language-python">import heapq  # 优先队列库，用于维护 open_set
+
+def heuristic(a, b):
+    &quot;&quot;&quot;曼哈顿距离启发式函数：4 方向移动网格的常用启发&quot;&quot;&quot;
+    # 计算两个坐标的横向与纵向差，累加为估计代价
+    return abs(a[0] - b[0]) + abs(a[1] - b[1])
+
+def a_star(grid, start, goal):
+    &quot;&quot;&quot;A* 寻路主函数：返回从 start 到 goal 的路径（坐标列表）&quot;&quot;&quot;
+    rows, cols = len(grid), len(grid[0])  # 网格行数与列数
+    # open_set 为优先队列，元素为 (f, g, x, y, path)
+    # f 为综合代价、g 为实际代价、path 记录走过的路径，直接随堆存储便于回溯
+    open_set = [(0, 0, start[0], start[1], [start])]
+    # g_score 字典：记录每个坐标的最优实际代价
+    g_score = {start: 0}
+    # closed_set 集合：记录已最优扩展的节点
+    closed_set = set()
+
+    while open_set:  # 只要开放集合还有节点就继续搜索
+        f_cur, g_cur, x, y, path = heapq.heappop(open_set)  # 弹出 f 最小的节点
+        if (x, y) in closed_set:  # 已被最优扩展则跳过（一致性保证下）
+            continue
+        if (x, y) == goal:        # 到达目标：直接返回路径
+            return path
+        closed_set.add((x, y))    # 标记该节点为已扩展
+        # 遍历四个方向的相邻格子（上下左右）
+        for dx, dy in ((-1, 0), (1, 0), (0, -1), (0, 1)):
+            nx, ny = x + dx, y + dy  # 相邻节点坐标
+            # 越界或障碍物则跳过（grid 中 0 表示空地，1 表示障碍）
+            if not (0 &lt;= nx &lt; rows and 0 &lt;= ny &lt; cols and grid[nx][ny] == 0):
+                continue
+            tentative_g = g_cur + 1          # 假设单步代价为 1
+            if tentative_g &lt; g_score.get((nx, ny), float(&#x27;inf&#x27;)):
+                # 找到更优的 g 时更新并加入 open_set
+                g_score[(nx, ny)] = tentative_g
+                h = heuristic((nx, ny), goal)        # 计算启发式 h
+                f = tentative_g + h                # 综合代价 f = g + h
+                heapq.heappush(open_set, (f, tentative_g, nx, ny, path + [(nx, ny)]))
+    return None  # 无路可达时返回 None</code></pre></p>
+
+<blockquote>
+<p>说明：示例采用"路径随堆存储"便于直观理解；工程上更常用 parent 指针字典以避免路径复制，节省内存。</p>
+</blockquote>
+
+<h4>复杂度分析</h4>
+
+<p><strong>时间复杂度</strong>：</p>
+<ul>
+<li>最坏情况（启发式很差/图很大且无目标可达）：$ O(b^d) $，其中 b 为平均分支因子、d 为最优解的深度。推导：搜索树中每个节点扩展其所有邻居，节点总数上界为 $ b^d $ 量级；每个节点的插入/弹出在二叉堆上为 $ O(\log N) $。</li>
+<li>实际经验：启发式 $ h $ 越接近 $ h^* $，扩展节点数越接近 $ d $，实践中 A<em> 远快于 Dijkstra（Dijkstra 需 $ O((V+E)\log V) $，A</em> 只探索"朝向目标"的子图）。</li>
+</ul>
+
+<p><strong>空间复杂度</strong>：$ O(b^d) $（最坏）。open_set、closed_set、g_score 各存储一层搜索树，节点总数决定内存；可通过迭代加深 A<em>（IDA</em>）将空间降为 $ O(d) $。</p>
+
+<h4>应用场景</h4>
+<ul>
+<li>游戏与 RTS 中 NPC 寻路、自动寻路系统</li>
+<li>机器人 / 无人机路径规划与避障</li>
+<li>地图导航软件（与路网 + 启发式结合）</li>
+<li>迷宫求解、拼图问题（如 15 数字）的最优解搜索</li>
+<li>自动驾驶局部路径规划与图搜索基础</li>
+</ul>
+
+<h4>参考文档</h4>
+<ul>
+<li><a href="https://blog.csdn.net/qq_33060405/article/details/142671495" target="_blank" class="ref-link">A*搜索算法（CSDN）</a></li>
+<li><a href="https://baijiahao.baidu.com/s?id=1783697352464351956&wfr=spider&for=pc" target="_blank" class="ref-link">探秘A star算法：解开路径规划的奥秘（百家号）</a></li>
+<li><a href="https://blog.csdn.net/wenzong666/article/details/102395172/" target="_blank" class="ref-link">A*算法的思考与理解（CSDN）</a></li>
+<li><a href="https://blog.csdn.net/weixin_28933797/article/details/150071268" target="_blank" class="ref-link">掌握A*算法：从基础到实现（CSDN）</a></li>
+</ul>
+
+<hr>
+
+<h3>对比学习 SimCLR</h3>
+
+<p><strong>类别</strong>：自监督学习 | <strong>难度</strong>：困难</p>
+
+<h4>算法简介</h4>
+
+<p>SimCLR（Simple Framework for Contrastive Learning of Visual Representations）是 Google Brain 团队 2020 年提出的自监督视觉表征学习框架，论文标题即"简单"——它不依赖任何手工设计的负样本挖掘、记忆库或动量编码器，仅凭"数据增强 + 对比损失"两板斧就达到了媲美监督学习的效果。核心流程：对同一张图片做两次随机的强数据增强，得到两个"正视图"（positive views）$ x_i $ 与 $ \tilde{x}_j $，其余批次内样本作为"负样本"（negatives）；两个视图分别经过共享的编码器（如 ResNet）和投影头（MLP，projection head）映射为嵌入向量，用带温度系数的 NT-Xent 损失拉近正对、推远负对。SimCLR 的三个关键发现：① 组合型数据增强（随机裁剪+颜色抖动等）远优于单一增强；② 非线性投影头显著提升表征质量；③ 温度系数与归一化嵌入缺一不可。训练出的编码器可作为特征提取器，在少量标注数据上微调即可迁移到下游任务。</p>
+
+<h4>原理示意图</h4>
+
+<p><div class="algo-image"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 900 460" font-family="sans-serif">
+  <rect width="900" height="460" fill="#1e293b" rx="12"/>
+  <text x="450" y="30" text-anchor="middle" fill="#818cf8" font-size="15" font-weight="600">SimCLR 框架：数据增强 + 编码器 + 投影头 + NT-Xent 损失</text>
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="6" refX="4" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#6366f1"/>
+    </marker>
+  </defs>
+  <!-- 原始图片 -->
+  <rect x="50" y="70" width="110" height="110" rx="8" fill="#334155" stroke="#6366f1"/>
+  <text x="105" y="130" text-anchor="middle" fill="#e2e8f0" font-size="13">原图 x_i</text>
+  <!-- 增强 t1 / t2 -->
+  <rect x="210" y="50" width="110" height="70" rx="8" fill="#f97316" opacity="0.85"/>
+  <text x="265" y="90" text-anchor="middle" fill="#fff" font-size="12">增强 t1</text>
+  <rect x="210" y="140" width="110" height="70" rx="8" fill="#f97316" opacity="0.85"/>
+  <text x="265" y="180" text-anchor="middle" fill="#fff" font-size="12">增强 t2</text>
+  <!-- 正视图 -->
+  <rect x="380" y="50" width="110" height="70" rx="8" fill="#334155" stroke="#22c55e"/>
+  <text x="435" y="90" text-anchor="middle" fill="#22c55e" font-size="12">视图 x̃_i（正对）</text>
+  <rect x="380" y="140" width="110" height="70" rx="8" fill="#334155" stroke="#22c55e"/>
+  <text x="445" y="180" text-anchor="middle" fill="#22c55e" font-size="12">视图 x̃_j（正对）</text>
+  <!-- 编码器 -->
+  <rect x="540" y="50" width="110" height="70" rx="8" fill="#334155" stroke="#6366f1"/>
+  <text x="595" y="90" text-anchor="middle" fill="#e2e8f0" font-size="12">编码器 f(·)</text>
+  <rect x="540" y="140" width="110" height="70" rx="8" fill="#334155" stroke="#6366f1"/>
+  <text x="595" y="180" text-anchor="middle" fill="#e2e8f0" font-size="12">编码器 f(·)</text>
+  <!-- 投影头 -->
+  <rect x="690" y="50" width="110" height="70" rx="8" fill="#334155" stroke="#818cf8"/>
+  <text x="745" y="85" text-anchor="middle" fill="#818cf8" font-size="11">投影头 g(·)</text>
+  <text x="745" y="105" text-anchor="middle" fill="#94a3b8" font-size="10">z_i</text>
+  <rect x="690" y="140" width="110" height="70" rx="8" fill="#334155" stroke="#818cf8"/>
+  <text x="745" y="175" text-anchor="middle" fill="#818cf8" font-size="11">投影头 g(·)</text>
+  <text x="745" y="195" text-anchor="middle" fill="#94a3b8" font-size="10">z_j</text>
+  <!-- 箭头 -->
+  <line x1="160" y1="110" x2="205" y2="90" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="160" y1="130" x2="205" y2="170" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="335" y1="85" x2="375" y2="85" stroke="#22c55e" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="335" y1="175" x2="375" y2="175" stroke="#22c55e" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="490" y1="85" x2="535" y2="85" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="490" y1="175" x2="535" y2="175" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="650" y1="85" x2="685" y2="85" stroke="#818cf8" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="650" y1="175" x2="685" y2="175" stroke="#818cf8" stroke-width="2" marker-end="url(#arrow)"/>
+  <!-- 损失函数框 -->
+  <rect x="170" y="260" width="560" height="90" rx="10" fill="#0f172a" stroke="#22c55e"/>
+  <text x="450" y="290" text-anchor="middle" fill="#22c55e" font-size="13" font-weight="600">NT-Xent 损失（对比学习目标）</text>
+  <text x="450" y="315" text-anchor="middle" fill="#e2e8f0" font-size="12">最大化 z_i 与 z_j 的余弦相似度，最小化与 batch 内其他负样本的相似度</text>
+  <text x="450" y="338" text-anchor="middle" fill="#94a3b8" font-size="11">温度系数 τ 控制相似度分布的尖锐程度</text>
+  <!-- 负样本说明 -->
+  <rect x="170" y="370" width="560" height="60" rx="10" fill="#0f172a" stroke="#f97316"/>
+  <text x="420" y="395" text-anchor="middle" fill="#f97316" font-size="13" font-weight="600">batch 内其他 2(N-1) 个视图 = 负样本</text>
+  <text x="420" y="418" text-anchor="middle" fill="#94a3b8" font-size="11">batch size N 越大，负样本越多，效果越好（SimCLR 论文经验）</text>
+  <!-- 连接线 -->
+  <line x1="745" y1="210" x2="745" y2="240" stroke="#818cf8" stroke-width="2" stroke-dasharray="4,3"/>
+  <line x1="745" y1="240" x2="450" y2="258" stroke="#818cf8" stroke-width="2" stroke-dasharray="4,3"/>
+</svg></div></p>
+
+<h4>数学公式</h4>
+
+<p><strong>1. 余弦相似度</strong>（衡量两个嵌入向量的接近程度）：</p>
+
+<p><div class="math-block">$$ \text{sim}(u, v) = \frac{u^\top v}{\lVert u \rVert \lVert v \rVert} $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ u, v $：两个归一化后的特征向量（投影头的输出）</li>
+<li>$ u^\top v $：向量内积</li>
+<li>$ \lVert u \rVert, \lVert v \rVert $：向量的 L2 范数，分母做归一化，使相似度范围落在 $ [-1, 1] $</li>
+</ul>
+
+<p><strong>2. NT-Xent 损失</strong>（Normalized Temperature-scaled Cross Entropy，核心损失函数）：</p>
+
+<p><div class="math-block">$$ \mathcal{L}_{NT\text{-}Xent}(i, j) = -\log \frac{\exp(\text{sim}(z_i, z_j)/\tau)}{\sum_{k=1}^{2N} \mathbb{1}_{[k \neq i]} \exp(\text{sim}(z_i, z_k)/\tau)} $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ z_i, z_j $：一对正样本（同源增强视图）的投影向量</li>
+<li>$ N $：batch size，一次喂入的原图数；增强后共 $ 2N $ 个视图</li>
+<li>$ \tau $：温度系数（temperature），缩放相似度得分</li>
+<li>$ \mathbb{1}_{[k \neq i]} $：指示函数，排除 $ z_i $ 自己，其余 $ 2N-1 $ 个视图参与分母（其中 1 个正对 + $ 2N-2 $ 个负样本）</li>
+<li>整体含义：让"正对相似度"在全体样本中的占比尽可能大，等价于一个多分类 softmax 交叉熵</li>
+</ul>
+
+<p><strong>3. 总损失</strong>（每个正对都算一次，取平均）：</p>
+
+<p><div class="math-block">$$ \mathcal{L} = \frac{1}{2N} \sum_{k=1}^{2N} \mathcal{L}_{NT\text{-}Xent}(2k-1, 2k) + \mathcal{L}_{NT\text{-}Xent}(2k, 2k-1) $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ 2N $：视图总数；每对正视图各贡献两次损失（对称计算）</li>
+<li>$ \frac{1}{2N} $：对所有正对的损失取平均</li>
+</ul>
+
+<h4>核心要点</h4>
+<ul>
+<li>核心思想：让同一图像的<strong>不同增强视图</strong>表征接近，让不同图像的视图表征远离（构造"正负样本对"）</li>
+<li>投影头（Projection Head）是关键设计：编码器输出送入两层 MLP 后再算对比损失，效果显著优于直接在编码器特征上算</li>
+<li>数据增强组合（裁剪缩放 + 颜色抖动 + 灰度化 + 高斯模糊）的合理搭配是成功的最大功臣</li>
+<li>NT-Xent 损失= 温度缩放 + 余弦相似度 + softmax 交叉熵，归一化嵌入和温度参数缺一不可</li>
+<li>无监督预训练 + 下游微调（linear probe）即可达到接近监督学习的效果，这正是自监督的意义</li>
+<li>扩展方向：SimCLR v2（加深投影头）、MoCo、BYOL 等后续框架</li>
+</ul>
+
+<h4>技术细节与参数详解</h4>
+
+<p>#### 参数 1：温度系数 temperature τ</p>
+<ul>
+<li><strong>含义</strong>：NT-Xent 损失中的缩放因子，控制相似度分布的尖锐程度</li>
+<li><strong>类型</strong>：<code class="inline-code">float</code></li>
+<li><strong>默认值</strong>：SimCLR 论文使用 $ \tau = 0.1 $（ImageNet 上）</li>
+<li><strong>取值范围</strong>：$ 0.05 \sim 1.0 $ 常见</li>
+<li><strong>对结果的影响</strong>：$ \tau $ 越小 → 相似度分布越尖锐，模型更聚焦"困难负样本"，但过小易导致训练不稳定/特征坍缩；$ \tau $ 越大 → 分布越平滑，收敛慢、区分度弱。论文通过消融实验验证 $ \tau=0.1 $ 附近的 loss 曲线（特征归一化下）表现最好</li>
+<li><strong>推荐设置</strong>：初始 $ \tau=0.1 $，观察损失曲线后微调；训练中后期可适当调度（如特征坍缩时放大 $ \tau $）</li>
+</ul>
+
+<p>#### 参数 2：batch size N</p>
+<ul>
+<li><strong>含义</strong>：每个训练批次送入的原始图像数（每张图产生 2 个视图，共 $ 2N $ 个）</li>
+<li><strong>类型</strong>：<code class="inline-code">int</code></li>
+<li><strong>默认值</strong>：SimCLR 论文在 ImageNet 上使用 4096（甚至更大）</li>
+<li><strong>取值范围</strong>：16 ~ 8192+（取决于显存）</li>
+<li><strong>对结果的影响</strong>：batch 越大 → 负样本越多 → 对比信号越强、表征质量越高；论文实验显示 batch 从 256 提到 4096 线性提升准确率（但收益递减）；batch 过小时正负样本区分困难、易坍缩</li>
+<li><strong>推荐设置</strong>：显存允许下尽量大（如 512/1024）；用梯度累积或大 batch 训练的变体弥补显存限制</li>
+</ul>
+
+<p>#### 参数 3：投影头 hidden_dim / output_dim（MLP 结构）</p>
+<ul>
+<li><strong>含义</strong>：投影头 g(·) 是两层 MLP，hidden_dim 是隐藏层维度，output_dim 是最终嵌入（对比空间）维度</li>
+<li><strong>类型</strong>：<code class="inline-code">int</code></li>
+<li><strong>默认值</strong>：论文使用与编码器输出相同的维度（如 2048），MLP 隐藏层 2048、输出 128</li>
+<li><strong>对结果的影响</strong>：对比损失在投影空间计算，输出维度太低会损失信息、太高则噪声增加；隐藏层激活常用 ReLU</li>
+<li><strong>推荐设置</strong>：ResNet50 编码器（输出 2048 维）搭配 <code class="inline-code">hidden=2048, out=128</code> 是经典配置；下游用编码器输出（非投影输出）做微调</li>
+</ul>
+
+<p>#### 参数 4：编码器 backbone（encoder）</p>
+<ul>
+<li><strong>含义</strong>：提取图像特征的主干网络，通常为 ResNet 系列</li>
+<li><strong>类型</strong>：<code class="inline-code">torchvision.models.resnet50</code> 等</li>
+<li><strong>默认值</strong>：ResNet-50（论文基线）</li>
+<li><strong>对结果的影响</strong>：主干容量越大表征越强（论文用 ResNet-50 至 ResNet-200 缩放对比）；但训练成本随之上升</li>
+<li><strong>推荐设置</strong>：资源有限用 ResNet-18/34，正式实验用 ResNet-50+</li>
+</ul>
+
+<p>#### 参数 5：数据增强组合 augmentation</p>
+<ul>
+<li><strong>含义</strong>：对每个样本生成不同视图的变换集合，包括随机裁剪缩放（crop+resize）、颜色抖动（color jitter）、随机灰度化（grayscale）、高斯模糊（blur）、随机翻转（flip）等</li>
+<li><strong>类型</strong>：<code class="inline-code">torchvision.transforms</code> 组合</li>
+<li><strong>默认值</strong>：论文方案 = RandomResizedCrop + RandomColorJitter(0.8) + RandomGrayscale(0.2) + RandomGaussianBlur + Normalize</li>
+<li><strong>对结果的影响</strong>：<strong>这是 SimCLR 最重要的超参之一</strong>——随机裁剪+颜色抖动是关键，缺少任一都会明显掉点；只做单一增强（如仅裁剪）表征质量大幅下降</li>
+<li><strong>推荐设置</strong>：按论文默认组合起步，再针对数据集特点调权重（如医学影像减弱颜色抖动）</li>
+</ul>
+
+<p>#### 参数 6：优化器与学习率</p>
+<ul>
+<li><strong>含义</strong>：训练使用的优化器、初始学习率与调度策略</li>
+<li><strong>默认值</strong>：LARS（Large Batch），学习率 0.3 × batch/256，cosine decay</li>
+<li><strong>对结果的影响</strong>：大 batch 下普通 SGD/Momentum 易不稳定，LARS 可线性扩展；学习率过大发散、过小收敛慢</li>
+<li><strong>推荐设置</strong>：小规模复现可用 AdamW + cosine scheduler 起步；复现论文请用 LARS</li>
+</ul>
+
+<p>#### 参数 7：训练轮数 epochs / 权重衰减 weight_decay</p>
+<ul>
+<li><strong>含义</strong>：训练总轮数与正则化强度</li>
+<li><strong>默认值</strong>：SimCLR 论文预训练 1000 epochs；weight_decay 1e-6~1e-4</li>
+<li><strong>对结果的影响</strong>：epoch 越多表征越好（论文 100→1000 epochs 线性评估提升明显）；weight_decay 防止过拟合/稳定训练</li>
+<li><strong>推荐设置</strong>：资源受限用 100-300 epochs；weight_decay 按 batch 大小微调</li>
+</ul>
+
+<p>#### 参数 8：负样本与特征归一化（L2 norm）</p>
+<ul>
+<li><strong>含义</strong>：将投影向量归一化为单位向量后再算余弦相似度（与损失中的分子匹配）</li>
+<li><strong>默认值</strong>：SimCLR 恒做 L2 归一化</li>
+<li><strong>对结果的影响</strong>：不归一化时损失行为退化（温度失去意义）；归一化后温度才精确控制分布</li>
+<li><strong>推荐设置</strong>：始终在相似度计算前对 z 做 L2 归一化</li>
+</ul>
+
+<h4>代码示例</h4>
+
+<p><pre class="code-block"><code class="language-python">import torch
+import torch.nn as nn
+import torch.nn.functional as F
+import torchvision.models as models
+
+class ProjectionHead(nn.Module):
+    &quot;&quot;&quot;SimCLR 投影头：两层 MLP + ReLU，输出到对比空间&quot;&quot;&quot;
+    def __init__(self, in_dim=2048, hidden_dim=2048, out_dim=128):
+        super().__init__()
+        # 第一层：线性变换 + ReLU（论文不加 BatchNorm 效果更稳定）
+        self.fc1 = nn.Linear(in_dim, hidden_dim)
+        # 第二层：线性变换，输出对比空间的 128 维向量
+        self.fc2 = nn.Linear(hidden_dim, out_dim)
+
+    def forward(self, x):
+        # 前向传播：先线性+ReLU，再线性输出
+        return self.fc2(F.relu(self.fc1(x)))
+
+
+class SimCLR(nn.Module):
+    &quot;&quot;&quot;SimCLR 整体框架：编码器 + 投影头&quot;&quot;&quot;
+    def __init__(self, base_encoder=models.resnet50, out_dim=128):
+        super().__init__()
+        # 去掉 ResNet 最后一层全连接，作为特征提取器（输出 2048 维）
+        self.encoder = nn.Sequential(*list(base_encoder().children())[:-1])
+        # 在编码器输出之上接投影头
+        self.projection_head = ProjectionHead(in_dim=2048, hidden_dim=2048, out_dim=out_dim)
+
+    def forward(self, x):
+        # 编码器输出为 (B, 2048, 1, 1)，压平为 (B, 2048)
+        h = self.encoder(x).flatten(start_dim=1)
+        # 投影头输出对比空间表示 z
+        z = self.projection_head(h)
+        # L2 归一化（对相似度计算至关重要）
+        return F.normalize(z, dim=1)
+
+
+def nt_xent_loss(z_i, z_j, temperature=0.1):
+    &quot;&quot;&quot;NT-Xent 损失：拉近正对、推开负对（InfoNCE 变体）&quot;&quot;&quot;
+    batch_size = z_i.shape[0]
+    # 拼接两个视图，得到 (2N, D) 的完整表示
+    z = torch.cat([z_i, z_j], dim=0)              # (2N, D)
+    # 计算所有视图两两之间的相似度矩阵（2N x 2N）
+    sim = torch.mm(z, z.t())                      # 已归一化，内积即余弦相似度
+    # 去掉对角线（自身相似度恒为 1），用大负数填充避免影响 softmax
+    mask = torch.eye(sim.shape[0], device=sim.device).bool()
+    sim = sim.masked_fill(mask, -1e9)
+    # 提取每个样本对应的正对索引：(i, i+N) 与 (i+N, i) 互为
+    positives = torch.cat([torch.diag(sim, batch), torch.diag(sim, -batch)], dim=0)  # 2N
+    # 除自身外所有样本的相似度作为分母（含 1 个正对 + 2N-2 个负样本）
+    denom = torch.logsumexp(sim / temperature, dim=1)   # 对每个行做 log-sum-exp
+    # 损失 = -log(正对概率)，取 2N 个正对损失的平均
+    loss = -torch.mean(positives / temperature - denom)
+    return loss</code></pre></p>
+
+<blockquote>
+<p>注：<code class="inline-code">torch.arange</code> 相关细节为保证自对（i 与 i+N）对应；<code class="inline-code">masked_fill</code> 去除自相似。</p>
+</blockquote>
+
+<h4>复杂度分析</h4>
+
+<p><strong>时间复杂度</strong>：每步训练 $ \mathcal{O}(2N \cdot F + (2N)^2) $。推导：编码器对 $ 2N $ 张增强视图各自前向传播一次，计算量为 $ O(2N \cdot F) $（$ F $ 为单张图编码成本）；NT-Xent 损失需计算 $ 2N \times 2N $ 相似度矩阵，为 $ O((2N)^2) $。batch 越大，相似度矩阵开销增长越明显。</p>
+
+<p><strong>空间复杂度</strong>：$ O(2N \cdot D) $（特征矩阵）+ 编码器参数。特征矩阵存 $ 2N $ 个 D 维向量；无负样本（全部来自 batch 内）所以无需额外存储大量负样本库，这也是 SimCLR 相对"伪负样本库"方法更简单的原因。</p>
+
+<h4>应用场景</h4>
+<ul>
+<li>图像自监督预训练：大模型（数百万无标注图片）上学习通用特征，再少量标注微调</li>
+<li>医疗影像、遥感等标注稀缺领域：用无标签数据预训练后再做分类/分割</li>
+<li>表征学习：供下游检索、聚类、零样本分类使用</li>
+<li>视频、音频、文本等多模态自监督的通用对比范式（后续大量模型沿用 NT-Xent）</li>
+</ul>
+
+<h4>参考文档</h4>
+<ul>
+<li><a href="https://blog.csdn.net/m0_53148408/article/details/156728693" target="_blank" class="ref-link">一文读懂SimCLR：自监督学习的"极简"里程碑（CSDN）</a></li>
+<li><a href="https://blog.csdn.net/m0_57354496/article/details/156272253" target="_blank" class="ref-link">对比学习：【SimCLR】（CSDN）</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/345474252" target="_blank" class="ref-link">SimCLR：用于视觉表征的对比学习框架（知乎）</a></li>
+<li><a href="https://cloud.tencent.com/developer/news/1037746" target="_blank" class="ref-link">使用Pytorch实现对比学习SimCLR（腾讯云）</a></li>
+</ul>
+
+<hr>
+
+<h3>支持向量机</h3>
+
+<p><strong>类别</strong>：监督学习 | <strong>难度</strong>：中等</p>
+
+<h4>算法简介</h4>
+
+<p>支持向量机（Support Vector Machine, SVM）是一种经典的监督学习算法，核心思想是<strong>最大化间隔（max-margin）</strong>：在特征空间中寻找一个最优超平面，使其到两类样本（正类/负类）最近点的距离之和最大，这些"离超平面最近"的样本点就是<strong>支持向量（Support Vectors）</strong>——它们决定了超平面位置，其他样本对模型毫无影响。线性不可分时，SVM 通过<strong>核技巧（Kernel Trick）</strong>将样本隐式映射到高维空间再做线性划分，从而处理非线性分类。SVM 天然支持小样本、高维数据，泛化能力强，是分类问题的经典基线。sklearn 中的 <code class="inline-code">SVC</code>（C-Support Vector Classification）基于 libsvm 实现，使用 SMO 算法求解对偶二次规划问题；除了分类，还可通过 <code class="inline-code">probability=True</code> 输出概率、通过 <code class="inline-code">decision_function_shape</code> 支持多分类（一对多/一对一）。尽管深度学习当道，SVM 在中小规模数据、文本分类、生物信息等领域仍是可靠之选。</p>
+
+<h4>原理示意图</h4>
+
+<p><div class="algo-image"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 900 440" font-family="sans-serif">
+  <rect width="900" height="440" fill="#1e293b" rx="12"/>
+  <text x="450" y="30" text-anchor="middle" fill="#818cf8" font-size="15" font-weight="600">SVM 最大间隔超平面与支持向量</text>
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="6" refX="4" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#6366f1"/>
+    </marker>
+  </defs>
+  <!-- 坐标系 -->
+  <rect x="140" y="60" width="640" height="320" rx="10" fill="#0f172a" stroke="#334155"/>
+  <!-- 正类样本（圆） -->
+  <g fill="#22c55e">
+    <circle cx="330" cy="120" r="10"/><circle cx="380" cy="90" r="10"/>
+    <circle cx="420" cy="150" r="10"/><circle cx="470" cy="110" r="10"/>
+    <circle cx="520" cy="180" r="10"/><circle cx="560" cy="140" r="10"/>
+    <circle cx="600" cy="210" r="10"/>
+  </g>
+  <!-- 负类样本 -->
+  <g fill="#ef4444">
+    <circle cx="360" cy="320" r="10"/><circle cx="410" cy="290" r="10"/>
+    <circle cx="470" cy="330" r="10"/><circle cx="520" cy="300" r="10"/>
+    <circle cx="580" cy="330" r="10"/><circle cx="630" cy="290" r="10"/>
+  </g>
+  <!-- 最优超平面 -->
+  <line x1="180" y1="330" x2="660" y2="150" stroke="#6366f1" stroke-width="3"/>
+  <text x="660" y="140" fill="#818cf8" font-size="12">w·x+b=0</text>
+  <!-- 间隔边界 -->
+  <line x1="190" y1="290" x2="650" y2="130" stroke="#22c55e" stroke-width="2" stroke-dasharray="6,4"/>
+  <text x="650" y="122" fill="#22c55e" font-size="11">w·x+b=1</text>
+  <line x1="200" y1="360" x2="670" y2="190" stroke="#ef4444" stroke-width="2" stroke-dasharray="6,4"/>
+  <text x="672" y="200" fill="#ef4444" font-size="11">w·x+b=-1</text>
+  <!-- 间隔双向箭头 -->
+  <line x1="352" y1="293" x2="352" y2="262" stroke="#f97316" stroke-width="3" marker-end="url(#arrow)"/>
+  <line x1="352" y1="262" x2="352" y2="293" stroke="#f97316" stroke-width="3" marker-end="url(#arrow)"/>
+  <text x="335" y="270" fill="#f97316" font-size="12" text-anchor="end">间隔 = 2/‖w‖</text>
+  <!-- 支持向量高亮 -->
+  <circle cx="330" cy="120" r="14" fill="none" stroke="#22c55e" stroke-width="2.5"/>
+  <circle cx="520" cy="180" r="14" fill="none" stroke="#22c55e" stroke-width="2.5"/>
+  <circle cx="360" cy="320" r="14" fill="none" stroke="#ef4444" stroke-width="2.5"/>
+  <circle cx="470" cy="330" r="14" fill="none" stroke="#ef4444" stroke-width="2.5"/>
+  <text x="296" y="96" fill="#22c55e" font-size="11" font-weight="600">支持向量</text>
+  <!-- 图例 -->
+  <g font-size="12">
+    <circle cx="120" cy="80" r="8" fill="#22c55e"/>
+    <text x="136" y="84" fill="#e2e8f0">正类 +1</text>
+    <circle cx="120" cy="112" r="8" fill="#ef4444"/>
+    <text x="136" y="116" fill="#e2e8f0">负类 -1</text>
+    <line x1="112" y1="140" x2="128" y2="140" stroke="#6366f1" stroke-width="3"/>
+    <text x="136" y="144" fill="#e2e8f0">超平面</text>
+    <line x1="112" y1="172" x2="128" y2="172" stroke="#f97316" stroke-width="3"/>
+    <text x="136" y="176" fill="#e2e8f0">最大间隔</text>
+  </g>
+</svg></div></p>
+
+<h4>数学公式</h4>
+
+<p><strong>1. 硬间隔（线性可分）目标函数</strong>：最大化间隔等价于最小化 $ \frac{1}{2}\lVert w \rVert^2 $：</p>
+
+<p><div class="math-block">$$ \min_{w,b} \frac{1}{2}\lVert w \rVert^2 \quad \text{s.t.} \quad y_i(w^\top x_i + b) \ge 1, \ \forall i $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ w $：超平面法向量（决定方向）</li>
+<li>$ b $：偏置项（决定平移）</li>
+<li>$ x_i $：第 $ i $ 个训练样本特征</li>
+<li>$ y_i $：第 $ i $ 个样本标签，取 $ +1 $ 或 $ -1 $</li>
+<li>约束保证所有样本都在间隔带外；间隔宽度为 $ 2/\lVert w \rVert $</li>
+</ul>
+
+<p><strong>2. 软间隔（加入松弛变量，C-SVM）</strong></p>
+
+<p><div class="math-block">$$ \min_{w,b,\xi} \frac{1}{2}\lVert w \rVert^2 + C\sum_{i=1}^{n} \xi_i \quad \text{s.t.} \quad y_i(w^\top x_i + b) \ge 1 - \xi_i, \ \xi_i \ge 0 $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ C $：惩罚系数（正则化参数），控制"误分类代价"与"间隔大小"的权衡</li>
+<li>$ \xi_i $：第 $ i $ 个样本的松弛变量，允许其越过间隔边界（容忍噪声/线性不可分）</li>
+</ul>
+
+<p><strong>3. 对偶问题与核函数</strong></p>
+
+<p><div class="math-block">$$ \max_\alpha \sum_{i=1}^{n} \alpha_i - \frac{1}{2}\sum_{i=1}^{n}\sum_{j=1}^{n} \alpha_i \alpha_j y_i y_j K(x_i, x_j) \quad \text{s.t.} \quad 0 \le \alpha_i \le C, \ \sum_{i}\alpha_i y_i = 0 $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ \alpha_i $：拉格朗日乘子，非零的 $ \alpha_i $ 对应<strong>支持向量</strong></li>
+<li>$ K(x_i, x_j) $：核函数，等价于高维空间中向量内积 $ \phi(x_i)^\top \phi(x_j) $，无需显式计算映射 $ \phi $</li>
+<li>$ C $：上界约束，限制 $ \alpha_i $ 最大取 $ C $</li>
+</ul>
+
+<p><strong>4. 常用核函数</strong></p>
+
+<div class="table-wrapper"><table class="algo-table"><thead><tr><th>核</th><th>公式</th><th>参数</th></tr></thead><tbody><tr><td>线性核</td><td>$ K(x_i,x_j)=x_i^\top x_j $</td><td>无</td></tr><tr><td>多项式核</td><td>$ K=(\gamma x_i^\top x_j + r)^d $</td><td>gamma, coef0, degree</td></tr><tr><td>RBF 径向基核</td><td>$ K=\exp(-\gamma \lVert x_i - x_j \rVert^2) $</td><td>gamma</td></tr><tr><td>Sigmoid 核</td><td>$ K=\tanh(\gamma x_i^\top x_j + r) $</td><td>gamma、coef0</td></tr></tbody></table></div>
+
+<h4>核心要点</h4>
+<ul>
+<li>最大间隔原则是 SVM 泛化能力强的根源：间隔越大，结构风险越低</li>
+<li>分类决策只由<strong>支持向量</strong>决定（稀疏性），非支持向量样本不参与最终模型</li>
+<li>核技巧让 SVM 无需显式高维映射即可处理非线性，RBF 核最常用</li>
+<li>软间隔参数 C 控制对误分类的容忍度：C 大→严格、易过拟合；C 小→宽松、易欠拟合</li>
+<li>SVM 是二分类器，多分类通过 one-vs-rest（OvR）或 one-vs-one（OvO）组合实现</li>
+<li>特征尺度对 SVM（尤其核函数）影响极大，<strong>必须标准化</strong>后再训练</li>
+</ul>
+
+<h4>技术细节与参数详解（sklearn.svm.SVC）</h4>
+
+<p>#### 参数 1：C（惩罚系数）</p>
+<ul>
+<li><strong>含义</strong>：对误分类样本的惩罚强度，控制"最大间隔"与"容忍误差"的权衡</li>
+<li><strong>类型</strong>：<code class="inline-code">float</code></li>
+<li><strong>默认值</strong>：<code class="inline-code">1.0</code></li>
+<li><strong>取值范围</strong>：$ (0, +\infty) $，如 0.001 ~ 1000</li>
+<li><strong>对结果的影响</strong>：C 越大 → 越严格拟合训练集（间隔小、易过拟合）；C 越小 → 间隔越大、对噪声越宽容（易欠拟合）</li>
+<li><strong>推荐设置</strong>：从 <code class="inline-code">1.0</code> 起步，配合 GridSearchCV 在 <code class="inline-code">[0.1, 1, 10]</code> 附近网格搜索</li>
+</ul>
+
+<p>#### 参数 2：kernel（核函数类型）</p>
+<ul>
+<li><strong>类型</strong>：<code class="inline-code">{'linear', 'poly', 'rbf', 'sigmoid', 'precomputed'}</code> 或自定义 callable</li>
+<li><strong>默认值</strong>：<code class="inline-code">'rbf'</code></li>
+<li><strong>对结果的影响</strong>：决定映射方式与模型表达能力；RBF 能处理大多数非线性问题，linear 适合高维稀疏特征（文本）</li>
+<li><strong>推荐设置</strong>：特征多且稀疏用 <code class="inline-code">linear</code>；一般情况用 <code class="inline-code">rbf</code>；precomputed 用于自定义核矩阵</li>
+</ul>
+
+<p>#### 参数 3：gamma（核函数系数）</p>
+<ul>
+<li><strong>含义</strong>：RBF / poly / sigmoid 核的系数，控制单个样本影响半径</li>
+<li><strong>类型</strong>：<code class="inline-code">float</code> 或 <code class="inline-code">'scale'</code>/<code class="inline-code">'auto'</code></li>
+<li><strong>默认值</strong>：<code class="inline-code">'scale'</code>（即 $ 1/(n\_features \cdot X.var()) $）；<code class="inline-code">'auto'</code> 为 $ 1/n\_features $</li>
+<li><strong>取值范围</strong>：<code class="inline-code">(0, ∞)</code>，常用 $ 10^{-3} \sim 10^3 $</li>
+<li><strong>对结果的影响</strong>：gamma 大 → 影响半径小、决策边界复杂、易过拟合；gamma 小 → 边界平滑、易欠拟合</li>
+<li><strong>推荐设置</strong>：<code class="inline-code">'scale'</code> 起步，RBF 下与 C 联合网格搜索</li>
+</ul>
+
+<p>#### 参数 4：degree（多项式核的次方）</p>
+<ul>
+<li><strong>含义</strong>：仅 <code class="inline-code">kernel='poly'</code> 有效，多项式展开的阶数</li>
+<li><strong>类型</strong>：<code class="inline-code">int</code></li>
+<li><strong>默认值</strong>：<code class="inline-code">3</code></li>
+<li><strong>取值范围</strong>：$ \ge 1 $（常用 2-5）</li>
+<li><strong>对结果的影响</strong>：degree 越大 → 决策边界越复杂，越易过拟合，且计算开销上升</li>
+<li><strong>推荐设置</strong>：默认 3；高维噪声数据降低到 2</li>
+</ul>
+
+<p>#### 参数 5：coef0（核函数独立项）</p>
+<ul>
+<li><strong>含义</strong>：poly 与 sigmoid 核中的常数项 r（公式中独立项）</li>
+<li><strong>类型</strong>：<code class="inline-code">float</code></li>
+<li><strong>默认值</strong>：<code class="inline-code">0.0</code></li>
+<li><strong>对结果的影响</strong>：影响多项式核的缩放与 sigmoid 核的偏移，通常影响较小但不可忽略</li>
+<li><strong>推荐设置</strong>：保持默认，或与 gamma 一起在 poly 核中微调</li>
+</ul>
+
+<p>#### 参数 6：shrinking（启发式收缩）</p>
+<ul>
+<li><strong>含义</strong>：是否启用 SMO 的 shrinking 启发式（跳过已收敛的变量以加速）</li>
+<li><strong>类型</strong>：<code class="inline-code">bool</code></li>
+<li><strong>默认值</strong>：<code class="inline-code">True</code></li>
+<li><strong>对结果的影响</strong>：True 通常更快，但在某些数据集上可能略慢（尤其 cache 小、特征多时）</li>
+<li><strong>推荐设置</strong>：保持默认 True；个别场景可尝试 False 对比</li>
+</ul>
+
+<p>#### 参数 7：probability（是否输出概率）</p>
+<ul>
+<li><strong>含义</strong>：是否启用 Plott 概率估计（训练后额外做交叉验证拟合 sigmoid）</li>
+<li><strong>类型</strong>：<code class="inline-code">bool</code></li>
+<li><strong>默认值</strong>：<code class="inline-code">False</code></li>
+<li><strong>对结果的影响</strong>：True 会显著增加训练时间（需额外的 5 折交叉验证），但可用 <code class="inline-code">predict_proba()</code> 输出概率</li>
+<li><strong>推荐设置</strong>：需要概率/置信度时开启；仅需分类标签时保持 False 以节省时间</li>
+</ul>
+
+<p>#### 参数 8：tol（停止迭代容差）</p>
+<ul>
+<li><strong>含义</strong>：优化迭代的收敛容忍度（损失/梯度变化小于该值时停止）</li>
+<li><strong>类型</strong>：<code class="inline-code">float</code></li>
+<li><strong>默认值</strong>：<code class="inline-code">0.001</code></li>
+<li><strong>对结果的影响</strong>：越小精度越高、耗时越长；过大提前停止损失质量</li>
+<li><strong>推荐设置</strong>：默认 0.001；追求快速原型可放宽到 0.01</li>
+</ul>
+
+<p>#### 参数 9：cache_size（核缓存大小，MB）</p>
+<ul>
+<li><strong>含义</strong>：内核矩阵缓存（内存）上限，单位 MB</li>
+<li><strong>类型</strong>：<code class="inline-code">int</code>（MB）</li>
+<li><strong>默认值</strong>：<code class="inline-code">200</code></li>
+<li><strong>对结果的影响</strong>：核矩阵 K 的计算可被缓存，缓存越大重复计算越少、训练越快，但内存占用升高</li>
+<li><strong>推荐设置</strong>：样本量大时调大（如 500~1000）加速训练</li>
+</ul>
+
+<p>#### 参数 10：class_weight（类别权重）</p>
+<ul>
+<li><strong>含义</strong>：给不同类别的样本分配不同 C 权重（缓解类别不平衡）</li>
+<li><strong>类型</strong>：<code class="inline-code">dict</code> / <code class="inline-code">'balanced'</code> / <code class="inline-code">None</code></li>
+<li><strong>默认值</strong>：<code class="inline-code">None</code></li>
+<li><strong>对结果的影响</strong>：<code class="inline-code">'balanced'</code> 自动按类别频率反比加权；可手工给少数类更高权重</li>
+<li><strong>推荐设置</strong>：类别不平衡时优先尝试 <code class="inline-code">'balanced'</code></li>
+</ul>
+
+<p>#### 参数 11：max_iter（最大迭代次数）</p>
+<ul>
+<li><strong>含义</strong>：SMO 求解器的最大迭代上限，-1 表示无限制</li>
+<li><strong>类型</strong>：<code class="inline-code">int</code></li>
+<li><strong>默认值</strong>：<code class="inline-code">-1</code></li>
+<li><strong>对结果的影响</strong>：设小值可控制训练时间，但可能未收敛导致模型质量差</li>
+<li><strong>推荐设置</strong>：默认 -1；大数据集可设上限并监控 <code class="inline-code">n_iter_</code></li>
+</ul>
+
+<p>#### 参数 12：decision_function_shape / break_ties / random_state</p>
+<ul>
+<li><strong>含义</strong>：多分类策略与平局处理。<code class="inline-code">decision_function_shape</code> 可选 <code class="inline-code">'ovo'</code>（一对一，默认）或 <code class="inline-code">'ovr'</code>（一对多）；<code class="inline-code">break_ties=True</code> 时按决策值破坏平局；<code class="inline-code">random_state</code> 控制概率估计时的随机性</li>
+<li><strong>默认值</strong>：<code class="inline-code">'ovo'</code> / <code class="inline-code">False</code> / <code class="inline-code">None</code></li>
+<li><strong>对结果的影响</strong>：OvO 训练 K(K-1)/2 个二分类器，OvR 训练 K 个；break_ties 只影响 <code class="inline-code">predict()</code> 而非 <code class="inline-code">predict_proba()</code></li>
+<li><strong>推荐设置</strong>：多分类默认即可；需要概率排序可开 break_ties</li>
+</ul>
+
+<h4>代码示例</h4>
+
+<p><pre class="code-block"><code class="language-python">import numpy as np
+from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler  # 特征标准化
+from sklearn.svm import SVC                        # 支持向量分类器
+from sklearn.metrics import classification_report  # 分类评估报告
+
+# 1. 加载鸢尾花数据集（3 类、4 特征、150 样本）
+X, y = load_iris(return_X_y=True)
+
+# 2. 划分训练/测试集（70% 训练 / 30% 测试）
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.3, random_state=42)  # random_state 固定切分结果
+
+# 3. 标准化：核方法对特征尺度敏感，必须做
+scaler = StandardScaler()
+X_train = scaler.fit_transform(X_train)  # 用训练集拟合均值/方差
+X_test = scaler.transform(X_test)        # 用同一组参数变换测试集（防数据泄露）
+
+# 4. 构建 SVC 模型（RBF 核 + 概率输出 + 类别平衡）
+model = SVC(
+    C=1.0,            # 正则化强度：间隔与误分类的权衡
+    kernel=&#x27;rbf&#x27;,     # RBF 径向基核：处理非线性
+    gamma=&#x27;scale&#x27;,    # 核系数 = 1/(n_features * X.var())
+    probability=True, # 开启 predict_proba() 概率输出
+    class_weight=&#x27;balanced&#x27;,  # 类别不平衡时自动加权
+    tol=0.001,        # 迭代收敛容差
+    cache_size=200,   # 核缓存 200MB
+    max_iter=-1       # 无迭代上限
+)
+
+# 5. 训练（内部用 SMO 求解对偶问题）
+model.fit(X_train, y_train)
+
+# 6. 预测与评估
+y_pred = model.predict(X_test)            # 硬分类预测
+print(classification_report(y_test, y_pred))  # 打印精确率/召回率/F1
+print(&quot;支持向量个数：&quot;, len(model.support_vectors_))      # 观察稀疏性
+print(&quot;支持向量索引:&quot;, model.support_)                    # 支持向量样本编号</code></pre></p>
+
+<blockquote>
+<p>注：<code class="inline-code">StandardScaler</code> 需在训练前拟合；<code class="inline-code">model.support_vectors_</code> 展示 SVM 只依赖少量支持向量这一特性。</p>
+</blockquote>
+
+<h4>复杂度分析</h4>
+
+<p><strong>时间复杂度</strong>：训练一般为 $ \mathcal{O}(n^2 \sim n^3) $（SMO 的经验复杂度），$ n $ 为样本数。推导：对偶问题的核矩阵计算是 $ O(n^2) $，SMO 每次更新两个变量并迭代，整体介于二次与三次之间；<code class="inline-code">probability=True</code> 额外做 5 折交叉验证，约增加 5 倍训练时间。预测阶段仅需与支持向量计算核，为 $ O(n_{SV} \cdot d) $（$ n_{SV} $ 为支持向量数、$ d $ 为特征维度）。</p>
+
+<p><strong>空间复杂度</strong>：$ O(n \cdot d) $（存样本与核缓存，缓存上限由 <code class="inline-code">cache_size</code> 控制）。</p>
+
+<h4>应用场景</h4>
+<ul>
+<li>文本分类（垃圾邮件、情感分析，线性核 + 高维稀疏特征）</li>
+<li>小样本/中样本的表格分类任务（金融违约、信用评分）</li>
+<li>生物信息学：基因表达、蛋白质分类（特征多、样本少）</li>
+<li>图像分类小规模场景与经典 baselines 对比</li>
+<li>回归（SVR）、异常检测（OneClassSVM）等扩展任务</li>
+</ul>
+
+<h4>参考文档</h4>
+<ul>
+<li><a href="https://cloud.tencent.com/developer/article/1838517" target="_blank" class="ref-link">一文掌握sklearn中的支持向量机（腾讯云）</a></li>
+<li><a href="https://www.cnblogs.com/cgmcoding/p/13559984.html" target="_blank" class="ref-link">sklearn.svm.SVC 支持向量机参数详解（博客园）</a></li>
+<li><a href="https://www.cnblogs.com/elpsycongroo/p/10261748.html" target="_blank" class="ref-link">sklearn.svm.SVC参数说明（博客园）</a></li>
+<li><a href="https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html" target="_blank" class="ref-link">sklearn 官方文档 sklearn.svm.SVC</a></li>
+</ul>
+
+  </div>
+  <div class="footer">
+    <p>由 TeleAgent · 每日算法推送 技能自动生成 | 2026-09-21 17:07</p>
+  </div>
+</div>
+</body>
+</html>
