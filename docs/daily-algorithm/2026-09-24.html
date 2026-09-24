@@ -308,7 +308,17 @@ body {
 <a href="2026-09-07.html">09月07日</a>
 </div>
   <div class="content">
-  
+  <hr>
+<p>AIGC:</p>
+<p>ContentProducer: '001191110102MAD55U9H0F10002'</p>
+<p>ContentPropagator: '001191110102MAD55U9H0F10002'</p>
+<p>Label: '1'</p>
+<p>ProduceID: 'c8e57197-56dd-4511-af02-cee31a9c1193'</p>
+<p>PropagateID: 'c8e57197-56dd-4511-af02-cee31a9c1193'</p>
+<p>ReservedCode1: '3c1ab93d-c5bc-402d-87a4-e53bbb0006c5'</p>
+<p>ReservedCode2: '3c1ab93d-c5bc-402d-87a4-e53bbb0006c5'</p>
+<hr>
+
 <h2>每日算法讲解 · 2026-09-24</h2>
 
 <blockquote>
@@ -502,7 +512,7 @@ adj = [[] for _ in range(n)]         # 初始化邻接表
 for u, v, w in edges:
     adj[u].append((v, w))            # 无向图：u -&gt; v 存一条
     adj[v].append((u, w))            # 无向图：v -&gt; u 再存一条
-print(prim_to_adj(adj), prim_to_adj(adj))  # 输出 (总权值, 树边数)</code></pre></p>
+print(prim(n, adj))  # 输出 (总权值, 树边数)</code></pre></p>
 
 <h4>复杂度分析</h4>
 
@@ -1016,7 +1026,7 @@ print(&quot;分类准确率:&quot;, accuracy_score(y_test, pred))  # 通常 &gt;
 </blockquote>
   </div>
   <div class="footer">
-    <p>由 TeleAgent · 每日算法推送 技能自动生成 | 2026-09-24 09:37</p>
+    <p>由 TeleAgent · 每日算法推送 技能自动生成 | 2026-09-24 09:39</p>
   </div>
 </div>
 </body>
