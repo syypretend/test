@@ -1,0 +1,1308 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>每日算法讲解 · 2026年09月24日</title>
+<!-- MathJax for LaTeX math formula rendering -->
+<script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\(', '\)']],
+      displayMath: [['$$', '$$'], ['\[', '\]']],
+      processEscapes: true
+    },
+    svg: { fontCache: 'global' }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" id="MathJax-script" async></script>
+<style>
+:root {
+  --primary: #6366f1;
+  --primary-dark: #4f46e5;
+  --bg: #0f172a;
+  --card-bg: #1e293b;
+  --text: #e2e8f0;
+  --text-dim: #94a3b8;
+  --accent: #818cf8;
+  --border: #334155;
+  --code-bg: #0d1117;
+  --code-text: #e6edf3;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans SC", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.8;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+.container { max-width: 1400px; margin: 0 auto; padding: 24px 32px; }
+.header {
+  text-align: center;
+  padding: 40px 0 30px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 32px;
+}
+.header h1 {
+  font-size: 28px;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.header h1 .date { color: var(--accent); }
+.header .subtitle { color: var(--text-dim); font-size: 15px; }
+.repo-link {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 6px 16px;
+  background: var(--primary);
+  color: #fff;
+  border-radius: 20px;
+  text-decoration: none;
+  font-size: 13px;
+  transition: background 0.2s;
+}
+.repo-link:hover { background: var(--primary-dark); }
+.history-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 32px;
+  padding: 16px;
+  background: var(--card-bg);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+.history-nav a {
+  padding: 4px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  color: var(--text-dim);
+  text-decoration: none;
+  background: rgba(99,102,241,0.08);
+  transition: all 0.2s;
+}
+.history-nav a:hover { color: var(--text); background: rgba(99,102,241,0.2); }
+.history-nav a.active { color: #fff; background: var(--primary); }
+.history-nav a.back-index { color: var(--accent); font-weight: 600; background: rgba(99,102,241,0.15); border: 1px solid rgba(99,102,241,0.3); }
+.history-nav a.back-index:hover { color: #fff; background: var(--primary); border-color: var(--primary); }
+.content { margin-bottom: 40px; max-width: 1100px; }
+.content h2 {
+  font-size: 24px;
+  color: var(--accent);
+  margin: 40px 0 16px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--primary);
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+.content h2:first-child { border-top: none; padding-top: 0; }
+.content h3 {
+  font-size: 18px;
+  color: var(--text);
+  margin: 24px 0 12px;
+}
+.content h4 {
+  font-size: 16px;
+  color: var(--accent);
+  margin: 20px 0 10px;
+}
+.content p { margin-bottom: 12px; color: var(--text); }
+.content ul { margin: 8px 0 16px 20px; }
+.content li { margin-bottom: 6px; }
+.content strong { color: var(--accent); }
+.content blockquote {
+  border-left: 4px solid var(--primary);
+  padding: 12px 16px;
+  margin: 16px 0;
+  background: rgba(99,102,241,0.08);
+  border-radius: 0 8px 8px 0;
+}
+.content blockquote p { color: var(--text-dim); margin: 4px 0; }
+.content hr {
+  border: none;
+  height: 1px;
+  background: var(--border);
+  margin: 32px 0;
+}
+.code-block {
+  background: var(--code-bg);
+  border-radius: 10px;
+  padding: 18px 24px;
+  overflow-x: auto;
+  margin: 16px 0;
+  border: 1px solid var(--border);
+  max-width: 100%;
+}
+.code-block code {
+  font-family: "JetBrains Mono", "Fira Code", "Consolas", monospace;
+  font-size: 14px;
+  color: var(--code-text);
+  line-height: 1.6;
+  white-space: pre;
+}
+.inline-code {
+  background: rgba(99,102,241,0.15);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: "Consolas", monospace;
+  font-size: 0.9em;
+  color: var(--accent);
+}
+/* Math formula block */
+.content .math-block {
+  background: rgba(99,102,241,0.06);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 24px;
+  margin: 16px 0;
+  overflow-x: auto;
+  max-width: 100%;
+}
+.content .math-label {
+  font-size: 13px; color: var(--text-dim); margin-bottom: 6px; }
+.content .math-vars {
+  margin: 8px 0 16px 20px; }
+.content .math-vars li { margin-bottom: 4px; color: var(--text-dim); }
+.footer {
+  text-align: center;
+  padding: 24px 0;
+  border-top: 1px solid var(--border);
+  color: var(--text-dim);
+  font-size: 13px;
+}
+.tag {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  background: rgba(99,102,241,0.15);
+  color: var(--accent);
+  margin-left: 8px;
+}
+.content .ref-link {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px dashed rgba(99,102,241,0.4);
+  transition: all 0.2s;
+  word-break: break-all;
+}
+.content .ref-link:hover {
+  color: #fff;
+  border-bottom-color: var(--primary);
+}
+.content li {
+  word-break: break-all;
+}
+/* Table */
+.table-wrapper {
+  overflow-x: auto;
+  margin: 16px 0;
+  max-width: 100%;
+}
+.algo-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  background: var(--card-bg);
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+.algo-table thead {
+  background: rgba(99,102,241,0.15);
+}
+.algo-table th {
+  padding: 10px 16px;
+  text-align: left;
+  color: var(--accent);
+  font-weight: 600;
+  border-bottom: 2px solid var(--primary);
+  white-space: nowrap;
+}
+.algo-table td {
+  padding: 8px 16px;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  word-break: break-all;
+}
+.algo-table tr:last-child td {
+  border-bottom: none;
+}
+.algo-table tr:hover td {
+  background: rgba(99,102,241,0.06);
+}
+/* Algorithm architecture image */
+.algo-image {
+  margin: 20px 0;
+  text-align: center;
+}
+.algo-image img {
+  max-width: 100%;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+.algo-image .image-caption {
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--text-dim);
+}
+.algo-image svg {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+/* ======== 移动端响应式适配 ======== */
+@media (max-width: 768px) {
+  .container { max-width: 100%; padding: 16px 14px; }
+  .header { padding: 24px 0 20px; margin-bottom: 20px; }
+  .header h1 { font-size: 20px; margin-bottom: 4px; }
+  .header .subtitle { font-size: 13px; }
+  .repo-link { margin-top: 10px; padding: 5px 14px; font-size: 12px; }
+  .history-nav { gap: 6px; padding: 10px 12px; margin-bottom: 20px; }
+  .history-nav a { padding: 3px 10px; font-size: 12px; }
+  .content { max-width: 100%; margin-bottom: 28px; }
+  .content h2 { font-size: 20px; margin: 28px 0 12px; }
+  .content h3 { font-size: 17px; margin: 20px 0 10px; }
+  .content h4 { font-size: 15px; margin: 16px 0 8px; }
+  .content p { font-size: 14px; margin-bottom: 10px; }
+  .content ul { margin: 6px 0 12px 16px; }
+  .content li { font-size: 14px; margin-bottom: 5px; }
+  .content blockquote { padding: 10px 12px; margin: 12px 0; }
+  .content blockquote p { font-size: 13px; }
+  .content .math-block { padding: 10px 14px; margin: 12px 0; }
+  .code-block { padding: 12px 14px; margin: 12px 0; }
+  .code-block code { font-size: 12px; line-height: 1.5; }
+  .inline-code { font-size: 0.88em; padding: 1px 5px; }
+  .algo-table { font-size: 12px; }
+  .algo-table th { padding: 6px 10px; }
+  .algo-table td { padding: 6px 10px; }
+  .algo-image { margin: 14px 0; }
+  .algo-image svg { max-width: 100%; height: auto; }
+  .footer { padding: 18px 0; font-size: 12px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>每日算法讲解 · <span class="date">2026年09月24日</span></h1>
+    <p class="subtitle">每天 1 个基础算法 + 2 个 AI/机器学习算法，持续精进</p>
+    <a href="https://syypretend.github.io/test/daily-algorithm" target="_blank" class="repo-link">GitHub 仓库</a>
+  </div>
+  <div class="history-nav"><a href="index.html" class="back-index">← 历史索引</a>
+<a href="2026-09-24.html" class="active">09月24日</a>
+<a href="2026-09-17.html">09月17日</a>
+<a href="2026-09-15.html">09月15日</a>
+<a href="2026-09-14.html">09月14日</a>
+<a href="2026-09-11.html">09月11日</a>
+<a href="2026-09-10.html">09月10日</a>
+<a href="2026-09-09.html">09月09日</a>
+<a href="2026-09-08.html">09月08日</a>
+<a href="2026-09-07.html">09月07日</a>
+</div>
+  <div class="content">
+  <hr>
+<p>AIGC:</p>
+<p>ContentProducer: '001191110102MAD55U9H0F10002'</p>
+<p>ContentPropagator: '001191110102MAD55U9H0F10002'</p>
+<p>Label: '1'</p>
+<p>ProduceID: '26a3f365-6443-4355-a810-96d3851b075f'</p>
+<p>PropagateID: '26a3f365-6443-4355-a810-96d3851b075f'</p>
+<p>ReservedCode1: '298b01aa-db43-47f9-9134-bf88910083e8'</p>
+<p>ReservedCode2: '298b01aa-db43-47f9-9134-bf88910083e8'</p>
+<hr>
+
+<h2>每日算法讲解 · 2026-09-24</h2>
+
+<blockquote>
+<p>今日内容：1 个基础算法 + 2 个 AI/机器学习算法 | 逐参数详解</p>
+<p>学习进度：基础 9/60 · AI 17/99 · 第 1 轮首轮学习</p>
+</blockquote>
+
+<hr>
+
+<h3>Prim 最小生成树</h3>
+
+<p><strong>类别</strong>：图算法 | <strong>难度</strong>：中等</p>
+
+<h4>算法简介</h4>
+
+<p>Prim（普里姆）算法用于求解<strong>连通带权无向图</strong>的最小生成树（Minimum Spanning Tree, MST）：从图中选出 n-1 条边，把全部 n 个顶点连成一棵树，且边权总和最小。与「每次挑全局最短的边」的 Kruskal 不同，Prim 是<strong>以点为中心生长</strong>：维护一个已加入树中的顶点集合 U，每一步都从「横跨 U 与 V−U 的所有边」中挑出<strong>权值最小</strong>的一条，把 U 外的那个顶点吸入树中，如此重复 n−1 次。该贪心策略的正确性由<strong>切分定理（Cut Property）</strong>保证：对图的任意一个割集，横跨割集的最小权边必定属于某棵最小生成树。Prim 天然适合<strong>稠密图</strong>（边多）与「以某点为中心扩建」的场景：朴素实现 O(V²) 与边数无关；配合优先队列（堆）优化后为 O(E log V)，边越稀疏越占优。工程上它是电网组网、光缆布线、网络路由协议（如 STP 的思想近亲）、聚类与 TSP 近似解的地基算法。</p>
+
+<h4>原理示意图</h4>
+
+<p><div class="algo-image"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 900 470" font-family="sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="6" refX="4" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#6366f1"/>
+    </marker>
+  </defs>
+  <rect width="900" height="470" fill="#1e293b" rx="12"/>
+  <text x="450" y="30" text-anchor="middle" fill="#818cf8" font-size="15" font-weight="600">Prim 最小生成树：以点为中心逐轮生长（示例图 7 点 11 边）</text>
+
+  <!-- 第一阶段：初始 -->
+  <text x="125" y="62" text-anchor="middle" fill="#94a3b8" font-size="12">第 0 步：U = {A}，任选起点 A 入树</text>
+  <circle cx="95" cy="120" r="16" fill="#6366f1" stroke="#818cf8" stroke-width="2"/>
+  <text x="95" y="125" text-anchor="middle" fill="#e2e8f0" font-size="13" font-weight="bold">A</text>
+  <circle cx="185" cy="105" r="13" fill="#334155" stroke="#94a3b8"/>
+  <text x="185" y="110" text-anchor="middle" fill="#e2e8f0" font-size="12">B</text>
+  <circle cx="70" cy="200" r="13" fill="#334155" stroke="#94a3b8"/>
+  <text x="70" y="205" text-anchor="middle" fill="#e2e8f0" font-size="12">C</text>
+  <circle cx="160" cy="215" r="13" fill="#334155" stroke="#94a3b8"/>
+  <text x="160" y="220" text-anchor="middle" fill="#e2e8f0" font-size="12">D</text>
+  <line x1="111" y1="113" x2="172" y2="108" stroke="#475569" stroke-width="1.5"/>
+  <text x="141" y="103" text-anchor="middle" fill="#f97316" font-size="10">4★</text>
+  <line x1="88" y1="134" x2="76" y2="187" stroke="#475569" stroke-width="1.5"/>
+  <text x="66" y="165" text-anchor="middle" fill="#f97316" font-size="10">3★</text>
+  <text x="125" y="262" text-anchor="middle" fill="#f97316" font-size="11">★ = 横跨 U/V−U 的候选边</text>
+
+  <!-- 第二阶段：生长中 -->
+  <text x="430" y="62" text-anchor="middle" fill="#94a3b8" font-size="12">第 k 步：候选边中挑最小者，把新点吸进树</text>
+  <circle cx="330" cy="115" r="16" fill="#6366f1" stroke="#818cf8" stroke-width="2"/>
+  <text x="330" y="120" text-anchor="middle" fill="#e2e8f0" font-size="13" font-weight="bold">A</text>
+  <circle cx="330" cy="205" r="16" fill="#6366f1" stroke="#818cf8" stroke-width="2"/>
+  <text x="330" y="210" text-anchor="middle" fill="#e2e8f0" font-size="13" font-weight="bold">C</text>
+  <circle cx="420" cy="160" r="16" fill="#6366f1" stroke="#818cf8" stroke-width="2"/>
+  <text x="420" y="165" text-anchor="middle" fill="#e2e8f0" font-size="13" font-weight="bold">B</text>
+  <circle cx="520" cy="115" r="13" fill="#334155" stroke="#94a3b8"/>
+  <text x="520" y="120" text-anchor="middle" fill="#e2e8f0" font-size="12">D</text>
+  <circle cx="510" cy="215" r="13" fill="#334155" stroke="#94a3b8"/>
+  <text x="510" y="220" text-anchor="middle" fill="#e2e8f0" font-size="12">E</text>
+  <line x1="336" y1="130" x2="336" y2="189" stroke="#22c55e" stroke-width="2.5"/>
+  <text x="318" y="163" text-anchor="middle" fill="#22c55e" font-size="10">3✓</text>
+  <line x1="343" y1="112" x2="404" y2="152" stroke="#22c55e" stroke-width="2.5"/>
+  <text x="368" y="118" text-anchor="middle" fill="#22c55e" font-size="10">4✓</text>
+  <line x1="338" y1="198" x2="499" y2="215" stroke="#475569" stroke-width="1.5"/>
+  <text x="412" y="194" text-anchor="middle" fill="#f97316" font-size="10">7★</text>
+  <line x1="434" y1="152" x2="509" y2="125" stroke="#475569" stroke-width="1.5"/>
+  <text x="478" y="128" text-anchor="middle" fill="#f97316" font-size="10">2★min</text>
+  <text x="430" y="262" text-anchor="middle" fill="#94a3b8" font-size="11">绿 ✓ = 已选入树 · ★ = 当前候选 · 选 B-D(2)</text>
+
+  <!-- 第三阶段：结果 -->
+  <text x="740" y="62" text-anchor="middle" fill="#94a3b8" font-size="12">终局：n−1 = 6 条边，权值和最小</text>
+  <circle cx="645" cy="110" r="15" fill="#6366f1" stroke="#818cf8" stroke-width="2"/>
+  <text x="645" y="115" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="bold">A</text>
+  <circle cx="735" cy="95" r="15" fill="#6366f1" stroke="#818cf8" stroke-width="2"/>
+  <text x="735" y="100" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="bold">B</text>
+  <circle cx="825" cy="130" r="15" fill="#6366f1" stroke="#818cf8" stroke-width="2"/>
+  <text x="825" y="135" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="bold">D</text>
+  <circle cx="640" cy="215" r="15" fill="#6366f1" stroke="#818cf8" stroke-width="2"/>
+  <text x="640" y="220" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="bold">C</text>
+  <circle cx="730" cy="205" r="15" fill="#6366f1" stroke="#818cf8" stroke-width="2"/>
+  <text x="730" y="210" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="bold">E</text>
+  <circle cx="820" cy="230" r="15" fill="#6366f1" stroke="#818cf8" stroke-width="2"/>
+  <text x="820" y="235" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="bold">F</text>
+  <line x1="659" y1="106" x2="720" y2="97" stroke="#22c55e" stroke-width="2.5"/>
+  <text x="690" y="93" text-anchor="middle" fill="#22c55e" font-size="10">4</text>
+  <line x1="749" y1="102" x2="812" y2="123" stroke="#22c55e" stroke-width="2.5"/>
+  <text x="782" y="105" text-anchor="middle" fill="#22c55e" font-size="10">2</text>
+  <line x1="645" y1="125" x2="641" y2="200" stroke="#22c55e" stroke-width="2.5"/>
+  <text x="625" y="163" text-anchor="middle" fill="#22c55e" font-size="10">3</text>
+  <line x1="654" y1="216" x2="716" y2="208" stroke="#22c55e" stroke-width="2.5"/>
+  <text x="684" y="205" text-anchor="middle" fill="#22c55e" font-size="10">5</text>
+  <line x1="745" y1="210" x2="807" y2="226" stroke="#22c55e" stroke-width="2.5"/>
+  <text x="775" y="212" text-anchor="middle" fill="#22c55e" font-size="10">6</text>
+  <text x="740" y="262" text-anchor="middle" fill="#94a3b8" font-size="11">每步贪心选最小横跨边 → 全局最优（切分定理）</text>
+
+  <!-- 底部：关键数组 -->
+  <rect x="70" y="295" width="760" height="150" rx="10" fill="#0f172a" stroke="#334155"/>
+  <text x="450" y="325" text-anchor="middle" fill="#818cf8" font-size="13" font-weight="600">堆优化实现的核心状态：key[ ]（各点到树的最短距离）与 visited[ ]</text>
+  <text x="100" y="360" fill="#e2e8f0" font-size="12">key[v] ：</text>
+  <text x="165" y="360" fill="#94a3b8" font-size="12">顶点 v 连入树的最小候选边权（初始 +∞，起点 0）</text>
+  <text x="100" y="385" fill="#e2e8f0" font-size="12">visited[v]：</text>
+  <text x="165" y="385" fill="#94a3b8" font-size="12">v 是否已在树中（防止成环，Prim 天然免并查集）</text>
+  <text x="100" y="410" fill="#e2e8f0" font-size="12">parent[v]：</text>
+  <text x="165" y="410" fill="#94a3b8" font-size="12">记录 v 经哪条边入树，用于还原整棵最小生成树</text>
+  <text x="100" y="435" fill="#f97316" font-size="12">每轮松弛：</text>
+  <text x="165" y="435" fill="#94a3b8" font-size="12">新点 u 入树后，更新 u 的所有未访问邻居 v：key[v] = min(key[v], w(u,v))</text>
+</svg></div></p>
+
+<h4>数学公式</h4>
+
+<p><strong>公式 1：生成树的权值（优化目标）</strong></p>
+
+<p><div class="math-block">$$ w(T) = \sum_{e \in T} w(e) \quad \text{s.t.} \quad |T| = n - 1,\ T \text{ 连通无环} $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ T $：生成树（边集合）</li>
+<li>$ w(e) $：边 $ e $ 的权重（成本/距离）</li>
+<li>$ |T| = n-1 $：n 个顶点的树恰有 n−1 条边（连通、无环的充要条件）</li>
+</ul>
+
+<p><strong>公式 2：切分定理（Prim 正确性的基石）</strong></p>
+
+<p><div class="math-block">$$ \text{若 } e^* = \arg\min_{e \in \delta(U)} w(e), \text{ 则存在一棵 MST 包含 } e^* $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ U $：顶点集 $ V $ 的任意非空真子集（已入树的顶点集合）</li>
+<li>$ \delta(U) = \{(u, v) \mid u \in U,\ v \in V \setminus U\} $：<strong>横跨</strong> $ U $ 与 $ V \setminus U $ 的割集（所有候选边）</li>
+<li>$ e^* $：割集中权值最小的边</li>
+<li>含义：反证可证，若某 MST 不含 $ e^* $，把它加入 MST 会成环，环上必有一条横跨割集的边 $ e' $，且 $ w(e') \geq w(e^*) $，替换它们权值不增。每一步的局部最优叠加为全局最优。</li>
+</ul>
+
+<p><strong>公式 3：Prim 的贪心迭代规则（key 数组松弛）</strong></p>
+
+<p><div class="math-block">$$ \text{选点：} u^* = \arg\min_{v \in V \setminus U} key[v], \qquad \text{松弛：} key[v] \leftarrow \min\big(key[v],\ w(u^*, v)\big) $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ key[v] $：顶点 $ v $ 到树中任意顶点的最短边权（初始 $ +\infty $，起点置 0）</li>
+<li>$ u^* $：本轮被吸入树的顶点（当前离树最近的点）</li>
+<li>$ w(u^*, v) $：新入树点 $ u^* $ 到其邻居 $ v $ 的边权</li>
+<li>松弛即：新点入树后，重新审视每个树外顶点的「最短连接」，只能变短不能变长</li>
+</ul>
+
+<p><strong>公式 4：时间复杂度（堆优化，惰性删除）</strong></p>
+
+<p><div class="math-block">$$ T(V, E) = O\big(E \log E\big) = O(E \log V) \quad \left(\because E \le V^2 \Rightarrow \log E \le 2\log V\right) $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ E $：边数（每条边最多入堆一次，弹出均摊）</li>
+<li>$ \log E $：二叉堆一次插入/弹出代价</li>
+<li>推导：每条无向边入堆至多 2 次（两个端点各触发一次松弛），堆操作总量 $ O(E) $ 次，每次 $ O(\log E) $</li>
+</ul>
+
+<h4>核心要点</h4>
+
+<ul>
+<li><strong>以点为中心生长</strong>：与 Kruskal「全局挑边+并查集」不同，Prim 始终在「树」与「树外」之间挑最小横跨边，天然不成环，<strong>不需要并查集</strong></li>
+<li><strong>稠密图首选</strong>：朴素 $ O(V^2) $ 版本只与点数相关，边再多也不变；稀疏图 $ E = O(V) $ 时用堆优化 $ O(E \log V) $ 更划算</li>
+<li><strong>贪心正确性</strong>：切分定理保证每步局部最优 → 全局最优，无需回溯</li>
+<li><strong>只能用于连通无向图</strong>：非连通图要先跑连通分量，对每个分量分别求 MST（得到最小生成森林）；有向图无 MST 概念（对应的是最小树形图/朱刘算法）</li>
+<li><strong>权值可负</strong>：MST 的贪心只比较相对大小，负权边不影响正确性（这一点与最短路 Dijkstra 的非负要求不同）</li>
+<li><strong>解不唯一</strong>：当存在多条等权横跨边时有多棵 MST，但<strong>最小总权值唯一</strong>（部分题目据此要求输出字典序最小的树）</li>
+</ul>
+
+<h4>技术细节与参数详解</h4>
+
+<p>#### 参数 1：起点 start</p>
+
+<ul>
+<li><strong>含义</strong>：算法开始时唯一入树的顶点 $ u_0 $，即 $ U $ 的初始元素</li>
+<li><strong>类型</strong>：顶点编号（int 或任意可哈希对象）</li>
+<li><strong>默认值</strong>：无（通常取 0 号顶点或任意点）</li>
+<li><strong>取值范围</strong>：图中任意一个顶点</li>
+<li><strong>对结果的影响</strong>：<strong>不影响</strong>最小总权值（MST 权值与起点无关）——由切分定理可证任意起点收敛到同一最优值；但<strong>影响等权情况下具体选哪条边</strong>，即多解时生成的树可能不同</li>
+<li><strong>推荐设置</strong>：任意；工程上可从「度数最大的点」出发，使 key 数组更早被填满有意义值，略微减少堆操作</li>
+</ul>
+
+<p>#### 参数 2：图存储结构（邻接矩阵 vs 邻接表）</p>
+
+<ul>
+<li><strong>含义</strong>：底层携带图的数据结构，直接决定朴素 Prim 的效率</li>
+<li><strong>类型</strong>：邻接矩阵（二维 <code class="inline-code">list[list[int]]</code>，<code class="inline-code">adj[u][v]</code> 存边权）或邻接表（<code class="inline-code">list[list[(v, w)]]</code>，每点挂 (邻居, 边权) 列表）</li>
+<li><strong>默认值</strong>：算法题中按数据范围选择</li>
+<li><strong>取值范围</strong>：矩阵空间 $ O(V^2) $；邻接表空间 $ O(V + E) $</li>
+<li><strong>对结果的影响</strong>：不影响结果，只影响性能。矩阵版朴素 Prim 内层扫描「$ u^* $ 的所有出边」为 $ O(V) $，总 $ O(V^2) $；邻接表版配合堆为 $ O(E \log V) $。$ V \le 5000 $ 两者皆可，$ V $ 更大必须邻接表</li>
+<li><strong>推荐设置</strong>：稠密图（$ E \approx V^2 $，如完全图）→ 邻接矩阵 + 朴素 $ O(V^2) $；稀疏图（$ E \approx V $）→ 邻接表 + 小根堆</li>
+</ul>
+
+<p>#### 参数 3：优先队列实现（朴素数组 / 二叉堆 / 索引堆）</p>
+
+<ul>
+<li><strong>含义</strong>：维护「树外顶点按 key 值排序」的数据结构，是性能的命门</li>
+<li><strong>类型</strong>：朴素数组线性扫 min、<code class="inline-code">heapq</code> 二叉堆（惰性删除）、索引优先队列（支持 decrease-key）</li>
+<li><strong>默认值</strong>：Python 中几乎都用 <code class="inline-code">heapq</code>（标准库无索引堆）</li>
+<li><strong>取值范围与复杂度对照</strong>：</li>
+<li>朴素数组：找 min $ O(V) $ × 共 $ V $ 轮 → <strong>$ O(V^2) $</strong>（堆优化中的退化选择）</li>
+<li>二叉堆 + 惰性删除：堆中允许过期条目（出堆时检查 visited），每边最多 2 次入堆 → <strong>$ O(E \log V) $</strong></li>
+<li>斐波那契堆（理论）：decrease-key 摊还 $ O(1) $ → <strong>$ O(E + V\log V) $</strong>（仅论文/竞赛层面意义）</li>
+<li><strong>对结果的影响</strong>：不影响结果；影响时间与内存（惰性堆峰值大小 $ O(E) $，可临时膨胀）</li>
+<li><strong>推荐设置</strong>：Python 直接 <code class="inline-code">heapq</code> + 惰性删除，简单且够快；面试手写时它是标准答案写法</li>
+</ul>
+
+<p>#### 参数 4：key[ ] 数组（候选距离表）</p>
+
+<ul>
+<li><strong>含义</strong>：<code class="inline-code">key[v]</code> 存顶点 v 「连入当前树的最小候选边权」，是 Prim 与 Dijkstra 最像的地方</li>
+<li><strong>类型</strong>：一维数组，元素为 int/float</li>
+<li><strong>默认值</strong>：全部初始化为 <strong>+∞</strong>（表示尚无边可达），<code class="inline-code">key[start] = 0</code></li>
+<li><strong>取值范围</strong>：$ [0, \infty) $；已入树顶点的 key 可视为「锁定值」不再参与</li>
+<li><strong>对结果的影响</strong>：初值错误（如初始化为 0）会让算法一开始就把所有点视为可达；松弛方向写反（用 <code class="inline-code">key[u] + w</code> 累加）会退化成 Dijkstra 语义——<strong>Prim 是 <code class="inline-code">key[v] = min(key[v], w(u,v))</code>，没有加法！</strong></li>
+<li><strong>推荐设置</strong>：<code class="inline-code">INF = float('inf')</code> 或远大于所有边权之和的整数（避免溢出）</li>
+</ul>
+
+<p>#### 参数 5：visited[ ] 数组（入树标记）</p>
+
+<ul>
+<li><strong>含义</strong>：标记顶点是否已被吸收进树 $ U $，是防止成环、防止重复处理的关键</li>
+<li><strong>类型</strong>：一维布尔数组</li>
+<li><strong>默认值</strong>：全部 <code class="inline-code">False</code></li>
+<li><strong>取值范围</strong>：<code class="inline-code">True / False</code></li>
+<li><strong>对结果的影响</strong>：<strong>漏判visited会导致环</strong>（错误结果）；堆的惰性删除写法中，出堆时若 <code class="inline-code">visited</code> 已真必须 <code class="inline-code">continue</code> 跳过过期条目，否则同一点会被多次入树</li>
+<li><strong>推荐设置</strong>：入树瞬间立即置 <code class="inline-code">True</code>；也可用「key 数组 + 集合」替代</li>
+</ul>
+
+<p>#### 参数 6：parent[ ] 数组（前驱表，还原树）</p>
+
+<ul>
+<li><strong>含义</strong>：<code class="inline-code">parent[v]</code> 记录 v 是「经过哪个顶点」被拉进树的，配合 <code class="inline-code">key[v]</code> 可还原出整棵 MST 的边集合</li>
+<li><strong>类型</strong>：一维整数数组</li>
+<li><strong>默认值</strong>：全部 -1</li>
+<li><strong>取值范围</strong>：$ [-1, V) $；<code class="inline-code">parent[start] = -1</code> 恒成立</li>
+<li><strong>对结果的影响</strong>：不影响 w(T)，只影响输出形式；求「具体选了哪些边 / 打印建设方案」时必需</li>
+<li><strong>推荐设置</strong>：松弛成功时同步写 <code class="inline-code">parent[v] = u^*</code>，务必与 key 更新放在同一个 if 分支里</li>
+</ul>
+
+<p>#### 参数 7：networkx.minimum_spanning_tree 的参数（库函数层）</p>
+
+<ul>
+<li><strong>含义</strong>：Python 生态里直接可用的 MST 接口，支持指定 Prim</li>
+<li><strong>类型</strong>：<code class="inline-code">minimum_spanning_tree(G, weight='weight', algorithm='prim', ignore_nan=False)</code></li>
+<li><strong>默认值</strong>：<code class="inline-code">weight='weight'</code>（读取边属性名）、<code class="inline-code">algorithm='kruskal'</code>（默认克鲁斯卡尔）、<code class="inline-code">ignore_nan=False</code></li>
+<li><strong>取值范围</strong>：<code class="inline-code">algorithm ∈ {'kruskal', 'prim', 'boruvka'}</code>；<code class="inline-code">weight</code> 为边属性字符串；<code class="inline-code">ignore_nan</code> 为布尔</li>
+<li><strong>对结果的影响</strong>：<code class="inline-code">algorithm</code> 不改变最小权值（三者同解，多解时可能选边不同）；<code class="inline-code">weight</code> 指定用哪条边属性当权重；<code class="inline-code">ignore_nan=True</code> 时把含 NaN 的边当作不存在，<code class="inline-code">False</code> 则抛异常</li>
+<li><strong>推荐设置</strong>：竞赛/面试手写为主；工程脚本用 networkx 时指定 <code class="inline-code">algorithm='prim'</code> 即可复现本文逻辑</li>
+</ul>
+
+<h4>代码示例</h4>
+
+<p><pre class="code-block"><code class="language-python">import heapq                                    # 导入标准库二叉堆（小根堆）
+
+def prim_mst(n, adj, start=0):
+    &quot;&quot;&quot;
+    堆优化 Prim 求最小生成树
+    n: 顶点数(编号0..n-1)  adj: 邻接表 adj[u] = [(v, w), ...]  start: 起点编号
+    返回: (最小总权值, 树的边列表)
+    &quot;&quot;&quot;
+    INF = float(&#x27;inf&#x27;)                          # 无穷大哨兵，表示「尚无候选边」
+    visited = [False] * n                       # visited[v]：顶点v是否已入树(初始都未入)
+    key = [INF] * n                             # key[v]：v连入树的最小候选边权(初始+∞)
+    parent = [-1] * n                           # parent[v]：v经哪个顶点入树(初始-1，用于还原树)
+    key[start] = 0                              # 起点到“树”的距离定义为0，保证第一个出堆的是起点
+    heap = [(0, start)]                         # 堆元素：(到树的最短边权, 顶点)，惰性删除写法
+    total, edges = 0, []                        # total：累计边权；edges：选中的树边列表
+
+    while heap:                                 # 堆不空则树外还有候选(连通图会在选满n个点后自然排空)
+        w_u, u = heapq.heappop(heap)            # 弹出当前离树最近的顶点u及其边权w_u
+        if visited[u]:                          # 惰性删除：u早已入树，这是过期条目
+            continue                            #   直接跳过，不重复处理
+        visited[u] = True                       # 正式把u吸收进树U
+        total += w_u                            # 累加这条“入树边”的权值
+        if parent[u] != -1:                     # 起点没有入树边，其余点记录(parent[u], u, w_u)
+            edges.append((parent[u], u, w_u))   # 保存树边，供还原/打印建设方案
+        for v, w in adj[u]:                     # 松弛：遍历新点u的所有邻居v
+            if not visited[v] and w &lt; key[v]:   # 仅处理树外点，且找到更短的候选边
+                key[v] = w                      # 更新v连入树的最小边权(注意是w不是key[u]+w)
+                parent[v] = u                   # 同步记录前驱，v将来经u入树
+                heapq.heappush(heap, (w, v))    # 新候选条目入堆，旧条目留在堆中作废即可
+    return total, edges                         # 返回最小总权值与最小生成树的边集
+
+# ---- 演示：与上方示意图同构的 7 顶点带权图 ----
+n = 7                                                        # 顶点数 A,B,C,D,E,F,G → 0..6
+def E(u, v, w): adj[u].append((v, w)); adj[v].append((u, w))  # 无向边双向登记的辅助函数
+adj = [[] for _ in range(n)]                                 # 初始化空邻接表
+E(0, 1, 4); E(0, 2, 3); E(1, 3, 2); E(1, 4, 7)               # A-B=4, A-C=3, B-D=2, B-E=7
+E(2, 4, 5); E(3, 5, 6); E(4, 5, 1); E(4, 6, 8)               # C-E=5, D-F=6, E-F=1, E-G=8
+print(prim_mst(n, adj, start=0))                             # 输出: (21, [(2,0,3),(1,0,4),(3,1,2),(4,2,5),(5,4,1),(4,6,8)])</code></pre></p>
+
+<h4>复杂度分析</h4>
+
+<p><strong>时间复杂度</strong>（堆优化 + 惰性删除）：</p>
+<ul>
+<li>每条无向边最多触发 2 次 <code class="inline-code">heappush</code>（两个端点各入树一次时各松弛一次），入堆操作总量 $ O(E) $；每次 push/pop 代价 $ O(\log H) $，堆峰值 $ H \le 2E $，故 $ T = O(E \log E) $</li>
+<li>由 $ E \le V(V-1)/2 \Rightarrow \log E \le 2 \log V $，等价写为 $ O(E \log V) $</li>
+<li>朴素实现（数组扫 min）：外层 $ V $ 轮 × 每轮扫 $ V $ 个 key + 扫全部边 → $ O(V^2) $，<strong>与 E 无关</strong></li>
+<li>稀疏图（$ E = O(V) $）：堆版 $ O(V\log V) $ 优于朴素；稠密图（$ E = O(V^2) $）：堆版 $ O(V^2 \log V) $ 反而劣于朴素 $ O(V^2) $</li>
+</ul>
+
+<p><strong>空间复杂度</strong>：</p>
+<ul>
+<li>邻接表 $ O(V + E) $ + key/parent/visited 三数组 $ O(V) $ + 堆峰值 $ O(E) $ → 总计 $ O(V + E) $</li>
+</ul>
+
+<h4>应用场景</h4>
+
+<ul>
+<li><strong>通信/电力网络设计</strong>：n 个机房/基站用最少光缆/线缆连通（权=距离或造价），是 MST 最经典落地场景，装维工程中「片区组网最小布线」问题即为此模型</li>
+<li><strong>网络协议与链路冗余计算</strong>：以太网 STP 消除二层环路的思想与生成树高度同源；SDN 控制器做最小开销拓扑计算</li>
+<li><strong>聚类分析</strong>：单链接层次聚类的「最小间距合并」本质是 MST 逐步生长，切掉 MST 里最长的几条边即得簇</li>
+<li><strong>图像分割</strong>：把像素视为顶点、相邻像素亮度差为边权，MST 切边法是经典快速分割管线（Felzenszwalb 算法核心）</li>
+<li><strong>TSP 近似解</strong>：先求 MST 再前序遍历，可得到不超过最优 2 倍的旅行商回路（度量空间下）</li>
+<li><strong>电路布线与管线铺设</strong>：自来水管网、燃气管网的最小连通成本规划</li>
+</ul>
+
+<h4>参考文档</h4>
+
+<ul>
+<li><a href="https://www.cnblogs.com/Ash-ly/p/5409904.html" target="_blank" class="ref-link">最小生成树(MST) — Prim 算法 - 博客园</a></li>
+<li><a href="https://cloud.tencent.com/developer/article/1424759" target="_blank" class="ref-link">图论中的最小生成树详解 - 腾讯云开发者社区</a></li>
+<li><a href="https://www.cnblogs.com/luruiyuan/articles/5528406.html" target="_blank" class="ref-link">Prim 算法与 Kruskal 算法对比 - 博客园</a></li>
+<li><a href="https://blog.csdn.net/xiaoyuuoo/article/details/144297586" target="_blank" class="ref-link">Prim 算法原理详解（C++ 实现）- CSDN</a></li>
+</ul>
+
+
+<hr>
+
+<h3>Q-Learning</h3>
+
+<p><strong>类别</strong>：强化学习 | <strong>难度</strong>：中等</p>
+
+<h4>算法简介</h4>
+
+<p>Q-Learning 由 Chris Watkins 于 1989 年提出，是<strong>值函数方法</strong>中最经典的无模型（model-free）强化学习算法。它不依赖环境的转移概率模型，仅靠「智能体与环境试错交互」学出一张 <strong>Q 表</strong>：<code class="inline-code">Q(s, a)</code> 存「在状态 s 执行动作 a，之后一直按最优策略走的期望累计奖励」。核心机制是<strong>时序差分（TD）学习</strong>：每走一步，用「实际拿到的即时奖励 + 下一状态的乐观估计（max）」去修正当前 Q 值，公式为 $ Q \leftarrow Q + \alpha[r + \gamma\max_{a'}Q(s',a') - Q] $。它是 <strong>off-policy</strong> 算法——行为策略（例如 ε-greedy 探索）与被评估的目标策略（贪心 argmax）可以不同，这意味着探索充分性不影响学到的目标是最优的。在所有状态-动作对被无限次访问且满足 Robbins-Monro 随机近似条件（学习率衰减）的前提下，Q-Learning 以概率 1 收敛到最优动作值函数 $ Q^* $。表格版适用于中小规模离散状态空间；状态爆炸时它升级为 DQN（用神经网络逼近 Q），是 DeepMind 2015 年 Atari 的直系祖先。</p>
+
+<h4>原理示意图</h4>
+
+<p><div class="algo-image"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 900 490" font-family="sans-serif">
+  <defs>
+    <marker id="arrow2" markerWidth="8" markerHeight="6" refX="4" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#6366f1"/>
+    </marker>
+    <marker id="arrowGre" markerWidth="8" markerHeight="6" refX="4" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#22c55e"/>
+    </marker>
+  </defs>
+  <rect width="900" height="490" fill="#1e293b" rx="12"/>
+  <text x="450" y="30" text-anchor="middle" fill="#818cf8" font-size="15" font-weight="600">Q-Learning：交互循环 + Q 表 + TD 更新流程</text>
+
+  <!-- 左侧：agent-environment 循环 -->
+  <text x="225" y="62" text-anchor="middle" fill="#94a3b8" font-size="12">① 智能体-环境交互循环（每个时间步 t 循环一次）</text>
+  <rect x="130" y="80" width="190" height="52" rx="10" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="225" y="102" text-anchor="middle" fill="#e2e8f0" font-size="14" font-weight="bold">智能体 Agent</text>
+  <text x="225" y="121" text-anchor="middle" fill="#94a3b8" font-size="11">持有 Q 表 + ε-greedy 策略</text>
+  <rect x="130" y="230" width="190" height="52" rx="10" fill="#334155" stroke="#818cf8" stroke-width="2"/>
+  <text x="225" y="252" text-anchor="middle" fill="#e2e8f0" font-size="14" font-weight="bold">环境 Environment</text>
+  <text x="225" y="271" text-anchor="middle" fill="#94a3b8" font-size="11">迷宫/游戏/网络任务等</text>
+  <line x1="185" y1="132" x2="185" y2="228" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow2)"/>
+  <text x="95" y="185" text-anchor="middle" fill="#818cf8" font-size="12">动作 aₜ</text>
+  <text x="95" y="202" text-anchor="middle" fill="#94a3b8" font-size="10">(ε 概率随机/1−ε 取 max)</text>
+  <line x1="265" y1="228" x2="265" y2="134" stroke="#22c55e" stroke-width="2" marker-end="url(#arrowGre)"/>
+  <text x="345" y="185" text-anchor="middle" fill="#22c55e" font-size="12">奖励 rₜ₊₁</text>
+  <text x="345" y="202" text-anchor="middle" fill="#94a3b8" font-size="10">+ 新状态 sₜ₊₁</text>
+
+  <!-- 右上：Q 表 -->
+  <text x="650" y="62" text-anchor="middle" fill="#94a3b8" font-size="12">② Q 表：行=状态 s，列=动作 a，值为 Q(s,a)</text>
+  <rect x="480" y="75" width="390" height="140" rx="8" fill="#0f172a" stroke="#334155"/>
+  <text x="515" y="100" fill="#818cf8" font-size="12" font-weight="bold">状态\动作</text>
+  <text x="620" y="100" text-anchor="middle" fill="#94a3b8" font-size="12">↑上</text>
+  <text x="700" y="100" text-anchor="middle" fill="#94a3b8" font-size="12">↓下</text>
+  <text x="780" y="100" text-anchor="middle" fill="#94a3b8" font-size="12">←左</text>
+  <text x="850" y="100" text-anchor="middle" fill="#94a3b8" font-size="12">→右</text>
+  <text x="515" y="128" fill="#94a3b8" font-size="12">s₀(起点)</text>
+  <text x="620" y="128" text-anchor="middle" fill="#e2e8f0" font-size="12">-1.2</text>
+  <text x="700" y="128" text-anchor="middle" fill="#e2e8f0" font-size="12">-2.1</text>
+  <text x="780" y="128" text-anchor="middle" fill="#e2e8f0" font-size="12">-1.8</text>
+  <text x="850" y="128" text-anchor="middle" fill="#22c55e" font-size="12" font-weight="bold">0.9</text>
+  <text x="515" y="152" fill="#94a3b8" font-size="12">s₃</text>
+  <text x="620" y="152" text-anchor="middle" fill="#e2e8f0" font-size="12">-1.5</text>
+  <text x="700" y="152" text-anchor="middle" fill="#22c55e" font-size="12" font-weight="bold">1.3</text>
+  <text x="780" y="152" text-anchor="middle" fill="#e2e8f0" font-size="12">-0.9</text>
+  <text x="850" y="152" text-anchor="middle" fill="#e2e8f0" font-size="12">-1.1</text>
+  <text x="515" y="176" fill="#94a3b8" font-size="12">s₇(陷阱)</text>
+  <text x="620" y="176" text-anchor="middle" fill="#f97316" font-size="12">-10</text>
+  <text x="700" y="176" text-anchor="middle" fill="#f97316" font-size="12">-10</text>
+  <text x="780" y="176" text-anchor="middle" fill="#f97316" font-size="12">-10</text>
+  <text x="850" y="176" text-anchor="middle" fill="#f97316" font-size="12">-10</text>
+  <text x="515" y="200" fill="#94a3b8" font-size="12">s₈(终点)</text>
+  <text x="620" y="200" text-anchor="middle" fill="#94a3b8" font-size="12">0</text>
+  <text x="700" y="200" text-anchor="middle" fill="#94a3b8" font-size="12">0</text>
+  <text x="780" y="200" text-anchor="middle" fill="#94a3b8" font-size="12">0</text>
+  <text x="850" y="200" text-anchor="middle" fill="#94a3b8" font-size="12">0</text>
+  <text x="610" y="192" text-anchor="middle" fill="#94a3b8" font-size="10"></text>
+
+  <!-- 底部：TD 更新五步流程 -->
+  <text x="450" y="322" text-anchor="middle" fill="#94a3b8" font-size="12">③ TD 更新流水线：每步交互后立即执行</text>
+  <rect x="60" y="345" width="130" height="46" rx="8" fill="#334155" stroke="#6366f1"/>
+  <text x="125" y="365" text-anchor="middle" fill="#e2e8f0" font-size="12">观测 s, a, r, s'</text>
+  <text x="125" y="382" text-anchor="middle" fill="#94a3b8" font-size="10">四元组经验</text>
+  <line x1="190" y1="368" x2="225" y2="368" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow2)"/>
+  <rect x="228" y="345" width="150" height="46" rx="8" fill="#334155" stroke="#6366f1"/>
+  <text x="303" y="365" text-anchor="middle" fill="#e2e8f0" font-size="12">TD 目标 y</text>
+  <text x="303" y="382" text-anchor="middle" fill="#22c55e" font-size="11">y = r + γ·max Q(s',·)</text>
+  <line x1="378" y1="368" x2="413" y2="368" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow2)"/>
+  <rect x="416" y="345" width="130" height="46" rx="8" fill="#334155" stroke="#6366f1"/>
+  <text x="481" y="365" text-anchor="middle" fill="#e2e8f0" font-size="12">时序差分误差</text>
+  <text x="481" y="382" text-anchor="middle" fill="#f97316" font-size="11">δ = y − Q(s,a)</text>
+  <line x1="546" y1="368" x2="581" y2="368" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow2)"/>
+  <rect x="584" y="345" width="150" height="46" rx="8" fill="#334155" stroke="#6366f1"/>
+  <text x="659" y="365" text-anchor="middle" fill="#e2e8f0" font-size="12">小步修正 Q 值</text>
+  <text x="659" y="382" text-anchor="middle" fill="#818cf8" font-size="11">Q ← Q + α·δ</text>
+  <line x1="734" y1="368" x2="769" y2="368" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow2)"/>
+  <rect x="772" y="345" width="110" height="46" rx="8" fill="#22c55e" stroke="#22c55e" fill-opacity="0.15"/>
+  <text x="827" y="365" text-anchor="middle" fill="#22c55e" font-size="12">收敛</text>
+  <text x="827" y="382" text-anchor="middle" fill="#94a3b8" font-size="10">Q → Q*</text>
+
+  <text x="450" y="432" text-anchor="middle" fill="#94a3b8" font-size="12">关键直觉：Q(s,a) 不断向「更晚但更准」的估计 y 校正，误差 δ 学名『惊喜』——预测之外的奖惩</text>
+  <text x="450" y="460" text-anchor="middle" fill="#f97316" font-size="12">注意：求 max 时s'用的是贪心目标策略(off-policy)，而探索时选 a 用的是 ε-greedy 行为策略——两者分离</text>
+</svg></div></p>
+
+<h4>数学公式</h4>
+
+<p><strong>公式 1：折扣累计回报（学习目标）</strong></p>
+
+<p><div class="math-block">$$ G_t = r_{t+1} + \gamma r_{t+2} + \gamma^2 r_{t+3} + \cdots = \sum_{k=0}^{\infty} \gamma^k \, r_{t+k+1} $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ G_t $：从时刻 $ t $ 起长期看总共能拿到的折扣奖励和（回报）</li>
+<li>$ r_{t+k+1} $：第 $ k+1 $ 步之后环境反馈的即时奖励</li>
+<li>$ \gamma \in [0, 1) $：折扣因子，越往后的奖励打折越狠，保证无穷级数收敛并体现「远期奖励不如近期」的偏好</li>
+</ul>
+
+<p><strong>公式 2：贝尔曼最优方程（Q 的不动点）</strong></p>
+
+<p><div class="math-block">$$ Q^*(s, a) = \mathbb{E}_{s' \sim P}\left[\, r + \gamma \max_{a'} Q^*(s', a') \,\middle|\, s, a \right] $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ Q^*(s,a) $：最优动作值函数——状态 s 做动作 a 后<strong>永远按最优策略</strong>行动的期望回报</li>
+<li>$ \mathbb{E}_{s' \sim P} $：对环境的随机转移 $ P(s'|s,a) $ 取期望（环境有随机性，如 FrozenLake 会打滑）</li>
+<li>$ r $：本步即时奖励</li>
+<li>$ \max_{a'} Q^*(s', a') $：下一个状态的<strong>乐观估计</strong>（假设之后都走最优）——这正是 Q-Learning off-policy 的根源</li>
+</ul>
+
+<p><strong>公式 3：Q-Learning 的 TD 更新规则（唯一的训练公式）</strong></p>
+
+<p><div class="math-block">$$ Q(s_t, a_t) \leftarrow Q(s_t, a_t) + \alpha \Big[\underbrace{r_{t+1} + \gamma \max_{a'} Q(s_{t+1}, a')}_{\text{TD 目标 } y_t} - Q(s_t, a_t)\Big] $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ \alpha \in (0, 1] $：学习率，新旧估计的混合比例（0.1 表示只吸收 10% 的误差）</li>
+<li>$ y_t = r_{t+1} + \gamma \max_{a'} Q(s_{t+1},a') $：TD 目标，一个「事后看到更多真相」的估计</li>
+<li>$ \delta_t = y_t - Q(s_t,a_t) $：时序差分误差（TD error），衡量「惊喜」程度</li>
+<li>只有单步采样（不需要完整回合），即 bootstrap 自举：用估计修正估计</li>
+</ul>
+
+<p><strong>公式 4：ε-greedy 行为策略</strong></p>
+
+<p><div class="math-block">$$ \pi(a \mid s) = \begin{cases} \text{随机动作（等概率）} & \text{概率 } \epsilon \\ \arg\max_a Q(s, a) & \text{概率 } 1 - \epsilon \end{cases} $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ \epsilon \in [0,1] $：探索概率，控制「尝鲜」频率</li>
+<li>$ \arg\max_a Q(s,a) $：当前 Q 表下的贪心动作（利用 exploitation）</li>
+<li>随机探索保证每个 (s,a) 都有机会被访问→收敛的必要条件；训练后期衰减 ε 以稳定收敛</li>
+</ul>
+
+<p><strong>公式 5：收敛定理（Watkins & Dayan, 1992）</strong></p>
+
+<p><div class="math-block">$$ \lim_{t \to \infty} Q_t(s, a) = Q^*(s, a) \ \text{(wp 1)}, \quad \text{若 } \sum_t \alpha_t = \infty,\ \sum_t \alpha_t^2 < \infty,\ \text{所有}(s,a)\text{被无限次访问} $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>条件一 $ \sum \alpha_t = \infty $：学习率不能衰减太快，保证误差终能清零（步子总和要够长）</li>
+<li>条件二 $ \sum \alpha_t^2 < \infty $：方差要收敛，步子平方和有限（不能永远大步长震荡）</li>
+<li>条件三：持续探索（ε-greedy + 衰减即满足）；工程上常用固定小 ε 牺牲理论保证换实用稳定</li>
+</ul>
+
+<h4>核心要点</h4>
+
+<ul>
+<li><strong>off-policy 双策略</strong>：训练用 ε-greedy（保探索），收敛目标用 greed argmax（保最优）；体验策略不重要，表格里的 Q 才是学到的「最优策略」</li>
+<li><strong>TD 单步自举</strong>：无需环境模型、无需完整回合、无需蒙特卡洛等到终局，每一步都立刻小幅修正 Q</li>
+<li><strong>max 过高估计偏差</strong>：$ \max $ 算子会系统性高估（毕竟取的是含噪声估计的最大值），后续 Double Q-Learning（拆两组表分别选与估）专门修这个偏差</li>
+<li><strong>适用范围</strong>：状态与动作都得<strong>离散且可枚举</strong>，Q 表规模 $ |S| \times |A| $；连续/高维状态需先离散化或改用 DQN/Actor-Critic</li>
+<li><strong>奖励设计是半条命</strong>：稀疏奖励（只有终点 +1）学习极慢，负的步进奖励（每步 -0.01）能加速收敛但可能诱发「走捷径冒险」</li>
+<li><strong>冷启动与探索衰减配合</strong>：前期大 ε 广撒网，后期小 ε 精利用；ε 衰减太慢浪费时间，太快会过早锁死次优路径</li>
+</ul>
+
+<h4>技术细节与参数详解</h4>
+
+<p>#### 参数 1：α — 学习率（learning rate）</p>
+
+<ul>
+<li><strong>含义</strong>：TD 误差 $ \delta $ 中被吸收进新 Q 值的比例，控制单次更新幅度</li>
+<li><strong>类型</strong>：float（sklearn 之外的裸实现中直接写为超参数）</li>
+<li><strong>默认值</strong>：社区惯用 0.1（无官方默认，自行设定）</li>
+<li><strong>取值范围</strong>：(0, 1]</li>
+<li><strong>对结果的影响</strong>：α 大→学得快但 Q 值震荡、对随机环境的噪声敏感、可能不收敛；α 小→收敛平稳但需要海量交互样本；α=1 完全相信最新 TD 目标（随机环境下 Q 剧烈抖动）。理论收敛要 α 按 Robbins-Monro 条件衰减（如 $ \alpha_t = 1/(N(s,a)+1) $）</li>
+<li><strong>推荐设置</strong>：<strong>确定性环境取 0.5–1.0</strong>（无噪声，大步收敛反而快，迷宫必走最优）；<strong>随机环境（有打滑/噪声）取 0.1–0.3</strong> 并随回合衰减，或直接用 $ \alpha = 0.1 $ 配合大量 episode</li>
+</ul>
+
+<p>#### 参数 2：γ — 折扣因子（discount factor）</p>
+
+<ul>
+<li><strong>含义</strong>：未来第 k 步奖励的打折率，编码「远期值多少钱」；也保证无穷回报收敛</li>
+<li><strong>类型</strong>：float</li>
+<li><strong>默认值</strong>：0.9 / 0.95（Gymnasium 教程常客）</li>
+<li><strong>取值范围</strong>：[0, 1)。γ=0 目光最短浅：只看即时奖励 r；γ→1 完全有远见：无限看重长期回报（回合任务可取 0.99+，连续任务勿取 1 否则回报发散）</li>
+<li><strong>对结果的影响</strong>：γ 小→学出「功利短视」策略（绕近道拿小奖励，放弃远处大奖励）；γ 大→有耐心规划长线，但信用分配链变长、学习变慢；跨回合任务若 γ 太接近 1，Q 值可能难以稳定</li>
+<li><strong>推荐设置</strong>：标准迷宫/寻路 γ=0.9~0.95；有明确终局的棋类/关卡任务 γ=0.99；只想优化即时 KPI 时 γ=0.3~0.5</li>
+</ul>
+
+<p>#### 参数 3：ε — 探索率（exploration rate，ε-greedy）</p>
+
+<ul>
+<li><strong>含义</strong>：每步以 ε 概率随机选动作（探索），1−ε 概率取 Q 表最优（利用）</li>
+<li><strong>类型</strong>：float</li>
+<li><strong>默认值</strong>：初始化 1.0，随训练衰减</li>
+<li><strong>取值范围</strong>：[0, 1]。ε=1 纯随机（Q 表被随机数据喂饱但不使用）；ε=0 纯贪心（可能永远锁死在第一次选的路径上，学不出最优）</li>
+<li><strong>对结果的影响</strong>：ε 大→样本覆盖广、收敛慢但稳；ε 小→利用充分但易陷入局部次优路径；固定 ε 会造成策略评估期末端永远带随机性</li>
+<li><strong>推荐设置</strong>：ε 从 1.0 起步按每回合乘 0.995–0.999 指数衰减，下限 clamp 到 ε_min=0.05，兼顾早期广覆盖与后期高利用</li>
+</ul>
+
+<p>#### 参数 4：ε 衰减率与 ε_min（decay / min epsilon）</p>
+
+<ul>
+<li><strong>含义</strong>：ε 的指数衰减系数与地板值，两者共同决定「探索→利用」的换挡节奏</li>
+<li><strong>类型</strong>：float（decay 常写 $ \epsilon \leftarrow \max(\epsilon_{\min},\ \epsilon \times \text{decay}) $）</li>
+<li><strong>默认值</strong>：decay=0.995，ε_min=0.05（500~2000 回合规模的常见配比）</li>
+<li><strong>取值范围</strong>：decay ∈ (0.9, 1)；ε_min ∈ [0, 0.2]</li>
+<li><strong>对结果的影响</strong>：衰减过快（0.95/回合）→探索窗口太短，学不到关键状态；过慢（0.999+ 短任务）→全程随机行为，Q 虽在学但策略表现差；ε_min 设 0 在非平稳环境会丧失再探索能力</li>
+<li><strong>推荐设置</strong>：让 ε 大约在「总回合数的 70–80% 处」降到地板值，反推 decay；即 decay ≈ ($ \epsilon_{min}/\epsilon_0 $)^(1/(0.75×总回合))</li>
+</ul>
+
+<p>#### 参数 5：episodes — 训练回合数</p>
+
+<ul>
+<li><strong>含义</strong>：完整「起点→终点（或截断）」的交互轮数，决定总样本量</li>
+<li><strong>类型</strong>：int</li>
+<li><strong>默认值</strong>：1000（玩具任务）；复杂网格 5000~10000</li>
+<li><strong>取值范围</strong>：正整数；受「每个 (s,a) 至少被访问多次」约束</li>
+<li><strong>对结果的影响</strong>：太少→少见状态（如靠近陷阱的关键格子）Q 仍为初值；太多→浪费算力（可配「早停：连续 N 回合走同一路径」缓解）；回合数与 ε 衰减、α 衰减节奏联动</li>
+<li><strong>推荐设置</strong>：小网格 1000–2000 起，看「最近 100 回合平均回报」曲线平了再加量；别拍脑袋定死</li>
+</ul>
+
+<p>#### 参数 6：max_steps — 单回合步数上限</p>
+
+<ul>
+<li><strong>含义</strong>：一个回合最多走几步，超出即截断，防止智能体在环里打转烧时间</li>
+<li><strong>类型</strong>：int</li>
+<li><strong>默认值</strong>：100（小任务）；常取状态数的 5–10 倍</li>
+<li><strong>取值范围</strong>：正整数；必须显著大于最优路径长度</li>
+<li><strong>对结果的影响</strong>：设太小→没到终点就被掐断，终止奖励学不到（信用分配断裂）；设太大→早期随机乱走的回合极耗时；截断处是否给负奖励也影响学习（一般不给、直接开始新回合）</li>
+<li><strong>推荐设置</strong>：约为最短路径长度的 10 倍并向上取整；或训练中后期逐步收紧（课程式学习）</li>
+</ul>
+
+<p>#### 参数 7：Q 表初始化（init value）</p>
+
+<ul>
+<li><strong>含义</strong>：训练开始前 Q(s,a) 的初始值</li>
+<li><strong>类型</strong>：float 或全 0 数组</li>
+<li><strong>默认值</strong>：全 0（np.zeros((n_states, n_actions))）</li>
+<li><strong>取值范围</strong>：任意实数；<strong>乐观初始化</strong>（如全 +5）也是合法技巧</li>
+<li><strong>对结果的影响</strong>：全 0 起步在「负奖励主导」的环境里会触发大量「系统性不尝试」——所有动作估值为 0、贪心总挑第一个动作，探索不足；乐观大初值让每个 (s,a) 至少被试一次（试过就降回真实值），自带内置探索</li>
+<li><strong>推荐设置</strong>：正奖励稀疏环境用乐观初始化（+1 以上）；带负奖励的稠密环境用全 0 即可，配合 ε-greedy 补探索</li>
+</ul>
+
+<p>#### 参数 8：奖励函数设计（reward shaping）</p>
+
+<ul>
+<li><strong>含义</strong>：环境对每种转移给出的即时数值 r(s, a, s')，直接决定 Q 表的含义</li>
+<li><strong>类型</strong>：由任务定义，常为：到达终点 +1~+100、掉陷阱 −1~−100、普通移动 −0.001~−0.01（或 0）</li>
+<li><strong>默认值</strong>：经典 FrozenLake：终点 +1、洞 0、空格 0（稀疏奖励）</li>
+<li><strong>取值范围</strong>：实数（量纲和量级要一致）</li>
+<li><strong>对结果的影响</strong>：稀疏奖励（只有终局 ±1）最纯粹但学习极慢；步进负奖励催促赶路却可能诱发「冒险抄近道」；陷阱重罚使策略绕远保命；量级失衡（终点 +1 vs 步罚 −0.5）会让智能体宁可原地打转也不奔终点——<strong>奖励即目标，写歪一步整个学习方向歪</strong></li>
+<li><strong>推荐设置</strong>：终点奖励绝对值 >= 全程步罚总和的 10 倍；每步小负奖励 −0.01 量级；陷阱 −1（勿设过巨，否则早期 Q 全是深坑学不动）</li>
+</ul>
+
+<h4>代码示例</h4>
+
+<p><pre class="code-block"><code class="language-python">import numpy as np                                                # 数值计算库，Q表即二维数组
+
+# ── 3×4 网格世界：S 起点、G 终点、T 陷阱、# 墙 ──
+GRID = [[&#x27;S&#x27;, &#x27;.&#x27;, &#x27;.&#x27;, &#x27;.&#x27;],                                     # 行0
+        [&#x27;.&#x27;, &#x27;#&#x27;, &#x27;.&#x27;, &#x27;T&#x27;],                                     # 行1：#为墙 T为陷阱
+        [&#x27;.&#x27;, &#x27;.&#x27;, &#x27;.&#x27;, &#x27;G&#x27;]]                                     # 行2：G为终点
+ROWS, COLS = len(GRID), len(GRID[0])                              # 网格尺寸：3行4列
+N_STATES = ROWS * COLS                                            # 状态数=格子数=12（状态编码=行×列数+列）
+N_ACTIONS = 4                                                     # 动作数：0上 1下 2左 3右
+
+def to_state(r, c):                                               # (行,列)→状态编号
+    return r * COLS + c                                           # 压缩成一维索引，方便查Q表
+
+def step(state, action):                                          # 环境转移函数：返回(下一状态,奖励,是否结束)
+    r, c = divmod(state, COLS)                                    # 解码回行列坐标
+    dr, dc = [(-1,0),(1,0),(0,-1),(0,1)][action]                  # 动作到位移的映射表：上/下/左/右
+    nr, nc = r + dr, c + dc                                       # 计算目标格
+    if not (0 &lt;= nr &lt; ROWS and 0 &lt;= nc &lt; COLS):                   # 撞墙/出界：原地不动
+        return state, -0.1, False                                 #   给小负奖励，惩罚无效动作
+    cell = GRID[nr][nc]                                           # 查看目标格内容
+    if cell == &#x27;#&#x27;:                                               # 撞到障碍墙：弹回原地
+        return state, -0.1, False                                 #   同样小惩罚
+    if cell == &#x27;T&#x27;:                                               # 踩进陷阱：回合结束
+        return to_state(nr, nc), -1.0, True                       #   重罚 -1.0
+    if cell == &#x27;G&#x27;:                                               # 抵达终点：回合结束
+        return to_state(nr, nc), +1.0, True                       #   大奖 +1.0
+    return to_state(nr, nc), -0.01, False                         # 普通空格：轻微步罚催促赶路
+
+ALPHA = 0.1                                                       # α学习率：每步只吸收10%的TD误差(有噪声环境稳)
+GAMMA = 0.95                                                      # γ折扣因子：较有远见，看重2~20步外的终点奖励
+EPSILON, EPS_MIN, DECAY = 1.0, 0.05, 0.995                        # ε从1起步、地板0.05、每回合×0.995衰减
+EPISODES, MAX_STEPS = 1500, 100                                   # 训练1500回合、单回合至多100步防打转
+
+Q = np.zeros((N_STATES, N_ACTIONS))                               # Q表初始化全0：12行(状态)×4列(动作)
+
+for ep in range(EPISODES):                                        # ── 主训练循环：逐回合试错 ──
+    s, done, steps = to_state(0, 0), False, 0                     # 每回合从起点S出发
+    while not done and steps &lt; MAX_STEPS:                         # 未到终点且未超步数限制
+        if np.random.rand() &lt; EPSILON:                            # ε-greedy：以ε概率探索
+            a = np.random.randint(N_ACTIONS)                      #   随机选动作(保证后期少见状态也被访问)
+        else:                                                     # 1−ε概率利用
+            a = int(np.argmax(Q[s]))                              #   贪心取当前Q表最优动作(打平取列号最小)
+        s2, r, done = step(s, a)                                  # 与环境交互：拿下一状态s2、奖励r、终止标志
+        target = r + GAMMA * np.max(Q[s2])                        # TD目标 y = r + γ·maxQ(s&#x27;,·)(终局态Q[s2]无后继价值)
+        if done:                                                  # 若本步即终局(到G或T)：
+            target = r                                            #   目标里不应再加未来项，直接用r
+        Q[s, a] += ALPHA * (target - Q[s, a])                     # 核心更新：向TD目标小步校正Q(s,a)
+        s = s2                                                    # 状态滚动前移
+        steps += 1                                                # 步数计数
+    EPSILON = max(EPS_MIN, EPSILON * DECAY)                       # 回合结束：ε指数衰减但不低于地板值
+
+s, path = to_state(0, 0), [to_state(0, 0)]                        # ── 推理：用学到的Q表贪心走一遍 ──
+while True:                                                       # 从起点出发直到终点
+    a = int(np.argmax(Q[s]))                                      # 纯贪心(推理期不再探索，ε=0)
+    s, _, done = step(s, a)                                       # 按环境规则移动
+    path.append(s)                                                # 记录路径
+    if done: break                                                # 到达终点/陷阱停止
+print(&quot;总回报检验:&quot;, sum(Q[0]), &quot;| 最优路径:&quot;, path)                # 期望输出右绕墙直达G的12步内路径</code></pre></p>
+
+<h4>复杂度分析</h4>
+
+<p><strong>时间复杂度</strong>：</p>
+<ul>
+<li>单步更新：查表 $ O(1) $ + 求 $ \max_{a'} Q(s',\cdot) $ 扫动作列 $ O(A) $ → <strong>每步 $ O(A) $</strong></li>
+<li>单回合 $ O(\text{steps} \times A) $；整个训练 $ O(\text{episodes} \times \text{avg\_steps} \times A) $，与状态数无关（只访问实际遇到的状态）</li>
+<li>对比：DQN 单步需前向+反向传播神经网络 $ O(\text{网络参数量}) $；表格版胜在纯查表极快，输在状态数上限</li>
+</ul>
+
+<p><strong>空间复杂度</strong>：</p>
+<ul>
+<li>Q 表 $ O(|S| \times |A|) $——<strong>唯一的天花板</strong>：10000 状态 × 10 动作 = 10⁵ 浮点数尚可；图像状态 10⁶⁰⁺ 直接爆炸，必须换函数逼近（DQN）</li>
+<li>其余辅助变量 $ O(|S|) $（每状态访问计数等）可忽略</li>
+</ul>
+
+<h4>应用场景</h4>
+
+<ul>
+<li><strong>迷宫/网格寻路与调度</strong>：扫地机器人房间覆盖、仓库 AGV 路径决策、数据中心作业调度的经典入门模型</li>
+<li><strong>游戏 AI</strong>：FrozenLake、CliffWalking、简单棋类；状态可枚举的老式街机游戏可直接表格化</li>
+<li><strong>推荐与运营决策</strong>：冷启动场景把「用户分群×运营动作」离散成状态-动作对，以点击/转化奖励在线学策略</li>
+<li><strong>通信网络</strong>：无线信道接入选择、路由策略自适应、网络切片资源分配等可建模成离散决策序列的任务（装维侧：动态选线/择路排障策略学习）</li>
+<li><strong>更高级形态的地基</strong>：DQN/Double DQN/Dueling DQN 全部继承 Q-Learning 的 TD 更新式，只是把 Q 表换成神经网络；理解它=理解半个深度强化学习</li>
+</ul>
+
+<h4>参考文档</h4>
+
+<ul>
+<li><a href="https://cloud.tencent.com.cn/developer/article/2621023" target="_blank" class="ref-link">Q-Learning 算法实现与迷宫求解 - 腾讯云开发者社区</a></li>
+<li><a href="https://cloud.tencent.com/developer/article/1968991" target="_blank" class="ref-link">深度强化学习 Q-Learning 详解 - 腾讯云开发者社区</a></li>
+<li><a href="https://xie.infoq.cn/article/e04bbeea76913208a882d8d4d" target="_blank" class="ref-link">Q-learning 入门：以 Frozen Lake 游戏环境为例 - 极客邦 InfoQ</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/494903234" target="_blank" class="ref-link">强化学习从入门到入土(1)：基本概念 & Q-learning - 知乎</a></li>
+<li><a href="http://doi.org/10.54254/2755-2721/110/2024melb0061" target="_blank" class="ref-link">The Effect of Hyperparameters on Q-Learning Convergence (2024)</a></li>
+</ul>
+
+
+<hr>
+
+<h3>线性判别分析（LDA）</h3>
+
+<p><strong>类别</strong>：监督学习 | <strong>难度</strong>：中等</p>
+
+<h4>算法简介</h4>
+
+<p>线性判别分析（Linear Discriminant Analysis, LDA）由 R. A. Fisher 于 1936 年提出（又称 Fisher 判别法），是一种<strong>既当分类器、又当降维器</strong>的经典监督线性模型。它的核心直觉只有一句话：<strong>把数据投影到低维直线上，使得「同类投影点抱得紧（类内方差小），异类投影点离得远（类间间距大）」</strong>。与 PCA 这种「无监督、只保留总方差最大方向」的降维不同，LDA 在降维时<strong>用到了标签 y</strong>：其优化目标是广义瑞利商 $ J(w) = w^T S_B w / w^T S_W w $（分子类间散度最大化、分母类内散度最小化），二分类时解析解为 $ w \propto S_W^{-1}(\mu_1-\mu_2) $，本质是「先白化类内协方差、再连两类均值」。LDA 的判别决策面是线性的（多分类时是若干超平面），概率视角下它等价于「假设各类数据服从<strong>共享协方差矩阵</strong>的高斯分布，按最大后验分类」——所以它和 QDA（二次判别分析）是一对亲兄弟：QDA 允许各类有自己的协方差，决策面变二次曲面。当特征维度高、样本少时（如 128 维特征只有 200 个样本），LDA 的协方差估计不稳定，需要 <code class="inline-code">shrinkage</code> 正则收缩。工程上它是人脸识别 Fisherface、医学诊断、故障检测和「有标签高维数据的预降维」的常青算法。</p>
+
+<h4>原理示意图</h4>
+
+<p><div class="algo-image"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 900 480" font-family="sans-serif">
+  <defs>
+    <marker id="arrow3" markerWidth="8" markerHeight="6" refX="4" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#6366f1"/>
+    </marker>
+  </defs>
+  <rect width="900" height="480" fill="#1e293b" rx="12"/>
+  <text x="450" y="30" text-anchor="middle" fill="#818cf8" font-size="15" font-weight="600">LDA 投影：找一条方向 w，使类内紧、类间远</text>
+
+  <!-- 左图：原始二维空间中的两类 -->
+  <text x="225" y="58" text-anchor="middle" fill="#94a3b8" font-size="12">① 原始空间(x1–x2平面)：两类高斯团簇</text>
+  <!-- 类A的点 -->
+  <g fill="#818cf8" fill-opacity="0.8">
+    <circle cx="120" cy="150" r="4"/><circle cx="135" cy="140" r="4"/><circle cx="115" cy="130" r="4"/>
+    <circle cx="140" cy="158" r="4"/><circle cx="128" cy="168" r="4"/><circle cx="148" cy="148" r="4"/>
+    <circle cx="133" cy="175" r="4"/><circle cx="122" cy="183" r="4"/><circle cx="145" cy="170" r="4"/>
+  </g>
+  <!-- 类B的点 -->
+  <g fill="#22c55e" fill-opacity="0.8">
+    <circle cx="290" cy="235" r="4"/><circle cx="305" cy="228" r="4"/><circle cx="298" cy="248" r="4"/>
+    <circle cx="315" cy="240" r="4"/><circle cx="285" cy="252" r="4"/><circle cx="310" cy="257" r="4"/>
+    <circle cx="300" cy="268" r="4"/><circle cx="322" cy="250" r="4"/><circle cx="288" cy="240" r="4"/>
+  </g>
+  <text x="135" y="205" fill="#818cf8" font-size="12" font-weight="bold">类1 μ₁</text>
+  <text x="300" y="290" fill="#22c55e" font-size="12" font-weight="bold">类2 μ₂</text>
+  <circle cx="135" cy="155" r="10" fill="none" stroke="#818cf8" stroke-dasharray="3 2"/>
+  <circle cx="302" cy="244" r="10" fill="none" stroke="#22c55e" stroke-dasharray="3 2"/>
+  <!-- 连线 -->
+  <line x1="145" y1="163" x2="292" y2="236" stroke="#f97316" stroke-width="2" stroke-dasharray="6 3" marker-end="url(#arrow3)"/>
+  <text x="218" y="185" text-anchor="middle" fill="#f97316" font-size="11">μ₂−μ₁ (类间方向)</text>
+  <!-- 两条投影方向 -->
+  <line x1="60" y1="320" x2="380" y2="150" stroke="#f97316" stroke-width="2"/>
+  <text x="80" y="295" fill="#f97316" font-size="11">w₀：PCA 式方向(方差最大)</text>
+  <line x1="80" y1="110" x2="360" y2="270" stroke="#22c55e" stroke-width="2.5"/>
+  <text x="150" y="120" fill="#22c55e" font-size="11" font-weight="bold">w*：LDA 方向 S_W⁻¹(μ₂−μ₁)</text>
+  <text x="225" y="335" text-anchor="middle" fill="#94a3b8" font-size="11">PCA 方向压扁后两类会重叠（错误率高）</text>
+
+  <!-- 右图：投影到一维后的分布 -->
+  <text x="655" y="58" text-anchor="middle" fill="#94a3b8" font-size="12">② 投影到 w* 后的一维分布：完全分开</text>
+  <line x1="470" y1="160" x2="860" y2="160" stroke="#475569" stroke-width="2"/>
+  <text x="865" y="165" fill="#94a3b8" font-size="11">y</text>
+  <!-- 类1投影密度 -->
+  <path d="M 480 160 Q 510 90 540 160" fill="#818cf8" fill-opacity="0.35" stroke="#818cf8"/>
+  <text x="510" y="80" text-anchor="middle" fill="#818cf8" font-size="11">类1：y=wᵀx｜μ₁~紧</text>
+  <!-- 类2投影密度 -->
+  <path d="M 700 160 Q 730 90 760 160" fill="#22c55e" fill-opacity="0.35" stroke="#22c55e"/>
+  <text x="730" y="80" text-anchor="middle" fill="#22c55e" font-size="11">类2：窄峰，类内方差小 ✓</text>
+  <!-- 阈值 -->
+  <line x1="620" y1="145" x2="620" y2="185" stroke="#f97316" stroke-width="2" stroke-dasharray="4 3"/>
+  <text x="620" y="205" text-anchor="middle" fill="#f97316" font-size="11">判别阈值 y₀</text>
+  <!-- 类间间隔 -->
+  <line x1="545" y1="135" x2="695" y2="135" stroke="#e2e8f0" stroke-width="1.5"/>
+  <text x="620" y="128" text-anchor="middle" fill="#e2e8f0" font-size="11">类间间隔大 ✓</text>
+
+  <!-- 底部：两散度矩阵 -->
+  <rect x="70" y="250" width="760" height="200" rx="10" fill="#0f172a" stroke="#334155"/>
+  <text x="450" y="280" text-anchor="middle" fill="#818cf8" font-size="13" font-weight="600">优化目标 J(w) = wᵀS_B w / wᵀS_W w（广义瑞利商）</text>
+  <text x="105" y="315" fill="#e2e8f0" font-size="12">S_W（类内散度）：</text>
+  <text x="235" y="315" fill="#94a3b8" font-size="12">Σ_c Σ_{i∈c}(xᵢ−μ_c)(xᵢ−μ_c)ᵀ —— 分母，越小越好</text>
+  <text x="105" y="345" fill="#e2e8f0" font-size="12">S_B（类间散度）：</text>
+  <text x="235" y="345" fill="#94a3b8" font-size="12">Σ_c N_c(μ_c−μ)(μ_c−μ)ᵀ —— 分子，越大越好</text>
+  <text x="105" y="375" fill="#e2e8f0" font-size="12">投影式解：</text>
+  <text x="235" y="375" fill="#22c55e" font-size="12">w* ∝ S_W⁻¹(μ₂−μ₁)（二分类）/ 广义特征值 S_B w = λ S_W w（多分类）</text>
+  <text x="105" y="405" fill="#e2e8f0" font-size="12">多分类降维：</text>
+  <text x="235" y="405" fill="#94a3b8" font-size="12">取前 k 个最大广义特征值的特征向量 → n_components ≤ C−1（类别数减一）</text>
+  <text x="105" y="432" fill="#f97316" font-size="12">样本少的注意：</text>
+  <text x="235" y="432" fill="#94a3b8" font-size="12">n_features &gt; n_samples 时 S_W 奇异/病态 → 需要 shrinkage 收缩正则</text>
+</svg></div></p>
+
+<h4>数学公式</h4>
+
+<p><strong>公式 1：类内散度矩阵（within-class scatter）</strong></p>
+
+<p><div class="math-block">$$ S_W = \sum_{c=1}^{C} \sum_{i:\, y_i = c} (x_i - \mu_c)(x_i - \mu_c)^\top $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ C $：类别数；$ x_i \in \mathbb{R}^d $：第 i 个样本的 d 维特征向量</li>
+<li>$ \mu_c = \frac{1}{N_c}\sum_{i: y_i=c} x_i $：第 c 类的均值向量（类中心）</li>
+<li>$ N_c $：第 c 类样本数；$ (x_i-\mu_c)(x_i-\mu_c)^\top $：样本到类中心的离差外积，累积起来即各类协方差的 $ N_c $ 倍加权和</li>
+<li>直觉：衡量「同类内部抱团有多松散」，是 $ d \times d $ 矩阵，目标是让它（投影后）尽可能小</li>
+</ul>
+
+<p><strong>公式 2：类间散度矩阵（between-class scatter）</strong></p>
+
+<p><div class="math-block">$$ S_B = \sum_{c=1}^{C} N_c \, (\mu_c - \mu)(\mu_c - \mu)^\top, \qquad \mu = \frac{1}{N}\sum_{i=1}^{N} x_i $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ \mu $：全体样本的总均值向量（把所有类揉在一起的中心）</li>
+<li>$ (\mu_c - \mu) $：第 c 类中心相对全局中心的偏移，权重为类样本量 $ N_c $</li>
+<li>直觉：衡量「各类中心彼此离得多远」；二分类时 $ S_B = (\mu_1-\mu_2)(\mu_1-\mu_2)^\top $ 恒为秩 1 矩阵</li>
+</ul>
+
+<p><strong>公式 3：Fisher 判别准则（广义瑞利商，优化目标）</strong></p>
+
+<p><div class="math-block">$$ J(w) = \frac{w^\top S_B w}{w^\top S_W w} $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ w \in \mathbb{R}^d $：待求的投影方向（判别超平面的法向量）</li>
+<li>$ w^\top S_B w $：投影后的类间距离（分子，想最大）</li>
+<li>$ w^\top S_W w $：投影后的类内方差（分母，想最小）</li>
+<li>$ J(w) $ 尺度不变：$ w $ 放大 $ \lambda $ 倍分子分母同乘 $ \lambda^2 $，比值不变，因此只关心方向不关心长度</li>
+</ul>
+
+<p><strong>公式 4：二分类解析解</strong></p>
+
+<p><div class="math-block">$$ w^* \propto S_W^{-1}(\mu_1 - \mu_2) $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ S_W^{-1} $：类内散度矩阵的逆（先「白化」——沿类内分布扁的方向拉伸，把椭圆团簇捏成圆）</li>
+<li>$ (\mu_1-\mu_2) $：两类的中心连线方向</li>
+<li>直觉：<strong>先按类内形状校正空间，再连类中心</strong>——若各类是各向同性球，则退化为直接连心线；类内呈斜长条时，逆矩阵把投影方向掰向「宽度」方向以减少重叠</li>
+<li>推导：对 $ J(w) $ 求导取零，等价于广义特征值问题 $ S_B w = \lambda S_W w $；二分类时 $ S_B $ 秩 1，唯一非零特征值对应 $ \lambda = (\mu_1-\mu_2)^\top S_W^{-1}(\mu_1-\mu_2) $，特征向量即上式</li>
+</ul>
+
+<p><strong>公式 5：多分类广义特征值问题（降维解）</strong></p>
+
+<p><div class="math-block">$$ S_B w_j = \lambda_j S_W w_j, \quad j = 1, \dots, k, \qquad k \le \min(d,\ C-1) $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ w_j $：第 j 个判别方向；$ \lambda_j $：广义特征值，第 j 大的「类间/类内」分离能力</li>
+<li>$ k $：保留的判别维度数；上限 $ C-1 $ 是因 $ S_B $ 是 $ C $ 个秩 1 外积之和，秩至多 $ C-1 $（C 类均值被 1 个全局均值约束）——<strong>3 分类最多降到 2 维，这是与 PCA(可降到任意维)最大的不同</strong></li>
+<li>投影降维即 $ z = W_k^\top x,\ W_k = [w_1, \dots, w_k] $</li>
+</ul>
+
+<h4>核心要点</h4>
+
+<ul>
+<li><strong>监督降维</strong>：与 PCA 最大区别——PCA 找「总方差最大」的无监督方向（可能方向上两类糅在一起），LDA 找「可分性最强」的带标签方向；标签信息是免费的监督信号</li>
+<li><strong>降维上限 C−1</strong>：类别数减一是硬上限，多分类 LDA 的判别空间至多 $ C-1 $ 维，不是想降几维降几维</li>
+<li><strong>概率等价形式</strong>：LDA = 各类共享协方差矩阵 $ \Sigma $ 的高斯朴素贝叶斯推广版的判别函数，决策面线性；QDA 放开「共享协方差」假设则决策面为二次曲面</li>
+<li><strong>两类用法一招通吃</strong>：<code class="inline-code">fit+predict</code> 直接做线性分类器（精度常与逻辑回归互有胜负）；<code class="inline-code">fit+transform</code> 做 n_components≤C−1 的监督降维，做后续分类器的前处理</li>
+<li><strong>小样本陷阱</strong>：$ d > n $ 时 $ S_W $ 奇异（不可逆），必须用 <code class="inline-code">solver='lsqr'/'eigen' + shrinkage='auto'</code> 或先 PCA 压维——人脸识别（10304 维特征 × 几百样本）必踩此坑</li>
+<li><strong>对特征尺度敏感</strong>：散度矩阵由协方差撑起，量纲不一致（如「年龄∈[18,80] vs 收入∈[0,10⁶]」）时大数值特征主宰方向，先做 StandardScaler 标准化是标配</li>
+</ul>
+
+<h4>技术细节与参数详解</h4>
+
+<p>#### 参数 1：solver — 求解算法</p>
+
+<ul>
+<li><strong>含义</strong>：用哪种数值方法求解 LDA 的特征值分解/协方差估计</li>
+<li><strong>类型</strong>：字符串 <code class="inline-code">{'svd', 'lsqr', 'eigen'}</code></li>
+<li><strong>默认值</strong>：<code class="inline-code">'svd'</code></li>
+<li><strong>取值范围</strong>：三个可选值</li>
+<li><strong>对结果的影响</strong>：</li>
+<li><code class="inline-code">'svd'</code>：直接对数据矩阵做奇异值分解，<strong>不显式计算协方差</strong>，数值最稳、天然支持大特征数；<strong>唯一不支持 shrinkage 的选项</strong>；分类预测时有专用 predict 快速路径</li>
+<li><code class="inline-code">'lsqr'</code>：最小二乘法解方程组，<strong>可与 shrinkage 联用</strong>，计算最快但只有分类（无 transform 相关属性时降维也支持）</li>
+<li><code class="inline-code">'eigen'</code>：经典广义特征值分解 $ S_B w = \lambda S_W w $，<strong>可与 shrinkage 联用</strong>，是降维 + shrinkage 的唯一路径，数值上受 $ S_W $ 病态影响最大</li>
+<li><strong>推荐设置</strong>：特征数很多、不需要收缩 → <code class="inline-code">'svd'</code>（默认）；样本 < 特征数或类内协方差可疑 → <code class="inline-code">'lsqr'</code> + <code class="inline-code">shrinkage</code> 只做分类；需要收缩正则 + 降维同时使用 → <code class="inline-code">'eigen'</code> + <code class="inline-code">shrinkage</code></li>
+</ul>
+
+<p>#### 参数 2：shrinkage — 协方差收缩正则</p>
+
+<ul>
+<li><strong>含义</strong>：把类内协方差向「单位阵 × 迹/d」方向收缩的正则强度，缓解小样本/病态协方差；仅 <code class="inline-code">solver='lsqr'/'eigen'</code> 有效</li>
+<li><strong>类型</strong>：<code class="inline-code">None</code> / <code class="inline-code">'auto'</code> / float</li>
+<li><strong>默认值</strong>：<code class="inline-code">None</code>（不收缩，等价于经典 LDA / svd 的行为）</li>
+<li><strong>取值范围</strong>：float ∈ [0.0, 1.0]，或字符串 'auto'</li>
+<li><strong>对结果的影响</strong>：0 = 无正则（小样本下方差大、过拟合，$ S_W $ 可能不可逆）；1 = 完全对角化为各向同性（退化为近似「类中心最近邻」）；<strong>'auto' 按 Ledoit-Wolf 引理从数据自动学出最优收缩系数</strong> —— n≈d 或 d>n 时显著提升泛化精度；样本量足够大时 'auto' 收缩值自动趋近 0，几乎无损</li>
+<li><strong>推荐设置</strong>：样本数 < 特征数×10 时一律 <code class="inline-code">shrinkage='auto'</code>；想精细调就网格搜索 0~1 之间（如 0.1/0.3/0.5）；注意配 <code class="inline-code">solver='lsqr'</code> 或 <code class="inline-code">'eigen'</code>，否则报错</li>
+</ul>
+
+<p>#### 参数 3：priors — 类别先验概率</p>
+
+<ul>
+<li><strong>含义</strong>：各类的先验 $ P(y=c) $，直接进入贝叶斯判别函数（对数先验偏置项）</li>
+<li><strong>类型</strong>：None 或长度 C 的浮点数组</li>
+<li><strong>默认值</strong>：None（按训练集各类频率估计）</li>
+<li><strong>取值范围</strong>：和为 1 的正数序列（sklearn 不严格校验归一化，但语义上应当归一）</li>
+<li><strong>对结果的影响</strong>：改变判别阈值位置——给稀有类更大先验 → 把更多边界样本判给该类（提高召回、牺牲精度），是<strong>无需重采样即可处理类别不平衡</strong>的旋钮；类别频率与真实世界的部署分布不一致时（训练集男女 1:1，真实 2:8）必须显式修正，否则决策面系统性偏斜</li>
+<li><strong>推荐设置</strong>：训练集分布 ≈ 部署分布 → 用默认 None；类别不平衡或部署分布已知 → 手动传 <code class="inline-code">[0.3, 0.7]</code> 这类真实占比</li>
+</ul>
+
+<p>#### 参数 4：n_components — 降维目标维数</p>
+
+<ul>
+<li><strong>含义</strong>：<code class="inline-code">transform</code> 输出的判别子空间维数 k（分类任务无直接用处，纯降维任务的核心参数）</li>
+<li><strong>类型</strong>：None 或 int</li>
+<li><strong>默认值</strong>：None（分类用全部 C−1 个判别方向；若用于 transform，None 时自动取 C−1）</li>
+<li><strong>取值范围</strong>：$ 0 < k \le \min(n\_features,\ n\_classes - 1) $，传超上限值会报错</li>
+<li><strong>对结果的影响</strong>：k 越大保留判别信息越全，但<strong>超出真实可分维度的部分只含噪声</strong>；k=1~2 可把 C 类数据可视化到直线/平面上观察分离度，是 LDA 最讨喜的用途；k 过小可能丢掉对后续分类器有价值的小特征值方向（有时第 2、3 判别方向才区分出细节类别）</li>
+<li><strong>推荐设置</strong>：先 None 看训练后 <code class="inline-code">explain_variance_ratio_</code>（svd solver 下该属性可用）累计贡献再定 k；可视化固定 1 或 2；给下游分类器用 k=C−1 直接取满</li>
+</ul>
+
+<p>#### 参数 5：store_covariance — 是否保存协方差矩阵</p>
+
+<ul>
+<li><strong>含义</strong>：训练后是否计算并保存带偏置（ddof=1）的类内加权协方差矩阵到 <code class="inline-code">covariance_</code> 属性</li>
+<li><strong>类型</strong>：bool</li>
+<li><strong>默认值</strong>：<code class="inline-code">False</code></li>
+<li><strong>取值范围</strong>：True / False</li>
+<li><strong>对结果的影响</strong>：不影响预测结果，只影响内存与可解释性；True 时可检查 <code class="inline-code">covariance_</code> 判断特征相关性、做马氏距离类外分析、白化处理等；特征维数 d 很大时多存一个 $ d\times d $ 矩阵</li>
+<li><strong>推荐设置</strong>：调试/分析期 True；生产推理或超高维保持 False 省内存</li>
+</ul>
+
+<p>#### 参数 6：tol — 奇异值秩判定阈值</p>
+
+<ul>
+<li><strong>含义</strong>：仅 svd solver 使用——判定协方差矩阵秩的容差：奇异值 sᵢ ≤ tol·s₁ 视为数值零</li>
+<li><strong>类型</strong>：float</li>
+<li><strong>默认值</strong>：<code class="inline-code">1e-4</code></li>
+<li><strong>取值范围</strong>：正浮点数，通常 1e-8 ~ 1e-2 对数尺度调</li>
+<li><strong>对结果的影响</strong>：tol 过大 → 把本有信息的方向判为退化方向，预测时某些投影维度被丢弃，边界样本概率输出异常（log 概率 -inf）；tol 过小 → 噪声方向被当作有效，数值不稳定；该参数极少需要动</li>
+<li><strong>推荐设置</strong>：保持默认；仅当 predict_log_proba 出现 -inf 或特征间强共线时报错时，尝试放大到 1e-2</li>
+</ul>
+
+<h4>代码示例</h4>
+
+<p><pre class="code-block"><code class="language-python">from sklearn.datasets import load_wine                            # 葡萄酒数据集：178样本×13特征×3类
+from sklearn.discriminant_analysis import LinearDiscriminantAnalysis  # sklearn 的 LDA 实现
+from sklearn.model_selection import train_test_split              # 训练/测试集切分工具
+from sklearn.preprocessing import StandardScaler                  # 标准化器：LDA对特征尺度敏感
+from sklearn.metrics import accuracy_score, classification_report # 评估指标
+
+X, y = load_wine(return_X_y=True)                                 # X:(178,13)特征矩阵，y:178条0/1/2类标签
+X_tr, X_te, y_tr, y_te = train_test_split(                        # 按 7:3 切分
+    X, y, test_size=0.3, stratify=y, random_state=42)             # stratify=y 保持三类比例一致
+
+scaler = StandardScaler()                                         # 零均值单位方差标准化
+X_tr_s = scaler.fit_transform(X_tr)                               # 在训练集上拟合并变换(防数据泄漏)
+X_te_s = scaler.transform(X_te)                                   # 测试集只用同一个scaler变换
+
+# 用法一：LDA 直接当线性分类器（svd 求解 + 显式类别先验）
+clf = LinearDiscriminantAnalysis(                                 # 实例化 LDA 分类器
+    solver=&#x27;svd&#x27;,                                                 # 奇异值分解求解：数值稳、不用算协方差逆
+    priors=None,                                                  # 先验=None：按训练集类频率估计
+    store_covariance=True,                                        # 保存协方差矩阵供后续分析
+    tol=1e-4,                                                     # 秩判定容差，默认值
+).fit(X_tr_s, y_tr)                                               # 拟合：估均值/协方差/判别方向
+y_pred = clf.predict(X_te_s)                                      # 线性判别面直接预测类别
+print(&quot;LDA分类准确率:&quot;, accuracy_score(y_te, y_pred))              # 标准化后约 0.98~1.00
+print(classification_report(y_te, y_pred))                        # 每类的查准/查全/F1 明细
+
+# 用法二：LDA 监督降维 + 可视化（eigen 求解 + Ledoit-Wolf 收缩）
+dr = LinearDiscriminantAnalysis(                                  # 第二个实例专用于降维
+    solver=&#x27;eigen&#x27;,                                               # 广义特征值分解：支持降维+收缩组合
+    shrinkage=&#x27;auto&#x27;,                                             # 自动估计最优收缩系数(小样本保险丝)
+    n_components=2,                                               # 降到2维：上限=类别数3−1=2，可视化刚好
+).fit(X_tr_s, y_tr)                                               # 拟合判别子空间
+Z_tr = dr.transform(X_tr_s)                                       # 训练集投影：(124,13)→(124,2)
+Z_te = dr.transform(X_te_s)                                       # 测试集用同一子空间投影降维
+print(&quot;降维后形状:&quot;, Z_te.shape)                                   # 输出 (54, 2)
+
+# 用法三：降到 2 维后接一个简单分类器，验证监督降维的威力
+from sklearn.neighbors import KNeighborsClassifier                # k近邻：低维空间中简单有效
+knn = KNeighborsClassifier(n_neighbors=5).fit(Z_tr, y_tr)         # 在 2 维判别空间上训练 kNN
+print(&quot;LDA降维+kNN 准确率:&quot;, accuracy_score(y_te, knn.predict(Z_te)))  # 与13维直接分类几乎持平
+print(&quot;13维特征被压成2维判别方向，仍保留约 99%+ 的可分性&quot;)           # coef_ 形状 (3,13)·scalings_ 形状 (13,2)</code></pre></p>
+
+<h4>复杂度分析</h4>
+
+<p><strong>时间复杂度</strong>（sklearn 实测口径）：</p>
+<ul>
+<li><code class="inline-code">'svd'</code>：对 $ n \times d $ 数据做 SVD ≈ $ O(n \cdot d \cdot \min(n, d)) $，<strong>不需要显式 $ S_W^{-1} $</strong>，是高维首选；随后构造判别面 $ O(C \cdot d^2) $</li>
+<li><code class="inline-code">'lsqr'/'eigen'</code>：计算 $ S_W, S_B $ 各 $ O(n \cdot d^2) $，广义特征分解 $ O(d^3) $——特征 10⁴ 时 $ d^3 $ 不可承受，必须先降维</li>
+<li>推理（predict）：每个样本 $ O(C \cdot d) $ 线性打分，极快</li>
+</ul>
+
+<p><strong>空间复杂度</strong>：</p>
+<ul>
+<li>均值与类中心 $ O(C \cdot d) $；协方差 $ O(d^2) $（store_covariance=True 才保留）；svd 还要求数据矩阵驻留内存 $ O(n \cdot d) $</li>
+<li>降维结果存储 $ O(n \cdot k) $；对比 PCA：同为线性变换，PCA 无 C−1 上限、无标签利用</li>
+</ul>
+
+<h4>应用场景</h4>
+
+<ul>
+<li><strong>人脸识别（Fisherface）</strong>：Eigenface 用 PCA 只保「脸长得像」的方向，Fisherface 用 LDA 保「谁是谁」的方向，光照噪声被压掉，是小样本高维识别的经典解法</li>
+<li><strong>医学诊断与生物标记物筛选</strong>：把几十项化验指标投到 C−1 维判别空间判「健康/患病」，系数可解释为各指标权重</li>
+<li><strong>故障检测与预诊断</strong>（贴近装维场景）：光功率、误码率、时延抖动等多维遥测数据 LDA 判「正常/劣化/中断」，指导派单优先级</li>
+<li><strong>金融风控</strong>：破产预测（Altman Z-score 本质就是手工线判别）、信用卡欺诈的预降维建模</li>
+<li><strong>文本分类</strong>：TF-IDF 高维稀疏特征先 LDA 压到 C−1 维再训练轻量分类器</li>
+<li><strong>可视化</strong>：多类别高维数据投到 2D 判别平面，看类簇是否天然可分、有没有标签错标</li>
+</ul>
+
+<h4>参考文档</h4>
+
+<ul>
+<li><a href="https://scikit-learn.org.cn/view/77.html" target="_blank" class="ref-link">sklearn 用户指南 1.2：线性和二次判别分析（中文镜像）</a></li>
+<li><a href="https://www.cnblogs.com/Jerry-Dong/p/8177094.html" target="_blank" class="ref-link">sklearn.discriminant_analysis.LinearDiscriminantAnalysis 参数笔记 - 博客园</a></li>
+<li><a href="https://www.cnblogs.com/xieqing/p/6515666.html" target="_blank" class="ref-link">用 scikit-learn 进行 LDA 降维：solver 与 shrinkage 详解 - 博客园</a></li>
+<li><a href="https://www.cnblogs.com/wj-1314/p/10234256.html" target="_blank" class="ref-link">Python 机器学习笔记：线性判别分析（LDA）算法 - 博客园</a></li>
+<li><a href="https://www.cnblogs.com/mdevelopment/p/9430617.html" target="_blank" class="ref-link">LinearDiscriminantAnalysis 参数、属性和方法 - 博客园</a></li>
+</ul>
+
+<blockquote>
+<p>AI生成</p>
+</blockquote>
+  </div>
+  <div class="footer">
+    <p>由 TeleAgent · 每日算法推送 技能自动生成 | 2026-09-24 08:49</p>
+  </div>
+</div>
+</body>
+</html>
