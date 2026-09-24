@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>每日算法AI出题 · 第 8 期 · 2026-09-24</title>
+  <!-- KaTeX 数学公式渲染 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
+  <style>
+    :root {
+      --bg: #0d1117;
+      --card-bg: #161b22;
+      --border: #30363d;
+      --text: #e6edf3;
+      --text-dim: #8b949e;
+      --accent: #58a6ff;
+      --green: #3fb950;
+      --orange: #d29922;
+      --red: #f85149;
+      --purple: #a855f7;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", sans-serif;
+      line-height: 1.7;
+      padding: 16px;
+      max-width: 860px;
+      margin: 0 auto;
+    }
+    .header {
+      text-align: center;
+      padding: 24px 0 16px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 24px;
+    }
+    .header h1 {
+      font-size: 1.5em;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+    .header .subtitle {
+      color: var(--text-dim);
+      font-size: 0.9em;
+    }
+    .header .date-tag {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 2px 12px;
+      border-radius: 12px;
+      background: var(--border);
+      font-size: 0.8em;
+      color: var(--text-dim);
+    }
+
+    /* 题目卡片 */
+    .question-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .question-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+    .type-badge {
+      padding: 2px 10px;
+      border-radius: 10px;
+      font-size: 0.75em;
+      color: white;
+      font-weight: 600;
+    }
+    .difficulty { font-size: 0.85em; }
+    .qid-label { color: var(--text-dim); font-size: 0.8em; margin-left: auto; }
+    .question-title {
+      font-size: 1.25em;
+      margin-bottom: 12px;
+      color: var(--text);
+    }
+    .question-body { margin-bottom: 14px; }
+    .question-body code.inline-code {
+      background: var(--border);
+      padding: 1px 5px;
+      border-radius: 3px;
+      font-size: 0.9em;
+    }
+
+    /* 信息块 */
+    .info-block {
+      background: rgba(88,166,255,0.05);
+      border-left: 3px solid var(--accent);
+      padding: 10px 14px;
+      margin: 10px 0;
+      border-radius: 0 6px 6px 0;
+    }
+    .info-label {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.85em;
+      display: block;
+      margin-bottom: 4px;
+    }
+    .info-block pre {
+      white-space: pre-wrap;
+      font-family: "JetBrains Mono", "Fira Code", monospace;
+      font-size: 0.85em;
+      color: var(--text);
+    }
+
+    /* 示例 */
+    .example-block {
+      background: rgba(63,185,80,0.05);
+      border: 1px solid rgba(63,185,80,0.2);
+      border-radius: 8px;
+      padding: 12px;
+      margin: 10px 0;
+    }
+    .example-title {
+      color: var(--green);
+      font-weight: 600;
+      font-size: 0.85em;
+      margin-bottom: 6px;
+    }
+    .example-io {
+      font-family: monospace;
+      font-size: 0.85em;
+      white-space: pre-wrap;
+      margin: 2px 0;
+    }
+    .io-label { color: var(--text-dim); }
+    .example-explanation {
+      color: var(--text-dim);
+      font-size: 0.85em;
+      margin-top: 6px;
+      padding-top: 6px;
+      border-top: 1px dashed var(--border);
+    }
+
+    /* 选项 */
+    .options-container { margin: 12px 0; }
+    .option-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      padding: 10px 14px;
+      margin: 6px 0;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .option-item:hover { border-color: var(--accent); background: rgba(88,166,255,0.05); }
+    .option-item.correct { border-color: var(--green); background: rgba(63,185,80,0.1); }
+    .option-item.wrong { border-color: var(--red); background: rgba(248,81,73,0.1); }
+    .option-item input[type=radio] { accent-color: var(--accent); margin-top: 4px; }
+    .option-letter {
+      font-weight: 700;
+      color: var(--accent);
+      min-width: 20px;
+    }
+    .option-text { flex: 1; font-size: 0.9em; }
+    .option-feedback {
+      margin: 8px 0;
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-size: 0.85em;
+      display: none;
+    }
+    .option-feedback.show { display: block; }
+    .option-feedback.correct {
+      background: rgba(63,185,80,0.1);
+      color: var(--green);
+    }
+    .option-feedback.wrong { background: rgba(248,81,73,0.1); color: var(--red); }
+
+    /* 代码编辑器 */
+    .code-section {
+      margin: 16px 0;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .code-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 14px;
+      background: rgba(88,166,255,0.08);
+      border-bottom: 1px solid var(--border);
+      font-size: 0.85em;
+      color: var(--accent);
+    }
+    .editor-wrap {
+      position: relative;
+    }
+    .code-editor {
+      min-height: 180px;
+      max-height: 400px;
+      overflow: auto;
+      padding: 12px;
+      font-family: "JetBrains Mono", "Fira Code", "Cascadia Code", monospace;
+      font-size: 13px;
+      line-height: 1.5;
+      white-space: pre;
+      color: var(--text);
+      background: #0d1117;
+      outline: none;
+      tabs: 4;
+    }
+    .btn-run {
+      background: var(--green);
+      color: white;
+      border: none;
+      padding: 4px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.85em;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .btn-run:hover { opacity: 0.85; }
+    .btn-run:disabled { opacity: 0.5; cursor: not-allowed; }
+    .code-result {
+      padding: 12px;
+      background: #0d1117;
+      border-top: 1px solid var(--border);
+      font-family: monospace;
+      font-size: 0.85em;
+      white-space: pre-wrap;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+    .code-result .test-pass { color: var(--green); }
+    .code-result .test-fail { color: var(--red); }
+    .code-result .stderr { color: var(--orange); }
+
+    /* 显示解析按钮 */
+    .btn-reveal {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      margin-top: 16px;
+      background: transparent;
+      border: 2px dashed var(--border);
+      border-radius: 8px;
+      color: var(--text-dim);
+      font-size: 0.95em;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .btn-reveal:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(88,166,255,0.03);
+    }
+    .btn-reveal.loading {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    /* 解析区域 */
+    .solution-section {
+      margin-top: 16px;
+      animation: fadeIn 0.4s ease;
+    }
+    @keyframes fadeIn { from{opacity:0; transform:translateY(10px) } to{opacity:1; transform:translateY(0) } }
+    .solution-divider {
+      text-align: center;
+      color: var(--text-dim);
+      font-size: 0.8em;
+      margin: 16px 0;
+      letter-spacing: 1px;
+    }
+    .answer-highlight {
+      background: rgba(63,185,80,0.1);
+      border: 1px solid var(--green);
+      border-radius: 8px;
+      padding: 10px 16px;
+      margin: 10px 0;
+      font-size: 1.05em;
+      color: var(--green);
+      font-weight: 600;
+    }
+    .solution-block {
+      margin: 14px 0;
+      padding: 14px;
+      background: rgba(255,255,255,0.02);
+      border-radius: 8px;
+    }
+    .solution-block h4 {
+      color: var(--accent);
+      margin-bottom: 8px;
+      font-size: 0.95em;
+    }
+    .solution-block ul.answer-points {
+      padding-left: 20px;
+    }
+    .solution-block ul.answer-points li {
+      margin: 6px 0;
+      font-size: 0.9em;
+    }
+    .code-block {
+      background: #0d1117;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 12px;
+      font-family: "JetBrains Mono", "Fira Code", monospace;
+      font-size: 0.85em;
+      overflow-x: auto;
+      white-space: pre;
+      color: var(--text);
+    }
+    .complexity-tag {
+      display: inline-block;
+      padding: 2px 10px;
+      margin-right: 8px;
+      border-radius: 6px;
+      background: var(--border);
+      font-size: 0.85em;
+      font-family: monospace;
+    }
+    .derivation-content {
+      font-size: 0.9em;
+      line-height: 1.8;
+    }
+
+    /* 运行中加载动画 */
+    .spinner {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      border: 2px solid var(--text-dim);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* 底部 */
+    .footer {
+      text-align: center;
+      padding: 24px 0;
+      color: var(--text-dim);
+      font-size: 0.8em;
+      border-top: 1px solid var(--border);
+      margin-top: 24px;
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 8px; }
+      .question-card { padding: 14px; }
+      .question-title { font-size: 1.1em; }
+      .code-editor { font-size: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <h1>每日算法AI出题 · 第 8 期</h1>
+  <div class="subtitle">算法 2 道 + AI 2 道 · 图论 / 哈希表 / 优化器 / 大模型微调</div>
+  <div class="date-tag">📅 2026-09-24 ｜ 算法 2 道 · AI 2 道</div>
+</div>
+
+<div class="question-card" data-qid="1">
+
+    <div class="question-header">
+      <span class="type-badge" style="background:#3b82f6">算法编程</span>
+      <span class="difficulty">⭐⭐⭐</span>
+      <span class="qid-label">第 1 题</span>
+    </div>
+<h2 class="question-title">课程表（拓扑排序）</h2>
+<div class="question-body">你一共需要修 <code class="inline-code">numCourses</code> 门课程，编号为 <code class="inline-code">0</code> 到 <code class="inline-code">numCourses-1</code>。给定先修关系数组 <code class="inline-code">prerequisites</code>，其中 <code class="inline-code">prerequisites[i] = [a_i, b_i]</code> 表示**修课程 <code class="inline-code">a_i</code> 之前必须先修完课程 <code class="inline-code">b_i</code>**。请判断你能否修完所有课程：若先修关系构成的有向图存在环，则永远无法完成；反之可以完成。（LeetCode 207 改编）</div>
+<div class="info-block"><span class="info-label">输入</span><pre>numCourses：整数，课程数量；prerequisites：二维整数数组，每个元素为 [a_i, b_i]。</pre></div>
+<div class="info-block"><span class="info-label">输出</span><pre>返回布尔值：能修完所有课程返回 True，否则返回 False。</pre></div>
+<div class="example-block">
+<div class="example-title">示例 1</div>
+<pre class="example-io"><span class="io-label">输入：</span>numCourses = 2, prerequisites = [[1,0]]</pre>
+<pre class="example-io"><span class="io-label">输出：</span>True</pre>
+<div class="example-explanation">先修 0 再修 1，顺序可行。</div>
+</div>
+<div class="example-block">
+<div class="example-title">示例 2</div>
+<pre class="example-io"><span class="io-label">输入：</span>numCourses = 2, prerequisites = [[1,0],[0,1]]</pre>
+<pre class="example-io"><span class="io-label">输出：</span>False</pre>
+<div class="example-explanation">0 与 1 互为先修，形成环，永远无法开始。</div>
+</div>
+<div class="info-block"><span class="info-label">约束</span><div>1 &lt;= numCourses &lt;= 2000
+0 &lt;= prerequisites.length &lt;= 5000
+prerequisites[i].length == 2，0 &lt;= a_i, b_i &lt; numCourses
+输入中不会出现重复的先修对</div></div>
+
+    <div class="code-section">
+      <div class="code-header">
+        <span>🧑‍💻 在线代码编辑器</span>
+        <button class="btn-run" onclick="runCode(1)" id="run_btn_1">▶ 运行</button>
+      </div>
+      <div class="editor-wrap">
+        <div class="code-editor" id="editor_1" contenteditable="true" spellcheck="false">from collections import deque
+
+def canFinish(numCourses, prerequisites):
+    # TODO: 判断能否修完所有课程（拓扑排序判环）
+    pass
+</div>
+      </div>
+      <div class="code-result" id="result_1" style="display:none;"></div>
+      <input type="hidden" id="func_name_1" value="canFinish">
+      <input type="hidden" id="test_cases_1" value='[[2, [[1, 0]]], [2, [[1, 0], [0, 1]]], [1, []], [3, [[1, 0], [2, 1]]], [4, [[1, 0], [2, 0], [3, 1], [3, 2]]], [3, [[0, 1], [1, 2], [2, 0]]], [5, [[0, 1], [1, 2], [2, 3], [3, 4], [4, 0]]], [2000, []], [6, [[1, 0], [2, 1], [3, 2], [4, 3], [5, 4], [0, 5]]], [4, [[1, 0], [2, 1], [3, 2], [1, 3]]], [5, [[1, 0], [2, 0], [3, 1], [3, 2], [4, 3]]], [1, [[0, 0]]]]'>
+      <input type="hidden" id="expected_outputs_1" value='[true, false, true, true, true, false, false, true, false, false, true, false]'>
+    </div>
+
+    <button class="btn-reveal" onclick="revealSolution(1)" id="reveal_btn_1">
+      📖 显示答案与解析
+    </button>
+<div class="solution-section" id="solution_1" style="display:none;">
+<div class="solution-divider">--- 以下为答案与解析 ---</div>
+<div class="solution-block"><h4>💡 解题思路</h4><div>把先修关系建模为有向图：边 b→a 表示「先学 b 才能学 a」。用 Kahn 算法（BFS + 入度表）判断是否存在拓扑序：<br>
+1. 统计每个节点入度，将入度为 0 的节点（无先修的课）入队；<br>
+2. 依次弹出队首节点 u，表示学完 u，将其所有后继节点 v 的入度减 1，若 v 的入度变为 0 则入队；<br>
+3. 若最终出队节点数 == numCourses，说明全部课程可排成拓扑序（图无环），否则图中存在环，无法完成。<br>
+（也可以用 DFS 三色标记法判环，Kahn 法更直观且可顺便给出拓扑序。）</div></div>
+<div class="solution-block"><h4>📝 参考代码（python）</h4><pre class="code-block">from collections import deque
+
+def canFinish(numCourses, prerequisites):
+    # 邻接表：graph[b] 中存放所有依赖 b 的后继课程
+    graph = [[] for _ in range(numCourses)]
+    indegree = [0] * numCourses
+    for a, b in prerequisites:
+        graph[b].append(a)
+        indegree[a] += 1
+
+    # 所有无需先修的课程入队
+    q = deque(i for i in range(numCourses) if indegree[i] == 0)
+    finished = 0
+    while q:
+        u = q.popleft()
+        finished += 1
+        for v in graph[u]:
+            indegree[v] -= 1
+            if indegree[v] == 0:
+                q.append(v)
+    return finished == numCourses
+</pre></div>
+<div class="solution-block"><h4>⚡ 复杂度分析</h4><div>
+<span class="complexity-tag">时间 O(E + V)，E 为先修关系数，V = numCourses</span>
+<span class="complexity-tag">空间 O(E + V)，邻接表 + 入度数组</span>
+</div></div>
+<div class="solution-block"><h4>🎯 考点</h4><div>拓扑排序、Kahn 算法（BFS）、入度统计、有向图环检测；DFS 三色标记法可作为备选方案</div></div>
+</div>
+</div>
+<div class="question-card" data-qid="2">
+
+    <div class="question-header">
+      <span class="type-badge" style="background:#10b981">算法概念</span>
+      <span class="difficulty">⭐⭐</span>
+      <span class="qid-label">第 2 题</span>
+    </div>
+<h2 class="question-title">哈希表哈希冲突处理</h2>
+<div class="question-body">关于哈希表中「哈希冲突」的解决方式，下列说法**正确**的是？（单选）<br>
+<br>
+A. 链地址法（拉链法）冲突严重时链表会退化为线性查找 O(n)；Java 8+ 的 HashMap 在链表过长且数组容量足够时会将该链表转为红黑树，使最坏情况查找降到 O(log n)<br>
+<br>
+B. 开放定址法中的线性探测，删除元素时直接把该槽位置空即可，不会影响后续元素的查找<br>
+<br>
+C. 再哈希法（双重哈希）用于表装满时的扩容，与解决哈希冲突无关<br>
+<br>
+D. 链地址法要求装载因子（元素个数 / 槽位个数）必须大于 1 才能保证查找效率</div>
+<div class="options-container">
+
+            <label class="option-item" data-letter="A">
+              <input type="radio" name="quiz_2" value="A" onchange="checkAnswer(2, 'A')">
+              <span class="option-letter">A</span>
+              <span class="option-text">A. 链地址法冲突严重时退化为 O(n)，Java 8+ HashMap 链表过长且容量足够时转红黑树，最坏降到 O(log n)</span>
+            </label>
+
+            <label class="option-item" data-letter="B">
+              <input type="radio" name="quiz_2" value="B" onchange="checkAnswer(2, 'B')">
+              <span class="option-letter">B</span>
+              <span class="option-text">B. 开放地址法的线性探测，删除元素时直接置空即可，不影响后续查找</span>
+            </label>
+
+            <label class="option-item" data-letter="C">
+              <input type="radio" name="quiz_2" value="C" onchange="checkAnswer(2, 'C')">
+              <span class="option-letter">C</span>
+              <span class="option-text">C. 再哈希法（双重哈希）只用于扩容，与解决冲突无关</span>
+            </label>
+
+            <label class="option-item" data-letter="D">
+              <input type="radio" name="quiz_2" value="D" onchange="checkAnswer(2, 'D')">
+              <span class="option-letter">D</span>
+              <span class="option-text">D. 链地址法要求装载因子必须大于 1 才能保证查找效率</span>
+            </label>
+</div>
+<div class="option-feedback" id="feedback_2"></div>
+
+    <button class="btn-reveal" onclick="revealSolution(2)" id="reveal_btn_2">
+      📖 显示答案与解析
+    </button>
+<div class="solution-section" id="solution_2" style="display:none;">
+<div class="solution-divider">--- 以下为答案与解析 ---</div>
+<div class="answer-highlight">✅ 正确答案：A</div>
+<div class="solution-block"><h4>💡 解题思路</h4><div>逐一核对四种冲突处理方案的机制与边界：A 考查链地址法的退化与 Java 工程优化，B 考查线性探测删除时的『标记删除』问题，C 混淆了重哈希与扩容两个概念，D 颠倒了装载因子与性能的关系。</div></div>
+<div class="solution-block"><h4>🎯 考点</h4><div>哈希冲突、链地址法（拉链法）、开放定址（线性/平方探测）、标记删除、重哈希、装载因子、红黑树优化</div></div>
+<div class="solution-block"><h4>🔍 逐项分析</h4><ul class="answer-points">
+<li>A 正确。链地址法把冲突元素挂在同一槽位的链表上，极端哈希下链表很长，查找退化为 O(n)；Java 8+ HashMap 在链表长度 ≥ 8 且数组容量 ≥ 64 时把链表转为红黑树，最坏 O(log n)；若容量不足 64 则优先扩容，而非直接转树。</li>
+<li>B 错误。线性探测的关键性质是「探测序列连续」，直接置空会切断探测链，使其后本应找到的元素查不到；必须用『标记删除』（置 deleted 位）或删除后重排该簇元素。</li>
+<li>C 错误。重哈希（双重哈希 / Double Hashing）本身就是一种解决冲突的探测策略——冲突时以第二个哈希函数的值作为步长继续探测；扩容是装载因子过高时另行的机制，两者无关。</li>
+<li>D 错误。装载因子是『元素数/槽位数』的比值，工程上常取 ≤ 1（HashMap 默认 0.75）；链地址法虽允许 &gt; 1，但链越长查找越慢，绝不是越大越好。</li>
+</ul></div>
+</div>
+</div>
+<div class="question-card" data-qid="3">
+
+    <div class="question-header">
+      <span class="type-badge" style="background:#a855f7">AI公式推导</span>
+      <span class="difficulty">⭐⭐⭐</span>
+      <span class="qid-label">第 3 题</span>
+    </div>
+<h2 class="question-title">推导 Adam 优化器：动量、二阶矩与偏差修正</h2>
+<div class="question-body">从带动量的 SGD 出发，完整推导 Adam 优化器：<br>
+1. 一阶矩（动量）估计的递推式与其无偏形式；<br>
+2. 二阶矩（梯度平方）估计的递推式与无偏形式；<br>
+3. 最终参数更新公式；<br>
+4. 说明为何需要偏差修正，以及超参 $\beta_1, \beta_2, \alpha, \epsilon$ 的默认值与作用。<br>
+<br>
+要求给出完整的期望计算与等比数列求和步骤，禁止只写结论。</div>
+
+    <button class="btn-reveal" onclick="revealSolution(3)" id="reveal_btn_3">
+      📖 显示答案与解析
+    </button>
+<div class="solution-section" id="solution_3" style="display:none;">
+<div class="solution-divider">--- 以下为答案与解析 ---</div>
+<div class="solution-block"><h4>🎯 考点</h4><div>指数移动平均（EMA）、一阶矩/二阶矩、偏差修正、自适应学习率、AdamW 解耦权重衰减、默认超参 β1=0.9 / β2=0.999 / α=1e-3</div></div>
+<div class="solution-block"><h4>📐 推导过程</h4><div class="derivation-content">符号约定：设目标参数为 $\theta$，时间步为 $t$，第 $t$ 步梯度为 $g_t = \nabla_\theta f_t(\theta_{t-1})$，$\beta_1, \beta_2 \in [0,1)$ 为衰减系数。<br>
+<br>
+**第 1 步：一阶矩（动量）的递推**<br>
+$$ m_t = \beta_1 m_{t-1} + (1-\beta_1) g_t, \quad m_0 = 0 $$<br>
+<br>
+这是对历史梯度做指数加权移动平均（EMA），权重越新的梯度越大。反复展开得：<br>
+$$ m_t = (1-\beta_1)\sum_{i=1}^{t} \beta_1^{\,t-i} g_i $$<br>
+<br>
+**第 2 步：一阶矩的偏差修正**<br>
+因 $m_0 = 0$，前几步的 $m_t$ 被『拉向零』，是 $E[g]$ 的有偏估计。在梯度分布平稳的假设下（$E[g_i] = E[g]$）：<br>
+$$ E[m_t] = (1-\beta_1)\,E[g]\sum_{i=1}^{t} \beta_1^{\,t-i} = (1-\beta_1)E[g]\frac{1-\beta_1^{t}}{1-\beta_1} = E[g]\,(1-\beta_1^{t}) $$<br>
+<br>
+（用等比数列求和 $\sum_{j=0}^{t-1} \beta_1^{j} = \frac{1-\beta_1^{t}}{1-\beta_1}$。）因此除以 $(1-\beta_1^{t})$ 即为无偏估计：<br>
+$$ \hat{m}_t = \frac{m_t}{1-\beta_1^{t}}, \quad E[\hat{m}_t] = E[g] $$<br>
+<br>
+**第 3 步：二阶矩（梯度平方）估计与偏差修正**<br>
+同理，二阶矩用 EMA 估计梯度平方 $E[g^2]$（相当于逐参数的自适应缩放因子）：<br>
+$$ v_t = \beta_2 v_{t-1} + (1-\beta_2) g_t^2, \quad v_0 = 0 $$<br>
+$$ \hat{v}_t = \frac{v_t}{1-\beta_2^{t}}, \quad E[\hat{v}_t] = E[g^2] $$<br>
+<br>
+**第 4 步：参数更新公式**<br>
+$$ \theta_t = \theta_{t-1} - \alpha \, \frac{\hat{m}_t}{\sqrt{\hat{v}_t} + \epsilon} $$<br>
+其中 $\alpha$ 为学习率，$\epsilon$ 为防除零的数值稳定常数。<br>
+<br>
+**第 5 步：直觉解读与默认超参**<br>
+- $\hat{m}_t$ 提供动量方向：EMA 平滑了噪声梯度，能穿过平坦区与局部振荡；<br>
+- $\sqrt{\hat{v}_t}$ 提供逐参数自适应缩放：梯度振幅大的参数步长自动变小，振幅小的放大，对稀疏梯度（如 Embedding 层）特别友好；<br>
+- 默认 $\beta_1 = 0.9$（EMA 窗口约 10 步）、$\beta_2 = 0.999$（窗口约 1000 步）、$\alpha = 10^{-3}$、$\epsilon = 10^{-8}$；<br>
+- 无偏差修正时前期 $\hat{m}_t, \hat{v}_t$ 偏小，导致步长畸变，Adam 初期的稳定表现正依赖于修正。<br>
+<br>
+**延伸（加分）**：AdamW 将权重衰减从「加入梯度被自适应缩放」改为在更新中解耦：<br>
+$$ \theta_t = \theta_{t-1} - \alpha\Big(\frac{\hat{m}_t}{\sqrt{\hat{v}_t}+\epsilon} + \lambda \theta_{t-1}\Big) $$<br>
+避免 L2 正则被 $\sqrt{\hat{v}_t}$ 放大，是 LLM 训练的标准选择。</div></div>
+<div class="solution-block"><h4>🧠 直觉解释</h4><div>Adam 可理解为『带动量的自适应学习率』：一阶矩给方向惯性，二阶矩对每个参数做归一化缩放，二者经偏差修正消除零初始化带来的早期偏差。</div></div>
+</div>
+</div>
+<div class="question-card" data-qid="4">
+
+    <div class="question-header">
+      <span class="type-badge" style="background:#f59e0b">AI面试问答</span>
+      <span class="difficulty">⭐⭐</span>
+      <span class="qid-label">第 4 题</span>
+    </div>
+<h2 class="question-title">为什么 LoRA 只用少量参数就能逼近全量微调？</h2>
+<div class="question-body">面试官：你做过大模型微调吗？请解释 LoRA（Low-Rank Adaptation）的原理——为什么它只训练极小一部分参数，就能取得接近全量微调（Full Fine-Tuning）的效果？</div>
+
+    <button class="btn-reveal" onclick="revealSolution(4)" id="reveal_btn_4">
+      📖 显示答案与解析
+    </button>
+<div class="solution-section" id="solution_4" style="display:none;">
+<div class="solution-divider">--- 以下为答案与解析 ---</div>
+<div class="solution-block"><h4>📌 回答要点</h4><ul class="answer-points">
+<li>核心是『低秩假设』：预训练权重微调产生的增量 ΔW 具有低内在秩（研究在 GPT-3 175B 上 r=4 即可捕获主导方向）。LoRA 冻结原权重 W₀，把增量参数化为两个低秩矩阵之积：W = W₀ + (α/r)·B·A，B∈R^{d×r}、A∈R^{r×k}，r ≪ min(d,k)，只训练 B、A。</li>
+<li>参数与内存骤降：可训练参数从 d×k 降到 r·(d+k)；优化器状态（Adam 的 m、v）随可训练参数同步缩小，显存门槛大幅降低（QLoRA 4-bit 量化后 48G 显存可微调 65B 模型）。</li>
+<li>推理零额外开销：训练完把 B·A 合并回 W′ = W₀ + (α/r)BA，推理结构与全量微调完全一致、无额外延迟；多任务只需保存多个 (B,A) 副本按需切换。</li>
+<li>效果验证：多种任务与架构上 LoRA 效果与全量微调相当甚至更优（GPT-3 175B 只需 0.01% 可训练参数），且过拟合更少、天然带正则化效果。</li>
+<li>与 Adapter / Prefix-Tuning 对比：Prefix 会增加序列长度和 KV 缓存开销，Adapter 增加层内计算深度，LoRA 不改网络结构、无推理代价，是当下最主流的 PEFT 方案。</li>
+</ul></div>
+<div class="solution-block"><h4>⭐ 加分项</h4><ul class="answer-points">
+<li>初始化细节：A 用高斯噪声初始化、B 初始化为零，保证训练开始时 ΔW=0，不破坏预训练权重分布。</li>
+<li>缩放因子：实际生效的是 (α/r)·BA，α 是统一缩放系数（实验常用 r=8、α=16），α/r 影响训练稳定性。</li>
+<li>应用面广：LoRA 是 RLHF/DPO 中策略模型与奖励模型的常选微调方式，多任务可并行叠加、可随时回滚。</li>
+</ul></div>
+<div class="solution-block"><h4>🔮 追问预测</h4><ul class="answer-points">
+<li>追问1：LoRA 为什么不增加推理延迟？答：训练后将 BA 合并进 W₀，前向计算仍是普通矩阵乘；而 Prefix-Tuning 每轮都要为前缀额外计算并缓存 KV，延迟更高。</li>
+<li>追问2：rank r 如何选择？——r 越大表达力越强但收益递减且过拟合风险上升；经验值 4~64，多数任务 r=8 已接近全量效果。</li>
+<li>追问3：LoRA 与全量微调各适合什么场景？——数据量少、资源受限、需要多任务切换时用 LoRA；任务与预训练分布差异极大且数据充足时，全量微调上限更高。</li>
+<li>追问4：QLoRA 如何工作？——用 NF4 4-bit 量化冻结原权重、以 32-bit 精度训练 LoRA 适配器，量化误差与低秩近似互不干扰。</li>
+</ul></div>
+</div>
+</div>
+
+<div class="footer">
+  坚持每日练习，积少成多 💪<br>
+  Powered by TeleAgent · daily-algo-ai-quiz
+</div>
+
+<script>
+// ===== Pyodide 隔离执行测试运行器 =====
+const RUNNER_CODE = "\nimport json, traceback, io, contextlib\n\ndef run_tests(user_code, func_name, test_cases, expected):\n    ns = {}\n    user_stdout = io.StringIO()\n    user_error = None\n\n    try:\n        with contextlib.redirect_stdout(user_stdout):\n            exec(user_code, ns)\n    except Exception:\n        user_error = traceback.format_exc()\n\n    user_out = user_stdout.getvalue()\n\n    if user_error:\n        return {\"error\": user_error, \"stdout\": user_out}\n\n    func = ns.get(func_name)\n    if func is None:\n        return {\"error\": \"未找到函数 \" + str(func_name) + \"，请确保代码中定义了该函数\", \"stdout\": user_out}\n\n    test_results = []\n    for i, tc in enumerate(test_cases):\n        try:\n            actual = func(*tc)\n            exp = expected[i]\n            passed = actual == exp\n            test_results.append({\n                \"passed\": passed,\n                \"input\": str(tc),\n                \"expected\": str(exp),\n                \"actual\": str(actual)\n            })\n        except Exception as e:\n            exp = str(expected[i]) if i < len(expected) else \"N/A\"\n            test_results.append({\n                \"passed\": False,\n                \"input\": str(tc),\n                \"expected\": exp,\n                \"actual\": \"Error: \" + str(e)\n            })\n\n    return {\"stdout\": user_out, \"tests\": test_results}\n";
+
+// ===== 显示/隐藏解析 =====
+function revealSolution(qid) {
+  const sol = document.getElementById('solution_' + qid);
+  const btn = document.getElementById('reveal_btn_' + qid);
+  if (sol.style.display === 'none') {
+    sol.style.display = 'block';
+    btn.innerHTML = '📕 收起解析';
+    // 渲染该区域数学公式
+    if (typeof renderMathInElement !== 'undefined') {
+      renderMathInElement(sol, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false}
+        ]
+      });
+    }
+  } else {
+    sol.style.display = 'none';
+    btn.innerHTML = '📖 显示答案与解析';
+  }
+}
+
+// ===== 选择题作答反馈 =====
+function checkAnswer(qid, selected) {
+  const card = document.querySelector(`[data-qid="${qid}"]`);
+  if (!card) return;
+  const correctAnswer = card.getAttribute('data-correct') || '';
+  // 从全局 quizData 获取
+  const qData = window.__quizData__.questions.find(q => q.id == qid);
+  if (!qData || !qData.correct_answer) return;
+
+  const correct = qData.correct_answer;
+  const feedback = document.getElementById('feedback_' + qid);
+  const options = card.querySelectorAll('.option-item');
+
+  options.forEach(opt => {
+    const letter = opt.getAttribute('data-letter');
+    opt.classList.remove('correct', 'wrong');
+    if (letter === correct) {
+      opt.classList.add('correct');
+    } else if (letter === selected && selected !== correct) {
+      opt.classList.add('wrong');
+    }
+  });
+
+  if (feedback) {
+    feedback.className = 'option-feedback show ' + (selected === correct ? 'correct' : 'wrong');
+    feedback.textContent = selected === correct
+      ? '✅ 回答正确！'
+      : `❌ 正确答案是 ${correct}，再想想？`;
+    feedback.style.display = 'block';
+  }
+}
+
+// ===== Pyodide 代码执行 =====
+let pyodideReady = null;
+let pyodideLoading = false;
+
+function loadPyodideAsync() {
+  if (pyodideReady) return pyodideReady;
+  if (pyodideLoading) return pyodideReady;
+  pyodideLoading = true;
+
+  pyodideReady = new Promise((resolve, reject) => {
+    if (typeof loadPyodide !== 'undefined') {
+      loadPyodide({
+        indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.25.0/full/'
+      }).then(py => {
+        pyodideLoading = false;
+        resolve(py);
+      }).catch(reject);
+    } else {
+      // 动态加载 Pyodide
+      const script = document.createElement('script');
+      script.src = 'https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js';
+      script.onload = () => {
+        loadPyodide({
+          indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.25.0/full/'
+        }).then(py => {
+          pyodideLoading = false;
+          resolve(py);
+        }).catch(reject);
+      };
+      script.onerror = () => {
+        pyodideLoading = false;
+        reject(new Error('Pyodide 加载失败，请检查网络连接'));
+      };
+      document.head.appendChild(script);
+    }
+  });
+  return pyodideReady;
+}
+
+async function runCode(qid) {
+    const editor = document.getElementById('editor_' + qid);
+    const resultDiv = document.getElementById('result_' + qid);
+    const btn = document.getElementById('run_btn_' + qid);
+    const code = editor.innerText;
+    const funcNameInput = document.getElementById('func_name_' + qid);
+    const funcName = funcNameInput ? funcNameInput.value : 'solve';
+    const tcInput = document.getElementById('test_cases_' + qid);
+    const eoInput = document.getElementById('expected_outputs_' + qid);
+    let testCases = [];
+    let expectedOutputs = [];
+    try {
+        testCases = JSON.parse(tcInput.value || '[]');
+        expectedOutputs = JSON.parse(eoInput.value || '[]');
+    } catch(e) {}
+
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span> 运行中...';
+    resultDiv.style.display = 'block';
+    resultDiv.innerHTML = '<span style="color:var(--text-dim)">⏳ 正在加载 Python 运行环境...</span>';
+
+    try {
+        const pyodide = await loadPyodideAsync();
+        resultDiv.innerHTML = '<span style="color:var(--text-dim)">⏳ 正在执行代码...</span>';
+
+        // 确保 run_tests 函数只定义一次
+        if (!window.__runner_ready__) {
+            pyodide.runPython(RUNNER_CODE);
+            window.__runner_ready__ = true;
+        }
+
+        // 调用 run_tests 函数，通过返回值获取结果（不依赖 stdout，每次调用独立）
+        const runTests = pyodide.globals.get('run_tests');
+        const pyResult = runTests(code, funcName, testCases, expectedOutputs);
+        // pyResult 是 Python dict，转为 JS 对象
+        const result = pyResult.toJs({dict_converter: Object.fromEntries});
+
+        let resultHtml = '';
+
+        // 显示用户代码标准输出
+        if (result.stdout && result.stdout.trim()) {
+            resultHtml += '<div style="color:var(--text)">📝 标准输出：</div>';
+            resultHtml += '<pre style="color:var(--text);margin:4px 0;">' + escapeHtml(result.stdout) + '</pre>';
+        }
+
+        // 显示错误信息
+        if (result.error) {
+            resultHtml += '<div class="stderr">⚠️ 错误信息：</div>';
+            resultHtml += '<pre class="stderr" style="margin:4px 0;">' + escapeHtml(result.error) + '</pre>';
+        }
+
+        // 显示测试用例结果
+        if (result.tests && result.tests.length > 0) {
+            let allPassed = result.tests.every(t => t.passed);
+            resultHtml += '<div style="margin-top:8px;color:' + (allPassed ? 'var(--green)' : 'var(--accent)') + '">';
+            resultHtml += allPassed ? '🎉 全部通过！' : '🧪 测试用例结果：';
+            resultHtml += '</div>';
+
+            for (let i = 0; i < result.tests.length; i++) {
+                const t = result.tests[i];
+                if (t.passed) {
+                    resultHtml += '<div class="test-pass">✅ 用例 ' + (i+1) + ' 通过</div>';
+                } else {
+                    resultHtml += '<div class="test-fail">❌ 用例 ' + (i+1) + ' 未通过</div>';
+                    resultHtml += '<pre style="color:var(--text-dim);margin:2px 0;">  输入: ' + escapeHtml(t.input) + '\n  期望: ' + escapeHtml(t.expected) + '\n  实际: ' + escapeHtml(t.actual) + '</pre>';
+                }
+            }
+        }
+
+        if (!resultHtml) {
+            resultHtml = '<span style="color:var(--text-dim)">（代码执行完毕，无输出）</span>';
+        }
+
+        resultDiv.innerHTML = resultHtml;
+
+    } catch(e) {
+        resultDiv.innerHTML = '<div class="stderr">❌ ' + escapeHtml(e.message || String(e)) + '</div>';
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = '▶ 运行';
+    }
+}
+
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+// Ctrl+Enter 运行代码
+document.addEventListener('keydown', (e) => {
+  if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+    const focused = document.activeElement;
+    if (focused && focused.classList.contains('code-editor')) {
+      const qid = focused.id.replace('editor_', '');
+      runCode(qid);
+    }
+  }
+});
+
+// Tab 键在编辑器中插入空格
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Tab' && document.activeElement.classList.contains('code-editor')) {
+    e.preventDefault();
+    document.execCommand('insertText', false, '    ');
+  }
+});
+
+// 将 quiz 数据存入全局变量供选择题使用
+window.__quizData__ = {"date": "2026-09-24", "title": "每日算法AI出题 · 第 8 期", "subtitle": "算法 2 道 + AI 2 道 · 图论 / 哈希表 / 优化器 / 大模型微调", "questions": [{"id": 1, "type": "algorithm_code", "type_label": "算法编程", "difficulty": 3, "title": "课程表（拓扑排序）", "description": "你一共需要修 `numCourses` 门课程，编号为 `0` 到 `numCourses-1`。给定先修关系数组 `prerequisites`，其中 `prerequisites[i] = [a_i, b_i]` 表示**修课程 `a_i` 之前必须先修完课程 `b_i`**。请判断你能否修完所有课程：若先修关系构成的有向图存在环，则永远无法完成；反之可以完成。（LeetCode 207 改编）", "input_format": "numCourses：整数，课程数量；prerequisites：二维整数数组，每个元素为 [a_i, b_i]。", "output_format": "返回布尔值：能修完所有课程返回 True，否则返回 False。", "examples": [{"input": "numCourses = 2, prerequisites = [[1,0]]", "output": "True", "explanation": "先修 0 再修 1，顺序可行。"}, {"input": "numCourses = 2, prerequisites = [[1,0],[0,1]]", "output": "False", "explanation": "0 与 1 互为先修，形成环，永远无法开始。"}], "constraints": "1 <= numCourses <= 2000\n0 <= prerequisites.length <= 5000\nprerequisites[i].length == 2，0 <= a_i, b_i < numCourses\n输入中不会出现重复的先修对", "solution": {"approach": "把先修关系建模为有向图：边 b→a 表示「先学 b 才能学 a」。用 Kahn 算法（BFS + 入度表）判断是否存在拓扑序：\n1. 统计每个节点入度，将入度为 0 的节点（无先修的课）入队；\n2. 依次弹出队首节点 u，表示学完 u，将其所有后继节点 v 的入度减 1，若 v 的入度变为 0 则入队；\n3. 若最终出队节点数 == numCourses，说明全部课程可排成拓扑序（图无环），否则图中存在环，无法完成。\n（也可以用 DFS 三色标记法判环，Kahn 法更直观且可顺便给出拓扑序。）", "code": "from collections import deque\n\ndef canFinish(numCourses, prerequisites):\n    # 邻接表：graph[b] 中存放所有依赖 b 的后继课程\n    graph = [[] for _ in range(numCourses)]\n    indegree = [0] * numCourses\n    for a, b in prerequisites:\n        graph[b].append(a)\n        indegree[a] += 1\n\n    # 所有无需先修的课程入队\n    q = deque(i for i in range(numCourses) if indegree[i] == 0)\n    finished = 0\n    while q:\n        u = q.popleft()\n        finished += 1\n        for v in graph[u]:\n            indegree[v] -= 1\n            if indegree[v] == 0:\n                q.append(v)\n    return finished == numCourses\n", "starter_code": "from collections import deque\n\ndef canFinish(numCourses, prerequisites):\n    # TODO: 判断能否修完所有课程（拓扑排序判环）\n    pass\n", "code_language": "python", "complexity_time": "O(E + V)，E 为先修关系数，V = numCourses", "complexity_space": "O(E + V)，邻接表 + 入度数组", "key_points": "拓扑排序、Kahn 算法（BFS）、入度统计、有向图环检测；DFS 三色标记法可作为备选方案", "test_cases": [[2, [[1, 0]]], [2, [[1, 0], [0, 1]]], [1, []], [3, [[1, 0], [2, 1]]], [4, [[1, 0], [2, 0], [3, 1], [3, 2]]], [3, [[0, 1], [1, 2], [2, 0]]], [5, [[0, 1], [1, 2], [2, 3], [3, 4], [4, 0]]], [2000, []], [6, [[1, 0], [2, 1], [3, 2], [4, 3], [5, 4], [0, 5]]], [4, [[1, 0], [2, 1], [3, 2], [1, 3]]], [5, [[1, 0], [2, 0], [3, 1], [3, 2], [4, 3]]], [1, [[0, 0]]]], "expected_outputs": [true, false, true, true, true, false, false, true, false, false, true, false]}}, {"id": 2, "type": "algorithm_concept", "type_label": "算法概念", "difficulty": 2, "title": "哈希表哈希冲突处理", "description": "关于哈希表中「哈希冲突」的解决方式，下列说法**正确**的是？（单选）\n\nA. 链地址法（拉链法）冲突严重时链表会退化为线性查找 O(n)；Java 8+ 的 HashMap 在链表过长且数组容量足够时会将该链表转为红黑树，使最坏情况查找降到 O(log n)\n\nB. 开放定址法中的线性探测，删除元素时直接把该槽位置空即可，不会影响后续元素的查找\n\nC. 再哈希法（双重哈希）用于表装满时的扩容，与解决哈希冲突无关\n\nD. 链地址法要求装载因子（元素个数 / 槽位个数）必须大于 1 才能保证查找效率", "options": ["A. 链地址法冲突严重时退化为 O(n)，Java 8+ HashMap 链表过长且容量足够时转红黑树，最坏降到 O(log n)", "B. 开放地址法的线性探测，删除元素时直接置空即可，不影响后续查找", "C. 再哈希法（双重哈希）只用于扩容，与解决冲突无关", "D. 链地址法要求装载因子必须大于 1 才能保证查找效率"], "correct_answer": "A", "solution": {"approach": "逐一核对四种冲突处理方案的机制与边界：A 考查链地址法的退化与 Java 工程优化，B 考查线性探测删除时的『标记删除』问题，C 混淆了重哈希与扩容两个概念，D 颠倒了装载因子与性能的关系。", "option_analysis": ["A 正确。链地址法把冲突元素挂在同一槽位的链表上，极端哈希下链表很长，查找退化为 O(n)；Java 8+ HashMap 在链表长度 ≥ 8 且数组容量 ≥ 64 时把链表转为红黑树，最坏 O(log n)；若容量不足 64 则优先扩容，而非直接转树。", "B 错误。线性探测的关键性质是「探测序列连续」，直接置空会切断探测链，使其后本应找到的元素查不到；必须用『标记删除』（置 deleted 位）或删除后重排该簇元素。", "C 错误。重哈希（双重哈希 / Double Hashing）本身就是一种解决冲突的探测策略——冲突时以第二个哈希函数的值作为步长继续探测；扩容是装载因子过高时另行的机制，两者无关。", "D 错误。装载因子是『元素数/槽位数』的比值，工程上常取 ≤ 1（HashMap 默认 0.75）；链地址法虽允许 > 1，但链越长查找越慢，绝不是越大越好。"], "key_points": "哈希冲突、链地址法（拉链法）、开放定址（线性/平方探测）、标记删除、重哈希、装载因子、红黑树优化"}}, {"id": 3, "type": "ai_derivation", "type_label": "AI公式推导", "difficulty": 3, "title": "推导 Adam 优化器：动量、二阶矩与偏差修正", "description": "从带动量的 SGD 出发，完整推导 Adam 优化器：\n1. 一阶矩（动量）估计的递推式与其无偏形式；\n2. 二阶矩（梯度平方）估计的递推式与无偏形式；\n3. 最终参数更新公式；\n4. 说明为何需要偏差修正，以及超参 $\\beta_1, \\beta_2, \\alpha, \\epsilon$ 的默认值与作用。\n\n要求给出完整的期望计算与等比数列求和步骤，禁止只写结论。", "solution": {"derivation": "符号约定：设目标参数为 $\\theta$，时间步为 $t$，第 $t$ 步梯度为 $g_t = \\nabla_\\theta f_t(\\theta_{t-1})$，$\\beta_1, \\beta_2 \\in [0,1)$ 为衰减系数。\n\n**第 1 步：一阶矩（动量）的递推**\n$$ m_t = \\beta_1 m_{t-1} + (1-\\beta_1) g_t, \\quad m_0 = 0 $$\n\n这是对历史梯度做指数加权移动平均（EMA），权重越新的梯度越大。反复展开得：\n$$ m_t = (1-\\beta_1)\\sum_{i=1}^{t} \\beta_1^{\\,t-i} g_i $$\n\n**第 2 步：一阶矩的偏差修正**\n因 $m_0 = 0$，前几步的 $m_t$ 被『拉向零』，是 $E[g]$ 的有偏估计。在梯度分布平稳的假设下（$E[g_i] = E[g]$）：\n$$ E[m_t] = (1-\\beta_1)\\,E[g]\\sum_{i=1}^{t} \\beta_1^{\\,t-i} = (1-\\beta_1)E[g]\\frac{1-\\beta_1^{t}}{1-\\beta_1} = E[g]\\,(1-\\beta_1^{t}) $$\n\n（用等比数列求和 $\\sum_{j=0}^{t-1} \\beta_1^{j} = \\frac{1-\\beta_1^{t}}{1-\\beta_1}$。）因此除以 $(1-\\beta_1^{t})$ 即为无偏估计：\n$$ \\hat{m}_t = \\frac{m_t}{1-\\beta_1^{t}}, \\quad E[\\hat{m}_t] = E[g] $$\n\n**第 3 步：二阶矩（梯度平方）估计与偏差修正**\n同理，二阶矩用 EMA 估计梯度平方 $E[g^2]$（相当于逐参数的自适应缩放因子）：\n$$ v_t = \\beta_2 v_{t-1} + (1-\\beta_2) g_t^2, \\quad v_0 = 0 $$\n$$ \\hat{v}_t = \\frac{v_t}{1-\\beta_2^{t}}, \\quad E[\\hat{v}_t] = E[g^2] $$\n\n**第 4 步：参数更新公式**\n$$ \\theta_t = \\theta_{t-1} - \\alpha \\, \\frac{\\hat{m}_t}{\\sqrt{\\hat{v}_t} + \\epsilon} $$\n其中 $\\alpha$ 为学习率，$\\epsilon$ 为防除零的数值稳定常数。\n\n**第 5 步：直觉解读与默认超参**\n- $\\hat{m}_t$ 提供动量方向：EMA 平滑了噪声梯度，能穿过平坦区与局部振荡；\n- $\\sqrt{\\hat{v}_t}$ 提供逐参数自适应缩放：梯度振幅大的参数步长自动变小，振幅小的放大，对稀疏梯度（如 Embedding 层）特别友好；\n- 默认 $\\beta_1 = 0.9$（EMA 窗口约 10 步）、$\\beta_2 = 0.999$（窗口约 1000 步）、$\\alpha = 10^{-3}$、$\\epsilon = 10^{-8}$；\n- 无偏差修正时前期 $\\hat{m}_t, \\hat{v}_t$ 偏小，导致步长畸变，Adam 初期的稳定表现正依赖于修正。\n\n**延伸（加分）**：AdamW 将权重衰减从「加入梯度被自适应缩放」改为在更新中解耦：\n$$ \\theta_t = \\theta_{t-1} - \\alpha\\Big(\\frac{\\hat{m}_t}{\\sqrt{\\hat{v}_t}+\\epsilon} + \\lambda \\theta_{t-1}\\Big) $$\n避免 L2 正则被 $\\sqrt{\\hat{v}_t}$ 放大，是 LLM 训练的标准选择。", "intuition": "Adam 可理解为『带动量的自适应学习率』：一阶矩给方向惯性，二阶矩对每个参数做归一化缩放，二者经偏差修正消除零初始化带来的早期偏差。", "key_points": "指数移动平均（EMA）、一阶矩/二阶矩、偏差修正、自适应学习率、AdamW 解耦权重衰减、默认超参 β1=0.9 / β2=0.999 / α=1e-3"}}, {"id": 4, "type": "ai_interview", "type_label": "AI面试问答", "difficulty": 2, "title": "为什么 LoRA 只用少量参数就能逼近全量微调？", "description": "面试官：你做过大模型微调吗？请解释 LoRA（Low-Rank Adaptation）的原理——为什么它只训练极小一部分参数，就能取得接近全量微调（Full Fine-Tuning）的效果？", "solution": {"answer_points": ["核心是『低秩假设』：预训练权重微调产生的增量 ΔW 具有低内在秩（研究在 GPT-3 175B 上 r=4 即可捕获主导方向）。LoRA 冻结原权重 W₀，把增量参数化为两个低秩矩阵之积：W = W₀ + (α/r)·B·A，B∈R^{d×r}、A∈R^{r×k}，r ≪ min(d,k)，只训练 B、A。", "参数与内存骤降：可训练参数从 d×k 降到 r·(d+k)；优化器状态（Adam 的 m、v）随可训练参数同步缩小，显存门槛大幅降低（QLoRA 4-bit 量化后 48G 显存可微调 65B 模型）。", "推理零额外开销：训练完把 B·A 合并回 W′ = W₀ + (α/r)BA，推理结构与全量微调完全一致、无额外延迟；多任务只需保存多个 (B,A) 副本按需切换。", "效果验证：多种任务与架构上 LoRA 效果与全量微调相当甚至更优（GPT-3 175B 只需 0.01% 可训练参数），且过拟合更少、天然带正则化效果。", "与 Adapter / Prefix-Tuning 对比：Prefix 会增加序列长度和 KV 缓存开销，Adapter 增加层内计算深度，LoRA 不改网络结构、无推理代价，是当下最主流的 PEFT 方案。"], "bonus": ["初始化细节：A 用高斯噪声初始化、B 初始化为零，保证训练开始时 ΔW=0，不破坏预训练权重分布。", "缩放因子：实际生效的是 (α/r)·BA，α 是统一缩放系数（实验常用 r=8、α=16），α/r 影响训练稳定性。", "应用面广：LoRA 是 RLHF/DPO 中策略模型与奖励模型的常选微调方式，多任务可并行叠加、可随时回滚。"], "followup_predictions": ["追问1：LoRA 为什么不增加推理延迟？答：训练后将 BA 合并进 W₀，前向计算仍是普通矩阵乘；而 Prefix-Tuning 每轮都要为前缀额外计算并缓存 KV，延迟更高。", "追问2：rank r 如何选择？——r 越大表达力越强但收益递减且过拟合风险上升；经验值 4~64，多数任务 r=8 已接近全量效果。", "追问3：LoRA 与全量微调各适合什么场景？——数据量少、资源受限、需要多任务切换时用 LoRA；任务与预训练分布差异极大且数据充足时，全量微调上限更高。", "追问4：QLoRA 如何工作？——用 NF4 4-bit 量化冻结原权重、以 32-bit 精度训练 LoRA 适配器，量化误差与低秩近似互不干扰。"]}}]};
+</script>
+</body>
+</html>
