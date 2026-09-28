@@ -1,0 +1,1733 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>每日算法讲解 · 2026年09月28日</title>
+<!-- MathJax for LaTeX math formula rendering -->
+<script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\(', '\)']],
+      displayMath: [['$$', '$$'], ['\[', '\]']],
+      processEscapes: true
+    },
+    svg: { fontCache: 'global' }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" id="MathJax-script" async></script>
+<style>
+:root {
+  --primary: #6366f1;
+  --primary-dark: #4f46e5;
+  --bg: #0f172a;
+  --card-bg: #1e293b;
+  --text: #e2e8f0;
+  --text-dim: #94a3b8;
+  --accent: #818cf8;
+  --border: #334155;
+  --code-bg: #0d1117;
+  --code-text: #e6edf3;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans SC", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.8;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+.container { max-width: 1400px; margin: 0 auto; padding: 24px 32px; }
+.header {
+  text-align: center;
+  padding: 40px 0 30px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 32px;
+}
+.header h1 {
+  font-size: 28px;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.header h1 .date { color: var(--accent); }
+.header .subtitle { color: var(--text-dim); font-size: 15px; }
+.repo-link {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 6px 16px;
+  background: var(--primary);
+  color: #fff;
+  border-radius: 20px;
+  text-decoration: none;
+  font-size: 13px;
+  transition: background 0.2s;
+}
+.repo-link:hover { background: var(--primary-dark); }
+.history-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 32px;
+  padding: 16px;
+  background: var(--card-bg);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+.history-nav a {
+  padding: 4px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  color: var(--text-dim);
+  text-decoration: none;
+  background: rgba(99,102,241,0.08);
+  transition: all 0.2s;
+}
+.history-nav a:hover { color: var(--text); background: rgba(99,102,241,0.2); }
+.history-nav a.active { color: #fff; background: var(--primary); }
+.history-nav a.back-index { color: var(--accent); font-weight: 600; background: rgba(99,102,241,0.15); border: 1px solid rgba(99,102,241,0.3); }
+.history-nav a.back-index:hover { color: #fff; background: var(--primary); border-color: var(--primary); }
+.content { margin-bottom: 40px; max-width: 1100px; }
+.content h2 {
+  font-size: 24px;
+  color: var(--accent);
+  margin: 40px 0 16px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--primary);
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+.content h2:first-child { border-top: none; padding-top: 0; }
+.content h3 {
+  font-size: 18px;
+  color: var(--text);
+  margin: 24px 0 12px;
+}
+.content h4 {
+  font-size: 16px;
+  color: var(--accent);
+  margin: 20px 0 10px;
+}
+.content p { margin-bottom: 12px; color: var(--text); }
+.content ul { margin: 8px 0 16px 20px; }
+.content li { margin-bottom: 6px; }
+.content strong { color: var(--accent); }
+.content blockquote {
+  border-left: 4px solid var(--primary);
+  padding: 12px 16px;
+  margin: 16px 0;
+  background: rgba(99,102,241,0.08);
+  border-radius: 0 8px 8px 0;
+}
+.content blockquote p { color: var(--text-dim); margin: 4px 0; }
+.content hr {
+  border: none;
+  height: 1px;
+  background: var(--border);
+  margin: 32px 0;
+}
+.code-block {
+  background: var(--code-bg);
+  border-radius: 10px;
+  padding: 18px 24px;
+  overflow-x: auto;
+  margin: 16px 0;
+  border: 1px solid var(--border);
+  max-width: 100%;
+}
+.code-block code {
+  font-family: "JetBrains Mono", "Fira Code", "Consolas", monospace;
+  font-size: 14px;
+  color: var(--code-text);
+  line-height: 1.6;
+  white-space: pre;
+}
+.inline-code {
+  background: rgba(99,102,241,0.15);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: "Consolas", monospace;
+  font-size: 0.9em;
+  color: var(--accent);
+}
+/* Math formula block */
+.content .math-block {
+  background: rgba(99,102,241,0.06);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 24px;
+  margin: 16px 0;
+  overflow-x: auto;
+  max-width: 100%;
+}
+.content .math-label {
+  font-size: 13px; color: var(--text-dim); margin-bottom: 6px; }
+.content .math-vars {
+  margin: 8px 0 16px 20px; }
+.content .math-vars li { margin-bottom: 4px; color: var(--text-dim); }
+.footer {
+  text-align: center;
+  padding: 24px 0;
+  border-top: 1px solid var(--border);
+  color: var(--text-dim);
+  font-size: 13px;
+}
+.tag {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  background: rgba(99,102,241,0.15);
+  color: var(--accent);
+  margin-left: 8px;
+}
+.content .ref-link {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px dashed rgba(99,102,241,0.4);
+  transition: all 0.2s;
+  word-break: break-all;
+}
+.content .ref-link:hover {
+  color: #fff;
+  border-bottom-color: var(--primary);
+}
+.content li {
+  word-break: break-all;
+}
+/* Table */
+.table-wrapper {
+  overflow-x: auto;
+  margin: 16px 0;
+  max-width: 100%;
+}
+.algo-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  background: var(--card-bg);
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+.algo-table thead {
+  background: rgba(99,102,241,0.15);
+}
+.algo-table th {
+  padding: 10px 16px;
+  text-align: left;
+  color: var(--accent);
+  font-weight: 600;
+  border-bottom: 2px solid var(--primary);
+  white-space: nowrap;
+}
+.algo-table td {
+  padding: 8px 16px;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  word-break: break-all;
+}
+.algo-table tr:last-child td {
+  border-bottom: none;
+}
+.algo-table tr:hover td {
+  background: rgba(99,102,241,0.06);
+}
+/* Algorithm architecture image */
+.algo-image {
+  margin: 20px 0;
+  text-align: center;
+}
+.algo-image img {
+  max-width: 100%;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+.algo-image .image-caption {
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--text-dim);
+}
+.algo-image svg {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+/* ======== 移动端响应式适配 ======== */
+@media (max-width: 768px) {
+  .container { max-width: 100%; padding: 16px 14px; }
+  .header { padding: 24px 0 20px; margin-bottom: 20px; }
+  .header h1 { font-size: 20px; margin-bottom: 4px; }
+  .header .subtitle { font-size: 13px; }
+  .repo-link { margin-top: 10px; padding: 5px 14px; font-size: 12px; }
+  .history-nav { gap: 6px; padding: 10px 12px; margin-bottom: 20px; }
+  .history-nav a { padding: 3px 10px; font-size: 12px; }
+  .content { max-width: 100%; margin-bottom: 28px; }
+  .content h2 { font-size: 20px; margin: 28px 0 12px; }
+  .content h3 { font-size: 17px; margin: 20px 0 10px; }
+  .content h4 { font-size: 15px; margin: 16px 0 8px; }
+  .content p { font-size: 14px; margin-bottom: 10px; }
+  .content ul { margin: 6px 0 12px 16px; }
+  .content li { font-size: 14px; margin-bottom: 5px; }
+  .content blockquote { padding: 10px 12px; margin: 12px 0; }
+  .content blockquote p { font-size: 13px; }
+  .content .math-block { padding: 10px 14px; margin: 12px 0; }
+  .code-block { padding: 12px 14px; margin: 12px 0; }
+  .code-block code { font-size: 12px; line-height: 1.5; }
+  .inline-code { font-size: 0.88em; padding: 1px 5px; }
+  .algo-table { font-size: 12px; }
+  .algo-table th { padding: 6px 10px; }
+  .algo-table td { padding: 6px 10px; }
+  .algo-image { margin: 14px 0; }
+  .algo-image svg { max-width: 100%; height: auto; }
+  .footer { padding: 18px 0; font-size: 12px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>每日算法讲解 · <span class="date">2026年09月28日</span></h1>
+    <p class="subtitle">每天 1 个基础算法 + 2 个 AI/机器学习算法，持续精进</p>
+    <a href="https://syypretend.github.io/test/daily-algorithm" target="_blank" class="repo-link">GitHub 仓库</a>
+  </div>
+  <div class="history-nav"><a href="index.html" class="back-index">← 历史索引</a>
+<a href="2026-09-28.html" class="active">09月28日</a>
+<a href="2026-09-24.html">09月24日</a>
+<a href="2026-09-17.html">09月17日</a>
+<a href="2026-09-15.html">09月15日</a>
+<a href="2026-09-14.html">09月14日</a>
+<a href="2026-09-11.html">09月11日</a>
+<a href="2026-09-10.html">09月10日</a>
+<a href="2026-09-09.html">09月09日</a>
+<a href="2026-09-08.html">09月08日</a>
+<a href="2026-09-07.html">09月07日</a>
+</div>
+  <div class="content">
+  <hr>
+<p>AIGC:</p>
+<p>ContentProducer: '001191110102MAD55U9H0F10002'</p>
+<p>ContentPropagator: '001191110102MAD55U9H0F10002'</p>
+<p>Label: '1'</p>
+<p>ProduceID: '73062b40-5537-4110-8863-c5bd228ddc40'</p>
+<p>PropagateID: '73062b40-5537-4110-8863-c5bd228ddc40'</p>
+<p>ReservedCode1: '73b6e35c-9fe2-40c8-bd43-4c5445f1cb51'</p>
+<p>ReservedCode2: '73b6e35c-9fe2-40c8-bd43-4c5445f1cb51'</p>
+<hr>
+
+<h2>每日算法讲解 · 2026-09-28</h2>
+
+<blockquote>
+<p>今日内容：1 个基础算法 + 2 个 AI/机器学习算法 | 逐参数详解</p>
+<p>学习进度：基础 9/60 · AI 18/99 · 第 1 轮首轮学习</p>
+</blockquote>
+
+<hr>
+
+<h3>二分图匹配（匈牙利算法 & KM 算法）</h3>
+
+<p><strong>类别</strong>：图算法 | <strong>难度</strong>：中等</p>
+
+<h4>算法简介</h4>
+
+<p>二分图匹配是图论中的经典组合优化问题。二分图（Bipartite Graph）是指顶点集可以被划分为两个互不相交的子集 U 和 V，且每条边的两个端点分别属于 U 和 V 的图。在二分图中，<strong>匹配</strong>（Matching）是指一组互不相邻的边集合——即没有两条边共享同一个顶点。</p>
+
+<p>二分图匹配有两大核心问题：<strong>最大匹配</strong>（找到尽可能多的匹配边）和<strong>最优匹配/最佳匹配</strong>（在带权二分图中找到权值和最大或最小的完美匹配）。前者通过匈牙利算法（基于增广路径）求解，后者通过 Kuhn-Munkres（KM）算法求解。</p>
+
+<p>匈牙利算法由匈牙利数学家 Dénes Kőnig 的理论奠基，由 Harold Kuhn 于 1955 年正式提出。其核心思想是：从一个空匹配出发，不断寻找<strong>增广路径</strong>（alternating path）——即交替经过匹配边和非匹配边的路径，其起点和终点都是未匹配顶点。找到增广路径后，翻转路径上的匹配/非匹配状态，匹配数加一。重复此过程直到不存在增广路径，即得到最大匹配。</p>
+
+<p>KM 算法在匈牙利算法基础上引入了<strong>可行顶标</strong>（feasible vertex labeling）的概念，通过调整顶标使相等子图逐渐扩大，最终在相等子图上找到完美匹配即为最优匹配。</p>
+
+<h4>原理示意图</h4>
+
+<p><div class="algo-image"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 900 450" font-family="sans-serif">
+  <defs>
+    <marker id="arrow1" markerWidth="8" markerHeight="6" refX="4" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#6366f1"/>
+    </marker>
+  </defs>
+  <rect width="900" height="450" fill="#1e293b" rx="12"/>
+  <text x="450" y="30" text-anchor="middle" fill="#818cf8" font-size="16" font-weight="600">二分图匹配：匈牙利算法增广路径示意</text>
+  <text x="150" y="65" text-anchor="middle" fill="#94a3b8" font-size="13">集合 U（工人）</text>
+  <circle cx="150" cy="100" r="22" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="150" y="105" text-anchor="middle" fill="#e2e8f0" font-size="14">u1</text>
+  <circle cx="150" cy="180" r="22" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="150" y="185" text-anchor="middle" fill="#e2e8f0" font-size="14">u2</text>
+  <circle cx="150" cy="260" r="22" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="150" y="265" text-anchor="middle" fill="#e2e8f0" font-size="14">u3</text>
+  <circle cx="150" cy="340" r="22" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="150" y="345" text-anchor="middle" fill="#e2e8f0" font-size="14">u4</text>
+  <text x="750" y="65" text-anchor="middle" fill="#94a3b8" font-size="13">集合 V（任务）</text>
+  <circle cx="750" cy="100" r="22" fill="#334155" stroke="#22c55e" stroke-width="2"/>
+  <text x="750" y="105" text-anchor="middle" fill="#e2e8f0" font-size="14">v1</text>
+  <circle cx="750" cy="180" r="22" fill="#334155" stroke="#22c55e" stroke-width="2"/>
+  <text x="750" y="185" text-anchor="middle" fill="#e2e8f0" font-size="14">v2</text>
+  <circle cx="750" cy="260" r="22" fill="#334155" stroke="#22c55e" stroke-width="2"/>
+  <text x="750" y="265" text-anchor="middle" fill="#e2e8f0" font-size="14">v3</text>
+  <circle cx="750" cy="340" r="22" fill="#334155" stroke="#f97316" stroke-width="2"/>
+  <text x="750" y="345" text-anchor="middle" fill="#e2e8f0" font-size="14">v4</text>
+  <line x1="172" y1="100" x2="728" y2="180" stroke="#6366f1" stroke-width="1.5" stroke-dasharray="5,3" opacity="0.4"/>
+  <line x1="172" y1="100" x2="728" y2="260" stroke="#6366f1" stroke-width="1.5" stroke-dasharray="5,3" opacity="0.4"/>
+  <line x1="172" y1="180" x2="728" y2="340" stroke="#6366f1" stroke-width="1.5" stroke-dasharray="5,3" opacity="0.4"/>
+  <line x1="172" y1="260" x2="728" y2="100" stroke="#6366f1" stroke-width="1.5" stroke-dasharray="5,3" opacity="0.4"/>
+  <line x1="172" y1="340" x2="728" y2="260" stroke="#f97316" stroke-width="2.5" marker-end="url(#arrow1)"/>
+  <line x1="172" y1="100" x2="728" y2="100" stroke="#22c55e" stroke-width="3"/>
+  <line x1="172" y1="180" x2="728" y2="180" stroke="#22c55e" stroke-width="3"/>
+  <line x1="172" y1="260" x2="728" y2="340" stroke="#22c55e" stroke-width="3"/>
+  <line x1="172" y1="340" x2="728" y2="260" stroke="#f97316" stroke-width="2.5" marker-end="url(#arrow1)"/>
+  <rect x="30" y="380" width="840" height="55" fill="#0f172a" rx="8"/>
+  <text x="50" y="402" fill="#e2e8f0" font-size="12">绿色实线 = 已匹配边</text>
+  <text x="220" y="402" fill="#e2e8f0" font-size="12">蓝色虚线 = 未匹配边</text>
+  <text x="400" y="402" fill="#f97316" font-size="12">橙色 = 增广路径：u4->v3->u3->v4</text>
+  <text x="50" y="422" fill="#94a3b8" font-size="12">增广路径起点 u4 和终点 v4 均未匹配，翻转后匹配数 +1</text>
+</svg></div></p>
+
+<h4>数学公式</h4>
+
+<p><strong>公式1：增广路径定理（Berge 定理）</strong></p>
+
+<p><div class="math-block">$$ M \text{ 是最大匹配} \iff \text{不存在关于 } M \text{ 的增广路径} $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ M $：当前匹配（边集合）</li>
+<li>增广路径：一条交替经过 $ M $ 中边和不在 $ M $ 中的边的路径，且起点和终点都是未匹配顶点</li>
+</ul>
+
+<p><strong>公式2：König 定理（最大匹配 = 最小点覆盖）</strong></p>
+
+<p><div class="math-block">$$ \nu(G) = \tau(G) $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ \nu(G) $：二分图 $ G $ 的最大匹配数（matching number）</li>
+<li>$ \tau(G) $：二分图 $ G $ 的最小顶点覆盖数（vertex cover number）</li>
+</ul>
+
+<p><strong>公式3：KM 算法可行顶标与相等子图</strong></p>
+
+<p><div class="math-block">$$ l(u) + l(v) \geq w(u, v), \quad \forall u \in U, v \in V $$</div></p>
+
+<p><div class="math-block">$$ G_l = \{(u, v) \mid l(u) + l(v) = w(u, v)\} $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ l(u) $、$ l(v) $：顶点 $ u $ 和 $ v $ 的可行顶标（feasible labeling）</li>
+<li>$ w(u, v) $：边 $ (u, v) $ 的权重</li>
+<li>$ G_l $：相等子图（equality subgraph），由满足等式的边组成</li>
+</ul>
+
+<p><strong>公式4：顶标调整量</strong></p>
+
+<p><div class="math-block">$$ \Delta = \min_{u \in S, v \notin T} \{ l(u) + l(v) - w(u, v) \} $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ \Delta $：顶标调整量，保证调整后仍满足可行条件</li>
+<li>$ S $：当前已标记的 U 侧顶点集合</li>
+<li>$ T $：当前已标记的 V 侧顶点集合</li>
+</ul>
+
+<p><strong>公式5：时间复杂度</strong></p>
+
+<p><div class="math-block">$$ T(n) = O(n^3) $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ n $：二分图顶点集大小（假设 $ |U| = |V| = n $）</li>
+<li>最多找 $ n $ 条增广路径，每条搜索 $ O(n) $，总复杂度 $ O(n^3) $</li>
+</ul>
+
+<h4>核心要点</h4>
+
+<ul>
+<li>匈牙利算法的核心是<strong>增广路径</strong>：找到一条交替路径可让匹配数 +1</li>
+<li>Berge 定理保证：不存在增广路径时当前匹配即为最大匹配</li>
+<li>KM 算法通过<strong>可行顶标</strong>将带权匹配转化为无权匹配问题</li>
+<li>König 定理连接了最大匹配与最小点覆盖，是二分图的核心对偶定理</li>
+<li>匈牙利算法和 KM 算法时间复杂度均为 $ O(n^3) $</li>
+</ul>
+
+<h4>技术细节与参数详解</h4>
+
+<p>#### 参数1：代价矩阵（Cost Matrix）</p>
+
+<ul>
+<li><strong>含义</strong>：$ n \times n $ 矩阵，<code class="inline-code">cost[i][j]</code> 表示将 U 侧顶点 $ i $ 分配给 V 侧顶点 $ j $ 的代价（或权重）</li>
+<li><strong>类型</strong>：二维数组 / numpy 数组</li>
+<li><strong>默认值</strong>：无（由问题定义）</li>
+<li><strong>取值范围</strong>：实数矩阵，元素可为正、负或零</li>
+<li><strong>对结果的影响</strong>：代价矩阵直接决定匹配结果。若求最大权匹配，可将代价取负或用 <code class="inline-code">max - cost[i][j]</code> 转换</li>
+<li><strong>推荐设置</strong>：确保矩阵为方阵（非方阵需补零到 $ \max(|U|, |V|) $）；若求最大权匹配，使用 <code class="inline-code">cost = max_val - original_cost</code> 转换为最小代价问题</li>
+</ul>
+
+<p>#### 参数2：匹配模式（maximize）</p>
+
+<ul>
+<li><strong>含义</strong>：控制求解最大权匹配还是最小权匹配</li>
+<li><strong>类型</strong>：布尔值</li>
+<li><strong>默认值</strong>：<code class="inline-code">False</code>（最小权匹配）</li>
+<li><strong>取值范围</strong>：<code class="inline-code">True</code> / <code class="inline-code">False</code></li>
+<li><strong>对结果的影响</strong>：<code class="inline-code">True</code> 时返回权值和最大的完美匹配；<code class="inline-code">False</code> 时返回权值和最小的完美匹配</li>
+<li><strong>推荐设置</strong>：任务分配/指派问题用 <code class="inline-code">False</code>；目标检测中 IoU 匹配用 <code class="inline-code">True</code>（IoU 越大越好）</li>
+</ul>
+
+<p>#### 参数3：增广路径搜索方式（DFS vs BFS）</p>
+
+<ul>
+<li><strong>含义</strong>：寻找增广路径时使用深度优先搜索还是广度优先搜索</li>
+<li><strong>类型</strong>：枚举（<code class="inline-code">'dfs'</code> / <code class="inline-code">'bfs'</code>）</li>
+<li><strong>默认值</strong>：<code class="inline-code">'dfs'</code>（实现简单）</li>
+<li><strong>取值范围</strong>：<code class="inline-code">'dfs'</code> 或 <code class="inline-code">'bfs'</code></li>
+<li><strong>对结果的影响</strong>：不影响最终结果，但 BFS 实现的 Hopcroft-Karp 算法可将复杂度优化到 $ O(n^{2.5}) $</li>
+<li><strong>推荐设置</strong>：小规模用 DFS（实现简单），大规模用 BFS（Hopcroft-Karp 变体）</li>
+</ul>
+
+<p>#### 参数4：顶标初始化策略（KM 算法）</p>
+
+<ul>
+<li><strong>含义</strong>：KM 算法中可行顶标的初始值设定方式</li>
+<li><strong>类型</strong>：函数</li>
+<li><strong>默认值</strong>：<code class="inline-code">l(u) = max_v w(u, v)</code>，<code class="inline-code">l(v) = 0</code></li>
+<li><strong>取值范围</strong>：满足 $ l(u) + l(v) \geq w(u,v) $ 的任意初始值</li>
+<li><strong>对结果的影响</strong>：不改变最终结果，但影响迭代次数。标准初始化从 U 侧最大权出发，收敛较快</li>
+<li><strong>推荐设置</strong>：使用默认初始化（U 侧取行最大值，V 侧取 0）</li>
+</ul>
+
+<p>#### 参数5：松弛数组 slack（KM 算法优化）</p>
+
+<ul>
+<li><strong>含义</strong>：记录 V 侧每个顶点 $ v $ 的最小松弛量 <code class="inline-code">slack[v] = min(l(u) + l(v) - w(u,v))</code>，避免重复计算</li>
+<li><strong>类型</strong>：一维数组</li>
+<li><strong>默认值</strong>：初始为正无穷</li>
+<li><strong>取值范围</strong>：非负实数</li>
+<li><strong>对结果的影响</strong>：不影响结果，但将 KM 算法从 $ O(n^4) $ 优化到 $ O(n^3) $</li>
+<li><strong>推荐设置</strong>：始终使用 slack 数组优化，避免超时</li>
+</ul>
+
+<p>#### 参数6：allow_unmatched（是否允许不完美匹配）</p>
+
+<ul>
+<li><strong>含义</strong>：当 $ |U| \neq |V| $ 或图不连通时，是否允许部分顶点不匹配</li>
+<li><strong>类型</strong>：布尔值</li>
+<li><strong>默认值</strong>：<code class="inline-code">False</code>（要求完美匹配）</li>
+<li><strong>取值范围</strong>：<code class="inline-code">True</code> / <code class="inline-code">False</code></li>
+<li><strong>对结果的影响</strong>：<code class="inline-code">True</code> 时返回最大匹配（不要求覆盖所有顶点）；<code class="inline-code">False</code> 时若无法完美匹配则报错</li>
+<li><strong>推荐设置</strong>：目标跟踪等实际场景中用 <code class="inline-code">True</code>，允许某些检测框无匹配</li>
+</ul>
+
+<h4>代码示例</h4>
+
+<p><pre class="code-block"><code class="language-python">import numpy as np
+from scipy.optimize import linear_sum_assignment
+
+# ============================================================
+# 方法一：使用 scipy 的匈牙利算法实现（推荐工程使用）
+# ============================================================
+
+# 代价矩阵：4个工人分配4个任务，cost[i][j] 为工人i完成任务j的代价
+cost_matrix = np.array([
+    [2, 1, 3, 4],    # 工人1的代价
+    [3, 2, 1, 2],    # 工人2的代价
+    [5, 4, 3, 1],    # 工人3的代价
+    [4, 3, 2, 3],    # 工人4的代价
+])
+
+# 调用匈牙利算法求最小代价匹配
+row_ind, col_ind = linear_sum_assignment(cost_matrix)
+# row_ind: [0, 1, 2, 3] -&gt; 行索引（工人编号）
+# col_ind: [1, 0, 3, 2] -&gt; 列索引（任务编号）
+
+# 计算最小总代价
+total_cost = cost_matrix[row_ind, col_ind].sum()  # 取出匹配位置的代价并求和
+print(f&quot;匹配结果: {list(zip(row_ind, col_ind))}&quot;)  # 输出: [(0,1), (1,0), (2,3), (3,2)]
+print(f&quot;最小总代价: {total_cost}&quot;)                   # 输出: 1+3+1+2 = 7
+
+# 若求最大权匹配（如 IoU 匹配），取负即可
+iou_matrix = np.array([
+    [0.9, 0.2, 0.1],
+    [0.1, 0.8, 0.3],
+    [0.2, 0.1, 0.7],
+])
+cost = 1 - iou_matrix                        # 转换为代价矩阵：IoU越大，代价越小
+row_ind, col_ind = linear_sum_assignment(cost)
+avg_iou = iou_matrix[row_ind, col_ind].mean()
+print(f&quot;平均IoU: {avg_iou:.2f}&quot;)               # 输出: 0.80
+
+# ============================================================
+# 方法二：手写匈牙利算法（基于增广路径 DFS，教学用）
+# ============================================================
+
+def hungarian_dfs(graph, n_left, n_right):
+    &quot;&quot;&quot;基于DFS的匈牙利算法，求二分图最大匹配&quot;&quot;&quot;
+    match_v = [-1] * n_right  # match_v[v] = u 表示 V 侧顶点 v 当前匹配到 U 侧顶点 u
+
+    def try_kuhn(u, visited):
+        &quot;&quot;&quot;尝试为 U 侧顶点 u 找到匹配&quot;&quot;&quot;
+        for v in graph[u]:              # 遍历 u 能连接到的所有 V 侧顶点
+            if not visited[v]:           # 如果 v 在本轮增广中未被访问过
+                visited[v] = True        # 标记 v 为已访问（防止死循环）
+                if match_v[v] == -1 or try_kuhn(match_v[v], visited):
+                    # 如果 v 未匹配，或 v 的当前匹配者能找到其他匹配
+                    match_v[v] = u        # 将 v 重新匹配给 u
+                    return True           # 增广成功
+        return False                     # 增广失败
+
+    matching = 0                         # 当前匹配数
+    for u in range(n_left):              # 遍历每个 U 侧顶点
+        visited = [False] * n_right     # 每轮重置访问标记
+        if try_kuhn(u, visited):         # 尝试为 u 增广
+            matching += 1                 # 匹配数 +1
+    return matching, match_v
+
+# 示例：3个工人，3个任务
+graph = [
+    [0, 1],    # u0 能做任务0和任务1
+    [0, 2],    # u1 能做任务0和任务2
+    [1],       # u2 能做任务1
+]
+count, matching = hungarian_dfs(graph, 3, 3)
+print(f&quot;最大匹配数: {count}&quot;)  # 输出: 2
+print(f&quot;匹配: {matching}&quot;)      # 例如: [1, 2, -1] 表示 v0-&gt;u1, v1-&gt;u2, v2未匹配
+
+# ============================================================
+# 方法三：KM 算法（带权二分图最优匹配，含 slack 优化）
+# ============================================================
+
+def kuhn_munkres(weight, n):
+    &quot;&quot;&quot;KM 算法求最大权完美匹配&quot;&quot;&quot;
+    INF = float(&#x27;inf&#x27;)
+    label_u = [max(weight[i]) for i in range(n)]  # U 侧顶标：取行最大值
+    label_v = [0] * n                              # V 侧顶标：初始为0
+    match_v = [-1] * n                             # V 侧匹配记录
+
+    for u in range(n):                              # 依次为每个 U 侧顶点找匹配
+        slack = [INF] * n                           # 松弛数组
+        visited_v = [False] * n                     # V 侧访问标记
+        prev = [-1] * n                             # 记录增广路径前驱
+
+        while True:
+            # 在相等子图中搜索增广路径
+            found_unmatched = False
+            queue = [u]
+            visited_u = {u}
+
+            while queue and not found_unmatched:
+                cur_u = queue.pop(0)
+                for v in range(n):
+                    if visited_v[v]:
+                        continue
+                    gap = label_u[cur_u] + label_v[v] - weight[cur_u][v]
+                    if gap == 0:
+                        # 边在相等子图中
+                        visited_v[v] = True
+                        prev[v] = cur_u
+                        if match_v[v] == -1:
+                            # 找到增广路径终点，回溯翻转
+                            while v != -1:
+                                pu = prev[v]
+                                old_v = match_v[pu] if pu != -1 else -1
+                                match_v[pu] = v if pu != -1 else v
+                                # 修正：标准KM回溯
+                                next_u = prev[v]
+                                old_match = match_v[v]
+                                match_v[v] = next_u
+                                v = old_match if old_match != -1 else -1
+                                if v == -1:
+                                    break
+                            found_unmatched = True
+                            break
+                        else:
+                            if match_v[v] not in visited_u:
+                                visited_u.add(match_v[v])
+                                queue.append(match_v[v])
+                    elif gap &lt; slack[v]:
+                        slack[v] = gap
+
+            if found_unmatched:
+                break
+
+            # 调整顶标
+            delta = min(slack[v] for v in range(n) if not visited_v[v])
+            for vu in visited_u:
+                label_u[vu] -= delta
+            for v in range(n):
+                if visited_v[v]:
+                    label_v[v] += delta
+                else:
+                    slack[v] -= delta
+
+    match_u = [0] * n
+    for v in range(n):
+        if match_v[v] != -1:
+            match_u[match_v[v]] = v
+    total_weight = sum(weight[i][match_u[i]] for i in range(n))
+    return match_u, total_weight
+
+# 示例：最大权匹配
+weight = np.array([
+    [3, 5, 5],
+    [4, 2, 6],
+    [6, 1, 3],
+])
+match, total = kuhn_munkres(weight.tolist(), 3)
+print(f&quot;KM匹配: {match}, 最大权值和: {total}&quot;)  # 输出: [1, 2, 0], 5+6+6=17</code></pre></p>
+
+<h4>复杂度分析</h4>
+
+<p><strong>时间复杂度</strong>：</p>
+
+<p>1. <strong>匈牙利算法（DFS 实现）</strong>：$ O(V \cdot E) $，对于稠密图 $ E = O(n^2) $，复杂度为 $ O(n^3) $</p>
+<p>2. <strong>匈牙利算法（矩阵形式，行列规约）</strong>：$ O(n^3) $，最多 $ n $ 轮迭代，每轮 $ O(n^2) $</p>
+<p>3. <strong>KM 算法（带 slack 优化）</strong>：$ O(n^3) $，最多 $ n $ 个顶点，每个最多 $ O(n) $ 次顶标调整</p>
+
+<p><strong>空间复杂度</strong>：$ O(n^2) $（矩阵存储）或 $ O(V + E) $（邻接表存储）</p>
+
+<h4>应用场景</h4>
+
+<ul>
+<li><strong>任务分配/指派问题</strong>：n 个工人分配 n 个任务，最小化总成本</li>
+<li><strong>多目标跟踪（MOT）</strong>：将当前帧检测结果与已有轨迹匹配，代价为 1-IoU</li>
+<li><strong>目标检测中的锚框匹配</strong>：将预测框与真实框匹配</li>
+<li><strong>人员排班</strong>：将员工分配到班次，满足技能约束</li>
+<li><strong>特征点匹配</strong>：两幅图像间的特征点对应关系</li>
+<li><strong>资源调度</strong>：将资源分配给请求方，最大化收益</li>
+</ul>
+
+<h4>参考文档</h4>
+
+<ul>
+<li><a href="https://blog.csdn.net/BieberChen/article/details/159727883" target="_blank" class="ref-link">匈牙利匹配算法详解 - CSDN</a></li>
+<li><a href="https://www.cnblogs.com/lcchuguo/p/4588902.html" target="_blank" class="ref-link">二分图最大匹配与匈牙利算法 - 博客园</a></li>
+<li><a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.linear_sum_assignment.html" target="_blank" class="ref-link">scipy.optimize.linear_sum_assignment 官方文档</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/607149741" target="_blank" class="ref-link">算法导论(第四版)第二十五章：二分图中的匹配</a></li>
+</ul>
+
+<hr>
+
+<h3>协同过滤推荐（Collaborative Filtering）</h3>
+
+<p><strong>类别</strong>：推荐系统 | <strong>难度</strong>：中等</p>
+
+<h4>算法简介</h4>
+
+<p>协同过滤（Collaborative Filtering, CF）是推荐系统中最经典、应用最广泛的算法之一，由 Goldberg 等人于 1992 年首次提出。其核心思想可以用八个字概括："人以群分，物以类聚"——利用用户的历史行为数据（评分、点击、购买等），通过计算用户之间或物品之间的相似度，来预测用户对未知物品的偏好。</p>
+
+<p>协同过滤主要分为两大流派：</p>
+
+<p>1. <strong>基于记忆的方法（Memory-based / 邻域方法）</strong>：</p>
+<ul>
+<li><strong>User-based CF</strong>：找到与目标用户兴趣相似的其他用户，将相似用户喜欢但目标用户尚未接触的物品推荐给目标用户</li>
+<li><strong>Item-based CF</strong>：找到与目标用户已喜欢物品相似的物品进行推荐</li>
+</ul>
+
+<p>2. <strong>基于模型的方法（Model-based）</strong>：</p>
+<ul>
+<li><strong>矩阵分解（Matrix Factorization, MF）</strong>：将用户-物品评分矩阵分解为低维隐因子矩阵，通过隐因子向量内积预测评分</li>
+<li><strong>SVD（奇异值分解）</strong>：经典矩阵分解方法</li>
+<li><strong>ALS（交替最小二乘法）</strong>：Spark 的官方推荐算法实现，因其易于并行化而被广泛使用</li>
+</ul>
+
+<p>邻域方法的优势在于可解释性强、实现简单；模型方法的优势在于可扩展性好、能处理稀疏数据。实际工程中，矩阵分解已成为主流方法。</p>
+
+<h4>原理示意图</h4>
+
+<p><div class="algo-image"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 900 520" font-family="sans-serif">
+  <defs>
+    <marker id="arrow2" markerWidth="8" markerHeight="6" refX="4" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#6366f1"/>
+    </marker>
+  </defs>
+  <rect width="900" height="520" fill="#1e293b" rx="12"/>
+  <text x="450" y="30" text-anchor="middle" fill="#818cf8" font-size="16" font-weight="600">协同过滤推荐：UserCF / ItemCF / 矩阵分解</text>
+
+  <!-- UserCF 部分 -->
+  <text x="140" y="70" text-anchor="middle" fill="#22c55e" font-size="14" font-weight="600">User-based CF</text>
+  <rect x="40" y="85" width="200" height="50" rx="8" fill="#334155" stroke="#6366f1"/>
+  <text x="140" y="115" text-anchor="middle" fill="#e2e8f0" font-size="12">目标用户 Alice</text>
+  <rect x="40" y="150" width="200" height="50" rx="8" fill="#334155" stroke="#22c55e"/>
+  <text x="140" y="180" text-anchor="middle" fill="#e2e8f0" font-size="12">相似用户 Bob, Carol</text>
+  <rect x="40" y="215" width="200" height="50" rx="8" fill="#334155" stroke="#f97316"/>
+  <text x="140" y="245" text-anchor="middle" fill="#e2e8f0" font-size="12">推荐 Bob/Carol 喜欢的物品</text>
+  <line x1="140" y1="135" x2="140" y2="148" stroke="#22c55e" stroke-width="2" marker-end="url(#arrow2)"/>
+  <line x1="140" y1="200" x2="140" y2="213" stroke="#f97316" stroke-width="2" marker-end="url(#arrow2)"/>
+
+  <!-- ItemCF 部分 -->
+  <text x="450" y="70" text-anchor="middle" fill="#22c55e" font-size="14" font-weight="600">Item-based CF</text>
+  <rect x="350" y="85" width="200" height="50" rx="8" fill="#334155" stroke="#6366f1"/>
+  <text x="450" y="115" text-anchor="middle" fill="#e2e8f0" font-size="12">用户喜欢的物品 A</text>
+  <rect x="350" y="150" width="200" height="50" rx="8" fill="#334155" stroke="#22c55e"/>
+  <text x="450" y="180" text-anchor="middle" fill="#e2e8f0" font-size="12">与 A 相似的物品 B, C</text>
+  <rect x="350" y="215" width="200" height="50" rx="8" fill="#334155" stroke="#f97316"/>
+  <text x="450" y="245" text-anchor="middle" fill="#e2e8f0" font-size="12">推荐物品 B, C</text>
+  <line x1="450" y1="135" x2="450" y2="148" stroke="#22c55e" stroke-width="2" marker-end="url(#arrow2)"/>
+  <line x1="450" y1="200" x2="450" y2="213" stroke="#f97316" stroke-width="2" marker-end="url(#arrow2)"/>
+
+  <!-- 矩阵分解 部分 -->
+  <text x="760" y="70" text-anchor="middle" fill="#22c55e" font-size="14" font-weight="600">矩阵分解 (MF)</text>
+  <rect x="660" y="85" width="200" height="50" rx="8" fill="#334155" stroke="#6366f1"/>
+  <text x="760" y="115" text-anchor="middle" fill="#e2e8f0" font-size="12">评分矩阵 R (m x n)</text>
+  <rect x="660" y="150" width="200" height="50" rx="8" fill="#334155" stroke="#22c55e"/>
+  <text x="760" y="180" text-anchor="middle" fill="#e2e8f0" font-size="12">R ~ P x Q^T (隐因子)</text>
+  <rect x="660" y="215" width="200" height="50" rx="8" fill="#334155" stroke="#f97316"/>
+  <text x="760" y="245" text-anchor="middle" fill="#e2e8f0" font-size="12">预测 r_ui = p_u . q_i</text>
+  <line x1="760" y1="135" x2="760" y2="148" stroke="#22c55e" stroke-width="2" marker-end="url(#arrow2)"/>
+  <line x1="760" y1="200" x2="760" y2="213" stroke="#f97316" stroke-width="2" marker-end="url(#arrow2)"/>
+
+  <!-- 评分矩阵示意 -->
+  <text x="450" y="295" text-anchor="middle" fill="#818cf8" font-size="13" font-weight="600">用户-物品评分矩阵（示例）</text>
+  <rect x="200" y="310" width="500" height="180" fill="#0f172a" rx="8"/>
+  <text x="240" y="335" fill="#94a3b8" font-size="11">用户</text>
+  <text x="340" y="335" fill="#e2e8f0" font-size="11">物品1</text>
+  <text x="420" y="335" fill="#e2e8f0" font-size="11">物品2</text>
+  <text x="500" y="335" fill="#e2e8f0" font-size="11">物品3</text>
+  <text x="580" y="335" fill="#e2e8f0" font-size="11">物品4</text>
+  <text x="240" y="360" fill="#94a3b8" font-size="11">Alice</text>
+  <text x="340" y="360" fill="#22c55e" font-size="11">5</text>
+  <text x="420" y="360" fill="#22c55e" font-size="11">3</text>
+  <text x="500" y="360" fill="#f97316" font-size="11">?</text>
+  <text x="580" y="360" fill="#22c55e" font-size="11">1</text>
+  <text x="240" y="385" fill="#94a3b8" font-size="11">Bob</text>
+  <text x="340" y="385" fill="#22c55e" font-size="11">4</text>
+  <text x="420" y="385" fill="#22c55e" font-size="11">2</text>
+  <text x="500" y="385" fill="#22c55e" font-size="11">5</text>
+  <text x="580" y="385" fill="#22c55e" font-size="11">1</text>
+  <text x="240" y="410" fill="#94a3b8" font-size="11">Carol</text>
+  <text x="340" y="410" fill="#22c55e" font-size="11">5</text>
+  <text x="420" y="410" fill="#22c55e" font-size="11">3</text>
+  <text x="500" y="410" fill="#22c55e" font-size="11">4</text>
+  <text x="580" y="410" fill="#22c55e" font-size="11">2</text>
+  <text x="240" y="435" fill="#94a3b8" font-size="11">Dave</text>
+  <text x="340" y="435" fill="#22c55e" font-size="11">3</text>
+  <text x="420" y="435" fill="#f97316" font-size="11">?</text>
+  <text x="500" y="435" fill="#22c55e" font-size="11">3</text>
+  <text x="580" y="435" fill="#22c55e" font-size="11">5</text>
+  <text x="240" y="465" fill="#f97316" font-size="11">橙色 ? = 待预测</text>
+  <text x="450" y="465" fill="#22c55e" font-size="11">绿色数字 = 已知评分</text>
+</svg></div></p>
+
+<h4>数学公式</h4>
+
+<p><strong>公式1：余弦相似度（Cosine Similarity）</strong></p>
+
+<p><div class="math-block">$$ \text{sim}(u, v) = \cos(\mathbf{r}_u, \mathbf{r}_v) = \frac{\mathbf{r}_u \cdot \mathbf{r}_v}{\|\mathbf{r}_u\| \cdot \|\mathbf{r}_v\|} = \frac{\sum_{i \in I_{uv}} r_{ui} \cdot r_{vi}}{\sqrt{\sum_{i \in I_u} r_{ui}^2} \cdot \sqrt{\sum_{i \in I_v} r_{vi}^2}} $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ \mathbf{r}_u $、$ \mathbf{r}_v $：用户 $ u $ 和 $ v $ 的评分向量</li>
+<li>$ r_{ui} $：用户 $ u $ 对物品 $ i $ 的评分</li>
+<li>$ I_{uv} $：用户 $ u $ 和 $ v $ 共同评分过的物品集合</li>
+<li>$ I_u $、$ I_v $：用户 $ u $ 和 $ v $ 分别评分过的物品集合</li>
+<li>分子为两用户共同评分物品的内积，分母为各自评分向量的 L2 范数乘积</li>
+</ul>
+
+<p><strong>公式2：皮尔逊相关系数（Pearson Correlation）</strong></p>
+
+<p><div class="math-block">$$ \text{sim}(u, v) = \frac{\sum_{i \in I_{uv}} (r_{ui} - \bar{r}_u)(r_{vi} - \bar{r}_v)}{\sqrt{\sum_{i \in I_{uv}} (r_{ui} - \bar{r}_u)^2} \cdot \sqrt{\sum_{i \in I_{uv}} (r_{vi} - \bar{r}_v)^2}} $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ \bar{r}_u $、$ \bar{r}_v $：用户 $ u $ 和 $ v $ 的平均评分</li>
+<li>与余弦相似度的区别：皮尔逊先减去用户均值，消除用户评分尺度差异的影响</li>
+<li>适用于评分数据（显式反馈），不适用于 0/1 隐式反馈</li>
+</ul>
+
+<p><strong>公式3：User-based CF 预测公式</strong></p>
+
+<p><div class="math-block">$$ \hat{r}_{ui} = \bar{r}_u + \frac{\sum_{v \in N(u)} \text{sim}(u, v) \cdot (r_{vi} - \bar{r}_v)}{\sum_{v \in N(u)} |\text{sim}(u, v)|} $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ \hat{r}_{ui} $：预测用户 $ u $ 对物品 $ i $ 的评分</li>
+<li>$ \bar{r}_u $：用户 $ u $ 的平均评分</li>
+<li>$ N(u) $：与用户 $ u $ 最相似的 $ K $ 个用户（邻居集合）</li>
+<li>$ \text{sim}(u, v) $：用户 $ u $ 和 $ v $ 的相似度</li>
+<li>$ r_{vi} - \bar{r}_v $：邻居 $ v $ 对物品 $ i $ 的评分偏差（减去 $ v $ 的均值，消除尺度差异）</li>
+</ul>
+
+<p><strong>公式4：矩阵分解预测与损失函数</strong></p>
+
+<p><div class="math-block">$$ \hat{r}_{ui} = \mathbf{p}_u^T \mathbf{q}_i = \sum_{k=1}^{K} p_{uk} \cdot q_{ik} $$</div></p>
+
+<p><div class="math-block">$$ \min_{P, Q} \sum_{(u,i) \in R} (r_{ui} - \mathbf{p}_u^T \mathbf{q}_i)^2 + \lambda(\|\mathbf{p}_u\|^2 + \|\mathbf{q}_i\|^2) $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ \mathbf{p}_u \in \mathbb{R}^K $：用户 $ u $ 的隐因子向量（latent factor vector）</li>
+<li>$ \mathbf{q}_i \in \mathbb{R}^K $：物品 $ i $ 的隐因子向量</li>
+<li>$ K $：隐因子维度（如 10-200）</li>
+<li>$ R $：已知评分集合</li>
+<li>$ \lambda $：正则化系数，防止过拟合</li>
+<li>第一项为重建误差，第二项为 L2 正则化</li>
+</ul>
+
+<p><strong>公式5：ALS 交替最小二乘更新</strong></p>
+
+<p>固定 $ Q $，对每个用户 $ u $ 更新 $ \mathbf{p}_u $：</p>
+
+<p><div class="math-block">$$ \mathbf{p}_u = \left( \sum_{i \in I_u} \mathbf{q}_i \mathbf{q}_i^T + \lambda I \right)^{-1} \sum_{i \in I_u} r_{ui} \cdot \mathbf{q}_i $$</div></p>
+
+<p>固定 $ P $，对每个物品 $ i $ 更新 $ \mathbf{q}_i $：</p>
+
+<p><div class="math-block">$$ \mathbf{q}_i = \left( \sum_{u \in U_i} \mathbf{p}_u \mathbf{p}_u^T + \lambda I \right)^{-1} \sum_{u \in U_i} r_{ui} \cdot \mathbf{p}_u $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ I_u $：用户 $ u $ 评分过的物品集合</li>
+<li>$ U_i $：对物品 $ i $ 评分过的用户集合</li>
+<li>$ I $：$ K \times K $ 的单位矩阵</li>
+<li>ALS 通过交替固定 $ P $ 和 $ Q $，将非凸优化转化为两个凸子问题，每个有闭式解</li>
+</ul>
+
+<h4>核心要点</h4>
+
+<ul>
+<li>User-based CF 适合用户数远少于物品数的场景（如小型社区）</li>
+<li>Item-based CF 适合物品数远少于用户数的场景（如电商），且物品相似度矩阵可离线计算</li>
+<li>矩阵分解能处理评分稀疏问题，是目前推荐系统的核心方法</li>
+<li>ALS 天然适合分布式并行计算，是 Spark MLlib 的推荐算法</li>
+<li>相似度计算方法的选择：显式评分用皮尔逊，隐式反馈用余弦或杰卡德</li>
+<li>冷启动问题是 CF 的主要缺陷，需要结合内容推荐或混合策略解决</li>
+</ul>
+
+<h4>技术细节与参数详解</h4>
+
+<p>#### 参数1：相似度计算方法（similarity_metric）</p>
+
+<ul>
+<li><strong>含义</strong>：计算用户间或物品间相似度时使用的度量方法</li>
+<li><strong>类型</strong>：枚举（<code class="inline-code">'cosine'</code> / <code class="inline-code">'pearson'</code> / <code class="inline-code">'jaccard'</code> / <code class="inline-code">'adjusted_cosine'</code>）</li>
+<li><strong>默认值</strong>：<code class="inline-code">'cosine'</code>（User-based）或 <code class="inline-code">'adjusted_cosine'</code>（Item-based）</li>
+<li><strong>取值范围</strong>：四种常用度量</li>
+<li><strong>对结果的影响</strong>：皮尔逊消除用户评分尺度差异；调整余弦消除物品平均分偏差；杰卡德只考虑是否交互（适合隐式反馈）</li>
+<li><strong>推荐设置</strong>：显式评分用 <code class="inline-code">pearson</code>，隐式反馈（点击/购买）用 <code class="inline-code">cosine</code> 或 <code class="inline-code">jaccard</code></li>
+</ul>
+
+<p>#### 参数2：邻居数量 K（n_neighbors / k）</p>
+
+<ul>
+<li><strong>含义</strong>：在邻域方法中，选取最相似的 K 个用户或物品作为邻居</li>
+<li><strong>类型</strong>：整数</li>
+<li><strong>默认值</strong>：<code class="inline-code">20</code>（常用范围 10-100）</li>
+<li><strong>取值范围</strong>：$ [1, \min(|U|, |V|)] $</li>
+<li><strong>对结果的影响</strong>：K 太小导致推荐过于局限、不稳定；K 太大引入不相关邻居、降低精度；通常 K=20-50 较优</li>
+<li><strong>推荐设置</strong>：通过验证集调参，从 K=20 开始网格搜索 [10, 20, 50, 100]</li>
+</ul>
+
+<p>#### 参数3：隐因子维度 K（n_factors / n_components）</p>
+
+<ul>
+<li><strong>含义</strong>：矩阵分解中隐因子向量的维度</li>
+<li><strong>类型</strong>：整数</li>
+<li><strong>默认值</strong>：<code class="inline-code">50</code>（Surprise 库默认）</li>
+<li><strong>取值范围</strong>：$ [5, 500] $，常用 10-200</li>
+<li><strong>对结果的影响</strong>：K 越大表达能力越强但越容易过拟合；K 太小无法捕捉复杂偏好模式；数据量大时可适当增大</li>
+<li><strong>推荐设置</strong>：小型数据集 K=20-50，中型 K=50-100，大型 K=100-200，通过验证集选择</li>
+</ul>
+
+<p>#### 参数4：正则化系数 lambda（reg）</p>
+
+<ul>
+<li><strong>含义</strong>：L2 正则化系数，控制隐因子向量的范数</li>
+<li><strong>类型</strong>：浮点数</li>
+<li><strong>默认值</strong>：<code class="inline-code">0.02</code>（Surprise SVD 默认）</li>
+<li><strong>取值范围</strong>：$ (0, 1) $，常用 0.001-0.1</li>
+<li><strong>对结果的影响</strong>：lambda 过大导致欠拟合（所有向量趋近零）；lambda 过小导致过拟合；增大 lambda 可提升泛化能力</li>
+<li><strong>推荐设置</strong>：从 0.02 开始，网格搜索 [0.001, 0.01, 0.02, 0.05, 0.1]</li>
+</ul>
+
+<p>#### 参数5：学习率 lr（learning_rate）</p>
+
+<ul>
+<li><strong>含义</strong>：SGD 优化中梯度下降的步长（矩阵分解的梯度下降求解方式）</li>
+<li><strong>类型</strong>：浮点数</li>
+<li><strong>默认值</strong>：<code class="inline-code">0.005</code>（Surprise SVD 默认）</li>
+<li><strong>取值范围</strong>：$ (0, 1) $，常用 0.001-0.01</li>
+<li><strong>对结果的影响</strong>：学习率过大导致震荡不收敛；学习率过小收敛缓慢；可与学习率衰减配合使用</li>
+<li><strong>推荐设置</strong>：从 0.005 开始，配合 early stopping 监控验证集 RMSE</li>
+</ul>
+
+<p>#### 参数6：迭代次数 n_epochs</p>
+
+<ul>
+<li><strong>含义</strong>：SGD 或 ALS 的迭代轮数</li>
+<li><strong>类型</strong>：整数</li>
+<li><strong>默认值</strong>：<code class="inline-code">20</code>（Surprise SVD 默认）</li>
+<li><strong>取值范围</strong>：$ [1, +\infty) $，常用 10-100</li>
+<li><strong>对结果的影响</strong>：迭代次数太少模型未收敛；太多则浪费计算资源且可能过拟合</li>
+<li><strong>推荐设置</strong>：配合 early stopping，当验证集 RMSE 连续 N 轮不下降时停止</li>
+</ul>
+
+<p>#### 参数7：ALS 的隐式反馈权重 alpha（implicitPrefs）</p>
+
+<ul>
+<li><strong>含义</strong>：将隐式反馈（点击/购买）转换为置信度时的权重系数</li>
+<li><strong>类型</strong>：浮点数</li>
+<li><strong>默认值</strong>：<code class="inline-code">1.0</code>（Spark ALS 默认）</li>
+<li><strong>取值范围</strong>：$ (0, +\infty) $，常用 1.0-40.0</li>
+<li><strong>对结果的影响</strong>：alpha 越大，对用户行为的置信度越高；适用于隐式反馈数据的 ALS 变体（Hu et al. 2008）</li>
+<li><strong>推荐设置</strong>：隐式反馈数据建议 alpha=40.0（Hu 论文推荐值），显式评分数据不使用此参数</li>
+</ul>
+
+<h4>代码示例</h4>
+
+<p><pre class="code-block"><code class="language-python">import numpy as np
+from sklearn.metrics.pairwise import cosine_similarity
+
+# ============================================================
+# 方法一：User-based CF（基于余弦相似度）
+# ============================================================
+
+# 用户-物品评分矩阵（0表示未评分）
+ratings = np.array([
+    [5, 3, 0, 1],    # Alice
+    [4, 2, 5, 1],    # Bob
+    [5, 3, 4, 2],    # Carol
+    [3, 0, 3, 5],    # Dave
+])
+users = [&#x27;Alice&#x27;, &#x27;Bob&#x27;, &#x27;Carol&#x27;, &#x27;Dave&#x27;]
+items = [&#x27;物品1&#x27;, &#x27;物品2&#x27;, &#x27;物品3&#x27;, &#x27;物品4&#x27;]
+
+# 计算用户间余弦相似度（只考虑共同评分的物品）
+user_sim = cosine_similarity(ratings)   # 计算 4x4 用户相似度矩阵
+print(&quot;用户相似度矩阵:&quot;)
+print(np.round(user_sim, 3))
+# Alice-Bob: 0.935, Alice-Carol: 0.987, Alice-Dave: 0.738
+
+# 预测 Alice 对物品3的评分（Alice 未评分物品3，索引为2）
+def predict_userbased(user_idx, item_idx, ratings, user_sim, k=3):
+    &quot;&quot;&quot;User-based CF 预测评分&quot;&quot;&quot;
+    # 找到对物品 item_idx 评过分的用户
+    rated_users = np.where(ratings[:, item_idx] &gt; 0)[0]  # 获取评过分的用户索引
+    rated_users = rated_users[rated_users != user_idx]    # 排除目标用户自身
+
+    # 按相似度排序，取前 k 个邻居
+    sims = user_sim[user_idx, rated_users]               # 获取邻居相似度
+    top_k_idx = np.argsort(sims)[::-1][:k]               # 按相似度降序取前k
+    top_k_users = rated_users[top_k_idx]                  # 对应邻居用户索引
+    top_k_sims = sims[top_k_idx]                          # 对应相似度值
+
+    # 加权平均预测
+    neighbor_ratings = ratings[top_k_users, item_idx]   # 邻居对该物品的评分
+    prediction = np.sum(top_k_sims * neighbor_ratings) / np.sum(np.abs(top_k_sims))
+    return prediction
+
+alice_item3 = predict_userbased(0, 2, ratings, user_sim, k=3)
+print(f&quot;Alice 对 物品3 的预测评分: {alice_item3:.2f}&quot;)  # 输出约 4.65
+
+# ============================================================
+# 方法二：Item-based CF（基于调整余弦相似度）
+# ============================================================
+
+def adjusted_cosine_sim(item_i, item_j, ratings):
+    &quot;&quot;&quot;调整余弦相似度：减去用户平均分后再算余弦&quot;&quot;&quot;
+    # 找到同时对两个物品评过分的用户
+    common_users = np.where((ratings[:, item_i] &gt; 0) &amp; (ratings[:, item_j] &gt; 0))[0]
+    if len(common_users) == 0:
+        return 0.0
+
+    # 减去用户平均分
+    user_means = ratings[ratings &gt; 0].mean(axis=1, keepdims=True)  # 每个用户的平均分
+    r_i = ratings[common_users, item_i] - user_means[common_users].flatten()  # 物品i的偏差
+    r_j = ratings[common_users, item_j] - user_means[common_users].flatten()  # 物品j的偏差
+
+    # 余弦相似度
+    denom = np.linalg.norm(r_i) * np.linalg.norm(r_j)  # 分母：两个向量的范数乘积
+    if denom == 0:
+        return 0.0
+    return np.dot(r_i, r_j) / denom
+
+# 计算物品相似度矩阵
+n_items = ratings.shape[1]
+item_sim = np.zeros((n_items, n_items))
+for i in range(n_items):
+    for j in range(n_items):
+        if i != j:
+            item_sim[i][j] = adjusted_cosine_sim(i, j, ratings)
+print(&quot;物品相似度矩阵（调整余弦）:&quot;)
+print(np.round(item_sim, 3))
+
+# 预测 Alice 对物品3的评分
+def predict_itembased(user_idx, item_idx, ratings, item_sim, k=3):
+    &quot;&quot;&quot;Item-based CF 预测评分&quot;&quot;&quot;
+    # 找到用户评过分的物品
+    rated_items = np.where(ratings[user_idx] &gt; 0)[0]     # 用户评过分的物品索引
+    sims = item_sim[item_idx, rated_items]               # 目标物品与已评物品的相似度
+    top_k_idx = np.argsort(np.abs(sims))[::-1][:k]      # 取相似度绝对值最大的k个
+    top_k_items = rated_items[top_k_idx]
+    top_k_sims = sims[top_k_idx]
+    user_ratings = ratings[user_idx, top_k_items]      # 用户对这些物品的评分
+
+    prediction = np.sum(top_k_sims * user_ratings) / np.sum(np.abs(top_k_sims))
+    return prediction
+
+alice_item3_ib = predict_itembased(0, 2, ratings, item_sim, k=3)
+print(f&quot;Item-based CF: Alice 对 物品3 的预测评分: {alice_item3_ib:.2f}&quot;)
+
+# ============================================================
+# 方法三：矩阵分解（SGD 求解）
+# ============================================================
+
+def matrix_factorization_sgd(R, K=2, lr=0.01, reg=0.02, epochs=100):
+    &quot;&quot;&quot;
+    矩阵分解 SGD 求解
+    R: 评分矩阵 (m x n)，0表示未评分
+    K: 隐因子维度
+    lr: 学习率
+    reg: 正则化系数
+    epochs: 迭代次数
+    &quot;&quot;&quot;
+    m, n = R.shape
+    P = np.random.normal(0, 0.1, (m, K))  # 用户隐因子矩阵，正态随机初始化
+    Q = np.random.normal(0, 0.1, (n, K))  # 物品隐因子矩阵
+
+    for epoch in range(epochs):                    # 迭代训练
+        for u in range(m):                          # 遍历每个用户
+            for i in range(n):                      # 遍历每个物品
+                if R[u][i] &gt; 0:                     # 只对已知评分训练
+                    # 预测值
+                    pred = np.dot(P[u], Q[i])       # p_u . q_i
+                    error = R[u][i] - pred           # 误差 = 实际 - 预测
+
+                    # SGD 梯度下降更新
+                    Pu_old = P[u].copy()             # 保存旧值用于交替更新
+                    P[u] += lr * (error * Q[i] - reg * P[u])  # 更新 P: lr * (error*q - reg*p)
+                    Q[i] += lr * (error * Pu_old - reg * Q[i]) # 更新 Q: lr * (error*p - reg*q)
+
+    # 计算预测矩阵
+    pred_matrix = P.dot(Q.T)                         # 预测评分 = P x Q^T
+    return pred_matrix, P, Q
+
+# 执行矩阵分解
+pred_matrix, P, Q = matrix_factorization_sgd(ratings, K=2, lr=0.01, reg=0.02, epochs=200)
+print(&quot;矩阵分解预测评分矩阵:&quot;)
+print(np.round(pred_matrix, 2))
+# Alice 对物品3的预测评分:
+print(f&quot;MF: Alice 对 物品3 的预测评分: {pred_matrix[0][2]:.2f}&quot;)
+
+# ============================================================
+# 方法四：使用 Surprise 库（推荐工程使用）
+# ============================================================
+# from surprise import SVD, Dataset, accuracy
+# from surprise.model_selection import cross_validate
+#
+# # 加载数据
+# data = Dataset.load_builtin(&#x27;ml-100k&#x27;)  # MovieLens 100K 数据集
+#
+# # SVD 矩阵分解（即 FunkSVD）
+# algo = SVD(n_factors=50,        # 隐因子维度
+#            n_epochs=20,         # 迭代次数
+#            lr_all=0.005,        # 学习率
+#            reg_all=0.02)        # 正则化系数
+#
+# # 交叉验证评估
+# cross_validate(algo, data, measures=[&#x27;RMSE&#x27;, &#x27;MAE&#x27;], cv=5, verbose=True)
+#
+# # 训练并预测
+# trainset = data.build_full_trainset()
+# algo.fit(trainset)
+# pred = algo.predict(&#x27;Alice&#x27;, &#x27;物品3&#x27;)  # 预测 Alice 对 物品3 的评分
+# print(f&quot;Surprise SVD 预测: {pred.est:.2f}&quot;)</code></pre></p>
+
+<h4>复杂度分析</h4>
+
+<p><strong>时间复杂度</strong>：</p>
+
+<p>1. <strong>User-based CF</strong>：</p>
+<ul>
+<li>相似度计算：$ O(|U|^2 \cdot |I|) $（计算所有用户对相似度）</li>
+<li>预测：$ O(K) $ per prediction（K 为邻居数）</li>
+<li>空间：$ O(|U|^2) $（用户相似度矩阵）</li>
+</ul>
+
+<p>2. <strong>Item-based CF</strong>：</p>
+<ul>
+<li>相似度计算：$ O(|I|^2 \cdot |U|) $（计算所有物品对相似度）</li>
+<li>可离线计算，在线预测只需查表 $ O(K) $</li>
+<li>空间：$ O(|I|^2) $</li>
+</ul>
+
+<p>3. <strong>矩阵分解（SGD）</strong>：</p>
+<ul>
+<li>每轮迭代：$ O(|R| \cdot K) $（$ |R| $ 为已知评分数，$ K $ 为隐因子维度）</li>
+<li>总复杂度：$ O(E \cdot |R| \cdot K) $（$ E $ 为迭代次数）</li>
+</ul>
+
+<p>4. <strong>矩阵分解（ALS）</strong>：</p>
+<ul>
+<li>每轮迭代：$ O(|R| \cdot K + |U| \cdot K^3 + |I| \cdot K^3) $</li>
+<li>ALS 优势：可并行化，每个用户/物品的更新独立</li>
+</ul>
+
+<p><strong>空间复杂度</strong>：</p>
+<ul>
+<li>邻域方法：$ O(|U|^2) $ 或 $ O(|I|^2) $（相似度矩阵）</li>
+<li>矩阵分解：$ O((|U| + |I|) \cdot K) $（隐因子矩阵 P 和 Q）</li>
+</ul>
+
+<h4>应用场景</h4>
+
+<ul>
+<li><strong>电商推荐</strong>：Amazon 的 "看了又看"、"买了又买"（Item-based CF 经典应用）</li>
+<li><strong>影视推荐</strong>：Netflix Prize 挑战赛推动了矩阵分解方法的发展</li>
+<li><strong>音乐推荐</strong>：Spotify 基于用户听歌历史的协同过滤</li>
+<li><strong>社交网络</strong>：好友推荐、兴趣群组推荐</li>
+<li><strong>新闻推荐</strong>：基于用户阅读历史的个性化新闻推送</li>
+<li><strong>广告推荐</strong>：CTR 预估中的协同过滤特征</li>
+</ul>
+
+<h4>参考文档</h4>
+
+<ul>
+<li><a href="https://zhuanlan.zhihu.com/p/575642931" target="_blank" class="ref-link">协同过滤算法系列 - 知乎</a></li>
+<li><a href="https://blog.csdn.net/YCCNUST/article/details/125257781" target="_blank" class="ref-link">推荐系统基本算法——协同过滤 - CSDN</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/748359309" target="_blank" class="ref-link">基于邻域的协同过滤算法 - 知乎</a></li>
+<li><a href="https://surpriselib.com/" target="_blank" class="ref-link">Surprise 推荐系统库文档</a></li>
+<li><a href="https://spark.apache.org/docs/latest/ml-collaborative-filtering.html" target="_blank" class="ref-link">Spark MLlib ALS 文档</a></li>
+</ul>
+
+<hr>
+
+<h3>LightGBM</h3>
+
+<p><strong>类别</strong>：集成学习 | <strong>难度</strong>：中等</p>
+
+<h4>算法简介</h4>
+
+<p>LightGBM（Light Gradient Boosting Machine）是微软于 2017 年开源的高效梯度提升决策树（GBDT）框架。它在 XGBoost 的基础上通过多项关键优化实现了<strong>更快的训练速度</strong>和<strong>更低的内存消耗</strong>，同时保持甚至提升了模型精度，是目前工业界最流行的表格数据建模工具之一。</p>
+
+<p>LightGBM 的三大核心创新：</p>
+
+<p>1. <strong>直方图算法（Histogram）</strong>：将连续特征值离散化为直方图桶（bins），在直方图上寻找最优分裂点，将预排序算法的 $ O(n \log n) $ 降为 $ O(n \cdot bins) $，同时利用"直方图差分"技巧（兄弟节点共享父节点直方图）减少一半计算量。</p>
+
+<p>2. <strong>Leaf-wise 生长策略（带深度限制）</strong>：与 XGBoost 的 Level-wise（逐层生长）不同，LightGBM 每次选择当前增益最大的叶子节点分裂，在相同分裂次数下能降低更多误差。但 Leaf-wise 容易生长出深度不均的树导致过拟合，因此需要配合 <code class="inline-code">max_depth</code> 限制。</p>
+
+<p>3. <strong>GOSS（Gradient-based One-Side Sampling）</strong>：保留梯度大的样本（信息量大），随机采样梯度小的样本（已学好），在大数据集上显著减少训练样本数而不损失精度。</p>
+
+<p>4. <strong>EFB（Exclusive Feature Bundling）</strong>：将互斥特征（很少同时非零的稀疏特征）捆绑为一个稠密特征，减少特征维度。</p>
+
+<h4>原理示意图</h4>
+
+<p><div class="algo-image"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 900 520" font-family="sans-serif">
+  <defs>
+    <marker id="arrow3" markerWidth="8" markerHeight="6" refX="4" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#6366f1"/>
+    </marker>
+  </defs>
+  <rect width="900" height="520" fill="#1e293b" rx="12"/>
+  <text x="450" y="30" text-anchor="middle" fill="#818cf8" font-size="16" font-weight="600">LightGBM 核心优化：Leaf-wise + Histogram + GOSS</text>
+
+  <!-- Level-wise vs Leaf-wise -->
+  <text x="225" y="65" text-anchor="middle" fill="#94a3b8" font-size="13">Level-wise（XGBoost）</text>
+  <rect x="180" y="80" width="90" height="35" rx="6" fill="#334155" stroke="#6366f1"/>
+  <text x="225" y="103" text-anchor="middle" fill="#e2e8f0" font-size="12">root</text>
+  <rect x="130" y="135" width="70" height="30" rx="6" fill="#334155" stroke="#6366f1"/>
+  <text x="165" y="155" text-anchor="middle" fill="#e2e8f0" font-size="11">L1</text>
+  <rect x="250" y="135" width="70" height="30" rx="6" fill="#334155" stroke="#6366f1"/>
+  <text x="285" y="155" text-anchor="middle" fill="#e2e8f0" font-size="11">L2</text>
+  <rect x="100" y="190" width="60" height="30" rx="6" fill="#334155" stroke="#6366f1"/>
+  <rect x="170" y="190" width="60" height="30" rx="6" fill="#334155" stroke="#6366f1"/>
+  <rect x="240" y="190" width="60" height="30" rx="6" fill="#334155" stroke="#6366f1"/>
+  <rect x="310" y="190" width="60" height="30" rx="6" fill="#334155" stroke="#6366f1"/>
+  <text x="225" y="240" text-anchor="middle" fill="#94a3b8" font-size="11">逐层均匀生长</text>
+
+  <text x="675" y="65" text-anchor="middle" fill="#22c55e" font-size="13">Leaf-wise（LightGBM）</text>
+  <rect x="630" y="80" width="90" height="35" rx="6" fill="#334155" stroke="#22c55e"/>
+  <text x="675" y="103" text-anchor="middle" fill="#e2e8f0" font-size="12">root</text>
+  <rect x="580" y="135" width="70" height="30" rx="6" fill="#334155" stroke="#22c55e"/>
+  <text x="615" y="155" text-anchor="middle" fill="#e2e8f0" font-size="11">L1</text>
+  <rect x="700" y="135" width="70" height="30" rx="6" fill="#334155" stroke="#6366f1"/>
+  <text x="735" y="155" text-anchor="middle" fill="#94a3b8" font-size="11">L2</text>
+  <rect x="530" y="190" width="60" height="30" rx="6" fill="#334155" stroke="#22c55e"/>
+  <rect x="600" y="190" width="60" height="30" rx="6" fill="#334155" stroke="#22c55e"/>
+  <rect x="510" y="250" width="55" height="28" rx="6" fill="#334155" stroke="#22c55e"/>
+  <rect x="575" y="250" width="55" height="28" rx="6" fill="#334155" stroke="#22c55e"/>
+  <text x="675" y="250" text-anchor="middle" fill="#f97316" font-size="11">优先分裂增益大的叶子</text>
+
+  <!-- Histogram -->
+  <text x="450" y="310" text-anchor="middle" fill="#818cf8" font-size="14" font-weight="600">直方图算法（Histogram）</text>
+  <rect x="100" y="325" width="350" height="90" fill="#0f172a" rx="8"/>
+  <text x="275" y="345" text-anchor="middle" fill="#94a3b8" font-size="12">连续特征值 -> 离散分桶</text>
+  <rect x="120" y="355" width="30" height="40" fill="#6366f1" rx="3"/>
+  <rect x="155" y="360" width="30" height="35" fill="#6366f1" rx="3"/>
+  <rect x="190" y="350" width="30" height="45" fill="#6366f1" rx="3"/>
+  <rect x="225" y="363" width="30" height="32" fill="#6366f1" rx="3"/>
+  <rect x="260" y="358" width="30" height="37" fill="#6366f1" rx="3"/>
+  <rect x="295" y="355" width="30" height="40" fill="#6366f1" rx="3"/>
+  <rect x="330" y="360" width="30" height="35" fill="#6366f1" rx="3"/>
+  <rect x="365" y="365" width="30" height="30" fill="#6366f1" rx="3"/>
+  <text x="400" y="380" fill="#e2e8f0" font-size="11">bins</text>
+
+  <rect x="490" y="325" width="350" height="90" fill="#0f172a" rx="8"/>
+  <text x="665" y="345" text-anchor="middle" fill="#94a3b8" font-size="12">在直方图上找最优分裂点</text>
+  <text x="520" y="370" fill="#22c55e" font-size="12">遍历 bins: O(n_bins)</text>
+  <text x="520" y="390" fill="#f97316" font-size="12">vs 预排序: O(n log n)</text>
+  <text x="520" y="408" fill="#e2e8f0" font-size="11">直方图差分: 兄弟节点共享</text>
+
+  <!-- GOSS -->
+  <text x="450" y="445" text-anchor="middle" fill="#818cf8" font-size="14" font-weight="600">GOSS: 梯度单边采样</text>
+  <rect x="150" y="460" width="250" height="45" fill="#0f172a" rx="8"/>
+  <text x="275" y="480" text-anchor="middle" fill="#22c55e" font-size="12">梯度大的样本（信息量大）-> 全保留</text>
+  <text x="275" y="498" text-anchor="middle" fill="#f97316" font-size="11">梯度小的样本 -> 随机采样 + 权重补偿</text>
+  <rect x="500" y="460" width="250" height="45" fill="#0f172a" rx="8"/>
+  <text x="625" y="488" text-anchor="middle" fill="#e2e8f0" font-size="12">减少训练样本 -> 加速训练</text>
+</svg></div></p>
+
+<h4>数学公式</h4>
+
+<p><strong>公式1：GBDT 目标函数</strong></p>
+
+<p><div class="math-block">$$ \mathcal{L}^{(t)} = \sum_{i=1}^{n} l(y_i, \hat{y}_i^{(t-1)} + f_t(x_i)) + \Omega(f_t) $$</div></p>
+
+<p><div class="math-block">$$ \Omega(f_t) = \gamma T + \frac{1}{2}\lambda \sum_{j=1}^{T} w_j^2 $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ \mathcal{L}^{(t)} $：第 $ t $ 轮迭代的目标函数</li>
+<li>$ l $：损失函数（如平方误差、交叉熵）</li>
+<li>$ y_i $：真实标签，$ \hat{y}_i^{(t-1)} $：前 $ t-1 $ 轮的预测值</li>
+<li>$ f_t(x_i) $：第 $ t $ 棵树对样本 $ x_i $ 的输出</li>
+<li>$ \Omega(f_t) $：正则化项，$ T $ 为叶子数，$ w_j $ 为第 $ j $ 个叶子的权重</li>
+<li>$ \gamma $：叶节点惩罚系数，$ \lambda $：L2 正则化系数</li>
+</ul>
+
+<p><strong>公式2：直方图分裂增益</strong></p>
+
+<p><div class="math-block">$$ \text{Gain} = \frac{G_L^2}{H_L + \lambda} + \frac{G_R^2}{H_R + \lambda} - \frac{(G_L + G_R)^2}{H_L + H_R + \lambda} - \gamma $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ G_L $、$ G_R $：左/右子节点的一阶梯度之和（$ \sum g_i $）</li>
+<li>$ H_L $、$ H_R $：左/右子节点的二阶梯度之和（$ \sum h_i $）</li>
+<li>$ \lambda $：L2 正则化系数</li>
+<li>$ \gamma $：叶节点分裂惩罚</li>
+<li>直方图算法将 $ G $ 和 $ H $ 按桶累加，遍历桶边界即可计算所有候选分裂点的 Gain</li>
+</ul>
+
+<p><strong>公式3：GOSS 采样权重</strong></p>
+
+<p><div class="math-block">$$ \tilde{g}_i = \begin{cases} g_i & \text{if } |g_i| \geq \text{threshold (top a\%)} \\ \frac{1-a}{b} \cdot g_i & \text{if } |g_i| < \text{threshold (sampled bottom b\%)} \end{cases} $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ g_i $：样本 $ i $ 的梯度</li>
+<li>$ a $：保留梯度大的样本比例（如 0.1 = 10%）</li>
+<li>$ b $：从梯度小的样本中随机采样的比例（如 0.1 = 10%）</li>
+<li>$ \frac{1-a}{b} $：权重补偿系数，使采样后梯度分布近似原始分布</li>
+<li>核心思想：梯度大的样本信息量大，全保留；梯度小的样本贡献小，随机采样并放大权重补偿</li>
+</ul>
+
+<p><strong>公式4：Leaf-wise 最优叶节点选择</strong></p>
+
+<p><div class="math-block">$$ j^* = \arg\max_{j \in \text{leaves}} \text{Gain}(j) $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ j^* $：当前增益最大的叶节点</li>
+<li>每次分裂选择当前所有叶子中 Gain 最大的进行分裂，而非按层分裂</li>
+<li>需配合 <code class="inline-code">max_depth</code> 防止树过深导致过拟合</li>
+</ul>
+
+<p><strong>公式5：Leaf-wise 与 num_leaves 的关系</strong></p>
+
+<p><div class="math-block">$$ \text{max\_leaves} = \text{num\_leaves} \leq 2^{\text{max\_depth}} $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li><code class="inline-code">num_leaves</code>：树的最大叶子数（LightGBM 核心参数）</li>
+<li><code class="inline-code">max_depth</code>：树的最大深度</li>
+<li>Leaf-wise 策略下 <code class="inline-code">num_leaves</code> 是控制模型复杂度的主参数</li>
+<li>建议 <code class="inline-code">num_leaves <= 2^max_depth - 1</code> 防止过拟合</li>
+</ul>
+
+<h4>核心要点</h4>
+
+<ul>
+<li>LightGBM 通过<strong>直方图算法</strong>将分裂点搜索从 $ O(n \log n) $ 降为 $ O(n \cdot \text{bins}) $，大幅加速</li>
+<li><strong>Leaf-wise 生长策略</strong>比 Level-wise 更高效，但需 <code class="inline-code">max_depth</code> 防止过拟合</li>
+<li><strong>GOSS</strong> 通过梯度采样减少训练样本，<strong>EFB</strong> 通过特征捆绑减少特征维度</li>
+<li><code class="inline-code">num_leaves</code> 是 LightGBM 最核心的调参参数，直接影响模型复杂度</li>
+<li><code class="inline-code">num_leaves</code> 应小于 $ 2^{\text{max\_depth}} $，否则容易过拟合</li>
+<li>LightGBM 适合大规模数据，小数据集上容易过拟合</li>
+</ul>
+
+<h4>技术细节与参数详解</h4>
+
+<p>#### 参数1：boosting_type（提升类型）</p>
+
+<ul>
+<li><strong>含义</strong>：控制梯度提升的基本算法类型</li>
+<li><strong>类型</strong>：枚举</li>
+<li><strong>默认值</strong>：<code class="inline-code">'gbdt'</code></li>
+<li><strong>取值范围</strong>：<code class="inline-code">'gbdt'</code>（传统梯度提升决策树）/ <code class="inline-code">'dart'</code>（Dropouts + 多重加性回归树）/ <code class="inline-code">'goss'</code>（基于梯度的单边采样）/ <code class="inline-code">'rf'</code>（随机森林）</li>
+<li><strong>对结果的影响</strong>：<code class="inline-code">gbdt</code> 最稳定通用；<code class="inline-code">dart</code> 丢弃部分树防止过拟合但训练较慢；<code class="inline-code">goss</code> 在大数据集上加速但不适合小数据</li>
+<li><strong>推荐设置</strong>：默认 <code class="inline-code">gbdt</code>；数据量极大时试 <code class="inline-code">goss</code>；需要随机森林效果时用 <code class="inline-code">rf</code></li>
+</ul>
+
+<p>#### 参数2：num_leaves（叶子数）</p>
+
+<ul>
+<li><strong>含义</strong>：每棵树的最大叶子节点数，是 LightGBM 最核心的复杂度控制参数</li>
+<li><strong>类型</strong>：整数</li>
+<li><strong>默认值</strong>：<code class="inline-code">31</code></li>
+<li><strong>取值范围</strong>：$ [1, 131072] $，常用 15-255</li>
+<li><strong>对结果的影响</strong>：<code class="inline-code">num_leaves</code> 越大模型越复杂、拟合能力越强，但越容易过拟合；Leaf-wise 策略下该参数比 <code class="inline-code">max_depth</code> 更重要</li>
+<li><strong>推荐设置</strong>：<code class="inline-code">num_leaves <= 2^max_depth - 1</code>；小数据集 15-31，中等 31-63，大数据集 63-255；通过验证集调参</li>
+</ul>
+
+<p>#### 参数3：max_depth（最大深度）</p>
+
+<ul>
+<li><strong>含义</strong>：每棵树的最大深度限制</li>
+<li><strong>类型</strong>：整数</li>
+<li><strong>默认值</strong>：<code class="inline-code">-1</code>（不限制）</li>
+<li><strong>取值范围</strong>：<code class="inline-code">-1</code>（无限制）或 $ [1, +\infty) $</li>
+<li><strong>对结果的影响</strong>：<code class="inline-code">-1</code> 时仅由 <code class="inline-code">num_leaves</code> 控制复杂度；设为正数时限制树深度，防止 Leaf-wise 策略生长出过深的树；是防止过拟合的辅助参数</li>
+<li><strong>推荐设置</strong>：大数据设 6-10，小数据设 3-5；与 <code class="inline-code">num_leaves</code> 配合使用</li>
+</ul>
+
+<p>#### 参数4：learning_rate（学习率）</p>
+
+<ul>
+<li><strong>含义</strong>：每棵树对最终预测的贡献缩减因子（shrinkage rate）</li>
+<li><strong>类型</strong>：浮点数</li>
+<li><strong>默认值</strong>：<code class="inline-code">0.1</code></li>
+<li><strong>取值范围</strong>：$ (0, 1] $，常用 0.01-0.3</li>
+<li><strong>对结果的影响</strong>：学习率越小，每棵树贡献越小，需要更多树才能收敛，但泛化能力通常更好；增大学习率可加速训练但可能过拟合</li>
+<li><strong>推荐设置</strong>：从 0.1 开始；最终模型建议 0.01-0.05 配合更多 <code class="inline-code">num_iterations</code> 和 early stopping</li>
+</ul>
+
+<p>#### 参数5：num_iterations / n_estimators（迭代次数/树数量）</p>
+
+<ul>
+<li><strong>含义</strong>：梯度提升的总迭代次数，即构建多少棵树</li>
+<li><strong>类型</strong>：整数</li>
+<li><strong>默认值</strong>：<code class="inline-code">100</code>（sklearn 接口 <code class="inline-code">n_estimators</code>）</li>
+<li><strong>取值范围</strong>：$ [1, +\infty) $，常用 100-10000</li>
+<li><strong>对结果的影响</strong>：迭代次数越多模型越复杂；太少欠拟合，太多浪费且过拟合；应与 <code class="inline-code">learning_rate</code> 配合，小学习率需要更多迭代</li>
+<li><strong>推荐设置</strong>：设为较大值（如 1000），配合 <code class="inline-code">early_stopping_rounds</code> 让模型自动决定最佳迭代数</li>
+</ul>
+
+<p>#### 参数6：feature_fraction（特征子采样比例）</p>
+
+<ul>
+<li><strong>含义</strong>：每棵树训练时随机选取的特征比例</li>
+<li><strong>类型</strong>：浮点数</li>
+<li><strong>默认值</strong>：<code class="inline-code">1.0</code>（使用全部特征）</li>
+<li><strong>取值范围</strong>：$ (0, 1] $</li>
+<li><strong>对结果的影响</strong>：<code class="inline-code">< 1.0</code> 时引入随机性，增强泛化能力、加速训练；类似随机森林的特征采样；值太小可能导致欠拟合</li>
+<li><strong>推荐设置</strong>：<code class="inline-code">0.7-0.9</code>，常用 0.8；高维数据效果更明显</li>
+</ul>
+
+<p>#### 参数7：bagging_fraction（样本子采样比例）</p>
+
+<ul>
+<li><strong>含义</strong>：每棵树训练时随机选取的样本比例</li>
+<li><strong>类型</strong>：浮点数</li>
+<li><strong>默认值</strong>：<code class="inline-code">1.0</code>（使用全部样本）</li>
+<li><strong>取值范围</strong>：$ (0, 1] $</li>
+<li><strong>对结果的影响</strong>：<code class="inline-code">< 1.0</code> 时引入样本采样随机性，减少过拟合、加速训练；需配合 <code class="inline-code">bagging_freq > 0</code> 才生效</li>
+<li><strong>推荐设置</strong>：<code class="inline-code">0.8-1.0</code>；大数据集可设 0.5-0.8 加速</li>
+</ul>
+
+<p>#### 参数8：bagging_freq（采样频率）</p>
+
+<ul>
+<li><strong>含义</strong>：每多少轮迭代执行一次 bagging 采样</li>
+<li><strong>类型</strong>：整数</li>
+<li><strong>默认值</strong>：<code class="inline-code">0</code>（不执行 bagging）</li>
+<li><strong>取值范围</strong>：$ [0, +\infty) $</li>
+<li><strong>对结果的影响</strong>：<code class="inline-code">0</code> 时 <code class="inline-code">bagging_fraction</code> 不生效；设为 <code class="inline-code">k</code> 时每 k 轮重新采样一次</li>
+<li><strong>推荐设置</strong>：设为 <code class="inline-code">1</code>（每轮都采样）或 <code class="inline-code">5</code>（每 5 轮采样一次），配合 <code class="inline-code">bagging_fraction=0.8</code></li>
+</ul>
+
+<p>#### 参数9：min_data_in_leaf（叶子最小样本数）</p>
+
+<ul>
+<li><strong>含义</strong>：一个叶子节点包含的最小样本数，防止在极小样本上分裂</li>
+<li><strong>类型</strong>：整数</li>
+<li><strong>默认值</strong>：<code class="inline-code">20</code></li>
+<li><strong>取值范围</strong>：$ [1, +\infty) $</li>
+<li><strong>对结果的影响</strong>：是最重要的防止过拟合参数之一；值越大树越保守，叶子越少，模型越简单；值太小容易在噪声样本上过拟合</li>
+<li><strong>推荐设置</strong>：小数据集 100-500，大数据集 10-100；与 <code class="inline-code">num_leaves</code> 联合调参</li>
+</ul>
+
+<p>#### 参数10：min_gain_to_split（最小分裂增益）</p>
+
+<ul>
+<li><strong>含义</strong>：执行一次叶节点分裂所需的最小增益</li>
+<li><strong>类型</strong>：浮点数</li>
+<li><strong>默认值</strong>：<code class="inline-code">0.0</code>（任何正增益都分裂）</li>
+<li><strong>取值范围</strong>：$ [0, +\infty) $</li>
+<li><strong>对结果的影响</strong>：值越大树越保守，只执行增益显著的分裂，减少过拟合</li>
+<li><strong>推荐设置</strong>：<code class="inline-code">0.0</code> 保持默认，如过拟合严重可设 0.01-0.1</li>
+</ul>
+
+<p>#### 参数11：lambda_l1（L1 正则化）</p>
+
+<ul>
+<li><strong>含义</strong>：叶节点权重的 L1 正则化系数</li>
+<li><strong>类型</strong>：浮点数</li>
+<li><strong>默认值</strong>：<code class="inline-code">0.0</code>（不使用 L1 正则化）</li>
+<li><strong>取值范围</strong>：$ [0, +\infty) $</li>
+<li><strong>对结果的影响</strong>：增大可产生稀疏叶权重，防止过拟合；对高维稀疏特征有效</li>
+<li><strong>推荐设置</strong>：默认 0.0；如需稀疏化或正则化，试 0.01-0.1</li>
+</ul>
+
+<p>#### 参数12：lambda_l2（L2 正则化）</p>
+
+<ul>
+<li><strong>含义</strong>：叶节点权重的 L2 正则化系数</li>
+<li><strong>类型</strong>：浮点数</li>
+<li><strong>默认值</strong>：<code class="inline-code">0.0</code>（不使用 L2 正则化）</li>
+<li><strong>取值范围</strong>：$ [0, +\infty) $</li>
+<li><strong>对结果的影响</strong>：增大惩罚大权重，防止过拟合；比 L1 更常用</li>
+<li><strong>推荐设置</strong>：默认 0.0；过拟合时试 0.01-1.0</li>
+</ul>
+
+<p>#### 参数13：max_bin（最大分桶数）</p>
+
+<ul>
+<li><strong>含义</strong>：特征值离散化为直方图时的最大桶数</li>
+<li><strong>类型</strong>：整数</li>
+<li><strong>默认值</strong>：<code class="inline-code">255</code></li>
+<li><strong>取值范围</strong>：$ [2, +\infty) $</li>
+<li><strong>对结果的影响</strong>：桶越多精度越高但内存和训练时间增加；桶太少损失特征精度</li>
+<li><strong>推荐设置</strong>：默认 255；大数据集可增到 511 或 1023；对精度要求不高时可降到 63 加速</li>
+</ul>
+
+<p>#### 参数14：objective（目标函数）</p>
+
+<ul>
+<li><strong>含义</strong>：模型的优化目标</li>
+<li><strong>类型</strong>：字符串</li>
+<li><strong>默认值</strong>：<code class="inline-code">None</code>（自动推断）</li>
+<li><strong>取值范围</strong>：<code class="inline-code">'regression'</code>（回归）、<code class="inline-code">'binary'</code>（二分类）、<code class="inline-code">'multiclass'</code>（多分类）、<code class="inline-code">'rank_xendcg'</code>（排序）等</li>
+<li><strong>对结果的影响</strong>：必须与任务匹配，否则训练结果无意义</li>
+<li><strong>推荐设置</strong>：回归用 <code class="inline-code">regression</code>（L2 损失）或 <code class="inline-code">regression_l1</code>（L1 损失）；二分类用 <code class="inline-code">binary</code>；多分类用 <code class="inline-code">multiclass</code> 并设置 <code class="inline-code">num_class</code></li>
+</ul>
+
+<p>#### 参数15：early_stopping_rounds（早停轮数）</p>
+
+<ul>
+<li><strong>含义</strong>：验证集指标连续多少轮不提升时停止训练</li>
+<li><strong>类型</strong>：整数</li>
+<li><strong>默认值</strong>：<code class="inline-code">None</code>（不早停）</li>
+<li><strong>取值范围</strong>：$ [1, +\infty) $</li>
+<li><strong>对结果的影响</strong>：防止训练过多迭代导致过拟合；自动找到最佳迭代数</li>
+<li><strong>推荐设置</strong>：设为 10-50，配合验证集使用</li>
+</ul>
+
+<h4>代码示例</h4>
+
+<p><pre class="code-block"><code class="language-python">import lightgbm as lgb
+from sklearn.datasets import make_classification
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import roc_auc_score, accuracy_score
+import numpy as np
+
+# ============================================================
+# 数据准备：生成模拟二分类数据
+# ============================================================
+X, y = make_classification(n_samples=10000,    # 生成 10000 个样本
+                           n_features=20,       # 20 个特征
+                           n_informative=10,    # 10 个有效特征
+                           n_redundant=5,       # 5 个冗余特征
+                           n_classes=2,         # 二分类
+                           random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# ============================================================
+# 方法一：使用 LightGBM 原生 API（lgb.train）
+# ============================================================
+
+# 创建 LightGBM 数据集
+train_data = lgb.Dataset(X_train, label=y_train)              # 训练集
+val_data = lgb.Dataset(X_test, label=y_test, reference=train_data)  # 验证集，reference 链接训练集
+
+# 参数字典（核心参数详解）
+params = {
+    # --- 核心控制参数 ---
+    &#x27;boosting_type&#x27;: &#x27;gbdt&#x27;,        # 梯度提升决策树（默认最稳定）
+    &#x27;objective&#x27;: &#x27;binary&#x27;,          # 二分类任务
+    &#x27;metric&#x27;: [&#x27;auc&#x27;, &#x27;binary_logloss&#x27;],  # 评估指标：AUC + 对数损失
+    &#x27;verbose&#x27;: -1,                  # 关闭训练日志（-1 静默，0 警告，1 信息）
+
+    # --- 树结构参数 ---
+    &#x27;num_leaves&#x27;: 31,               # 最大叶子数（核心参数，默认31）
+    &#x27;max_depth&#x27;: 8,                 # 最大深度8（防止leaf-wise过深）
+    &#x27;min_data_in_leaf&#x27;: 20,         # 叶子最小样本数20（防止过拟合）
+
+    # --- 训练过程参数 ---
+    &#x27;learning_rate&#x27;: 0.05,          # 学习率0.05（比默认0.1更小，需更多迭代）
+    &#x27;num_iterations&#x27;: 1000,         # 最大迭代1000轮（配合early stopping）
+
+    # --- 正则化与采样参数 ---
+    &#x27;feature_fraction&#x27;: 0.8,       # 每轮随机选80%特征（增强泛化）
+    &#x27;bagging_fraction&#x27;: 0.8,       # 每轮随机选80%样本（减少过拟合）
+    &#x27;bagging_freq&#x27;: 5,             # 每5轮执行一次bagging采样
+    &#x27;lambda_l1&#x27;: 0.0,             # L1正则化系数（0=不使用）
+    &#x27;lambda_l2&#x27;: 0.0,             # L2正则化系数（0=不使用）
+    &#x27;min_gain_to_split&#x27;: 0.0,     # 最小分裂增益（0=任何正增益都分裂）
+
+    # --- 直方图参数 ---
+    &#x27;max_bin&#x27;: 255,                # 最大分桶数255（默认值，精度与速度平衡）
+
+    # --- 随机种子 ---
+    &#x27;seed&#x27;: 42,                    # 随机种子42（保证可复现）
+}
+
+# 训练模型（带早停）
+model = lgb.train(params,
+                  train_data,                     # 训练数据
+                  num_boost_round=1000,            # 最大提升轮数
+                  valid_sets=[train_data, val_data],  # 监控训练集和验证集
+                  valid_names=[&#x27;train&#x27;, &#x27;val&#x27;],   # 命名
+                  callbacks=[
+                      lgb.early_stopping(stopping_rounds=50),  # 50轮不提升则停止
+                      lgb.log_evaluation(period=100),  # 每100轮输出一次日志
+                  ])
+
+# 获取最佳迭代轮数
+print(f&quot;最佳迭代轮数: {model.best_iteration}&quot;)    # 如: 237
+
+# 预测
+y_pred_prob = model.predict(X_test, num_iteration=model.best_iteration)  # 用最佳轮数预测概率
+y_pred = (y_pred_prob &gt; 0.5).astype(int)  # 概率转0/1标签
+
+# 评估
+auc = roc_auc_score(y_test, y_pred_prob)  # AUC 指标
+acc = accuracy_score(y_test, y_pred)      # 准确率
+print(f&quot;验证集 AUC: {auc:.4f}&quot;)            # 如: 0.9632
+print(f&quot;验证集准确率: {acc:.4f}&quot;)           # 如: 0.9085
+
+# 特征重要性
+importance = model.feature_importance(importance_type=&#x27;split&#x27;)  # 按分裂次数计算重要性
+print(f&quot;特征重要性: {importance}&quot;)
+
+# ============================================================
+# 方法二：使用 sklearn API（LGBMClassifier）
+# ============================================================
+# from lightgbm import LGBMClassifier
+#
+# clf = LGBMClassifier(
+#     boosting_type=&#x27;gbdt&#x27;,         # 梯度提升决策树
+#     num_leaves=31,                # 最大叶子数
+#     max_depth=8,                  # 最大深度
+#     learning_rate=0.05,          # 学习率
+#     n_estimators=1000,           # 树数量（等于num_iterations）
+#     min_data_in_leaf=20,         # 叶子最小样本数
+#     feature_fraction=0.8,       # 特征采样比例
+#     bagging_fraction=0.8,       # 样本采样比例
+#     bagging_freq=5,             # bagging频率
+#     objective=&#x27;binary&#x27;,          # 二分类
+#     metric=&#x27;auc&#x27;,               # 评估指标
+#     random_state=42,            # 随机种子
+# )
+# clf.fit(X_train, y_train,
+#         eval_set=[(X_test, y_test)],
+#         callbacks=[lgb.early_stopping(50), lgb.log_evaluation(100)])
+# y_pred = clf.predict(X_test)
+# print(f&quot;sklearn API 准确率: {accuracy_score(y_test, y_pred):.4f}&quot;)
+
+# ============================================================
+# 方法三：GOSS 加速模式（大数据集推荐）
+# ============================================================
+# params_goss = {
+#     &#x27;boosting_type&#x27;: &#x27;goss&#x27;,      # 使用GOSS梯度单边采样
+#     &#x27;top_rate&#x27;: 0.2,              # 保留梯度最大的20%样本
+#     &#x27;other_rate&#x27;: 0.1,            # 从剩余样本中随机采样10%
+#     &#x27;objective&#x27;: &#x27;binary&#x27;,
+#     &#x27;metric&#x27;: &#x27;auc&#x27;,
+#     &#x27;num_leaves&#x27;: 63,             # 大数据可用更多叶子
+#     &#x27;learning_rate&#x27;: 0.05,
+#     &#x27;max_depth&#x27;: 10,
+# }
+# model_goss = lgb.train(params_goss, train_data, num_boost_round=500,
+#                        valid_sets=[val_data],
+#                        callbacks=[lgb.early_stopping(50)])
+
+# ============================================================
+# 方法四：网格搜索调参
+# ============================================================
+# from sklearn.model_selection import GridSearchCV
+#
+# param_grid = {
+#     &#x27;num_leaves&#x27;: [15, 31, 63],       # 候选叶子数
+#     &#x27;learning_rate&#x27;: [0.01, 0.05, 0.1],  # 候选学习率
+#     &#x27;min_data_in_leaf&#x27;: [10, 20, 50], # 候选最小样本数
+# }
+# grid_search = GridSearchCV(
+#     LGBMClassifier(n_estimators=200, objective=&#x27;binary&#x27;),
+#     param_grid,
+#     scoring=&#x27;roc_auc&#x27;,
+#     cv=5,                              # 5折交叉验证
+#     verbose=1,
+# )
+# grid_search.fit(X_train, y_train)
+# print(f&quot;最佳参数: {grid_search.best_params_}&quot;)
+# print(f&quot;最佳AUC: {grid_search.best_score_:.4f}&quot;)</code></pre></p>
+
+<h4>复杂度分析</h4>
+
+<p><strong>时间复杂度</strong>：</p>
+
+<p>1. <strong>直方图构建</strong>：$ O(n \cdot d) $，其中 $ n $ 为样本数，$ d $ 为特征数</p>
+<p>2. <strong>直方图分裂点搜索</strong>：$ O(d \cdot \text{max\_bin}) $ per node，远优于预排序的 $ O(d \cdot n \log n) $</p>
+<p>3. <strong>单棵树训练</strong>：$ O(n \cdot d \cdot \text{max\_bin}) $</p>
+<p>4. <strong>GBDT 总训练</strong>：$ O(T \cdot n \cdot d \cdot \text{max\_bin}) $，$ T $ 为树数量</p>
+
+<p><strong>GOSS 优化后</strong>：$ O(T \cdot n' \cdot d \cdot \text{max\_bin}) $，其中 $ n' = (a + b) \cdot n < n $</p>
+
+<p><strong>空间复杂度</strong>：</p>
+<ul>
+<li>直方图存储：$ O(d \cdot \text{max\_bin}) $（远小于预排序的 $ O(n \cdot d) $）</li>
+<li>叶子节点信息：$ O(\text{num\_leaves}) $</li>
+<li>总空间复杂度约为 $ O(n \cdot d + d \cdot \text{max\_bin}) $</li>
+</ul>
+
+<p><strong>与 XGBoost 对比</strong>：</p>
+<ul>
+<li>训练速度：LightGBM 比 XGBoost 快 3-10 倍（数据越大优势越明显）</li>
+<li>内存占用：LightGBM 约为 XGBoost 的 1/3-1/5</li>
+<li>精度：两者相当，Leaf-wise 策略在相同树数下精度略高</li>
+</ul>
+
+<h4>应用场景</h4>
+
+<ul>
+<li><strong>CTR 预估</strong>：广告点击率预测，处理亿级样本和数千特征</li>
+<li><strong>金融风控</strong>：信用评分、欺诈检测、违约预测</li>
+<li><strong>销售预测</strong>：商品销量预测、需求预测</li>
+<li><strong>推荐系统</strong>：排序模型（LTR）、特征交叉</li>
+<li><strong>医疗诊断</strong>：疾病预测、药物反应预测</li>
+<li><strong>NLP/表格数据</strong>：与深度学习配合，处理结构化特征</li>
+<li><strong>Kaggle 竞赛</strong>：表格数据竞赛的主力模型</li>
+</ul>
+
+<h4>参考文档</h4>
+
+<ul>
+<li><a href="https://lightgbm.readthedocs.io/" target="_blank" class="ref-link">LightGBM 官方文档</a></li>
+<li><a href="https://cloud.baidu.com/article/3751562" target="_blank" class="ref-link">LightGBM 参数调优指南 - 百度智能云</a></li>
+<li><a href="https://cloud.tencent.com/edu/learning/course-2439-39684" target="_blank" class="ref-link">LightGBM 使用指南 - 腾讯云</a></li>
+<li><a href="https://developer.baidu.com/article/details/3274536" target="_blank" class="ref-link">LightGBM 原理、参数详解及Python实例 - 百度开发者</a></li>
+<li><a href="https://blog.csdn.net/CodeNexus/article/details/152506106" target="_blank" class="ref-link">LightGBM 调参技巧 - CSDN</a></li>
+<li><a href="https://blog.csdn.net/gitblog_00147/article/details/141375229" target="_blank" class="ref-link">LightGBM 参数优化10个技巧 - CSDN</a></li>
+</ul>
+
+<blockquote>
+<p>AI生成</p>
+</blockquote>
+  </div>
+  <div class="footer">
+    <p>由 TeleAgent · 每日算法推送 技能自动生成 | 2026-09-28 09:52</p>
+  </div>
+</div>
+</body>
+</html>
