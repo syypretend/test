@@ -1,5 +1,42 @@
 [
   {
+    "date": "2026-09-28",
+    "filename": "quiz-2026-09-28.html",
+    "url": "https://syypretend.github.io/test/daily-quiz/quiz-2026-09-28.html",
+    "title": "每日算法 AI 出题",
+    "subtitle": "算法 2 道 + AI 2 道 · 第 9 期",
+    "questions": [
+      {
+        "id": 1,
+        "type": "algorithm_code",
+        "type_label": "算法编程",
+        "title": "数组中第K个最大元素",
+        "difficulty": 2
+      },
+      {
+        "id": 2,
+        "type": "algorithm_concept",
+        "type_label": "算法概念",
+        "title": "KMP 算法 prefix table（LPS 数组）性质判断",
+        "difficulty": 2
+      },
+      {
+        "id": 3,
+        "type": "ai_derivation",
+        "type_label": "AI公式推导",
+        "title": "CNN 卷积层输出尺寸公式与感受野递推公式推导",
+        "difficulty": 2
+      },
+      {
+        "id": 4,
+        "type": "ai_interview",
+        "type_label": "AI面试问答",
+        "title": "KV Cache 原理：为什么能加速 Transformer 自回归推理？",
+        "difficulty": 2
+      }
+    ]
+  },
+  {
     "date": "2026-09-24",
     "filename": "quiz-2026-09-24.html",
     "url": "https://syypretend.github.io/test/daily-quiz/quiz-2026-09-24.html",
