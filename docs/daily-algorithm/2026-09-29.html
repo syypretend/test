@@ -1,0 +1,1779 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>每日算法讲解 · 2026年09月29日</title>
+<!-- MathJax for LaTeX math formula rendering -->
+<script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\(', '\)']],
+      displayMath: [['$$', '$$'], ['\[', '\]']],
+      processEscapes: true
+    },
+    svg: { fontCache: 'global' }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" id="MathJax-script" async></script>
+<style>
+:root {
+  --primary: #6366f1;
+  --primary-dark: #4f46e5;
+  --bg: #0f172a;
+  --card-bg: #1e293b;
+  --text: #e2e8f0;
+  --text-dim: #94a3b8;
+  --accent: #818cf8;
+  --border: #334155;
+  --code-bg: #0d1117;
+  --code-text: #e6edf3;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans SC", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.8;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+.container { max-width: 1400px; margin: 0 auto; padding: 24px 32px; }
+.header {
+  text-align: center;
+  padding: 40px 0 30px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 32px;
+}
+.header h1 {
+  font-size: 28px;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.header h1 .date { color: var(--accent); }
+.header .subtitle { color: var(--text-dim); font-size: 15px; }
+.repo-link {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 6px 16px;
+  background: var(--primary);
+  color: #fff;
+  border-radius: 20px;
+  text-decoration: none;
+  font-size: 13px;
+  transition: background 0.2s;
+}
+.repo-link:hover { background: var(--primary-dark); }
+.history-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 32px;
+  padding: 16px;
+  background: var(--card-bg);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+.history-nav a {
+  padding: 4px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  color: var(--text-dim);
+  text-decoration: none;
+  background: rgba(99,102,241,0.08);
+  transition: all 0.2s;
+}
+.history-nav a:hover { color: var(--text); background: rgba(99,102,241,0.2); }
+.history-nav a.active { color: #fff; background: var(--primary); }
+.history-nav a.back-index { color: var(--accent); font-weight: 600; background: rgba(99,102,241,0.15); border: 1px solid rgba(99,102,241,0.3); }
+.history-nav a.back-index:hover { color: #fff; background: var(--primary); border-color: var(--primary); }
+.content { margin-bottom: 40px; max-width: 1100px; }
+.content h2 {
+  font-size: 24px;
+  color: var(--accent);
+  margin: 40px 0 16px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--primary);
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+.content h2:first-child { border-top: none; padding-top: 0; }
+.content h3 {
+  font-size: 18px;
+  color: var(--text);
+  margin: 24px 0 12px;
+}
+.content h4 {
+  font-size: 16px;
+  color: var(--accent);
+  margin: 20px 0 10px;
+}
+.content p { margin-bottom: 12px; color: var(--text); }
+.content ul { margin: 8px 0 16px 20px; }
+.content li { margin-bottom: 6px; }
+.content strong { color: var(--accent); }
+.content blockquote {
+  border-left: 4px solid var(--primary);
+  padding: 12px 16px;
+  margin: 16px 0;
+  background: rgba(99,102,241,0.08);
+  border-radius: 0 8px 8px 0;
+}
+.content blockquote p { color: var(--text-dim); margin: 4px 0; }
+.content hr {
+  border: none;
+  height: 1px;
+  background: var(--border);
+  margin: 32px 0;
+}
+.code-block {
+  background: var(--code-bg);
+  border-radius: 10px;
+  padding: 18px 24px;
+  overflow-x: auto;
+  margin: 16px 0;
+  border: 1px solid var(--border);
+  max-width: 100%;
+}
+.code-block code {
+  font-family: "JetBrains Mono", "Fira Code", "Consolas", monospace;
+  font-size: 14px;
+  color: var(--code-text);
+  line-height: 1.6;
+  white-space: pre;
+}
+.inline-code {
+  background: rgba(99,102,241,0.15);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: "Consolas", monospace;
+  font-size: 0.9em;
+  color: var(--accent);
+}
+/* Math formula block */
+.content .math-block {
+  background: rgba(99,102,241,0.06);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 24px;
+  margin: 16px 0;
+  overflow-x: auto;
+  max-width: 100%;
+}
+.content .math-label {
+  font-size: 13px; color: var(--text-dim); margin-bottom: 6px; }
+.content .math-vars {
+  margin: 8px 0 16px 20px; }
+.content .math-vars li { margin-bottom: 4px; color: var(--text-dim); }
+.footer {
+  text-align: center;
+  padding: 24px 0;
+  border-top: 1px solid var(--border);
+  color: var(--text-dim);
+  font-size: 13px;
+}
+.tag {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  background: rgba(99,102,241,0.15);
+  color: var(--accent);
+  margin-left: 8px;
+}
+.content .ref-link {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px dashed rgba(99,102,241,0.4);
+  transition: all 0.2s;
+  word-break: break-all;
+}
+.content .ref-link:hover {
+  color: #fff;
+  border-bottom-color: var(--primary);
+}
+.content li {
+  word-break: break-all;
+}
+/* Table */
+.table-wrapper {
+  overflow-x: auto;
+  margin: 16px 0;
+  max-width: 100%;
+}
+.algo-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  background: var(--card-bg);
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+.algo-table thead {
+  background: rgba(99,102,241,0.15);
+}
+.algo-table th {
+  padding: 10px 16px;
+  text-align: left;
+  color: var(--accent);
+  font-weight: 600;
+  border-bottom: 2px solid var(--primary);
+  white-space: nowrap;
+}
+.algo-table td {
+  padding: 8px 16px;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  word-break: break-all;
+}
+.algo-table tr:last-child td {
+  border-bottom: none;
+}
+.algo-table tr:hover td {
+  background: rgba(99,102,241,0.06);
+}
+/* Algorithm architecture image */
+.algo-image {
+  margin: 20px 0;
+  text-align: center;
+}
+.algo-image img {
+  max-width: 100%;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+.algo-image .image-caption {
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--text-dim);
+}
+.algo-image svg {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+/* ======== 移动端响应式适配 ======== */
+@media (max-width: 768px) {
+  .container { max-width: 100%; padding: 16px 14px; }
+  .header { padding: 24px 0 20px; margin-bottom: 20px; }
+  .header h1 { font-size: 20px; margin-bottom: 4px; }
+  .header .subtitle { font-size: 13px; }
+  .repo-link { margin-top: 10px; padding: 5px 14px; font-size: 12px; }
+  .history-nav { gap: 6px; padding: 10px 12px; margin-bottom: 20px; }
+  .history-nav a { padding: 3px 10px; font-size: 12px; }
+  .content { max-width: 100%; margin-bottom: 28px; }
+  .content h2 { font-size: 20px; margin: 28px 0 12px; }
+  .content h3 { font-size: 17px; margin: 20px 0 10px; }
+  .content h4 { font-size: 15px; margin: 16px 0 8px; }
+  .content p { font-size: 14px; margin-bottom: 10px; }
+  .content ul { margin: 6px 0 12px 16px; }
+  .content li { font-size: 14px; margin-bottom: 5px; }
+  .content blockquote { padding: 10px 12px; margin: 12px 0; }
+  .content blockquote p { font-size: 13px; }
+  .content .math-block { padding: 10px 14px; margin: 12px 0; }
+  .code-block { padding: 12px 14px; margin: 12px 0; }
+  .code-block code { font-size: 12px; line-height: 1.5; }
+  .inline-code { font-size: 0.88em; padding: 1px 5px; }
+  .algo-table { font-size: 12px; }
+  .algo-table th { padding: 6px 10px; }
+  .algo-table td { padding: 6px 10px; }
+  .algo-image { margin: 14px 0; }
+  .algo-image svg { max-width: 100%; height: auto; }
+  .footer { padding: 18px 0; font-size: 12px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>每日算法讲解 · <span class="date">2026年09月29日</span></h1>
+    <p class="subtitle">每天 1 个基础算法 + 2 个 AI/机器学习算法，持续精进</p>
+    <a href="https://syypretend.github.io/test/daily-algorithm" target="_blank" class="repo-link">GitHub 仓库</a>
+  </div>
+  <div class="history-nav"><a href="index.html" class="back-index">← 历史索引</a>
+<a href="2026-09-29.html" class="active">09月29日</a>
+<a href="2026-09-28.html">09月28日</a>
+<a href="2026-09-24.html">09月24日</a>
+<a href="2026-09-17.html">09月17日</a>
+<a href="2026-09-15.html">09月15日</a>
+<a href="2026-09-14.html">09月14日</a>
+<a href="2026-09-11.html">09月11日</a>
+<a href="2026-09-10.html">09月10日</a>
+<a href="2026-09-09.html">09月09日</a>
+<a href="2026-09-08.html">09月08日</a>
+<a href="2026-09-07.html">09月07日</a>
+</div>
+  <div class="content">
+  <hr>
+<p>AIGC:</p>
+<p>ContentProducer: '001191110102MAD55U9H0F10002'</p>
+<p>ContentPropagator: '001191110102MAD55U9H0F10002'</p>
+<p>Label: '1'</p>
+<p>ProduceID: '89b8350e-36d9-4736-b4d4-a8ca20f4a952'</p>
+<p>PropagateID: '89b8350e-36d9-4736-b4d4-a8ca20f4a952'</p>
+<p>ReservedCode1: 'ee9cdb74-0e96-4f0b-9422-aea29e32f8e0'</p>
+<p>ReservedCode2: 'ee9cdb74-0e96-4f0b-9422-aea29e32f8e0'</p>
+<hr>
+
+<h2>每日算法讲解 · 2026-09-29</h2>
+
+<blockquote>
+<p>今日内容：1 个基础算法 + 2 个 AI/机器学习算法 | 逐参数详解</p>
+</blockquote>
+<p>></p>
+<blockquote>
+<p>- 基础算法：BFS 广度优先搜索（图算法）</p>
+<p>- AI 算法 1：矩阵分解推荐（推荐系统）</p>
+<p>- AI 算法 2：CatBoost（集成学习）</p>
+</blockquote>
+
+<hr>
+
+<h3>BFS 广度优先搜索</h3>
+
+<p><strong>类别</strong>：图算法 | <strong>难度</strong>：入门</p>
+
+<h4>算法简介</h4>
+
+<p>广度优先搜索（Breadth-First Search, BFS）是一种用于遍历或搜索图（Graph）和树（Tree）数据结构的经典算法。它的核心策略是<strong>逐层扩展</strong>：从起始节点出发，先访问所有距离为 1 的直接邻居，再访问距离为 2 的节点，以此类推，如同水波从中心向外扩散。</p>
+
+<p>BFS 依赖<strong>队列（FIFO）</strong>实现：将起始节点入队，每次从队首取出一个节点进行访问，将其所有未访问的邻居依次入队。这种先进先出的特性保证了节点是按照距起点的层数（距离）递增的顺序被访问的。</p>
+
+<p>在无权图（所有边权重相同）中，BFS 天然保证了从起点到每个可达节点的路径是最短路径（按边数计），这一性质使其成为求解无权图最短路径、连通性判断、层级遍历等问题的首选算法。</p>
+
+<h4>原理示意图</h4>
+
+<p><div class="algo-image"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 900 480" font-family="sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="6" refX="4" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#6366f1"/>
+    </marker>
+  </defs>
+  <!-- 背景 -->
+  <rect width="900" height="480" fill="#1e293b" rx="12"/>
+  <!-- 标题 -->
+  <text x="450" y="30" text-anchor="middle" fill="#818cf8" font-size="16" font-weight="600">BFS 逐层遍历示意图（访问顺序：A→B→C→D→E→F→G→H）</text>
+
+  <!-- 图节点：Layer 0 -->
+  <circle cx="450" cy="80" r="22" fill="#6366f1" stroke="#818cf8" stroke-width="2"/>
+  <text x="450" y="86" text-anchor="middle" fill="#fff" font-size="14" font-weight="600">A</text>
+  <text x="500" y="82" fill="#94a3b8" font-size="11">Layer 0 (起点)</text>
+
+  <!-- 图节点：Layer 1 -->
+  <circle cx="320" cy="160" r="20" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="320" y="166" text-anchor="middle" fill="#e2e8f0" font-size="13">B</text>
+  <circle cx="580" cy="160" r="20" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="580" y="166" text-anchor="middle" fill="#e2e8f0" font-size="13">C</text>
+  <text x="250" y="150" fill="#94a3b8" font-size="11">Layer 1</text>
+
+  <!-- 图节点：Layer 2 -->
+  <circle cx="220" cy="250" r="20" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="220" y="256" text-anchor="middle" fill="#e2e8f0" font-size="13">D</text>
+  <circle cx="380" cy="250" r="20" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="380" y="256" text-anchor="middle" fill="#e2e8f0" font-size="13">E</text>
+  <circle cx="540" cy="250" r="20" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="540" y="256" text-anchor="middle" fill="#e2e8f0" font-size="13">F</text>
+  <text x="150" y="240" fill="#94a3b8" font-size="11">Layer 2</text>
+
+  <!-- 图节点：Layer 3 -->
+  <circle cx="300" cy="340" r="20" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="300" y="346" text-anchor="middle" fill="#e2e8f0" font-size="13">G</text>
+  <circle cx="460" cy="340" r="20" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="460" y="346" text-anchor="middle" fill="#e2e8f0" font-size="13">H</text>
+  <text x="230" y="330" fill="#94a3b8" font-size="11">Layer 3</text>
+
+  <!-- 边 -->
+  <line x1="438" y1="94" x2="336" y2="146" stroke="#475569" stroke-width="1.5"/>
+  <line x1="462" y1="94" x2="564" y2="146" stroke="#475569" stroke-width="1.5"/>
+  <line x1="310" y1="178" x2="234" y2="232" stroke="#475569" stroke-width="1.5"/>
+  <line x1="330" y1="178" x2="370" y2="232" stroke="#475569" stroke-width="1.5"/>
+  <line x1="568" y1="178" x2="552" y2="232" stroke="#475569" stroke-width="1.5"/>
+  <line x1="380" y1="268" x2="310" y2="322" stroke="#475569" stroke-width="1.5"/>
+  <line x1="400" y1="268" x2="448" y2="322" stroke="#475569" stroke-width="1.5"/>
+
+  <!-- 队列状态示意 -->
+  <rect x="650" y="120" width="220" height="200" fill="#0f172a" stroke="#334155" rx="8"/>
+  <text x="760" y="142" text-anchor="middle" fill="#818cf8" font-size="13" font-weight="600">队列 (FIFO) 演变</text>
+  <text x="670" y="165" fill="#22c55e" font-size="11">① 初始: [A]</text>
+  <text x="670" y="185" fill="#e2e8f0" font-size="11">② 出A入B,C: [B, C]</text>
+  <text x="670" y="205" fill="#e2e8f0" font-size="11">③ 出B入D,E: [C, D, E]</text>
+  <text x="670" y="225" fill="#e2e8f0" font-size="11">④ 出C入F: [D, E, F]</text>
+  <text x="670" y="245" fill="#e2e8f0" font-size="11">⑤ 出D (无新): [E, F]</text>
+  <text x="670" y="265" fill="#e2e8f0" font-size="11">⑥ 出E入G,H: [F, G, H]</text>
+  <text x="670" y="285" fill="#e2e8f0" font-size="11">⑦ 出F: [G, H]</text>
+  <text x="670" y="305" fill="#f97316" font-size="11">⑧ 队空 → 结束</text>
+
+  <!-- 箭头标注访问方向 -->
+  <text x="450" y="420" text-anchor="middle" fill="#94a3b8" font-size="12">关键性质：先入队的先访问 → 同层节点必定先于下一层被访问 → 无权图最短路径</text>
+</svg></div></p>
+
+<h4>数学公式</h4>
+
+<p><strong>1. BFS 访问层数（距离）公式</strong></p>
+
+<p><div class="math-block">$$ \text{dist}(s, v) = \begin{cases} 0 & \text{if } v = s \\ \min_{(u,v) \in E} \text{dist}(s, u) + 1 & \text{otherwise} \end{cases} $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ s $：起始节点（source vertex）</li>
+<li>$ v $：当前被访问的节点</li>
+<li>$ E $：图中所有边的集合</li>
+<li>$ \text{dist}(s, v) $：从起点 $ s $ 到节点 $ v $ 的最短边数（无权图）</li>
+<li>$ \min_{(u,v) \in E} $：在所有指向 $ v $ 的边 $ (u, v) $ 中取最小值</li>
+</ul>
+
+<p><strong>2. 队列规模上界</strong></p>
+
+<p><div class="math-block">$$ |Q| \leq \min(|V|, \ \Delta(G) \cdot \text{max\_layer}) $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ |Q| $：队列中同时存在的最大节点数</li>
+<li>$ |V| $：图中顶点总数</li>
+<li>$ \Delta(G) $：图的最大度数</li>
+<li>$ \text{max\_layer} $：当前最大层数</li>
+</ul>
+
+<p><strong>3. 时间复杂度</strong></p>
+
+<p><div class="math-block">$$ T(V, E) = O(|V| + |E|) $$</div></p>
+
+<p>每个顶点入队/出队各一次 $ O(|V|) $，每条边在邻接表中被检查至多两次（无向图每条边检查两次，有向图一次），故总时间 $ O(|V| + |E|) $。</p>
+
+<h4>核心要点</h4>
+
+<ul>
+<li>BFS 使用<strong>队列（FIFO）</strong>保证同层节点先于下一层被访问</li>
+<li>在无权图中，BFS 首次访问某节点时即为最短路径</li>
+<li>需要 <code class="inline-code">visited</code> 标记避免重复访问和死循环</li>
+<li>常用邻接表表示图，访问效率为 $ O(1) $ 每条边</li>
+<li>BFS 可用于求连通分量、最短路径、层级遍历、二分图判定（双色法）</li>
+</ul>
+
+<h4>技术细节与参数详解</h4>
+
+<p>#### 参数 1：graph（图的数据结构）</p>
+
+<ul>
+<li><strong>含义</strong>：BFS 遍历的图或树结构</li>
+<li><strong>类型</strong>：邻接表（<code class="inline-code">dict[int, list[int]]</code>）或邻接矩阵（<code class="inline-code">list[list[bool/int]]</code>）或网格（<code class="inline-code">list[list[int]]</code>）</li>
+<li><strong>默认值</strong>：无（必须提供）</li>
+<li><strong>取值范围</strong>：任意有效的图结构表示</li>
+<li><strong>对结果的影响</strong>：邻接表适合稀疏图（$ |E| \ll |V|^2 $），空间 $ O(|V|+|E|) $；邻接矩阵适合稠密图，空间 $ O(|V|^2) $</li>
+<li><strong>推荐设置</strong>：绝大多数场景用邻接表（<code class="inline-code">collections.defaultdict(list)</code>），网格类题目用二维数组 + 方向向量</li>
+</ul>
+
+<p>#### 参数 2：source / start（起始节点）</p>
+
+<ul>
+<li><strong>含义</strong>：BFS 遍历的起点</li>
+<li><strong>类型</strong>：整数（节点编号）或元组（网格坐标 <code class="inline-code">(row, col)</code>）</li>
+<li><strong>默认值</strong>：0 或 <code class="inline-code">(0, 0)</code></li>
+<li><strong>取值范围</strong>：图中任意有效节点</li>
+<li><strong>对结果的影响</strong>：起点决定遍历的起始层和访问顺序；若图不连通，只有从起点可达的节点会被访问</li>
+<li><strong>推荐设置</strong>：根据题目要求设置；若需遍历全图，对所有未访问节点分别启动 BFS</li>
+</ul>
+
+<p>#### 参数 3：queue（队列）</p>
+
+<ul>
+<li><strong>含义</strong>：存储待访问节点的 FIFO 队列</li>
+<li><strong>类型</strong>：<code class="inline-code">collections.deque</code>（双端队列）</li>
+<li><strong>默认值</strong>：<code class="inline-code">deque()</code></li>
+<li><strong>取值范围</strong>：无限制</li>
+<li><strong>对结果的影响</strong>：使用 <code class="inline-code">list</code> 的 <code class="inline-code">pop(0)</code> 会导致 $ O(n) $ 出队；<code class="inline-code">deque</code> 的 <code class="inline-code">popleft()</code> 为 $ O(1) $，是 BFS 正确且高效的实现方式</li>
+<li><strong>推荐设置</strong>：始终使用 <code class="inline-code">collections.deque</code>，避免使用 <code class="inline-code">list</code></li>
+</ul>
+
+<p>#### 参数 4：visited（已访问标记集合）</p>
+
+<ul>
+<li><strong>含义</strong>：记录哪些节点已被访问，防止重复入队</li>
+<li><strong>类型</strong>：<code class="inline-code">set()</code>（集合）或 <code class="inline-code">list[bool]</code>（布尔数组）</li>
+<li><strong>默认值</strong>：空集合</li>
+<li><strong>取值范围</strong>：包含已访问的节点 ID</li>
+<li><strong>对结果的影响</strong>：缺少 visited 标记会导致无限循环（图中有环时）；使用布尔数组比集合更高效（$ O(1) $ 查找且无哈希开销）</li>
+<li><strong>推荐设置</strong>：节点编号连续时用布尔数组 <code class="inline-code">visited = [False] <em> n</code>；节点编号不连续或为坐标时用 <code class="inline-code">set()</code> 或 <code class="inline-code">visited = [[False]</em>W for _ in range(H)]</code></li>
+</ul>
+
+<p>#### 参数 5：level / distance（层级/距离记录）</p>
+
+<ul>
+<li><strong>含义</strong>：记录每个节点距起点的层数（边数）</li>
+<li><strong>类型</strong>：<code class="inline-code">dict[int, int]</code> 或 <code class="inline-code">list[int]</code>（初始化为 -1 表示未访问）</li>
+<li><strong>默认值</strong>：<code class="inline-code">{-1}</code> 或 <code class="inline-code">[-1] * n</code></li>
+<li><strong>取值范围</strong>：非负整数，起点为 0</li>
+<li><strong>对结果的影响</strong>：不记录层级时只能判断连通性；记录后可输出最短路径长度、按层级分组处理</li>
+<li><strong>推荐设置</strong>：用 <code class="inline-code">dist = [-1] * n</code> 同时充当 visited（<code class="inline-code">-1</code> 表示未访问）和距离记录，省去单独的 visited 集合</li>
+</ul>
+
+<p>#### 参数 6：parent / predecessor（前驱节点记录）</p>
+
+<ul>
+<li><strong>含义</strong>：记录每个节点在 BFS 树中的父节点，用于路径回溯</li>
+<li><strong>类型</strong>：<code class="inline-code">list[int]</code> 或 <code class="inline-code">dict[int, int]</code></li>
+<li><strong>默认值</strong>：<code class="inline-code">[-1] * n</code></li>
+<li><strong>取值范围</strong>：节点编号或 -1（无前驱）</li>
+<li><strong>对结果的影响</strong>：不需要路径回溯时可省略；需要时从终点沿 parent 链回溯到起点即可得到最短路径</li>
+<li><strong>推荐设置</strong>：仅在最短路径需要输出具体路径时启用</li>
+</ul>
+
+<p>#### 参数 7：directions（方向向量，网格 BFS 专用）</p>
+
+<ul>
+<li><strong>含义</strong>：网格图中四方向或八方向的偏移量</li>
+<li><strong>类型</strong>：<code class="inline-code">list[tuple[int, int]]</code></li>
+<li><strong>默认值</strong>：<code class="inline-code">[(-1,0), (1,0), (0,-1), (0,1)]</code>（四方向）</li>
+<li><strong>取值范围</strong>：四方向或八方向</li>
+<li><strong>对结果的影响</strong>：四方向只能上下左右移动（曼哈顿距离）；八方向可斜向移动（切比雪夫距离）</li>
+<li><strong>推荐设置</strong>：迷宫/最短步数问题用四方向；棋盘类问题视规则而定</li>
+</ul>
+
+<h4>代码示例</h4>
+
+<p><pre class="code-block"><code class="language-python">from collections import deque  # 导入双端队列，保证 O(1) 入队出队
+
+def bfs(adj, source, n):
+    &quot;&quot;&quot;
+    BFS 广度优先搜索 - 求无权图最短路径
+    :param adj: 邻接表，dict[int, list[int]]，key 为节点，value 为邻居列表
+    :param source: 起始节点编号
+    :param n: 图中节点总数
+    :return: dist 列表（dist[i] 为 source 到 i 的最短边数）, parent 列表（路径回溯用）
+    &quot;&quot;&quot;
+    # 初始化距离数组，-1 表示未访问（同时充当 visited 标记）
+    dist = [-1] * n
+    # 初始化前驱数组，-1 表示无前驱（起点或不可达）
+    parent = [-1] * n
+    # 创建 FIFO 队列
+    queue = deque()
+
+    # 将起点入队，距离设为 0
+    queue.append(source)
+    dist[source] = 0
+
+    # 主循环：队列非空时持续处理
+    while queue:
+        # 从队首取出当前节点（FIFO 保证按层级顺序访问）
+        u = queue.popleft()
+
+        # 遍历当前节点的所有邻居
+        for v in adj[u]:
+            # 如果邻居未被访问过（dist == -1）
+            if dist[v] == -1:
+                # 距离 = 当前节点距离 + 1
+                dist[v] = dist[u] + 1
+                # 记录前驱节点，用于路径回溯
+                parent[v] = u
+                # 将邻居入队，等待后续处理
+                queue.append(v)
+
+    return dist, parent
+
+
+def reconstruct_path(parent, source, target):
+    &quot;&quot;&quot;从 BFS 结果回溯最短路径&quot;&quot;&quot;
+    path = []  # 存储路径节点
+    current = target  # 从终点开始回溯
+    while current != -1:  # 沿 parent 链回溯到起点
+        path.append(current)  # 当前节点加入路径
+        current = parent[current]  # 移动到前驱节点
+    path.reverse()  # 反转路径（从起点到终点）
+    # 检查路径是否有效（起点是否匹配）
+    if path[0] == source:
+        return path
+    return []  # 不可达
+
+
+# === 示例：无向图最短路径 ===
+n = 8  # 8 个节点 (0~7)
+adj = {  # 邻接表
+    0: [1, 2],     # A 的邻居：B, C
+    1: [0, 3, 4],  # B 的邻居：A, D, E
+    2: [0, 5],     # C 的邻居：A, F
+    3: [1],        # D 的邻居：B
+    4: [1, 6, 7],  # E 的邻居：B, G, H
+    5: [2],        # F 的邻居：C
+    6: [4],        # G 的邻居：E
+    7: [4],        # H 的邻居：E
+}
+dist, parent = bfs(adj, source=0, n=n)  # 执行 BFS
+print(&quot;距离:&quot;, dist)  # 输出: 距离: [0, 1, 1, 2, 2, 2, 3, 3]
+path = reconstruct_path(parent, 0, 6)  # 回溯 0→6 的最短路径
+print(&quot;最短路径 0→6:&quot;, path)  # 输出: 最短路径 0→6: [0, 1, 4, 6]
+
+
+# === 网格 BFS 示例：迷宫最短步数 ===
+def bfs_grid(grid, start, end):
+    &quot;&quot;&quot;
+    网格 BFS 求最短步数
+    :param grid: 二维网格，0=可通行，1=障碍
+    :param start: 起点坐标 (row, col)
+    :param end: 终点坐标 (row, col)
+    :return: 最短步数，不可达返回 -1
+    &quot;&quot;&quot;
+    rows, cols = len(grid), len(grid[0])  # 网格行列数
+    # 四方向向量：上、下、左、右
+    directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+    # visited 矩阵，标记已访问的格子
+    visited = [[False] * cols for _ in range(rows)]
+    queue = deque()
+    # 入队起点，步数为 0
+    queue.append((start[0], start[1], 0))
+    visited[start[0]][start[1]] = True
+
+    while queue:
+        r, c, steps = queue.popleft()  # 取出当前格子和步数
+        if (r, c) == end:  # 到达终点
+            return steps
+        for dr, dc in directions:  # 遍历四个方向
+            nr, nc = r + dr, c + dc  # 计算新坐标
+            # 边界检查 + 障碍检查 + 未访问检查
+            if 0 &lt;= nr &lt; rows and 0 &lt;= nc &lt; cols and not visited[nr][nc] and grid[nr][nc] == 0:
+                visited[nr][nc] = True  # 标记已访问
+                queue.append((nr, nc, steps + 1))  # 入队，步数+1
+    return -1  # 不可达</code></pre></p>
+
+<h4>复杂度分析</h4>
+
+<p><strong>时间复杂度</strong>：$ O(|V| + |E|) $</p>
+
+<ul>
+<li>每个顶点最多入队一次、出队一次：$ O(|V|) $</li>
+<li>使用邻接表时，遍历所有顶点的邻居列表，所有边被检查的总次数：无向图每条边检查 2 次，有向图 1 次：$ O(|E|) $</li>
+<li>合计：$ O(|V| + |E|) $</li>
+</ul>
+
+<p><strong>空间复杂度</strong>：$ O(|V|) $</p>
+
+<ul>
+<li><code class="inline-code">dist</code>/<code class="inline-code">visited</code> 数组：$ O(|V|) $</li>
+<li><code class="inline-code">parent</code> 数组：$ O(|V|) $</li>
+<li>队列最大长度：最坏情况（完全二叉树底层）为 $ O(|V|) $</li>
+<li>递归栈：BFS 无递归（迭代实现），栈空间为 $ O(1) $</li>
+<li>合计：$ O(|V|) $</li>
+</ul>
+
+<h4>应用场景</h4>
+
+<ul>
+<li><strong>无权图最短路径</strong>：迷宫求解、社交网络中两人之间的最短关系链</li>
+<li><strong>层级遍历</strong>：二叉树/多叉树的层序遍历（LeetCode 102）</li>
+<li><strong>连通分量统计</strong>：对每个未访问节点启动 BFS，计数连通块数量</li>
+<li><strong>二分图判定</strong>：BFS 双色染色法，检查相邻节点颜色是否冲突</li>
+<li><strong>网格搜索</strong>：岛屿数量、最短离岛距离、单词搜索（LeetCode 200/1091/1162）</li>
+<li><strong>拓扑排序兼容</strong>：结合入度表的 BFS 可实现 Kahn 拓扑排序</li>
+<li><strong>网络爬虫</strong>：广度优先抓取网页，先抓取首页链接再逐层深入</li>
+<li><strong>六度空间理论验证</strong>：社交网络中从某用户出发，BFS 6 层内覆盖的节点比例</li>
+</ul>
+
+<h4>参考文档</h4>
+
+<ul>
+<li><a href="https://blog.csdn.net/weixin_30843121/article/details/165148963" target="_blank" class="ref-link">BFS 算法详解：从基础概念到工程实践</a></li>
+<li><a href="https://cloud.tencent.com/developer/news/1264082" target="_blank" class="ref-link">宽度优先搜索算法原理与 C 语言实现</a></li>
+<li><a href="https://blog.csdn.net/gitblog_00003/article/details/153552720" target="_blank" class="ref-link">AlgoNote 图论系列：BFS 算法原理与 LeetCode 实战</a></li>
+</ul>
+
+<hr>
+
+<h3>矩阵分解推荐</h3>
+
+<p><strong>类别</strong>：推荐系统 | <strong>难度</strong>：中等</p>
+
+<h4>算法简介</h4>
+
+<p>矩阵分解（Matrix Factorization, MF）是推荐系统中核心的协同过滤技术。其核心思想是将用户-物品评分矩阵 $ R $（通常极度稀疏）分解为两个低维矩阵的乘积：用户隐因子矩阵 $ P $ 和物品隐因子矩阵 $ Q $。通过学习这些隐因子（Latent Factors），模型能够<strong>泛化预测</strong>用户对未评分物品的偏好。</p>
+
+<p>经典的矩阵分解方法源自 Simon Funk 在 Netflix Prize（2006）中提出的 Funk-SVD。与标准 SVD 不同，Funk-SVD 不要求矩阵完整，而是仅利用已观测的评分进行梯度下降优化。公式为 $ \hat{r}_{ui} = \mu + b_u + b_i + p_u^T q_i $，其中 $ \mu $ 是全局平均分，$ b_u $ 和 $ b_i $ 分别是用户和物品偏置，$ p_u $ 和 $ q_i $ 是 $ k $ 维隐因子向量。</p>
+
+<p>矩阵分解有效解决了传统近邻协同过滤的两大痛点：①无法利用物品本身属性信息；②处理稀疏矩阵能力弱、泛化性差。通过降维到低维隐因子空间，即使两个用户没有共同评分的物品，也能通过隐因子相似性得到合理推荐。</p>
+
+<h4>原理示意图</h4>
+
+<p><div class="algo-image"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 900 420" font-family="sans-serif">
+  <defs>
+    <marker id="arrow2" markerWidth="8" markerHeight="6" refX="4" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#6366f1"/>
+    </marker>
+  </defs>
+  <!-- 背景 -->
+  <rect width="900" height="420" fill="#1e293b" rx="12"/>
+  <!-- 标题 -->
+  <text x="450" y="30" text-anchor="middle" fill="#818cf8" font-size="16" font-weight="600">矩阵分解：R(m×n) ≈ P(m×k) × Q^T(k×n)</text>
+
+  <!-- R 矩阵 (用户×物品评分矩阵) -->
+  <text x="130" y="70" text-anchor="middle" fill="#818cf8" font-size="13" font-weight="600">R (稀疏评分矩阵)</text>
+  <text x="60" y="100" fill="#94a3b8" font-size="11">u1</text>
+  <text x="60" y="120" fill="#94a3b8" font-size="11">u2</text>
+  <text x="60" y="140" fill="#94a3b8" font-size="11">u3</text>
+  <text x="60" y="160" fill="#94a3b8" font-size="11">u4</text>
+  <!-- 矩阵格子 -->
+  <rect x="75" y="85" width="25" height="20" fill="#22c55e" fill-opacity="0.3" stroke="#334155"/><text x="87" y="99" text-anchor="middle" fill="#e2e8f0" font-size="10">5</text>
+  <rect x="100" y="85" width="25" height="20" fill="#0f172a" stroke="#334155"/><text x="112" y="99" text-anchor="middle" fill="#475569" font-size="10">?</text>
+  <rect x="125" y="85" width="25" height="20" fill="#22c55e" fill-opacity="0.3" stroke="#334155"/><text x="137" y="99" text-anchor="middle" fill="#e2e8f0" font-size="10">3</text>
+  <rect x="150" y="85" width="25" height="20" fill="#22c55e" fill-opacity="0.3" stroke="#334155"/><text x="162" y="99" text-anchor="middle" fill="#e2e8f0" font-size="10">4</text>
+  <rect x="175" y="85" width="25" height="20" fill="#0f172a" stroke="#334155"/><text x="187" y="99" text-anchor="middle" fill="#475569" font-size="10">?</text>
+  <rect x="75" y="105" width="25" height="20" fill="#22c55e" fill-opacity="0.3" stroke="#334155"/><text x="87" y="119" text-anchor="middle" fill="#e2e8f0" font-size="10">3</text>
+  <rect x="100" y="105" width="25" height="20" fill="#22c55e" fill-opacity="0.3" stroke="#334155"/><text x="112" y="119" text-anchor="middle" fill="#e2e8f0" font-size="10">4</text>
+  <rect x="125" y="105" width="25" height="20" fill="#0f172a" stroke="#334155"/><text x="137" y="119" text-anchor="middle" fill="#475569" font-size="10">?</text>
+  <rect x="150" y="105" width="25" height="20" fill="#0f172a" stroke="#334155"/><text x="162" y="119" text-anchor="middle" fill="#475569" font-size="10">?</text>
+  <rect x="175" y="105" width="25" height="20" fill="#22c55e" fill-opacity="0.3" stroke="#334155"/><text x="187" y="119" text-anchor="middle" fill="#e2e8f0" font-size="10">2</text>
+  <rect x="75" y="125" width="25" height="20" fill="#0f172a" stroke="#334155"/><text x="87" y="139" text-anchor="middle" fill="#475569" font-size="10">?</text>
+  <rect x="100" y="125" width="25" height="20" fill="#22c55e" fill-opacity="0.3" stroke="#334155"/><text x="112" y="139" text-anchor="middle" fill="#e2e8f0" font-size="10">5</text>
+  <rect x="125" y="125" width="25" height="20" fill="#22c55e" fill-opacity="0.3" stroke="#334155"/><text x="137" y="139" text-anchor="middle" fill="#e2e8f0" font-size="10">4</text>
+  <rect x="150" y="125" width="25" height="20" fill="#0f172a" stroke="#334155"/><text x="162" y="139" text-anchor="middle" fill="#475569" font-size="10">?</text>
+  <rect x="175" y="125" width="25" height="20" fill="#22c55e" fill-opacity="0.3" stroke="#334155"/><text x="187" y="139" text-anchor="middle" fill="#e2e8f0" font-size="10">1</text>
+  <rect x="75" y="145" width="25" height="20" fill="#22c55e" fill-opacity="0.3" stroke="#334155"/><text x="87" y="159" text-anchor="middle" fill="#e2e8f0" font-size="10">4</text>
+  <rect x="100" y="145" width="25" height="20" fill="#0f172a" stroke="#334155"/><text x="112" y="159" text-anchor="middle" fill="#475569" font-size="10">?</text>
+  <rect x="125" y="145" width="25" height="20" fill="#22c55e" fill-opacity="0.3" stroke="#334155"/><text x="137" y="159" text-anchor="middle" fill="#e2e8f0" font-size="10">2</text>
+  <rect x="150" y="145" width="25" height="20" fill="#22c55e" fill-opacity="0.3" stroke="#334155"/><text x="162" y="159" text-anchor="middle" fill="#e2e8f0" font-size="10">5</text>
+  <rect x="175" y="145" width="25" height="20" fill="#0f172a" stroke="#334155"/><text x="187" y="159" text-anchor="middle" fill="#475569" font-size="10">?</text>
+  <text x="130" y="185" text-anchor="middle" fill="#94a3b8" font-size="10">绿色=已评分 | ?=未知（待预测）</text>
+
+  <!-- 等号 -->
+  <text x="230" y="130" text-anchor="middle" fill="#818cf8" font-size="24" font-weight="600">≈</text>
+
+  <!-- P 矩阵 (用户隐因子) -->
+  <text x="340" y="70" text-anchor="middle" fill="#818cf8" font-size="13" font-weight="600">P (用户隐因子 m×k)</text>
+  <rect x="280" y="85" width="120" height="80" fill="#0f172a" stroke="#6366f1" stroke-width="1.5" rx="4"/>
+  <text x="305" y="100" text-anchor="middle" fill="#f97316" font-size="10">0.8</text>
+  <text x="340" y="100" text-anchor="middle" fill="#f97316" font-size="10">0.2</text>
+  <text x="375" y="100" text-anchor="middle" fill="#f97316" font-size="10">-0.1</text>
+  <text x="305" y="120" text-anchor="middle" fill="#f97316" font-size="10">0.3</text>
+  <text x="340" y="120" text-anchor="middle" fill="#f97316" font-size="10">0.9</text>
+  <text x="375" y="120" text-anchor="middle" fill="#f97316" font-size="10">0.4</text>
+  <text x="305" y="140" text-anchor="middle" fill="#f97316" font-size="10">0.1</text>
+  <text x="340" y="140" text-anchor="middle" fill="#f97316" font-size="10">0.5</text>
+  <text x="375" y="140" text-anchor="middle" fill="#f97316" font-size="10">0.7</text>
+  <text x="305" y="160" text-anchor="middle" fill="#f97316" font-size="10">0.6</text>
+  <text x="340" y="160" text-anchor="middle" fill="#f97316" font-size="10">-0.3</text>
+  <text x="375" y="160" text-anchor="middle" fill="#f97316" font-size="10">0.5</text>
+  <text x="340" y="185" text-anchor="middle" fill="#94a3b8" font-size="10">k=3 (隐因子维度)</text>
+
+  <!-- 乘号 -->
+  <text x="430" y="130" text-anchor="middle" fill="#818cf8" font-size="20" font-weight="600">×</text>
+
+  <!-- Q^T 矩阵 (物品隐因子) -->
+  <text x="640" y="70" text-anchor="middle" fill="#818cf8" font-size="13" font-weight="600">Q^T (物品隐因子 k×n)</text>
+  <rect x="500" y="85" width="220" height="60" fill="#0f172a" stroke="#6366f1" stroke-width="1.5" rx="4"/>
+  <text x="525" y="100" text-anchor="middle" fill="#22c55e" font-size="9">0.7</text>
+  <text x="565" y="100" text-anchor="middle" fill="#22c55e" font-size="9">0.4</text>
+  <text x="605" y="100" text-anchor="middle" fill="#22c55e" font-size="9">0.6</text>
+  <text x="645" y="100" text-anchor="middle" fill="#22c55e" font-size="9">0.3</text>
+  <text x="685" y="100" text-anchor="middle" fill="#22c55e" font-size="9">0.1</text>
+  <text x="525" y="120" text-anchor="middle" fill="#22c55e" font-size="9">0.5</text>
+  <text x="565" y="120" text-anchor="middle" fill="#22c55e" font-size="9">0.8</text>
+  <text x="605" y="120" text-anchor="middle" fill="#22c55e" font-size="9">0.2</text>
+  <text x="645" y="120" text-anchor="middle" fill="#22c55e" font-size="9">0.9</text>
+  <text x="685" y="120" text-anchor="middle" fill="#22c55e" font-size="9">0.3</text>
+  <text x="525" y="140" text-anchor="middle" fill="#22c55e" font-size="9">0.3</text>
+  <text x="565" y="140" text-anchor="middle" fill="#22c55e" font-size="9">0.1</text>
+  <text x="605" y="140" text-anchor="middle" fill="#22c55e" font-size="9">0.7</text>
+  <text x="645" y="140" text-anchor="middle" fill="#22c55e" font-size="9">0.4</text>
+  <text x="685" y="140" text-anchor="middle" fill="#22c55e" font-size="9">0.6</text>
+  <text x="640" y="185" text-anchor="middle" fill="#94a3b8" font-size="10">每列 = 一个物品的隐因子向量 q_i</text>
+
+  <!-- 底部说明 -->
+  <rect x="60" y="220" width="780" height="180" fill="#0f172a" stroke="#334155" rx="8"/>
+  <text x="80" y="245" fill="#818cf8" font-size="13" font-weight="600">预测公式：r̂(u,i) = μ + b_u + b_i + p_u^T · q_i</text>
+  <text x="80" y="270" fill="#e2e8f0" font-size="11">• μ: 全局平均评分 | b_u: 用户偏置（该用户评分习惯偏高/偏低）</text>
+  <text x="80" y="290" fill="#e2e8f0" font-size="11">• b_i: 物品偏置（该物品普遍评分偏高/偏低）</text>
+  <text x="80" y="310" fill="#e2e8f0" font-size="11">• p_u: 用户 u 的 k 维隐因子向量 | q_i: 物品 i 的 k 维隐因子向量</text>
+  <text x="80" y="330" fill="#e2e8f0" font-size="11">• p_u^T · q_i: 隐因子内积 → 用户偏好与物品特征的匹配度</text>
+  <text x="80" y="355" fill="#f97316" font-size="11">→ 通过梯度下降最小化 Σ(r_ui - r̂_ui)² + λ(||p_u||² + ||q_i||² + b_u² + b_i²)</text>
+  <text x="80" y="380" fill="#94a3b8" font-size="10">仅对已观测评分 (u,i)∈κ 计算损失；正则化项防止过拟合</text>
+</svg></div></p>
+
+<h4>数学公式</h4>
+
+<p><strong>1. 预测公式（含偏置）</strong></p>
+
+<p><div class="math-block">$$ \hat{r}_{ui} = \mu + b_u + b_i + p_u^T q_i $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ \hat{r}_{ui} $：预测的用户 $ u $ 对物品 $ i $ 的评分</li>
+<li>$ \mu $：全局平均评分（所有已观测评分的均值）</li>
+<li>$ b_u $：用户偏置，反映用户 $ u $ 的评分习惯（偏高或偏低）</li>
+<li>$ b_i $：物品偏置，反映物品 $ i $ 相对全局的水平</li>
+<li>$ p_u $：用户 $ u $ 的 $ k $ 维隐因子向量（$ p_u \in \mathbb{R}^k $）</li>
+<li>$ q_i $：物品 $ i $ 的 $ k $ 维隐因子向量（$ q_i \in \mathbb{R}^k $）</li>
+<li>$ p_u^T q_i $：隐因子向量的内积，衡量用户偏好与物品特征的匹配程度</li>
+</ul>
+
+<p><strong>2. 正则化损失函数</strong></p>
+
+<p><div class="math-block">$$ L = \sum_{(u,i) \in \kappa} \left(r_{ui} - \mu - b_u - b_i - p_u^T q_i\right)^2 + \lambda\left(\|p_u\|^2 + \|q_i\|^2 + b_u^2 + b_i^2\right) $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ \kappa $：已观测评分子集 $ (u, i) \in \kappa $</li>
+<li>$ r_{ui} $：用户 $ u $ 对物品 $ i $ 的真实评分</li>
+<li>$ \lambda $：正则化系数，控制模型复杂度，防止过拟合</li>
+<li>$ \|p_u\|^2 $、$ \|q_i\|^2 $：隐因子向量的 L2 范数平方</li>
+<li>损失第一项为 MSE 重建误差，第二项为 L2 正则化</li>
+</ul>
+
+<p><strong>3. 梯度下降更新规则</strong></p>
+
+<p><div class="math-block">$$ p_u \leftarrow p_u + \eta \left(e_{ui} \cdot q_i - \lambda \cdot p_u\right) $$</div></p>
+
+<p><div class="math-block">$$ q_i \leftarrow q_i + \eta \left(e_{ui} \cdot p_u - \lambda \cdot q_i\right) $$</div></p>
+
+<p><div class="math-block">$$ b_u \leftarrow b_u + \eta \left(e_{ui} - \lambda \cdot b_u\right) $$</div></p>
+
+<p><div class="math-block">$$ b_i \leftarrow b_i + \eta \left(e_{ui} - \lambda \cdot b_i\right) $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ \eta $（eta）：学习率，控制每步更新的步长</li>
+<li>$ e_{ui} = r_{ui} - \hat{r}_{ui} $：预测误差</li>
+<li>$ \lambda $：正则化系数</li>
+<li>每条已观测评分 $ (u, i) $ 触发一次参数更新（SGD）</li>
+</ul>
+
+<p><strong>4. 隐因子维度与近似误差</strong></p>
+
+<p><div class="math-block">$$ R \approx P \cdot Q^T, \quad P \in \mathbb{R}^{m \times k}, \quad Q \in \mathbb{R}^{n \times k} $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ R \in \mathbb{R}^{m \times n} $：$ m $ 个用户 $ \times $ $ n $ 个物品的评分矩阵</li>
+<li>$ k $：隐因子维度（远小于 $ m $ 和 $ n $），控制模型表达能力</li>
+<li>$ k $ 越大 → 表达力越强但过拟合风险增加；$ k $ 越小 → 泛化越好但可能欠拟合</li>
+</ul>
+
+<h4>核心要点</h4>
+
+<ul>
+<li>矩阵分解将稀疏评分矩阵分解为低维用户/物品隐因子矩阵，核心是学习隐因子使其乘积逼近已知评分</li>
+<li>偏置项 $ b_u, b_i $ 捕捉用户/物品的全局偏差，与隐因子交互项 $ p_u^T q_i $ 分离</li>
+<li>使用 SGD（随机梯度下降）逐条评分更新，无需完整矩阵，天然支持稀疏数据</li>
+<li>L2 正则化是防止过拟合的关键，$ \lambda $ 需通过交叉验证调优</li>
+<li>与标准 SVD 的区别：Funk-SVD 不要求矩阵完整，仅对已观测值优化</li>
+</ul>
+
+<h4>技术细节与参数详解</h4>
+
+<p>#### 参数 1：n_factors（隐因子数 k）</p>
+
+<ul>
+<li><strong>含义</strong>：用户和物品隐因子向量的维度 $ k $，决定模型的表达能力</li>
+<li><strong>类型</strong>：整数</li>
+<li><strong>默认值</strong>：100（Surprise 库 SVD 默认）</li>
+<li><strong>取值范围</strong>：1 ~ 数千（典型 5~200）</li>
+<li><strong>对结果的影响</strong>：$ k $ 越大，模型表达力越强，能捕捉更细的偏好模式，但容易过拟合且训练变慢；$ k $ 越小，模型更泛化但可能欠拟合</li>
+<li><strong>推荐设置</strong>：小数据集 5~20；中等数据集 20~50；大数据集 50~200；通过交叉验证选择最优值</li>
+</ul>
+
+<p>#### 参数 2：n_epochs（迭代轮数）</p>
+
+<ul>
+<li><strong>含义</strong>：SGD 遍历全部已观测评分的次数</li>
+<li><strong>类型</strong>：整数</li>
+<li><strong>默认值</strong>：20（Surprise 库 SVD 默认）</li>
+<li><strong>取值范围</strong>：1 ~ 数百</li>
+<li><strong>对结果的影响</strong>：太少则欠拟合（损失未收敛）；太多则过拟合（训练集误差极小但测试集误差反弹）</li>
+<li><strong>推荐设置</strong>：配合早停策略，通常 10~50 轮；大矩阵可用 20~30 轮</li>
+</ul>
+
+<p>#### 参数 3：biased（是否使用偏置）</p>
+
+<ul>
+<li><strong>含义</strong>：是否在预测公式中包含 $ \mu + b_u + b_i $ 偏置项</li>
+<li><strong>类型</strong>：布尔值</li>
+<li><strong>默认值</strong>：True（Surprise 库默认）</li>
+<li><strong>取值范围</strong>：True / False</li>
+<li><strong>对结果的影响</strong>：True 时自动学习全局均值、用户偏置和物品偏置，适合显式评分数据；False 时预测公式简化为 $ \hat{r}_{ui} = p_u^T q_i $，适合隐式反馈或已去中心化的数据</li>
+<li><strong>推荐设置</strong>：显式评分推荐用 True；隐式反馈或数据已预处理好用 False</li>
+</ul>
+
+<p>#### 参数 4：lr_all（全局学习率 η）</p>
+
+<ul>
+<li><strong>含义</strong>：SGD 中所有参数的共同学习率</li>
+<li><strong>类型</strong>：浮点数</li>
+<li><strong>默认值</strong>：0.005（Surprise 库 SVD 默认）</li>
+<li><strong>取值范围</strong>：0.0001 ~ 1.0（典型 0.001~0.01）</li>
+<li><strong>对结果的影响</strong>：太大会震荡不收敛；太小则收敛极慢；最优值通常在 0.001~0.01 之间</li>
+<li><strong>推荐设置</strong>：0.005 作为起点；若损失不收敛则降至 0.001；若收敛太慢可升至 0.01</li>
+</ul>
+
+<p>#### 参数 5：reg_all（全局正则化系数 λ）</p>
+
+<ul>
+<li><strong>含义</strong>：所有参数的共同 L2 正则化系数</li>
+<li><strong>类型</strong>：浮点数</li>
+<li><strong>默认值</strong>：0.02（Surprise 库 SVD 默认）</li>
+<li><strong>取值范围</strong>：0.0 ~ 1.0（典型 0.01~0.1）</li>
+<li><strong>对结果的影响</strong>：0 表示不正则化，容易过拟合；太大会过度惩罚参数导致欠拟合</li>
+<li><strong>推荐设置</strong>：0.02 作为起点；交叉验证在 0.01、0.02、0.05、0.1 中选择</li>
+</ul>
+
+<p>#### 参数 6：lr_bu（用户偏置学习率）</p>
+
+<ul>
+<li><strong>含义</strong>：用户偏置 $ b_u $ 的 SGD 学习率</li>
+<li><strong>类型</strong>：浮点数</li>
+<li><strong>默认值</strong>：None（回退到 lr_all）</li>
+<li><strong>取值范围</strong>：0.0001 ~ 1.0</li>
+<li><strong>对结果的影响</strong>：允许对偏置项使用与隐因子不同的学习率，更精细控制收敛</li>
+<li><strong>推荐设置</strong>：一般保持默认（等于 lr_all）；仅在调优发现偏置收敛与隐因子不同步时单独设置</li>
+</ul>
+
+<p>#### 参数 7：lr_bi（物品偏置学习率）</p>
+
+<ul>
+<li><strong>含义</strong>：物品偏置 $ b_i $ 的 SGD 学习率</li>
+<li><strong>类型</strong>：浮点数</li>
+<li><strong>默认值</strong>：None（回退到 lr_all）</li>
+<li><strong>取值范围</strong>：0.0001 ~ 1.0</li>
+<li><strong>对结果的影响</strong>：同 lr_bu</li>
+<li><strong>推荐设置</strong>：同 lr_bu</li>
+</ul>
+
+<p>#### 参数 8：lr_pu（用户因子学习率）</p>
+
+<ul>
+<li><strong>含义</strong>：用户隐因子向量 $ p_u $ 的 SGD 学习率</li>
+<li><strong>类型</strong>：浮点数</li>
+<li><strong>默认值</strong>：None（回退到 lr_all）</li>
+<li><strong>取值范围</strong>：0.0001 ~ 1.0</li>
+<li><strong>对结果的影响</strong>：允许用户因子的学习速率独立调节</li>
+<li><strong>推荐设置</strong>：一般保持默认</li>
+</ul>
+
+<p>#### 参数 9：lr_qi（物品因子学习率）</p>
+
+<ul>
+<li><strong>含义</strong>：物品隐因子向量 $ q_i $ 的 SGD 学习率</li>
+<li><strong>类型</strong>：浮点数</li>
+<li><strong>默认值</strong>：None（回退到 lr_all）</li>
+<li><strong>取值范围</strong>：0.0001 ~ 1.0</li>
+<li><strong>对结果的影响</strong>：允许物品因子的学习速率独立调节</li>
+<li><strong>推荐设置</strong>：一般保持默认</li>
+</ul>
+
+<p>#### 参数 10：reg_bu（用户偏置正则化）</p>
+
+<ul>
+<li><strong>含义</strong>：用户偏置 $ b_u $ 的 L2 正则化系数</li>
+<li><strong>类型</strong>：浮点数</li>
+<li><strong>默认值</strong>：None（回退到 reg_all）</li>
+<li><strong>取值范围</strong>：0.0 ~ 1.0</li>
+<li><strong>对结果的影响</strong>：控制用户偏置的惩罚强度；较大值抑制极端偏置</li>
+<li><strong>推荐设置</strong>：一般保持默认</li>
+</ul>
+
+<p>#### 参数 11：reg_bi（物品偏置正则化）</p>
+
+<ul>
+<li><strong>含义</strong>：物品偏置 $ b_i $ 的 L2 正则化系数</li>
+<li><strong>类型</strong>：浮点数</li>
+<li><strong>默认值</strong>：None（回退到 reg_all）</li>
+<li><strong>取值范围</strong>：0.0 ~ 1.0</li>
+<li><strong>对结果的影响</strong>：控制物品偏置的惩罚强度</li>
+<li><strong>推荐设置</strong>：一般保持默认</li>
+</ul>
+
+<p>#### 参数 12：reg_pu（用户因子正则化）</p>
+
+<ul>
+<li><strong>含义</strong>：用户隐因子向量 $ p_u $ 的 L2 正则化系数</li>
+<li><strong>类型</strong>：浮点数</li>
+<li><strong>默认值</strong>：None（回退到 reg_all）</li>
+<li><strong>取值范围</strong>：0.0 ~ 1.0</li>
+<li><strong>对结果的影响</strong>：控制隐因子向量的大小；较大值使向量趋向零，减少过拟合</li>
+<li><strong>推荐设置</strong>：一般保持默认</li>
+</ul>
+
+<p>#### 参数 13：reg_qi（物品因子正则化）</p>
+
+<ul>
+<li><strong>含义</strong>：物品隐因子向量 $ q_i $ 的 L2 正则化系数</li>
+<li><strong>类型</strong>：浮点数</li>
+<li><strong>默认值</strong>：None（回退到 reg_all）</li>
+<li><strong>取值范围</strong>：0.0 ~ 1.0</li>
+<li><strong>对结果的影响</strong>：同 reg_pu</li>
+<li><strong>推荐设置</strong>：一般保持默认</li>
+</ul>
+
+<p>#### 参数 14：init_mean（初始化均值）</p>
+
+<ul>
+<li><strong>含义</strong>：隐因子向量随机初始化的正态分布均值</li>
+<li><strong>类型</strong>：浮点数</li>
+<li><strong>默认值</strong>：0.0（Surprise 库默认）</li>
+<li><strong>取值范围</strong>：任意实数</li>
+<li><strong>对结果的影响</strong>：0 是标准做法；非零初始化可能导致初始预测偏差</li>
+<li><strong>推荐设置</strong>：0.0</li>
+</ul>
+
+<p>#### 参数 15：init_std_dev（初始化标准差）</p>
+
+<ul>
+<li><strong>含义</strong>：隐因子向量随机初始化的正态分布标准差</li>
+<li><strong>类型</strong>：浮点数</li>
+<li><strong>默认值</strong>：0.1（Surprise 库默认）</li>
+<li><strong>取值范围</strong>：0.0 ~ 正无穷</li>
+<li><strong>对结果的影响</strong>：太小 → 初始因子几乎相同，收敛慢；太大 → 初始预测随机性大，训练不稳定</li>
+<li><strong>推荐设置</strong>：0.1；数据量大时可适当增大到 0.2</li>
+</ul>
+
+<h4>代码示例</h4>
+
+<p><pre class="code-block"><code class="language-python">import numpy as np  # 导入 NumPy 用于矩阵运算
+
+class MatrixFactorizationSVD:
+    &quot;&quot;&quot;
+    矩阵分解推荐 (Funk-SVD) —— 从零实现 SGD 训练
+    预测公式: r_hat(u,i) = mu + b_u + b_i + dot(p_u, q_i)
+    损失函数: SUM((r - r_hat)^2) + lambda * (||p_u||^2 + ||q_i||^2 + b_u^2 + b_i^2)
+    &quot;&quot;&quot;
+    def __init__(self, n_factors=20, n_epochs=30, lr_all=0.005,
+                 reg_all=0.02, biased=True, init_mean=0.0, init_std_dev=0.1):
+        # 隐因子维度 k：控制模型表达能力
+        self.n_factors = n_factors
+        # SGD 迭代轮数：遍历全部训练数据的次数
+        self.n_epochs = n_epochs
+        # 全局学习率 eta：控制每步梯度更新的步长
+        self.lr = lr_all
+        # 全局正则化系数 lambda：防止过拟合
+        self.reg = reg_all
+        # 是否使用偏置项 mu + b_u + b_i
+        self.biased = biased
+        # 隐因子随机初始化的正态分布参数
+        self.init_mean = init_mean        # 均值，默认 0
+        self.init_std_dev = init_std_dev  # 标准差，默认 0.1
+        # 训练后保存的参数（fit 后填充）
+        self.mu = 0.0    # 全局平均评分
+        self.bu = None   # 用户偏置数组, shape (n_users,)
+        self.bi = None   # 物品偏置数组, shape (n_items,)
+        self.P = None    # 用户隐因子矩阵, shape (n_users, k)
+        self.Q = None    # 物品隐因子矩阵, shape (n_items, k)
+
+    def fit(self, train_ratings):
+        &quot;&quot;&quot;
+        训练矩阵分解模型
+        :param train_ratings: list of (user_id, item_id, rating) 三元组
+        &quot;&quot;&quot;
+        # 确定用户数和物品数
+        n_users = max(r[0] for r in train_ratings) + 1  # 最大 user_id + 1
+        n_items = max(r[1] for r in train_ratings) + 1  # 最大 item_id + 1
+
+        # 计算全局平均评分 mu
+        self.mu = np.mean([r[2] for r in train_ratings])
+        # 初始化偏置为 0
+        self.bu = np.zeros(n_users)
+        self.bi = np.zeros(n_items)
+        # 随机初始化隐因子矩阵 P 和 Q（正态分布）
+        self.P = np.random.normal(self.init_mean, self.init_std_dev, (n_users, self.n_factors))
+        self.Q = np.random.normal(self.init_mean, self.init_std_dev, (n_items, self.n_factors))
+
+        # SGD 训练循环
+        for epoch in range(self.n_epochs):  # 遍历每个 epoch
+            for u, i, r in train_ratings:  # 遍历每条评分记录
+                # 计算预测值 r_hat
+                if self.biased:
+                    pred = self.mu + self.bu[u] + self.bi[i] + np.dot(self.P[u], self.Q[i])
+                else:
+                    pred = np.dot(self.P[u], self.Q[i])
+                # 计算预测误差 e = r - r_hat
+                e = r - pred
+                # 更新偏置项（含正则化）
+                if self.biased:
+                    self.bu[u] += self.lr * (e - self.reg * self.bu[u])  # b_u 梯度更新
+                    self.bi[i] += self.lr * (e - self.reg * self.bi[i])  # b_i 梯度更新
+                # 更新隐因子向量（需先保存旧 p_u，因为 q_i 更新依赖旧 p_u）
+                p_u_old = self.P[u].copy()  # 备份当前 p_u
+                self.P[u] += self.lr * (e * self.Q[i] - self.reg * self.P[u])  # p_u 梯度更新
+                self.Q[i] += self.lr * (e * p_u_old - self.reg * self.Q[i])  # q_i 梯度更新（用旧 p_u）
+
+            # 每个 epoch 后计算训练 RMSE
+            rmse = self._compute_rmse(train_ratings)
+            print(f&quot;Epoch {epoch+1}/{self.n_epochs}, RMSE={rmse:.4f}&quot;)
+
+    def predict(self, u, i):
+        &quot;&quot;&quot;预测用户 u 对物品 i 的评分&quot;&quot;&quot;
+        if self.biased:
+            return self.mu + self.bu[u] + self.bi[i] + np.dot(self.P[u], self.Q[i])
+        return np.dot(self.P[u], self.Q[i])
+
+    def recommend(self, u, n_items, top_k=10):
+        &quot;&quot;&quot;为用户 u 生成 Top-K 推荐列表&quot;&quot;&quot;
+        scores = []  # 存储 (item_id, 预测分) 列表
+        for i in range(n_items):  # 遍历所有物品
+            scores.append((i, self.predict(u, i)))  # 预测评分
+        scores.sort(key=lambda x: x[1], reverse=True)  # 按预测分降序排序
+        return scores[:top_k]  # 返回 Top-K
+
+    def _compute_rmse(self, ratings):
+        &quot;&quot;&quot;计算 RMSE&quot;&quot;&quot;
+        sq_errors = []  # 平方误差列表
+        for u, i, r in ratings:  # 遍历所有评分
+            err = r - self.predict(u, i)  # 计算误差
+            sq_errors.append(err ** 2)  # 平方
+        return np.sqrt(np.mean(sq_errors))  # 返回均方根误差
+
+
+# === 使用 Surprise 库的便捷方式 ===
+# pip install scikit-surprise
+from surprise import SVD, Dataset, evaluate  # 导入 Surprise 库
+
+# 加载内置 movielens-100k 数据集
+data = Dataset.load_builtin(&#x27;ml-100k&#x27;)
+# 配置 SVD 参数
+algo = SVD(
+    n_factors=50,       # 50 维隐因子
+    n_epochs=30,        # 30 轮 SGD 迭代
+    lr_all=0.005,       # 学习率 0.005
+    reg_all=0.02,       # 正则化系数 0.02
+    biased=True,        # 使用偏置项
+)
+# 5 折交叉验证评估
+evaluate(algo, data, measures=[&#x27;RMSE&#x27;, &#x27;MAE&#x27;], verbose=True)</code></pre></p>
+
+<h4>复杂度分析</h4>
+
+<p><strong>训练时间复杂度</strong>：$ O(E \cdot k \cdot T) $</p>
+
+<ul>
+<li>$ E = |\kappa| $：已观测评分数（非零元素数）</li>
+<li>$ k $：隐因子维度</li>
+<li>$ T $：迭代轮数（n_epochs）</li>
+<li>每条评分的梯度更新为 $ O(k) $（内积和向量更新各 $ O(k) $）</li>
+<li>合计：$ O(E \cdot k \cdot T) $</li>
+</ul>
+
+<p><strong>预测时间复杂度</strong>：$ O(k) $</p>
+
+<ul>
+<li>预测单个 $ (u, i) $ 对只需计算 $ p_u^T q_i $，即 $ k $ 维向量内积</li>
+<li>为单个用户生成 Top-K 推荐：$ O(n \cdot k + n \log n) $，$ n $ 为物品数</li>
+</ul>
+
+<p><strong>空间复杂度</strong>：$ O((m + n) \cdot k + m + n) $</p>
+
+<ul>
+<li>$ P $ 矩阵：$ O(m \cdot k) $</li>
+<li>$ Q $ 矩阵：$ O(n \cdot k) $</li>
+<li>偏置数组：$ O(m + n) $</li>
+<li>合计：$ O((m + n) \cdot k) $</li>
+</ul>
+
+<h4>应用场景</h4>
+
+<ul>
+<li><strong>电影/商品评分预测</strong>：Netflix Prize 经典场景，预测用户对未看过电影的评分</li>
+<li><strong>音乐推荐</strong>：基于用户听歌历史的隐因子挖掘，推荐相似品味的歌曲</li>
+<li><strong>新闻推荐</strong>：用户-文章隐因子模型，捕捉用户兴趣偏好</li>
+<li><strong>电商个性化推荐</strong>：用户-商品隐因子匹配，生成"猜你喜欢"列表</li>
+<li><strong>社交网络好友推荐</strong>：用户-用户隐因子相似度推荐潜在好友</li>
+<li><strong>广告 CTR 预估</strong>：用户-广告隐因子矩阵分解，预估点击率</li>
+</ul>
+
+<h4>参考文档</h4>
+
+<ul>
+<li><a href="https://www.cnblogs.com/wy-ei/p/11534482.html" target="_blank" class="ref-link">Matrix Factorization Techniques for Recommender Systems (Koren et al., 2009)</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/145120275" target="_blank" class="ref-link">推荐系统玩家：矩阵分解的基本方法及优缺点</a></li>
+<li><a href="https://cloud.tencent.com/developer/article/2511040" target="_blank" class="ref-link">Matrix Factorization (矩阵分解) — 腾讯云</a></li>
+</ul>
+
+<hr>
+
+<h3>CatBoost</h3>
+
+<p><strong>类别</strong>：集成学习 | <strong>难度</strong>：中等</p>
+
+<h4>算法简介</h4>
+
+<p>CatBoost（Categorical Boosting）是俄罗斯搜索引擎巨头 Yandex 于 2017 年开源的梯度提升决策树（GBDT）框架。其名称来源于 <strong>Cat</strong>egory + <strong>Boost</strong>ing，核心优势在于对类别型特征的原生高效处理。</p>
+
+<p>CatBoost 的三大核心创新：</p>
+
+<p>1. <strong>Ordered Target Statistics（有序目标统计）</strong>：处理类别特征时，传统方法（如 One-Hot、Label Encoding）存在目标泄露和维度爆炸问题。CatBoost 对每个样本，仅使用该样本之前的目标值来计算类别特征的统计量，有效避免了目标泄露。</p>
+
+<p>2. <strong>Ordered Boosting（有序提升）</strong>：传统 GBDT 在训练每棵树时使用相同的残差，导致预测偏移（prediction shift）。CatBoost 采用排列组合方式，对每个样本仅使用排列在它之前的样本训练的模型来计算残差，消除了预测偏移。</p>
+
+<p>3. <strong>对称决策树（Symmetric Tree）</strong>：CatBoost 使用 oblivious tree（对称树），同一层所有节点使用相同的分裂条件和特征。这不仅加速了训练和推理，还天然实现了正则化效果，减少过拟合。</p>
+
+<p>与 XGBoost、LightGBM 相比，CatBoost 在类别特征丰富、数据量中等的场景下通常表现最优，且默认参数即可达到很好效果，调参成本最低。</p>
+
+<h4>原理示意图</h4>
+
+<p><div class="algo-image"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 900 520" font-family="sans-serif">
+  <defs>
+    <marker id="arrow3" markerWidth="8" markerHeight="6" refX="4" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#6366f1"/>
+    </marker>
+  </defs>
+  <!-- 背景 -->
+  <rect width="900" height="520" fill="#1e293b" rx="12"/>
+  <!-- 标题 -->
+  <text x="450" y="30" text-anchor="middle" fill="#818cf8" font-size="16" font-weight="600">CatBoost 梯度提升：迭代训练 + 对称树 + 有序目标统计</text>
+
+  <!-- 左侧：GBDT 迭代流程 -->
+  <text x="200" y="60" text-anchor="middle" fill="#818cf8" font-size="13" font-weight="600">GBDT 迭代训练流程</text>
+
+  <!-- 初始模型 -->
+  <rect x="100" y="75" width="200" height="35" fill="#334155" stroke="#6366f1" rx="6"/>
+  <text x="200" y="97" text-anchor="middle" fill="#e2e8f0" font-size="12">F_0(x) = argmin Σ L(y, γ)</text>
+
+  <!-- 箭头 -->
+  <line x1="200" y1="115" x2="200" y2="135" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow3)"/>
+
+  <!-- 迭代 1 -->
+  <rect x="100" y="140" width="200" height="50" fill="#0f172a" stroke="#6366f1" rx="6"/>
+  <text x="200" y="160" text-anchor="middle" fill="#e2e8f0" font-size="11">① 计算残差 r_i = -∂L/∂F(x_i)</text>
+  <text x="200" y="178" text-anchor="middle" fill="#94a3b8" font-size="11">② 拟合对称树 h_t(x) → r_i</text>
+
+  <line x1="200" y1="195" x2="200" y2="210" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow3)"/>
+
+  <!-- 更新 -->
+  <rect x="100" y="215" width="200" height="35" fill="#0f172a" stroke="#22c55e" rx="6"/>
+  <text x="200" y="237" text-anchor="middle" fill="#e2e8f0" font-size="11">③ F_t(x) = F_{t-1}(x) + η·h_t(x)</text>
+
+  <line x1="200" y1="255" x2="200" y2="270" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow3)"/>
+
+  <!-- 循环 -->
+  <rect x="100" y="275" width="200" height="35" fill="#0f172a" stroke="#f97316" rx="6"/>
+  <text x="200" y="297" text-anchor="middle" fill="#f97316" font-size="12">重复 ①→②→③ (iterations 次)</text>
+
+  <line x1="200" y1="315" x2="200" y2="330" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow3)"/>
+
+  <!-- 最终模型 -->
+  <rect x="100" y="335" width="200" height="35" fill="#0f172a" stroke="#22c55e" stroke-width="2" rx="6"/>
+  <text x="200" y="357" text-anchor="middle" fill="#22c55e" font-size="12">F_T(x) = F_0 + Σ η·h_t(x)</text>
+
+  <!-- 右侧：对称决策树结构 -->
+  <text x="650" y="60" text-anchor="middle" fill="#818cf8" font-size="13" font-weight="600">对称决策树（Oblivious Tree）</text>
+
+  <!-- 根节点 -->
+  <rect x="600" y="75" width="100" height="35" fill="#334155" stroke="#6366f1" rx="6"/>
+  <text x="650" y="92" text-anchor="middle" fill="#e2e8f0" font-size="10">特征A ≤ 阈值?</text>
+  <text x="650" y="104" text-anchor="middle" fill="#94a3b8" font-size="9">Depth 0</text>
+
+  <!-- 左右子节点（同一层相同分裂条件） -->
+  <line x1="625" y1="110" x2="575" y2="135" stroke="#475569" stroke-width="1.5"/>
+  <line x1="675" y1="110" x2="725" y2="135" stroke="#475569" stroke-width="1.5"/>
+  <rect x="525" y="135" width="100" height="35" fill="#0f172a" stroke="#6366f1" rx="6"/>
+  <text x="575" y="152" text-anchor="middle" fill="#e2e8f0" font-size="10">特征B ≤ 阈值?</text>
+  <text x="575" y="164" text-anchor="middle" fill="#94a3b8" font-size="9">Depth 1 (同条件)</text>
+  <rect x="675" y="135" width="100" height="35" fill="#0f172a" stroke="#6366f1" rx="6"/>
+  <text x="725" y="152" text-anchor="middle" fill="#e2e8f0" font-size="10">特征B ≤ 阈值?</text>
+  <text x="725" y="164" text-anchor="middle" fill="#94a3b8" font-size="9">Depth 1 (同条件)</text>
+
+  <!-- 叶子节点 -->
+  <line x1="550" y1="170" x2="525" y2="195" stroke="#475569" stroke-width="1.5"/>
+  <line x1="600" y1="170" x2="625" y2="195" stroke="#475569" stroke-width="1.5"/>
+  <line x1="700" y1="170" x2="675" y2="195" stroke="#475569" stroke-width="1.5"/>
+  <line x1="750" y1="170" x2="775" y2="195" stroke="#475569" stroke-width="1.5"/>
+  <rect x="495" y="195" width="60" height="30" fill="#22c55e" fill-opacity="0.2" stroke="#22c55e" rx="4"/>
+  <text x="525" y="214" text-anchor="middle" fill="#22c55e" font-size="11">Leaf 0</text>
+  <rect x="595" y="195" width="60" height="30" fill="#22c55e" fill-opacity="0.2" stroke="#22c55e" rx="4"/>
+  <text x="625" y="214" text-anchor="middle" fill="#22c55e" font-size="11">Leaf 1</text>
+  <rect x="645" y="195" width="60" height="30" fill="#22c55e" fill-opacity="0.2" stroke="#22c55e" rx="4"/>
+  <text x="675" y="214" text-anchor="middle" fill="#22c55e" font-size="11">Leaf 2</text>
+  <rect x="745" y="195" width="60" height="30" fill="#22c55e" fill-opacity="0.2" stroke="#22c55e" rx="4"/>
+  <text x="775" y="214" text-anchor="middle" fill="#22c55e" font-size="11">Leaf 3</text>
+
+  <!-- 说明 -->
+  <text x="650" y="250" text-anchor="middle" fill="#94a3b8" font-size="10">同一层使用相同的 (特征, 阈值) 分裂 → 加速推理 + 天然正则化</text>
+
+  <!-- 底部：有序目标统计 -->
+  <rect x="60" y="400" width="780" height="100" fill="#0f172a" stroke="#334155" rx="8"/>
+  <text x="80" y="425" fill="#818cf8" font-size="13" font-weight="600">有序目标统计 (Ordered Target Statistics)</text>
+  <text x="80" y="448" fill="#e2e8f0" font-size="11">对样本 σ(i)，类别特征 c 的编码值仅使用排列在 i 之前的样本的目标值计算：</text>
+  <text x="80" y="468" fill="#f97316" font-size="11">  encode(c, σ(i)) = (Σ_{j: σ(j)<σ(i), c_j=c_i} y_j + α·p) / (Σ_{j: σ(j)<σ(i), c_j=c_i} 1 + α)</text>
+  <text x="80" y="488" fill="#94a3b8" font-size="10">α: 平滑参数 | p: 先验值(全局均值) | 仅用前序样本 → 消除目标泄露</text>
+</svg></div></p>
+
+<h4>数学公式</h4>
+
+<p><strong>1. 梯度提升核心公式</strong></p>
+
+<p><div class="math-block">$$ F_t(x) = F_{t-1}(x) + \eta \cdot h_t(x) $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ F_t(x) $：第 $ t $ 轮迭代后的模型预测值</li>
+<li>$ F_{t-1}(x) $：上一轮模型的预测值</li>
+<li>$ \eta $：学习率（learning_rate），控制每棵树的贡献权重</li>
+<li>$ h_t(x) $：第 $ t $ 棵决策树（拟合当前残差）</li>
+</ul>
+
+<p><strong>2. 残差（负梯度）计算</strong></p>
+
+<p><div class="math-block">$$ r_i^{(t)} = -\frac{\partial L(y_i, F_{t-1}(x_i))}{\partial F_{t-1}(x_i)} $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ r_i^{(t)} $：第 $ t $ 轮中样本 $ i $ 的残差（伪残差）</li>
+<li>$ L $：损失函数（如 RMSE、Logloss）</li>
+<li>$ y_i $：样本 $ i $ 的真实标签</li>
+<li>$ F_{t-1}(x_i) $：上一轮模型对样本 $ i $ 的预测值</li>
+<li>CatBoost 的 Ordered Boosting 中，$ F_{t-1} $ 仅由排列在 $ i $ 之前的样本训练得到</li>
+</ul>
+
+<p><strong>3. 有序目标统计（类别特征编码）</strong></p>
+
+<p><div class="math-block">$$ \hat{x}_i^k = \frac{\sum_{j \in \sigma^{-1}(\{1, \ldots, i-1\})} [x_j^k = x_i^k] \cdot y_j + \alpha \cdot p}{\sum_{j \in \sigma^{-1}(\{1, \ldots, i-1\})} [x_j^k = x_i^k] + \alpha} $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ \hat{x}_i^k $：样本 $ i $ 的第 $ k $ 个类别特征的编码值</li>
+<li>$ x_i^k $：样本 $ i $ 第 $ k $ 个特征的原始类别值</li>
+<li>$ y_j $：样本 $ j $ 的目标值</li>
+<li>$ \sigma $：训练数据的随机排列（permutation）</li>
+<li>$ [\cdot] $：指示函数，条件成立为 1 否则为 0</li>
+<li>$ \alpha $：平滑参数（smoothing parameter），控制先验的权重</li>
+<li>$ p $：先验值，通常取全局目标均值</li>
+</ul>
+
+<p>仅使用排列在 $ i $ 之前的样本计算编码，避免目标泄露。</p>
+
+<p><strong>4. 二分类 Logloss</strong></p>
+
+<p><div class="math-block">$$ L(y_i, \hat{p}_i) = -[y_i \log \hat{p}_i + (1-y_i) \log(1 - \hat{p}_i)] $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ y_i \in \{0, 1\} $：真实标签</li>
+<li>$ \hat{p}_i = \sigma(F(x_i)) = \frac{1}{1+e^{-F(x_i)}} $：Sigmoid 转换后的预测概率</li>
+<li>$ L $：交叉熵损失</li>
+</ul>
+
+<p><strong>5. 回归 RMSE</strong></p>
+
+<p><div class="math-block">$$ L(y_i, \hat{y}_i) = \frac{1}{2}(y_i - \hat{y}_i)^2 $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ y_i $：真实值</li>
+<li>$ \hat{y}_i = F(x_i) $：模型预测值</li>
+<li>梯度为 $ \hat{y}_i - y_i $（预测值与真实值之差）</li>
+</ul>
+
+<h4>核心要点</h4>
+
+<ul>
+<li>CatBoost 的对称树结构使同一层所有节点使用相同的分裂条件，加速训练和推理 8 倍以上</li>
+<li>Ordered Target Statistics 仅用前序样本目标值编码类别特征，从根源消除目标泄露</li>
+<li>Ordered Boosting 通过排列消除梯度计算中的预测偏移，提升泛化能力</li>
+<li>默认参数即可达到优秀性能，调参成本远低于 XGBoost/LightGBM</li>
+<li>类别特征无需手动编码，直接传入 <code class="inline-code">cat_features</code> 参数即可自动处理</li>
+</ul>
+
+<h4>技术细节与参数详解</h4>
+
+<p>#### 参数 1：iterations（迭代次数 / 树的数量）</p>
+
+<ul>
+<li><strong>含义</strong>：梯度提升中构建的决策树总数量 $ T $</li>
+<li><strong>类型</strong>：整数</li>
+<li><strong>默认值</strong>：1000</li>
+<li><strong>取值范围</strong>：1 ~ 数万</li>
+<li><strong>对结果的影响</strong>：太少则欠拟合（模型未充分学习）；太多则过拟合且训练时间长；通常与 learning_rate 联动调节</li>
+<li><strong>推荐设置</strong>：500~2000 作为起点；配合早停（overfitting detector）自动选择最优树数量</li>
+</ul>
+
+<p>#### 参数 2：learning_rate（学习率 η）</p>
+
+<ul>
+<li><strong>含义</strong>：每棵树对最终预测的贡献权重（步长）</li>
+<li><strong>类型</strong>：浮点数</li>
+<li><strong>默认值</strong>：0.03（CatBoost 自动配置的默认值，与 XGBoost 的 0.3 不同）</li>
+<li><strong>取值范围</strong>：0.001 ~ 1.0</li>
+<li><strong>对结果的影响</strong>：太大 → 快速收敛但可能跳过最优解、过拟合；太小 → 收敛慢但泛化更好；通常与 iterations 反向调节</li>
+<li><strong>推荐设置</strong>：0.01~0.1；小学习率 + 多树（如 0.03 + 1000）通常优于大学习率 + 少树</li>
+</ul>
+
+<p>#### 参数 3：depth（树深度）</p>
+
+<ul>
+<li><strong>含义</strong>：每棵对称决策树的最大深度</li>
+<li><strong>类型</strong>：整数</li>
+<li><strong>默认值</strong>：6（与 XGBoost/LightGBM 一致）</li>
+<li><strong>取值范围</strong>：1 ~ 16（GPU 最大 8；注意对称树深度 $ d $ 对应 $ 2^d $ 个叶子节点）</li>
+<li><strong>对结果的影响</strong>：深度大 → 单棵树表达力强但过拟合风险增加；深度小 → 简单树 + 更多迭代。CatBoost 对称树的叶节点数为 $ 2^{depth} $</li>
+<li><strong>推荐设置</strong>：4~8；类别特征多时可用 6~8；小数据集用 3~5</li>
+</ul>
+
+<p>#### 参数 4：l2_leaf_reg（L2 正则化系数）</p>
+
+<ul>
+<li><strong>含义</strong>：叶子节点值的 L2 正则化系数 $ \lambda $</li>
+<li><strong>类型</strong>：浮点数</li>
+<li><strong>默认值</strong>：3.0</li>
+<li><strong>取值范围</strong>：1.0 ~ 10.0（典型 1~10）</li>
+<li><strong>对结果的影响</strong>：值越大 → 正则化越强，模型越保守，防过拟合；值越小 → 模型更激进拟合训练数据</li>
+<li><strong>推荐设置</strong>：3.0 默认；过拟合时增大到 5~10；欠拟合时减小到 1~2</li>
+</ul>
+
+<p>#### 参数 5：loss_function（损失函数）</p>
+
+<ul>
+<li><strong>含义</strong>：训练优化的目标函数</li>
+<li><strong>类型</strong>：字符串</li>
+<li><strong>默认值</strong>：'Logloss'（分类）/ 'RMSE'（回归）</li>
+<li><strong>取值范围</strong>：分类 → <code class="inline-code">Logloss</code>、<code class="inline-code">CrossEntropy</code>、<code class="inline-code">MultiClass</code>、<code class="inline-code">MultiClassOneVsAll</code>；回归 → <code class="inline-code">RMSE</code>、<code class="inline-code">MAE</code>、<code class="inline-code">MAPE</code>、<code class="inline-code">Quantile</code>、<code class="inline-code">Poisson</code>、<code class="inline-code">Huber</code>；排序 → <code class="inline-code">QueryRMSE</code>、<code class="inline-code">PairLogit</code></li>
+<li><strong>对结果的影响</strong>：决定模型的优化目标和适用场景；选错会导致模型无法学习</li>
+<li><strong>推荐设置</strong>：二分类 <code class="inline-code">Logloss</code>；多分类 <code class="inline-code">MultiClass</code>；回归 <code class="inline-code">RMSE</code></li>
+</ul>
+
+<p>#### 参数 6：border_count（数值特征分箱数）</p>
+
+<ul>
+<li><strong>含义</strong>：连续数值特征的离散化（分桶）数量上限</li>
+<li><strong>类型</strong>：整数</li>
+<li><strong>默认值</strong>：254（GPU）/ 32（CPU）</li>
+<li><strong>取值范围</strong>：1 ~ 255（CPU 无限）</li>
+<li><strong>对结果的影响</strong>：值越大 → 特征分割点越精细，但计算量增加；值太小 → 信息丢失。CatBoost 使用均匀或 Greedy 分箱策略</li>
+<li><strong>推荐设置</strong>：CPU 用 254；GPU 用 128；大数据集可用 32~64 加速而不损失精度</li>
+</ul>
+
+<p>#### 参数 7：od_type（过拟合检测类型）</p>
+
+<ul>
+<li><strong>含义</strong>：早停（early stopping）策略类型</li>
+<li><strong>类型</strong>：字符串</li>
+<li><strong>默认值</strong>：'IncToDec'</li>
+<li><strong>取值范围</strong>：<code class="inline-code">'IncToDec'</code>（从改善到恶化的检测）、<code class="inline-code">'Iter'</code>（固定迭代后停止）</li>
+<li><strong>对结果的影响</strong>：自动在验证集指标不再改善时停止训练，节省训练时间并防止过拟合</li>
+<li><strong>推荐设置</strong>：<code class="inline-code">'IncToDec'</code> 配合 <code class="inline-code">od_wait</code> 使用</li>
+</ul>
+
+<p>#### 参数 8：od_wait（过拟合检测等待轮数）</p>
+
+<ul>
+<li><strong>含义</strong>：过拟合检测器在指标不再改善后等待多少轮才停止训练</li>
+<li><strong>类型</strong>：整数</li>
+<li><strong>默认值</strong>：20（IncToDec）/ 500（Iter）</li>
+<li><strong>取值范围</strong>：1 ~ 数百</li>
+<li><strong>对结果的影响</strong>：太大 → 等待太久才停止，浪费资源且可能过拟合；太小 → 过早停止，模型未充分学习</li>
+<li><strong>推荐设置</strong>：20~100；配合 <code class="inline-code">eval_set</code> 验证集使用</li>
+</ul>
+
+<p>#### 参数 9：cat_features（类别特征索引）</p>
+
+<ul>
+<li><strong>含义</strong>：指定数据中哪些列是类别型特征</li>
+<li><strong>类型</strong>：列表（列索引或列名）</li>
+<li><strong>默认值</strong>：None（无类别特征）</li>
+<li><strong>取值范围</strong>：有效的列索引列表</li>
+<li><strong>对结果的影响</strong>：指定后 CatBoost 自动使用 Ordered Target Statistics 编码，无需手动预处理；不指定则类别特征被当作数值处理</li>
+<li><strong>推荐设置</strong>：所有非数值或低基数离散特征都应指定；高基数特征（>1000 类别）CatBoost 会自动使用更高效的编码</li>
+</ul>
+
+<p>#### 参数 10：bootstrap_type（自助采样类型）</p>
+
+<ul>
+<li><strong>含义</strong>：每棵树训练时的样本采样方法</li>
+<li><strong>类型</strong>：字符串</li>
+<li><strong>默认值</strong>：'Bayesian'（GPU）/ 'MVS'（CPU）</li>
+<li><strong>取值范围</strong>：<code class="inline-code">'Bayesian'</code>（贝叶斯自助）、<code class="inline-code">'Bernoulli'</code>（伯努利采样）、<code class="inline-code">'MVS'</code>（最小方差采样）、<code class="inline-code">'Poisson'</code>（泊松采样）</li>
+<li><strong>对结果的影响</strong>：影响每棵树使用的数据子集，从而影响模型多样性。Bayesian 根据权重采样 + bagging_temperature 控制随机性；Bernoulli 为简单随机采样</li>
+<li><strong>推荐设置</strong>：CPU 用 MVS（默认）；GPU 用 Bayesian；数据量大时用 Bernoulli</li>
+</ul>
+
+<p>#### 参数 11：bagging_temperature（贝叶斯采样温度）</p>
+
+<ul>
+<li><strong>含义</strong>：当 <code class="inline-code">bootstrap_type='Bayesian'</code> 时控制采样随机性的温度参数</li>
+<li><strong>类型</strong>：浮点数</li>
+<li><strong>默认值</strong>：1.0</li>
+<li><strong>取值范围</strong>：0.0 ~ 正无穷</li>
+<li><strong>对结果的影响</strong>：0 → 退化为无随机性（确定性采样）；1 → 标准贝叶斯采样；>1 → 更激进的随机采样，增加多样性</li>
+<li><strong>推荐设置</strong>：1.0 默认；过拟合时增大到 2~10</li>
+</ul>
+
+<p>#### 参数 12：random_seed（随机种子）</p>
+
+<ul>
+<li><strong>含义</strong>：控制训练过程所有随机性的种子值</li>
+<li><strong>类型</strong>：整数</li>
+<li><strong>默认值</strong>：0</li>
+<li><strong>取值范围</strong>：0 ~ 2^31 - 1</li>
+<li><strong>对结果的影响</strong>：相同种子 + 相同数据 → 可复现结果；不同种子 → 结果略有差异，可用于模型集成</li>
+<li><strong>推荐设置</strong>：固定种子（如 42）确保实验可复现</li>
+</ul>
+
+<p>#### 参数 13：grow_policy（树生长策略）</p>
+
+<ul>
+<li><strong>含义</strong>：决策树的生长方式</li>
+<li><strong>类型</strong>：字符串</li>
+<li><strong>默认值</strong>：'SymmetricTree'</li>
+<li><strong>取值范围</strong>：<code class="inline-code">'SymmetricTree'</code>（对称树，CatBoost 默认）、<code class="inline-code">'Depthwise'</code>（深度优先，同 XGBoost）、<code class="inline-code">'Lossguide'</code>（叶子优先，同 LightGBM）</li>
+<li><strong>对结果的影响</strong>：SymmetricTree 是 CatBoost 的核心特色，训练和推理最快且天然正则化；Lossguide 可能获得更高精度但训练慢</li>
+<li><strong>推荐设置</strong>：SymmetricTree（默认）；GPU 上优先 SymmetricTree</li>
+</ul>
+
+<p>#### 参数 14：rsm（特征子采样比例）</p>
+
+<ul>
+<li><strong>含义</strong>：每棵树训练时随机选择的特征比例（column subsampling）</li>
+<li><strong>类型</strong>：浮点数</li>
+<li><strong>默认值</strong>：None（不做子采样）</li>
+<li><strong>取值范围</strong>：0.0 ~ 1.0</li>
+<li><strong>对结果的影响</strong>：小于 1 → 每棵树只使用部分特征，增加模型多样性，防过拟合；太小 → 特征不足，欠拟合</li>
+<li><strong>推荐设置</strong>：特征数多时设 0.5~0.8；特征少时设 None 或 1.0</li>
+</ul>
+
+<p>#### 参数 15：feature_border_type（特征边界类型）</p>
+
+<ul>
+<li><strong>含义</strong>：数值特征离散化（分箱）的策略</li>
+<li><strong>类型</strong>：字符串</li>
+<li><strong>默认值</strong>：'GreedyLogSum'</li>
+<li><strong>取值范围</strong>：<code class="inline-code">'GreedyLogSum'</code>、<code class="inline-code">'GreedyMinSum'</code>、<code class="inline-code">'MinLogLoss'</code>、<code class="inline-code">'Uniform'</code>、<code class="inline-code">'UniformAndQuantiles'</code></li>
+<li><strong>对结果的影响</strong>：不同分箱策略影响分割点的选择质量。GreedyLogSum 基于信息增益做贪心分箱，通常效果最好</li>
+<li><strong>推荐设置</strong>：GreedyLogSum（默认）</li>
+</ul>
+
+<p>#### 参数 16：eval_metric（评估指标）</p>
+
+<ul>
+<li><strong>含义</strong>：训练过程中在验证集上计算的评估指标</li>
+<li><strong>类型</strong>：字符串</li>
+<li><strong>默认值</strong>：与 loss_function 一致</li>
+<li><strong>取值范围</strong>：<code class="inline-code">RMSE</code>、<code class="inline-code">Logloss</code>、<code class="inline-code">AUC</code>、<code class="inline-code">F1</code>、<code class="inline-code">Precision</code>、<code class="inline-code">Recall</code>、<code class="inline-code">MultiClass</code>、<code class="inline-code">MAE</code>、<code class="inline-code">R2</code> 等</li>
+<li><strong>对结果的影响</strong>：不影响训练过程，但决定早停的判据和日志输出</li>
+<li><strong>推荐设置</strong>：分类任务用 <code class="inline-code">AUC</code> 或 <code class="inline-code">F1</code>；回归用 <code class="inline-code">RMSE</code> 或 <code class="inline-code">R2</code></li>
+</ul>
+
+<p>#### 参数 17：verbose / logging_level（输出详细程度）</p>
+
+<ul>
+<li><strong>含义</strong>：控制训练过程中的日志输出级别</li>
+<li><strong>类型</strong>：整数或字符串</li>
+<li><strong>默认值</strong>：None（默认每步输出）</li>
+<li><strong>取值范围</strong>：<code class="inline-code">0</code>/<code class="inline-code">'Silent'</code>（无输出）、<code class="inline-code">1</code>/<code class="inline-code">'Verbose'</code>（每步输出）、<code class="inline-code">200</code>（每 200 步输出）、<code class="inline-code">'Info'</code>、<code class="inline-code">'Debug'</code></li>
+<li><strong>对结果的影响</strong>：不影响模型，仅影响训练日志</li>
+<li><strong>推荐设置</strong>：训练时设 <code class="inline-code">200</code>（每 200 步输出）；最终训练设 <code class="inline-code">0</code> 或 <code class="inline-code">'Silent'</code></li>
+</ul>
+
+<p>#### 参数 18：task_type（任务类型）</p>
+
+<ul>
+<li><strong>含义</strong>：指定在 CPU 还是 GPU 上训练</li>
+<li><strong>类型</strong>：字符串</li>
+<li><strong>默认值</strong>：'CPU'</li>
+<li><strong>取值范围</strong>：<code class="inline-code">'CPU'</code>、<code class="inline-code">'GPU'</code></li>
+<li><strong>对结果的影响</strong>：GPU 训练速度可快 5~20 倍（大数据集），但部分参数在 GPU 上有限制（如 depth 最大 8、border_count 最大 255）</li>
+<li><strong>推荐设置</strong>：有 GPU 选 GPU；无 GPU 选 CPU</li>
+</ul>
+
+<p>#### 参数 19：one_hot_max_size（独热编码最大类别数）</p>
+
+<ul>
+<li><strong>含义</strong>：类别特征基数低于此值时自动使用 One-Hot 编码</li>
+<li><strong>类型</strong>：整数</li>
+<li><strong>默认值</strong>：2（仅二值特征用 One-Hot）</li>
+<li><strong>取值范围</strong>：2 ~ 数百</li>
+<li><strong>对结果的影响</strong>：增大 → 更多低基数类别特征使用 One-Hot，可能提高精度但增加维度；CatBoost 默认对高基数特征使用目标统计而非 One-Hot</li>
+<li><strong>推荐设置</strong>：2~10；特征类别数少且 GPU 训练时可适当增大</li>
+</ul>
+
+<p>#### 参数 20：leaf_estimation_iterations（叶子值估计迭代次数）</p>
+
+<ul>
+<li><strong>含义</strong>：每棵树叶节点值的梯度下降迭代次数</li>
+<li><strong>类型</strong>：整数</li>
+<li><strong>默认值</strong>：None（自动）</li>
+<li><strong>取值范围</strong>：1 ~ 数十</li>
+<li><strong>对结果的影响</strong>：更多迭代 → 叶子值更精确，模型表现可能更好但训练变慢；CatBoost 默认根据 loss_function 自动设置</li>
+<li><strong>推荐设置</strong>：None（自动）；大数据集可设 1~3 加速</li>
+</ul>
+
+<h4>代码示例</h4>
+
+<p><pre class="code-block"><code class="language-python">import numpy as np  # 导入 NumPy
+import pandas as pd  # 导入 Pandas 处理数据
+from catboost import CatBoostClassifier, CatBoostRegressor, Pool  # 导入 CatBoost 核心类
+from sklearn.model_selection import train_test_split  # 导入数据切分工具
+from sklearn.metrics import accuracy_score, mean_squared_error  # 导入评估指标
+
+# ========== 分类任务示例 ==========
+# 生成模拟数据（含类别特征）
+np.random.seed(42)  # 设置随机种子
+n = 2000  # 样本数
+data = pd.DataFrame({
+    &#x27;age&#x27;: np.random.randint(18, 70, n),          # 数值特征：年龄
+    &#x27;income&#x27;: np.random.uniform(2000, 50000, n),   # 数值特征：收入
+    &#x27;city&#x27;: np.random.choice([&#x27;北京&#x27;, &#x27;上海&#x27;, &#x27;广州&#x27;, &#x27;深圳&#x27;, &#x27;成都&#x27;], n),  # 类别特征：城市
+    &#x27;education&#x27;: np.random.choice([&#x27;高中&#x27;, &#x27;本科&#x27;, &#x27;硕士&#x27;, &#x27;博士&#x27;], n),     # 类别特征：学历
+    &#x27;device&#x27;: np.random.choice([&#x27;iOS&#x27;, &#x27;Android&#x27;, &#x27;Web&#x27;], n),              # 类别特征：设备
+})
+y_cls = ((data[&#x27;age&#x27;] &gt; 35) &amp; (data[&#x27;income&#x27;] &gt; 20000)).astype(int)  # 生成二分类标签
+
+# 划分训练集和测试集
+X_train, X_test, y_train, y_test = train_test_split(
+    data, y_cls, test_size=0.2, random_state=42, stratify=y_cls  # 80% 训练, 20% 测试
+)
+
+# 指定类别特征的列名
+cat_features = [&#x27;city&#x27;, &#x27;education&#x27;, &#x27;device&#x27;]  # 类别特征列表
+
+# 创建 Pool 对象（CatBoost 的数据容器，高效管理特征和标签）
+train_pool = Pool(X_train, y_train, cat_features=cat_features)  # 训练数据池
+test_pool = Pool(X_test, y_test, cat_features=cat_features)    # 测试数据池
+
+# 初始化 CatBoost 分类器
+model_cls = CatBoostClassifier(
+    iterations=1000,            # 构建 1000 棵树
+    learning_rate=0.03,         # 学习率 0.03（CatBoost 推荐小学习率）
+    depth=6,                    # 树深度 6 → 2^6=64 个叶子节点
+    l2_leaf_reg=3.0,            # L2 正则化系数
+    loss_function=&#x27;Logloss&#x27;,    # 二分类使用 Logloss 损失
+    eval_metric=&#x27;AUC&#x27;,          # 评估指标用 AUC
+    random_seed=42,             # 固定随机种子确保可复现
+    od_type=&#x27;IncToDec&#x27;,         # 过拟合检测：指标从改善到恶化
+    od_wait=50,                 # 等待 50 轮无改善后停止
+    verbose=200,                # 每 200 轮输出一次日志
+    task_type=&#x27;CPU&#x27;,            # CPU 训练
+    bootstrap_type=&#x27;MVS&#x27;,       # MVS 采样策略（CPU 默认）
+    border_count=254,           # 数值特征分箱数
+    feature_border_type=&#x27;GreedyLogSum&#x27;,  # 分箱策略
+    grow_policy=&#x27;SymmetricTree&#x27;,         # 对称树（CatBoost 特色）
+)
+
+# 训练模型（传入验证集用于早停）
+model_cls.fit(
+    train_pool,                 # 训练数据
+    eval_set=test_pool,         # 验证数据
+    use_best_model=True,        # 使用验证集上最优的模型
+)
+
+# 预测
+y_pred = model_cls.predict(test_pool)        # 预测类别
+y_proba = model_cls.predict_proba(test_pool)  # 预测概率
+print(f&quot;准确率: {accuracy_score(y_test, y_pred):.4f}&quot;)  # 输出准确率
+
+# 查看特征重要性
+importance = model_cls.get_feature_importance()  # 获取特征重要性
+for name, imp in zip(data.columns, importance):  # 遍历特征名和重要性
+    print(f&quot;  {name}: {imp:.2f}&quot;)  # 输出每个特征的重要性
+
+
+# ========== 回归任务示例 ==========
+# 生成回归数据
+y_reg = data[&#x27;age&#x27;] * 0.5 + data[&#x27;income&#x27;] * 0.001 + np.random.normal(0, 2, n)  # 线性关系 + 噪声
+X_train_r, X_test_r, y_train_r, y_test_r = train_test_split(
+    data, y_reg, test_size=0.2, random_state=42  # 80% 训练, 20% 测试
+)
+train_pool_r = Pool(X_train_r, y_train_r, cat_features=cat_features)
+test_pool_r = Pool(X_test_r, y_test_r, cat_features=cat_features)
+
+# 初始化回归器
+model_reg = CatBoostRegressor(
+    iterations=800,             # 800 棵树
+    learning_rate=0.05,         # 学习率 0.05
+    depth=6,                    # 树深度 6
+    l2_leaf_reg=5.0,            # L2 正则化（稍大防过拟合）
+    loss_function=&#x27;RMSE&#x27;,       # 回归用 RMSE 损失
+    eval_metric=&#x27;RMSE&#x27;,         # 评估用 RMSE
+    random_seed=42,             # 固定种子
+    od_type=&#x27;Iter&#x27;,             # 过拟合检测：固定迭代后停止
+    od_wait=100,                # 等 100 轮
+    verbose=200,                # 每 200 轮输出
+    rsm=0.8,                    # 每棵树随机选 80% 特征
+)
+model_reg.fit(train_pool_r, eval_set=test_pool_r, use_best_model=True)
+y_pred_r = model_reg.predict(test_pool_r)
+print(f&quot;RMSE: {mean_squared_error(y_test_r, y_pred_r, squared=False):.4f}&quot;)
+
+
+# ========== 网格搜索调参 ==========
+from catboost import CatBoostClassifier  # 导入分类器
+from sklearn.model_selection import GridSearchCV  # 导入网格搜索
+
+# 定义参数网格
+param_grid = {
+    &#x27;depth&#x27;: [4, 6, 8],                  # 树深度候选
+    &#x27;learning_rate&#x27;: [0.01, 0.03, 0.1],  # 学习率候选
+    &#x27;l2_leaf_reg&#x27;: [1, 3, 5, 7],         # 正则化候选
+}
+# 创建基础模型
+base_model = CatBoostClassifier(
+    iterations=500,              # 快速训练用较少迭代
+    loss_function=&#x27;Logloss&#x27;,     # 二分类
+    random_seed=42,
+    verbose=0,                   # 不输出日志
+    cat_features=cat_features,   # 类别特征
+)
+# 网格搜索
+grid_search = GridSearchCV(
+    base_model, param_grid, cv=3, scoring=&#x27;accuracy&#x27;, n_jobs=-1  # 3 折交叉验证
+)
+grid_search.fit(X_train, y_train)  # 执行搜索
+print(f&quot;最佳参数: {grid_search.best_params_}&quot;)  # 输出最佳参数
+print(f&quot;最佳分数: {grid_search.best_score_:.4f}&quot;)  # 输出最佳分数</code></pre></p>
+
+<h4>复杂度分析</h4>
+
+<p><strong>训练时间复杂度</strong>：$ O(T \cdot N \cdot d \cdot F \cdot \log N) $</p>
+
+<ul>
+<li>$ T $：迭代次数（iterations）</li>
+<li>$ N $：训练样本数</li>
+<li>$ d $：树深度（depth）</li>
+<li>$ F $：特征数</li>
+<li>$ \log N $：每次分裂时的排序开销（使用直方图可降低）</li>
+<li>对称树结构使每层只需寻找一次最优分割，比非对称树更快</li>
+<li>实际中 CatBoost GPU 训练可加速 5~20 倍</li>
+</ul>
+
+<p><strong>预测时间复杂度</strong>：$ O(T \cdot d) $</p>
+
+<ul>
+<li>对称树预测只需 $ T \times d $ 次比较（每棵树 $ d $ 次条件判断）</li>
+<li>对称树可用位运算并行化，推理极快</li>
+</ul>
+
+<p><strong>空间复杂度</strong>：$ O(T \cdot 2^d \cdot F) $</p>
+
+<ul>
+<li>$ T $ 棵树，每棵 $ 2^d $ 个叶节点</li>
+<li>每个内部节点存储分裂特征和阈值：$ O(T \cdot (2^d - 1) \cdot 2) $</li>
+<li>模型文件大小与 $ T \times 2^d $ 成正比</li>
+</ul>
+
+<h4>应用场景</h4>
+
+<ul>
+<li><strong>CTR 预估</strong>：广告点击率预测，类别特征（广告位、用户标签、设备类型）极为丰富</li>
+<li><strong>金融风控</strong>：信用评分、欺诈检测，大量类别特征（职业、地区、交易渠道）</li>
+<li><strong>搜索引擎排序</strong>：Yandex 搜索引擎的核心排序模型</li>
+<li><strong>推荐系统排序层</strong>：精排阶段，利用用户/物品类别特征预测交互概率</li>
+<li><strong>时间序列预测</strong>：配合时间窗口特征进行回归预测</li>
+<li><strong>工业IoT故障预测</strong>：设备状态分类，传感器特征 + 设备类别信息</li>
+</ul>
+
+<h4>参考文档</h4>
+
+<ul>
+<li><a href="https://blog.csdn.net/zxc18344522713/article/details/156876227" target="_blank" class="ref-link">CatBoost 模型参数详细说明</a></li>
+<li><a href="https://blog.51cto.com/u_15501693/4971544" target="_blank" class="ref-link">最详细的 CatBoost 参数详解与实例应用</a></li>
+<li><a href="https://blog.csdn.net/weixin_29056101/article/details/166145130" target="_blank" class="ref-link">CatBoost 高级 API 实战：从 Pool 到默认参数调优</a></li>
+<li><a href="https://baijiahao.baidu.com/s?id=1805993160891898765" target="_blank" class="ref-link">CatBoost 模型分析原理与软件实操</a></li>
+</ul>
+
+<blockquote>
+<p>AI生成</p>
+</blockquote>
+  </div>
+  <div class="footer">
+    <p>由 TeleAgent · 每日算法推送 技能自动生成 | 2026-09-29 09:39</p>
+  </div>
+</div>
+</body>
+</html>
