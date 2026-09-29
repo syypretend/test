@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>每日算法 AI 出题 · 2026-09-29</title>
+  <!-- KaTeX 数学公式渲染 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
+  <style>
+    :root {
+      --bg: #0d1117;
+      --card-bg: #161b22;
+      --border: #30363d;
+      --text: #e6edf3;
+      --text-dim: #8b949e;
+      --accent: #58a6ff;
+      --green: #3fb950;
+      --orange: #d29922;
+      --red: #f85149;
+      --purple: #a855f7;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", sans-serif;
+      line-height: 1.7;
+      padding: 16px;
+      max-width: 860px;
+      margin: 0 auto;
+    }
+    .header {
+      text-align: center;
+      padding: 24px 0 16px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 24px;
+    }
+    .header h1 {
+      font-size: 1.5em;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+    .header .subtitle {
+      color: var(--text-dim);
+      font-size: 0.9em;
+    }
+    .header .date-tag {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 2px 12px;
+      border-radius: 12px;
+      background: var(--border);
+      font-size: 0.8em;
+      color: var(--text-dim);
+    }
+
+    /* 题目卡片 */
+    .question-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .question-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+    .type-badge {
+      padding: 2px 10px;
+      border-radius: 10px;
+      font-size: 0.75em;
+      color: white;
+      font-weight: 600;
+    }
+    .difficulty { font-size: 0.85em; }
+    .qid-label { color: var(--text-dim); font-size: 0.8em; margin-left: auto; }
+    .question-title {
+      font-size: 1.25em;
+      margin-bottom: 12px;
+      color: var(--text);
+    }
+    .question-body { margin-bottom: 14px; }
+    .question-body code.inline-code {
+      background: var(--border);
+      padding: 1px 5px;
+      border-radius: 3px;
+      font-size: 0.9em;
+    }
+
+    /* 信息块 */
+    .info-block {
+      background: rgba(88,166,255,0.05);
+      border-left: 3px solid var(--accent);
+      padding: 10px 14px;
+      margin: 10px 0;
+      border-radius: 0 6px 6px 0;
+    }
+    .info-label {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.85em;
+      display: block;
+      margin-bottom: 4px;
+    }
+    .info-block pre {
+      white-space: pre-wrap;
+      font-family: "JetBrains Mono", "Fira Code", monospace;
+      font-size: 0.85em;
+      color: var(--text);
+    }
+
+    /* 示例 */
+    .example-block {
+      background: rgba(63,185,80,0.05);
+      border: 1px solid rgba(63,185,80,0.2);
+      border-radius: 8px;
+      padding: 12px;
+      margin: 10px 0;
+    }
+    .example-title {
+      color: var(--green);
+      font-weight: 600;
+      font-size: 0.85em;
+      margin-bottom: 6px;
+    }
+    .example-io {
+      font-family: monospace;
+      font-size: 0.85em;
+      white-space: pre-wrap;
+      margin: 2px 0;
+    }
+    .io-label { color: var(--text-dim); }
+    .example-explanation {
+      color: var(--text-dim);
+      font-size: 0.85em;
+      margin-top: 6px;
+      padding-top: 6px;
+      border-top: 1px dashed var(--border);
+    }
+
+    /* 选项 */
+    .options-container { margin: 12px 0; }
+    .option-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      padding: 10px 14px;
+      margin: 6px 0;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .option-item:hover { border-color: var(--accent); background: rgba(88,166,255,0.05); }
+    .option-item.correct { border-color: var(--green); background: rgba(63,185,80,0.1); }
+    .option-item.wrong { border-color: var(--red); background: rgba(248,81,73,0.1); }
+    .option-item input[type=radio] { accent-color: var(--accent); margin-top: 4px; }
+    .option-letter {
+      font-weight: 700;
+      color: var(--accent);
+      min-width: 20px;
+    }
+    .option-text { flex: 1; font-size: 0.9em; }
+    .option-feedback {
+      margin: 8px 0;
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-size: 0.85em;
+      display: none;
+    }
+    .option-feedback.show { display: block; }
+    .option-feedback.correct {
+      background: rgba(63,185,80,0.1);
+      color: var(--green);
+    }
+    .option-feedback.wrong { background: rgba(248,81,73,0.1); color: var(--red); }
+
+    /* 代码编辑器 */
+    .code-section {
+      margin: 16px 0;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .code-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 14px;
+      background: rgba(88,166,255,0.08);
+      border-bottom: 1px solid var(--border);
+      font-size: 0.85em;
+      color: var(--accent);
+    }
+    .editor-wrap {
+      position: relative;
+    }
+    .code-editor {
+      min-height: 180px;
+      max-height: 400px;
+      overflow: auto;
+      padding: 12px;
+      font-family: "JetBrains Mono", "Fira Code", "Cascadia Code", monospace;
+      font-size: 13px;
+      line-height: 1.5;
+      white-space: pre;
+      color: var(--text);
+      background: #0d1117;
+      outline: none;
+      tabs: 4;
+    }
+    .btn-run {
+      background: var(--green);
+      color: white;
+      border: none;
+      padding: 4px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.85em;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .btn-run:hover { opacity: 0.85; }
+    .btn-run:disabled { opacity: 0.5; cursor: not-allowed; }
+    .code-result {
+      padding: 12px;
+      background: #0d1117;
+      border-top: 1px solid var(--border);
+      font-family: monospace;
+      font-size: 0.85em;
+      white-space: pre-wrap;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+    .code-result .test-pass { color: var(--green); }
+    .code-result .test-fail { color: var(--red); }
+    .code-result .stderr { color: var(--orange); }
+
+    /* 显示解析按钮 */
+    .btn-reveal {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      margin-top: 16px;
+      background: transparent;
+      border: 2px dashed var(--border);
+      border-radius: 8px;
+      color: var(--text-dim);
+      font-size: 0.95em;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .btn-reveal:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(88,166,255,0.03);
+    }
+    .btn-reveal.loading {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    /* 解析区域 */
+    .solution-section {
+      margin-top: 16px;
+      animation: fadeIn 0.4s ease;
+    }
+    @keyframes fadeIn { from{opacity:0; transform:translateY(10px) } to{opacity:1; transform:translateY(0) } }
+    .solution-divider {
+      text-align: center;
+      color: var(--text-dim);
+      font-size: 0.8em;
+      margin: 16px 0;
+      letter-spacing: 1px;
+    }
+    .answer-highlight {
+      background: rgba(63,185,80,0.1);
+      border: 1px solid var(--green);
+      border-radius: 8px;
+      padding: 10px 16px;
+      margin: 10px 0;
+      font-size: 1.05em;
+      color: var(--green);
+      font-weight: 600;
+    }
+    .solution-block {
+      margin: 14px 0;
+      padding: 14px;
+      background: rgba(255,255,255,0.02);
+      border-radius: 8px;
+    }
+    .solution-block h4 {
+      color: var(--accent);
+      margin-bottom: 8px;
+      font-size: 0.95em;
+    }
+    .solution-block ul.answer-points {
+      padding-left: 20px;
+    }
+    .solution-block ul.answer-points li {
+      margin: 6px 0;
+      font-size: 0.9em;
+    }
+    .code-block {
+      background: #0d1117;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 12px;
+      font-family: "JetBrains Mono", "Fira Code", monospace;
+      font-size: 0.85em;
+      overflow-x: auto;
+      white-space: pre;
+      color: var(--text);
+    }
+    .complexity-tag {
+      display: inline-block;
+      padding: 2px 10px;
+      margin-right: 8px;
+      border-radius: 6px;
+      background: var(--border);
+      font-size: 0.85em;
+      font-family: monospace;
+    }
+    .derivation-content {
+      font-size: 0.9em;
+      line-height: 1.8;
+    }
+
+    /* 运行中加载动画 */
+    .spinner {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      border: 2px solid var(--text-dim);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* 底部 */
+    .footer {
+      text-align: center;
+      padding: 24px 0;
+      color: var(--text-dim);
+      font-size: 0.8em;
+      border-top: 1px solid var(--border);
+      margin-top: 24px;
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 8px; }
+      .question-card { padding: 14px; }
+      .question-title { font-size: 1.1em; }
+      .code-editor { font-size: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <h1>每日算法 AI 出题</h1>
+  <div class="subtitle">算法 2 道 + AI 2 道</div>
+  <div class="date-tag">📅 2026-09-29 ｜ 算法 2 道 · AI 2 道</div>
+</div>
+
+<div class="question-card" data-qid="1">
+
+    <div class="question-header">
+      <span class="type-badge" style="background:#3b82f6">算法编程</span>
+      <span class="difficulty">⭐⭐</span>
+      <span class="qid-label">第 1 题</span>
+    </div>
+<h2 class="question-title">判断二分图</h2>
+<div class="question-body">给定一个无向图（$n$ 个节点，编号 $0 \sim n-1$，<code class="inline-code">edges</code> 为无向边列表），判断该图是否为**二分图**：即能否用两种颜色给所有顶点染色，使得任意一条边的两个端点颜色不同。是则返回 <code class="inline-code">True</code>，否则返回 <code class="inline-code">False</code>。</div>
+<div class="info-block"><span class="info-label">输入</span><pre>函数参数：n（整数，节点数）、edges（二维列表，每项为一条无向边 [u, v]）</pre></div>
+<div class="info-block"><span class="info-label">输出</span><pre>返回布尔值 True（是二分图）/ False（不是二分图）</pre></div>
+<div class="example-block">
+<div class="example-title">示例 1</div>
+<pre class="example-io"><span class="io-label">输入：</span>n=4, edges=[[0,1],[1,2],[2,3],[3,0]]</pre>
+<pre class="example-io"><span class="io-label">输出：</span>True</pre>
+<div class="example-explanation">4 个点构成偶环，可交替染成 0/1 两种颜色。</div>
+</div>
+<div class="example-block">
+<div class="example-title">示例 2</div>
+<pre class="example-io"><span class="io-label">输入：</span>n=3, edges=[[0,1],[1,2],[2,0]]</pre>
+<pre class="example-io"><span class="io-label">输出：</span>False</pre>
+<div class="example-explanation">三角形是奇环，无法用两种颜色保证所有边两端异色。</div>
+</div>
+<div class="info-block"><span class="info-label">约束</span><div>$1 \le n \le 1000$；$0 \le |edges| \le n(n-1)/2$；$0 \le u, v &lt; n$（测试数据可能包含自环与重边，需自行容错）</div></div>
+
+    <div class="code-section">
+      <div class="code-header">
+        <span>🧑‍💻 在线代码编辑器</span>
+        <button class="btn-run" onclick="runCode(1)" id="run_btn_1">▶ 运行</button>
+      </div>
+      <div class="editor-wrap">
+        <div class="code-editor" id="editor_1" contenteditable="true" spellcheck="false">def solve(n, edges):
+    # 在此实现：判断无向图是否为二分图
+    pass</div>
+      </div>
+      <div class="code-result" id="result_1" style="display:none;"></div>
+      <input type="hidden" id="func_name_1" value="solve">
+      <input type="hidden" id="test_cases_1" value='[[4, [[0, 1], [1, 2], [2, 3], [3, 0]]], [3, [[0, 1], [1, 2], [2, 0]]], [1, []], [2, [[0, 1]]], [5, []], [6, [[0, 1], [1, 2], [2, 0], [3, 4], [4, 5], [5, 3]]], [6, [[0, 1], [2, 3], [4, 5]]], [5, [[0, 1], [0, 2], [0, 3], [0, 4]]], [3, [[0, 0], [1, 2]]], [4, [[0, 1], [0, 1], [1, 2], [2, 3]]], [4, [[0, 1], [1, 2], [2, 3]]], [3, [[0, 1], [1, 2], [0, 2]]], [1000, [[0, 1], [1, 2], [2, 3], [3, 4], [4, 5], [5, 6], [6, 7], [7, 8], [8, 9], [9, 10], [10, 11], [11, 12], [12, 13], [13, 14], [14, 15], [15, 16], [16, 17], [17, 18], [18, 19], [19, 20], [20, 21], [21, 22], [22, 23], [23, 24], [24, 25], [25, 26], [26, 27], [27, 28], [28, 29], [29, 30], [30, 31], [31, 32], [32, 33], [33, 34], [34, 35], [35, 36], [36, 37], [37, 38], [38, 39], [39, 40], [40, 41], [41, 42], [42, 43], [43, 44], [44, 45], [45, 46], [46, 47], [47, 48], [48, 49], [49, 50], [50, 51], [51, 52], [52, 53], [53, 54], [54, 55], [55, 56], [56, 57], [57, 58], [58, 59], [59, 60], [60, 61], [61, 62], [62, 63], [63, 64], [64, 65], [65, 66], [66, 67], [67, 68], [68, 69], [69, 70], [70, 71], [71, 72], [72, 73], [73, 74], [74, 75], [75, 76], [76, 77], [77, 78], [78, 79], [79, 80], [80, 81], [81, 82], [82, 83], [83, 84], [84, 85], [85, 86], [86, 87], [87, 88], [88, 89], [89, 90], [90, 91], [91, 92], [92, 93], [93, 94], [94, 95], [95, 96], [96, 97], [97, 98], [98, 99], [99, 100], [100, 101], [101, 102], [102, 103], [103, 104], [104, 105], [105, 106], [106, 107], [107, 108], [108, 109], [109, 110], [110, 111], [111, 112], [112, 113], [113, 114], [114, 115], [115, 116], [116, 117], [117, 118], [118, 119], [119, 120], [120, 121], [121, 122], [122, 123], [123, 124], [124, 125], [125, 126], [126, 127], [127, 128], [128, 129], [129, 130], [130, 131], [131, 132], [132, 133], [133, 134], [134, 135], [135, 136], [136, 137], [137, 138], [138, 139], [139, 140], [140, 141], [141, 142], [142, 143], [143, 144], [144, 145], [145, 146], [146, 147], [147, 148], [148, 149], [149, 150], [150, 151], [151, 152], [152, 153], [153, 154], [154, 155], [155, 156], [156, 157], [157, 158], [158, 159], [159, 160], [160, 161], [161, 162], [162, 163], [163, 164], [164, 165], [165, 166], [166, 167], [167, 168], [168, 169], [169, 170], [170, 171], [171, 172], [172, 173], [173, 174], [174, 175], [175, 176], [176, 177], [177, 178], [178, 179], [179, 180], [180, 181], [181, 182], [182, 183], [183, 184], [184, 185], [185, 186], [186, 187], [187, 188], [188, 189], [189, 190], [190, 191], [191, 192], [192, 193], [193, 194], [194, 195], [195, 196], [196, 197], [197, 198], [198, 199], [199, 200], [200, 201], [201, 202], [202, 203], [203, 204], [204, 205], [205, 206], [206, 207], [207, 208], [208, 209], [209, 210], [210, 211], [211, 212], [212, 213], [213, 214], [214, 215], [215, 216], [216, 217], [217, 218], [218, 219], [219, 220], [220, 221], [221, 222], [222, 223], [223, 224], [224, 225], [225, 226], [226, 227], [227, 228], [228, 229], [229, 230], [230, 231], [231, 232], [232, 233], [233, 234], [234, 235], [235, 236], [236, 237], [237, 238], [238, 239], [239, 240], [240, 241], [241, 242], [242, 243], [243, 244], [244, 245], [245, 246], [246, 247], [247, 248], [248, 249], [249, 250], [250, 251], [251, 252], [252, 253], [253, 254], [254, 255], [255, 256], [256, 257], [257, 258], [258, 259], [259, 260], [260, 261], [261, 262], [262, 263], [263, 264], [264, 265], [265, 266], [266, 267], [267, 268], [268, 269], [269, 270], [270, 271], [271, 272], [272, 273], [273, 274], [274, 275], [275, 276], [276, 277], [277, 278], [278, 279], [279, 280], [280, 281], [281, 282], [282, 283], [283, 284], [284, 285], [285, 286], [286, 287], [287, 288], [288, 289], [289, 290], [290, 291], [291, 292], [292, 293], [293, 294], [294, 295], [295, 296], [296, 297], [297, 298], [298, 299], [299, 300], [300, 301], [301, 302], [302, 303], [303, 304], [304, 305], [305, 306], [306, 307], [307, 308], [308, 309], [309, 310], [310, 311], [311, 312], [312, 313], [313, 314], [314, 315], [315, 316], [316, 317], [317, 318], [318, 319], [319, 320], [320, 321], [321, 322], [322, 323], [323, 324], [324, 325], [325, 326], [326, 327], [327, 328], [328, 329], [329, 330], [330, 331], [331, 332], [332, 333], [333, 334], [334, 335], [335, 336], [336, 337], [337, 338], [338, 339], [339, 340], [340, 341], [341, 342], [342, 343], [343, 344], [344, 345], [345, 346], [346, 347], [347, 348], [348, 349], [349, 350], [350, 351], [351, 352], [352, 353], [353, 354], [354, 355], [355, 356], [356, 357], [357, 358], [358, 359], [359, 360], [360, 361], [361, 362], [362, 363], [363, 364], [364, 365], [365, 366], [366, 367], [367, 368], [368, 369], [369, 370], [370, 371], [371, 372], [372, 373], [373, 374], [374, 375], [375, 376], [376, 377], [377, 378], [378, 379], [379, 380], [380, 381], [381, 382], [382, 383], [383, 384], [384, 385], [385, 386], [386, 387], [387, 388], [388, 389], [389, 390], [390, 391], [391, 392], [392, 393], [393, 394], [394, 395], [395, 396], [396, 397], [397, 398], [398, 399], [399, 400], [400, 401], [401, 402], [402, 403], [403, 404], [404, 405], [405, 406], [406, 407], [407, 408], [408, 409], [409, 410], [410, 411], [411, 412], [412, 413], [413, 414], [414, 415], [415, 416], [416, 417], [417, 418], [418, 419], [419, 420], [420, 421], [421, 422], [422, 423], [423, 424], [424, 425], [425, 426], [426, 427], [427, 428], [428, 429], [429, 430], [430, 431], [431, 432], [432, 433], [433, 434], [434, 435], [435, 436], [436, 437], [437, 438], [438, 439], [439, 440], [440, 441], [441, 442], [442, 443], [443, 444], [444, 445], [445, 446], [446, 447], [447, 448], [448, 449], [449, 450], [450, 451], [451, 452], [452, 453], [453, 454], [454, 455], [455, 456], [456, 457], [457, 458], [458, 459], [459, 460], [460, 461], [461, 462], [462, 463], [463, 464], [464, 465], [465, 466], [466, 467], [467, 468], [468, 469], [469, 470], [470, 471], [471, 472], [472, 473], [473, 474], [474, 475], [475, 476], [476, 477], [477, 478], [478, 479], [479, 480], [480, 481], [481, 482], [482, 483], [483, 484], [484, 485], [485, 486], [486, 487], [487, 488], [488, 489], [489, 490], [490, 491], [491, 492], [492, 493], [493, 494], [494, 495], [495, 496], [496, 497], [497, 498], [498, 499], [499, 500], [500, 501], [501, 502], [502, 503], [503, 504], [504, 505], [505, 506], [506, 507], [507, 508], [508, 509], [509, 510], [510, 511], [511, 512], [512, 513], [513, 514], [514, 515], [515, 516], [516, 517], [517, 518], [518, 519], [519, 520], [520, 521], [521, 522], [522, 523], [523, 524], [524, 525], [525, 526], [526, 527], [527, 528], [528, 529], [529, 530], [530, 531], [531, 532], [532, 533], [533, 534], [534, 535], [535, 536], [536, 537], [537, 538], [538, 539], [539, 540], [540, 541], [541, 542], [542, 543], [543, 544], [544, 545], [545, 546], [546, 547], [547, 548], [548, 549], [549, 550], [550, 551], [551, 552], [552, 553], [553, 554], [554, 555], [555, 556], [556, 557], [557, 558], [558, 559], [559, 560], [560, 561], [561, 562], [562, 563], [563, 564], [564, 565], [565, 566], [566, 567], [567, 568], [568, 569], [569, 570], [570, 571], [571, 572], [572, 573], [573, 574], [574, 575], [575, 576], [576, 577], [577, 578], [578, 579], [579, 580], [580, 581], [581, 582], [582, 583], [583, 584], [584, 585], [585, 586], [586, 587], [587, 588], [588, 589], [589, 590], [590, 591], [591, 592], [592, 593], [593, 594], [594, 595], [595, 596], [596, 597], [597, 598], [598, 599], [599, 600], [600, 601], [601, 602], [602, 603], [603, 604], [604, 605], [605, 606], [606, 607], [607, 608], [608, 609], [609, 610], [610, 611], [611, 612], [612, 613], [613, 614], [614, 615], [615, 616], [616, 617], [617, 618], [618, 619], [619, 620], [620, 621], [621, 622], [622, 623], [623, 624], [624, 625], [625, 626], [626, 627], [627, 628], [628, 629], [629, 630], [630, 631], [631, 632], [632, 633], [633, 634], [634, 635], [635, 636], [636, 637], [637, 638], [638, 639], [639, 640], [640, 641], [641, 642], [642, 643], [643, 644], [644, 645], [645, 646], [646, 647], [647, 648], [648, 649], [649, 650], [650, 651], [651, 652], [652, 653], [653, 654], [654, 655], [655, 656], [656, 657], [657, 658], [658, 659], [659, 660], [660, 661], [661, 662], [662, 663], [663, 664], [664, 665], [665, 666], [666, 667], [667, 668], [668, 669], [669, 670], [670, 671], [671, 672], [672, 673], [673, 674], [674, 675], [675, 676], [676, 677], [677, 678], [678, 679], [679, 680], [680, 681], [681, 682], [682, 683], [683, 684], [684, 685], [685, 686], [686, 687], [687, 688], [688, 689], [689, 690], [690, 691], [691, 692], [692, 693], [693, 694], [694, 695], [695, 696], [696, 697], [697, 698], [698, 699], [699, 700], [700, 701], [701, 702], [702, 703], [703, 704], [704, 705], [705, 706], [706, 707], [707, 708], [708, 709], [709, 710], [710, 711], [711, 712], [712, 713], [713, 714], [714, 715], [715, 716], [716, 717], [717, 718], [718, 719], [719, 720], [720, 721], [721, 722], [722, 723], [723, 724], [724, 725], [725, 726], [726, 727], [727, 728], [728, 729], [729, 730], [730, 731], [731, 732], [732, 733], [733, 734], [734, 735], [735, 736], [736, 737], [737, 738], [738, 739], [739, 740], [740, 741], [741, 742], [742, 743], [743, 744], [744, 745], [745, 746], [746, 747], [747, 748], [748, 749], [749, 750], [750, 751], [751, 752], [752, 753], [753, 754], [754, 755], [755, 756], [756, 757], [757, 758], [758, 759], [759, 760], [760, 761], [761, 762], [762, 763], [763, 764], [764, 765], [765, 766], [766, 767], [767, 768], [768, 769], [769, 770], [770, 771], [771, 772], [772, 773], [773, 774], [774, 775], [775, 776], [776, 777], [777, 778], [778, 779], [779, 780], [780, 781], [781, 782], [782, 783], [783, 784], [784, 785], [785, 786], [786, 787], [787, 788], [788, 789], [789, 790], [790, 791], [791, 792], [792, 793], [793, 794], [794, 795], [795, 796], [796, 797], [797, 798], [798, 799], [799, 800], [800, 801], [801, 802], [802, 803], [803, 804], [804, 805], [805, 806], [806, 807], [807, 808], [808, 809], [809, 810], [810, 811], [811, 812], [812, 813], [813, 814], [814, 815], [815, 816], [816, 817], [817, 818], [818, 819], [819, 820], [820, 821], [821, 822], [822, 823], [823, 824], [824, 825], [825, 826], [826, 827], [827, 828], [828, 829], [829, 830], [830, 831], [831, 832], [832, 833], [833, 834], [834, 835], [835, 836], [836, 837], [837, 838], [838, 839], [839, 840], [840, 841], [841, 842], [842, 843], [843, 844], [844, 845], [845, 846], [846, 847], [847, 848], [848, 849], [849, 850], [850, 851], [851, 852], [852, 853], [853, 854], [854, 855], [855, 856], [856, 857], [857, 858], [858, 859], [859, 860], [860, 861], [861, 862], [862, 863], [863, 864], [864, 865], [865, 866], [866, 867], [867, 868], [868, 869], [869, 870], [870, 871], [871, 872], [872, 873], [873, 874], [874, 875], [875, 876], [876, 877], [877, 878], [878, 879], [879, 880], [880, 881], [881, 882], [882, 883], [883, 884], [884, 885], [885, 886], [886, 887], [887, 888], [888, 889], [889, 890], [890, 891], [891, 892], [892, 893], [893, 894], [894, 895], [895, 896], [896, 897], [897, 898], [898, 899], [899, 900], [900, 901], [901, 902], [902, 903], [903, 904], [904, 905], [905, 906], [906, 907], [907, 908], [908, 909], [909, 910], [910, 911], [911, 912], [912, 913], [913, 914], [914, 915], [915, 916], [916, 917], [917, 918], [918, 919], [919, 920], [920, 921], [921, 922], [922, 923], [923, 924], [924, 925], [925, 926], [926, 927], [927, 928], [928, 929], [929, 930], [930, 931], [931, 932], [932, 933], [933, 934], [934, 935], [935, 936], [936, 937], [937, 938], [938, 939], [939, 940], [940, 941], [941, 942], [942, 943], [943, 944], [944, 945], [945, 946], [946, 947], [947, 948], [948, 949], [949, 950], [950, 951], [951, 952], [952, 953], [953, 954], [954, 955], [955, 956], [956, 957], [957, 958], [958, 959], [959, 960], [960, 961], [961, 962], [962, 963], [963, 964], [964, 965], [965, 966], [966, 967], [967, 968], [968, 969], [969, 970], [970, 971], [971, 972], [972, 973], [973, 974], [974, 975], [975, 976], [976, 977], [977, 978], [978, 979], [979, 980], [980, 981], [981, 982], [982, 983], [983, 984], [984, 985], [985, 986], [986, 987], [987, 988], [988, 989], [989, 990], [990, 991], [991, 992], [992, 993], [993, 994], [994, 995], [995, 996], [996, 997], [997, 998], [998, 999]]], [4, [[0, 1], [0, 2], [1, 2]]], [2, [[0, 1], [0, 1]]]]'>
+      <input type="hidden" id="expected_outputs_1" value='[true, false, true, true, true, false, true, true, false, true, true, false, true, false, true]'>
+    </div>
+
+    <button class="btn-reveal" onclick="revealSolution(1)" id="reveal_btn_1">
+      📖 显示答案与解析
+    </button>
+<div class="solution-section" id="solution_1" style="display:none;">
+<div class="solution-divider">--- 以下为答案与解析 ---</div>
+<div class="solution-block"><h4>💡 解题思路</h4><div>**核心定理：无向图为二分图当且仅当图中不含奇环。**<br>
+<br>
+采用 **BFS 染色法**：用一个 <code class="inline-code">color</code> 数组（-1 表示未染色，0/1 表示两种颜色）。<br>
+1. 遍历所有节点，若当前节点未染色，则以它为起点做 BFS，染 0 色；<br>
+2. 扩展时把每个未染色邻居染成与当前节点相反的色（<code class="inline-code">color ^ 1</code>）；<br>
+3. 若发现邻居已染色且颜色与当前节点相同，说明存在奇环，直接返回 <code class="inline-code">False</code>；<br>
+4. 所有连通分量遍历完均无冲突，返回 <code class="inline-code">True</code>。<br>
+<br>
+注意：图可能不连通，必须对每个连通分量分别染色；重边不影响判色，自环（u==v）在扩展时必然触发同色冲突，天然判为非二分图。</div></div>
+<div class="solution-block"><h4>📝 参考代码（python）</h4><pre class="code-block">from collections import deque
+
+def solve(n, edges):
+    # 1. 建邻接表（容忍重边）
+    g = [[] for _ in range(n)]
+    for u, v in edges:
+        g[u].append(v)
+        g[v].append(u)
+
+    color = [-1] * n          # -1 未染色；0/1 两种颜色
+    for start in range(n):    # 遍历所有连通分量
+        if color[start] != -1:
+            continue
+        color[start] = 0
+        q = deque([start])
+        while q:
+            u = q.popleft()
+            for v in g[u]:
+                if color[v] == -1:        # 未染色 -&gt; 染相反色
+                    color[v] = color[u] ^ 1
+                    q.append(v)
+                elif color[v] == color[u]:  # 邻居同色 -&gt; 奇环
+                    return False
+    return True</pre></div>
+<div class="solution-block"><h4>⚡ 复杂度分析</h4><div>
+<span class="complexity-tag">时间 O(n + |E|)</span>
+<span class="complexity-tag">空间 O(n + |E|)（邻接表 + color 数组）</span>
+</div></div>
+<div class="solution-block"><h4>🎯 考点</h4><div>二分图判定（染色法）、奇环与二分图的等价关系、BFS 遍历不连通分量、自环与重边容错</div></div>
+</div>
+</div>
+<div class="question-card" data-qid="2">
+
+    <div class="question-header">
+      <span class="type-badge" style="background:#10b981">算法概念</span>
+      <span class="difficulty">⭐⭐</span>
+      <span class="qid-label">第 2 题</span>
+    </div>
+<h2 class="question-title">二分查找：循环边界与区间收缩</h2>
+<div class="question-body">关于在**非降序数组**中查找**第一个大于等于 target 的元素位置**（即 <code class="inline-code">lower_bound</code>）的二分实现，下列说法中**错误**的是？</div>
+<div class="options-container">
+
+            <label class="option-item" data-letter="A">
+              <input type="radio" name="quiz_2" value="A" onchange="checkAnswer(2, 'A')">
+              <span class="option-letter">A</span>
+              <span class="option-text">采用左闭右闭区间 [lo, hi] 时，循环条件应为 lo &lt;= hi，循环结束后 lo == hi + 1</span>
+            </label>
+
+            <label class="option-item" data-letter="B">
+              <input type="radio" name="quiz_2" value="B" onchange="checkAnswer(2, 'B')">
+              <span class="option-letter">B</span>
+              <span class="option-text">使用 `mid = lo + (hi - lo) // 2` 计算中点，可以避免 `lo + hi` 直接相加造成整数溢出</span>
+            </label>
+
+            <label class="option-item" data-letter="C">
+              <input type="radio" name="quiz_2" value="C" onchange="checkAnswer(2, 'C')">
+              <span class="option-letter">C</span>
+              <span class="option-text">采用左闭右开区间 [lo, hi) 时，循环条件应为 lo &lt; hi；当 nums[mid] &gt;= target 时执行 hi = mid（保留 mid 作为候选）</span>
+            </label>
+
+            <label class="option-item" data-letter="D">
+              <input type="radio" name="quiz_2" value="D" onchange="checkAnswer(2, 'D')">
+              <span class="option-letter">D</span>
+              <span class="option-text">只要找到一个 nums[mid] == target 的位置，就可以直接返回 mid，无需继续搜索更靠前的位置</span>
+            </label>
+</div>
+<div class="option-feedback" id="feedback_2"></div>
+
+    <button class="btn-reveal" onclick="revealSolution(2)" id="reveal_btn_2">
+      📖 显示答案与解析
+    </button>
+<div class="solution-section" id="solution_2" style="display:none;">
+<div class="solution-divider">--- 以下为答案与解析 ---</div>
+<div class="answer-highlight">✅ 正确答案：D</div>
+<div class="solution-block"><h4>💡 解题思路</h4><div>本题考察二分查找变体（lower_bound）的循环边界与区间收缩规则。逐项核对：A 描述闭区间退出关系正确；B 描述中点防溢出写法正确；C 描述左闭右开区间写法正确；D 的问题在于 lower_bound 要找的是**第一个** ≥ target 的位置，即使 nums[mid] == target，左侧可能还有等于 target 的元素，必须继续向左收缩（hi = mid），不能直接返回。</div></div>
+<div class="solution-block"><h4>🎯 考点</h4><div>二分查找变体、循环边界条件（闭区间 vs 左闭右开）、循环不变量、lower_bound 的定义与退出时含义</div></div>
+<div class="solution-block"><h4>🔍 逐项分析</h4><ul class="answer-points">
+<li>正确：闭区间 [lo, hi] 在 while lo &lt;= hi 中收缩（nums[mid] &lt; target 时 lo = mid+1，否则 hi = mid-1），退出时必然 lo == hi + 1，且 lo 即为下界位置。</li>
+<li>正确：mid = lo + (hi - lo) // 2 与 (lo + hi) // 2 结果相同，但避免了 lo + hi 溢出（经典面试考点）。</li>
+<li>正确：左闭右开区间 [lo, hi) 的循环条件是 lo &lt; hi；nums[mid] &gt;= target 时 mid 可能是答案，收缩 hi = mid 保留候选；nums[mid] &lt; target 时 lo = mid + 1。退出时 lo 即答案。</li>
+<li>错误：找到 nums[mid] == target 时，**最左侧**可能还有等于 target 的元素（如数组 [1,2,2,2,3] 中 target=2，mid 可能落在中间那个 2），必须继续向左搜索（hi = mid），直到循环结束才能保证返回第一个位置。</li>
+</ul></div>
+</div>
+</div>
+<div class="question-card" data-qid="3">
+
+    <div class="question-header">
+      <span class="type-badge" style="background:#a855f7">AI公式推导</span>
+      <span class="difficulty">⭐⭐</span>
+      <span class="qid-label">第 3 题</span>
+    </div>
+<h2 class="question-title">Word2Vec Skip-gram：目标函数、参数梯度与负采样</h2>
+<div class="question-body">设词表大小为 $V$，给定中心词 $w_I$（索引 $I$）与上下文词 $w_O$（索引 $O$）。每个词 $w$ 有两个向量：输入向量 $v_w$（作中心词时）与输出向量 $u_w$（作上下文时）。<br>
+<br>
+请完成三步推导：<br>
+1. 写出条件概率 $P(w_O \mid w_I)$ 的 softmax 形式与单样本对数似然 $L$；<br>
+2. 分别对 $v_{w_I}$ 与 $u_{w_j}$ 求偏导，说明梯度的含义；<br>
+3. 说明全词表 softmax 的计算瓶颈，并给出负采样（Negative Sampling）目标函数 $J$ 对 $v_{w_I}$ 的梯度。</div>
+
+    <button class="btn-reveal" onclick="revealSolution(3)" id="reveal_btn_3">
+      📖 显示答案与解析
+    </button>
+<div class="solution-section" id="solution_3" style="display:none;">
+<div class="solution-divider">--- 以下为答案与解析 ---</div>
+<div class="solution-block"><h4>🎯 考点</h4><div>Softmax 归一化与对数似然、输入/输出双向量参数化、链式法则与期望形式梯度、全词表瓶颈 O(Vd)、负采样二分类目标与 O((K+1)d) 复杂度</div></div>
+<div class="solution-block"><h4>📐 推导过程</h4><div class="derivation-content">### 1. 条件概率与目标函数<br>
+<br>
+Skip-gram 用中心词 $w_I$ 预测上下文词 $w_O$，条件概率用 softmax 归一化：<br>
+<br>
+$$P(w_O \mid w_I) = \frac{\exp(u_{w_O}^{\top} v_{w_I})}{\sum_{j=1}^{V} \exp(u_{w_j}^{\top} v_{w_I})}$$<br>
+<br>
+单个样本的对数似然（也是负损失）：<br>
+<br>
+$$L = \log P(w_O \mid w_I) = u_{w_O}^{\top} v_{w_I} - \log\sum_{j=1}^{V} \exp(u_{w_j}^{\top} v_{w_I})$$<br>
+<br>
+（Skip-gram 对整个窗口求多个上下文词对数似然的均值，各样本梯度形式相同，这里推导单样本。）<br>
+<br>
+### 2. 对输入向量 $v_{w_I}$ 求梯度<br>
+记 $s_j = u_{w_j}^{\top} v_{w_I}$。第一部分求导得 $u_{w_O}$；第二部分用链式法则：<br>
+<br>
+$$\frac{\partial}{\partial v_{w_I}} \log\sum_j e^{s_j} = \frac{1}{\sum_j e^{s_j}}\sum_j e^{s_j} \frac{\partial s_j}{\partial v_{w_I}} = \sum_j \frac{e^{s_j}}{\sum_k e^{s_k}} u_{w_j} = \sum_{j=1}^{V} P(w_j \mid w_I)\, u_{w_j}$$<br>
+<br>
+合并两部分：<br>
+<br>
+$$\boxed{\frac{\partial L}{\partial v_{w_I}} = u_{w_O} - \sum_{j=1}^{V} P(w_j \mid w_I)\, u_{w_j}}$$<br>
+<br>
+含义：正样本（真实上下文）的输出向量 $u_{w_O}$ **拉近**中心词向量，同时把所有词的期望输出向量（权重为条件概率）**推远**。<br>
+<br>
+### 3. 对输出向量 $u_{w_j}$ 的梯度<br>
+<br>
+同样由链式法则（只有 $j$ 项含 $u_{w_j}$）：<br>
+<br>
+$$\frac{\partial L}{\partial u_{w_j}} = \big(\mathbb{1}[w_j = w_O] - P(w_j \mid w_I)\big)\, v_{w_I}$$<br>
+<br>
+即正样本：$(1 - P(w_O|w_I))v_{w_I}$；负样本：$-P(w_j|w_I)v_{w_I}$。<br>
+<br>
+### 4. 计算瓶颈与负采样<br>
+<br>
+上式中的 $\sum_{j=1}^{V}$ 每步更新都要遍历词表（$V$ 可达 $10^5 \sim 10^6$），计算量为 $O(V \cdot d)$。<br>
+<br>
+**负采样（Negative Sampling）** 把 $V$ 分类的 softmax 换成 $K+1$ 个二分类：对正样本对 $(w_I, w_O)$ 与 $K$ 个按噪声分布 $P_n(w)$ 采样出的负样本 $w_k$，目标为：<br>
+<br>
+$$J = \log \sigma(u_{w_O}^{\top} v_{w_I}) + \sum_{k=1}^{K} \mathbb{E}_{w_k \sim P_n(w)}\big[\log \sigma(-u_{w_k}^{\top} v_{w_I})\big]$$<br>
+<br>
+其中 $\sigma(x)=1/(1+e^{-x})$，噪声分布常用 $P_n(w) \propto \mathrm{cnt}(w)^{3/4}$。<br>
+<br>
+利用 $\dfrac{d}{dx}\log\sigma(x) = 1-\sigma(x)$、$\dfrac{d}{dx}\log\sigma(-x) = -\sigma(x)$：<br>
+<br>
+$$\frac{\partial J}{\partial v_{w_I}} = \big(1 - \sigma(u_{w_O}^{\top} v_{w_I})\big)u_{w_O} - \sum_{k=1}^{K} \sigma(u_{w_k}^{\top} v_{w_I})\, u_{w_k}$$<br>
+<br>
+同理 $\partial J/\partial u_{w_O} = (1-\sigma(u_O^\top v))v_{w_I}$，$\partial J/\partial u_{w_k} = -\sigma(u_k^\top v) v_{w_I}$。<br>
+<br>
+每次更新只涉及 $K+1$ 个词向量（$K$ 通常取 5~20），单步复杂度降至 $O((K+1)d)$，远小于 $O(Vd)$。</div></div>
+<div class="solution-block"><h4>🧠 直觉解释</h4><div>Word2Vec 的本质是让中心词向量在嵌入空间中与「真实上下文词」更接近、与「随机采样词」更远，最终学到的向量空间保留了语义与共现相似度（经典结果：vec(king) − vec(man) + vec(woman) ≈ vec(queen)）。</div></div>
+</div>
+</div>
+<div class="question-card" data-qid="4">
+
+    <div class="question-header">
+      <span class="type-badge" style="background:#f59e0b">AI面试问答</span>
+      <span class="difficulty">⭐⭐</span>
+      <span class="qid-label">第 4 题</span>
+    </div>
+<h2 class="question-title">Transformer 为什么要位置编码？RoPE 的原理与优势</h2>
+<div class="question-body">面试高频题：自注意力机制本身不含任何顺序信息，为什么 Transformer 必须加位置编码？请说明正弦绝对位置编码与旋转位置编码（RoPE）的原理，并对比两者在表达能力、可外推性与工程实现上的优劣。</div>
+
+    <button class="btn-reveal" onclick="revealSolution(4)" id="reveal_btn_4">
+      📖 显示答案与解析
+    </button>
+<div class="solution-section" id="solution_4" style="display:none;">
+<div class="solution-divider">--- 以下为答案与解析 ---</div>
+<div class="solution-block"><h4>📌 回答要点</h4><ul class="answer-points">
+<li>注意力是「位置无关」的：Attention(Q,K,V) = softmax(QK^T/√d)V 只对 token 内容做加权求和，打乱输入顺序，输出同样顺序置换。模型无法区分「我爱学习」与「学习爱我」，因此必须把顺序信息显式注入输入。</li>
+<li>正弦绝对位置编码：位置 m 被编码为固定三角函数 $PE_{m,2i}=\sin(m/10000^{2i/d})$、$PE_{m,2i+1}=\cos(m/10000^{2i/d})$ 加到词向量上。优点：无需训练、理论上可外推到任意长度；缺点：位置信息叠加进内容向量后经 QK^T 混合，模型需自行学习如何「解耦」使用位置。</li>
+<li>RoPE 原理：对 query 与 key 按位置施加二维旋转矩阵 $R_m$（复数域等价为乘以 $e^{im\theta}$），即 $q_m = R_m q$、$k_n = R_n k$。旋转矩阵满足 $R_m^{\top} R_n = R_{n-m}$（正交性），于是<br>
+$$(R_m q)^{\top}(R_n k) = q^{\top} R_{n-m}\, k$$<br>
+注意乘积只依赖相对位置 $n-m$，与绝对位置无关。</li>
+<li>RoPE 优势：1) 显式把「相对位置」编码进注意力分数，语义与位置天然分离；2) 旋转正交不改变向量范数，数值稳定；3) 无需学习位置矩阵、无额外参数，推理时用复数乘法快速实现；4) 对长度外推更友好（位置由连续角度参数化，未训练长度也有定义）。</li>
+<li>工程实现：按维度分块，每两个维度一组做 2×2 旋转（维度频率 θ_i = 10000^{−2i/d}，即不同维度旋转速度不同，低频长距离、高频短距离），实际计算为：旋转后的 $x = (x_0\cos\theta - x_1\sin\theta, x_0\sin\theta + x_1\cos\theta, \dots)$。主流大模型（LLaMA、Qwen、GLM）均采用 RoPE。</li>
+</ul></div>
+<div class="solution-block"><h4>⭐ 加分项</h4><ul class="answer-points">
+<li>与相对位置编码对比：T5/ALiBi 直接把相对位置偏置加进注意力分数（显式位置偏置表），RoPE 则把相对位置「隐式」编码进 Q·K 内积，无需存储位置偏置表，训练更干净。</li>
+<li>长度外推优化：RoPE 超出训练长度后，常用位置插值（PI）、NTK-aware 缩放、YaRN 等方法扩展上下文，效果优于绝对位置编码，这是 LLM 长上下文工程的核心话题。</li>
+<li>绝对位置（learned/sinusoidal）在超过训练长度时要么无定义（未学到）要么退化，RoPE 相位连续的特性使外推成为可能。</li>
+</ul></div>
+<div class="solution-block"><h4>🔮 追问预测</h4><ul class="answer-points">
+<li>追问1：为什么 RoPE 的内积只依赖相对位置？—— 因为旋转矩阵是正交的，$R_m^\top R_n = R_{n-m}$，代入内积即得 $q^\top R_{n-m} k$，与 m、n 的绝对值无关，只差 n−m。</li>
+<li>追问2：RoPE 如何处理超过训练窗口的长序列？—— 思路：频率缩放/插值（把旋转频率降到更慢，让新位置落在已见相位范围内），或 NTK-aware 外推等，都是工业界主流做法。</li>
+<li>追问3：绝对位置编码为什么外推能力差？—— learned 位置在训练长度外无 embedding；sinusoidal 虽可生成任意位置向量，但模型训练时从未见过这些位置相位，点积分布与训练分布偏移，性能衰减。</li>
+</ul></div>
+</div>
+</div>
+
+<div class="footer">
+  坚持每日练习，积少成多 💪<br>
+  Powered by TeleAgent · daily-algo-ai-quiz
+</div>
+
+<script>
+// ===== Pyodide 隔离执行测试运行器 =====
+const RUNNER_CODE = "\nimport json, traceback, io, contextlib\n\ndef run_tests(user_code, func_name, test_cases, expected):\n    ns = {}\n    user_stdout = io.StringIO()\n    user_error = None\n\n    try:\n        with contextlib.redirect_stdout(user_stdout):\n            exec(user_code, ns)\n    except Exception:\n        user_error = traceback.format_exc()\n\n    user_out = user_stdout.getvalue()\n\n    if user_error:\n        return {\"error\": user_error, \"stdout\": user_out}\n\n    func = ns.get(func_name)\n    if func is None:\n        return {\"error\": \"未找到函数 \" + str(func_name) + \"，请确保代码中定义了该函数\", \"stdout\": user_out}\n\n    test_results = []\n    for i, tc in enumerate(test_cases):\n        try:\n            actual = func(*tc)\n            exp = expected[i]\n            passed = actual == exp\n            test_results.append({\n                \"passed\": passed,\n                \"input\": str(tc),\n                \"expected\": str(exp),\n                \"actual\": str(actual)\n            })\n        except Exception as e:\n            exp = str(expected[i]) if i < len(expected) else \"N/A\"\n            test_results.append({\n                \"passed\": False,\n                \"input\": str(tc),\n                \"expected\": exp,\n                \"actual\": \"Error: \" + str(e)\n            })\n\n    return {\"stdout\": user_out, \"tests\": test_results}\n";
+
+// ===== 显示/隐藏解析 =====
+function revealSolution(qid) {
+  const sol = document.getElementById('solution_' + qid);
+  const btn = document.getElementById('reveal_btn_' + qid);
+  if (sol.style.display === 'none') {
+    sol.style.display = 'block';
+    btn.innerHTML = '📕 收起解析';
+    // 渲染该区域数学公式
+    if (typeof renderMathInElement !== 'undefined') {
+      renderMathInElement(sol, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false}
+        ]
+      });
+    }
+  } else {
+    sol.style.display = 'none';
+    btn.innerHTML = '📖 显示答案与解析';
+  }
+}
+
+// ===== 选择题作答反馈 =====
+function checkAnswer(qid, selected) {
+  const card = document.querySelector(`[data-qid="${qid}"]`);
+  if (!card) return;
+  const correctAnswer = card.getAttribute('data-correct') || '';
+  // 从全局 quizData 获取
+  const qData = window.__quizData__.questions.find(q => q.id == qid);
+  if (!qData || !qData.correct_answer) return;
+
+  const correct = qData.correct_answer;
+  const feedback = document.getElementById('feedback_' + qid);
+  const options = card.querySelectorAll('.option-item');
+
+  options.forEach(opt => {
+    const letter = opt.getAttribute('data-letter');
+    opt.classList.remove('correct', 'wrong');
+    if (letter === correct) {
+      opt.classList.add('correct');
+    } else if (letter === selected && selected !== correct) {
+      opt.classList.add('wrong');
+    }
+  });
+
+  if (feedback) {
+    feedback.className = 'option-feedback show ' + (selected === correct ? 'correct' : 'wrong');
+    feedback.textContent = selected === correct
+      ? '✅ 回答正确！'
+      : `❌ 正确答案是 ${correct}，再想想？`;
+    feedback.style.display = 'block';
+  }
+}
+
+// ===== Pyodide 代码执行 =====
+let pyodideReady = null;
+let pyodideLoading = false;
+
+function loadPyodideAsync() {
+  if (pyodideReady) return pyodideReady;
+  if (pyodideLoading) return pyodideReady;
+  pyodideLoading = true;
+
+  pyodideReady = new Promise((resolve, reject) => {
+    if (typeof loadPyodide !== 'undefined') {
+      loadPyodide({
+        indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.25.0/full/'
+      }).then(py => {
+        pyodideLoading = false;
+        resolve(py);
+      }).catch(reject);
+    } else {
+      // 动态加载 Pyodide
+      const script = document.createElement('script');
+      script.src = 'https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js';
+      script.onload = () => {
+        loadPyodide({
+          indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.25.0/full/'
+        }).then(py => {
+          pyodideLoading = false;
+          resolve(py);
+        }).catch(reject);
+      };
+      script.onerror = () => {
+        pyodideLoading = false;
+        reject(new Error('Pyodide 加载失败，请检查网络连接'));
+      };
+      document.head.appendChild(script);
+    }
+  });
+  return pyodideReady;
+}
+
+async function runCode(qid) {
+    const editor = document.getElementById('editor_' + qid);
+    const resultDiv = document.getElementById('result_' + qid);
+    const btn = document.getElementById('run_btn_' + qid);
+    const code = editor.innerText;
+    const funcNameInput = document.getElementById('func_name_' + qid);
+    const funcName = funcNameInput ? funcNameInput.value : 'solve';
+    const tcInput = document.getElementById('test_cases_' + qid);
+    const eoInput = document.getElementById('expected_outputs_' + qid);
+    let testCases = [];
+    let expectedOutputs = [];
+    try {
+        testCases = JSON.parse(tcInput.value || '[]');
+        expectedOutputs = JSON.parse(eoInput.value || '[]');
+    } catch(e) {}
+
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span> 运行中...';
+    resultDiv.style.display = 'block';
+    resultDiv.innerHTML = '<span style="color:var(--text-dim)">⏳ 正在加载 Python 运行环境...</span>';
+
+    try {
+        const pyodide = await loadPyodideAsync();
+        resultDiv.innerHTML = '<span style="color:var(--text-dim)">⏳ 正在执行代码...</span>';
+
+        // 确保 run_tests 函数只定义一次
+        if (!window.__runner_ready__) {
+            pyodide.runPython(RUNNER_CODE);
+            window.__runner_ready__ = true;
+        }
+
+        // 调用 run_tests 函数，通过返回值获取结果（不依赖 stdout，每次调用独立）
+        const runTests = pyodide.globals.get('run_tests');
+        const pyResult = runTests(code, funcName, testCases, expectedOutputs);
+        // pyResult 是 Python dict，转为 JS 对象
+        const result = pyResult.toJs({dict_converter: Object.fromEntries});
+
+        let resultHtml = '';
+
+        // 显示用户代码标准输出
+        if (result.stdout && result.stdout.trim()) {
+            resultHtml += '<div style="color:var(--text)">📝 标准输出：</div>';
+            resultHtml += '<pre style="color:var(--text);margin:4px 0;">' + escapeHtml(result.stdout) + '</pre>';
+        }
+
+        // 显示错误信息
+        if (result.error) {
+            resultHtml += '<div class="stderr">⚠️ 错误信息：</div>';
+            resultHtml += '<pre class="stderr" style="margin:4px 0;">' + escapeHtml(result.error) + '</pre>';
+        }
+
+        // 显示测试用例结果
+        if (result.tests && result.tests.length > 0) {
+            let allPassed = result.tests.every(t => t.passed);
+            resultHtml += '<div style="margin-top:8px;color:' + (allPassed ? 'var(--green)' : 'var(--accent)') + '">';
+            resultHtml += allPassed ? '🎉 全部通过！' : '🧪 测试用例结果：';
+            resultHtml += '</div>';
+
+            for (let i = 0; i < result.tests.length; i++) {
+                const t = result.tests[i];
+                if (t.passed) {
+                    resultHtml += '<div class="test-pass">✅ 用例 ' + (i+1) + ' 通过</div>';
+                } else {
+                    resultHtml += '<div class="test-fail">❌ 用例 ' + (i+1) + ' 未通过</div>';
+                    resultHtml += '<pre style="color:var(--text-dim);margin:2px 0;">  输入: ' + escapeHtml(t.input) + '\n  期望: ' + escapeHtml(t.expected) + '\n  实际: ' + escapeHtml(t.actual) + '</pre>';
+                }
+            }
+        }
+
+        if (!resultHtml) {
+            resultHtml = '<span style="color:var(--text-dim)">（代码执行完毕，无输出）</span>';
+        }
+
+        resultDiv.innerHTML = resultHtml;
+
+    } catch(e) {
+        resultDiv.innerHTML = '<div class="stderr">❌ ' + escapeHtml(e.message || String(e)) + '</div>';
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = '▶ 运行';
+    }
+}
+
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+// Ctrl+Enter 运行代码
+document.addEventListener('keydown', (e) => {
+  if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+    const focused = document.activeElement;
+    if (focused && focused.classList.contains('code-editor')) {
+      const qid = focused.id.replace('editor_', '');
+      runCode(qid);
+    }
+  }
+});
+
+// Tab 键在编辑器中插入空格
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Tab' && document.activeElement.classList.contains('code-editor')) {
+    e.preventDefault();
+    document.execCommand('insertText', false, '    ');
+  }
+});
+
+// 将 quiz 数据存入全局变量供选择题使用
+window.__quizData__ = {"date": "2026-09-29", "title": "每日算法 AI 出题", "subtitle": "算法 2 道 + AI 2 道", "questions": [{"id": 1, "type": "algorithm_code", "type_label": "算法编程", "difficulty": 2, "title": "判断二分图", "description": "给定一个无向图（$n$ 个节点，编号 $0 \\sim n-1$，`edges` 为无向边列表），判断该图是否为**二分图**：即能否用两种颜色给所有顶点染色，使得任意一条边的两个端点颜色不同。是则返回 `True`，否则返回 `False`。", "input_format": "函数参数：n（整数，节点数）、edges（二维列表，每项为一条无向边 [u, v]）", "output_format": "返回布尔值 True（是二分图）/ False（不是二分图）", "examples": [{"input": "n=4, edges=[[0,1],[1,2],[2,3],[3,0]]", "output": "True", "explanation": "4 个点构成偶环，可交替染成 0/1 两种颜色。"}, {"input": "n=3, edges=[[0,1],[1,2],[2,0]]", "output": "False", "explanation": "三角形是奇环，无法用两种颜色保证所有边两端异色。"}], "constraints": "$1 \\le n \\le 1000$；$0 \\le |edges| \\le n(n-1)/2$；$0 \\le u, v < n$（测试数据可能包含自环与重边，需自行容错）", "solution": {"approach": "**核心定理：无向图为二分图当且仅当图中不含奇环。**\n\n采用 **BFS 染色法**：用一个 `color` 数组（-1 表示未染色，0/1 表示两种颜色）。\n1. 遍历所有节点，若当前节点未染色，则以它为起点做 BFS，染 0 色；\n2. 扩展时把每个未染色邻居染成与当前节点相反的色（`color ^ 1`）；\n3. 若发现邻居已染色且颜色与当前节点相同，说明存在奇环，直接返回 `False`；\n4. 所有连通分量遍历完均无冲突，返回 `True`。\n\n注意：图可能不连通，必须对每个连通分量分别染色；重边不影响判色，自环（u==v）在扩展时必然触发同色冲突，天然判为非二分图。", "code": "from collections import deque\n\ndef solve(n, edges):\n    # 1. 建邻接表（容忍重边）\n    g = [[] for _ in range(n)]\n    for u, v in edges:\n        g[u].append(v)\n        g[v].append(u)\n\n    color = [-1] * n          # -1 未染色；0/1 两种颜色\n    for start in range(n):    # 遍历所有连通分量\n        if color[start] != -1:\n            continue\n        color[start] = 0\n        q = deque([start])\n        while q:\n            u = q.popleft()\n            for v in g[u]:\n                if color[v] == -1:        # 未染色 -> 染相反色\n                    color[v] = color[u] ^ 1\n                    q.append(v)\n                elif color[v] == color[u]:  # 邻居同色 -> 奇环\n                    return False\n    return True", "starter_code": "def solve(n, edges):\n    # 在此实现：判断无向图是否为二分图\n    pass", "code_language": "python", "complexity_time": "O(n + |E|)", "complexity_space": "O(n + |E|)（邻接表 + color 数组）", "key_points": "二分图判定（染色法）、奇环与二分图的等价关系、BFS 遍历不连通分量、自环与重边容错", "test_cases": [[4, [[0, 1], [1, 2], [2, 3], [3, 0]]], [3, [[0, 1], [1, 2], [2, 0]]], [1, []], [2, [[0, 1]]], [5, []], [6, [[0, 1], [1, 2], [2, 0], [3, 4], [4, 5], [5, 3]]], [6, [[0, 1], [2, 3], [4, 5]]], [5, [[0, 1], [0, 2], [0, 3], [0, 4]]], [3, [[0, 0], [1, 2]]], [4, [[0, 1], [0, 1], [1, 2], [2, 3]]], [4, [[0, 1], [1, 2], [2, 3]]], [3, [[0, 1], [1, 2], [0, 2]]], [1000, [[0, 1], [1, 2], [2, 3], [3, 4], [4, 5], [5, 6], [6, 7], [7, 8], [8, 9], [9, 10], [10, 11], [11, 12], [12, 13], [13, 14], [14, 15], [15, 16], [16, 17], [17, 18], [18, 19], [19, 20], [20, 21], [21, 22], [22, 23], [23, 24], [24, 25], [25, 26], [26, 27], [27, 28], [28, 29], [29, 30], [30, 31], [31, 32], [32, 33], [33, 34], [34, 35], [35, 36], [36, 37], [37, 38], [38, 39], [39, 40], [40, 41], [41, 42], [42, 43], [43, 44], [44, 45], [45, 46], [46, 47], [47, 48], [48, 49], [49, 50], [50, 51], [51, 52], [52, 53], [53, 54], [54, 55], [55, 56], [56, 57], [57, 58], [58, 59], [59, 60], [60, 61], [61, 62], [62, 63], [63, 64], [64, 65], [65, 66], [66, 67], [67, 68], [68, 69], [69, 70], [70, 71], [71, 72], [72, 73], [73, 74], [74, 75], [75, 76], [76, 77], [77, 78], [78, 79], [79, 80], [80, 81], [81, 82], [82, 83], [83, 84], [84, 85], [85, 86], [86, 87], [87, 88], [88, 89], [89, 90], [90, 91], [91, 92], [92, 93], [93, 94], [94, 95], [95, 96], [96, 97], [97, 98], [98, 99], [99, 100], [100, 101], [101, 102], [102, 103], [103, 104], [104, 105], [105, 106], [106, 107], [107, 108], [108, 109], [109, 110], [110, 111], [111, 112], [112, 113], [113, 114], [114, 115], [115, 116], [116, 117], [117, 118], [118, 119], [119, 120], [120, 121], [121, 122], [122, 123], [123, 124], [124, 125], [125, 126], [126, 127], [127, 128], [128, 129], [129, 130], [130, 131], [131, 132], [132, 133], [133, 134], [134, 135], [135, 136], [136, 137], [137, 138], [138, 139], [139, 140], [140, 141], [141, 142], [142, 143], [143, 144], [144, 145], [145, 146], [146, 147], [147, 148], [148, 149], [149, 150], [150, 151], [151, 152], [152, 153], [153, 154], [154, 155], [155, 156], [156, 157], [157, 158], [158, 159], [159, 160], [160, 161], [161, 162], [162, 163], [163, 164], [164, 165], [165, 166], [166, 167], [167, 168], [168, 169], [169, 170], [170, 171], [171, 172], [172, 173], [173, 174], [174, 175], [175, 176], [176, 177], [177, 178], [178, 179], [179, 180], [180, 181], [181, 182], [182, 183], [183, 184], [184, 185], [185, 186], [186, 187], [187, 188], [188, 189], [189, 190], [190, 191], [191, 192], [192, 193], [193, 194], [194, 195], [195, 196], [196, 197], [197, 198], [198, 199], [199, 200], [200, 201], [201, 202], [202, 203], [203, 204], [204, 205], [205, 206], [206, 207], [207, 208], [208, 209], [209, 210], [210, 211], [211, 212], [212, 213], [213, 214], [214, 215], [215, 216], [216, 217], [217, 218], [218, 219], [219, 220], [220, 221], [221, 222], [222, 223], [223, 224], [224, 225], [225, 226], [226, 227], [227, 228], [228, 229], [229, 230], [230, 231], [231, 232], [232, 233], [233, 234], [234, 235], [235, 236], [236, 237], [237, 238], [238, 239], [239, 240], [240, 241], [241, 242], [242, 243], [243, 244], [244, 245], [245, 246], [246, 247], [247, 248], [248, 249], [249, 250], [250, 251], [251, 252], [252, 253], [253, 254], [254, 255], [255, 256], [256, 257], [257, 258], [258, 259], [259, 260], [260, 261], [261, 262], [262, 263], [263, 264], [264, 265], [265, 266], [266, 267], [267, 268], [268, 269], [269, 270], [270, 271], [271, 272], [272, 273], [273, 274], [274, 275], [275, 276], [276, 277], [277, 278], [278, 279], [279, 280], [280, 281], [281, 282], [282, 283], [283, 284], [284, 285], [285, 286], [286, 287], [287, 288], [288, 289], [289, 290], [290, 291], [291, 292], [292, 293], [293, 294], [294, 295], [295, 296], [296, 297], [297, 298], [298, 299], [299, 300], [300, 301], [301, 302], [302, 303], [303, 304], [304, 305], [305, 306], [306, 307], [307, 308], [308, 309], [309, 310], [310, 311], [311, 312], [312, 313], [313, 314], [314, 315], [315, 316], [316, 317], [317, 318], [318, 319], [319, 320], [320, 321], [321, 322], [322, 323], [323, 324], [324, 325], [325, 326], [326, 327], [327, 328], [328, 329], [329, 330], [330, 331], [331, 332], [332, 333], [333, 334], [334, 335], [335, 336], [336, 337], [337, 338], [338, 339], [339, 340], [340, 341], [341, 342], [342, 343], [343, 344], [344, 345], [345, 346], [346, 347], [347, 348], [348, 349], [349, 350], [350, 351], [351, 352], [352, 353], [353, 354], [354, 355], [355, 356], [356, 357], [357, 358], [358, 359], [359, 360], [360, 361], [361, 362], [362, 363], [363, 364], [364, 365], [365, 366], [366, 367], [367, 368], [368, 369], [369, 370], [370, 371], [371, 372], [372, 373], [373, 374], [374, 375], [375, 376], [376, 377], [377, 378], [378, 379], [379, 380], [380, 381], [381, 382], [382, 383], [383, 384], [384, 385], [385, 386], [386, 387], [387, 388], [388, 389], [389, 390], [390, 391], [391, 392], [392, 393], [393, 394], [394, 395], [395, 396], [396, 397], [397, 398], [398, 399], [399, 400], [400, 401], [401, 402], [402, 403], [403, 404], [404, 405], [405, 406], [406, 407], [407, 408], [408, 409], [409, 410], [410, 411], [411, 412], [412, 413], [413, 414], [414, 415], [415, 416], [416, 417], [417, 418], [418, 419], [419, 420], [420, 421], [421, 422], [422, 423], [423, 424], [424, 425], [425, 426], [426, 427], [427, 428], [428, 429], [429, 430], [430, 431], [431, 432], [432, 433], [433, 434], [434, 435], [435, 436], [436, 437], [437, 438], [438, 439], [439, 440], [440, 441], [441, 442], [442, 443], [443, 444], [444, 445], [445, 446], [446, 447], [447, 448], [448, 449], [449, 450], [450, 451], [451, 452], [452, 453], [453, 454], [454, 455], [455, 456], [456, 457], [457, 458], [458, 459], [459, 460], [460, 461], [461, 462], [462, 463], [463, 464], [464, 465], [465, 466], [466, 467], [467, 468], [468, 469], [469, 470], [470, 471], [471, 472], [472, 473], [473, 474], [474, 475], [475, 476], [476, 477], [477, 478], [478, 479], [479, 480], [480, 481], [481, 482], [482, 483], [483, 484], [484, 485], [485, 486], [486, 487], [487, 488], [488, 489], [489, 490], [490, 491], [491, 492], [492, 493], [493, 494], [494, 495], [495, 496], [496, 497], [497, 498], [498, 499], [499, 500], [500, 501], [501, 502], [502, 503], [503, 504], [504, 505], [505, 506], [506, 507], [507, 508], [508, 509], [509, 510], [510, 511], [511, 512], [512, 513], [513, 514], [514, 515], [515, 516], [516, 517], [517, 518], [518, 519], [519, 520], [520, 521], [521, 522], [522, 523], [523, 524], [524, 525], [525, 526], [526, 527], [527, 528], [528, 529], [529, 530], [530, 531], [531, 532], [532, 533], [533, 534], [534, 535], [535, 536], [536, 537], [537, 538], [538, 539], [539, 540], [540, 541], [541, 542], [542, 543], [543, 544], [544, 545], [545, 546], [546, 547], [547, 548], [548, 549], [549, 550], [550, 551], [551, 552], [552, 553], [553, 554], [554, 555], [555, 556], [556, 557], [557, 558], [558, 559], [559, 560], [560, 561], [561, 562], [562, 563], [563, 564], [564, 565], [565, 566], [566, 567], [567, 568], [568, 569], [569, 570], [570, 571], [571, 572], [572, 573], [573, 574], [574, 575], [575, 576], [576, 577], [577, 578], [578, 579], [579, 580], [580, 581], [581, 582], [582, 583], [583, 584], [584, 585], [585, 586], [586, 587], [587, 588], [588, 589], [589, 590], [590, 591], [591, 592], [592, 593], [593, 594], [594, 595], [595, 596], [596, 597], [597, 598], [598, 599], [599, 600], [600, 601], [601, 602], [602, 603], [603, 604], [604, 605], [605, 606], [606, 607], [607, 608], [608, 609], [609, 610], [610, 611], [611, 612], [612, 613], [613, 614], [614, 615], [615, 616], [616, 617], [617, 618], [618, 619], [619, 620], [620, 621], [621, 622], [622, 623], [623, 624], [624, 625], [625, 626], [626, 627], [627, 628], [628, 629], [629, 630], [630, 631], [631, 632], [632, 633], [633, 634], [634, 635], [635, 636], [636, 637], [637, 638], [638, 639], [639, 640], [640, 641], [641, 642], [642, 643], [643, 644], [644, 645], [645, 646], [646, 647], [647, 648], [648, 649], [649, 650], [650, 651], [651, 652], [652, 653], [653, 654], [654, 655], [655, 656], [656, 657], [657, 658], [658, 659], [659, 660], [660, 661], [661, 662], [662, 663], [663, 664], [664, 665], [665, 666], [666, 667], [667, 668], [668, 669], [669, 670], [670, 671], [671, 672], [672, 673], [673, 674], [674, 675], [675, 676], [676, 677], [677, 678], [678, 679], [679, 680], [680, 681], [681, 682], [682, 683], [683, 684], [684, 685], [685, 686], [686, 687], [687, 688], [688, 689], [689, 690], [690, 691], [691, 692], [692, 693], [693, 694], [694, 695], [695, 696], [696, 697], [697, 698], [698, 699], [699, 700], [700, 701], [701, 702], [702, 703], [703, 704], [704, 705], [705, 706], [706, 707], [707, 708], [708, 709], [709, 710], [710, 711], [711, 712], [712, 713], [713, 714], [714, 715], [715, 716], [716, 717], [717, 718], [718, 719], [719, 720], [720, 721], [721, 722], [722, 723], [723, 724], [724, 725], [725, 726], [726, 727], [727, 728], [728, 729], [729, 730], [730, 731], [731, 732], [732, 733], [733, 734], [734, 735], [735, 736], [736, 737], [737, 738], [738, 739], [739, 740], [740, 741], [741, 742], [742, 743], [743, 744], [744, 745], [745, 746], [746, 747], [747, 748], [748, 749], [749, 750], [750, 751], [751, 752], [752, 753], [753, 754], [754, 755], [755, 756], [756, 757], [757, 758], [758, 759], [759, 760], [760, 761], [761, 762], [762, 763], [763, 764], [764, 765], [765, 766], [766, 767], [767, 768], [768, 769], [769, 770], [770, 771], [771, 772], [772, 773], [773, 774], [774, 775], [775, 776], [776, 777], [777, 778], [778, 779], [779, 780], [780, 781], [781, 782], [782, 783], [783, 784], [784, 785], [785, 786], [786, 787], [787, 788], [788, 789], [789, 790], [790, 791], [791, 792], [792, 793], [793, 794], [794, 795], [795, 796], [796, 797], [797, 798], [798, 799], [799, 800], [800, 801], [801, 802], [802, 803], [803, 804], [804, 805], [805, 806], [806, 807], [807, 808], [808, 809], [809, 810], [810, 811], [811, 812], [812, 813], [813, 814], [814, 815], [815, 816], [816, 817], [817, 818], [818, 819], [819, 820], [820, 821], [821, 822], [822, 823], [823, 824], [824, 825], [825, 826], [826, 827], [827, 828], [828, 829], [829, 830], [830, 831], [831, 832], [832, 833], [833, 834], [834, 835], [835, 836], [836, 837], [837, 838], [838, 839], [839, 840], [840, 841], [841, 842], [842, 843], [843, 844], [844, 845], [845, 846], [846, 847], [847, 848], [848, 849], [849, 850], [850, 851], [851, 852], [852, 853], [853, 854], [854, 855], [855, 856], [856, 857], [857, 858], [858, 859], [859, 860], [860, 861], [861, 862], [862, 863], [863, 864], [864, 865], [865, 866], [866, 867], [867, 868], [868, 869], [869, 870], [870, 871], [871, 872], [872, 873], [873, 874], [874, 875], [875, 876], [876, 877], [877, 878], [878, 879], [879, 880], [880, 881], [881, 882], [882, 883], [883, 884], [884, 885], [885, 886], [886, 887], [887, 888], [888, 889], [889, 890], [890, 891], [891, 892], [892, 893], [893, 894], [894, 895], [895, 896], [896, 897], [897, 898], [898, 899], [899, 900], [900, 901], [901, 902], [902, 903], [903, 904], [904, 905], [905, 906], [906, 907], [907, 908], [908, 909], [909, 910], [910, 911], [911, 912], [912, 913], [913, 914], [914, 915], [915, 916], [916, 917], [917, 918], [918, 919], [919, 920], [920, 921], [921, 922], [922, 923], [923, 924], [924, 925], [925, 926], [926, 927], [927, 928], [928, 929], [929, 930], [930, 931], [931, 932], [932, 933], [933, 934], [934, 935], [935, 936], [936, 937], [937, 938], [938, 939], [939, 940], [940, 941], [941, 942], [942, 943], [943, 944], [944, 945], [945, 946], [946, 947], [947, 948], [948, 949], [949, 950], [950, 951], [951, 952], [952, 953], [953, 954], [954, 955], [955, 956], [956, 957], [957, 958], [958, 959], [959, 960], [960, 961], [961, 962], [962, 963], [963, 964], [964, 965], [965, 966], [966, 967], [967, 968], [968, 969], [969, 970], [970, 971], [971, 972], [972, 973], [973, 974], [974, 975], [975, 976], [976, 977], [977, 978], [978, 979], [979, 980], [980, 981], [981, 982], [982, 983], [983, 984], [984, 985], [985, 986], [986, 987], [987, 988], [988, 989], [989, 990], [990, 991], [991, 992], [992, 993], [993, 994], [994, 995], [995, 996], [996, 997], [997, 998], [998, 999]]], [4, [[0, 1], [0, 2], [1, 2]]], [2, [[0, 1], [0, 1]]]], "expected_outputs": [true, false, true, true, true, false, true, true, false, true, true, false, true, false, true]}}, {"id": 2, "type": "algorithm_concept", "type_label": "算法概念", "difficulty": 2, "title": "二分查找：循环边界与区间收缩", "description": "关于在**非降序数组**中查找**第一个大于等于 target 的元素位置**（即 `lower_bound`）的二分实现，下列说法中**错误**的是？", "options": ["采用左闭右闭区间 [lo, hi] 时，循环条件应为 lo <= hi，循环结束后 lo == hi + 1", "使用 `mid = lo + (hi - lo) // 2` 计算中点，可以避免 `lo + hi` 直接相加造成整数溢出", "采用左闭右开区间 [lo, hi) 时，循环条件应为 lo < hi；当 nums[mid] >= target 时执行 hi = mid（保留 mid 作为候选）", "只要找到一个 nums[mid] == target 的位置，就可以直接返回 mid，无需继续搜索更靠前的位置"], "correct_answer": "D", "solution": {"approach": "本题考察二分查找变体（lower_bound）的循环边界与区间收缩规则。逐项核对：A 描述闭区间退出关系正确；B 描述中点防溢出写法正确；C 描述左闭右开区间写法正确；D 的问题在于 lower_bound 要找的是**第一个** ≥ target 的位置，即使 nums[mid] == target，左侧可能还有等于 target 的元素，必须继续向左收缩（hi = mid），不能直接返回。", "option_analysis": ["正确：闭区间 [lo, hi] 在 while lo <= hi 中收缩（nums[mid] < target 时 lo = mid+1，否则 hi = mid-1），退出时必然 lo == hi + 1，且 lo 即为下界位置。", "正确：mid = lo + (hi - lo) // 2 与 (lo + hi) // 2 结果相同，但避免了 lo + hi 溢出（经典面试考点）。", "正确：左闭右开区间 [lo, hi) 的循环条件是 lo < hi；nums[mid] >= target 时 mid 可能是答案，收缩 hi = mid 保留候选；nums[mid] < target 时 lo = mid + 1。退出时 lo 即答案。", "错误：找到 nums[mid] == target 时，**最左侧**可能还有等于 target 的元素（如数组 [1,2,2,2,3] 中 target=2，mid 可能落在中间那个 2），必须继续向左搜索（hi = mid），直到循环结束才能保证返回第一个位置。"], "key_points": "二分查找变体、循环边界条件（闭区间 vs 左闭右开）、循环不变量、lower_bound 的定义与退出时含义"}}, {"id": 3, "type": "ai_derivation", "type_label": "AI公式推导", "difficulty": 2, "title": "Word2Vec Skip-gram：目标函数、参数梯度与负采样", "description": "设词表大小为 $V$，给定中心词 $w_I$（索引 $I$）与上下文词 $w_O$（索引 $O$）。每个词 $w$ 有两个向量：输入向量 $v_w$（作中心词时）与输出向量 $u_w$（作上下文时）。\n\n请完成三步推导：\n1. 写出条件概率 $P(w_O \\mid w_I)$ 的 softmax 形式与单样本对数似然 $L$；\n2. 分别对 $v_{w_I}$ 与 $u_{w_j}$ 求偏导，说明梯度的含义；\n3. 说明全词表 softmax 的计算瓶颈，并给出负采样（Negative Sampling）目标函数 $J$ 对 $v_{w_I}$ 的梯度。", "solution": {"derivation": "### 1. 条件概率与目标函数\n\nSkip-gram 用中心词 $w_I$ 预测上下文词 $w_O$，条件概率用 softmax 归一化：\n\n$$P(w_O \\mid w_I) = \\frac{\\exp(u_{w_O}^{\\top} v_{w_I})}{\\sum_{j=1}^{V} \\exp(u_{w_j}^{\\top} v_{w_I})}$$\n\n单个样本的对数似然（也是负损失）：\n\n$$L = \\log P(w_O \\mid w_I) = u_{w_O}^{\\top} v_{w_I} - \\log\\sum_{j=1}^{V} \\exp(u_{w_j}^{\\top} v_{w_I})$$\n\n（Skip-gram 对整个窗口求多个上下文词对数似然的均值，各样本梯度形式相同，这里推导单样本。）\n\n### 2. 对输入向量 $v_{w_I}$ 求梯度\n记 $s_j = u_{w_j}^{\\top} v_{w_I}$。第一部分求导得 $u_{w_O}$；第二部分用链式法则：\n\n$$\\frac{\\partial}{\\partial v_{w_I}} \\log\\sum_j e^{s_j} = \\frac{1}{\\sum_j e^{s_j}}\\sum_j e^{s_j} \\frac{\\partial s_j}{\\partial v_{w_I}} = \\sum_j \\frac{e^{s_j}}{\\sum_k e^{s_k}} u_{w_j} = \\sum_{j=1}^{V} P(w_j \\mid w_I)\\, u_{w_j}$$\n\n合并两部分：\n\n$$\\boxed{\\frac{\\partial L}{\\partial v_{w_I}} = u_{w_O} - \\sum_{j=1}^{V} P(w_j \\mid w_I)\\, u_{w_j}}$$\n\n含义：正样本（真实上下文）的输出向量 $u_{w_O}$ **拉近**中心词向量，同时把所有词的期望输出向量（权重为条件概率）**推远**。\n\n### 3. 对输出向量 $u_{w_j}$ 的梯度\n\n同样由链式法则（只有 $j$ 项含 $u_{w_j}$）：\n\n$$\\frac{\\partial L}{\\partial u_{w_j}} = \\big(\\mathbb{1}[w_j = w_O] - P(w_j \\mid w_I)\\big)\\, v_{w_I}$$\n\n即正样本：$(1 - P(w_O|w_I))v_{w_I}$；负样本：$-P(w_j|w_I)v_{w_I}$。\n\n### 4. 计算瓶颈与负采样\n\n上式中的 $\\sum_{j=1}^{V}$ 每步更新都要遍历词表（$V$ 可达 $10^5 \\sim 10^6$），计算量为 $O(V \\cdot d)$。\n\n**负采样（Negative Sampling）** 把 $V$ 分类的 softmax 换成 $K+1$ 个二分类：对正样本对 $(w_I, w_O)$ 与 $K$ 个按噪声分布 $P_n(w)$ 采样出的负样本 $w_k$，目标为：\n\n$$J = \\log \\sigma(u_{w_O}^{\\top} v_{w_I}) + \\sum_{k=1}^{K} \\mathbb{E}_{w_k \\sim P_n(w)}\\big[\\log \\sigma(-u_{w_k}^{\\top} v_{w_I})\\big]$$\n\n其中 $\\sigma(x)=1/(1+e^{-x})$，噪声分布常用 $P_n(w) \\propto \\mathrm{cnt}(w)^{3/4}$。\n\n利用 $\\dfrac{d}{dx}\\log\\sigma(x) = 1-\\sigma(x)$、$\\dfrac{d}{dx}\\log\\sigma(-x) = -\\sigma(x)$：\n\n$$\\frac{\\partial J}{\\partial v_{w_I}} = \\big(1 - \\sigma(u_{w_O}^{\\top} v_{w_I})\\big)u_{w_O} - \\sum_{k=1}^{K} \\sigma(u_{w_k}^{\\top} v_{w_I})\\, u_{w_k}$$\n\n同理 $\\partial J/\\partial u_{w_O} = (1-\\sigma(u_O^\\top v))v_{w_I}$，$\\partial J/\\partial u_{w_k} = -\\sigma(u_k^\\top v) v_{w_I}$。\n\n每次更新只涉及 $K+1$ 个词向量（$K$ 通常取 5~20），单步复杂度降至 $O((K+1)d)$，远小于 $O(Vd)$。", "intuition": "Word2Vec 的本质是让中心词向量在嵌入空间中与「真实上下文词」更接近、与「随机采样词」更远，最终学到的向量空间保留了语义与共现相似度（经典结果：vec(king) − vec(man) + vec(woman) ≈ vec(queen)）。", "key_points": "Softmax 归一化与对数似然、输入/输出双向量参数化、链式法则与期望形式梯度、全词表瓶颈 O(Vd)、负采样二分类目标与 O((K+1)d) 复杂度"}}, {"id": 4, "type": "ai_interview", "type_label": "AI面试问答", "difficulty": 2, "title": "Transformer 为什么要位置编码？RoPE 的原理与优势", "description": "面试高频题：自注意力机制本身不含任何顺序信息，为什么 Transformer 必须加位置编码？请说明正弦绝对位置编码与旋转位置编码（RoPE）的原理，并对比两者在表达能力、可外推性与工程实现上的优劣。", "solution": {"answer_points": ["注意力是「位置无关」的：Attention(Q,K,V) = softmax(QK^T/√d)V 只对 token 内容做加权求和，打乱输入顺序，输出同样顺序置换。模型无法区分「我爱学习」与「学习爱我」，因此必须把顺序信息显式注入输入。", "正弦绝对位置编码：位置 m 被编码为固定三角函数 $PE_{m,2i}=\\sin(m/10000^{2i/d})$、$PE_{m,2i+1}=\\cos(m/10000^{2i/d})$ 加到词向量上。优点：无需训练、理论上可外推到任意长度；缺点：位置信息叠加进内容向量后经 QK^T 混合，模型需自行学习如何「解耦」使用位置。", "RoPE 原理：对 query 与 key 按位置施加二维旋转矩阵 $R_m$（复数域等价为乘以 $e^{im\\theta}$），即 $q_m = R_m q$、$k_n = R_n k$。旋转矩阵满足 $R_m^{\\top} R_n = R_{n-m}$（正交性），于是\n$$(R_m q)^{\\top}(R_n k) = q^{\\top} R_{n-m}\\, k$$\n注意乘积只依赖相对位置 $n-m$，与绝对位置无关。", "RoPE 优势：1) 显式把「相对位置」编码进注意力分数，语义与位置天然分离；2) 旋转正交不改变向量范数，数值稳定；3) 无需学习位置矩阵、无额外参数，推理时用复数乘法快速实现；4) 对长度外推更友好（位置由连续角度参数化，未训练长度也有定义）。", "工程实现：按维度分块，每两个维度一组做 2×2 旋转（维度频率 θ_i = 10000^{−2i/d}，即不同维度旋转速度不同，低频长距离、高频短距离），实际计算为：旋转后的 $x = (x_0\\cos\\theta - x_1\\sin\\theta, x_0\\sin\\theta + x_1\\cos\\theta, \\dots)$。主流大模型（LLaMA、Qwen、GLM）均采用 RoPE。"], "bonus": ["与相对位置编码对比：T5/ALiBi 直接把相对位置偏置加进注意力分数（显式位置偏置表），RoPE 则把相对位置「隐式」编码进 Q·K 内积，无需存储位置偏置表，训练更干净。", "长度外推优化：RoPE 超出训练长度后，常用位置插值（PI）、NTK-aware 缩放、YaRN 等方法扩展上下文，效果优于绝对位置编码，这是 LLM 长上下文工程的核心话题。", "绝对位置（learned/sinusoidal）在超过训练长度时要么无定义（未学到）要么退化，RoPE 相位连续的特性使外推成为可能。"], "followup_predictions": ["追问1：为什么 RoPE 的内积只依赖相对位置？—— 因为旋转矩阵是正交的，$R_m^\\top R_n = R_{n-m}$，代入内积即得 $q^\\top R_{n-m} k$，与 m、n 的绝对值无关，只差 n−m。", "追问2：RoPE 如何处理超过训练窗口的长序列？—— 思路：频率缩放/插值（把旋转频率降到更慢，让新位置落在已见相位范围内），或 NTK-aware 外推等，都是工业界主流做法。", "追问3：绝对位置编码为什么外推能力差？—— learned 位置在训练长度外无 embedding；sinusoidal 虽可生成任意位置向量，但模型训练时从未见过这些位置相位，点积分布与训练分布偏移，性能衰减。"]}}]};
+</script>
+</body>
+</html>
