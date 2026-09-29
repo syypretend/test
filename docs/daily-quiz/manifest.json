@@ -1,5 +1,42 @@
 [
   {
+    "date": "2026-09-29",
+    "filename": "quiz-2026-09-29.html",
+    "url": "https://syypretend.github.io/test/daily-quiz/quiz-2026-09-29.html",
+    "title": "每日算法 AI 出题",
+    "subtitle": "算法 2 道 + AI 2 道",
+    "questions": [
+      {
+        "id": 1,
+        "type": "algorithm_code",
+        "type_label": "算法编程",
+        "title": "判断二分图",
+        "difficulty": 2
+      },
+      {
+        "id": 2,
+        "type": "algorithm_concept",
+        "type_label": "算法概念",
+        "title": "二分查找：循环边界与区间收缩",
+        "difficulty": 2
+      },
+      {
+        "id": 3,
+        "type": "ai_derivation",
+        "type_label": "AI公式推导",
+        "title": "Word2Vec Skip-gram：目标函数、参数梯度与负采样",
+        "difficulty": 2
+      },
+      {
+        "id": 4,
+        "type": "ai_interview",
+        "type_label": "AI面试问答",
+        "title": "Transformer 为什么要位置编码？RoPE 的原理与优势",
+        "difficulty": 2
+      }
+    ]
+  },
+  {
     "date": "2026-09-28",
     "filename": "quiz-2026-09-28.html",
     "url": "https://syypretend.github.io/test/daily-quiz/quiz-2026-09-28.html",
