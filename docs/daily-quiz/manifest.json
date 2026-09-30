@@ -1,5 +1,42 @@
 [
   {
+    "date": "2026-09-30",
+    "filename": "quiz-2026-09-30.html",
+    "url": "https://syypretend.github.io/test/daily-quiz/quiz-2026-09-30.html",
+    "title": "每日算法 AI 出题",
+    "subtitle": "算法 2 道 + AI 2 道",
+    "questions": [
+      {
+        "id": 1,
+        "type": "algorithm_code",
+        "type_label": "算法编程",
+        "title": "数组中的逆序对（归并排序 · 分治）",
+        "difficulty": 2
+      },
+      {
+        "id": 2,
+        "type": "algorithm_concept",
+        "type_label": "算法概念",
+        "title": "动态规划与贪心、分治的辨析",
+        "difficulty": 1
+      },
+      {
+        "id": 3,
+        "type": "ai_derivation",
+        "type_label": "AI公式推导",
+        "title": "SVM 对偶问题完整推导",
+        "difficulty": 3
+      },
+      {
+        "id": 4,
+        "type": "ai_interview",
+        "type_label": "AI面试问答",
+        "title": "Dropout 的原理、训练/推理差异与使用注意事项",
+        "difficulty": 2
+      }
+    ]
+  },
+  {
     "date": "2026-09-29",
     "filename": "quiz-2026-09-29.html",
     "url": "https://syypretend.github.io/test/daily-quiz/quiz-2026-09-29.html",
