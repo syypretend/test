@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>每日算法讲解 · 2026年10月08日</title>
+<!-- MathJax for LaTeX math formula rendering -->
+<script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\(', '\)']],
+      displayMath: [['$$', '$$'], ['\[', '\]']],
+      processEscapes: true
+    },
+    svg: { fontCache: 'global' }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" id="MathJax-script" async></script>
+<style>
+:root {
+  --primary: #6366f1;
+  --primary-dark: #4f46e5;
+  --bg: #0f172a;
+  --card-bg: #1e293b;
+  --text: #e2e8f0;
+  --text-dim: #94a3b8;
+  --accent: #818cf8;
+  --border: #334155;
+  --code-bg: #0d1117;
+  --code-text: #e6edf3;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans SC", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.8;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+.container { max-width: 1400px; margin: 0 auto; padding: 24px 32px; }
+.header {
+  text-align: center;
+  padding: 40px 0 30px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 32px;
+}
+.header h1 {
+  font-size: 28px;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.header h1 .date { color: var(--accent); }
+.header .subtitle { color: var(--text-dim); font-size: 15px; }
+.repo-link {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 6px 16px;
+  background: var(--primary);
+  color: #fff;
+  border-radius: 20px;
+  text-decoration: none;
+  font-size: 13px;
+  transition: background 0.2s;
+}
+.repo-link:hover { background: var(--primary-dark); }
+.history-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 32px;
+  padding: 16px;
+  background: var(--card-bg);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+.history-nav a {
+  padding: 4px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  color: var(--text-dim);
+  text-decoration: none;
+  background: rgba(99,102,241,0.08);
+  transition: all 0.2s;
+}
+.history-nav a:hover { color: var(--text); background: rgba(99,102,241,0.2); }
+.history-nav a.active { color: #fff; background: var(--primary); }
+.history-nav a.back-index { color: var(--accent); font-weight: 600; background: rgba(99,102,241,0.15); border: 1px solid rgba(99,102,241,0.3); }
+.history-nav a.back-index:hover { color: #fff; background: var(--primary); border-color: var(--primary); }
+.content { margin-bottom: 40px; max-width: 1100px; }
+.content h2 {
+  font-size: 24px;
+  color: var(--accent);
+  margin: 40px 0 16px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--primary);
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+.content h2:first-child { border-top: none; padding-top: 0; }
+.content h3 {
+  font-size: 18px;
+  color: var(--text);
+  margin: 24px 0 12px;
+}
+.content h4 {
+  font-size: 16px;
+  color: var(--accent);
+  margin: 20px 0 10px;
+}
+.content p { margin-bottom: 12px; color: var(--text); }
+.content ul { margin: 8px 0 16px 20px; }
+.content li { margin-bottom: 6px; }
+.content strong { color: var(--accent); }
+.content blockquote {
+  border-left: 4px solid var(--primary);
+  padding: 12px 16px;
+  margin: 16px 0;
+  background: rgba(99,102,241,0.08);
+  border-radius: 0 8px 8px 0;
+}
+.content blockquote p { color: var(--text-dim); margin: 4px 0; }
+.content hr {
+  border: none;
+  height: 1px;
+  background: var(--border);
+  margin: 32px 0;
+}
+.code-block {
+  background: var(--code-bg);
+  border-radius: 10px;
+  padding: 18px 24px;
+  overflow-x: auto;
+  margin: 16px 0;
+  border: 1px solid var(--border);
+  max-width: 100%;
+}
+.code-block code {
+  font-family: "JetBrains Mono", "Fira Code", "Consolas", monospace;
+  font-size: 14px;
+  color: var(--code-text);
+  line-height: 1.6;
+  white-space: pre;
+}
+.inline-code {
+  background: rgba(99,102,241,0.15);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: "Consolas", monospace;
+  font-size: 0.9em;
+  color: var(--accent);
+}
+/* Math formula block */
+.content .math-block {
+  background: rgba(99,102,241,0.06);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 24px;
+  margin: 16px 0;
+  overflow-x: auto;
+  max-width: 100%;
+}
+.content .math-label {
+  font-size: 13px; color: var(--text-dim); margin-bottom: 6px; }
+.content .math-vars {
+  margin: 8px 0 16px 20px; }
+.content .math-vars li { margin-bottom: 4px; color: var(--text-dim); }
+.footer {
+  text-align: center;
+  padding: 24px 0;
+  border-top: 1px solid var(--border);
+  color: var(--text-dim);
+  font-size: 13px;
+}
+.tag {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  background: rgba(99,102,241,0.15);
+  color: var(--accent);
+  margin-left: 8px;
+}
+.content .ref-link {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px dashed rgba(99,102,241,0.4);
+  transition: all 0.2s;
+  word-break: break-all;
+}
+.content .ref-link:hover {
+  color: #fff;
+  border-bottom-color: var(--primary);
+}
+.content li {
+  word-break: break-all;
+}
+/* Table */
+.table-wrapper {
+  overflow-x: auto;
+  margin: 16px 0;
+  max-width: 100%;
+}
+.algo-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  background: var(--card-bg);
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+.algo-table thead {
+  background: rgba(99,102,241,0.15);
+}
+.algo-table th {
+  padding: 10px 16px;
+  text-align: left;
+  color: var(--accent);
+  font-weight: 600;
+  border-bottom: 2px solid var(--primary);
+  white-space: nowrap;
+}
+.algo-table td {
+  padding: 8px 16px;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  word-break: break-all;
+}
+.algo-table tr:last-child td {
+  border-bottom: none;
+}
+.algo-table tr:hover td {
+  background: rgba(99,102,241,0.06);
+}
+/* Algorithm architecture image */
+.algo-image {
+  margin: 20px 0;
+  text-align: center;
+}
+.algo-image img {
+  max-width: 100%;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+.algo-image .image-caption {
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--text-dim);
+}
+.algo-image svg {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+/* ======== 移动端响应式适配 ======== */
+@media (max-width: 768px) {
+  .container { max-width: 100%; padding: 16px 14px; }
+  .header { padding: 24px 0 20px; margin-bottom: 20px; }
+  .header h1 { font-size: 20px; margin-bottom: 4px; }
+  .header .subtitle { font-size: 13px; }
+  .repo-link { margin-top: 10px; padding: 5px 14px; font-size: 12px; }
+  .history-nav { gap: 6px; padding: 10px 12px; margin-bottom: 20px; }
+  .history-nav a { padding: 3px 10px; font-size: 12px; }
+  .content { max-width: 100%; margin-bottom: 28px; }
+  .content h2 { font-size: 20px; margin: 28px 0 12px; }
+  .content h3 { font-size: 17px; margin: 20px 0 10px; }
+  .content h4 { font-size: 15px; margin: 16px 0 8px; }
+  .content p { font-size: 14px; margin-bottom: 10px; }
+  .content ul { margin: 6px 0 12px 16px; }
+  .content li { font-size: 14px; margin-bottom: 5px; }
+  .content blockquote { padding: 10px 12px; margin: 12px 0; }
+  .content blockquote p { font-size: 13px; }
+  .content .math-block { padding: 10px 14px; margin: 12px 0; }
+  .code-block { padding: 12px 14px; margin: 12px 0; }
+  .code-block code { font-size: 12px; line-height: 1.5; }
+  .inline-code { font-size: 0.88em; padding: 1px 5px; }
+  .algo-table { font-size: 12px; }
+  .algo-table th { padding: 6px 10px; }
+  .algo-table td { padding: 6px 10px; }
+  .algo-image { margin: 14px 0; }
+  .algo-image svg { max-width: 100%; height: auto; }
+  .footer { padding: 18px 0; font-size: 12px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>每日算法讲解 · <span class="date">2026年10月08日</span></h1>
+    <p class="subtitle">每天 1 个基础算法 + 2 个 AI/机器学习算法，持续精进</p>
+    <a href="https://syypretend.github.io/test/daily-algorithm" target="_blank" class="repo-link">GitHub 仓库</a>
+  </div>
+  <div class="history-nav"><a href="index.html" class="back-index">← 历史索引</a>
+<a href="2026-10-08.html" class="active">10月08日</a>
+<a href="2026-09-30.html">09月30日</a>
+<a href="2026-09-29.html">09月29日</a>
+<a href="2026-09-28.html">09月28日</a>
+<a href="2026-09-24.html">09月24日</a>
+<a href="2026-09-17.html">09月17日</a>
+<a href="2026-09-15.html">09月15日</a>
+<a href="2026-09-14.html">09月14日</a>
+<a href="2026-09-11.html">09月11日</a>
+<a href="2026-09-10.html">09月10日</a>
+<a href="2026-09-09.html">09月09日</a>
+<a href="2026-09-08.html">09月08日</a>
+<a href="2026-09-07.html">09月07日</a>
+</div>
+  <div class="content">
+  <h2>每日算法讲解 · 2026-10-08</h2>
+
+<blockquote>
+<p>今日内容：1 个基础算法 + 2 个 AI/机器学习算法 | 逐参数详解</p>
+</blockquote>
+
+<hr>
+
+<h3>动态规划：最长递增子序列（LIS）</h3>
+
+<p><strong>类别</strong>：动态规划 | <strong>难度</strong>：中等</p>
+
+<h4>算法简介</h4>
+
+<p>最长递增子序列（Longest Increasing Subsequence，LIS）是动态规划领域最经典的入门问题之一：给定一个长度为 $ n $ 的数组 <code class="inline-code">nums</code>，找出其中<strong>不要求连续</strong>、但保持原相对顺序、且元素严格递增的子序列的最长长度。例如 <code class="inline-code">[10,9,2,5,3,7,101,18]</code> 的 LIS 长度为 4，其中一个解为 <code class="inline-code">[2,3,7,101]</code>。注意两点：①「子序列」与「子数组」不同，子序列允许跳过任意元素；②「严格递增」要求后一个元素必须<strong>大于</strong>前一个（若允许相等则是「最长不递减子序列」）。</p>
+
+<p>求解有两种经典思路：<strong>动态规划 $ O(n^2) $</strong>（定义 <code class="inline-code">dp[i]</code> 为以第 $ i $ 个元素结尾的 LIS 长度，逐个向前扫描转移），以及<strong>贪心 + 二分 $ O(n \log n) $</strong>（维护 <code class="inline-code">tails</code> 数组，<code class="inline-code">tails[k]</code> 表示长度为 $ k+1 $ 的递增子序列的<strong>最小可能末尾元素</strong>，配合 <code class="inline-code">bisect_left</code> 二分定位替换位置）。后者基于「纸牌游戏 Patience Sorting」的直觉：末尾元素越小，越有利于后续元素接上去形成更长的序列。面试中两者都必须掌握：前者体现 DP 建模能力，后者体现贪心 + 二分优化思维。</p>
+
+<h4>原理示意图</h4>
+
+<p><div class="algo-image"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 900 420" font-family="sans-serif">
+  <!-- 深色背景 -->
+  <rect width="900" height="420" fill="#1e293b" rx="12"/>
+  <!-- 标题 -->
+  <text x="450" y="30" text-anchor="middle" fill="#818cf8" font-size="15" font-weight="600">LIS 贪心+二分：tails 数组演变过程（nums = [3, 1, 5, 2, 4]）</text>
+  <!-- 输入数组 -->
+  <text x="60" y="62" fill="#94a3b8" font-size="13">输入 nums：</text>
+  <rect x="160" y="48" width="52" height="34" rx="6" fill="#334155" stroke="#f97316"/>
+  <text x="186" y="70" text-anchor="middle" fill="#e2e8f0" font-size="14">3</text>
+  <rect x="222" y="48" width="52" height="34" rx="6" fill="#334155" stroke="#f97316"/>
+  <text x="248" y="70" text-anchor="middle" fill="#e2e8f0" font-size="14">1</text>
+  <rect x="284" y="48" width="52" height="34" rx="6" fill="#334155" stroke="#f97316"/>
+  <text x="310" y="70" text-anchor="middle" fill="#e2e8f0" font-size="14">4</text>
+  <rect x="346" y="48" width="52" height="34" rx="6" fill="#334155" stroke="#f97316"/>
+  <text x="372" y="70" text-anchor="middle" fill="#e2e8f0" font-size="14">1</text>
+  <rect x="408" y="48" width="52" height="34" rx="6" fill="#334155" stroke="#f97316"/>
+  <text x="434" y="70" text-anchor="middle" fill="#e2e8f0" font-size="14">4</text>
+  <!-- 步骤说明 -->
+  <text x="30" y="130" fill="#94a3b8" font-size="12">规则：tails 保持严格递增；bisect_left 找第一个 &gt;= x 的位置，替换之；否则 append。</text>
+  <!-- tails 演变 5 行 -->
+  <text x="30" y="165" fill="#e2e8f0" font-size="12">处理 3：</text>
+  <rect x="130" y="150" width="52" height="30" rx="6" fill="#334155" stroke="#22c55e"/>
+  <text x="156" y="169" text-anchor="middle" fill="#22c55e" font-size="13">3</text>
+  <text x="620" y="169" fill="#94a3b8" font-size="11">tails=[3]（空表，直接追加）</text>
+  <text x="30" y="205" fill="#e2e8f0" font-size="12">处理 1：</text>
+  <rect x="60" y="198" width="52" height="30" rx="6" fill="#334155" stroke="#f97316"/>
+  <text x="86" y="217" text-anchor="middle" fill="#f97316" font-size="13">1</text>
+  <text x="130" y="205" fill="#94a3b8" font-size="11">1&lt;3，替换位置 0（末尾更小更优）</text>
+  <text x="30" y="245" fill="#e2e8f0" font-size="12">处理 4：</text>
+  <rect x="60" y="238" width="52" height="30" rx="6" fill="#334155" stroke="#22c55e"/>
+  <text x="78" y="257" text-anchor="middle" fill="#e2e8f0" font-size="13">1</text>
+  <rect x="122" y="238" width="52" height="30" rx="6" fill="#334155" stroke="#22c55e"/>
+  <text x="148" y="257" text-anchor="middle" fill="#22c55e" font-size="13">4</text>
+  <text x="192" y="245" fill="#94a3b8" font-size="11">4&gt;1，追加 → tails=[1,4]（长度 2）</text>
+  <text x="30" y="285" fill="#e2e8f0" font-size="12">处理 1：</text>
+  <rect x="60" y="278" width="52" height="30" rx="6" fill="#334155" stroke="#f97316"/>
+  <text x="78" y="297" text-anchor="middle" fill="#f97316" font-size="13">1</text>
+  <rect x="122" y="278" width="52" height="30" rx="6" fill="#334155"/>
+  <text x="148" y="297" text-anchor="middle" fill="#64748b" font-size="13">4</text>
+  <text x="192" y="285" fill="#94a3b8" font-size="11">bisect_left 找到第 0 位（&gt;=1），替换 → tails=[1,4]</text>
+  <text x="30" y="325" fill="#e2e8f0" font-size="12">处理 4：</text>
+  <rect x="60" y="318" width="52" height="30" rx="6" fill="#334155" stroke="#22c55e"/>
+  <text x="78" y="337" text-anchor="middle" fill="#e2e8f0" font-size="13">1</text>
+  <rect x="122" y="318" width="52" height="30" rx="6" fill="#334155" stroke="#22c55e"/>
+  <text x="148" y="337" text-anchor="middle" fill="#e2e8f0" font-size="13">4</text>
+  <rect x="184" y="318" width="52" height="30" rx="6" fill="#334155" stroke="#22c55e"/>
+  <text x="210" y="337" text-anchor="middle" fill="#22c55e" font-size="13">4</text>
+  <text x="254" y="325" fill="#94a3b8" font-size="11">4&gt;结尾追加 → tails=[1,4,4]（长度 3）</text>
+  <!-- 结论 -->
+  <rect x="30" y="360" width="840" height="44" rx="8" fill="#0f172a" stroke="#6366f1"/>
+  <text x="450" y="380" text-anchor="middle" fill="#818cf8" font-size="13" font-weight="600">结果：LIS 长度 = len(tails) = 3（如 [1,4,4] 或 [1,4,4] 等，只保证长度，不保证具体序列）</text>
+  <text x="450" y="398" text-anchor="middle" fill="#94a3b8" font-size="11">注：tails 数组只保证「长度正确」，若需还原具体序列需额外记录 predecessors</text>
+</svg></div></p>
+
+<h4>数学公式</h4>
+
+<p><strong>① DP 状态转移方程（$ O(n^2) $ 版）</strong></p>
+
+<p><div class="math-block">$$ dp[i] = \max\left(1,\ \max_{\substack{0 \le j < i \\ nums[j] < nums[i]}} (dp[j] + 1)\right) $$</div></p>
+
+<ul>
+<li>$ n $：数组长度</li>
+<li>$ nums[i] $：数组中第 $ i $ 个元素（下标从 0 起）</li>
+<li>$ dp[i] $：以第 $ i $ 个元素<strong>结尾</strong>的最长递增子序列长度</li>
+<li>$ j $：枚举的 $ i $ 之前的下标，要求 $ nums[j] < nums[i] $ 才能接续</li>
+<li>$ dp[j] + 1 $：在「以 $ j $ 结尾的 LIS」末尾接上 $ nums[i] $ 后的新长度</li>
+<li>外层 $ \max $：至少为 1（单个元素本身即长度为 1 的递增子序列）</li>
+<li>最终答案：$ LIS = \max_{0 \le i < n} dp[i] $（不一定以最后一个元素结尾）</li>
+</ul>
+
+<p><strong>② 贪心 + 二分的不变量（$ O(n \log n) $）</strong></p>
+
+<p><div class="math-block">$$ tails[k] = \min\{\ \text{长度为 } k+1 \text{ 的递增子序列的最小末尾元素}\ \} $$</div></p>
+
+<ul>
+<li>$ k $：子序列长度减一（0 起始），$ len(tails) $ 即当前已知最大 LIS 长度</li>
+<li>处理元素 $ x $ 时：<code class="inline-code">pos = bisect_left(tails, x)</code>——第一个满足 $ \ge x $ 的位置</li>
+<li>若 <code class="inline-code">pos == len(tails)</code>：说明 $ x $ 大于所有末尾元素，追加形成更长序列；</li>
+<li>否则：<code class="inline-code">tails[pos] = x</code>，把「长度为 pos+1 的序列的最小末尾」更新为更小的 $ x $，为未来接续留出更大空间</li>
+<li>该数组天然严格递增，这是二分查找可行的前提</li>
+</ul>
+
+<p><strong>③ 复杂度推导</strong></p>
+
+<ul>
+<li>DP 法：外层 $ n $ 个元素，每个内层扫描至多 $ n $ 次 → 时间 $ O(n^2) $；仅需一维 <code class="inline-code">dp</code> 数组 → 空间 $ O(n) $</li>
+<li>贪心二分法：$ n $ 个元素，每次 <code class="inline-code">bisect_left</code> 在长度至多 $ n $ 的数组上二分 $ O(\log n) $ → 时间 $ O(n \log n) $；空间 $ O(n) $</li>
+</ul>
+
+<h4>核心要点</h4>
+
+<ul>
+<li>严格递增（<code class="inline-code">></code>）用 <code class="inline-code">bisect_left</code>；若题目允许相等（非降序）则改用 <code class="inline-code">bisect_right</code>，否则相等元素会因「替换自己」而丢失候选序列</li>
+<li><code class="inline-code">tails</code> 数组<strong>不直接等于</strong>一个合法 LIS，它只维护「各长度的最小末尾」，用于贪心 + 二分加速长度计算</li>
+<li>若需输出具体子序列，须额外记录每个元素被插入 tails 的位置（pos），再逆序遍历还原</li>
+<li>$ O(n^2) $ DP 天然可得到具体序列（记录转移前驱）；$ O(n \log n) $ 版本还原序列稍复杂，两者面试都要会</li>
+<li><code class="inline-code">nums</code> 为空时 LIS 长度为 0，这是边界测试点</li>
+</ul>
+
+<h4>技术细节与参数详解</h4>
+
+<blockquote>
+<p>LIS 是纯算法问题，无外部 API 参数，但「贪心+二分」实现中的每个环节都相当于一个可调参数，面试与工程中必须精确掌握其语义。</p>
+</blockquote>
+
+<p>#### 参数 1：<code class="inline-code">tails</code> 数组（核心数据结构）</p>
+<ul>
+<li><strong>含义</strong>：<code class="inline-code">tails[k]</code> 记录长度为 $ k+1 $ 的递增子序列的<strong>最小可能末尾值</strong></li>
+<li><strong>类型</strong>：列表 <code class="inline-code">list[int]</code>，与 <code class="inline-code">nums</code> 元素同型</li>
+<li><strong>默认值</strong>：初始为空列表</li>
+<li><strong>取值范围</strong>：长度 0 ~ $ n $；内部元素在迭代中不断被替换为更小值</li>
+<li><strong>对结果的影响</strong>：它<strong>不直接等于 LIS</strong>，只影响二分查找的落点与最终长度；<code class="inline-code">tails</code> 的最终长度即答案</li>
+<li><strong>推荐设置</strong>：无外部配置，理解其「尾部越小越优」的贪心思想即可</li>
+</ul>
+
+<p>#### 参数 2：二分定位函数（<code class="inline-code">bisect_left</code> vs <code class="inline-code">bisect_right</code>）</p>
+<ul>
+<li><strong>含义</strong>：确定元素 $ x $ 在 <code class="inline-code">tails</code> 中的插入/替换位置</li>
+<li><strong>类型</strong>：<code class="inline-code">bisect</code> 模块函数（Python）</li>
+<li><strong>默认值</strong>：<code class="inline-code">bisect_left</code>（找第一个 $ \ge x $ 的位置）</li>
+<li><strong>取值范围</strong>：<code class="inline-code">bisect_left</code> ∈ $ [0, \text{len}(tails)] $；<code class="inline-code">bisect_right</code> 找第一个 $ > x $ 的位置</li>
+<li><strong>对结果的影响</strong>：这是「严格递增」与「非递减」的分水岭——严格递增用 <code class="inline-code">bisect_left</code>，允许相等（如最长不递减子序列）用 <code class="inline-code">bisect_right</code>。用错会导致相等元素被错误替换、长度统计失真</li>
+<li><strong>推荐设置</strong>：先确定题目是否严格递增，再选择对应函数</li>
+</ul>
+
+<p>#### 参数 3：比较规则（严格递增 <code class="inline-code">></code> vs 非递减 <code class="inline-code">>=</code>）</p>
+<ul>
+<li><strong>含义</strong>：接续条件「$ nums[j] < nums[i] $」还是「$ nums[j] \le nums[i] $」</li>
+<li><strong>类型</strong>：布尔语义</li>
+<li><strong>默认值</strong>：LeetCode 300 默认严格递增（<code class="inline-code">></code>）</li>
+<li><strong>取值范围</strong>：仅两种</li>
+<li><strong>对结果的影响</strong>：<code class="inline-code">[1,1,1]</code> 严格递增答案为 1，非递减答案为 3；判定规则直接影响转移条件与二分方向</li>
+<li><strong>推荐设置</strong>：与 <code class="inline-code">bisect_left/right</code> 配对使用，严格递增 ⟷ <code class="inline-code">bisect_left</code></li>
+</ul>
+
+<p>#### 参数 4：DP 转移实现（<code class="inline-code">dp</code> 数组初始化与双循环）</p>
+<ul>
+<li><strong>含义</strong>：DP 版的状态表</li>
+<li><strong>类型</strong>：<code class="inline-code">list[int]</code></li>
+<li><strong>默认值</strong>：<code class="inline-code">dp = [1] * n</code>（每个元素自成长度 1）</li>
+<li><strong>取值范围</strong>：$ dp[i] \in [1, i+1] $</li>
+<li><strong>对结果的影响</strong>：初值必须全为 1 而非 0，否则单元素序列被漏算；内层 $ j $ 从 0 到 $ i $ 全扫保证不漏最优前驱</li>
+<li><strong>推荐设置</strong>：无，纯实现细节；面试先写 DP 保正确，再写二分版展示优化能力</li>
+</ul>
+
+<p>#### 参数 5：<code class="inline-code">predecessor</code> 还原数组（需要输出具体序列时）</p>
+<ul>
+<li><strong>含义</strong>：记录每个下标的最优前驱下标</li>
+<li><strong>类型</strong>：<code class="inline-code">list[int]</code>，值为 -1 表示无前驱</li>
+<li><strong>默认值</strong>：全 -1</li>
+<li><strong>取值范围</strong>：$ -1 $ 或合法下标</li>
+<li><strong>对结果的影响</strong>：不记录则只能得到长度；记录后可从尾部回溯得到完整序列（注意结果不唯一，任取其一）</li>
+<li><strong>推荐设置</strong>：需要输出序列时开启；仅求长度可省</li>
+</ul>
+
+<h4>代码示例</h4>
+
+<p><pre class="code-block"><code class="language-python"># -*- coding: utf-8 -*-
+&quot;&quot;&quot;最长递增子序列 LIS：O(n^2) DP 与 O(n log n) 贪心+二分 双解法 + 边界测试&quot;&quot;&quot;
+from bisect import bisect_left, bisect_right  # 二分查找库：bisect_left 用于严格递增
+
+def lis_dp(nums):
+    &quot;&quot;&quot;动态规划解法，时间复杂度 O(n^2)，空间 O(n)&quot;&quot;&quot;
+    n = len(nums)                 # 数组长度
+    if n == 0:                    # 空数组直接返回 0（边界）
+        return 0
+    dp = [1] * n                  # dp[i] 初始化为 1：单个元素自成子序列
+    ans = 1                       # 答案至少为 1
+    for i in range(n):            # 遍历每个结尾位置 i
+        for j in range(i):        # 枚举 i 之前的所有下标 j
+            if nums[j] &lt; nums[i]: # 只有更小的前驱才能接续成递增序列
+                # 状态转移：取「以 j 结尾的长度+1」与当前值的较大者
+                dp[i] = max(dp[i], dp[j] + 1)
+        ans = max(ans, dp[i])      # 实时更新全局最大长度
+    return ans                     # 返回 LIS 长度
+
+def lis_nlogn(nums, strict=True):
+    &quot;&quot;&quot;贪心+二分解法，时间复杂度 O(n log n)，空间 O(n)
+    strict=True 严格递增（bisect_left）；False 允许相等（bisect_right）&quot;&quot;&quot;
+    tails = []                     # tails[k] 存长度为 k+1 的递增子序列最小末尾值
+    fn = bisect_left if strict else bisect_right  # 按严格性选择二分函数
+    for x in nums:                  # 逐个处理数组元素
+        pos = fn(tails, x)          # 找第一个满足条件的位置（二分 O(log n)）
+        if pos == len(tails):       # 若 x 大于所有末尾：追加，序列长度 +1
+            tails.append(x)
+        else:                       # 否则：用更小的 x 替换该长度下的末尾值
+            tails[pos] = x          # 尾部越小，未来可接的元素越多（贪心）
+    return len(tails)               # tails 的长度即 LIS 长度
+
+if __name__ == &quot;__main__&quot;:
+    tests = [
+        ([10, 9, 2, 5, 3, 7, 101, 18], 4),  # 经典用例：LIS=[2,3,7,101]
+        ([3, 1, 4, 1, 4], 3),                  # 含重复值：严格递增答案为 3
+        ([], 0),                               # 空数组：答案为 0
+        ([5], 1),                              # 单元素：答案为 1
+        ([5, 4, 3, 2, 1], 1),                  # 严格递减：答案为 1
+        ([1, 2, 3, 4, 5], 5),                  # 全递增：答案为 n
+        ([1, 1, 1], 1),                        # 全相等（严格）：答案为 1
+    ]
+    for arr, expect in tests:              # 逐组验证边界与无解情况
+        r1, r2 = lis_dp(arr), lis_nlogn(arr)
+        # 断言：两种解法输出一致，且等于期望值
+        assert r1 == r2 == expect, f&quot;{arr}: dp={r1} nlogn={r2} expect={expect}&quot;
+    print(&quot;全部 7 组测试用例通过：DP 与贪心+二分结果一致且正确&quot;)</code></pre></p>
+
+<h4>复杂度分析</h4>
+
+<ul>
+<li><strong>时间</strong>：DP 版双层循环 $ \sum_{i=0}^{n-1} i = \frac{n(n-1)}{2} = O(n^2) $；贪心+二分版 $ n $ 次二分、每次 $ O(\log n) $，总 $ O(n \log n) $</li>
+<li><strong>空间</strong>：两者均为 $ O(n) $（DP 的 <code class="inline-code">dp</code> 数组 / 贪心的 <code class="inline-code">tails</code> 数组）</li>
+<li><strong>优化空间</strong>：$ O(n \log n) $ 已接近理论下界（比较模型下不可能优于 $ O(n \log n) $）；若需更快的常数，可用 Patience Sorting 的堆栈实现等价逻辑</li>
+</ul>
+
+<h4>应用场景</h4>
+
+<ul>
+<li><strong>LeetCode 300 / 最长递增子序列</strong>：面试笔试基础题，常作进阶题（俄罗斯套娃信封、最长数对链）的底层组件</li>
+<li><strong>基因/序列比对</strong>：生物信息学中找两条序列的保守递增结构（配合 LCS 使用）</li>
+<li><strong>股票与时间序列分析</strong>：寻找「最长连续上涨趋势段」的近似建模</li>
+<li><strong>任务调度与依赖排序</strong>：在保持相对顺序的前提下挑选可行子集，如最长可执行任务链</li>
+</ul>
+
+<h4>参考文档</h4>
+
+<ul>
+<li><a href="https://leetcode.cn/problems/longest-increasing-subsequence/" target="_blank" class="ref-link">LeetCode 300. 最长递增子序列（力扣官方题解）</a></li>
+<li><a href="https://blog.csdn.net/2301_81373791/article/details/144493100" target="_blank" class="ref-link">最长递增子序列两种算法实现（动态规划、二分查找）- CSDN</a></li>
+<li><a href="https://www.cnblogs.com/rachel3140/p/19196140" target="_blank" class="ref-link">最长递增子序列(LIS)深度解析：从动态规划到贪心+二分 - 博客园</a></li>
+<li><a href="https://www.cnblogs.com/satire/articles/14153980.html" target="_blank" class="ref-link">最长递增子序列 - 博客园 satire</a></li>
+<li><a href="https://docs.python.org/3/library/bisect.html" target="_blank" class="ref-link">Python bisect 模块官方文档（bisect_left/bisect_right）</a></li>
+</ul>
+
+<hr>
+
+<blockquote>
+<p>AI生成</p>
+</blockquote>
+<h3>GRPO 组相对策略优化（Group Relative Policy Optimization）</h3>
+
+<p><strong>类别</strong>：大模型对齐 | <strong>难度</strong>：困难</p>
+
+<h4>算法简介</h4>
+
+<p>GRPO（Group Relative Policy Optimization，组相对策略优化）是 DeepSeek 在 DeepSeekMath / DeepSeek-R1 中提出的强化学习（RL）后训练算法，用于对齐大语言模型的推理能力。它针对 PPO（近端策略优化）在 LLM 场景下的两大痛点做了外科手术式改造：<strong>① 去掉价值网络（Critic）</strong>——PPO 需要额外训练一个与策略同规模的 Critic 来估计优势函数（Advantage），而 LLM 场景下这会让显存/算力开销翻倍；<strong>② 用「组内相对基线」替代 Critic 基线</strong>——对同一个 prompt 采样 $ G $ 条响应（rollout），用规则或奖励模型打分，再以该组的均值与标准差做归一化得到优势值：$ A_i = (r_i - \text{mean}(\mathbf r)) / \text{std}(\mathbf r) $。高于组内平均的回答被强化，低于的被压制，从而在<strong>不引入任何额外模型</strong>的前提下获得低方差的优势估计。</p>
+
+<p>GRPO 同时继承了 PPO 的「裁剪替代目标（clipped surrogate objective）」机制限制单步策略更新幅度，并加入对参考模型（ref model）的 KL 散度惩罚防止策略漂移。它被成功应用于 DeepSeek-R1 系列，在数学推理（GSM8K、MATH）与代码生成任务上取得了显著效果，已成为开源社区 RL 对齐的事实标准之一。</p>
+
+<h4>原理示意图</h4>
+
+<p><div class="algo-image"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 900 430" font-family="sans-serif">
+  <!-- 深色背景 -->
+  <rect width="900" height="430" fill="#1e293b" rx="12"/>
+  <!-- 标题 -->
+  <text x="450" y="30" text-anchor="middle" fill="#818cf8" font-size="15" font-weight="600">GRPO 单步训练流程：同组采样 → 组内归一化优势 → 裁剪更新</text>
+  <!-- Prompt 框 -->
+  <rect x="30" y="60" width="150" height="52" rx="8" fill="#0f172a" stroke="#6366f1"/>
+  <text x="105" y="82" text-anchor="middle" fill="#e2e8f0" font-size="13">提示词 q</text>
+  <text x="105" y="100" text-anchor="middle" fill="#94a3b8" font-size="11">(同一问题)</text>
+  <!-- 箭头到采样 -->
+  <line x1="180" y1="86" x2="230" y2="86" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow)"/>
+  <!-- 采样 G 条 -->
+  <rect x="235" y="50" width="200" height="72" rx="8" fill="#0f172a" stroke="#6366f1"/>
+  <text x="335" y="70" text-anchor="middle" fill="#e2e8f0" font-size="13">旧策略 π_old 采样 G 条</text>
+  <text x="335" y="88" text-anchor="middle" fill="#94a3b8" font-size="11">o₁, o₂, ..., o_G（rollout）</text>
+  <text x="335" y="106" text-anchor="middle" fill="#94a3b8" font-size="11">复用旧参数批量生成</text>
+  <!-- 箭头到打分 -->
+  <line x1="435" y1="86" x2="485" y2="86" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow)"/>
+  <!-- 奖励打分 -->
+  <rect x="490" y="50" width="190" height="72" rx="8" fill="#0f172a" stroke="#22c55e"/>
+  <text x="585" y="70" text-anchor="middle" fill="#e2e8f0" font-size="13">奖励打分 r₁...rG</text>
+  <text x="585" y="88" text-anchor="middle" fill="#94a3b8" font-size="11">规则验证 / 奖励模型</text>
+  <text x="585" y="106" text-anchor="middle" fill="#94a3b8" font-size="11">(无 Critic 价值网络)</text>
+  <!-- 箭头到归一化 -->
+  <line x1="680" y1="86" x2="730" y2="86" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow)"/>
+  <!-- 组内归一化 -->
+  <rect x="735" y="50" width="140" height="72" rx="8" fill="#0f172a" stroke="#f97316"/>
+  <text x="805" y="70" text-anchor="middle" fill="#e2e8f0" font-size="13">归一化优势</text>
+  <text x="805" y="88" text-anchor="middle" fill="#f97316" font-size="12">Aᵢ=(rᵢ-μ)/σ</text>
+  <text x="805" y="106" text-anchor="middle" fill="#94a3b8" font-size="11">组内 mean/std</text>
+  <!-- 下行：更新 -->
+  <line x1="805" y1="122" x2="805" y2="175" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow)"/>
+  <rect x="430" y="180" width="760" height="100" rx="8" fill="#0f172a" stroke="#6366f1"/>
+  <text x="810" y="202" text-anchor="middle" fill="#e2e8f0" font-size="13" font-weight="600">策略更新（每步随机抽样 G 条计算一次梯度）</text>
+  <text x="450" y="226" fill="#94a3b8" font-size="12">① 概率比 ratio = πθ(o|q) / π_old(o|q)（importance sampling）</text>
+  <text x="450" y="246" fill="#94a3b8" font-size="12">② 裁剪：min(ratio·A, clip(ratio, 1-ε, 1+ε)·A) —— 限制单步更新幅度</text>
+  <text x="450" y="266" fill="#94a3b8" font-size="12">③ KL 惩罚：- β · D_KL(πθ ‖ π_ref)，防止策略漂移离参考模型太远</text>
+  <!-- 箭头到新策略 -->
+  <line x1="880" y1="280" x2="880" y2="320" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow)"/>
+  <rect x="800" y="325" width="160" height="46" rx="8" fill="#334155" stroke="#22c55e"/>
+  <text x="880" y="345" text-anchor="middle" fill="#22c55e" font-size="13">新策略 πθ</text>
+  <text x="880" y="363" text-anchor="middle" fill="#94a3b8" font-size="11">下一轮作为 π_old</text>
+  <!-- 底部说明 -->
+  <text x="30" y="400" fill="#64748b" font-size="11">关键：GRPO 不训练 Critic 价值网络——组内相对比较替代了 PPO 的 value baseline，显存与训练成本大幅降低</text>
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="6" refX="4" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#6366f1"/>
+    </marker>
+  </defs>
+</svg></div></p>
+
+<h4>数学公式</h4>
+
+<p><strong>① GRPO 目标函数（DeepSeekMath 论文式）</strong></p>
+
+<p><div class="math-block">$$ J_{GRPO}(\theta) = \mathbb{E}\left[\frac{1}{G}\sum_{i=1}^{G}\sum_{t=1}^{|o_i|}\Big(\min\big(\text{ratio}_{i,t}\cdot A_{i,t},\ \text{clip}(\text{ratio}_{i,t}, 1-\varepsilon, 1+\varepsilon)\cdot A_{i,t}\big) - \beta\, D_{KL}\big(\pi_\theta \| \pi_{ref}\big)\Big)\right] $$</div></p>
+
+<ul>
+<li>$ \theta $：待更新的策略参数（LLM 权重）</li>
+<li>$ G $：组大小，即对同一 prompt 采样的响应条数</li>
+<li>$ o_i $：组内第 $ i $ 条采样输出；$ |o_i| $ 为其 token 数；$ t $ 为 token 位置下标</li>
+<li>$ \text{ratio}_{i,t} = \dfrac{\pi_\theta(o_{i,t}\mid q, o_{i,<t})}{\pi_{\theta_{old}}(o_{i,t}\mid q, o_{i,<t})} $：新策略对旧策略的概率比（importance sampling 权重），>1 表示新策略更愿意生成该 token</li>
+<li>$ \text{clip}(x, 1-\varepsilon, 1+\varepsilon) $：把 $ x $ 截断到 $ [1-\varepsilon, 1+\varepsilon] $ 区间，$ \varepsilon $ 为裁剪系数（如 0.2），防止单步更新过猛</li>
+<li>$ A_{i,t} $：token 级优势值；GRPO 中通常 $ A_{i,t} = A_i $（见公式②）</li>
+<li>$ \beta $：KL 惩罚系数，控制「策略不能偏离参考模型太远」的强度</li>
+<li>$ D_{KL}(\pi_\theta \| \pi_{ref}) $：策略与参考模型的 KL 散度，用低方差估计式（见公式③）</li>
+<li>外层 $ \mathbb{E} $：对所有 prompt $ q $ 的期望，实践中用 mini-batch 平均近似</li>
+</ul>
+
+<p><strong>② 组内归一化优势（无 Critic 的关键）</strong></p>
+
+<p><div class="math-block">$$ \hat{A}_i = \frac{r_i - \text{mean}(\{r_1,\dots,r_G\})}{\text{std}(\{r_1,\dots,r_G\})} $$</div></p>
+
+<ul>
+<li>$ r_i $：第 $ i $ 条响应的奖励（规则验证或奖励模型打分）</li>
+<li>$ \text{mean} $ / $ \text{std} $：组内 $ G $ 条奖励的均值与标准差</li>
+<li>$ \hat{A}_i $：归一化优势，以「组内相对表现」取代 PPO 的 Critic 基线</li>
+<li>效果：奖励绝对尺度（例如奖励值普遍偏高或偏低）被消除，只保留组内相对排序信息；同时组内比较天然抗奖励噪声</li>
+</ul>
+
+<p><strong>③ KL 散度的低熵近似（作者用无偏估计式）</strong></p>
+
+<p><div class="math-block">$$ D_{KL}\big(\pi_\theta \| \pi_{ref}\big) = \mathbb{E}\left[\log\frac{\pi_\theta(o|q)}{\pi_{ref}(o|q)} - 1\right] + \text{const} \approx \frac{\pi_{ref}(o|q)}{\pi_\theta(o|q)} - \log\frac{\pi_{ref}(o|q)}{\pi_\theta(o|q)} - 1 $$</div></p>
+
+<ul>
+<li>$ \pi_{ref} $：固定的参考模型（通常是 SFT 后的模型），不参与梯度更新</li>
+<li>两个策略生成同 token 的概率比取对数即 KL 的采样估计；等价式（$ x - \log x - 1 $ 型）保证方差更小、梯度更稳</li>
+</ul>
+
+<h4>核心要点</h4>
+
+<ul>
+<li><strong>无 Critic</strong>：GRPO 最大的工程红利——不再训练与 LLM 同规模的价值网络，显存占用与训练成本大幅下降，这是 DeepSeek-R1 能在有限算力下完成 RL 的根基</li>
+<li><strong>组内归一化 $ \hat{A}_i = (r_i - \mu)/\sigma $</strong> 替代 PPO 的 GAE（广义优势估计），以采样组为基线消偏</li>
+<li><strong>裁剪 + KL 双保险</strong>：裁剪机制限制 ratio 变化范围，KL 惩罚防止策略漂移，两者共同保证训练稳定</li>
+<li><strong>每条响应复用同一次 rollout</strong>：采样 $ G $ 条响应来自旧策略，全部用于更新，样本利用充分</li>
+<li><strong>适用场景</strong>：可验证奖励（数学答案、代码测试通过）最合适；开放生成任务的奖励函数设计较难</li>
+</ul>
+
+<h4>技术细节与参数详解</h4>
+
+<blockquote>
+<p>GRPO 在训练框架（如 TRL 的 <code class="inline-code">GRPOConfig</code>）中暴露以下核心超参数，理解其语义是调优的前提。</p>
+</blockquote>
+
+<p>#### 参数 1：<code class="inline-code">group_size</code>（组内采样条数 G）</p>
+<ul>
+<li><strong>含义</strong>：对每个 prompt 采样的响应条数，组内相对统计（mean/std）基于这 G 条</li>
+<li><strong>类型</strong>：<code class="inline-code">int</code></li>
+<li><strong>默认值</strong>：TRL 中 <code class="inline-code">num_generations=8</code>（DeepSeekMath 论文实验用 4~64 不等）</li>
+<li><strong>取值范围</strong>：推荐 4 ~ 64；太小归一化噪声大，太大采样开销与内存暴涨</li>
+<li><strong>对结果的影响</strong>：G 越小，组内基线越不稳定、优势噪声越大；G 越大，优势估计越稳但每步显存/时间成本近似线性上升（G 条 rollout 全在内存中）</li>
+<li><strong>推荐设置</strong>：显存允许的前提下取 8~16；小模型练推理可 4~8，大模型练复杂推理 16~64</li>
+</ul>
+
+<p>#### 参数 2：<code class="inline-code">clip_range</code>（裁剪系数 ε）</p>
+<ul>
+<li><strong>含义</strong>：概率比 ratio 的允许偏离区间 $ [1-\varepsilon, 1+\varepsilon] $</li>
+<li><strong>类型</strong>：<code class="inline-code">float</code></li>
+<li><strong>默认值</strong>：0.2（PPO/GRPO 通用默认）</li>
+<li><strong>取值范围</strong>：一般 0.05 ~ 0.3</li>
+<li><strong>对结果的影响</strong>：ε 过小 → 每步更新幅度受限，收敛慢；ε 过大 → 单步更新过猛，策略崩溃风险升高。它直接控制「探索 vs 稳定」的平衡</li>
+<li><strong>推荐设置</strong>：默认 0.2；训练不稳时调小到 0.1，冷启动时可暂用 0.3 加速</li>
+</ul>
+
+<p>#### 参数 3：<code class="inline-code">beta</code>（KL 正则系数）</p>
+<ul>
+<li><strong>含义</strong>：对 $ \pi_\theta $ 与 $ \pi_{ref} $ 间 KL 散度的惩罚权重</li>
+<li><strong>类型</strong>：<code class="inline-code">float</code></li>
+<li><strong>默认值</strong>：0.04（DeepSeekMath 论文实验常用 0.04）</li>
+<li><strong>取值范围</strong>：$ 10^{-4} $ ~ $ 10^{-1} $ 量级</li>
+<li><strong>对结果的影响</strong>：β 太大 → 策略被钉死在参考模型附近，RL 学不到新知识，reward 提升受限；β 太小 → 策略漂移过远，可能退化、话痨或重复</li>
+<li><strong>推荐设置</strong>：0.01~0.05 起步；观察「奖励上升 + KL 可控」则保持，KL 涨太快则上调 β</li>
+</ul>
+
+<p>#### 参数 4：<code class="inline-code">reward_model</code> / 奖励来源（规则奖励 vs 奖励模型）</p>
+<ul>
+<li><strong>含义</strong>：给响应打分的来源——可验证规则（数学/代码）或训练好的 RM</li>
+<li><strong>类型</strong>：可调用对象 / 模型</li>
+<li><strong>默认值</strong>：规则验证器（规则型奖励）</li>
+<li><strong>取值范围</strong>：规则型（正确率、代码通过率）、过程型（每步验证）、RM 型</li>
+<li><strong>对结果的影响</strong>：规则型奖励信号强且无偏，GRPO 效果最好；RM 型奖励质量直接决定对齐上限；错误奖励会系统性带偏策略</li>
+<li><strong>推荐设置</strong>：能用规则验证的任务优先规则奖励；确实需要 RM 时与 SFT 对齐质量挂钩</li>
+</ul>
+
+<p>#### 参数 5：<code class="inline-code">ref_model</code>（参考模型）</p>
+<ul>
+<li><strong>含义</strong>：KL 惩罚的目标分布，固定不更新</li>
+<li><strong>类型</strong>：与策略同架构的模型</li>
+<li><strong>默认值</strong>：SFT 后的模型（DeepSeek 实践即如此）</li>
+<li><strong>取值范围</strong>：任何同词表的 LLM；与策略相同或为冻结的历史版本</li>
+<li><strong>对结果的影响</strong>：参考模型质量高则 KL 正则自然，防止策略在奖励图上钻空子；选择不当会让策略朝错误方向平滑</li>
+<li><strong>推荐设置</strong>：采用 SFT 模型或训练开始的策略快照</li>
+</ul>
+
+<p>#### 参数 6：<code class="inline-code">rollout</code> 采样超参数（temperature / top_p / max_tokens）</p>
+<ul>
+<li><strong>含义</strong>：从 π_old 采样的生成参数</li>
+<li><strong>类型</strong>：<code class="inline-code">float</code> / <code class="inline-code">int</code></li>
+<li><strong>默认值</strong>：temperature=1.0（采样多样性最大）、max_tokens 按任务设</li>
+<li><strong>取值范围</strong>：temperature ∈ (0, 1.6]；max_tokens 由任务输出长度决定</li>
+<li><strong>对结果的影响</strong>：温度过高 → 组内响应差异大但噪声大；过低 → 组内几乎相同，组内归一化失效。max_tokens 太小会截断正确答案</li>
+<li><strong>推荐设置</strong>：推理任务 temperature=1.0 保持探索；max_tokens 留足思考长度（如 1024~4096）</li>
+</ul>
+
+<p>#### 参数 7：<code class="inline-code">lr</code>（策略学习率）</p>
+<ul>
+<li><strong>含义</strong>：优化器学习率，控制每步参数更新幅度</li>
+<li><strong>类型</strong>：<code class="inline-code">float</code></li>
+<li><strong>默认值</strong>：7e-6（DeepSeek-R1 实际用的极小 lr）</li>
+<li><strong>取值范围</strong>：$ 1\times10^{-7} $ ~ $ 3\times10^{-5} $（LLM RL 普遍远小于 SFT）</li>
+<li><strong>对结果的影响</strong>：过大 → 策略剧烈漂移、奖励震荡；过小 → RL 步数爆炸成本高</li>
+<li><strong>推荐设置</strong>：从 1e-6 ~ 1e-5 量级起，模型越大 lr 越小</li>
+</ul>
+
+<p>#### 参数 8：<code class="inline-code">adv_coef</code> / 优势归一化开关（是否用组内 std 归一化）</p>
+<ul>
+<li><strong>含义</strong>：是否对优势做「除以组内 std」的标准化</li>
+<li><strong>类型</strong>：<code class="inline-code">bool</code></li>
+<li><strong>默认值</strong>：<code class="inline-code">True</code>（DeepSeek 论文式归一化）</li>
+<li><strong>取值范围</strong>：True / False</li>
+<li><strong>对结果的影响</strong>：开启后奖励尺度不变影响，梯度更稳；关闭后仅减均值（只做居中），奖励绝对值大小会直接缩放梯度——reward 设计不良时更易爆</li>
+<li><strong>推荐设置</strong>：<code class="inline-code">True</code>，除非奖励设计需要保留原始尺度语义</li>
+</ul>
+
+<h4>代码示例</h4>
+
+<p><pre class="code-block"><code class="language-python"># -*- coding: utf-8 -*-
+&quot;&quot;&quot;GRPO 单步更新的最小可运行示例（核心逻辑，基于 PyTorch 风格）&quot;&quot;&quot;
+import torch
+import torch.nn.functional as F
+
+def grpo_update(policy_logprobs, ref_logprobs, old_logprobs, rewards,
+                group_size=8, clip_eps=0.2, beta=0.04):
+    &quot;&quot;&quot;
+    组相对策略优化单步更新（此处演示向量化核心公式）
+    policy_logprobs : [N, L] 新策略 πθ 的逐 token 对数概率
+    ref_logprobs    : [N, L] 参考模型 πref 的逐 token 对数概率（冻结）
+    old_logprobs    : [N, L] 旧策略 π_old 采样时保存的逐 token 对数概率
+    rewards         : [N]    每条响应的奖励
+    group_size      : G，同一 prompt 采样的响应条数（须整除 N）
+    &quot;&quot;&quot;
+    N, L = policy_logprobs.shape          # N=总响应数（G×组数），L=序列长度
+    assert N % group_size == 0              # 保证能按组切分
+
+    # ① 计算概率比 ratio = exp(logπθ - logπ_old)，并逐 token 求和得到序列级比值
+    ratio = torch.exp(policy_logprobs - old_logprobs)      # [N, L]
+    ratio = ratio.sum(dim=1)                               # [N] 序列级 ratio
+
+    # ② 组内归一化优势：A = (r - mean) / std（按组切分计算）
+    r = rewards.view(-1, group_size)                       # [组数, G] 重排成组
+    mu = r.mean(dim=1, keepdim=True)                      # 每组的均值 μ
+    sigma = r.std(dim=1, keepdim=True) + 1e-8            # 每组的 std（+1e-8 防除零）
+    adv = (r - mu) / sigma                                # 归一化优势 [组数, G]
+    adv = adv.view(-1)                                    # 展平回 [N]
+
+    # ③ 裁剪替代目标：min(ratio·A, clip(ratio,1-ε,1+ε)·A)
+    clip_ratio = torch.clamp(ratio, 1 - clip_eps, 1 + clip_eps)  # 截断到允许区间
+    loss_policy = -torch.min(ratio * adv, clip_ratio * adv).mean()  # 负号：梯度上升
+
+    # ④ KL 惩罚项（低方差估计式：log(ref/θ) + ref/θ - 1，见数学公式③）
+    log_ratio_ref = ref_logprobs - policy_logprobs        # log(πref/πθ)
+    kl = (torch.exp(log_ratio_ref) - log_ratio_ref - 1).sum(dim=1).mean()  # 序列级 KL
+    loss = loss_policy + beta * kl                          # 总损失：策略项 + KL 惩罚
+
+    # ⑤ 返回损失（调用方执行 loss.backward() 与 optimizer.step()）
+    return loss
+
+if __name__ == &quot;__main__&quot;:
+    torch.manual_seed(42)                     # 固定随机种子保证可复现
+    G, groups, L = 4, 2, 8                  # 每提示 4 条响应、2 组、序列长 8
+    N = G * groups                         # 总响应数 = 8
+    # 随机生成三类对数概率模拟一次 mini-batch
+    plp = torch.randn(N, L) * 0.3          # 新策略 logprob
+    olp = torch.randn(N, L) * 0.3          # 旧策略 logprob
+    rlp = torch.randn(N, L) * 0.3          # 参考模型 logprob
+    rew = torch.tensor([1.0, 0.0, 0.5, -0.2, 2.0, 1.5, 0.1, 0.8])  # 8 条奖励
+    loss = grpo_update(plp, rlp, olp, rew, group_size=G)   # 计算总损失
+    loss.backward()                       # 反传（示例中参数为占位，实际接入模型）
+    print(f&quot;GRPO loss = {loss.item():.4f}（含策略损失与 KL 惩罚）&quot;)</code></pre></p>
+
+<h4>复杂度分析</h4>
+
+<ul>
+<li><strong>时间</strong>：每步 = G 条响应的前向生成（rollout，$ O(G \cdot T_{gen} \cdot D) $） + 一次策略/参考模型前向（$ O(G \cdot L \cdot D) $）＋梯度反传（$ O(N \cdot L \cdot D) $）。相比 PPO，GRPO 省去 Critic 的同步前向/反传，省约 30%~50% 计算；相比 PPO+GAE 多步优势累积，GRPO 单组归一化直接出优势，无递归计算</li>
+<li><strong>空间</strong>：核心开销在<strong>缓存 G 条响应的 logprob（新/旧/参考 三份）</strong>，即 $ O(3 \cdot G \cdot L \cdot D) $ 量级；无 Critic 权重存储，模型内存比 PPO 约省一半显存（这是 GRPO 最大的工程红利）</li>
+<li><strong>收敛分析</strong>：组内归一化使优势分布恒为「均值 0、方差 1」，梯度的尺度与奖励绝对大小解耦，收敛对奖励尺度的敏感性大幅下降</li>
+</ul>
+
+<h4>应用场景</h4>
+
+<ul>
+<li><strong>大模型推理对齐（DeepSeek-R1 类）</strong>：数学、代码、逻辑推理任务，规则型奖励驱动思维链涌现</li>
+<li><strong>代码生成 RL</strong>：单元测试通过率作为奖励，训练模型自我纠错（可验证奖励完美适配）</li>
+<li><strong>Agent 工具调用对齐</strong>：组内相对比较天然适合「多个候选动作选优」</li>
+<li><strong>小模型蒸馏后微调</strong>：无 Critic 的低成本 RL 路线，适合受限算力环境</li>
+</ul>
+
+<h4>参考文档</h4>
+
+<ul>
+<li><a href="https://arxiv.org/abs/2402.03300" target="_blank" class="ref-link">DeepSeekMath: Pushing the Limits of Mathematical Reasoning in Open Language Models（GRPO 原始论文）</a></li>
+<li><a href="https://arxiv.org/abs/2501.12948" target="_blank" class="ref-link">DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning</a></li>
+<li><a href="https://cloud.baidu.com/article/4905247" target="_blank" class="ref-link">从零构建大模型：DeepSeek GRPO算法深度解析与实战指南 - 百度智能云</a></li>
+<li><a href="https://baike.baidu.com/item/GRPO算法/67953934" target="_blank" class="ref-link">GRPO算法 - 百度百科</a></li>
+<li><a href="https://36kr.com/p/3422217268415873" target="_blank" class="ref-link">冗长响应缩减80%，DeepSeek GRPO获得颠覆性改进，微软GFPO问世 - 36氪</a></li>
+<li><a href="https://huggingface.co/docs/trl/main/en/grpo_trainer" target="_blank" class="ref-link">TRL 官方 GRPOTrainer 文档（超参数完整清单）</a></li>
+</ul>
+
+<hr>
+
+<blockquote>
+<p>AI生成</p>
+</blockquote>
+<h3>t-SNE 降维（t-Distributed Stochastic Neighbor Embedding）</h3>
+
+<p><strong>类别</strong>：降维 | <strong>难度</strong>：中等</p>
+
+<h4>算法简介</h4>
+
+<p>t-SNE（t-分布随机邻域嵌入，t-Distributed Stochastic Neighbor Embedding）是 van der Maaten & Hinton 于 2008 年提出的<strong>非线性降维算法</strong>，被誉为「高维数据可视化的黄金标准」。它的核心思想是<strong>概率分布匹配</strong>：在高维空间，用高斯分布把点对间的欧氏距离转成「相似性条件概率」$ p_{j|i} $（每个点只关心自己的邻域，perplexity 控制邻域大小）；在低维空间（2D/3D），用<strong>重尾的学生 t 分布</strong>定义相似性 $ q_{ij} $，使 $ q $ 去拟合 $ p $。两者之间的差异用 KL 散度度量，通过梯度下降逐步调整低维坐标，直到 $ q $ 与 $ p $ 尽量一致。</p>
+
+<p>相比 PCA 只保留全局线性方差结构，t-SNE 擅长<strong>保留局部邻域结构</strong>：相似的点在低维空间靠拢，不同的簇被拉开，因此特别适合把深度网络的特征（如 ResNet 输出的 2048 维）投影到二维平面观察聚类效果。它有两个显著特点：① <strong>t 分布重尾</strong>缓解了 SNE 的「拥挤问题」（高维中相距远的点不会被压到一堆）；② 损失函数非凸、计算量大（精确版 $ O(N^2) $），大数据集需 Barnes-Hut 近似。</p>
+
+<h4>原理示意图</h4>
+
+<p><div class="algo-image"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 900 440" font-family="sans-serif">
+  <!-- 深色背景 -->
+  <rect width="900" height="440" fill="#1e293b" rx="12"/>
+  <!-- 标题 -->
+  <text x="450" y="30" text-anchor="middle" fill="#818cf8" font-size="15" font-weight="600">t-SNE 原理：高维相似性 → 低维嵌入（KL 散度最小化）</text>
+  <!-- 左侧：高维空间 -->
+  <text x="150" y="62" text-anchor="middle" fill="#22c55e" font-size="14" font-weight="600">高维空间（原始特征）</text>
+  <circle cx="90" cy="120" r="8" fill="#f97316"/>
+  <circle cx="130" cy="110" r="8" fill="#f97316"/>
+  <circle cx="110" cy="150" r="8" fill="#f97316"/>
+  <circle cx="160" cy="140" r="8" fill="#f97316"/>
+  <circle cx="230" cy="120" r="8" fill="#6366f1"/>
+  <circle cx="260" cy="150" r="8" fill="#6366f1"/>
+  <circle cx="215" cy="165" r="8" fill="#6366f1"/>
+  <circle cx="280" cy="100" r="8" fill="#22c55e"/>
+  <circle cx="310" cy="135" r="8" fill="#22c55e"/>
+  <text x="150" y="205" text-anchor="middle" fill="#94a3b8" font-size="11">高斯核计算条件概率 p_j|i</text>
+  <text x="150" y="225" text-anchor="middle" fill="#64748b" font-size="11">（每个点看自己的近邻，perplexity 控制邻域）</text>
+  <!-- 中间箭头 -->
+  <line x1="350" y1="150" x2="420" y2="150" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="385" y="135" text-anchor="middle" fill="#818cf8" font-size="12">KL 最小化</text>
+  <text x="385" y="172" text-anchor="middle" fill="#94a3b8" font-size="11">梯度下降</text>
+  <!-- 右侧：低维空间 -->
+  <text x="640" y="62" text-anchor="middle" fill="#f97316" font-size="14" font-weight="600">低维空间（2D 可视化）</text>
+  <circle cx="560" cy="120" r="10" fill="#f97316"/>
+  <circle cx="600" cy="105" r="10" fill="#f97316"/>
+  <circle cx="595" cy="155" r="10" fill="#f97316"/>
+  <circle cx="640" cy="125" r="10" fill="#f97316"/>
+  <circle cx="690" cy="120" r="10" fill="#6366f1"/>
+  <circle cx="720" cy="150" r="10" fill="#6366f1"/>
+  <circle cx="675" cy="162" r="10" fill="#6366f1"/>
+  <circle cx="740" cy="95" r="10" fill="#22c55e"/>
+  <circle cx="770" cy="130" r="10" fill="#22c55e"/>
+  <text x="660" y="285" text-anchor="middle" fill="#94a3b8" font-size="11">学生 t 分布（重尾）：q_ij = (1+||y_i-y_j||²)⁻¹ / Σ</text>
+  <text x="660" y="305" text-anchor="middle" fill="#64748b" font-size="11">缓解拥挤问题，簇间拉开</text>
+  <!-- 底部对照 -->
+  <rect x="30" y="340" width="840" height="80" rx="8" fill="#0f172a" stroke="#6366f1"/>
+  <text x="450" y="365" text-anchor="middle" fill="#e2e8f0" font-size="13">关键对照</text>
+  <text x="450" y="388" text-anchor="middle" fill="#94a3b8" font-size="12">高维用高斯（p 对称化 p_ij=(p_j|i+p_i|j)/2N）；低维用 t 分布（自由度为 1）</text>
+  <text x="450" y="408" text-anchor="middle" fill="#94a3b8" font-size="12">损失 = Σ p_ij log(p_ij / q_ij)（KL 散度）→ 局部结构保留、全局距离不可信</text>
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="6" refX="4" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#6366f1"/>
+    </marker>
+  </defs>
+</svg></div></p>
+
+<h4>数学公式</h4>
+
+<p><strong>① 高维条件概率（高斯核）</strong></p>
+
+<p><div class="math-block">$$ p_{j|i} = \frac{\exp\left(-\frac{\|x_i - x_j\|^2}{2\sigma_i^2}\right)}{\sum_{k \neq i}\exp\left(-\frac{\|x_i - x_k\|^2}{2\sigma_i^2}\right)} $$</div></p>
+
+<ul>
+<li>$ x_i, x_j $：高维空间中第 $ i $、$ j $ 个样本点</li>
+<li>$ \|x_i - x_j\|^2 $：两点的欧氏距离平方</li>
+<li>$ \sigma_i $：第 $ i $ 个点的高斯带宽（由 perplexity 二分搜索确定）</li>
+<li>$ k $：归一化分母的遍历下标，排除自身 $ k \neq i $</li>
+<li>$ p_{j|i} $：给定 $ x_i $ 时选 $ x_j $ 作为邻居的概率——距离越近概率越大</li>
+</ul>
+
+<p><strong>② 对称化 + 低维 t 分布</strong></p>
+
+<p><div class="math-block">$$ p_{ij} = \frac{p_{j|i} + p_{i|j}}{2N},\qquad q_{ij} = \frac{(1 + \|y_i - y_j\|^2)^{-1}}{\sum_{k \neq l}(1 + \|y_k - y_l\|^2)^{-1}} $$</div></p>
+
+<ul>
+<li>$ p_{ij} $：对称联合概率（两方向条件概率取平均再除以 $ N $，消除不对称性）</li>
+<li>$ y_i, y_j $：低维（2D/3D）中的嵌入点坐标（待优化变量）</li>
+<li>$ q_{ij} $：低维联合概率，用<strong>自由度为 1 的 t 分布</strong>（即柯西分布核 $ (1+d^2)^{-1} $）</li>
+<li>重尾特性：高维中相距较远的点对，在低维不必挤在一起，缓解「拥挤问题」</li>
+</ul>
+
+<p><strong>③ 损失函数（KL 散度）与梯度</strong></p>
+
+<p><div class="math-block">$$ C = KL(P\|Q) = \sum_{i \neq j} p_{ij}\log\frac{p_{ij}}{q_{ij}},\qquad \frac{\partial C}{\partial y_i} = 4\sum_j (p_{ij} - q_{ij})(y_i - y_j)(1 + \|y_i - y_j\|^2)^{-1} $$</div></p>
+
+<ul>
+<li>$ C $：KL 散度损失，$ P $ 与 $ Q $ 越接近损失越小</li>
+<li>$ p_{ij} - q_{ij} $：驱动项——若低维中 $ q_{ij} $ 过小（两点该近却远了），梯度把 $ y_i, y_j $ 拉近；反之推远</li>
+<li>$ (y_i - y_j) $：方向项，决定拉扯的方向</li>
+<li>$ (1 + \|y_i - y_j\|^2)^{-1} $：t 分布核权重，距离越远影响越小</li>
+<li>梯度式中的系数 4：来自 $ q_{ij} $ 定义的常数，实践中直接采用</li>
+</ul>
+
+<h4>核心要点</h4>
+
+<ul>
+<li><strong>局部优先</strong>：t-SNE 忠实保留邻域（哪些点簇在一起），但<strong>簇间距离、全局几何不可解读</strong></li>
+<li><strong>perplexity 是灵魂参数</strong>：控制每个点的邻域规模，需与样本量匹配，经验上取 5~50 且 < 样本数</li>
+<li><strong>结果不可复现</strong>：初始化随机 → 必须固定 <code class="inline-code">random_state</code>；不同 seed 布局可能不同，结论依赖宏观结构</li>
+<li><strong>t 分布重尾</strong> 解决 SNE 拥挤问题；低维只需 2~3 维，嵌入参数直接可画</li>
+<li><strong>大数据集用 Barnes-Hut</strong>：<code class="inline-code">method='barnes_hut'</code> 把复杂度从 $ O(N^2) $ 降到 $ O(N \log N) $</li>
+<li><strong>PCA 预处理</strong>：高维（>50）先 PCA 降噪，再喂 t-SNE，速度与质量双提升</li>
+</ul>
+
+<h4>技术细节与参数详解</h4>
+
+<blockquote>
+<p>以下为 <code class="inline-code">sklearn.manifold.TSNE</code> 的核心参数，全部逐项说明。</p>
+</blockquote>
+
+<p>#### 参数 1：<code class="inline-code">n_components</code></p>
+<ul>
+<li><strong>含义</strong>：低维嵌入空间的维度（可视化目标维度）</li>
+<li><strong>类型</strong>：<code class="inline-code">int</code></li>
+<li><strong>默认值</strong>：2</li>
+<li><strong>取值范围</strong>：2 或 3（更高维度无可视化意义且计算量爆炸）</li>
+<li><strong>对结果的影响</strong>：2 便于散点图展示；3 可做交互式三维图，但计算与渲染成本上升，且 KL 优化更难</li>
+<li><strong>推荐设置</strong>：默认 2；需立体观察时 3</li>
+</ul>
+
+<p>#### 参数 2：<code class="inline-code">perplexity</code></p>
+<ul>
+<li><strong>含义</strong>：每个点的「有效近邻数」，直接决定高维带宽 $ \sigma_i $（等价于邻居数量感受野）</li>
+<li><strong>类型</strong>：<code class="inline-code">float</code></li>
+<li><strong>默认值</strong>：30.0</li>
+<li><strong>取值范围</strong>：典型 5 ~ 50；必须 $ < N $（经验上 $ (N-1)/3 $ 封顶，超过会报错或退化）</li>
+<li><strong>对结果的影响</strong>：太小 → 只见局部、碎片化簇多；太大 → 全局平均化、簇混在一起；与 $ N $ 不匹配时结果质量骤降（小样本配大 perplexity 尤其糟糕）</li>
+<li><strong>推荐设置</strong>：从 30 起步，用 5~50 网格搜索，观察簇分离度；大数据集可随 $ N $ 上调</li>
+</ul>
+
+<p>#### 参数 3：<code class="inline-code">learning_rate</code></p>
+<ul>
+<li><strong>含义</strong>：梯度下降的步长，也是 <code class="inline-code">n_iter_without_progress</code> 判定「无进展」的尺度</li>
+<li><strong>类型</strong>：<code class="inline-code">float</code></li>
+<li><strong>默认值</strong>：200.0（1.0 版本起默认 200）</li>
+<li><strong>取值范围</strong>：典型 100~1000；官方建议 10~1000</li>
+<li><strong>对结果的影响</strong>：过小 → 点挤在中心不散开、收敛极慢；过大 → 点疯狂跳跃、「爆炸」成规则环状/线状分布；100~500 是常用甜区</li>
+<li><strong>推荐设置</strong>：默认 200 起步；点聚成「死团」调大至 300~800，剧烈震荡调小</li>
+</ul>
+
+<p>#### 参数 4：<code class="inline-code">n_iter</code></p>
+<ul>
+<li><strong>含义</strong>：最大优化迭代轮数</li>
+<li><strong>类型</strong>：<code class="inline-code">int</code></li>
+<li><strong>默认值</strong>：1000</li>
+<li><strong>取值范围</strong>：≥ 250；建议 ≥ 1000</li>
+<li><strong>对结果的影响</strong>：太少 → 未收敛、结构混乱；足够多 → 损失进入平台期。<code class="inline-code">n_iter_without_progress</code>（默认 300）会提前停止</li>
+<li><strong>推荐设置</strong>：默认 1000；大数据或复杂结构加到 2000~5000，并配合监控 KL 损失曲线</li>
+</ul>
+
+<p>#### 参数 5：<code class="inline-code">early_exaggeration</code></p>
+<ul>
+<li><strong>含义</strong>：前期（前 250 次迭代）对 $ p_{ij} $ 的放大倍数，人为拉开簇</li>
+<li><strong>类型</strong>：<code class="inline-code">float</code></li>
+<li><strong>默认值</strong>：12.0</li>
+<li><strong>取值范围</strong>：≥ 1；典型 4~25</li>
+<li><strong>对结果的影响</strong>：放大后簇间排斥更强，帮助形成分离的簇骨架；太小 → 簇难分离；太大 → 布局过分散、细节丢失</li>
+<li><strong>推荐设置</strong>：默认 12；数据量大时可适度调大</li>
+</ul>
+
+<p>#### 参数 6：<code class="inline-code">min_grad_norm</code></p>
+<ul>
+<li><strong>含义</strong>：梯度范数阈值，梯度范数低于它即视为「梯度为 0」（提前停止）</li>
+<li><strong>类型</strong>：<code class="inline-code">float</code></li>
+<li><strong>默认值</strong>：1e-7</li>
+<li><strong>取值范围</strong>：≥ 0（0 表示不启用该阈值）</li>
+<li><strong>对结果的影响</strong>：加速收敛、避免无意义迭代；过大可能过早停住</li>
+<li><strong>推荐设置</strong>：默认 1e-7；不要轻易调大</li>
+</ul>
+
+<p>#### 参数 7：<code class="inline-code">init</code></p>
+<ul>
+<li><strong>含义</strong>：低维嵌入 $ Y $ 的初始化方式</li>
+<li><strong>类型</strong>：<code class="inline-code">str</code> 或 <code class="inline-code">ndarray</code></li>
+<li><strong>默认值</strong>：<code class="inline-code">'random'</code>（sklearn 1.1+ 建议 <code class="inline-code">'pca'</code>）</li>
+<li><strong>取值范围</strong>：<code class="inline-code">'random'</code>、<code class="inline-code">'pca'</code> 或用户提供 $ N \times D $ 的数组</li>
+<li><strong>对结果的影响</strong>：<code class="inline-code">'pca'</code> 初始更稳定、可复现性更好且收敛更快；<code class="inline-code">'random'</code> 引入更多随机性；自定义数组可嵌入先验</li>
+<li><strong>推荐设置</strong>：<code class="inline-code">init='pca'</code>（配合 <code class="inline-code">random_state</code> 保证可复现）；或显式 <code class="inline-code">random</code></li>
+</ul>
+
+<p>#### 参数 8：<code class="inline-code">random_state</code></p>
+<ul>
+<li><strong>含义</strong>：随机种子，控制初始化和打乱</li>
+<li><strong>类型</strong>：<code class="inline-code">int</code> 或 <code class="inline-code">RandomState</code></li>
+<li><strong>默认值</strong>：<code class="inline-code">None</code>（每次运行不同结果）</li>
+<li><strong>取值范围</strong>：任意整数（如 42）</li>
+<li><strong>对结果的影响</strong>：不设置 → 结果每次不同，无法复现实验；固定 → 相同输入得相同嵌入</li>
+<li><strong>推荐设置</strong>：<strong>必须设置</strong>（生产/论文环境铁律），推荐 42 等固定整数</li>
+</ul>
+
+<p>#### 参数 9：<code class="inline-code">method</code></p>
+<ul>
+<li><strong>含义</strong>：梯度计算算法</li>
+<li><strong>类型</strong>：<code class="inline-code">str</code></li>
+<li><strong>默认值</strong>：<code class="inline-code">'barnes_hut'</code></li>
+<li><strong>取值范围</strong>：<code class="inline-code">'exact'</code>（精确 $ O(N^2) $）、<code class="inline-code">'barnes_hut'</code>（近似 $ O(N \log N) $）</li>
+<li><strong>对结果的影响</strong>：exact 精确但 $ N>10000 $ 时极慢/内存爆炸；barnes_hut 用空间树近似，速度显著提升（精度约 97%）</li>
+<li><strong>推荐设置</strong>：$ N < 1000 $ 可用 exact；更大一律 barnes_hut（默认）</li>
+</ul>
+
+<p>#### 参数 10：<code class="inline-code">angle</code></p>
+<ul>
+<li><strong>含义</strong>：Barnes–Hut 树的空间划分角度阈值（<code class="inline-code">method='barnes_hut'</code> 时有效）</li>
+<li><strong>类型</strong>：<code class="inline-code">float</code></li>
+<li><strong>默认值</strong>：0.5</li>
+<li><strong>取值范围</strong>：0~1 之间（典型 0.2~0.8）</li>
+<li><strong>对结果的影响</strong>：越小 → 近似越精确但越慢；越大 → 越快但近似误差越大（点会出现「网格状」伪影）</li>
+<li><strong>推荐设置</strong>：默认 0.5；对精度敏感调到 0.2~0.3，对速度敏感调到 0.7~0.8</li>
+</ul>
+
+<p>#### 参数 11：<code class="inline-code">n_iter_without_progress</code></p>
+<ul>
+<li><strong>含义</strong>：连续多少轮损失无下降即提前停止</li>
+<li><strong>类型</strong>：<code class="inline-code">int</code></li>
+<li><strong>默认值</strong>：300</li>
+<li><strong>取值范围</strong>：≥ 0（0 表示禁用早停）</li>
+<li><strong>对结果的影响</strong>：太小 → 提前停、结构未成型；太大 → 收敛后空跑浪费时间</li>
+<li><strong>推荐设置</strong>：默认 300；一般不必改</li>
+</ul>
+
+<p>#### 参数 12：<code class="inline-code">verbose</code></p>
+<ul>
+<li><strong>含义</strong>：是否输出训练日志</li>
+<li><strong>类型</strong>：<code class="inline-code">int</code></li>
+<li><strong>默认值</strong>：0（静默）</li>
+<li><strong>取值范围</strong>：0 / 1（>0 输出迭代与损失）</li>
+<li><strong>对结果的影响</strong>：仅日志作用；1 时可在终端观察「KL 损失下降曲线」，诊断是否收敛</li>
+<li><strong>推荐设置</strong>：调试时 1，生产 0</li>
+</ul>
+
+<h4>代码示例</h4>
+
+<p><pre class="code-block"><code class="language-python"># -*- coding: utf-8 -*-
+&quot;&quot;&quot;t-SNE 降维可视化：鸢尾花数据集 + 全参数演示 + 损失监控&quot;&quot;&quot;
+import numpy as np                       # 数值计算
+from sklearn.datasets import load_iris   # 鸢尾花数据集（150 样本 4 维）
+from sklearn.manifold import TSNE        # t-SNE 实现
+from sklearn.decomposition import PCA    # 预处理降维
+import matplotlib.pyplot as plt          # 可视化
+
+# 1. 加载数据：4 维特征 + 3 类标签
+iris = load_iris()                        # 内置经典分类数据集
+X = iris.data                             # 特征矩阵 [150, 4]
+y = iris.target                           # 标签 [150]（0/1/2 三类）
+
+# 2. 可选：高维先 PCA 去噪（本例仅 4 维，直接 t-SNE 即可；演示保留）
+# X = PCA(n_components=3, random_state=42).fit_transform(X)
+
+# 3. 构建 t-SNE 模型（全参数显式给出，便于逐项对照文档）
+tsne = TSNE(
+    n_components=2,            # 降到 2 维便于散点图可视化
+    perplexity=25,             # 有效近邻数：150 样本取 25（10~30 甜区）
+    learning_rate=200,         # 梯度步长，100~500 稳定区
+    n_iter=1000,               # 最大迭代 1000 轮，保证收敛
+    early_exaggeration=12.0,   # 前 250 轮簇间放大系数
+    min_grad_norm=1e-7,        # 梯度阈值，低于即停
+    metric=&#x27;euclidean&#x27;,        # 距离度量（欧氏距离）
+    init=&#x27;pca&#x27;,                # 用 PCA 初始化，更稳定可复现
+    random_state=42,           # 固定种子：结果可复现（关键！）
+    method=&#x27;barnes_hut&#x27;,       # Barnes-Hut 近似：N=150 足够快
+    angle=0.5,                 # 近似精度-速度权衡（0.5 默认）
+    n_iter_without_progress=300,  # 连续 300 轮无进展则早停
+    verbose=0                 # 不输出训练日志（调试时可设 1）
+)
+
+# 4) 执行拟合与转换（训练 + 得到嵌入坐标）
+X_embedded = tsne.fit_transform(X)   # 返回 [150, 2] 的二维坐标
+print(&quot;嵌入坐标形状：&quot;, X_embedded.shape)      # 验证输出维度
+
+# 5) 可视化：按真实标签着色
+plt.figure(figsize=(8, 6))                 # 画布 8×6 英寸
+scatter = plt.scatter(X_embedded[:, 0], X_embedded[:, 1],   # x/y 坐标
+                      c=y, cmap=&#x27;viridis&#x27;, alpha=0.7,       # 按标签着色+半透明
+                      edgecolors=&#x27;w&#x27;, linewidth=0.5)        # 白边增强区分
+plt.colorbar(scatter)                      # 颜色条（0/1/2 对应三类鸢尾）
+plt.title(&quot;t-SNE 可视化鸢尾花数据集 (perplexity=25, lr=200)&quot;)  # 标题含关键参数
+plt.xlabel(&quot;t-SNE 维度 1&quot;)                  # x 轴说明
+plt.ylabel(&quot;t-SNE 维度 2&quot;)                  # y 轴说明
+plt.show()                                 # 显示图形</code></pre></p>
+
+<h4>复杂度分析</h4>
+
+<ul>
+<li><strong>时间</strong>：精确法每轮梯度计算 $ O(N^2) $，$ T $ 轮迭代总 $ O(T N^2) $；Barnes–Hut 用空间树（四分树/八分树）把每轮降到 $ O(N\log N) $，总 $ O(T N \log N) $</li>
+<li><strong>空间</strong>：精确法需存储 $ N\times N $ 的距离/概率矩阵，$ O(N^2) $；Barnes–Hut 只需 $ O(N) $ 树结构，内存压力大幅缓解</li>
+<li><strong>推导要点</strong>：$ N=10^4 $ 时 $ N^2=10^8 $ 次操作已是秒级到分钟级边界，这就是必须用 Barnes–Hut 的原因；perplexity 确定 $ \sigma_i $ 需对每个点做一次二分搜索，开销 $ O(N\log N) $</li>
+</ul>
+
+<h4>应用场景</h4>
+
+<ul>
+<li><strong>高维特征可视化</strong>：深度学习倒数第二层特征（如 2048 维）投影到 2D，观察类别聚类（图像检索、异常检测的第一眼检查）</li>
+<li><strong>生物信息学</strong>：单细胞 RNA-seq 数据降维可视化，发现细胞亚群（scRNA-seq 分析标配）</li>
+<li><strong>NLP 词向量 / 句子嵌入可视化</strong>：把 Embedding 投影后观察语义聚类</li>
+<li><strong>探索性数据分析</strong>：聚类前验证数据内在结构，判断是否可分、是否有离群点</li>
+</ul>
+
+<h4>参考文档</h4>
+
+<ul>
+<li><a href="https://www.jmlr.org/papers/volume9/vandermaaten08a/vandermaaten08a.pdf" target="_blank" class="ref-link">t-Distributed Stochastic Neighbor Embedding（van der Maaten & Hinton, 2008 原始论文）</a></li>
+<li><a href="https://scikit-learn.org/stable/modules/generated/sklearn.manifold.TSNE.html" target="_blank" class="ref-link">sklearn.manifold.TSNE 官方文档（全部参数说明）</a></li>
+<li><a href="https://blog.csdn.net/weixin_30314813/article/details/97167459" target="_blank" class="ref-link">t-SNE可视化翻车？用鸢尾花数据集带你避开5个最常见的坑（附sklearn参数详解）- CSDN</a></li>
+<li><a href="https://blog.csdn.net/DeepNest/article/details/155877398" target="_blank" class="ref-link">【紧急警告】别再盲目使用t-SNE！这4种误用场景正在误导你的分析结论 - CSDN</a></li>
+<li><a href="https://cloud.baidu.com/article/3710109" target="_blank" class="ref-link">t-SNE 高维可视化与结果解读 - 百度智能云</a></li>
+</ul>
+
+<blockquote>
+<p>AI生成</p>
+</blockquote>
+
+  </div>
+  <div class="footer">
+    <p>由 TeleAgent · 每日算法推送 技能自动生成 | 2026-10-08 09:34</p>
+  </div>
+</div>
+</body>
+</html>
