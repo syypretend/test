@@ -1,5 +1,42 @@
 [
   {
+    "date": "2026-10-08",
+    "filename": "quiz-2026-10-08.html",
+    "url": "https://syypretend.github.io/test/daily-quiz/quiz-2026-10-08.html",
+    "title": "每日算法 AI 出题",
+    "subtitle": "算法 2 道 + AI 2 道 · 第 12 期",
+    "questions": [
+      {
+        "id": 1,
+        "type": "algorithm_code",
+        "type_label": "算法编程",
+        "title": "最近公共祖先（LCA）",
+        "difficulty": 2
+      },
+      {
+        "id": 2,
+        "type": "algorithm_concept",
+        "type_label": "算法概念",
+        "title": "滑动窗口的适用条件——它的正确性从哪里来？",
+        "difficulty": 2
+      },
+      {
+        "id": 3,
+        "type": "ai_derivation",
+        "type_label": "AI公式推导",
+        "title": "K-Means 为什么「就近分配 + 取均值」交替执行？——E/M 两步的最优性与收敛性推导",
+        "difficulty": 2
+      },
+      {
+        "id": 4,
+        "type": "ai_interview",
+        "type_label": "AI面试问答",
+        "title": "BatchNorm 与 LayerNorm 有什么区别？为什么 Transformer 用 LayerNorm？",
+        "difficulty": 2
+      }
+    ]
+  },
+  {
     "date": "2026-09-30",
     "filename": "quiz-2026-09-30.html",
     "url": "https://syypretend.github.io/test/daily-quiz/quiz-2026-09-30.html",
