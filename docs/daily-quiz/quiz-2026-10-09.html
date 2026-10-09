@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>每日算法 AI 出题 · 2026-10-09</title>
+  <!-- KaTeX 数学公式渲染 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
+  <style>
+    :root {
+      --bg: #0d1117;
+      --card-bg: #161b22;
+      --border: #30363d;
+      --text: #e6edf3;
+      --text-dim: #8b949e;
+      --accent: #58a6ff;
+      --green: #3fb950;
+      --orange: #d29922;
+      --red: #f85149;
+      --purple: #a855f7;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", sans-serif;
+      line-height: 1.7;
+      padding: 16px;
+      max-width: 860px;
+      margin: 0 auto;
+    }
+    .header {
+      text-align: center;
+      padding: 24px 0 16px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 24px;
+    }
+    .header h1 {
+      font-size: 1.5em;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+    .header .subtitle {
+      color: var(--text-dim);
+      font-size: 0.9em;
+    }
+    .header .date-tag {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 2px 12px;
+      border-radius: 12px;
+      background: var(--border);
+      font-size: 0.8em;
+      color: var(--text-dim);
+    }
+
+    /* 题目卡片 */
+    .question-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .question-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+    .type-badge {
+      padding: 2px 10px;
+      border-radius: 10px;
+      font-size: 0.75em;
+      color: white;
+      font-weight: 600;
+    }
+    .difficulty { font-size: 0.85em; }
+    .qid-label { color: var(--text-dim); font-size: 0.8em; margin-left: auto; }
+    .question-title {
+      font-size: 1.25em;
+      margin-bottom: 12px;
+      color: var(--text);
+    }
+    .question-body { margin-bottom: 14px; }
+    .question-body code.inline-code {
+      background: var(--border);
+      padding: 1px 5px;
+      border-radius: 3px;
+      font-size: 0.9em;
+    }
+
+    /* 信息块 */
+    .info-block {
+      background: rgba(88,166,255,0.05);
+      border-left: 3px solid var(--accent);
+      padding: 10px 14px;
+      margin: 10px 0;
+      border-radius: 0 6px 6px 0;
+    }
+    .info-label {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.85em;
+      display: block;
+      margin-bottom: 4px;
+    }
+    .info-block pre {
+      white-space: pre-wrap;
+      font-family: "JetBrains Mono", "Fira Code", monospace;
+      font-size: 0.85em;
+      color: var(--text);
+    }
+
+    /* 示例 */
+    .example-block {
+      background: rgba(63,185,80,0.05);
+      border: 1px solid rgba(63,185,80,0.2);
+      border-radius: 8px;
+      padding: 12px;
+      margin: 10px 0;
+    }
+    .example-title {
+      color: var(--green);
+      font-weight: 600;
+      font-size: 0.85em;
+      margin-bottom: 6px;
+    }
+    .example-io {
+      font-family: monospace;
+      font-size: 0.85em;
+      white-space: pre-wrap;
+      margin: 2px 0;
+    }
+    .io-label { color: var(--text-dim); }
+    .example-explanation {
+      color: var(--text-dim);
+      font-size: 0.85em;
+      margin-top: 6px;
+      padding-top: 6px;
+      border-top: 1px dashed var(--border);
+    }
+
+    /* 选项 */
+    .options-container { margin: 12px 0; }
+    .option-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      padding: 10px 14px;
+      margin: 6px 0;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .option-item:hover { border-color: var(--accent); background: rgba(88,166,255,0.05); }
+    .option-item.correct { border-color: var(--green); background: rgba(63,185,80,0.1); }
+    .option-item.wrong { border-color: var(--red); background: rgba(248,81,73,0.1); }
+    .option-item input[type=radio] { accent-color: var(--accent); margin-top: 4px; }
+    .option-letter {
+      font-weight: 700;
+      color: var(--accent);
+      min-width: 20px;
+    }
+    .option-text { flex: 1; font-size: 0.9em; }
+    .option-feedback {
+      margin: 8px 0;
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-size: 0.85em;
+      display: none;
+    }
+    .option-feedback.show { display: block; }
+    .option-feedback.correct {
+      background: rgba(63,185,80,0.1);
+      color: var(--green);
+    }
+    .option-feedback.wrong { background: rgba(248,81,73,0.1); color: var(--red); }
+
+    /* 代码编辑器 */
+    .code-section {
+      margin: 16px 0;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .code-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 14px;
+      background: rgba(88,166,255,0.08);
+      border-bottom: 1px solid var(--border);
+      font-size: 0.85em;
+      color: var(--accent);
+    }
+    .editor-wrap {
+      position: relative;
+    }
+    .code-editor {
+      min-height: 180px;
+      max-height: 400px;
+      overflow: auto;
+      padding: 12px;
+      font-family: "JetBrains Mono", "Fira Code", "Cascadia Code", monospace;
+      font-size: 13px;
+      line-height: 1.5;
+      white-space: pre;
+      color: var(--text);
+      background: #0d1117;
+      outline: none;
+      tabs: 4;
+    }
+    .btn-run {
+      background: var(--green);
+      color: white;
+      border: none;
+      padding: 4px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.85em;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .btn-run:hover { opacity: 0.85; }
+    .btn-run:disabled { opacity: 0.5; cursor: not-allowed; }
+    .code-result {
+      padding: 12px;
+      background: #0d1117;
+      border-top: 1px solid var(--border);
+      font-family: monospace;
+      font-size: 0.85em;
+      white-space: pre-wrap;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+    .code-result .test-pass { color: var(--green); }
+    .code-result .test-fail { color: var(--red); }
+    .code-result .stderr { color: var(--orange); }
+
+    /* 显示解析按钮 */
+    .btn-reveal {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      margin-top: 16px;
+      background: transparent;
+      border: 2px dashed var(--border);
+      border-radius: 8px;
+      color: var(--text-dim);
+      font-size: 0.95em;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .btn-reveal:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(88,166,255,0.03);
+    }
+    .btn-reveal.loading {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    /* 解析区域 */
+    .solution-section {
+      margin-top: 16px;
+      animation: fadeIn 0.4s ease;
+    }
+    @keyframes fadeIn { from{opacity:0; transform:translateY(10px) } to{opacity:1; transform:translateY(0) } }
+    .solution-divider {
+      text-align: center;
+      color: var(--text-dim);
+      font-size: 0.8em;
+      margin: 16px 0;
+      letter-spacing: 1px;
+    }
+    .answer-highlight {
+      background: rgba(63,185,80,0.1);
+      border: 1px solid var(--green);
+      border-radius: 8px;
+      padding: 10px 16px;
+      margin: 10px 0;
+      font-size: 1.05em;
+      color: var(--green);
+      font-weight: 600;
+    }
+    .solution-block {
+      margin: 14px 0;
+      padding: 14px;
+      background: rgba(255,255,255,0.02);
+      border-radius: 8px;
+    }
+    .solution-block h4 {
+      color: var(--accent);
+      margin-bottom: 8px;
+      font-size: 0.95em;
+    }
+    .solution-block ul.answer-points {
+      padding-left: 20px;
+    }
+    .solution-block ul.answer-points li {
+      margin: 6px 0;
+      font-size: 0.9em;
+    }
+    .code-block {
+      background: #0d1117;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 12px;
+      font-family: "JetBrains Mono", "Fira Code", monospace;
+      font-size: 0.85em;
+      overflow-x: auto;
+      white-space: pre;
+      color: var(--text);
+    }
+    .complexity-tag {
+      display: inline-block;
+      padding: 2px 10px;
+      margin-right: 8px;
+      border-radius: 6px;
+      background: var(--border);
+      font-size: 0.85em;
+      font-family: monospace;
+    }
+    .derivation-content {
+      font-size: 0.9em;
+      line-height: 1.8;
+    }
+
+    /* 运行中加载动画 */
+    .spinner {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      border: 2px solid var(--text-dim);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* 底部 */
+    .footer {
+      text-align: center;
+      padding: 24px 0;
+      color: var(--text-dim);
+      font-size: 0.8em;
+      border-top: 1px solid var(--border);
+      margin-top: 24px;
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 8px; }
+      .question-card { padding: 14px; }
+      .question-title { font-size: 1.1em; }
+      .code-editor { font-size: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <h1>每日算法 AI 出题</h1>
+  <div class="subtitle">算法 2 道 + AI 2 道 · 2026-10-09 第13期</div>
+  <div class="date-tag">📅 2026-10-09 ｜ 算法 2 道 · AI 2 道</div>
+</div>
+
+<div class="question-card" data-qid="1">
+
+    <div class="question-header">
+      <span class="type-badge" style="background:#3b82f6">算法编程</span>
+      <span class="difficulty">⭐⭐</span>
+      <span class="qid-label">第 1 题</span>
+    </div>
+<h2 class="question-title">删除链表的倒数第 N 个节点</h2>
+<div class="question-body">给你一个链表的头（以数组 <code class="inline-code">nums</code> 表示），删除链表的倒数第 <code class="inline-code">n</code> 个节点，并返回删除后链表的头（同样以数组表示）。要求**只遍历链表一次**（快慢指针技巧），不能先求长度再删。例如链表 <code class="inline-code">1→2→3→4→5</code> 的倒数第 2 个节点是 <code class="inline-code">4</code>，删除后得到 <code class="inline-code">1→2→3→5</code>。</div>
+<div class="info-block"><span class="info-label">输入</span><pre>参数 `nums`：链表元素数组（按链表顺序）；参数 `n`：要删除的倒数第 n 个节点（1 ≤ n ≤ len(nums)，保证合法）。</pre></div>
+<div class="info-block"><span class="info-label">输出</span><pre>返回删除后的链表数组。</pre></div>
+<div class="example-block">
+<div class="example-title">示例 1</div>
+<pre class="example-io"><span class="io-label">输入：</span>nums = [1,2,3,4,5], n = 2</pre>
+<pre class="example-io"><span class="io-label">输出：</span>[1,2,3,5]</pre>
+<div class="example-explanation">倒数第 2 个节点是值为 4 的节点，删除后链表为 1→2→3→5。</div>
+</div>
+<div class="example-block">
+<div class="example-title">示例 2</div>
+<pre class="example-io"><span class="io-label">输入：</span>nums = [1], n = 1</pre>
+<pre class="example-io"><span class="io-label">输出：</span>[]</pre>
+<div class="example-explanation">链表中只有一个节点，删除后链表为空。</div>
+</div>
+<div class="info-block"><span class="info-label">约束</span><div>1 ≤ n ≤ len(nums) ≤ 10^5；-10^4 ≤ nums[i] ≤ 10^4；要求一次遍历完成（空间 O(1)）。</div></div>
+
+    <div class="code-section">
+      <div class="code-header">
+        <span>🧑‍💻 在线代码编辑器</span>
+        <button class="btn-run" onclick="runCode(1)" id="run_btn_1">▶ 运行</button>
+      </div>
+      <div class="editor-wrap">
+        <div class="code-editor" id="editor_1" contenteditable="true" spellcheck="false">class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+def solve(nums, n):
+    # 请实现：删除链表 nums（数组表示）的倒数第 n 个节点，返回删除后的数组
+    # 要求只遍历链表一次（快慢指针）
+    pass</div>
+      </div>
+      <div class="code-result" id="result_1" style="display:none;"></div>
+      <input type="hidden" id="func_name_1" value="__init__">
+      <input type="hidden" id="test_cases_1" value='[[[1, 2, 3, 4, 5], 2], [[1], 1], [[1, 2], 2], [[1, 2], 1], [[1, 2, 3, 4, 5], 5], [[1, 2, 3, 4, 5], 1], [[7, 7, 7, 7], 2], [[-1, -1, 0, 2], 2], [[1, 2, 3, 3, 5], 3], [[9, 8, 7, 6, 5], 3], [[0], 1], [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191, 192, 193, 194, 195, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 221, 222, 223, 224, 225, 226, 227, 228, 229, 230, 231, 232, 233, 234, 235, 236, 237, 238, 239, 240, 241, 242, 243, 244, 245, 246, 247, 248, 249, 250, 251, 252, 253, 254, 255, 256, 257, 258, 259, 260, 261, 262, 263, 264, 265, 266, 267, 268, 269, 270, 271, 272, 273, 274, 275, 276, 277, 278, 279, 280, 281, 282, 283, 284, 285, 286, 287, 288, 289, 290, 291, 292, 293, 294, 295, 296, 297, 298, 299, 300, 301, 302, 303, 304, 305, 306, 307, 308, 309, 310, 311, 312, 313, 314, 315, 316, 317, 318, 319, 320, 321, 322, 323, 324, 325, 326, 327, 328, 329, 330, 331, 332, 333, 334, 335, 336, 337, 338, 339, 340, 341, 342, 343, 344, 345, 346, 347, 348, 349, 350, 351, 352, 353, 354, 355, 356, 357, 358, 359, 360, 361, 362, 363, 364, 365, 366, 367, 368, 369, 370, 371, 372, 373, 374, 375, 376, 377, 378, 379, 380, 381, 382, 383, 384, 385, 386, 387, 388, 389, 390, 391, 392, 393, 394, 395, 396, 397, 398, 399, 400, 401, 402, 403, 404, 405, 406, 407, 408, 409, 410, 411, 412, 413, 414, 415, 416, 417, 418, 419, 420, 421, 422, 423, 424, 425, 426, 427, 428, 429, 430, 431, 432, 433, 434, 435, 436, 437, 438, 439, 440, 441, 442, 443, 444, 445, 446, 447, 448, 449, 450, 451, 452, 453, 454, 455, 456, 457, 458, 459, 460, 461, 462, 463, 464, 465, 466, 467, 468, 469, 470, 471, 472, 473, 474, 475, 476, 477, 478, 479, 480, 481, 482, 483, 484, 485, 486, 487, 488, 489, 490, 491, 492, 493, 494, 495, 496, 497, 498, 499, 500, 501, 502, 503, 504, 505, 506, 507, 508, 509, 510, 511, 512, 513, 514, 515, 516, 517, 518, 519, 520, 521, 522, 523, 524, 525, 526, 527, 528, 529, 530, 531, 532, 533, 534, 535, 536, 537, 538, 539, 540, 541, 542, 543, 544, 545, 546, 547, 548, 549, 550, 551, 552, 553, 554, 555, 556, 557, 558, 559, 560, 561, 562, 563, 564, 565, 566, 567, 568, 569, 570, 571, 572, 573, 574, 575, 576, 577, 578, 579, 580, 581, 582, 583, 584, 585, 586, 587, 588, 589, 590, 591, 592, 593, 594, 595, 596, 597, 598, 599, 600, 601, 602, 603, 604, 605, 606, 607, 608, 609, 610, 611, 612, 613, 614, 615, 616, 617, 618, 619, 620, 621, 622, 623, 624, 625, 626, 627, 628, 629, 630, 631, 632, 633, 634, 635, 636, 637, 638, 639, 640, 641, 642, 643, 644, 645, 646, 647, 648, 649, 650, 651, 652, 653, 654, 655, 656, 657, 658, 659, 660, 661, 662, 663, 664, 665, 666, 667, 668, 669, 670, 671, 672, 673, 674, 675, 676, 677, 678, 679, 680, 681, 682, 683, 684, 685, 686, 687, 688, 689, 690, 691, 692, 693, 694, 695, 696, 697, 698, 699, 700, 701, 702, 703, 704, 705, 706, 707, 708, 709, 710, 711, 712, 713, 714, 715, 716, 717, 718, 719, 720, 721, 722, 723, 724, 725, 726, 727, 728, 729, 730, 731, 732, 733, 734, 735, 736, 737, 738, 739, 740, 741, 742, 743, 744, 745, 746, 747, 748, 749, 750, 751, 752, 753, 754, 755, 756, 757, 758, 759, 760, 761, 762, 763, 764, 765, 766, 767, 768, 769, 770, 771, 772, 773, 774, 775, 776, 777, 778, 779, 780, 781, 782, 783, 784, 785, 786, 787, 788, 789, 790, 791, 792, 793, 794, 795, 796, 797, 798, 799, 800, 801, 802, 803, 804, 805, 806, 807, 808, 809, 810, 811, 812, 813, 814, 815, 816, 817, 818, 819, 820, 821, 822, 823, 824, 825, 826, 827, 828, 829, 830, 831, 832, 833, 834, 835, 836, 837, 838, 839, 840, 841, 842, 843, 844, 845, 846, 847, 848, 849, 850, 851, 852, 853, 854, 855, 856, 857, 858, 859, 860, 861, 862, 863, 864, 865, 866, 867, 868, 869, 870, 871, 872, 873, 874, 875, 876, 877, 878, 879, 880, 881, 882, 883, 884, 885, 886, 887, 888, 889, 890, 891, 892, 893, 894, 895, 896, 897, 898, 899, 900, 901, 902, 903, 904, 905, 906, 907, 908, 909, 910, 911, 912, 913, 914, 915, 916, 917, 918, 919, 920, 921, 922, 923, 924, 925, 926, 927, 928, 929, 930, 931, 932, 933, 934, 935, 936, 937, 938, 939, 940, 941, 942, 943, 944, 945, 946, 947, 948, 949, 950, 951, 952, 953, 954, 955, 956, 957, 958, 959, 960, 961, 962, 963, 964, 965, 966, 967, 968, 969, 970, 971, 972, 973, 974, 975, 976, 977, 978, 979, 980, 981, 982, 983, 984, 985, 986, 987, 988, 989, 990, 991, 992, 993, 994, 995, 996, 997, 998, 999, 1000], 500], [[-1000, 0, 1000], 2]]'>
+      <input type="hidden" id="expected_outputs_1" value='[[1, 2, 3, 5], [], [2], [1], [2, 3, 4, 5], [1, 2, 3, 4], [7, 7, 7], [-1, -1, 2], [1, 2, 3, 5], [9, 8, 6, 5], [], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191, 192, 193, 194, 195, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 221, 222, 223, 224, 225, 226, 227, 228, 229, 230, 231, 232, 233, 234, 235, 236, 237, 238, 239, 240, 241, 242, 243, 244, 245, 246, 247, 248, 249, 250, 251, 252, 253, 254, 255, 256, 257, 258, 259, 260, 261, 262, 263, 264, 265, 266, 267, 268, 269, 270, 271, 272, 273, 274, 275, 276, 277, 278, 279, 280, 281, 282, 283, 284, 285, 286, 287, 288, 289, 290, 291, 292, 293, 294, 295, 296, 297, 298, 299, 300, 301, 302, 303, 304, 305, 306, 307, 308, 309, 310, 311, 312, 313, 314, 315, 316, 317, 318, 319, 320, 321, 322, 323, 324, 325, 326, 327, 328, 329, 330, 331, 332, 333, 334, 335, 336, 337, 338, 339, 340, 341, 342, 343, 344, 345, 346, 347, 348, 349, 350, 351, 352, 353, 354, 355, 356, 357, 358, 359, 360, 361, 362, 363, 364, 365, 366, 367, 368, 369, 370, 371, 372, 373, 374, 375, 376, 377, 378, 379, 380, 381, 382, 383, 384, 385, 386, 387, 388, 389, 390, 391, 392, 393, 394, 395, 396, 397, 398, 399, 400, 401, 402, 403, 404, 405, 406, 407, 408, 409, 410, 411, 412, 413, 414, 415, 416, 417, 418, 419, 420, 421, 422, 423, 424, 425, 426, 427, 428, 429, 430, 431, 432, 433, 434, 435, 436, 437, 438, 439, 440, 441, 442, 443, 444, 445, 446, 447, 448, 449, 450, 451, 452, 453, 454, 455, 456, 457, 458, 459, 460, 461, 462, 463, 464, 465, 466, 467, 468, 469, 470, 471, 472, 473, 474, 475, 476, 477, 478, 479, 480, 481, 482, 483, 484, 485, 486, 487, 488, 489, 490, 491, 492, 493, 494, 495, 496, 497, 498, 499, 500, 502, 503, 504, 505, 506, 507, 508, 509, 510, 511, 512, 513, 514, 515, 516, 517, 518, 519, 520, 521, 522, 523, 524, 525, 526, 527, 528, 529, 530, 531, 532, 533, 534, 535, 536, 537, 538, 539, 540, 541, 542, 543, 544, 545, 546, 547, 548, 549, 550, 551, 552, 553, 554, 555, 556, 557, 558, 559, 560, 561, 562, 563, 564, 565, 566, 567, 568, 569, 570, 571, 572, 573, 574, 575, 576, 577, 578, 579, 580, 581, 582, 583, 584, 585, 586, 587, 588, 589, 590, 591, 592, 593, 594, 595, 596, 597, 598, 599, 600, 601, 602, 603, 604, 605, 606, 607, 608, 609, 610, 611, 612, 613, 614, 615, 616, 617, 618, 619, 620, 621, 622, 623, 624, 625, 626, 627, 628, 629, 630, 631, 632, 633, 634, 635, 636, 637, 638, 639, 640, 641, 642, 643, 644, 645, 646, 647, 648, 649, 650, 651, 652, 653, 654, 655, 656, 657, 658, 659, 660, 661, 662, 663, 664, 665, 666, 667, 668, 669, 670, 671, 672, 673, 674, 675, 676, 677, 678, 679, 680, 681, 682, 683, 684, 685, 686, 687, 688, 689, 690, 691, 692, 693, 694, 695, 696, 697, 698, 699, 700, 701, 702, 703, 704, 705, 706, 707, 708, 709, 710, 711, 712, 713, 714, 715, 716, 717, 718, 719, 720, 721, 722, 723, 724, 725, 726, 727, 728, 729, 730, 731, 732, 733, 734, 735, 736, 737, 738, 739, 740, 741, 742, 743, 744, 745, 746, 747, 748, 749, 750, 751, 752, 753, 754, 755, 756, 757, 758, 759, 760, 761, 762, 763, 764, 765, 766, 767, 768, 769, 770, 771, 772, 773, 774, 775, 776, 777, 778, 779, 780, 781, 782, 783, 784, 785, 786, 787, 788, 789, 790, 791, 792, 793, 794, 795, 796, 797, 798, 799, 800, 801, 802, 803, 804, 805, 806, 807, 808, 809, 810, 811, 812, 813, 814, 815, 816, 817, 818, 819, 820, 821, 822, 823, 824, 825, 826, 827, 828, 829, 830, 831, 832, 833, 834, 835, 836, 837, 838, 839, 840, 841, 842, 843, 844, 845, 846, 847, 848, 849, 850, 851, 852, 853, 854, 855, 856, 857, 858, 859, 860, 861, 862, 863, 864, 865, 866, 867, 868, 869, 870, 871, 872, 873, 874, 875, 876, 877, 878, 879, 880, 881, 882, 883, 884, 885, 886, 887, 888, 889, 890, 891, 892, 893, 894, 895, 896, 897, 898, 899, 900, 901, 902, 903, 904, 905, 906, 907, 908, 909, 910, 911, 912, 913, 914, 915, 916, 917, 918, 919, 920, 921, 922, 923, 924, 925, 926, 927, 928, 929, 930, 931, 932, 933, 934, 935, 936, 937, 938, 939, 940, 941, 942, 943, 944, 945, 946, 947, 948, 949, 950, 951, 952, 953, 954, 955, 956, 957, 958, 959, 960, 961, 962, 963, 964, 965, 966, 967, 968, 969, 970, 971, 972, 973, 974, 975, 976, 977, 978, 979, 980, 981, 982, 983, 984, 985, 986, 987, 988, 989, 990, 991, 992, 993, 994, 995, 996, 997, 998, 999, 1000], [-100, 1000]]'>
+    </div>
+
+    <button class="btn-reveal" onclick="revealSolution(1)" id="reveal_btn_1">
+      📖 显示答案与解析
+    </button>
+<div class="solution-section" id="solution_1" style="display:none;">
+<div class="solution-divider">--- 以下为答案与解析 ---</div>
+<div class="solution-block"><h4>💡 解题思路</h4><div>**快慢指针 + 哑节点**：在头节点前加一个哑节点（dummy），让快指针 <code class="inline-code">fast</code> 先走 n 步，然后快慢指针同步前进；当 <code class="inline-code">fast</code> 走到链表末尾时，慢指针 <code class="inline-code">slow</code> 恰好停在待删节点的**前一个**节点，执行 <code class="inline-code">slow.next = slow.next.next</code> 即可完成删除。哑节点统一处理“删除头节点”的边界（n = len(nums) 时无需特判）。</div></div>
+<div class="solution-block"><h4>📝 参考代码（python）</h4><pre class="code-block">class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+def solve(nums, n):
+    # 1. 用数组建链表（哑节点统一处理头节点的删除）
+    dummy = ListNode(0)
+    tail = dummy
+    for v in nums:
+        tail.next = ListNode(v)
+        tail = tail.next
+
+    # 2. 快指针先走 n 步，与慢指针拉开 n 个节点的差距
+    fast = dummy
+    slow = dummy
+    for _ in range(n):
+        fast = fast.next
+
+    # 3. 快指针走到链表末尾时，慢指针恰好停在待删节点的前一个节点
+    while fast.next:
+        fast = fast.next
+        slow = slow.next
+
+    # 4. 跳过待删节点，完成删除
+    slow.next = slow.next.next
+
+    # 5. 链表转回数组返回
+    res = []
+    p = dummy.next
+    while p:
+        res.append(p.val)
+        p = p.next
+    return res</pre></div>
+<div class="solution-block"><h4>⚡ 复杂度分析</h4><div>
+<span class="complexity-tag">时间 O(n)（每个节点最多被访问一次）</span>
+<span class="complexity-tag">空间 O(1)（除返回数组外，只用了哑节点与两个指针）</span>
+</div></div>
+<div class="solution-block"><h4>🎯 考点</h4><div>链表双指针（快慢指针）、哑节点简化边界、单次遍历；链表与数组的相互转换。</div></div>
+</div>
+</div>
+<div class="question-card" data-qid="2">
+
+    <div class="question-header">
+      <span class="type-badge" style="background:#10b981">算法概念</span>
+      <span class="difficulty">⭐⭐</span>
+      <span class="qid-label">第 2 题</span>
+    </div>
+<h2 class="question-title">单调栈的性质与适用场景</h2>
+<div class="question-body">关于**单调栈（Monotonic Stack）**与**单调队列（Monotonic Queue）**，下列说法**正确的是**：</div>
+<div class="options-container">
+
+            <label class="option-item" data-letter="A">
+              <input type="radio" name="quiz_2" value="A" onchange="checkAnswer(2, 'A')">
+              <span class="option-letter">A</span>
+              <span class="option-text">求解「下一个更大元素」时，应维护从栈底到栈顶单调递增的单调栈：遇到新元素若比栈顶大，直接入栈即可保证栈内递增。</span>
+            </label>
+
+            <label class="option-item" data-letter="B">
+              <input type="radio" name="quiz_2" value="B" onchange="checkAnswer(2, 'B')">
+              <span class="option-letter">B</span>
+              <span class="option-text">用单调栈求解「下一个更大元素」的最坏时间复杂度为 O(n²)，因为每插入一个元素都可能需要遍历栈内所有元素。</span>
+            </label>
+
+            <label class="option-item" data-letter="C">
+              <input type="radio" name="quiz_2" value="C" onchange="checkAnswer(2, 'C')">
+              <span class="option-letter">C</span>
+              <span class="option-text">单调栈保证每个元素最多入栈一次、出栈一次，故总时间复杂度 O(n)；求解「下一个更大元素」时，新元素不断弹出比它小的栈顶，被弹出元素的「下一个更大元素」就是该新元素。</span>
+            </label>
+
+            <label class="option-item" data-letter="D">
+              <input type="radio" name="quiz_2" value="D" onchange="checkAnswer(2, 'D')">
+              <span class="option-letter">D</span>
+              <span class="option-text">单调栈与单调队列完全等价：滑动窗口最大值问题用单调栈即可解决，窗口移出元素时从栈中弹出该元素即可，无需双端队列。</span>
+            </label>
+</div>
+<div class="option-feedback" id="feedback_2"></div>
+
+    <button class="btn-reveal" onclick="revealSolution(2)" id="reveal_btn_2">
+      📖 显示答案与解析
+    </button>
+<div class="solution-section" id="solution_2" style="display:none;">
+<div class="solution-divider">--- 以下为答案与解析 ---</div>
+<div class="answer-highlight">✅ 正确答案：C</div>
+<div class="solution-block"><h4>💡 解题思路</h4><div>逐项辨析四个说法，重点考查单调栈的均摊时间复杂度、弹栈语义，以及与单调队列（滑动窗口最值）的适用场景区分。</div></div>
+<div class="solution-block"><h4>🎯 考点</h4><div>单调栈均摊 O(n) 的进出栈分析；单调栈（下一个更大/更小元素）与单调队列（滑动窗口最值）的适用场景区分。</div></div>
+<div class="solution-block"><h4>🔍 逐项分析</h4><ul class="answer-points">
+<li>A 错：方向说反。求「下一个更大元素」维护的是从栈顶到栈底单调递减（即栈内元素自顶向下递增）的栈——新元素比栈顶大时，栈顶的「下一个更大元素」就是新元素，因此要先弹出所有比新元素小的栈顶，而不是直接入栈。</li>
+<li>B 错：复杂度结论错误。单调栈的核心性质是**每个元素最多入栈一次、出栈一次**，均摊下来每次操作 O(1)，总复杂度 O(n)，不是 O(n²)。</li>
+<li>C 对：这正是单调栈的均摊 O(n) 原理——元素弹栈时，弹出的元素与入栈的新元素构成「下一个更大/更小」关系。</li>
+<li>D 错：混淆两种结构。滑动窗口最大值时，窗口左端元素滑出后需要**从队首（另一端）移除**，栈只能从一端出入，无法做到；因此必须用**双端队列实现的单调队列**（队首维护窗口移出，队尾维护单调性）。</li>
+</ul></div>
+</div>
+</div>
+<div class="question-card" data-qid="3">
+
+    <div class="question-header">
+      <span class="type-badge" style="background:#a855f7">AI公式推导</span>
+      <span class="difficulty">⭐⭐</span>
+      <span class="qid-label">第 3 题</span>
+    </div>
+<h2 class="question-title">缩放点积注意力：为什么除以 √d_k</h2>
+<div class="question-body">缩放点积注意力（Scaled Dot-Product Attention）的分数定义为：<br>
+<br>
+$$\text{score}(q, k) = \frac{q \cdot k}{\sqrt{d_k}}$$<br>
+<br>
+请从**概率论**角度推导：为什么点积要除以 $\sqrt{d_k}$？要求完成三件事：<br>
+<br>
+1. 在「$q, k$ 各分量独立、均值为 0、方差为 1」的假设下，推导点积 $q \cdot k$ 的**方差**；<br>
+2. 说明不缩放时，大维度 $d_k$ 会给 softmax 带来什么问题（梯度层面）；<br>
+3. 给出缩放后的方差，并解释缩放因子为何取 $\sqrt{d_k}$ 而非 $d_k$。</div>
+
+    <button class="btn-reveal" onclick="revealSolution(3)" id="reveal_btn_3">
+      📖 显示答案与解析
+    </button>
+<div class="solution-section" id="solution_3" style="display:none;">
+<div class="solution-divider">--- 以下为答案与解析 ---</div>
+<div class="solution-block"><h4>🎯 考点</h4><div>独立同分布假设下方差的可加性；点积尺度随 √d_k 增长；softmax 饱和区与梯度消失；标准差归一化（除以 √d_k 而非 d_k）。</div></div>
+<div class="solution-block"><h4>📐 推导过程</h4><div class="derivation-content">**第 1 步：符号与假设**<br>
+<br>
+设 $q, k \in \mathbb{R}^{d_k}$，各分量 $q_i, k_i$ 之间互相独立，且<br>
+<br>
+$$E[q_i] = E[k_i] = 0, \qquad \mathrm{Var}(q_i) = \mathrm{Var}(k_i) = 1$$<br>
+<br>
+（即每个分量量级为 $O(1)$，与随机初始化后向量各分量量级一致。）<br>
+<br>
+**第 2 步：点积的期望**<br>
+<br>
+$$E[q \cdot k] = E\left[\sum_{i=1}^{d_k} q_i k_i\right] = \sum_{i=1}^{d_k} E[q_i k_i] = \sum_{i=1}^{d_k} E[q_i]E[k_i] = 0$$<br>
+<br>
+其中用到了独立性：$E[q_i k_i] = E[q_i]E[k_i]$。<br>
+<br>
+**第 3 步：点积的方差（关键步骤）**<br>
+<br>
+先看单个乘积项 $q_i k_i$：<br>
+<br>
+$$\mathrm{Var}(q_i k_i) = E[(q_i k_i)^2] - \big(E[q_i k_i]\big)^2 = E[q_i^2 k_i^2] - 0$$<br>
+<br>
+由独立性 $E[q_i^2 k_i^2] = E[q_i^2]E[k_i^2]$；又因为 $E[q_i]=0$、$\mathrm{Var}(q_i)=1$，有<br>
+<br>
+$$E[q_i^2] = \mathrm{Var}(q_i) + E[q_i]^2 = 1 + 0 = 1$$<br>
+<br>
+同理 $E[k_i^2] = 1$。代入得<br>
+<br>
+$$\mathrm{Var}(q_i k_i) = 1 \times 1 = 1$$<br>
+<br>
+由于各分量独立，方差可直接相加：<br>
+<br>
+$$\mathrm{Var}(q \cdot k) = \sum_{i=1}^{d_k} \mathrm{Var}(q_i k_i) = d_k$$<br>
+<br>
+即点积的标准差为 $\sqrt{d_k}$——**点积的量级随维度以 $\sqrt{d_k}$ 增长**。<br>
+<br>
+**第 4 步：不缩放时的梯度问题**<br>
+<br>
+softmax 定义为<br>
+<br>
+$$\mathrm{softmax}(z)_i = \frac{e^{z_i}}{\sum_{j=1}^{n} e^{z_j}}$$<br>
+<br>
+当 $d_k$ 较大（如 64、128）时，点积分布的标准差 $\sqrt{d_k}$ 随之变大，部分 logit 绝对值明显超过 1，各分数差距被放大，softmax 输出趋向尖锐（接近 one-hot）。此时多数位置的预测概率接近 0 或 1，进入 softmax 的饱和区（导数趋近于 0），反向传播时梯度消失，训练变慢甚至不稳定。<br>
+<br>
+**第 5 步：缩放后的方差与结论**<br>
+<br>
+$$\mathrm{Var}\!\left(\frac{q \cdot k}{\sqrt{d_k}}\right) = \frac{1}{d_k}\mathrm{Var}(q \cdot k) = \frac{d_k}{d_k} = 1$$<br>
+<br>
+缩放后点积方差恒为 1，与维度 $d_k$ 无关，softmax 输入始终处于温和量级，梯度稳定。由于我们要归一化的是**标准差**（量级），所以除以 $\sqrt{d_k}$（方差开方）而非 $d_k$：除以 $\sqrt{d_k}$ 恰好使方差归一到 1。</div></div>
+<div class="solution-block"><h4>🧠 直觉解释</h4><div>除以 $\sqrt{d_k}$ 就是把点积的“尺度”钉回 $O(1)$：维度越高、点积方差越大，若不缩放 softmax 会趋于尖锐导致梯度消失；缩放到方差恒为 1 后，注意力分数始终温和，训练稳定。</div></div>
+</div>
+</div>
+<div class="question-card" data-qid="4">
+
+    <div class="question-header">
+      <span class="type-badge" style="background:#f59e0b">AI面试问答</span>
+      <span class="difficulty">⭐⭐</span>
+      <span class="qid-label">第 4 题</span>
+    </div>
+<h2 class="question-title">分类为什么用交叉熵而不是 MSE</h2>
+<div class="question-body">面试官提问：<br>
+<br>
+「分类问题的输出层通常用 softmax + 交叉熵（Cross-Entropy），为什么不用平方误差（MSE）？请从梯度、概率、信息论三个角度解释。」</div>
+
+    <button class="btn-reveal" onclick="revealSolution(4)" id="reveal_btn_4">
+      📖 显示答案与解析
+    </button>
+<div class="solution-section" id="solution_4" style="display:none;">
+<div class="solution-divider">--- 以下为答案与解析 ---</div>
+<div class="solution-block"><h4>📌 回答要点</h4><ul class="answer-points">
+<li>**梯度视角（最核心）**：设 $z$ 为 logits，$p=\mathrm{softmax}(z)$，$y$ 为 one-hot 标签。交叉熵 $L_{CE}=-\sum_i y_i \log p_i$ 对 $z_i$ 的梯度是 $p_i - y_i$，量级 $O(1)$，误差越大梯度越大，无饱和问题；而 MSE + softmax 的梯度含 $p_i(1-p_i)$ 因子，当 $p_i \to 0$ 或 $p_i \to 1$ 时梯度消失——恰恰在分错（$p$ 接近 0 的目标类）时几乎学不动。</li>
+<li>**概率**：交叉熵最小化等价于对 one-hot 标签做**最大似然估计（MLE）**：$L_{CE} = -\log p_y$，最小化它就是最大化真实类别的预测概率；而 MSE 对应高斯噪声假设下的 MLE，适合连续回归目标，对离散的 0/1 类别标签度量并不自然。</li>
+<li>**信息论**：交叉熵可分解为熵与 KL 散度：$H(p,q)=H(p)+D_{KL}(p \| q)$。真实分布 $p$ 的熵 $H(p)$ 是常数，最小化交叉熵等价于最小化预测分布与真实分布的 KL 散度，目标是指概率分布逼近；MSE 是欧氏距离，度量的是数值误差，与“分布逼近”的目标不匹配。</li>
+<li>**数值稳定性**：工程实现通常把 softmax 与 log 融合（如 PyTorch 的 <code class="inline-code">CrossEntropyLoss</code> 内置 log-softmax），避免 <code class="inline-code">log(0)</code> 下溢；且 CE 与 softmax 的组合在 logits 线性部分关于类别是凸的，梯度形式干净。</li>
+</ul></div>
+<div class="solution-block"><h4>⭐ 加分项</h4><ul class="answer-points">
+<li>回归任务用 MSE（连续值、高斯噪声 MLE）；多标签分类用 BCE（sigmoid + 二元交叉熵），而不是多类 CE。</li>
+<li>知识蒸馏中教师输出为“软标签”时仍用交叉熵（或 KL 散度）而非 MSE：软分布的信息比硬标签更丰富，CE 对分布差异更敏感。</li>
+<li>若最后一层不用 softmax（线性输出），MSE 也可用于分类，但会丧失概率解释，且分类问题默认组合仍是 softmax + CE。</li>
+</ul></div>
+<div class="solution-block"><h4>🔮 追问预测</h4><ul class="answer-points">
+<li>追问：请推导 softmax + CE 的梯度？—— 由 $\partial p_j/\partial z_i = p_j(\delta_{ij} - p_i)$，分 $i$ 为真实类与不是两种情况合并，得 $\partial L/\partial z_i = p_i - y_i$，与之前的“梯度干净”呼应。</li>
+<li>追问：那回归为什么常用 MSE 而不用 MAE？—— MSE 处处可导、对大误差更敏感，误差服从高斯分布时即 MLE；MAE 对离群点更鲁棒（拉普拉斯分布假设）但零点不可导；实践中可换 Huber 损失结合两者。</li>
+<li>追问：标签平滑（Label Smoothing）与交叉熵的关系？—— 把 one-hot 目标软化（如 ε 均分到所有类），等价于在 CE 上加入对均匀分布的 KL 正则，可缓解过拟合、抑制过置信，属于 CE 的改进变体。</li>
+</ul></div>
+</div>
+</div>
+
+<div class="footer">
+  坚持每日练习，积少成多 💪<br>
+  Powered by TeleAgent · daily-algo-ai-quiz
+</div>
+
+<script>
+// ===== Pyodide 隔离执行测试运行器 =====
+const RUNNER_CODE = "\nimport json, traceback, io, contextlib\n\ndef run_tests(user_code, func_name, test_cases, expected):\n    ns = {}\n    user_stdout = io.StringIO()\n    user_error = None\n\n    try:\n        with contextlib.redirect_stdout(user_stdout):\n            exec(user_code, ns)\n    except Exception:\n        user_error = traceback.format_exc()\n\n    user_out = user_stdout.getvalue()\n\n    if user_error:\n        return {\"error\": user_error, \"stdout\": user_out}\n\n    func = ns.get(func_name)\n    if func is None:\n        return {\"error\": \"未找到函数 \" + str(func_name) + \"，请确保代码中定义了该函数\", \"stdout\": user_out}\n\n    test_results = []\n    for i, tc in enumerate(test_cases):\n        try:\n            actual = func(*tc)\n            exp = expected[i]\n            passed = actual == exp\n            test_results.append({\n                \"passed\": passed,\n                \"input\": str(tc),\n                \"expected\": str(exp),\n                \"actual\": str(actual)\n            })\n        except Exception as e:\n            exp = str(expected[i]) if i < len(expected) else \"N/A\"\n            test_results.append({\n                \"passed\": False,\n                \"input\": str(tc),\n                \"expected\": exp,\n                \"actual\": \"Error: \" + str(e)\n            })\n\n    return {\"stdout\": user_out, \"tests\": test_results}\n";
+
+// ===== 显示/隐藏解析 =====
+function revealSolution(qid) {
+  const sol = document.getElementById('solution_' + qid);
+  const btn = document.getElementById('reveal_btn_' + qid);
+  if (sol.style.display === 'none') {
+    sol.style.display = 'block';
+    btn.innerHTML = '📕 收起解析';
+    // 渲染该区域数学公式
+    if (typeof renderMathInElement !== 'undefined') {
+      renderMathInElement(sol, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false}
+        ]
+      });
+    }
+  } else {
+    sol.style.display = 'none';
+    btn.innerHTML = '📖 显示答案与解析';
+  }
+}
+
+// ===== 选择题作答反馈 =====
+function checkAnswer(qid, selected) {
+  const card = document.querySelector(`[data-qid="${qid}"]`);
+  if (!card) return;
+  const correctAnswer = card.getAttribute('data-correct') || '';
+  // 从全局 quizData 获取
+  const qData = window.__quizData__.questions.find(q => q.id == qid);
+  if (!qData || !qData.correct_answer) return;
+
+  const correct = qData.correct_answer;
+  const feedback = document.getElementById('feedback_' + qid);
+  const options = card.querySelectorAll('.option-item');
+
+  options.forEach(opt => {
+    const letter = opt.getAttribute('data-letter');
+    opt.classList.remove('correct', 'wrong');
+    if (letter === correct) {
+      opt.classList.add('correct');
+    } else if (letter === selected && selected !== correct) {
+      opt.classList.add('wrong');
+    }
+  });
+
+  if (feedback) {
+    feedback.className = 'option-feedback show ' + (selected === correct ? 'correct' : 'wrong');
+    feedback.textContent = selected === correct
+      ? '✅ 回答正确！'
+      : `❌ 正确答案是 ${correct}，再想想？`;
+    feedback.style.display = 'block';
+  }
+}
+
+// ===== Pyodide 代码执行 =====
+let pyodideReady = null;
+let pyodideLoading = false;
+
+function loadPyodideAsync() {
+  if (pyodideReady) return pyodideReady;
+  if (pyodideLoading) return pyodideReady;
+  pyodideLoading = true;
+
+  pyodideReady = new Promise((resolve, reject) => {
+    if (typeof loadPyodide !== 'undefined') {
+      loadPyodide({
+        indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.25.0/full/'
+      }).then(py => {
+        pyodideLoading = false;
+        resolve(py);
+      }).catch(reject);
+    } else {
+      // 动态加载 Pyodide
+      const script = document.createElement('script');
+      script.src = 'https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js';
+      script.onload = () => {
+        loadPyodide({
+          indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.25.0/full/'
+        }).then(py => {
+          pyodideLoading = false;
+          resolve(py);
+        }).catch(reject);
+      };
+      script.onerror = () => {
+        pyodideLoading = false;
+        reject(new Error('Pyodide 加载失败，请检查网络连接'));
+      };
+      document.head.appendChild(script);
+    }
+  });
+  return pyodideReady;
+}
+
+async function runCode(qid) {
+    const editor = document.getElementById('editor_' + qid);
+    const resultDiv = document.getElementById('result_' + qid);
+    const btn = document.getElementById('run_btn_' + qid);
+    const code = editor.innerText;
+    const funcNameInput = document.getElementById('func_name_' + qid);
+    const funcName = funcNameInput ? funcNameInput.value : 'solve';
+    const tcInput = document.getElementById('test_cases_' + qid);
+    const eoInput = document.getElementById('expected_outputs_' + qid);
+    let testCases = [];
+    let expectedOutputs = [];
+    try {
+        testCases = JSON.parse(tcInput.value || '[]');
+        expectedOutputs = JSON.parse(eoInput.value || '[]');
+    } catch(e) {}
+
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span> 运行中...';
+    resultDiv.style.display = 'block';
+    resultDiv.innerHTML = '<span style="color:var(--text-dim)">⏳ 正在加载 Python 运行环境...</span>';
+
+    try {
+        const pyodide = await loadPyodideAsync();
+        resultDiv.innerHTML = '<span style="color:var(--text-dim)">⏳ 正在执行代码...</span>';
+
+        // 确保 run_tests 函数只定义一次
+        if (!window.__runner_ready__) {
+            pyodide.runPython(RUNNER_CODE);
+            window.__runner_ready__ = true;
+        }
+
+        // 调用 run_tests 函数，通过返回值获取结果（不依赖 stdout，每次调用独立）
+        const runTests = pyodide.globals.get('run_tests');
+        const pyResult = runTests(code, funcName, testCases, expectedOutputs);
+        // pyResult 是 Python dict，转为 JS 对象
+        const result = pyResult.toJs({dict_converter: Object.fromEntries});
+
+        let resultHtml = '';
+
+        // 显示用户代码标准输出
+        if (result.stdout && result.stdout.trim()) {
+            resultHtml += '<div style="color:var(--text)">📝 标准输出：</div>';
+            resultHtml += '<pre style="color:var(--text);margin:4px 0;">' + escapeHtml(result.stdout) + '</pre>';
+        }
+
+        // 显示错误信息
+        if (result.error) {
+            resultHtml += '<div class="stderr">⚠️ 错误信息：</div>';
+            resultHtml += '<pre class="stderr" style="margin:4px 0;">' + escapeHtml(result.error) + '</pre>';
+        }
+
+        // 显示测试用例结果
+        if (result.tests && result.tests.length > 0) {
+            let allPassed = result.tests.every(t => t.passed);
+            resultHtml += '<div style="margin-top:8px;color:' + (allPassed ? 'var(--green)' : 'var(--accent)') + '">';
+            resultHtml += allPassed ? '🎉 全部通过！' : '🧪 测试用例结果：';
+            resultHtml += '</div>';
+
+            for (let i = 0; i < result.tests.length; i++) {
+                const t = result.tests[i];
+                if (t.passed) {
+                    resultHtml += '<div class="test-pass">✅ 用例 ' + (i+1) + ' 通过</div>';
+                } else {
+                    resultHtml += '<div class="test-fail">❌ 用例 ' + (i+1) + ' 未通过</div>';
+                    resultHtml += '<pre style="color:var(--text-dim);margin:2px 0;">  输入: ' + escapeHtml(t.input) + '\n  期望: ' + escapeHtml(t.expected) + '\n  实际: ' + escapeHtml(t.actual) + '</pre>';
+                }
+            }
+        }
+
+        if (!resultHtml) {
+            resultHtml = '<span style="color:var(--text-dim)">（代码执行完毕，无输出）</span>';
+        }
+
+        resultDiv.innerHTML = resultHtml;
+
+    } catch(e) {
+        resultDiv.innerHTML = '<div class="stderr">❌ ' + escapeHtml(e.message || String(e)) + '</div>';
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = '▶ 运行';
+    }
+}
+
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+// Ctrl+Enter 运行代码
+document.addEventListener('keydown', (e) => {
+  if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+    const focused = document.activeElement;
+    if (focused && focused.classList.contains('code-editor')) {
+      const qid = focused.id.replace('editor_', '');
+      runCode(qid);
+    }
+  }
+});
+
+// Tab 键在编辑器中插入空格
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Tab' && document.activeElement.classList.contains('code-editor')) {
+    e.preventDefault();
+    document.execCommand('insertText', false, '    ');
+  }
+});
+
+// 将 quiz 数据存入全局变量供选择题使用
+window.__quizData__ = {"date": "2026-10-09", "title": "每日算法 AI 出题", "subtitle": "算法 2 道 + AI 2 道 · 2026-10-09 第13期", "questions": [{"id": 1, "type": "algorithm_code", "type_label": "算法编程", "difficulty": 2, "title": "删除链表的倒数第 N 个节点", "description": "给你一个链表的头（以数组 `nums` 表示），删除链表的倒数第 `n` 个节点，并返回删除后链表的头（同样以数组表示）。要求**只遍历链表一次**（快慢指针技巧），不能先求长度再删。例如链表 `1→2→3→4→5` 的倒数第 2 个节点是 `4`，删除后得到 `1→2→3→5`。", "input_format": "参数 `nums`：链表元素数组（按链表顺序）；参数 `n`：要删除的倒数第 n 个节点（1 ≤ n ≤ len(nums)，保证合法）。", "output_format": "返回删除后的链表数组。", "examples": [{"input": "nums = [1,2,3,4,5], n = 2", "output": "[1,2,3,5]", "explanation": "倒数第 2 个节点是值为 4 的节点，删除后链表为 1→2→3→5。"}, {"input": "nums = [1], n = 1", "output": "[]", "explanation": "链表中只有一个节点，删除后链表为空。"}], "constraints": "1 ≤ n ≤ len(nums) ≤ 10^5；-10^4 ≤ nums[i] ≤ 10^4；要求一次遍历完成（空间 O(1)）。", "solution": {"approach": "**快慢指针 + 哑节点**：在头节点前加一个哑节点（dummy），让快指针 `fast` 先走 n 步，然后快慢指针同步前进；当 `fast` 走到链表末尾时，慢指针 `slow` 恰好停在待删节点的**前一个**节点，执行 `slow.next = slow.next.next` 即可完成删除。哑节点统一处理“删除头节点”的边界（n = len(nums) 时无需特判）。", "code": "class ListNode:\n    def __init__(self, val=0, next=None):\n        self.val = val\n        self.next = next\n\ndef solve(nums, n):\n    # 1. 用数组建链表（哑节点统一处理头节点的删除）\n    dummy = ListNode(0)\n    tail = dummy\n    for v in nums:\n        tail.next = ListNode(v)\n        tail = tail.next\n\n    # 2. 快指针先走 n 步，与慢指针拉开 n 个节点的差距\n    fast = dummy\n    slow = dummy\n    for _ in range(n):\n        fast = fast.next\n\n    # 3. 快指针走到链表末尾时，慢指针恰好停在待删节点的前一个节点\n    while fast.next:\n        fast = fast.next\n        slow = slow.next\n\n    # 4. 跳过待删节点，完成删除\n    slow.next = slow.next.next\n\n    # 5. 链表转回数组返回\n    res = []\n    p = dummy.next\n    while p:\n        res.append(p.val)\n        p = p.next\n    return res", "starter_code": "class ListNode:\n    def __init__(self, val=0, next=None):\n        self.val = val\n        self.next = next\n\ndef solve(nums, n):\n    # 请实现：删除链表 nums（数组表示）的倒数第 n 个节点，返回删除后的数组\n    # 要求只遍历链表一次（快慢指针）\n    pass", "code_language": "python", "complexity_time": "O(n)（每个节点最多被访问一次）", "complexity_space": "O(1)（除返回数组外，只用了哑节点与两个指针）", "key_points": "链表双指针（快慢指针）、哑节点简化边界、单次遍历；链表与数组的相互转换。", "test_cases": [[[1, 2, 3, 4, 5], 2], [[1], 1], [[1, 2], 2], [[1, 2], 1], [[1, 2, 3, 4, 5], 5], [[1, 2, 3, 4, 5], 1], [[7, 7, 7, 7], 2], [[-1, -1, 0, 2], 2], [[1, 2, 3, 3, 5], 3], [[9, 8, 7, 6, 5], 3], [[0], 1], [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191, 192, 193, 194, 195, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 221, 222, 223, 224, 225, 226, 227, 228, 229, 230, 231, 232, 233, 234, 235, 236, 237, 238, 239, 240, 241, 242, 243, 244, 245, 246, 247, 248, 249, 250, 251, 252, 253, 254, 255, 256, 257, 258, 259, 260, 261, 262, 263, 264, 265, 266, 267, 268, 269, 270, 271, 272, 273, 274, 275, 276, 277, 278, 279, 280, 281, 282, 283, 284, 285, 286, 287, 288, 289, 290, 291, 292, 293, 294, 295, 296, 297, 298, 299, 300, 301, 302, 303, 304, 305, 306, 307, 308, 309, 310, 311, 312, 313, 314, 315, 316, 317, 318, 319, 320, 321, 322, 323, 324, 325, 326, 327, 328, 329, 330, 331, 332, 333, 334, 335, 336, 337, 338, 339, 340, 341, 342, 343, 344, 345, 346, 347, 348, 349, 350, 351, 352, 353, 354, 355, 356, 357, 358, 359, 360, 361, 362, 363, 364, 365, 366, 367, 368, 369, 370, 371, 372, 373, 374, 375, 376, 377, 378, 379, 380, 381, 382, 383, 384, 385, 386, 387, 388, 389, 390, 391, 392, 393, 394, 395, 396, 397, 398, 399, 400, 401, 402, 403, 404, 405, 406, 407, 408, 409, 410, 411, 412, 413, 414, 415, 416, 417, 418, 419, 420, 421, 422, 423, 424, 425, 426, 427, 428, 429, 430, 431, 432, 433, 434, 435, 436, 437, 438, 439, 440, 441, 442, 443, 444, 445, 446, 447, 448, 449, 450, 451, 452, 453, 454, 455, 456, 457, 458, 459, 460, 461, 462, 463, 464, 465, 466, 467, 468, 469, 470, 471, 472, 473, 474, 475, 476, 477, 478, 479, 480, 481, 482, 483, 484, 485, 486, 487, 488, 489, 490, 491, 492, 493, 494, 495, 496, 497, 498, 499, 500, 501, 502, 503, 504, 505, 506, 507, 508, 509, 510, 511, 512, 513, 514, 515, 516, 517, 518, 519, 520, 521, 522, 523, 524, 525, 526, 527, 528, 529, 530, 531, 532, 533, 534, 535, 536, 537, 538, 539, 540, 541, 542, 543, 544, 545, 546, 547, 548, 549, 550, 551, 552, 553, 554, 555, 556, 557, 558, 559, 560, 561, 562, 563, 564, 565, 566, 567, 568, 569, 570, 571, 572, 573, 574, 575, 576, 577, 578, 579, 580, 581, 582, 583, 584, 585, 586, 587, 588, 589, 590, 591, 592, 593, 594, 595, 596, 597, 598, 599, 600, 601, 602, 603, 604, 605, 606, 607, 608, 609, 610, 611, 612, 613, 614, 615, 616, 617, 618, 619, 620, 621, 622, 623, 624, 625, 626, 627, 628, 629, 630, 631, 632, 633, 634, 635, 636, 637, 638, 639, 640, 641, 642, 643, 644, 645, 646, 647, 648, 649, 650, 651, 652, 653, 654, 655, 656, 657, 658, 659, 660, 661, 662, 663, 664, 665, 666, 667, 668, 669, 670, 671, 672, 673, 674, 675, 676, 677, 678, 679, 680, 681, 682, 683, 684, 685, 686, 687, 688, 689, 690, 691, 692, 693, 694, 695, 696, 697, 698, 699, 700, 701, 702, 703, 704, 705, 706, 707, 708, 709, 710, 711, 712, 713, 714, 715, 716, 717, 718, 719, 720, 721, 722, 723, 724, 725, 726, 727, 728, 729, 730, 731, 732, 733, 734, 735, 736, 737, 738, 739, 740, 741, 742, 743, 744, 745, 746, 747, 748, 749, 750, 751, 752, 753, 754, 755, 756, 757, 758, 759, 760, 761, 762, 763, 764, 765, 766, 767, 768, 769, 770, 771, 772, 773, 774, 775, 776, 777, 778, 779, 780, 781, 782, 783, 784, 785, 786, 787, 788, 789, 790, 791, 792, 793, 794, 795, 796, 797, 798, 799, 800, 801, 802, 803, 804, 805, 806, 807, 808, 809, 810, 811, 812, 813, 814, 815, 816, 817, 818, 819, 820, 821, 822, 823, 824, 825, 826, 827, 828, 829, 830, 831, 832, 833, 834, 835, 836, 837, 838, 839, 840, 841, 842, 843, 844, 845, 846, 847, 848, 849, 850, 851, 852, 853, 854, 855, 856, 857, 858, 859, 860, 861, 862, 863, 864, 865, 866, 867, 868, 869, 870, 871, 872, 873, 874, 875, 876, 877, 878, 879, 880, 881, 882, 883, 884, 885, 886, 887, 888, 889, 890, 891, 892, 893, 894, 895, 896, 897, 898, 899, 900, 901, 902, 903, 904, 905, 906, 907, 908, 909, 910, 911, 912, 913, 914, 915, 916, 917, 918, 919, 920, 921, 922, 923, 924, 925, 926, 927, 928, 929, 930, 931, 932, 933, 934, 935, 936, 937, 938, 939, 940, 941, 942, 943, 944, 945, 946, 947, 948, 949, 950, 951, 952, 953, 954, 955, 956, 957, 958, 959, 960, 961, 962, 963, 964, 965, 966, 967, 968, 969, 970, 971, 972, 973, 974, 975, 976, 977, 978, 979, 980, 981, 982, 983, 984, 985, 986, 987, 988, 989, 990, 991, 992, 993, 994, 995, 996, 997, 998, 999, 1000], 500], [[-1000, 0, 1000], 2]], "expected_outputs": [[1, 2, 3, 5], [], [2], [1], [2, 3, 4, 5], [1, 2, 3, 4], [7, 7, 7], [-1, -1, 2], [1, 2, 3, 5], [9, 8, 6, 5], [], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191, 192, 193, 194, 195, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 221, 222, 223, 224, 225, 226, 227, 228, 229, 230, 231, 232, 233, 234, 235, 236, 237, 238, 239, 240, 241, 242, 243, 244, 245, 246, 247, 248, 249, 250, 251, 252, 253, 254, 255, 256, 257, 258, 259, 260, 261, 262, 263, 264, 265, 266, 267, 268, 269, 270, 271, 272, 273, 274, 275, 276, 277, 278, 279, 280, 281, 282, 283, 284, 285, 286, 287, 288, 289, 290, 291, 292, 293, 294, 295, 296, 297, 298, 299, 300, 301, 302, 303, 304, 305, 306, 307, 308, 309, 310, 311, 312, 313, 314, 315, 316, 317, 318, 319, 320, 321, 322, 323, 324, 325, 326, 327, 328, 329, 330, 331, 332, 333, 334, 335, 336, 337, 338, 339, 340, 341, 342, 343, 344, 345, 346, 347, 348, 349, 350, 351, 352, 353, 354, 355, 356, 357, 358, 359, 360, 361, 362, 363, 364, 365, 366, 367, 368, 369, 370, 371, 372, 373, 374, 375, 376, 377, 378, 379, 380, 381, 382, 383, 384, 385, 386, 387, 388, 389, 390, 391, 392, 393, 394, 395, 396, 397, 398, 399, 400, 401, 402, 403, 404, 405, 406, 407, 408, 409, 410, 411, 412, 413, 414, 415, 416, 417, 418, 419, 420, 421, 422, 423, 424, 425, 426, 427, 428, 429, 430, 431, 432, 433, 434, 435, 436, 437, 438, 439, 440, 441, 442, 443, 444, 445, 446, 447, 448, 449, 450, 451, 452, 453, 454, 455, 456, 457, 458, 459, 460, 461, 462, 463, 464, 465, 466, 467, 468, 469, 470, 471, 472, 473, 474, 475, 476, 477, 478, 479, 480, 481, 482, 483, 484, 485, 486, 487, 488, 489, 490, 491, 492, 493, 494, 495, 496, 497, 498, 499, 500, 502, 503, 504, 505, 506, 507, 508, 509, 510, 511, 512, 513, 514, 515, 516, 517, 518, 519, 520, 521, 522, 523, 524, 525, 526, 527, 528, 529, 530, 531, 532, 533, 534, 535, 536, 537, 538, 539, 540, 541, 542, 543, 544, 545, 546, 547, 548, 549, 550, 551, 552, 553, 554, 555, 556, 557, 558, 559, 560, 561, 562, 563, 564, 565, 566, 567, 568, 569, 570, 571, 572, 573, 574, 575, 576, 577, 578, 579, 580, 581, 582, 583, 584, 585, 586, 587, 588, 589, 590, 591, 592, 593, 594, 595, 596, 597, 598, 599, 600, 601, 602, 603, 604, 605, 606, 607, 608, 609, 610, 611, 612, 613, 614, 615, 616, 617, 618, 619, 620, 621, 622, 623, 624, 625, 626, 627, 628, 629, 630, 631, 632, 633, 634, 635, 636, 637, 638, 639, 640, 641, 642, 643, 644, 645, 646, 647, 648, 649, 650, 651, 652, 653, 654, 655, 656, 657, 658, 659, 660, 661, 662, 663, 664, 665, 666, 667, 668, 669, 670, 671, 672, 673, 674, 675, 676, 677, 678, 679, 680, 681, 682, 683, 684, 685, 686, 687, 688, 689, 690, 691, 692, 693, 694, 695, 696, 697, 698, 699, 700, 701, 702, 703, 704, 705, 706, 707, 708, 709, 710, 711, 712, 713, 714, 715, 716, 717, 718, 719, 720, 721, 722, 723, 724, 725, 726, 727, 728, 729, 730, 731, 732, 733, 734, 735, 736, 737, 738, 739, 740, 741, 742, 743, 744, 745, 746, 747, 748, 749, 750, 751, 752, 753, 754, 755, 756, 757, 758, 759, 760, 761, 762, 763, 764, 765, 766, 767, 768, 769, 770, 771, 772, 773, 774, 775, 776, 777, 778, 779, 780, 781, 782, 783, 784, 785, 786, 787, 788, 789, 790, 791, 792, 793, 794, 795, 796, 797, 798, 799, 800, 801, 802, 803, 804, 805, 806, 807, 808, 809, 810, 811, 812, 813, 814, 815, 816, 817, 818, 819, 820, 821, 822, 823, 824, 825, 826, 827, 828, 829, 830, 831, 832, 833, 834, 835, 836, 837, 838, 839, 840, 841, 842, 843, 844, 845, 846, 847, 848, 849, 850, 851, 852, 853, 854, 855, 856, 857, 858, 859, 860, 861, 862, 863, 864, 865, 866, 867, 868, 869, 870, 871, 872, 873, 874, 875, 876, 877, 878, 879, 880, 881, 882, 883, 884, 885, 886, 887, 888, 889, 890, 891, 892, 893, 894, 895, 896, 897, 898, 899, 900, 901, 902, 903, 904, 905, 906, 907, 908, 909, 910, 911, 912, 913, 914, 915, 916, 917, 918, 919, 920, 921, 922, 923, 924, 925, 926, 927, 928, 929, 930, 931, 932, 933, 934, 935, 936, 937, 938, 939, 940, 941, 942, 943, 944, 945, 946, 947, 948, 949, 950, 951, 952, 953, 954, 955, 956, 957, 958, 959, 960, 961, 962, 963, 964, 965, 966, 967, 968, 969, 970, 971, 972, 973, 974, 975, 976, 977, 978, 979, 980, 981, 982, 983, 984, 985, 986, 987, 988, 989, 990, 991, 992, 993, 994, 995, 996, 997, 998, 999, 1000], [-100, 1000]]}}, {"id": 2, "type": "algorithm_concept", "type_label": "算法概念", "difficulty": 2, "title": "单调栈的性质与适用场景", "description": "关于**单调栈（Monotonic Stack）**与**单调队列（Monotonic Queue）**，下列说法**正确的是**：", "options": ["求解「下一个更大元素」时，应维护从栈底到栈顶单调递增的单调栈：遇到新元素若比栈顶大，直接入栈即可保证栈内递增。", "用单调栈求解「下一个更大元素」的最坏时间复杂度为 O(n²)，因为每插入一个元素都可能需要遍历栈内所有元素。", "单调栈保证每个元素最多入栈一次、出栈一次，故总时间复杂度 O(n)；求解「下一个更大元素」时，新元素不断弹出比它小的栈顶，被弹出元素的「下一个更大元素」就是该新元素。", "单调栈与单调队列完全等价：滑动窗口最大值问题用单调栈即可解决，窗口移出元素时从栈中弹出该元素即可，无需双端队列。"], "correct_answer": "C", "solution": {"approach": "逐项辨析四个说法，重点考查单调栈的均摊时间复杂度、弹栈语义，以及与单调队列（滑动窗口最值）的适用场景区分。", "option_analysis": ["A 错：方向说反。求「下一个更大元素」维护的是从栈顶到栈底单调递减（即栈内元素自顶向下递增）的栈——新元素比栈顶大时，栈顶的「下一个更大元素」就是新元素，因此要先弹出所有比新元素小的栈顶，而不是直接入栈。", "B 错：复杂度结论错误。单调栈的核心性质是**每个元素最多入栈一次、出栈一次**，均摊下来每次操作 O(1)，总复杂度 O(n)，不是 O(n²)。", "C 对：这正是单调栈的均摊 O(n) 原理——元素弹栈时，弹出的元素与入栈的新元素构成「下一个更大/更小」关系。", "D 错：混淆两种结构。滑动窗口最大值时，窗口左端元素滑出后需要**从队首（另一端）移除**，栈只能从一端出入，无法做到；因此必须用**双端队列实现的单调队列**（队首维护窗口移出，队尾维护单调性）。"], "key_points": "单调栈均摊 O(n) 的进出栈分析；单调栈（下一个更大/更小元素）与单调队列（滑动窗口最值）的适用场景区分。"}}, {"id": 3, "type": "ai_derivation", "type_label": "AI公式推导", "difficulty": 2, "title": "缩放点积注意力：为什么除以 √d_k", "description": "缩放点积注意力（Scaled Dot-Product Attention）的分数定义为：\n\n$$\\text{score}(q, k) = \\frac{q \\cdot k}{\\sqrt{d_k}}$$\n\n请从**概率论**角度推导：为什么点积要除以 $\\sqrt{d_k}$？要求完成三件事：\n\n1. 在「$q, k$ 各分量独立、均值为 0、方差为 1」的假设下，推导点积 $q \\cdot k$ 的**方差**；\n2. 说明不缩放时，大维度 $d_k$ 会给 softmax 带来什么问题（梯度层面）；\n3. 给出缩放后的方差，并解释缩放因子为何取 $\\sqrt{d_k}$ 而非 $d_k$。", "solution": {"derivation": "**第 1 步：符号与假设**\n\n设 $q, k \\in \\mathbb{R}^{d_k}$，各分量 $q_i, k_i$ 之间互相独立，且\n\n$$E[q_i] = E[k_i] = 0, \\qquad \\mathrm{Var}(q_i) = \\mathrm{Var}(k_i) = 1$$\n\n（即每个分量量级为 $O(1)$，与随机初始化后向量各分量量级一致。）\n\n**第 2 步：点积的期望**\n\n$$E[q \\cdot k] = E\\left[\\sum_{i=1}^{d_k} q_i k_i\\right] = \\sum_{i=1}^{d_k} E[q_i k_i] = \\sum_{i=1}^{d_k} E[q_i]E[k_i] = 0$$\n\n其中用到了独立性：$E[q_i k_i] = E[q_i]E[k_i]$。\n\n**第 3 步：点积的方差（关键步骤）**\n\n先看单个乘积项 $q_i k_i$：\n\n$$\\mathrm{Var}(q_i k_i) = E[(q_i k_i)^2] - \\big(E[q_i k_i]\\big)^2 = E[q_i^2 k_i^2] - 0$$\n\n由独立性 $E[q_i^2 k_i^2] = E[q_i^2]E[k_i^2]$；又因为 $E[q_i]=0$、$\\mathrm{Var}(q_i)=1$，有\n\n$$E[q_i^2] = \\mathrm{Var}(q_i) + E[q_i]^2 = 1 + 0 = 1$$\n\n同理 $E[k_i^2] = 1$。代入得\n\n$$\\mathrm{Var}(q_i k_i) = 1 \\times 1 = 1$$\n\n由于各分量独立，方差可直接相加：\n\n$$\\mathrm{Var}(q \\cdot k) = \\sum_{i=1}^{d_k} \\mathrm{Var}(q_i k_i) = d_k$$\n\n即点积的标准差为 $\\sqrt{d_k}$——**点积的量级随维度以 $\\sqrt{d_k}$ 增长**。\n\n**第 4 步：不缩放时的梯度问题**\n\nsoftmax 定义为\n\n$$\\mathrm{softmax}(z)_i = \\frac{e^{z_i}}{\\sum_{j=1}^{n} e^{z_j}}$$\n\n当 $d_k$ 较大（如 64、128）时，点积分布的标准差 $\\sqrt{d_k}$ 随之变大，部分 logit 绝对值明显超过 1，各分数差距被放大，softmax 输出趋向尖锐（接近 one-hot）。此时多数位置的预测概率接近 0 或 1，进入 softmax 的饱和区（导数趋近于 0），反向传播时梯度消失，训练变慢甚至不稳定。\n\n**第 5 步：缩放后的方差与结论**\n\n$$\\mathrm{Var}\\!\\left(\\frac{q \\cdot k}{\\sqrt{d_k}}\\right) = \\frac{1}{d_k}\\mathrm{Var}(q \\cdot k) = \\frac{d_k}{d_k} = 1$$\n\n缩放后点积方差恒为 1，与维度 $d_k$ 无关，softmax 输入始终处于温和量级，梯度稳定。由于我们要归一化的是**标准差**（量级），所以除以 $\\sqrt{d_k}$（方差开方）而非 $d_k$：除以 $\\sqrt{d_k}$ 恰好使方差归一到 1。", "intuition": "除以 $\\sqrt{d_k}$ 就是把点积的“尺度”钉回 $O(1)$：维度越高、点积方差越大，若不缩放 softmax 会趋于尖锐导致梯度消失；缩放到方差恒为 1 后，注意力分数始终温和，训练稳定。", "key_points": "独立同分布假设下方差的可加性；点积尺度随 √d_k 增长；softmax 饱和区与梯度消失；标准差归一化（除以 √d_k 而非 d_k）。"}}, {"id": 4, "type": "ai_interview", "type_label": "AI面试问答", "difficulty": 2, "title": "分类为什么用交叉熵而不是 MSE", "description": "面试官提问：\n\n「分类问题的输出层通常用 softmax + 交叉熵（Cross-Entropy），为什么不用平方误差（MSE）？请从梯度、概率、信息论三个角度解释。」", "solution": {"answer_points": ["**梯度视角（最核心）**：设 $z$ 为 logits，$p=\\mathrm{softmax}(z)$，$y$ 为 one-hot 标签。交叉熵 $L_{CE}=-\\sum_i y_i \\log p_i$ 对 $z_i$ 的梯度是 $p_i - y_i$，量级 $O(1)$，误差越大梯度越大，无饱和问题；而 MSE + softmax 的梯度含 $p_i(1-p_i)$ 因子，当 $p_i \\to 0$ 或 $p_i \\to 1$ 时梯度消失——恰恰在分错（$p$ 接近 0 的目标类）时几乎学不动。", "**概率**：交叉熵最小化等价于对 one-hot 标签做**最大似然估计（MLE）**：$L_{CE} = -\\log p_y$，最小化它就是最大化真实类别的预测概率；而 MSE 对应高斯噪声假设下的 MLE，适合连续回归目标，对离散的 0/1 类别标签度量并不自然。", "**信息论**：交叉熵可分解为熵与 KL 散度：$H(p,q)=H(p)+D_{KL}(p \\| q)$。真实分布 $p$ 的熵 $H(p)$ 是常数，最小化交叉熵等价于最小化预测分布与真实分布的 KL 散度，目标是指概率分布逼近；MSE 是欧氏距离，度量的是数值误差，与“分布逼近”的目标不匹配。", "**数值稳定性**：工程实现通常把 softmax 与 log 融合（如 PyTorch 的 `CrossEntropyLoss` 内置 log-softmax），避免 `log(0)` 下溢；且 CE 与 softmax 的组合在 logits 线性部分关于类别是凸的，梯度形式干净。"], "bonus": ["回归任务用 MSE（连续值、高斯噪声 MLE）；多标签分类用 BCE（sigmoid + 二元交叉熵），而不是多类 CE。", "知识蒸馏中教师输出为“软标签”时仍用交叉熵（或 KL 散度）而非 MSE：软分布的信息比硬标签更丰富，CE 对分布差异更敏感。", "若最后一层不用 softmax（线性输出），MSE 也可用于分类，但会丧失概率解释，且分类问题默认组合仍是 softmax + CE。"], "followup_predictions": ["追问：请推导 softmax + CE 的梯度？—— 由 $\\partial p_j/\\partial z_i = p_j(\\delta_{ij} - p_i)$，分 $i$ 为真实类与不是两种情况合并，得 $\\partial L/\\partial z_i = p_i - y_i$，与之前的“梯度干净”呼应。", "追问：那回归为什么常用 MSE 而不用 MAE？—— MSE 处处可导、对大误差更敏感，误差服从高斯分布时即 MLE；MAE 对离群点更鲁棒（拉普拉斯分布假设）但零点不可导；实践中可换 Huber 损失结合两者。", "追问：标签平滑（Label Smoothing）与交叉熵的关系？—— 把 one-hot 目标软化（如 ε 均分到所有类），等价于在 CE 上加入对均匀分布的 KL 正则，可缓解过拟合、抑制过置信，属于 CE 的改进变体。"]}}]};
+</script>
+</body>
+</html>
