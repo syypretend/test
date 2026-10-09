@@ -1,5 +1,42 @@
 [
   {
+    "date": "2026-10-09",
+    "filename": "quiz-2026-10-09.html",
+    "url": "https://syypretend.github.io/test/daily-quiz/quiz-2026-10-09.html",
+    "title": "每日算法 AI 出题",
+    "subtitle": "算法 2 道 + AI 2 道 · 2026-10-09 第13期",
+    "questions": [
+      {
+        "id": 1,
+        "type": "algorithm_code",
+        "type_label": "算法编程",
+        "title": "删除链表的倒数第 N 个节点",
+        "difficulty": 2
+      },
+      {
+        "id": 2,
+        "type": "algorithm_concept",
+        "type_label": "算法概念",
+        "title": "单调栈的性质与适用场景",
+        "difficulty": 2
+      },
+      {
+        "id": 3,
+        "type": "ai_derivation",
+        "type_label": "AI公式推导",
+        "title": "缩放点积注意力：为什么除以 √d_k",
+        "difficulty": 2
+      },
+      {
+        "id": 4,
+        "type": "ai_interview",
+        "type_label": "AI面试问答",
+        "title": "分类为什么用交叉熵而不是 MSE",
+        "difficulty": 2
+      }
+    ]
+  },
+  {
     "date": "2026-10-08",
     "filename": "quiz-2026-10-08.html",
     "url": "https://syypretend.github.io/test/daily-quiz/quiz-2026-10-08.html",
