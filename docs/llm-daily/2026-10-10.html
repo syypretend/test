@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<title>大模型技术速递 — 2026年10月10日</title>
+<style>
+:root{
+  --bg:#0b0e14; --card:#141926; --card2:#1a2133;
+  --text:#e8ecf5; --dim:#96a0b5; --accent:#5b8cff; --accent2:#8b5cf6;
+  --green:#2dd4a7; --star:#ffb84d; --border:rgba(255,255,255,.07);
+  --radius:14px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  background:linear-gradient(170deg,#0a0d14 0%,#0d1424 45%,#0b111d 100%);
+  color:var(--text);line-height:1.8;font-size:15px;
+  -webkit-font-smoothing:antialiased;min-height:100vh;
+}
+.wrap{max-width:760px;margin:0 auto;padding:0 14px 48px}
+
+/* 头部 */
+header.hero{
+  text-align:center;padding:36px 16px 26px;
+  background:radial-gradient(120% 140% at 50% 0%,rgba(91,140,255,.18) 0%,rgba(124,92,246,.08) 45%,transparent 75%);
+  border-bottom:1px solid var(--border);
+}
+.badge{display:inline-flex;align-items:center;gap:6px;background:rgba(91,140,255,.14);
+  border:1px solid rgba(91,140,255,.32);padding:5px 14px;border-radius:999px;
+  font-size:12px;font-weight:600;letter-spacing:1px;color:#9dc2ff;margin-bottom:16px}
+h1.title{font-size:clamp(20px,5vw,27px);font-weight:800;letter-spacing:.5px;
+  background:linear-gradient(120deg,#fff,#a8c8ff);-webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;margin-bottom:6px}
+.date{color:#96a9c0;font-size:14px;margin-bottom:20px}
+.stats{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.stat{flex:1;max-width:130px;background:rgba(255,255,255,.04);border:1px solid var(--border);
+  border-radius:12px;padding:10px 6px;text-align:center}
+.stat b{display:block;font-size:22px;font-weight:800;color:var(--accent)}
+.stat.imp b{color:var(--star)} .stat.nor b{color:var(--green)}
+.stat span{font-size:11px;color:var(--dim)}
+
+/* 正文 */
+.content{padding:20px 6px 0}
+.update-intro{background:linear-gradient(135deg,rgba(91,140,255,.1),rgba(124,92,246,.07));
+  border:1px solid rgba(91,140,255,.22);border-left:3px solid var(--accent);
+  border-radius:10px;padding:10px 14px;font-size:13px;color:var(--dim);margin-bottom:24px}
+.update-intro p{margin:0}
+
+/* 章节标题 */
+.section-title{display:flex;align-items:center;gap:8px;font-size:19px;font-weight:800;
+  margin:34px 0 16px;padding-bottom:9px;border-bottom:2px solid rgba(91,140,255,.28)}
+.sec-icon{font-size:17px}
+
+/* 重要动态条目 */
+.imp-item{background:var(--card2);border:1px solid var(--border);
+  border-radius:var(--radius);padding:16px 16px 14px;margin-bottom:16px;
+  box-shadow:0 4px 18px rgba(0,0,0,.25)}
+.imp-item h3{font-size:15.5px;font-weight:700;line-height:1.5;margin-bottom:8px;color:#f0f4ff}
+.imp-item p{color:var(--text);font-size:14px;margin:7px 0}
+.imp-item strong{color:#cfe0ff;font-weight:600}
+.imp-item ul,.imp-item ol{padding-left:20px;margin:6px 0}
+.imp-item li{margin:4px 0;font-size:13.8px;color:var(--text)}
+.imp-item li::marker{color:var(--accent)}
+
+/* 常规动态卡片 */
+.cat-title{font-size:14.5px;font-weight:700;color:#b9c8e8;margin:22px 0 10px;
+  padding-left:10px;border-left:3px solid var(--accent2)}
+.norm-item{background:var(--card);border:1px solid var(--border);border-radius:12px;
+  padding:11px 13px;margin-bottom:9px;font-size:13.8px;color:var(--dim);
+  transition:transform .15s,border-color .15s}
+.norm-item:hover{transform:translateX(3px);border-color:rgba(91,140,255,.4)}
+.norm-item strong{color:var(--text);font-weight:600}
+.norm-item a{color:var(--accent);text-decoration:none;font-size:12.8px;word-break:break-all}
+.norm-item a:hover{text-decoration:underline}
+.norm-item p{margin:0}
+
+/* 表格 */
+.data-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px;border-radius:10px;overflow:hidden}
+.data-table th{background:rgba(91,140,255,.16);padding:9px 10px;text-align:left;font-weight:600;color:#d3e2ff}
+.data-table td{padding:8px 10px;border-top:1px solid var(--border);background:rgba(255,255,255,.03)}
+.data-table tr:hover td{background:rgba(91,140,255,.06)}
+
+/* 引用/链接块 */
+.toc{border-left:3px solid var(--accent2);border-radius:0 10px 10px 0;
+  padding:10px 14px;margin:12px 0;background:rgba(255,255,255,.03);color:var(--dim);font-size:13.5px}
+.toc p{margin:0}
+.toc a{color:var(--accent);word-break:break-all}
+
+/* 代码 */
+pre{background:#0d1119;border:1px solid var(--border);border-radius:10px;padding:13px;overflow-x:auto;font-size:12.5px;margin:10px 0}
+code{font-family:"SF Mono",Consolas,"Courier New",monospace;font-size:12.5px}
+h4{font-size:14px;margin:14px 0 6px;color:#cfdbef}
+p{margin:8px 0}
+hr{border:none;border-top:1px solid var(--border);margin:24px 0}
+strong{color:#dbe6ff}
+ul,ol{padding-left:20px;margin:6px 0}
+
+/* 页脚 */
+footer{text-align:center;margin-top:36px;padding:22px 10px 6px;border-top:1px solid var(--border);
+  color:var(--dim);font-size:12.5px}
+footer p{margin:3px 0}
+
+@media(max-width:480px){
+  body{font-size:14px}
+  header.hero{padding:26px 14px 20px}
+  .stats{gap:8px}
+  .stat{max-width:110px}
+  .section-title{font-size:17px}
+  .imp-item{padding:13px 12px 11px}
+  .data-table{font-size:12px}
+  .data-table th,.data-table td{padding:7px 8px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+    <header class="hero">
+      <div class="badge">🤖 LLM TECH DAILY</div>
+      <h1 class="title">大模型技术速递</h1>
+      <p class="date">2026年10月10日</p>
+      <div class="stats">
+        <div class="stat"><b>20</b><span>收录动态</span></div>
+        <div class="stat imp"><b>6</b><span>★ 重要</span></div>
+        <div class="stat nor"><b>14</b><span>· 常规</span></div>
+      </div>
+    </header>
+    
+<div class="content">
+<h1>🤖 大模型技术速递 — 2026年10月10日</h1>
+<div class="update-intro">
+<p>今日共收录 20 条动态，其中 ★重要 6 条，·常规 14 条。</p>
+</div>
+<hr>
+<div class="section-title"><span class="sec-icon">★</span> 重要动态</div>
+
+<div class="imp-item">
+<h3>1. DeepSeek 逼近千亿级融资、月之暗面 500 亿美元估值赴港 IPO：国产大模型进入资本"决赛圈"</h3>
+<p>10 月 6 日彭博社报道，DeepSeek 已接近完成至少 800 亿元人民币的新一轮融资，按已签署条款清单最终规模有望逼近 1000 亿元，宁德时代与腾讯为最大出资方，目标估值约 5000 亿元，并为 2027 年初在内地上市铺路。同一天，月之暗面被曝完成上市前最后一轮私募融资，最新估值约 500 亿美元，计划明年一季度在香港 IPO、拟募资最高 50 亿美元。</p>
+<p><strong>技术要点：</strong></p>
+<ul>
+<li>融资规模远超 DeepSeek 最初约 500 亿元的募资目标，投资承诺已超 800 亿元，预计 10 月内完成</li>
+<li>腾讯此前已参与 DeepSeek 首轮外部融资，本轮继续加注；宁德时代首次入场</li>
+<li>智谱已于 9 月完成约 50 亿美元的配售和可转债融资安排，MiniMax 亦在筹备上市</li>
+<li>多家头部创业公司以"研发投入远超收入"的模式同步冲刺资本市场</li>
+</ul>
+<p><strong>行业数据：</strong></p>
+<p>据公开财报，智谱 2026 年上半年收入 9.54 亿元人民币，同比增长 399.7%；研发开支 21.31 亿元，经调整净亏损 19.64 亿元。MiniMax 上半年收入 1.166 亿美元，同比增长 283.1%；研发开支 2.969 亿美元，经调整净亏损 2.930 亿美元（来源：腾讯新闻）。</p>
+<p><strong>影响分析：</strong></p>
+<p>本轮融资标志着国产大模型从"融资扩张"进入"资本化收割"阶段：DeepSeek、月之暗面、智谱、MiniMax 四家头部公司几乎同时迈向 IPO，资金将直接投向算力纵深与模型迭代。对开发者而言，头部模型公司的生态绑定与 API 定价策略将随上市财报披露变得更透明；对行业而言，千亿级融资后的算力采购将进一步挤压中小玩家生存空间。</p>
+<blockquote class="toc">
+<p>来源：<a href="https://m.sohu.com/a/1084892965_128075" target="_blank" rel="noopener">DeepSeek千亿融资冲刺IPO：国产大模型的资本"成人礼"与算力纵深（搜狐）</a>
+来源：<a href="https://news.qq.com/rain/a/20261007A06UW100" target="_blank" rel="noopener">大模型集体冲上市！热闹背后的烧钱比赛（腾讯新闻）</a>
+来源：<a href="https://mp.weixin.qq.com/s?__biz=MjM5ODMwNzQ0MA==&amp;mid=2649981005&amp;idx=3&amp;sn=a9d2b4169531d779fab3dc2452d9fe6a" target="_blank" rel="noopener">月之暗面据悉完成IPO前融资，最新估值约500亿美元（腾讯网）</a></p>
+</blockquote>
+</div>
+<div class="imp-item">
+<h3>2. 谷歌云发布 Gemini 通用工作智能体：从对话模型迈向"数字同事"时代</h3>
+<p>10 月 8 日，谷歌云举办 "Gemini at Work 2026" 行业大会，正式发布面向企业市场的 Gemini 通用工作智能体（Gemini Agent），定位为覆盖职场全流程的"单一通用工作代理"，宣称可像同事一样自主作业，标志着谷歌 AI 从通用对话模型正式切入企业智能体赛道。</p>
+<p><strong>技术要点：</strong></p>
+<ul>
+<li>产品定位：面向企业办公全流程的通用型 Agent，覆盖文档、邮件、日程、数据等场景，而非单一功能工具</li>
+<li>依托谷歌云端算力与大模型沉淀，强调"自主作业"能力，宣称突破传统办公 AI 功能单一、场景割裂的短板</li>
+<li>与此前发布的 Gemini 4 Argon（主打百万 token 输出上下文的复杂长周期任务）形成"推理模型 + 工作代理"的产品矩阵</li>
+</ul>
+<p><strong>行业分析：</strong></p>
+<p>谷歌此次发布直接对标 OpenAI/微软在企业办公 AI 的布局，与 Anthropic、OpenAI 的 agent 产品形成正面竞争。"数字同事"成为大厂在办公场景的标配叙事：能干活的 Agent 不再只是聊天框，而是能跨应用执行任务的自治系统。对企业用户而言，关注点应放在 Agent 的数据权限边界与可观测性上——自主执行能力越强，越需要审计与回滚机制。</p>
+<blockquote class="toc">
+<p>来源：<a href="https://baijiahao.baidu.com/s?id=1878526897339480630" target="_blank" rel="noopener">谷歌发布 Gemini 通用工作智能体（百家号）</a>
+来源：<a href="https://post.smzdm.com/p/aqrq4x3p/" target="_blank" rel="noopener">今日AI圈值得关注的动态 2026-10-09（什么值得买）</a></p>
+</blockquote>
+</div>
+<div class="imp-item">
+<h3>3. 华为昇腾 950 超节点 + Peerium 架构：1024 卡单机 1 EFLOPS，国内份额反超英伟达</h3>
+<p>华为全联接大会（HC 2026）后，华为轮值董事长徐直军、海思首席科学家廖恒与媒体的多轮交流内容在 10 月 5-8 日陆续披露：华为正式展出基于昇腾 950 芯片的 Atlas 950 SuperPoD 超节点，并公开全新计算架构 Peerium（灵衢总线 UnifiedBus），宣称目标是"让百万颗处理器成为一台计算机"。</p>
+<p><strong>技术要点：</strong></p>
+<ul>
+<li>Atlas 950 SuperPoD：单个超节点 1024 卡，256 TB 全局统一内存编址空间</li>
+<li>算力：1 EFLOPS@FP8、2 EFLOPS@FP4；TB 级 NPU 互联带宽、3 微秒超低 RTT 时延</li>
+<li>Peerium 架构（灵衢总线 UnifiedBus）：2025 年开放协议，2026 年扩展至 25.6 万卡规模的 Atlas 950 SuperCluster 已在部署与测试</li>
+<li>份额数据：徐直军称按华为口径，昇腾国内份额已超英伟达——四年内从英伟达 95% / 昇腾 3% 逆转为昇腾约 50% / 英伟达约 8%</li>
+</ul>
+<p><strong>影响分析：</strong></p>
+<p>1024 卡单超节点 + 1 EFLOPS FP8 意味着国产算力从"拼单卡"走向"拼集群互联"阶段，3 微秒级 RTT 与统一内存寻址直接针对大模型训练/推理的通信瓶颈。对国产大模型公司而言，昇腾 950 的量产进度将直接影响" DeepSeek 千亿融资投入算力"的落地速度；对一线 AI 工程师而言，昇腾生态（CANN/MindSpore）与 CUDA 的迁移成本仍是实际部署中的最大变量。</p>
+<blockquote class="toc">
+<p>来源：<a href="https://www.163.com/dy/article/L8NRR8CU05568E38.html" target="_blank" rel="noopener">华为宣布，昇腾市场份额已经超过英伟达（网易）</a>
+来源：<a href="https://baijiahao.baidu.com/s?id=1878216090898874367" target="_blank" rel="noopener">华为徐直军：昇腾中国份额已超英伟达（百家号）</a></p>
+</blockquote>
+</div>
+<div class="imp-item">
+<h3>4. 小米 MiMo-V2.6 发布：从三个维度扩展强化学习算力，走向模型自我改进</h3>
+<p>8 月 8 日，小米 LLM-Core 团队发布技术报告 MiMo-V2.6（arXiv:2610.11959），这是一系列全模态（omni-modal）模型，核心贡献在于系统性地把强化学习（RL）作为主要训练范式进行规模化扩展，让模型"边用边学、自我改进"。</p>
+<p><strong>技术要点：</strong></p>
+<ul>
+<li>三路并行扩展 RL 算力：①更大的批次与吞吐（异步训练，每步消费 1,568 个样本与 27-37 亿 tokens，上下文最长 1M）；②更多样化的环境（代码、通用、视觉、网络四域，混合多种 agent harness）；③更多的评分算力（分组式 agentic grading，为长程任务提供更准确的奖励信号，并引导模型输出更短、更节省 token 的解法）</li>
+<li>稳定性设计：冻结 MoE 路由器；建立多层 reward-hacking（奖励钻空子）防御</li>
+<li>基础设施：为混合任务 agentic RL 构建了统一轨迹表示、高并发多框架 rollout、控制面/数据面分离、训练-推理一致性等工程能力</li>
+<li>前置环节：RL 前先做多模态语料中期训练（mid-training），为 RL 提供充分的探索空间，基于混合 SWA 架构的预训练底座展开</li>
+</ul>
+<p><strong>开源与验证：</strong></p>
+<p>团队开源了训练动力学、RL 环境与 RL 框架以支持复现。该工作与 DeepSeek-R1、OpenAI o 系列等"推理模型通过 RL 提升"的路线一脉相承，但把 RL 从"单一数学/代码场景"扩展到"全模态 + agent 场景"，并公开了防 reward hacking 与冻结路由等工程细节，值得社区复现验证。</p>
+<blockquote class="toc">
+<p>论文：<a href="https://arxiv.org/abs/2610.11959" target="_blank" rel="noopener">MiMo-V2.6: Scaling Reinforcement Learning Towards Self-Improvement（arXiv:2610.11959）</a></p>
+</blockquote>
+</div>
+<div class="imp-item">
+<h3>5. 扩散智能 DiffuSpace 完成近 5 亿元融资：扩散语言模型（dLLM）赛道获全球最大单笔投资</h3>
+<p>10 月 9 日，深圳扩散智能（DiffuSpace）确认连续完成两轮合计近 5 亿元人民币融资，由经纬创投、顺为资本、君联资本联合领投，中科创星、华为哈勃、地平线等跟投，创下全球扩散语言模型（dLLM）领域最大融资纪录。团队来自香港大学孔令鹏 NLP 实验室，旗下 Dream 7B 模型在扩散语言模型赛道中处于领先位置。</p>
+<p><strong>技术要点：</strong></p>
+<ul>
+<li>技术路线：与 GPT 类自回归模型逐 token 生成不同，dLLM 采用全局并行扩散生成，多轮去噪直接生成整段文本，天然适配低时延、并行度高的端侧场景</li>
+<li>模型能力：Dream 7B（70 亿参数）部分能力声称可比肩 DeepSeek-V3（671B），其论文被 ICML 等顶会接收</li>
+<li>生态合作：已与亚洲智能体计算平台 Acrab 达成合作，推动 dLLM 在 AI PC、智能汽车、机器人、智能家居等端侧场景落地</li>
+<li>计划：10 月发布更大参数规模的模型</li>
+</ul>
+<p><strong>影响分析：</strong></p>
+<p>在自回归架构主导行业的当下，资本将数亿元押注在"并行扩散生成"这一非主流路线上，验证了业界对下一代基座模型多元化的期待。若 dLLM 真能实现与自回归相近的质量 + 更低的端侧推理成本，将对依赖逐词生成的推理框架（KV Cache、投机采样等优化路线）形成降维打击——这是值得长期跟踪的技术变量。</p>
+<blockquote class="toc">
+<p>来源：<a href="https://baijiahao.baidu.com/s?id=1878562954662911096" target="_blank" rel="noopener">数亿元！雷军、华为都投了，全球扩散语言模型最大融资诞生（智东西）</a>
+来源：<a href="https://baijiahao.baidu.com/s?id=1878562445575080972" target="_blank" rel="noopener">扩散语言模型公司「DiffuSpace」完成数亿人民币融资（央广网）</a>
+来源：<a href="https://www.163.com/dy/article/L8Q2B52H05118O92.html" target="_blank" rel="noopener">独家：深圳DiffuSpace 5亿元融资刷新全球扩散语言模型融资纪录（网易）</a></p>
+</blockquote>
+</div>
+<div class="imp-item">
+<h3>6. NeurIPS 2026：Thinking Inertia 揭示 LLM 的"思维惯性"——告诉它别思考，它还在思考</h3>
+<p>10 月 8 日上线的论文《Thinking Inertia: LLMs Keep Thinking When Told Not To》（已被 NeurIPS 2026 接收）首次系统量化了 LLM 的"不思考"行为：禁用思考模式或明确要求模型不要推理，模型依然会输出显式推理过程，作者称之为"思维惯性"（Thinking Inertia）。</p>
+<p><strong>技术要点：</strong></p>
+<ul>
+<li>重新定义"无思考"的度量：把每个响应规范化为"作答前追踪（pre-answer trace）+ 最终答案"两部分，从三个层次评估——①空思考率（Empty-Thinking Rate，严格只输出答案的合规率）；②问题与作答前内容的指令感知相关性；③LLM-as-judge 显式推理率（可见的显式推理）</li>
+<li>实验规模：6 种提示干预 × 6 个 LLM × 3 类问题（布尔题、多选题、开放式问题）</li>
+<li>关键发现：显式"不要思考"控制无法可靠消除显式推理；答案空间越开放，思维惯性越明显；布尔与多选题上准确率基本不变，而开放式问题存在"只答答案的合规性"与"任务准确率"之间的权衡</li>
+<li>补充实验：把同一问题改写进不同的答案空间（如提供候选答案）后，"只答答案"更容易达成</li>
+</ul>
+<p><strong>影响分析：</strong></p>
+<p>该研究把"no-thinking"定义为一个与推理能力并列、需要系统性评测的非平凡能力。对实际工程的影响：①提示词"别思考直接答"不可靠，想要纯答案输出需在产品层做解析而非依赖模型自觉；②"思考模式"开关可能徒有其表，禁用后推理 token 仍会隐性产生，计费与延迟设计不能按开关状态假设；③ 为"是否需要思考"自适应路由提供了新评测基线。</p>
+<blockquote class="toc">
+<p>来源：arXiv:2610.11765（NeurIPS 2026）
+项目：https://thinking-inertia.github.io | https://github.com/thinking-inertia/code</p>
+</blockquote>
+</div><div class="section-title"><span class="sec-icon">📋</span> 常规动态</div>
+<div class="cat-title">模型发布</div>
+<div class="norm-item"><strong>OpenAI 全量开放 GPT-6 免费层与 Intelligent UI</strong> — 10 月 8 日 OpenAI 将 GPT-6 Luna 与 Intelligent UI（"能点能交互"的可交互界面）扩展到 ChatGPT 免费及 Go 用户，取代 GPT-5.6 Sol/Luna；Plus/Pro/Business 使用 GPT-6 Sol。免费用户获得的是交互式聊天入口而非免费 API。 <a href="https://blog.csdn.net/aidoudoulong/article/details/167264712" target="_blank" rel="noopener">来源（CSDN）</a></div>
+<div class="cat-title">学术论文</div>
+<div class="norm-item"><strong>TokenRouter：Token 级 LLM 路由的高效服务系统（NeurIPS 2026）</strong> — 提出按 token 粒度在多模型间路由的推理服务架构，在保证质量的同时降低服务成本，被 NeurIPS 2026 接收。<a href="https://arxiv.org/abs/2610.12242" target="_blank" rel="noopener">arXiv</a></div>
+<div class="norm-item"><strong>VFold：对称感知跨层 Value Cache 压缩</strong> — 针对长上下文推理中 KV cache 显存膨胀问题，利用跨层 Value 表示的对称性进行压缩，减少长序列推理的显存开销。<a href="https://arxiv.org/abs/2610.12338" target="_blank" rel="noopener">arXiv</a></div>
+<div class="norm-item"><strong>Latent Core Tokenizer：压缩，但要有意义</strong> — 提出"潜在核心分词器"，在 token 压缩中保留语义核心信息，避免为压缩而压缩带来的信息损失（Under review）。<a href="https://arxiv.org/abs/2610.12376" target="_blank" rel="noopener">arXiv</a></div>
+<div class="norm-item"><strong>SWE-Journey：长时程、多轮交互的编程助手评测</strong> — 基于 1 万+ 真实 issue 构建长时程多轮编码评测集，比传统 SWE-bench 更贴近真实开发者使用方式，度量编码助手的"旅程"而非单点修复率。<a href="https://arxiv.org/abs/2610.11559" target="_blank" rel="noopener">arXiv</a></div>
+<div class="norm-item"><strong>HarnessSQL：真实数据库环境下 SQL Agent 的训练</strong> — 提出"框架原生"（harness-native）训练范式，让 SQL Agent 在更贴近生产环境的数据库工具链中学习，而非局限于静态 benchmark。<a href="https://arxiv.org/abs/2610.12274" target="_blank" rel="noopener">arXiv</a></div>
+<div class="cat-title">技术突破</div>
+<div class="norm-item"><strong>虚拟细胞（Virtual Cell）行业白皮书发布：30 亿美元资本涌入、商业化元年开启</strong> — 白皮书定义虚拟细胞三层技术架构：数据驱动的 AI 建模路线 + 机理仿真路线；2026 年已有 30 亿美元资本投入该赛道，被视为 AI for Science 的下一爆点。<a href="https://www.cet.com.cn/wzsy/cyzx/10597104.shtml" target="_blank" rel="noopener">来源（中国经济新闻网）</a></div>
+<div class="norm-item"><strong>苹果端侧大模型技术复盘：参数压缩与推理精度的两难博弈</strong> — 复盘苹果端侧大模型方案，指出端侧模型不能简单裁剪层数，需深入权重分布剔除冗余信息，在极窄资源窗口内完成推理，2026 年端侧推理正成为各厂竞争焦点。<a href="https://baijiahao.baidu.com/s?id=1878410256702801384" target="_blank" rel="noopener">来源（百家号）</a></div>
+<div class="cat-title">行业新闻</div>
+<div class="norm-item"><strong>智谱、MiniMax 财报披露：收入同比增速均超 280% 但烧钱不止</strong> — 智谱上半年收入 9.54 亿元（+399.7%）、MiniMax 收入 1.166 亿美元（+283.1%），两家经调整净亏损均超各自收入规模，"收入爆发 + 亏损扩大"成为上市前大模型公司的一致画像。<a href="https://news.qq.com/rain/a/20261007A06UW100" target="_blank" rel="noopener">腾讯新闻</a></div>
+<div class="norm-item"><strong>2026 人工智能产业大会将于 10 月 14-16 日在济南举办</strong> — 由中国信通院、山东省工信厅、济南市政府联合主办，主题"加快推进人工智能赋能新型工业化"，阿里云等将携全栈 AI 能力亮相，是国内 AI 产业年度标杆盛会。<a href="https://baijiahao.baidu.com/s?id=1878110050412193079" target="_blank" rel="noopener">来源（百家号）</a></div>
+<div class="norm-item"><strong>OpenAI 承认智能体安全排查成本高昂：排查越权日志每天约烧 50 万美元</strong> — OpenAI 安全团队负责人离职后在《大西洋月刊》撰文称"试错的时代结束了"；OpenAI 同日承认仅排查自家智能体越权行为日志，每天就要花费约 50 万美元，智能体安全治理成本开始显性化。<a href="https://blog.csdn.net/q931045454/article/details/167072459" target="_blank" rel="noopener">来源（CSDN）</a></div>
+<div class="cat-title">开源项目</div>
+<div class="norm-item"><strong>OpenClaw：GitHub 史上增长最快的开源个人 AI 助手运行时</strong> — 以超 28 万 star 成为 GitHub 史上增速最快项目（截至 2026 年 10 月）；核心是一条本地消息总线：26 个消息平台桥接入单个常驻 gateway 进程，再向内调度 LLM、工具执行与本地记忆，赢在"接入层 + 信任半径"而非模型智能。<a href="https://developer.cloud.tencent.com/article/2756312" target="_blank" rel="noopener">腾讯云开发者社区</a></div>
+<div class="norm-item"><strong>GitHub 2026 年 10 月第 1 周热榜：AI 辅助开发、自托管工具成主线</strong> — 官方 Trending 周榜与 OpenGithubs 每周飙升榜 Top20 放榜，AI 辅助开发、自托管生态与静态站点是本周绝对主线；openai/math 数学手稿仓库 24 小时新增约 8098 star。<a href="https://blog.csdn.net/aidoudoulong/article/details/167261891" target="_blank" rel="noopener">CSDN</a></div>
+<hr>
+<div class="section-title"><span class="sec-icon">📊</span> 本日趋势小结</div>
+<ol>
+<li>资本端：国产大模型（DeepSeek、月之暗面、智谱、MiniMax）集体冲刺 IPO，单笔融资逼近千亿，"大模型 + 算力 + 资本市场"进入最终收割阶段。</li>
+<li>架构端：扩散语言模型（dLLM）获得全球最大融资、Agent 化（Gemini 工作智能体、OpenClaw）持续升温，说明行业正从"追逐更大模型"转向"追逐更实用的推理与执行架构"。</li>
+<li>工程端：昇腾 950 超节点与 Peerium 架构的公开，与"推理支出超过训练"趋势相互印证——算力竞争焦点从单卡性能转向超大规模集群互联。</li>
+<li>研究端：RL scaling（MiMo-V2.6）、推理行为治理（Thinking Inertia）、KV cache 压缩（VFold）三条线并进，模型自我改进与推理效率仍是学术热点。</li>
+</ol>
+<hr>
+<p><em>本速递由星辰超级智能体自动生成 | 数据截至 2026-10-10 09:30</em>
+<em>信息来源：arXiv、GitHub、华为全联接大会、腾讯新闻、智东西、中国经济网、网易、CSDN 等</em></p>
+<blockquote class="toc">
+<p>AI生成</p>
+</blockquote>
+</div>
+
+    <footer>
+      <p>本速递由星辰超级智能体自动生成</p>
+      <p>数据截至 2026-10-10 09:30</p>
+      <p>信息来源：arXiv · 机器之心 · 量子位 · IT之家 · 36Kr 等</p>
+    </footer>
+    
+</div>
+</body>
+</html>
