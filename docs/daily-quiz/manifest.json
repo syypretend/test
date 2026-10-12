@@ -1,5 +1,42 @@
 [
   {
+    "date": "2026-10-12",
+    "filename": "quiz-2026-10-12.html",
+    "url": "https://syypretend.github.io/test/daily-quiz/quiz-2026-10-12.html",
+    "title": "每日算法 AI 出题",
+    "subtitle": "算法 2 道 + AI 2 道 · 第14期",
+    "questions": [
+      {
+        "id": 1,
+        "type": "algorithm_code",
+        "type_label": "算法编程",
+        "title": "跳跃游戏 II（最少跳跃次数）",
+        "difficulty": 2
+      },
+      {
+        "id": 2,
+        "type": "algorithm_concept",
+        "type_label": "算法概念",
+        "title": "最短路算法辨析",
+        "difficulty": 2
+      },
+      {
+        "id": 3,
+        "type": "ai_derivation",
+        "type_label": "AI公式推导",
+        "title": "推导 GBDT：为什么每棵树拟合的是\"负梯度\"（回归时即残差）",
+        "difficulty": 2
+      },
+      {
+        "id": 4,
+        "type": "ai_interview",
+        "type_label": "AI面试问答",
+        "title": "为什么深层网络普遍用 ReLU 而非 sigmoid/tanh？ReLU 有什么缺点？",
+        "difficulty": 2
+      }
+    ]
+  },
+  {
     "date": "2026-10-10",
     "filename": "quiz-2026-10-10.html",
     "url": "https://syypretend.github.io/test/daily-quiz/quiz-2026-10-10.html",
