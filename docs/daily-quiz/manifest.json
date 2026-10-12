@@ -31,7 +31,7 @@
         "id": 4,
         "type": "ai_interview",
         "type_label": "AI面试问答",
-        "title": "为什么深层网络普遍用 ReLU 而非 sigmoid/tanh？ReLU 有什么缺点？",
+        "title": "CNN 为什么适合处理图像？局部连接、权值共享与参数量对比",
         "difficulty": 2
       }
     ]
