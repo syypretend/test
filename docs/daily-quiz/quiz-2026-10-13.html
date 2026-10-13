@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>每日算法 AI 出题 · 2026-10-13</title>
+  <!-- KaTeX 数学公式渲染 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
+  <style>
+    :root {
+      --bg: #0d1117;
+      --card-bg: #161b22;
+      --border: #30363d;
+      --text: #e6edf3;
+      --text-dim: #8b949e;
+      --accent: #58a6ff;
+      --green: #3fb950;
+      --orange: #d29922;
+      --red: #f85149;
+      --purple: #a855f7;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", sans-serif;
+      line-height: 1.7;
+      padding: 16px;
+      max-width: 860px;
+      margin: 0 auto;
+    }
+    .header {
+      text-align: center;
+      padding: 24px 0 16px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 24px;
+    }
+    .header h1 {
+      font-size: 1.5em;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+    .header .subtitle {
+      color: var(--text-dim);
+      font-size: 0.9em;
+    }
+    .header .date-tag {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 2px 12px;
+      border-radius: 12px;
+      background: var(--border);
+      font-size: 0.8em;
+      color: var(--text-dim);
+    }
+
+    /* 题目卡片 */
+    .question-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .question-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+    .type-badge {
+      padding: 2px 10px;
+      border-radius: 10px;
+      font-size: 0.75em;
+      color: white;
+      font-weight: 600;
+    }
+    .difficulty { font-size: 0.85em; }
+    .qid-label { color: var(--text-dim); font-size: 0.8em; margin-left: auto; }
+    .question-title {
+      font-size: 1.25em;
+      margin-bottom: 12px;
+      color: var(--text);
+    }
+    .question-body { margin-bottom: 14px; }
+    .question-body code.inline-code {
+      background: var(--border);
+      padding: 1px 5px;
+      border-radius: 3px;
+      font-size: 0.9em;
+    }
+
+    /* 信息块 */
+    .info-block {
+      background: rgba(88,166,255,0.05);
+      border-left: 3px solid var(--accent);
+      padding: 10px 14px;
+      margin: 10px 0;
+      border-radius: 0 6px 6px 0;
+    }
+    .info-label {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.85em;
+      display: block;
+      margin-bottom: 4px;
+    }
+    .info-block pre {
+      white-space: pre-wrap;
+      font-family: "JetBrains Mono", "Fira Code", monospace;
+      font-size: 0.85em;
+      color: var(--text);
+    }
+
+    /* 示例 */
+    .example-block {
+      background: rgba(63,185,80,0.05);
+      border: 1px solid rgba(63,185,80,0.2);
+      border-radius: 8px;
+      padding: 12px;
+      margin: 10px 0;
+    }
+    .example-title {
+      color: var(--green);
+      font-weight: 600;
+      font-size: 0.85em;
+      margin-bottom: 6px;
+    }
+    .example-io {
+      font-family: monospace;
+      font-size: 0.85em;
+      white-space: pre-wrap;
+      margin: 2px 0;
+    }
+    .io-label { color: var(--text-dim); }
+    .example-explanation {
+      color: var(--text-dim);
+      font-size: 0.85em;
+      margin-top: 6px;
+      padding-top: 6px;
+      border-top: 1px dashed var(--border);
+    }
+
+    /* 选项 */
+    .options-container { margin: 12px 0; }
+    .option-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      padding: 10px 14px;
+      margin: 6px 0;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .option-item:hover { border-color: var(--accent); background: rgba(88,166,255,0.05); }
+    .option-item.correct { border-color: var(--green); background: rgba(63,185,80,0.1); }
+    .option-item.wrong { border-color: var(--red); background: rgba(248,81,73,0.1); }
+    .option-item input[type=radio] { accent-color: var(--accent); margin-top: 4px; }
+    .option-letter {
+      font-weight: 700;
+      color: var(--accent);
+      min-width: 20px;
+    }
+    .option-text { flex: 1; font-size: 0.9em; }
+    .option-feedback {
+      margin: 8px 0;
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-size: 0.85em;
+      display: none;
+    }
+    .option-feedback.show { display: block; }
+    .option-feedback.correct {
+      background: rgba(63,185,80,0.1);
+      color: var(--green);
+    }
+    .option-feedback.wrong { background: rgba(248,81,73,0.1); color: var(--red); }
+
+    /* 代码编辑器 */
+    .code-section {
+      margin: 16px 0;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .code-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 14px;
+      background: rgba(88,166,255,0.08);
+      border-bottom: 1px solid var(--border);
+      font-size: 0.85em;
+      color: var(--accent);
+    }
+    .editor-wrap {
+      position: relative;
+    }
+    .code-editor {
+      min-height: 180px;
+      max-height: 400px;
+      overflow: auto;
+      padding: 12px;
+      font-family: "JetBrains Mono", "Fira Code", "Cascadia Code", monospace;
+      font-size: 13px;
+      line-height: 1.5;
+      white-space: pre;
+      color: var(--text);
+      background: #0d1117;
+      outline: none;
+      tabs: 4;
+    }
+    .btn-run {
+      background: var(--green);
+      color: white;
+      border: none;
+      padding: 4px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.85em;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .btn-run:hover { opacity: 0.85; }
+    .btn-run:disabled { opacity: 0.5; cursor: not-allowed; }
+    .code-result {
+      padding: 12px;
+      background: #0d1117;
+      border-top: 1px solid var(--border);
+      font-family: monospace;
+      font-size: 0.85em;
+      white-space: pre-wrap;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+    .code-result .test-pass { color: var(--green); }
+    .code-result .test-fail { color: var(--red); }
+    .code-result .stderr { color: var(--orange); }
+
+    /* 显示解析按钮 */
+    .btn-reveal {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      margin-top: 16px;
+      background: transparent;
+      border: 2px dashed var(--border);
+      border-radius: 8px;
+      color: var(--text-dim);
+      font-size: 0.95em;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .btn-reveal:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(88,166,255,0.03);
+    }
+    .btn-reveal.loading {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    /* 解析区域 */
+    .solution-section {
+      margin-top: 16px;
+      animation: fadeIn 0.4s ease;
+    }
+    @keyframes fadeIn { from{opacity:0; transform:translateY(10px) } to{opacity:1; transform:translateY(0) } }
+    .solution-divider {
+      text-align: center;
+      color: var(--text-dim);
+      font-size: 0.8em;
+      margin: 16px 0;
+      letter-spacing: 1px;
+    }
+    .answer-highlight {
+      background: rgba(63,185,80,0.1);
+      border: 1px solid var(--green);
+      border-radius: 8px;
+      padding: 10px 16px;
+      margin: 10px 0;
+      font-size: 1.05em;
+      color: var(--green);
+      font-weight: 600;
+    }
+    .solution-block {
+      margin: 14px 0;
+      padding: 14px;
+      background: rgba(255,255,255,0.02);
+      border-radius: 8px;
+    }
+    .solution-block h4 {
+      color: var(--accent);
+      margin-bottom: 8px;
+      font-size: 0.95em;
+    }
+    .solution-block ul.answer-points {
+      padding-left: 20px;
+    }
+    .solution-block ul.answer-points li {
+      margin: 6px 0;
+      font-size: 0.9em;
+    }
+    .code-block {
+      background: #0d1117;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 12px;
+      font-family: "JetBrains Mono", "Fira Code", monospace;
+      font-size: 0.85em;
+      overflow-x: auto;
+      white-space: pre;
+      color: var(--text);
+    }
+    .complexity-tag {
+      display: inline-block;
+      padding: 2px 10px;
+      margin-right: 8px;
+      border-radius: 6px;
+      background: var(--border);
+      font-size: 0.85em;
+      font-family: monospace;
+    }
+    .derivation-content {
+      font-size: 0.9em;
+      line-height: 1.8;
+    }
+
+    /* 运行中加载动画 */
+    .spinner {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      border: 2px solid var(--text-dim);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* 底部 */
+    .footer {
+      text-align: center;
+      padding: 24px 0;
+      color: var(--text-dim);
+      font-size: 0.8em;
+      border-top: 1px solid var(--border);
+      margin-top: 24px;
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 8px; }
+      .question-card { padding: 14px; }
+      .question-title { font-size: 1.1em; }
+      .code-editor { font-size: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <h1>每日算法 AI 出题</h1>
+  <div class="subtitle">算法 2 道 + AI 2 道 · 第 15 期</div>
+  <div class="date-tag">📅 2026-10-13 ｜ 算法 2 道 · AI 2 道</div>
+</div>
+
+<div class="question-card" data-qid="1">
+
+    <div class="question-header">
+      <span class="type-badge" style="background:#3b82f6">算法编程</span>
+      <span class="difficulty">⭐⭐</span>
+      <span class="qid-label">第 1 题</span>
+    </div>
+<h2 class="question-title">LRU 缓存机制</h2>
+<div class="question-body">设计并实现 LRU（最近最少使用，Least Recently Used）缓存，支持两种操作：<br>
+<br>
+- <code class="inline-code">get(key)</code>：若关键字 key 存在于缓存中，返回其值，并将该关键字变为「最近使用」；否则返回 -1。<br>
+- <code class="inline-code">put(key, value)</code>：写入关键字。若 key 已存在，更新其值并变为「最近使用」；若不存在则插入。当插入导致关键字数量超过容量 capacity 时，**逐出最久未使用的关键字**。<br>
+<br>
+要求 <code class="inline-code">get</code> 与 <code class="inline-code">put</code> 的平均时间复杂度均为 $O(1)$。<br>
+<br>
+**判题接口（操作序列式）**：实现 <code class="inline-code">solve(ops, args)</code>——<code class="inline-code">ops[i]</code> 为操作名（<code class="inline-code">&quot;LRUCache&quot;</code> 表示以容量 <code class="inline-code">args[i][0]</code> 初始化），<code class="inline-code">args[i]</code> 为该操作的参数列表（<code class="inline-code">get</code> 对应 <code class="inline-code">[key]</code>，<code class="inline-code">put</code> 对应 <code class="inline-code">[key, value]</code>）；返回与操作序列等长的结果列表：<code class="inline-code">LRUCache</code>/<code class="inline-code">put</code> 的结果为 <code class="inline-code">None</code>，<code class="inline-code">get</code> 的结果为命中值或 -1。<br>
+<br>
+**进阶**：面试通常要求不借助 <code class="inline-code">collections.OrderedDict</code>，手写「哈希表 + 双向链表」（用 OrderedDict 也能通过测试，但建议先手写再对照）。</div>
+<div class="info-block"><span class="info-label">输入</span><pre>函数 `solve(ops, args)`：`ops` 为字符串列表（元素为 `&quot;LRUCache&quot;`/`&quot;get&quot;`/`&quot;put&quot;`），`args` 为参数列表的列表。`ops[0]` 恒为 `&quot;LRUCache&quot;`，此时 `args[0] = [capacity]`。</pre></div>
+<div class="info-block"><span class="info-label">输出</span><pre>列表：与 `ops` 等长。`LRUCache`/`put` 位置为 `None`（页面显示为 null），`get` 位置为关键字的值，未命中为 -1。</pre></div>
+<div class="example-block">
+<div class="example-title">示例 1</div>
+<pre class="example-io"><span class="io-label">输入：</span>ops = [&quot;LRUCache&quot;,&quot;put&quot;,&quot;put&quot;,&quot;get&quot;,&quot;put&quot;,&quot;get&quot;,&quot;put&quot;,&quot;get&quot;,&quot;get&quot;,&quot;get&quot;]
+args = [[2],[1,1],[2,2],[1],[3,3],[2],[4,4],[1],[3],[4]]</pre>
+<pre class="example-io"><span class="io-label">输出：</span>[null,null,null,1,null,-1,null,-1,3,4]</pre>
+<div class="example-explanation">容量 2。put(1,1)、put(2,2) 后 get(1) 返回 1，且 1 变为最近使用；put(3,3) 超容量，逐出最久未使用的 2，故 get(2) 返回 -1；put(4,4) 逐出 1，故 get(1) 返回 -1；get(3)=3、get(4)=4。</div>
+</div>
+<div class="example-block">
+<div class="example-title">示例 2</div>
+<pre class="example-io"><span class="io-label">输入：</span>ops = [&quot;LRUCache&quot;,&quot;put&quot;,&quot;put&quot;,&quot;put&quot;,&quot;get&quot;,&quot;get&quot;]
+args = [[2],[1,1],[2,2],[1,10],[1],[2]]</pre>
+<pre class="example-io"><span class="io-label">输出：</span>[null,null,null,null,10,2]</pre>
+<div class="example-explanation">put(1,10) 是对已存在 key 的更新：值变为 10、1 变为最近使用，但容量仍为 2，不逐出任何关键字，get(2) 仍返回 2。</div>
+</div>
+<div class="info-block"><span class="info-label">约束</span><div>1 &lt;= capacity &lt;= 10^4；1 &lt;= key &lt;= 10^5；0 &lt;= value &lt;= 10^5；单测试用例操作数 1 &lt;= len(ops) &lt;= 10^5。本题内置 12 个测试用例：容量 1 最小边界、更新已存在 key 不逐出、get 刷新位置、装满后 FIFO 逐出、逐出后重新插入同一 key、容量 3 多轮混合、100 规模批量操作等。</div></div>
+
+    <div class="code-section">
+      <div class="code-header">
+        <span>🧑‍💻 在线代码编辑器</span>
+        <button class="btn-run" onclick="runCode(1)" id="run_btn_1">▶ 运行</button>
+      </div>
+      <div class="editor-wrap">
+        <div class="code-editor" id="editor_1" contenteditable="true" spellcheck="false">def solve(ops, args):
+    &quot;&quot;&quot;ops[i]: &quot;LRUCache&quot;/&quot;get&quot;/&quot;put&quot;；args[i]: 对应参数列表
+    返回: 与 ops 等长的列表，&quot;LRUCache&quot;/&quot;put&quot; 位置为 None，&quot;get&quot; 位置为值或 -1&quot;&quot;&quot;
+    cache = None
+    out = []
+    for op, a in zip(ops, args):
+        if op == &#x27;LRUCache&#x27;:
+            # TODO: 以容量 a[0] 初始化你的缓存结构
+            out.append(None)
+        elif op == &#x27;get&#x27;:
+            # TODO: 查询 a[0]：命中返回值并标记为最近使用，未命中返回 -1
+            out.append(-1)
+        else:
+            # TODO: 写入 (a[0], a[1])：已存在则更新+变新；超容量则逐出最久未使用
+            out.append(None)
+    return out</div>
+      </div>
+      <div class="code-result" id="result_1" style="display:none;"></div>
+      <input type="hidden" id="func_name_1" value="solve">
+      <input type="hidden" id="test_cases_1" value='[[[&quot;LRUCache&quot;, &quot;put&quot;, &quot;put&quot;, &quot;get&quot;, &quot;put&quot;, &quot;get&quot;, &quot;put&quot;, &quot;get&quot;, &quot;get&quot;, &quot;get&quot;], [[2], [1, 1], [2, 2], [1], [3, 3], [2], [4, 4], [1], [3], [4]]], [[&quot;LRUCache&quot;, &quot;put&quot;, &quot;get&quot;, &quot;put&quot;, &quot;get&quot;, &quot;get&quot;], [[1], [2, 1], [2], [3, 2], [2], [3]]], [[&quot;LRUCache&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;get&quot;, &quot;get&quot;], [[2], [1, 1], [2, 2], [1, 10], [1], [2]]], [[&quot;LRUCache&quot;, &quot;put&quot;, &quot;put&quot;, &quot;get&quot;, &quot;put&quot;, &quot;get&quot;, &quot;get&quot;], [[2], [1, 1], [2, 2], [1], [3, 3], [2], [1]]], [[&quot;LRUCache&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;get&quot;, &quot;get&quot;, &quot;get&quot;], [[2], [1, 1], [2, 2], [3, 3], [1], [2], [3]]], [[&quot;LRUCache&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;get&quot;], [[2], [1, 1], [1, 2], [1, 3], [1]]], [[&quot;LRUCache&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;get&quot;, &quot;put&quot;, &quot;get&quot;, &quot;put&quot;, &quot;get&quot;, &quot;get&quot;], [[3], [1, 1], [2, 2], [3, 3], [2], [4, 4], [1], [5, 5], [2], [3]]], [[&quot;LRUCache&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;get&quot;, &quot;get&quot;, &quot;get&quot;, &quot;get&quot;], [[3], [1, 1], [2, 2], [3, 3], [1], [2], [3], [1]]], [[&quot;LRUCache&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;get&quot;, &quot;get&quot;], [[2], [1, 1], [2, 2], [1, 9], [3, 3], [2], [3]]], [[&quot;LRUCache&quot;, &quot;get&quot;, &quot;put&quot;, &quot;get&quot;], [[2], [5], [5, 50], [5]]], [[&quot;LRUCache&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;get&quot;, &quot;put&quot;, &quot;get&quot;, &quot;get&quot;, &quot;get&quot;], [[100], [1, 10], [2, 20], [3, 30], [4, 40], [5, 50], [6, 60], [7, 70], [8, 80], [9, 90], [10, 100], [11, 110], [12, 120], [13, 130], [14, 140], [15, 150], [16, 160], [17, 170], [18, 180], [19, 190], [20, 200], [21, 210], [22, 220], [23, 230], [24, 240], [25, 250], [26, 260], [27, 270], [28, 280], [29, 290], [30, 300], [31, 310], [32, 320], [33, 330], [34, 340], [35, 350], [36, 360], [37, 370], [38, 380], [39, 390], [40, 400], [41, 410], [42, 420], [43, 430], [44, 440], [45, 450], [46, 460], [47, 470], [48, 480], [49, 490], [50, 500], [51, 510], [52, 520], [53, 530], [54, 540], [55, 550], [56, 560], [57, 570], [58, 580], [59, 590], [60, 600], [61, 610], [62, 620], [63, 630], [64, 640], [65, 650], [66, 660], [67, 670], [68, 680], [69, 690], [70, 700], [71, 710], [72, 720], [73, 730], [74, 740], [75, 750], [76, 760], [77, 770], [78, 780], [79, 790], [80, 800], [81, 810], [82, 820], [83, 830], [84, 840], [85, 850], [86, 860], [87, 870], [88, 880], [89, 890], [90, 900], [91, 910], [92, 920], [93, 930], [94, 940], [95, 950], [96, 960], [97, 970], [98, 980], [99, 990], [100, 1000], [1], [101, 1010], [1], [2], [101]]], [[&quot;LRUCache&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;put&quot;, &quot;get&quot;], [[2], [1, 1], [2, 2], [3, 3], [1, 100], [1]]]]'>
+      <input type="hidden" id="expected_outputs_1" value='[[null, null, null, 1, null, -1, null, -1, 3, 4], [null, null, 1, null, -1, 2], [null, null, null, null, 10, 2], [null, null, null, 1, null, -1, 1], [null, null, null, null, -1, 2, 3], [null, null, null, null, 3], [null, null, null, null, 2, null, -1, null, 2, -1], [null, null, null, null, 1, 2, 3, 1], [null, null, null, null, null, -1, 3], [null, -1, null, 50], [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, 10, null, 10, -1, 1010], [null, null, null, null, null, 100]]'>
+    </div>
+
+    <button class="btn-reveal" onclick="revealSolution(1)" id="reveal_btn_1">
+      📖 显示答案与解析
+    </button>
+<div class="solution-section" id="solution_1" style="display:none;">
+<div class="solution-divider">--- 以下为答案与解析 ---</div>
+<div class="solution-block"><h4>💡 解题思路</h4><div>「哈希表 + 双向链表」经典组合：哈希表负责 O(1) 定位节点，双向链表负责 O(1) 维护新旧次序——哑头 head 的下一节点是最近使用，哑尾 tail 的前一节点是最久未用。<br>
+<br>
+- <code class="inline-code">get</code> 命中：把节点摘下、再插到头部（两次 O(1) 指针操作）。<br>
+- <code class="inline-code">put</code> 已存在：更新值 + 摘下插头（等效一次访问）。<br>
+- <code class="inline-code">put</code> 新 key 且超容量：删除 tail.prev（最久未用），并同步从哈希表删除——因此**链表节点必须存 key**，否则无法反查要删哪个哈希表项。<br>
+<br>
+哑头/哑尾的引入让所有摘除/插入都不必判空、不必特判删头删尾/唯一节点。</div></div>
+<div class="solution-block"><h4>📝 参考代码（python）</h4><pre class="code-block">class Node:
+    __slots__ = (&#x27;key&#x27;, &#x27;val&#x27;, &#x27;prev&#x27;, &#x27;next&#x27;)  # 节点必须存 key：逐出时才能反查哈希表
+
+    def __init__(self, key=0, val=0):
+        self.key, self.val = key, val
+        self.prev, self.next = None, None
+
+
+class LRUCache:
+    &quot;&quot;&quot;哈希表 + 双向链表；哑头 head：head.next 为最近使用；哑尾 tail：tail.prev 为最久未用&quot;&quot;&quot;
+
+    def __init__(self, capacity):
+        self.cap = capacity
+        self.map = {}                 # key -&gt; Node，O(1) 定位
+        self.head = Node()            # 哑头（不存数据）
+        self.tail = Node()            # 哑尾（不存数据）
+        self.head.next = self.tail
+        self.tail.prev = self.head
+
+    def _remove(self, node):           # O(1) 摘下任意节点（双向链表才能不遍历找 prev）
+        node.prev.next = node.next
+        node.next.prev = node.prev
+
+    def _add_front(self, node):       # O(1) 接到头部 = 标记为最近使用
+        node.next = self.head.next
+        node.prev = self.head
+        self.head.next.prev = node
+        self.head.next = node
+
+    def get(self, key):
+        if key not in self.map:
+            return -1
+        node = self.map[key]
+        self._remove(node)            # 命中即&quot;变新&quot;：先摘下
+        self._add_front(node)         # 再插到头部
+        return node.val
+
+    def put(self, key, value):
+        if key in self.map:           # 已存在：更新值 + 等效一次访问
+            node = self.map[key]
+            node.val = value
+            self._remove(node)
+            self._add_front(node)
+            return
+        if len(self.map) &gt;= self.cap: # 满了：逐出 tail.prev（最久未用）
+            lru = self.tail.prev
+            self._remove(lru)
+            del self.map[lru.key]     # 用节点里存的 key 同步删哈希表项
+        node = Node(key, value)
+        self.map[key] = node
+        self._add_front(node)
+
+
+def solve(ops, args):
+    cache, out = None, []
+    for op, a in zip(ops, args):
+        if op == &#x27;LRUCache&#x27;:
+            cache = LRUCache(a[0]); out.append(None)
+        elif op == &#x27;get&#x27;:
+            out.append(cache.get(a[0]))
+        else:
+            cache.put(a[0], a[1]); out.append(None)
+    return out</pre></div>
+<div class="solution-block"><h4>⚡ 复杂度分析</h4><div>
+<span class="complexity-tag">时间 get/put 均摊 O(1)（哈希查找 O(1) + 链表指针操作 O(1)）；处理 L 个操作 O(L)</span>
+<span class="complexity-tag">空间 O(capacity)：哈希表与链表各存 capacity 个节点</span>
+</div></div>
+<div class="solution-block"><h4>🎯 考点</h4><div>LRU 是「设计类」超高频面试题；为什么链表节点要存 key；为什么必须双向链表（O(1) 摘除任意节点需要 prev 指针，单向链表做不到）；哑节点技巧统一边界处理；对比：数组实现的逐出需 O(n) 搬移、OrderedDict 三行实现适合工程但面试常要求手写。</div></div>
+</div>
+</div>
+<div class="question-card" data-qid="2">
+
+    <div class="question-header">
+      <span class="type-badge" style="background:#10b981">算法概念</span>
+      <span class="difficulty">⭐⭐</span>
+      <span class="qid-label">第 2 题</span>
+    </div>
+<h2 class="question-title">KMP 算法与 next 数组的性质</h2>
+<div class="question-body">KMP 算法（Knuth–Morris–Pratt）是字符串匹配的经典算法，核心是 next 数组（又称失败指针、前缀函数）。**本题约定：next[i] 表示 pattern[0..i]（下标 0 到 i 的子串，含两端）的最长相等真前后缀长度**（真 = 长度严格小于该子串本身长度），例如 pattern = &quot;abab&quot; 的 next = [0, 0, 1, 2]。<br>
+<br>
+关于 KMP 算法与 next 数组，下列说法中**正确**的是哪一项？</div>
+<div class="options-container">
+
+            <label class="option-item" data-letter="A">
+              <input type="radio" name="quiz_2" value="A" onchange="checkAnswer(2, 'A')">
+              <span class="option-letter">A</span>
+              <span class="option-text">KMP 在某处失配时，需要把主串指针回退到本轮匹配起点的下一位，与模式串的新起点重新比较；它的加速仅仅在于提前判定某些起点不可能匹配，从而跳过这些起点。</span>
+            </label>
+
+            <label class="option-item" data-letter="B">
+              <input type="radio" name="quiz_2" value="B" onchange="checkAnswer(2, 'B')">
+              <span class="option-letter">B</span>
+              <span class="option-text">失配时模式串滑动到 next 指示的位置——已匹配部分的「相等前后缀」保证无需重新比较，且主串指针永不回退；主串指针只前进、模式串指针的每次回跳又被此前的比较次数均摊，故匹配阶段总比较次数为 O(n)，整个算法 O(n+m)。</span>
+            </label>
+
+            <label class="option-item" data-letter="C">
+              <input type="radio" name="quiz_2" value="C" onchange="checkAnswer(2, 'C')">
+              <span class="option-letter">C</span>
+              <span class="option-text">next 数组只能加速匹配阶段；构建 next 数组本身需要 O(m^2) 时间，因为必须枚举模式串的所有真前后缀并逐一比较是否相等。</span>
+            </label>
+
+            <label class="option-item" data-letter="D">
+              <input type="radio" name="quiz_2" value="D" onchange="checkAnswer(2, 'D')">
+              <span class="option-letter">D</span>
+              <span class="option-text">next 数组只服务于匹配加速，与字符串的周期性无关——例如无法借助 next 数组直接得出 &quot;ababab&quot; 的最小循环节是 &quot;ab&quot;。</span>
+            </label>
+</div>
+<div class="option-feedback" id="feedback_2"></div>
+
+    <button class="btn-reveal" onclick="revealSolution(2)" id="reveal_btn_2">
+      📖 显示答案与解析
+    </button>
+<div class="solution-section" id="solution_2" style="display:none;">
+<div class="solution-divider">--- 以下为答案与解析 ---</div>
+<div class="answer-highlight">✅ 正确答案：B</div>
+<div class="solution-block"><h4>💡 解题思路</h4><div>逐项对照 KMP 的三个关键事实：主串指针是否回退、next 数组如何构建、next 数组的延伸应用。</div></div>
+<div class="solution-block"><h4>🎯 考点</h4><div>KMP 两个关键：失配时主串指针不回退 + 已匹配前后缀信息避免重复比较；next 数组的构建是模式串自匹配、O(m)；主串/模式串指针各自的均摊计数（i 只增不减、j 的回跳被预付）推出 O(n+m)；延伸：p = L − next[L−1] 求最小循环节。注意前缀函数有两种常见约定（π[i] 含当前字符 vs 失配跳转表差 1），读题先确认定义。</div></div>
+<div class="solution-block"><h4>🔍 逐项分析</h4><ul class="answer-points">
+<li>A 错误。「把主串指针回退到本轮匹配起点的下一位重新比较」恰恰是朴素匹配（BF）的做法，其最坏复杂度为 O(nm)（如 text=&quot;aaaa...ab&quot;、pattern=&quot;aaab&quot;）。KMP 的本质改进正是**主串指针永不回退**：失配时利用 next 数组把模式串向右滑动到「已匹配部分的后缀 == 模式串前缀」的位置，主串指针停在原地继续比较，已匹配的前缀部分无需重比。</li>
+<li>B 正确。next[i] 即「pattern[0..i] 的最长相等真前后缀长度」；失配时把模式串滑到 next 位置后，pattern[0..next[j]-1] 与主串中刚匹配过的后缀必然相等（互为已匹配部分的前后缀），无需重新比较。复杂度的均摊论证：主串指针 i 只前进不回退，至多前进 n 次；模式串指针 j 每次失配跳到 next[j] 而减少，而 j 的每次减少都被之前的「比较成功使 j 增加」预付过，两类操作合计至多 2n 次字符比较 → 匹配阶段 O(n)；构建 next 同理 O(m)；总计 O(n+m)。</li>
+<li>C 错误。构建 next 数组不需要枚举所有前后缀——它本质是**模式串与自己的匹配**过程：next[i] 由 next[i-1] 延推（若 pattern[i] == pattern[next[i-1]] 则 next[i] = next[i-1]+1，否则沿 next 失配链回跳），与匹配阶段完全相同的均摊论证给出 O(m)，而非 O(m^2)。</li>
+<li>D 错误。next 数组与循环节有直接联系：记串长 L、p = L − next[L−1]，若 L mod p == 0，则整串由长度为 p 的循环节完整构成，p 即最小循环节长度。对 &quot;ababab&quot;：next = [0,0,1,2,3,4]，next[5] = 4，p = 6−4 = 2，6 mod 2 == 0，最小循环节正是 &quot;ab&quot;。该性质是「重复的子串」「字符串循环节」类题目的通用解法。</li>
+</ul></div>
+</div>
+</div>
+<div class="question-card" data-qid="3">
+
+    <div class="question-header">
+      <span class="type-badge" style="background:#a855f7">AI公式推导</span>
+      <span class="difficulty">⭐⭐⭐</span>
+      <span class="qid-label">第 3 题</span>
+    </div>
+<h2 class="question-title">Adam 优化器：从 EMA 到偏差修正的完整推导</h2>
+<div class="question-body">Adam 是深度学习最常用的优化器，也是大模型训练（AdamW）的基础。设第 $t$ 步随机梯度为 $g_t = \nabla_\theta f_t(\theta_{t-1})$，Adam 维护两个指数移动平均：<br>
+$$m_t = \beta_1 m_{t-1} + (1-\beta_1) g_t \quad (\text{一阶矩})$$<br>
+$$v_t = \beta_2 v_{t-1} + (1-\beta_2) g_t^2 \quad (\text{二阶矩})$$<br>
+其中 $m_0 = v_0 = 0$，$\beta_1, \beta_2 \in [0,1)$。<br>
+<br>
+请推导：<br>
+(1) 展开并解释 $m_t$ 与 $v_t$ 各自是什么（有效记忆多长）；<br>
+(2) 为什么零初始化会让 $m_t$ 系统性偏小？在梯度恒为 $g$ 的情形下给出 $m_t$ 的精确表达式，并据此推出偏差修正量 $\hat{m}_t$；<br>
+(3) 写出最终更新公式，证明它对梯度的整体缩放不敏感，并说明 $\varepsilon$ 的两个作用。</div>
+
+    <button class="btn-reveal" onclick="revealSolution(3)" id="reveal_btn_3">
+      📖 显示答案与解析
+    </button>
+<div class="solution-section" id="solution_3" style="display:none;">
+<div class="solution-divider">--- 以下为答案与解析 ---</div>
+<div class="solution-block"><h4>🎯 考点</h4><div>EMA 展开与几何级数求和；偏差修正因子 $(1-\beta^t)$ 的来历（零初始化 → 期望偏小）；缩放不变性 $g&#x27; = cg \Rightarrow$ 更新不变的证明；$\varepsilon$ 防除零 + 步长上限的 double duty；Momentum/RMSProp/Adam 谱系；每参数 2 倍状态 = 优化器显存大头（衔接 Q4 LoRA 动机）；AdamW 解耦权重衰减（衔接第 2 期 L2 正则推导、第 7 期 softmax-CE 梯度分析）。</div></div>
+<div class="solution-block"><h4>📐 推导过程</h4><div class="derivation-content">**第 0 步｜动机：从 SGD 到 Adam**<br>
+SGD 更新 $\theta_t = \theta_{t-1} - \alpha g_t$ 有两个痛点：(a) 所有参数共享同一个学习率，遇到病态曲率（有的方向陡、有的方向平）会来回震荡、收敛慢；(b) 随机梯度噪声大。Momentum 用梯度的 EMA 平滑**方向**，RMSProp 用梯度平方的 EMA 逐参数缩放**步长**。Adam = Momentum + RMSProp + 偏差修正。<br>
+<br>
+**第 1 步｜一阶矩与二阶矩的 EMA 定义**<br>
+$$m_t = \beta_1 m_{t-1} + (1-\beta_1) g_t, \qquad v_t = \beta_2 v_{t-1} + (1-\beta_2) g_t^2, \qquad m_0 = v_0 = 0$$<br>
+$m_t$ 是梯度的一阶矩（均值）估计、$v_t$ 是二阶矩（平方均值/无偏时即方差）估计，$\beta_1, \beta_2 \in [0,1)$ 为衰减率。<br>
+<br>
+**第 2 步｜展开 EMA：看清它是什么**<br>
+反复回代 $m_{t-1}, m_{t-2}, \dots$ 直至 $m_0 = 0$：<br>
+$$m_t = (1-\beta_1)\sum_{i=1}^{t} \beta_1^{\,t-i} g_i$$<br>
+即历史梯度的**指数加权滑动平均**：权重 $(1-\beta_1)\beta_1^{t-i}$ 随距离指数衰减，有效记忆长度约 $\tfrac{1}{1-\beta_1}$ 步（$\beta_1=0.9$ → 约 10 步）。同理$$v_t = (1-\beta_2)\sum_{i=1}^{t} \beta_2^{\,t-i} g_i^2$$（$\beta_2=0.999$ → 约 1000 步）。**每个参数维度单独维护自己的 $m_t, v_t$**——这是逐参数自适应的来源。<br>
+<br>
+**第 3 步｜偏差修正：零初始化的代价（本题核心）**<br>
+考察「梯度恒为 $g$」的确定性情形，代入第 2 步的展开式并求几何级数和：<br>
+$$m_t = (1-\beta_1)\, g \sum_{i=1}^{t}\beta_1^{t-i} = (1-\beta_1)\, g \cdot \frac{1-\beta_1^{t}}{1-\beta_1} = g\,(1-\beta_1^{t})$$<br>
+（其中 $\sum_{i=1}^{t}\beta^{t-i} = \frac{1-\beta^t}{1-\beta}$。）由于 $m_0 = 0$「欠配额」，$m_t$ 系统性偏小，只等于真值的 $(1-\beta_1^t)$ 倍——$t$ 越小偏差越大（$t=1$ 时 $m_1 = (1-\beta_1)g$，仅为 $g$ 的 10%）。随机情形同理：$E[m_t] = \mu_t (1-\beta_1^t)$（$\mu_t$ 为真实梯度均值）。修正方法：定义<br>
+$$\hat{m}_t = \frac{m_t}{1-\beta_1^{t}} \;\Rightarrow\; E[\hat{m}_t] = \mu_t, \qquad \hat{v}_t = \frac{v_t}{1-\beta_2^{t}}$$<br>
+$t \to \infty$ 时修正因子自动趋于 1（修正自动失效）；$t$ 小时修正最强（$t=1$ 时 $\hat{m}_1 = g_1$，恰为当前梯度），保证训练初期估计无偏、步长不被错误压低。<br>
+<br>
+**第 4 步｜更新公式与缩放不变性**<br>
+$$\theta_t = \theta_{t-1} - \alpha\, \frac{\hat{m}_t}{\sqrt{\hat{v}_t}+\varepsilon}$$<br>
+- 分子 $\hat{m}_t$：平滑后的**方向**（动量项）；<br>
+- 分母 $\sqrt{\hat{v}_t}$：该参数自身梯度幅度的 RMS 估计——梯度一直大的维度步长自动变小，梯度稀疏/微小的维度步长自动变大（**逐参数自适应学习率**）；<br>
+- **缩放不变性**：若损失放大 $c$ 倍使 $g_i&#x27; = c\,g_i$，则 $\hat{m}&#x27; = c\hat{m}$、$\hat{v}&#x27; = c^2\hat{v}$ 即 $\sqrt{\hat{v}&#x27;} = c\sqrt{\hat{v}}$，比值 $\hat{m}/\sqrt{\hat{v}}$ 不变（忽略 $\varepsilon$），更新量完全相同——换 batch size、给 loss 乘常数都不必重调学习率。<br>
+<br>
+**第 5 步｜$\varepsilon$ 的两个作用 + 谱系与代价**<br>
+$\varepsilon$（默认 $10^{-8}$）：(a) 防止 $\hat{v}_t \to 0$ 时除零（长期无梯度的稀疏参数）；(b) 作为分母下限，把单步更新约束在约 $\alpha(1-\beta_1)/\sqrt{1-\beta_2}$ 以内——即使梯度极小、比值失真，步长也不会失控，这正是 Adam 论文「Step-size」一节的结论：**$\alpha$ 是可靠的步长上界**，也是自适应优化器敢统一用 $\alpha=0.001$ 起步的原因。<br>
+谱系：SGD → 加一阶矩 = Momentum → 加二阶矩缩放 = RMSProp → 再加偏差修正 = Adam。默认超参 $\alpha=0.001,\ \beta_1=0.9,\ \beta_2=0.999,\ \varepsilon=10^{-8}$。代价：每参数额外存 $m, v$ 两份状态，优化器显存开销 = 2 倍参数量（fp32）——7B 模型仅优化器状态就要 56 GB，是显存大头之一（正是 Q4 LoRA 的动机）。局限：部分任务泛化不如精调 SGD；且 L2 正则与自适应分母耦合（正则项也被 $\sqrt{\hat{v}}$ 缩放，梯度大的方向反被弱惩罚），AdamW 把权重衰减与梯度解耦、直接作用于参数，成为大模型训练标配。</div></div>
+<div class="solution-block"><h4>🧠 直觉解释</h4><div>一句话：Adam 给每个参数配了专属学习率——动量定方向、二阶矩定步长，偏差修正保证零初始化的 EMA 在训练初期不失真，$\alpha$ 因此成为可靠的步长上界。</div></div>
+</div>
+</div>
+<div class="question-card" data-qid="4">
+
+    <div class="question-header">
+      <span class="type-badge" style="background:#f59e0b">AI面试问答</span>
+      <span class="difficulty">⭐⭐</span>
+      <span class="qid-label">第 4 题</span>
+    </div>
+<h2 class="question-title">LoRA 低秩适配：大模型高效微调的标准答案</h2>
+<div class="question-body">面试官：「我们要把一个 7B 大模型微调到自己的客服问答任务上。为什么不直接全量微调？LoRA 怎么用不到 1% 的可训练参数做到接近全量微调的效果？请讲清它的数学形式、低秩假设为什么成立、初始化为什么那样设计，以及推理时如何做到零额外延迟。」</div>
+
+    <button class="btn-reveal" onclick="revealSolution(4)" id="reveal_btn_4">
+      📖 显示答案与解析
+    </button>
+<div class="solution-section" id="solution_4" style="display:none;">
+<div class="solution-divider">--- 以下为答案与解析 ---</div>
+<div class="solution-block"><h4>📌 回答要点</h4><ul class="answer-points">
+<li>先算全量微调的显存账：7B 参数 fp16 权重约 14 GB，但训练还需要梯度和优化器状态——AdamW 的一阶/二阶矩各一份 fp32（见 Q3：每参数多存 $m, v$ 两份），合计约 6~8 倍参数量的显存（80~100 GB 级），单卡放不下；每个下游任务还要单独保存一份全量权重，存储与切换成本都高。</li>
+<li>LoRA 数学形式：冻结预训练权重 $W_0 \in \mathbb{R}^{d\times k}$，把微调所需的权重增量参数化为低秩分解 $\Delta W = BA$，其中 $A \in \mathbb{R}^{r\times k}$、$B \in \mathbb{R}^{d\times r}$、秩 $r \ll \min(d,k)$，前向为 $h = W_0 x + \tfrac{\alpha}{r} BAx$。可训练参数量从 $dk$ 降为 $r(d+k)$：$d=k=4096, r=8$ 时从约 1678 万降到约 6.6 万（约 1/256），梯度与优化器状态同比例缩减，基座可以完全不开梯度、不存优化器状态。</li>
+<li>低秩假设为何成立：预训练模型适配下游任务所需的真实增量 $\Delta W^*$ 具有很低的**本征秩**（Aghajanyan et al., 2020 的实证结论）——任务适配只改变权重在少数方向上的行为，大量维度近乎不动，因此 $r = 8 \sim 64$ 的低秩分解足以表达；同时参数少本身就是正则，小数据集上往往比全量微调更稳（不易过拟合）。</li>
+<li>初始化与训练细节：$A$ 按高斯 $\mathcal{N}(0, \sigma^2)$ 初始化、$B$ 初始化为全零，保证 $BA = 0$、训练起点与预训练模型行为完全一致；若 $A, B$ 同时为零，则 $\partial L/\partial B = \delta A^{\top} = 0$、$\partial L/\partial A = B^{\top}\delta = 0$，梯度死锁永远无法启动，所以必须「一随机、一为零」。缩放因子 $\alpha/r$ 独立调节 $\Delta W$ 的贡献幅度：换 $r$ 时调 $\alpha$ 即可，不必重调学习率。</li>
+<li>推理零额外延迟：部署前把增量合并回基座 $W&#x27; = W_0 + BA$，前向退化为一次普通矩阵乘，与原模型完全同构、零开销；不合并则可用一份基座 + 多套 $(A, B)$ 做任务热切换——这是 LoRA 相对 Adapter（串联额外模块、推理变慢）和 Prefix/Prompt tuning（占用上下文长度、优化难收敛）的关键工程优势。</li>
+</ul></div>
+<div class="solution-block"><h4>⭐ 加分项</h4><ul class="answer-points">
+<li>应用位置：原论文只加在注意力的 $W_q, W_v$ 上；实践中常扩展到 q/k/v/o 甚至全部线性层，效果更好但可训练参数增多，需按显存预算取舍。</li>
+<li>QLoRA：基座量化成 4-bit NF4 再训练 LoRA，7B 微调显存可压到消费级单卡；「量化基座 + 高精度 LoRA」是当前单卡微调的主流配方。</li>
+<li>LoRA 与训练目标正交：它只回答「训哪些参数」，与 SFT/RLHF/DPO 等「用什么目标训」自由组合。</li>
+<li>rank 的经验：从 $r=8$ 起步、看验证集收益递减拐点（原论文 $r=8/16$ 在多数任务已接近全量微调）；不同层的最优秩可能不同（逐层秩分配是活跃研究方向）。</li>
+</ul></div>
+<div class="solution-block"><h4>🔮 追问预测</h4><ul class="answer-points">
+<li>追问「如果 $A$ 和 $B$ 都初始化为 0 会怎样？」——两个梯度都恒为零、训练死锁；考察候选人对零初始化死锁的敏感度（这也是要点 4 的反面验证）。</li>
+<li>追问「$r$ 越大越好吗？怎么选？」——收益存在递减拐点，$r$ 过大丧失正则收益且参数变多；经验：先 $r=8$，验证集不收敛再翻倍，同时保持 $\alpha/r$ 稳定。</li>
+<li>追问「为什么不直接把 $\Delta W$ 当普通矩阵训？」——直接训 $\Delta W$ 参数量仍是 $dk$，毫无节省；低秩分解正是把「矩阵大小」与「可表达自由度」解耦：自由度由 $r$ 控制，参数量只随 $r$ 线性增长。</li>
+</ul></div>
+</div>
+</div>
+
+<div class="footer">
+  坚持每日练习，积少成多 💪<br>
+  Powered by TeleAgent · daily-algo-ai-quiz
+</div>
+
+<script>
+// ===== Pyodide 隔离执行测试运行器 =====
+const RUNNER_CODE = "\nimport json, traceback, io, contextlib\n\ndef run_tests(user_code, func_name, test_cases, expected):\n    ns = {}\n    user_stdout = io.StringIO()\n    user_error = None\n\n    try:\n        with contextlib.redirect_stdout(user_stdout):\n            exec(user_code, ns)\n    except Exception:\n        user_error = traceback.format_exc()\n\n    user_out = user_stdout.getvalue()\n\n    if user_error:\n        return {\"error\": user_error, \"stdout\": user_out}\n\n    func = ns.get(func_name)\n    if func is None:\n        return {\"error\": \"未找到函数 \" + str(func_name) + \"，请确保代码中定义了该函数\", \"stdout\": user_out}\n\n    test_results = []\n    for i, tc in enumerate(test_cases):\n        try:\n            actual = func(*tc)\n            exp = expected[i]\n            passed = actual == exp\n            test_results.append({\n                \"passed\": passed,\n                \"input\": str(tc),\n                \"expected\": str(exp),\n                \"actual\": str(actual)\n            })\n        except Exception as e:\n            exp = str(expected[i]) if i < len(expected) else \"N/A\"\n            test_results.append({\n                \"passed\": False,\n                \"input\": str(tc),\n                \"expected\": exp,\n                \"actual\": \"Error: \" + str(e)\n            })\n\n    return {\"stdout\": user_out, \"tests\": test_results}\n";
+
+// ===== 显示/隐藏解析 =====
+function revealSolution(qid) {
+  const sol = document.getElementById('solution_' + qid);
+  const btn = document.getElementById('reveal_btn_' + qid);
+  if (sol.style.display === 'none') {
+    sol.style.display = 'block';
+    btn.innerHTML = '📕 收起解析';
+    // 渲染该区域数学公式
+    if (typeof renderMathInElement !== 'undefined') {
+      renderMathInElement(sol, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false}
+        ]
+      });
+    }
+  } else {
+    sol.style.display = 'none';
+    btn.innerHTML = '📖 显示答案与解析';
+  }
+}
+
+// ===== 选择题作答反馈 =====
+function checkAnswer(qid, selected) {
+  const card = document.querySelector(`[data-qid="${qid}"]`);
+  if (!card) return;
+  const correctAnswer = card.getAttribute('data-correct') || '';
+  // 从全局 quizData 获取
+  const qData = window.__quizData__.questions.find(q => q.id == qid);
+  if (!qData || !qData.correct_answer) return;
+
+  const correct = qData.correct_answer;
+  const feedback = document.getElementById('feedback_' + qid);
+  const options = card.querySelectorAll('.option-item');
+
+  options.forEach(opt => {
+    const letter = opt.getAttribute('data-letter');
+    opt.classList.remove('correct', 'wrong');
+    if (letter === correct) {
+      opt.classList.add('correct');
+    } else if (letter === selected && selected !== correct) {
+      opt.classList.add('wrong');
+    }
+  });
+
+  if (feedback) {
+    feedback.className = 'option-feedback show ' + (selected === correct ? 'correct' : 'wrong');
+    feedback.textContent = selected === correct
+      ? '✅ 回答正确！'
+      : `❌ 正确答案是 ${correct}，再想想？`;
+    feedback.style.display = 'block';
+  }
+}
+
+// ===== Pyodide 代码执行 =====
+let pyodideReady = null;
+let pyodideLoading = false;
+
+function loadPyodideAsync() {
+  if (pyodideReady) return pyodideReady;
+  if (pyodideLoading) return pyodideReady;
+  pyodideLoading = true;
+
+  pyodideReady = new Promise((resolve, reject) => {
+    if (typeof loadPyodide !== 'undefined') {
+      loadPyodide({
+        indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.25.0/full/'
+      }).then(py => {
+        pyodideLoading = false;
+        resolve(py);
+      }).catch(reject);
+    } else {
+      // 动态加载 Pyodide
+      const script = document.createElement('script');
+      script.src = 'https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js';
+      script.onload = () => {
+        loadPyodide({
+          indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.25.0/full/'
+        }).then(py => {
+          pyodideLoading = false;
+          resolve(py);
+        }).catch(reject);
+      };
+      script.onerror = () => {
+        pyodideLoading = false;
+        reject(new Error('Pyodide 加载失败，请检查网络连接'));
+      };
+      document.head.appendChild(script);
+    }
+  });
+  return pyodideReady;
+}
+
+async function runCode(qid) {
+    const editor = document.getElementById('editor_' + qid);
+    const resultDiv = document.getElementById('result_' + qid);
+    const btn = document.getElementById('run_btn_' + qid);
+    const code = editor.innerText;
+    const funcNameInput = document.getElementById('func_name_' + qid);
+    const funcName = funcNameInput ? funcNameInput.value : 'solve';
+    const tcInput = document.getElementById('test_cases_' + qid);
+    const eoInput = document.getElementById('expected_outputs_' + qid);
+    let testCases = [];
+    let expectedOutputs = [];
+    try {
+        testCases = JSON.parse(tcInput.value || '[]');
+        expectedOutputs = JSON.parse(eoInput.value || '[]');
+    } catch(e) {}
+
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span> 运行中...';
+    resultDiv.style.display = 'block';
+    resultDiv.innerHTML = '<span style="color:var(--text-dim)">⏳ 正在加载 Python 运行环境...</span>';
+
+    try {
+        const pyodide = await loadPyodideAsync();
+        resultDiv.innerHTML = '<span style="color:var(--text-dim)">⏳ 正在执行代码...</span>';
+
+        // 确保 run_tests 函数只定义一次
+        if (!window.__runner_ready__) {
+            pyodide.runPython(RUNNER_CODE);
+            window.__runner_ready__ = true;
+        }
+
+        // 调用 run_tests 函数，通过返回值获取结果（不依赖 stdout，每次调用独立）
+        const runTests = pyodide.globals.get('run_tests');
+        const pyResult = runTests(code, funcName, testCases, expectedOutputs);
+        // pyResult 是 Python dict，转为 JS 对象
+        const result = pyResult.toJs({dict_converter: Object.fromEntries});
+
+        let resultHtml = '';
+
+        // 显示用户代码标准输出
+        if (result.stdout && result.stdout.trim()) {
+            resultHtml += '<div style="color:var(--text)">📝 标准输出：</div>';
+            resultHtml += '<pre style="color:var(--text);margin:4px 0;">' + escapeHtml(result.stdout) + '</pre>';
+        }
+
+        // 显示错误信息
+        if (result.error) {
+            resultHtml += '<div class="stderr">⚠️ 错误信息：</div>';
+            resultHtml += '<pre class="stderr" style="margin:4px 0;">' + escapeHtml(result.error) + '</pre>';
+        }
+
+        // 显示测试用例结果
+        if (result.tests && result.tests.length > 0) {
+            let allPassed = result.tests.every(t => t.passed);
+            resultHtml += '<div style="margin-top:8px;color:' + (allPassed ? 'var(--green)' : 'var(--accent)') + '">';
+            resultHtml += allPassed ? '🎉 全部通过！' : '🧪 测试用例结果：';
+            resultHtml += '</div>';
+
+            for (let i = 0; i < result.tests.length; i++) {
+                const t = result.tests[i];
+                if (t.passed) {
+                    resultHtml += '<div class="test-pass">✅ 用例 ' + (i+1) + ' 通过</div>';
+                } else {
+                    resultHtml += '<div class="test-fail">❌ 用例 ' + (i+1) + ' 未通过</div>';
+                    resultHtml += '<pre style="color:var(--text-dim);margin:2px 0;">  输入: ' + escapeHtml(t.input) + '\n  期望: ' + escapeHtml(t.expected) + '\n  实际: ' + escapeHtml(t.actual) + '</pre>';
+                }
+            }
+        }
+
+        if (!resultHtml) {
+            resultHtml = '<span style="color:var(--text-dim)">（代码执行完毕，无输出）</span>';
+        }
+
+        resultDiv.innerHTML = resultHtml;
+
+    } catch(e) {
+        resultDiv.innerHTML = '<div class="stderr">❌ ' + escapeHtml(e.message || String(e)) + '</div>';
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = '▶ 运行';
+    }
+}
+
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+// Ctrl+Enter 运行代码
+document.addEventListener('keydown', (e) => {
+  if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+    const focused = document.activeElement;
+    if (focused && focused.classList.contains('code-editor')) {
+      const qid = focused.id.replace('editor_', '');
+      runCode(qid);
+    }
+  }
+});
+
+// Tab 键在编辑器中插入空格
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Tab' && document.activeElement.classList.contains('code-editor')) {
+    e.preventDefault();
+    document.execCommand('insertText', false, '    ');
+  }
+});
+
+// 将 quiz 数据存入全局变量供选择题使用
+window.__quizData__ = {"date": "2026-10-13", "title": "每日算法 AI 出题", "subtitle": "算法 2 道 + AI 2 道 · 第 15 期", "questions": [{"id": 1, "type": "algorithm_code", "type_label": "算法编程", "difficulty": 2, "title": "LRU 缓存机制", "description": "设计并实现 LRU（最近最少使用，Least Recently Used）缓存，支持两种操作：\n\n- `get(key)`：若关键字 key 存在于缓存中，返回其值，并将该关键字变为「最近使用」；否则返回 -1。\n- `put(key, value)`：写入关键字。若 key 已存在，更新其值并变为「最近使用」；若不存在则插入。当插入导致关键字数量超过容量 capacity 时，**逐出最久未使用的关键字**。\n\n要求 `get` 与 `put` 的平均时间复杂度均为 $O(1)$。\n\n**判题接口（操作序列式）**：实现 `solve(ops, args)`——`ops[i]` 为操作名（`\"LRUCache\"` 表示以容量 `args[i][0]` 初始化），`args[i]` 为该操作的参数列表（`get` 对应 `[key]`，`put` 对应 `[key, value]`）；返回与操作序列等长的结果列表：`LRUCache`/`put` 的结果为 `None`，`get` 的结果为命中值或 -1。\n\n**进阶**：面试通常要求不借助 `collections.OrderedDict`，手写「哈希表 + 双向链表」（用 OrderedDict 也能通过测试，但建议先手写再对照）。", "input_format": "函数 `solve(ops, args)`：`ops` 为字符串列表（元素为 `\"LRUCache\"`/`\"get\"`/`\"put\"`），`args` 为参数列表的列表。`ops[0]` 恒为 `\"LRUCache\"`，此时 `args[0] = [capacity]`。", "output_format": "列表：与 `ops` 等长。`LRUCache`/`put` 位置为 `None`（页面显示为 null），`get` 位置为关键字的值，未命中为 -1。", "examples": [{"input": "ops = [\"LRUCache\",\"put\",\"put\",\"get\",\"put\",\"get\",\"put\",\"get\",\"get\",\"get\"]\nargs = [[2],[1,1],[2,2],[1],[3,3],[2],[4,4],[1],[3],[4]]", "output": "[null,null,null,1,null,-1,null,-1,3,4]", "explanation": "容量 2。put(1,1)、put(2,2) 后 get(1) 返回 1，且 1 变为最近使用；put(3,3) 超容量，逐出最久未使用的 2，故 get(2) 返回 -1；put(4,4) 逐出 1，故 get(1) 返回 -1；get(3)=3、get(4)=4。"}, {"input": "ops = [\"LRUCache\",\"put\",\"put\",\"put\",\"get\",\"get\"]\nargs = [[2],[1,1],[2,2],[1,10],[1],[2]]", "output": "[null,null,null,null,10,2]", "explanation": "put(1,10) 是对已存在 key 的更新：值变为 10、1 变为最近使用，但容量仍为 2，不逐出任何关键字，get(2) 仍返回 2。"}], "constraints": "1 <= capacity <= 10^4；1 <= key <= 10^5；0 <= value <= 10^5；单测试用例操作数 1 <= len(ops) <= 10^5。本题内置 12 个测试用例：容量 1 最小边界、更新已存在 key 不逐出、get 刷新位置、装满后 FIFO 逐出、逐出后重新插入同一 key、容量 3 多轮混合、100 规模批量操作等。", "solution": {"approach": "「哈希表 + 双向链表」经典组合：哈希表负责 O(1) 定位节点，双向链表负责 O(1) 维护新旧次序——哑头 head 的下一节点是最近使用，哑尾 tail 的前一节点是最久未用。\n\n- `get` 命中：把节点摘下、再插到头部（两次 O(1) 指针操作）。\n- `put` 已存在：更新值 + 摘下插头（等效一次访问）。\n- `put` 新 key 且超容量：删除 tail.prev（最久未用），并同步从哈希表删除——因此**链表节点必须存 key**，否则无法反查要删哪个哈希表项。\n\n哑头/哑尾的引入让所有摘除/插入都不必判空、不必特判删头删尾/唯一节点。", "code": "class Node:\n    __slots__ = ('key', 'val', 'prev', 'next')  # 节点必须存 key：逐出时才能反查哈希表\n\n    def __init__(self, key=0, val=0):\n        self.key, self.val = key, val\n        self.prev, self.next = None, None\n\n\nclass LRUCache:\n    \"\"\"哈希表 + 双向链表；哑头 head：head.next 为最近使用；哑尾 tail：tail.prev 为最久未用\"\"\"\n\n    def __init__(self, capacity):\n        self.cap = capacity\n        self.map = {}                 # key -> Node，O(1) 定位\n        self.head = Node()            # 哑头（不存数据）\n        self.tail = Node()            # 哑尾（不存数据）\n        self.head.next = self.tail\n        self.tail.prev = self.head\n\n    def _remove(self, node):           # O(1) 摘下任意节点（双向链表才能不遍历找 prev）\n        node.prev.next = node.next\n        node.next.prev = node.prev\n\n    def _add_front(self, node):       # O(1) 接到头部 = 标记为最近使用\n        node.next = self.head.next\n        node.prev = self.head\n        self.head.next.prev = node\n        self.head.next = node\n\n    def get(self, key):\n        if key not in self.map:\n            return -1\n        node = self.map[key]\n        self._remove(node)            # 命中即\"变新\"：先摘下\n        self._add_front(node)         # 再插到头部\n        return node.val\n\n    def put(self, key, value):\n        if key in self.map:           # 已存在：更新值 + 等效一次访问\n            node = self.map[key]\n            node.val = value\n            self._remove(node)\n            self._add_front(node)\n            return\n        if len(self.map) >= self.cap: # 满了：逐出 tail.prev（最久未用）\n            lru = self.tail.prev\n            self._remove(lru)\n            del self.map[lru.key]     # 用节点里存的 key 同步删哈希表项\n        node = Node(key, value)\n        self.map[key] = node\n        self._add_front(node)\n\n\ndef solve(ops, args):\n    cache, out = None, []\n    for op, a in zip(ops, args):\n        if op == 'LRUCache':\n            cache = LRUCache(a[0]); out.append(None)\n        elif op == 'get':\n            out.append(cache.get(a[0]))\n        else:\n            cache.put(a[0], a[1]); out.append(None)\n    return out", "starter_code": "def solve(ops, args):\n    \"\"\"ops[i]: \"LRUCache\"/\"get\"/\"put\"；args[i]: 对应参数列表\n    返回: 与 ops 等长的列表，\"LRUCache\"/\"put\" 位置为 None，\"get\" 位置为值或 -1\"\"\"\n    cache = None\n    out = []\n    for op, a in zip(ops, args):\n        if op == 'LRUCache':\n            # TODO: 以容量 a[0] 初始化你的缓存结构\n            out.append(None)\n        elif op == 'get':\n            # TODO: 查询 a[0]：命中返回值并标记为最近使用，未命中返回 -1\n            out.append(-1)\n        else:\n            # TODO: 写入 (a[0], a[1])：已存在则更新+变新；超容量则逐出最久未使用\n            out.append(None)\n    return out", "code_language": "python", "complexity_time": "get/put 均摊 O(1)（哈希查找 O(1) + 链表指针操作 O(1)）；处理 L 个操作 O(L)", "complexity_space": "O(capacity)：哈希表与链表各存 capacity 个节点", "key_points": "LRU 是「设计类」超高频面试题；为什么链表节点要存 key；为什么必须双向链表（O(1) 摘除任意节点需要 prev 指针，单向链表做不到）；哑节点技巧统一边界处理；对比：数组实现的逐出需 O(n) 搬移、OrderedDict 三行实现适合工程但面试常要求手写。", "test_cases": [[["LRUCache", "put", "put", "get", "put", "get", "put", "get", "get", "get"], [[2], [1, 1], [2, 2], [1], [3, 3], [2], [4, 4], [1], [3], [4]]], [["LRUCache", "put", "get", "put", "get", "get"], [[1], [2, 1], [2], [3, 2], [2], [3]]], [["LRUCache", "put", "put", "put", "get", "get"], [[2], [1, 1], [2, 2], [1, 10], [1], [2]]], [["LRUCache", "put", "put", "get", "put", "get", "get"], [[2], [1, 1], [2, 2], [1], [3, 3], [2], [1]]], [["LRUCache", "put", "put", "put", "get", "get", "get"], [[2], [1, 1], [2, 2], [3, 3], [1], [2], [3]]], [["LRUCache", "put", "put", "put", "get"], [[2], [1, 1], [1, 2], [1, 3], [1]]], [["LRUCache", "put", "put", "put", "get", "put", "get", "put", "get", "get"], [[3], [1, 1], [2, 2], [3, 3], [2], [4, 4], [1], [5, 5], [2], [3]]], [["LRUCache", "put", "put", "put", "get", "get", "get", "get"], [[3], [1, 1], [2, 2], [3, 3], [1], [2], [3], [1]]], [["LRUCache", "put", "put", "put", "put", "get", "get"], [[2], [1, 1], [2, 2], [1, 9], [3, 3], [2], [3]]], [["LRUCache", "get", "put", "get"], [[2], [5], [5, 50], [5]]], [["LRUCache", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "put", "get", "put", "get", "get", "get"], [[100], [1, 10], [2, 20], [3, 30], [4, 40], [5, 50], [6, 60], [7, 70], [8, 80], [9, 90], [10, 100], [11, 110], [12, 120], [13, 130], [14, 140], [15, 150], [16, 160], [17, 170], [18, 180], [19, 190], [20, 200], [21, 210], [22, 220], [23, 230], [24, 240], [25, 250], [26, 260], [27, 270], [28, 280], [29, 290], [30, 300], [31, 310], [32, 320], [33, 330], [34, 340], [35, 350], [36, 360], [37, 370], [38, 380], [39, 390], [40, 400], [41, 410], [42, 420], [43, 430], [44, 440], [45, 450], [46, 460], [47, 470], [48, 480], [49, 490], [50, 500], [51, 510], [52, 520], [53, 530], [54, 540], [55, 550], [56, 560], [57, 570], [58, 580], [59, 590], [60, 600], [61, 610], [62, 620], [63, 630], [64, 640], [65, 650], [66, 660], [67, 670], [68, 680], [69, 690], [70, 700], [71, 710], [72, 720], [73, 730], [74, 740], [75, 750], [76, 760], [77, 770], [78, 780], [79, 790], [80, 800], [81, 810], [82, 820], [83, 830], [84, 840], [85, 850], [86, 860], [87, 870], [88, 880], [89, 890], [90, 900], [91, 910], [92, 920], [93, 930], [94, 940], [95, 950], [96, 960], [97, 970], [98, 980], [99, 990], [100, 1000], [1], [101, 1010], [1], [2], [101]]], [["LRUCache", "put", "put", "put", "put", "get"], [[2], [1, 1], [2, 2], [3, 3], [1, 100], [1]]]], "expected_outputs": [[null, null, null, 1, null, -1, null, -1, 3, 4], [null, null, 1, null, -1, 2], [null, null, null, null, 10, 2], [null, null, null, 1, null, -1, 1], [null, null, null, null, -1, 2, 3], [null, null, null, null, 3], [null, null, null, null, 2, null, -1, null, 2, -1], [null, null, null, null, 1, 2, 3, 1], [null, null, null, null, null, -1, 3], [null, -1, null, 50], [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, 10, null, 10, -1, 1010], [null, null, null, null, null, 100]]}}, {"id": 2, "type": "algorithm_concept", "type_label": "算法概念", "difficulty": 2, "title": "KMP 算法与 next 数组的性质", "description": "KMP 算法（Knuth–Morris–Pratt）是字符串匹配的经典算法，核心是 next 数组（又称失败指针、前缀函数）。**本题约定：next[i] 表示 pattern[0..i]（下标 0 到 i 的子串，含两端）的最长相等真前后缀长度**（真 = 长度严格小于该子串本身长度），例如 pattern = \"abab\" 的 next = [0, 0, 1, 2]。\n\n关于 KMP 算法与 next 数组，下列说法中**正确**的是哪一项？", "options": ["KMP 在某处失配时，需要把主串指针回退到本轮匹配起点的下一位，与模式串的新起点重新比较；它的加速仅仅在于提前判定某些起点不可能匹配，从而跳过这些起点。", "失配时模式串滑动到 next 指示的位置——已匹配部分的「相等前后缀」保证无需重新比较，且主串指针永不回退；主串指针只前进、模式串指针的每次回跳又被此前的比较次数均摊，故匹配阶段总比较次数为 O(n)，整个算法 O(n+m)。", "next 数组只能加速匹配阶段；构建 next 数组本身需要 O(m^2) 时间，因为必须枚举模式串的所有真前后缀并逐一比较是否相等。", "next 数组只服务于匹配加速，与字符串的周期性无关——例如无法借助 next 数组直接得出 \"ababab\" 的最小循环节是 \"ab\"。"], "correct_answer": "B", "solution": {"approach": "逐项对照 KMP 的三个关键事实：主串指针是否回退、next 数组如何构建、next 数组的延伸应用。", "option_analysis": ["A 错误。「把主串指针回退到本轮匹配起点的下一位重新比较」恰恰是朴素匹配（BF）的做法，其最坏复杂度为 O(nm)（如 text=\"aaaa...ab\"、pattern=\"aaab\"）。KMP 的本质改进正是**主串指针永不回退**：失配时利用 next 数组把模式串向右滑动到「已匹配部分的后缀 == 模式串前缀」的位置，主串指针停在原地继续比较，已匹配的前缀部分无需重比。", "B 正确。next[i] 即「pattern[0..i] 的最长相等真前后缀长度」；失配时把模式串滑到 next 位置后，pattern[0..next[j]-1] 与主串中刚匹配过的后缀必然相等（互为已匹配部分的前后缀），无需重新比较。复杂度的均摊论证：主串指针 i 只前进不回退，至多前进 n 次；模式串指针 j 每次失配跳到 next[j] 而减少，而 j 的每次减少都被之前的「比较成功使 j 增加」预付过，两类操作合计至多 2n 次字符比较 → 匹配阶段 O(n)；构建 next 同理 O(m)；总计 O(n+m)。", "C 错误。构建 next 数组不需要枚举所有前后缀——它本质是**模式串与自己的匹配**过程：next[i] 由 next[i-1] 延推（若 pattern[i] == pattern[next[i-1]] 则 next[i] = next[i-1]+1，否则沿 next 失配链回跳），与匹配阶段完全相同的均摊论证给出 O(m)，而非 O(m^2)。", "D 错误。next 数组与循环节有直接联系：记串长 L、p = L − next[L−1]，若 L mod p == 0，则整串由长度为 p 的循环节完整构成，p 即最小循环节长度。对 \"ababab\"：next = [0,0,1,2,3,4]，next[5] = 4，p = 6−4 = 2，6 mod 2 == 0，最小循环节正是 \"ab\"。该性质是「重复的子串」「字符串循环节」类题目的通用解法。"], "key_points": "KMP 两个关键：失配时主串指针不回退 + 已匹配前后缀信息避免重复比较；next 数组的构建是模式串自匹配、O(m)；主串/模式串指针各自的均摊计数（i 只增不减、j 的回跳被预付）推出 O(n+m)；延伸：p = L − next[L−1] 求最小循环节。注意前缀函数有两种常见约定（π[i] 含当前字符 vs 失配跳转表差 1），读题先确认定义。"}}, {"id": 3, "type": "ai_derivation", "type_label": "AI公式推导", "difficulty": 3, "title": "Adam 优化器：从 EMA 到偏差修正的完整推导", "description": "Adam 是深度学习最常用的优化器，也是大模型训练（AdamW）的基础。设第 $t$ 步随机梯度为 $g_t = \\nabla_\\theta f_t(\\theta_{t-1})$，Adam 维护两个指数移动平均：\n$$m_t = \\beta_1 m_{t-1} + (1-\\beta_1) g_t \\quad (\\text{一阶矩})$$\n$$v_t = \\beta_2 v_{t-1} + (1-\\beta_2) g_t^2 \\quad (\\text{二阶矩})$$\n其中 $m_0 = v_0 = 0$，$\\beta_1, \\beta_2 \\in [0,1)$。\n\n请推导：\n(1) 展开并解释 $m_t$ 与 $v_t$ 各自是什么（有效记忆多长）；\n(2) 为什么零初始化会让 $m_t$ 系统性偏小？在梯度恒为 $g$ 的情形下给出 $m_t$ 的精确表达式，并据此推出偏差修正量 $\\hat{m}_t$；\n(3) 写出最终更新公式，证明它对梯度的整体缩放不敏感，并说明 $\\varepsilon$ 的两个作用。", "solution": {"derivation": "**第 0 步｜动机：从 SGD 到 Adam**\nSGD 更新 $\\theta_t = \\theta_{t-1} - \\alpha g_t$ 有两个痛点：(a) 所有参数共享同一个学习率，遇到病态曲率（有的方向陡、有的方向平）会来回震荡、收敛慢；(b) 随机梯度噪声大。Momentum 用梯度的 EMA 平滑**方向**，RMSProp 用梯度平方的 EMA 逐参数缩放**步长**。Adam = Momentum + RMSProp + 偏差修正。\n\n**第 1 步｜一阶矩与二阶矩的 EMA 定义**\n$$m_t = \\beta_1 m_{t-1} + (1-\\beta_1) g_t, \\qquad v_t = \\beta_2 v_{t-1} + (1-\\beta_2) g_t^2, \\qquad m_0 = v_0 = 0$$\n$m_t$ 是梯度的一阶矩（均值）估计、$v_t$ 是二阶矩（平方均值/无偏时即方差）估计，$\\beta_1, \\beta_2 \\in [0,1)$ 为衰减率。\n\n**第 2 步｜展开 EMA：看清它是什么**\n反复回代 $m_{t-1}, m_{t-2}, \\dots$ 直至 $m_0 = 0$：\n$$m_t = (1-\\beta_1)\\sum_{i=1}^{t} \\beta_1^{\\,t-i} g_i$$\n即历史梯度的**指数加权滑动平均**：权重 $(1-\\beta_1)\\beta_1^{t-i}$ 随距离指数衰减，有效记忆长度约 $\\tfrac{1}{1-\\beta_1}$ 步（$\\beta_1=0.9$ → 约 10 步）。同理$$v_t = (1-\\beta_2)\\sum_{i=1}^{t} \\beta_2^{\\,t-i} g_i^2$$（$\\beta_2=0.999$ → 约 1000 步）。**每个参数维度单独维护自己的 $m_t, v_t$**——这是逐参数自适应的来源。\n\n**第 3 步｜偏差修正：零初始化的代价（本题核心）**\n考察「梯度恒为 $g$」的确定性情形，代入第 2 步的展开式并求几何级数和：\n$$m_t = (1-\\beta_1)\\, g \\sum_{i=1}^{t}\\beta_1^{t-i} = (1-\\beta_1)\\, g \\cdot \\frac{1-\\beta_1^{t}}{1-\\beta_1} = g\\,(1-\\beta_1^{t})$$\n（其中 $\\sum_{i=1}^{t}\\beta^{t-i} = \\frac{1-\\beta^t}{1-\\beta}$。）由于 $m_0 = 0$「欠配额」，$m_t$ 系统性偏小，只等于真值的 $(1-\\beta_1^t)$ 倍——$t$ 越小偏差越大（$t=1$ 时 $m_1 = (1-\\beta_1)g$，仅为 $g$ 的 10%）。随机情形同理：$E[m_t] = \\mu_t (1-\\beta_1^t)$（$\\mu_t$ 为真实梯度均值）。修正方法：定义\n$$\\hat{m}_t = \\frac{m_t}{1-\\beta_1^{t}} \\;\\Rightarrow\\; E[\\hat{m}_t] = \\mu_t, \\qquad \\hat{v}_t = \\frac{v_t}{1-\\beta_2^{t}}$$\n$t \\to \\infty$ 时修正因子自动趋于 1（修正自动失效）；$t$ 小时修正最强（$t=1$ 时 $\\hat{m}_1 = g_1$，恰为当前梯度），保证训练初期估计无偏、步长不被错误压低。\n\n**第 4 步｜更新公式与缩放不变性**\n$$\\theta_t = \\theta_{t-1} - \\alpha\\, \\frac{\\hat{m}_t}{\\sqrt{\\hat{v}_t}+\\varepsilon}$$\n- 分子 $\\hat{m}_t$：平滑后的**方向**（动量项）；\n- 分母 $\\sqrt{\\hat{v}_t}$：该参数自身梯度幅度的 RMS 估计——梯度一直大的维度步长自动变小，梯度稀疏/微小的维度步长自动变大（**逐参数自适应学习率**）；\n- **缩放不变性**：若损失放大 $c$ 倍使 $g_i' = c\\,g_i$，则 $\\hat{m}' = c\\hat{m}$、$\\hat{v}' = c^2\\hat{v}$ 即 $\\sqrt{\\hat{v}'} = c\\sqrt{\\hat{v}}$，比值 $\\hat{m}/\\sqrt{\\hat{v}}$ 不变（忽略 $\\varepsilon$），更新量完全相同——换 batch size、给 loss 乘常数都不必重调学习率。\n\n**第 5 步｜$\\varepsilon$ 的两个作用 + 谱系与代价**\n$\\varepsilon$（默认 $10^{-8}$）：(a) 防止 $\\hat{v}_t \\to 0$ 时除零（长期无梯度的稀疏参数）；(b) 作为分母下限，把单步更新约束在约 $\\alpha(1-\\beta_1)/\\sqrt{1-\\beta_2}$ 以内——即使梯度极小、比值失真，步长也不会失控，这正是 Adam 论文「Step-size」一节的结论：**$\\alpha$ 是可靠的步长上界**，也是自适应优化器敢统一用 $\\alpha=0.001$ 起步的原因。\n谱系：SGD → 加一阶矩 = Momentum → 加二阶矩缩放 = RMSProp → 再加偏差修正 = Adam。默认超参 $\\alpha=0.001,\\ \\beta_1=0.9,\\ \\beta_2=0.999,\\ \\varepsilon=10^{-8}$。代价：每参数额外存 $m, v$ 两份状态，优化器显存开销 = 2 倍参数量（fp32）——7B 模型仅优化器状态就要 56 GB，是显存大头之一（正是 Q4 LoRA 的动机）。局限：部分任务泛化不如精调 SGD；且 L2 正则与自适应分母耦合（正则项也被 $\\sqrt{\\hat{v}}$ 缩放，梯度大的方向反被弱惩罚），AdamW 把权重衰减与梯度解耦、直接作用于参数，成为大模型训练标配。", "intuition": "一句话：Adam 给每个参数配了专属学习率——动量定方向、二阶矩定步长，偏差修正保证零初始化的 EMA 在训练初期不失真，$\\alpha$ 因此成为可靠的步长上界。", "key_points": "EMA 展开与几何级数求和；偏差修正因子 $(1-\\beta^t)$ 的来历（零初始化 → 期望偏小）；缩放不变性 $g' = cg \\Rightarrow$ 更新不变的证明；$\\varepsilon$ 防除零 + 步长上限的 double duty；Momentum/RMSProp/Adam 谱系；每参数 2 倍状态 = 优化器显存大头（衔接 Q4 LoRA 动机）；AdamW 解耦权重衰减（衔接第 2 期 L2 正则推导、第 7 期 softmax-CE 梯度分析）。"}}, {"id": 4, "type": "ai_interview", "type_label": "AI面试问答", "difficulty": 2, "title": "LoRA 低秩适配：大模型高效微调的标准答案", "description": "面试官：「我们要把一个 7B 大模型微调到自己的客服问答任务上。为什么不直接全量微调？LoRA 怎么用不到 1% 的可训练参数做到接近全量微调的效果？请讲清它的数学形式、低秩假设为什么成立、初始化为什么那样设计，以及推理时如何做到零额外延迟。」", "solution": {"answer_points": ["先算全量微调的显存账：7B 参数 fp16 权重约 14 GB，但训练还需要梯度和优化器状态——AdamW 的一阶/二阶矩各一份 fp32（见 Q3：每参数多存 $m, v$ 两份），合计约 6~8 倍参数量的显存（80~100 GB 级），单卡放不下；每个下游任务还要单独保存一份全量权重，存储与切换成本都高。", "LoRA 数学形式：冻结预训练权重 $W_0 \\in \\mathbb{R}^{d\\times k}$，把微调所需的权重增量参数化为低秩分解 $\\Delta W = BA$，其中 $A \\in \\mathbb{R}^{r\\times k}$、$B \\in \\mathbb{R}^{d\\times r}$、秩 $r \\ll \\min(d,k)$，前向为 $h = W_0 x + \\tfrac{\\alpha}{r} BAx$。可训练参数量从 $dk$ 降为 $r(d+k)$：$d=k=4096, r=8$ 时从约 1678 万降到约 6.6 万（约 1/256），梯度与优化器状态同比例缩减，基座可以完全不开梯度、不存优化器状态。", "低秩假设为何成立：预训练模型适配下游任务所需的真实增量 $\\Delta W^*$ 具有很低的**本征秩**（Aghajanyan et al., 2020 的实证结论）——任务适配只改变权重在少数方向上的行为，大量维度近乎不动，因此 $r = 8 \\sim 64$ 的低秩分解足以表达；同时参数少本身就是正则，小数据集上往往比全量微调更稳（不易过拟合）。", "初始化与训练细节：$A$ 按高斯 $\\mathcal{N}(0, \\sigma^2)$ 初始化、$B$ 初始化为全零，保证 $BA = 0$、训练起点与预训练模型行为完全一致；若 $A, B$ 同时为零，则 $\\partial L/\\partial B = \\delta A^{\\top} = 0$、$\\partial L/\\partial A = B^{\\top}\\delta = 0$，梯度死锁永远无法启动，所以必须「一随机、一为零」。缩放因子 $\\alpha/r$ 独立调节 $\\Delta W$ 的贡献幅度：换 $r$ 时调 $\\alpha$ 即可，不必重调学习率。", "推理零额外延迟：部署前把增量合并回基座 $W' = W_0 + BA$，前向退化为一次普通矩阵乘，与原模型完全同构、零开销；不合并则可用一份基座 + 多套 $(A, B)$ 做任务热切换——这是 LoRA 相对 Adapter（串联额外模块、推理变慢）和 Prefix/Prompt tuning（占用上下文长度、优化难收敛）的关键工程优势。"], "bonus": ["应用位置：原论文只加在注意力的 $W_q, W_v$ 上；实践中常扩展到 q/k/v/o 甚至全部线性层，效果更好但可训练参数增多，需按显存预算取舍。", "QLoRA：基座量化成 4-bit NF4 再训练 LoRA，7B 微调显存可压到消费级单卡；「量化基座 + 高精度 LoRA」是当前单卡微调的主流配方。", "LoRA 与训练目标正交：它只回答「训哪些参数」，与 SFT/RLHF/DPO 等「用什么目标训」自由组合。", "rank 的经验：从 $r=8$ 起步、看验证集收益递减拐点（原论文 $r=8/16$ 在多数任务已接近全量微调）；不同层的最优秩可能不同（逐层秩分配是活跃研究方向）。"], "followup_predictions": ["追问「如果 $A$ 和 $B$ 都初始化为 0 会怎样？」——两个梯度都恒为零、训练死锁；考察候选人对零初始化死锁的敏感度（这也是要点 4 的反面验证）。", "追问「$r$ 越大越好吗？怎么选？」——收益存在递减拐点，$r$ 过大丧失正则收益且参数变多；经验：先 $r=8$，验证集不收敛再翻倍，同时保持 $\\alpha/r$ 稳定。", "追问「为什么不直接把 $\\Delta W$ 当普通矩阵训？」——直接训 $\\Delta W$ 参数量仍是 $dk$，毫无节省；低秩分解正是把「矩阵大小」与「可表达自由度」解耦：自由度由 $r$ 控制，参数量只随 $r$ 线性增长。"]}}]};
+</script>
+</body>
+</html>
