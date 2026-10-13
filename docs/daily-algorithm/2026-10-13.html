@@ -1,0 +1,1250 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>每日算法讲解 · 2026年10月13日</title>
+<!-- MathJax for LaTeX math formula rendering -->
+<script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\(', '\)']],
+      displayMath: [['$$', '$$'], ['\[', '\]']],
+      processEscapes: true
+    },
+    svg: { fontCache: 'global' }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" id="MathJax-script" async></script>
+<style>
+:root {
+  --primary: #6366f1;
+  --primary-dark: #4f46e5;
+  --bg: #0f172a;
+  --card-bg: #1e293b;
+  --text: #e2e8f0;
+  --text-dim: #94a3b8;
+  --accent: #818cf8;
+  --border: #334155;
+  --code-bg: #0d1117;
+  --code-text: #e6edf3;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans SC", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.8;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+.container { max-width: 1400px; margin: 0 auto; padding: 24px 32px; }
+.header {
+  text-align: center;
+  padding: 40px 0 30px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 32px;
+}
+.header h1 {
+  font-size: 28px;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.header h1 .date { color: var(--accent); }
+.header .subtitle { color: var(--text-dim); font-size: 15px; }
+.repo-link {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 6px 16px;
+  background: var(--primary);
+  color: #fff;
+  border-radius: 20px;
+  text-decoration: none;
+  font-size: 13px;
+  transition: background 0.2s;
+}
+.repo-link:hover { background: var(--primary-dark); }
+.history-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 32px;
+  padding: 16px;
+  background: var(--card-bg);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+.history-nav a {
+  padding: 4px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  color: var(--text-dim);
+  text-decoration: none;
+  background: rgba(99,102,241,0.08);
+  transition: all 0.2s;
+}
+.history-nav a:hover { color: var(--text); background: rgba(99,102,241,0.2); }
+.history-nav a.active { color: #fff; background: var(--primary); }
+.history-nav a.back-index { color: var(--accent); font-weight: 600; background: rgba(99,102,241,0.15); border: 1px solid rgba(99,102,241,0.3); }
+.history-nav a.back-index:hover { color: #fff; background: var(--primary); border-color: var(--primary); }
+.content { margin-bottom: 40px; max-width: 1100px; }
+.content h2 {
+  font-size: 24px;
+  color: var(--accent);
+  margin: 40px 0 16px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--primary);
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+.content h2:first-child { border-top: none; padding-top: 0; }
+.content h3 {
+  font-size: 18px;
+  color: var(--text);
+  margin: 24px 0 12px;
+}
+.content h4 {
+  font-size: 16px;
+  color: var(--accent);
+  margin: 20px 0 10px;
+}
+.content p { margin-bottom: 12px; color: var(--text); }
+.content ul { margin: 8px 0 16px 20px; }
+.content li { margin-bottom: 6px; }
+.content strong { color: var(--accent); }
+.content blockquote {
+  border-left: 4px solid var(--primary);
+  padding: 12px 16px;
+  margin: 16px 0;
+  background: rgba(99,102,241,0.08);
+  border-radius: 0 8px 8px 0;
+}
+.content blockquote p { color: var(--text-dim); margin: 4px 0; }
+.content hr {
+  border: none;
+  height: 1px;
+  background: var(--border);
+  margin: 32px 0;
+}
+.code-block {
+  background: var(--code-bg);
+  border-radius: 10px;
+  padding: 18px 24px;
+  overflow-x: auto;
+  margin: 16px 0;
+  border: 1px solid var(--border);
+  max-width: 100%;
+}
+.code-block code {
+  font-family: "JetBrains Mono", "Fira Code", "Consolas", monospace;
+  font-size: 14px;
+  color: var(--code-text);
+  line-height: 1.6;
+  white-space: pre;
+}
+.inline-code {
+  background: rgba(99,102,241,0.15);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: "Consolas", monospace;
+  font-size: 0.9em;
+  color: var(--accent);
+}
+/* Math formula block */
+.content .math-block {
+  background: rgba(99,102,241,0.06);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 24px;
+  margin: 16px 0;
+  overflow-x: auto;
+  max-width: 100%;
+}
+.content .math-label {
+  font-size: 13px; color: var(--text-dim); margin-bottom: 6px; }
+.content .math-vars {
+  margin: 8px 0 16px 20px; }
+.content .math-vars li { margin-bottom: 4px; color: var(--text-dim); }
+.footer {
+  text-align: center;
+  padding: 24px 0;
+  border-top: 1px solid var(--border);
+  color: var(--text-dim);
+  font-size: 13px;
+}
+.tag {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  background: rgba(99,102,241,0.15);
+  color: var(--accent);
+  margin-left: 8px;
+}
+.content .ref-link {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px dashed rgba(99,102,241,0.4);
+  transition: all 0.2s;
+  word-break: break-all;
+}
+.content .ref-link:hover {
+  color: #fff;
+  border-bottom-color: var(--primary);
+}
+.content li {
+  word-break: break-all;
+}
+/* Table */
+.table-wrapper {
+  overflow-x: auto;
+  margin: 16px 0;
+  max-width: 100%;
+}
+.algo-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  background: var(--card-bg);
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+.algo-table thead {
+  background: rgba(99,102,241,0.15);
+}
+.algo-table th {
+  padding: 10px 16px;
+  text-align: left;
+  color: var(--accent);
+  font-weight: 600;
+  border-bottom: 2px solid var(--primary);
+  white-space: nowrap;
+}
+.algo-table td {
+  padding: 8px 16px;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  word-break: break-all;
+}
+.algo-table tr:last-child td {
+  border-bottom: none;
+}
+.algo-table tr:hover td {
+  background: rgba(99,102,241,0.06);
+}
+/* Algorithm architecture image */
+.algo-image {
+  margin: 20px 0;
+  text-align: center;
+}
+.algo-image img {
+  max-width: 100%;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+.algo-image .image-caption {
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--text-dim);
+}
+.algo-image svg {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+/* ======== 移动端响应式适配 ======== */
+@media (max-width: 768px) {
+  .container { max-width: 100%; padding: 16px 14px; }
+  .header { padding: 24px 0 20px; margin-bottom: 20px; }
+  .header h1 { font-size: 20px; margin-bottom: 4px; }
+  .header .subtitle { font-size: 13px; }
+  .repo-link { margin-top: 10px; padding: 5px 14px; font-size: 12px; }
+  .history-nav { gap: 6px; padding: 10px 12px; margin-bottom: 20px; }
+  .history-nav a { padding: 3px 10px; font-size: 12px; }
+  .content { max-width: 100%; margin-bottom: 28px; }
+  .content h2 { font-size: 20px; margin: 28px 0 12px; }
+  .content h3 { font-size: 17px; margin: 20px 0 10px; }
+  .content h4 { font-size: 15px; margin: 16px 0 8px; }
+  .content p { font-size: 14px; margin-bottom: 10px; }
+  .content ul { margin: 6px 0 12px 16px; }
+  .content li { font-size: 14px; margin-bottom: 5px; }
+  .content blockquote { padding: 10px 12px; margin: 12px 0; }
+  .content blockquote p { font-size: 13px; }
+  .content .math-block { padding: 10px 14px; margin: 12px 0; }
+  .code-block { padding: 12px 14px; margin: 12px 0; }
+  .code-block code { font-size: 12px; line-height: 1.5; }
+  .inline-code { font-size: 0.88em; padding: 1px 5px; }
+  .algo-table { font-size: 12px; }
+  .algo-table th { padding: 6px 10px; }
+  .algo-table td { padding: 6px 10px; }
+  .algo-image { margin: 14px 0; }
+  .algo-image svg { max-width: 100%; height: auto; }
+  .footer { padding: 18px 0; font-size: 12px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>每日算法讲解 · <span class="date">2026年10月13日</span></h1>
+    <p class="subtitle">每天 1 个基础算法 + 2 个 AI/机器学习算法，持续精进</p>
+    <a href="https://syypretend.github.io/test/daily-algorithm" target="_blank" class="repo-link">GitHub 仓库</a>
+  </div>
+  <div class="history-nav"><a href="index.html" class="back-index">← 历史索引</a>
+<a href="2026-10-13.html" class="active">10月13日</a>
+<a href="2026-10-12.html">10月12日</a>
+<a href="2026-10-10.html">10月10日</a>
+<a href="2026-10-09.html">10月09日</a>
+<a href="2026-10-08.html">10月08日</a>
+<a href="2026-09-30.html">09月30日</a>
+<a href="2026-09-29.html">09月29日</a>
+<a href="2026-09-28.html">09月28日</a>
+<a href="2026-09-24.html">09月24日</a>
+<a href="2026-09-17.html">09月17日</a>
+<a href="2026-09-15.html">09月15日</a>
+<a href="2026-09-14.html">09月14日</a>
+<a href="2026-09-11.html">09月11日</a>
+<a href="2026-09-10.html">09月10日</a>
+<a href="2026-09-09.html">09月09日</a>
+<a href="2026-09-08.html">09月08日</a>
+<a href="2026-09-07.html">09月07日</a>
+</div>
+  <div class="content">
+  <h2>每日算法讲解 · 2026-10-13</h2>
+
+<blockquote>
+<p>今日内容：1 个基础算法 + 2 个 AI/机器学习算法 | 逐参数详解</p>
+</blockquote>
+
+<hr>
+
+<h3>双指针（Two Pointers）</h3>
+
+<p><strong>类别</strong>：技巧 | <strong>难度</strong>：入门</p>
+
+<h4>算法简介</h4>
+
+<p>双指针（Two Pointers）是一类极其高效的遍历技巧：<strong>用两个（或多个）指针在数组、字符串、链表等线性数据结构中有序移动，取代暴力枚举中的多重循环</strong>。它的核心思想是"利用数据的有序性/单调性，让每个指针只向一个方向推进，从而避免重复扫描"，通常能把 $ O(n^2) $ 的暴力解法优化到 $ O(n) $，且空间复杂度保持 $ O(1) $。</p>
+
+<p>双指针主要有四种形态：</p>
+<ul>
+<li><strong>快慢指针</strong>：两个指针同向出发、速度不同（如快指针每次走 2 步、慢指针走 1 步），用于链表判环（Floyd 判圈算法）、找链表中点、找倒数第 k 个节点；</li>
+<li><strong>左右指针（对撞指针）</strong>：一个指向头部、一个指向尾部，向中间收敛，用于有序数组的两数之和、反转数组、回文判断；</li>
+<li><strong>滑动窗口</strong>：左右指针同向维护一个动态区间，右指针负责扩展、左指针负责收缩，解决连续子数组/子串最值问题；</li>
+<li><strong>中心扩散</strong>：从中间向两边扩展，用于最长回文子串。</li>
+</ul>
+
+<p>无论哪种形态，本质都是<strong>把"枚举所有组合"降维成"指针的线性推进"</strong>，代价是必须依赖数据的某种单调性质（有序、非负、滑窗可判）。</p>
+
+<h4>原理示意图</h4>
+
+<p><div class="algo-image"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 900 420" font-family="sans-serif">
+  <!-- 深色背景 -->
+  <rect width="900" height="420" fill="#1e293b" rx="12"/>
+  <!-- 标题 -->
+  <text x="450" y="30" text-anchor="middle" fill="#818cf8" font-size="15" font-weight="600">双指针：快慢指针判环 + 对撞指针两数之和</text>
+
+  <!-- 左半：快慢指针 -->
+  <text x="40" y="62" fill="#94a3b8" font-size="13" font-weight="600">① 快慢指针（链表判环，Floyd）</text>
+  <g font-size="12">
+    <!-- 链表节点 1-5 -->
+    <circle cx="60" cy="100" r="16" fill="#334155" stroke="#6366f1"/>
+    <text x="60" y="105" text-anchor="middle" fill="#e2e8f0">1</text>
+    <circle cx="120" cy="100" r="16" fill="#334155" stroke="#6366f1"/>
+    <text x="120" y="105" text-anchor="middle" fill="#e2e8f0">2</text>
+    <circle cx="180" cy="100" r="16" fill="#334155" stroke="#6366f1"/>
+    <text x="180" y="105" text-anchor="middle" fill="#e2e8f0">3</text>
+    <circle cx="240" cy="100" r="16" fill="#334155" stroke="#6366f1"/>
+    <text x="240" y="105" text-anchor="middle" fill="#e2e8f0">4</text>
+    <circle cx="300" cy="100" r="16" fill="#334155" stroke="#6366f1"/>
+    <text x="300" y="105" text-anchor="middle" fill="#e2e8f0">5</text>
+    <!-- 环 -->
+    <path d="M 316 100 A 34 34 0 1 1 296 66 A 34 34 0 0 1 316 100" fill="none" stroke="#f97316" stroke-width="2" stroke-dasharray="5 3"/>
+    <circle cx="340" cy="80" r="16" fill="#334155" stroke="#f97316"/>
+    <text x="340" y="85" text-anchor="middle" fill="#e2e8f0">6</text>
+    <circle cx="380" cy="100" r="16" fill="#334155" stroke="#f97316"/>
+    <text x="380" y="105" text-anchor="middle" fill="#e2e8f0">7</text>
+    <circle cx="360" cy="126" r="16" fill="#334155" stroke="#f97316"/>
+    <text x="360" y="131" text-anchor="middle" fill="#e2e8f0">8</text>
+    <circle cx="300" cy="120" r="16" fill="#334155" stroke="#f97316"/>
+    <text x="300" y="125" text-anchor="middle" fill="#e2e8f0">9</text>
+    <!-- 快慢指针标注 -->
+    <text x="90" y="148" text-anchor="middle" fill="#22c55e" font-size="13">slow: 每次 1 步</text>
+    <text x="220" y="148" text-anchor="middle" fill="#f97316" font-size="13">fast: 每次 2 步</text>
+    <text x="155" y="172" text-anchor="middle" fill="#94a3b8" font-size="12">有环 ⇒ 快慢必相遇；相遇点即环存在证据</text>
+  </g>
+
+  <!-- 右半：对撞指针 -->
+  <text x="520" y="62" fill="#94a3b8" font-size="13" font-weight="600">② 对撞指针求有序数组两数之和</text>
+  <g font-size="13">
+    <text x="520" y="82" text-anchor="middle" fill="#94a3b8" font-size="12">nums=[2,7,11,15]  target=9</text>
+    <rect x="520" y="100" width="60" height="32" rx="6" fill="#334155" stroke="#22c55e"/>
+    <text x="550" y="121" text-anchor="middle" fill="#22c55e">i→</text>
+    <rect x="520" y="150" width="60" height="32" rx="6" fill="#334155" stroke="#6366f1"/>
+    <text x="550" y="171" text-anchor="middle" fill="#e2e8f0">2</text>
+    <rect x="590" y="150" width="60" height="32" rx="6" fill="#334155" stroke="#6366f1"/>
+    <text x="620" y="171" text-anchor="middle" fill="#e2e8f0">7</text>
+    <rect x="660" y="150" width="60" height="32" rx="6" fill="#334155" stroke="#6366f1"/>
+    <text x="690" y="171" text-anchor="middle" fill="#e2e8f0">11</text>
+    <rect x="730" y="150" width="60" height="32" rx="6" fill="#334155" stroke="#f97316"/>
+    <text x="760" y="171" text-anchor="middle" fill="#f97316">←j</text>
+    <text x="590" y="206" text-anchor="middle" fill="#94a3b8" font-size="12">s = 2+15 = 17 &gt; 9 ⇒ j 左移</text>
+    <text x="660" y="230" text-anchor="middle" fill="#94a3b8" font-size="12">s = 2+11 = 13 &gt; 9 ⇒ j 左移</text>
+    <text x="640" y="254" text-anchor="middle" fill="#22c55e" font-size="12">s = 2+7 = 9 = target ✓ 找到</text>
+  </g>
+  <!-- 箭头定义 -->
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="6" refX="4" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#6366f1"/>
+    </marker>
+  </defs>
+</svg></div></p>
+
+<h4>数学公式</h4>
+
+<p><strong>① 快慢指针判环（Floyd 判圈）：环的判定与入口推导</strong></p>
+
+<p>设链表中<strong>环外部分长度为 $ a $</strong>，<strong>环长度为 $ b $</strong>。慢指针 $ slow $ 每次走 1 步，快指针 $ fast $ 每次走 2 步。</p>
+
+<p>当 $ slow $ 走到环入口时，已走 $ a $ 步，此时 $ fast $ 已走 $ 2a $ 步，在环内超前 $ slow $ 共 $ 2a - a = a $ 步（模 $ b $ 意义下为 $ a \bmod b $ 步）。此后 $ fast $ 相对 $ slow $ 每步逼近 1 步，故<strong>相遇时经过 $ t $ 步</strong>满足：</p>
+
+<p><div class="math-block">$$ 2t - t \equiv a \pmod{b} \Rightarrow t \equiv a \pmod{b} $$</div></p>
+
+<p>即 $ t $ 是满足 $ t \ge a $ 且 $ t \equiv a \pmod b $ 的最小正整数（$ t = a + k\cdot b,\ k \ge 0 $）。<strong>只要 $ b > 0 $（存在环），$ fast $ 与 $ slow $ 必在有限步内相遇</strong>，且相遇点距环入口为 $ b - (a \bmod b) $ 步。若 $ fast $ 先到达 $ NULL $，则说明链表无环。</p>
+
+<p>环入口定位（进阶）：相遇后令 $ slow $ 回到头部、$ fast $ 保持在相遇点，二者<strong>各走 1 步</strong>再次相遇处即为环入口（因为此时 $ slow $ 走 $ a $ 步到入口，$ fast $ 走 $ a $ 步后也在入口）。</p>
+
+<p><strong>② 对撞指针（有序数组两数之和）</strong></p>
+
+<p>对严格递增数组 $ nums $，若有 $ i < j $ 使 $ nums[i] + nums[j] = target $，则：</p>
+
+<ul>
+<li>若 $ nums[i] + nums[j] > target $，因数组递增，<strong>任意 $ j' > j $ 更不可能满足</strong>，只能左移 $ j $；</li>
+<li>若 $ nums[i] + nums[j] < target $，<strong>任意 $ i' < i $ 更不可能满足</strong>，只能右移 $ i $。</li>
+</ul>
+
+<p>即每次比较后至少排除一列/一行的候选组合，数学上等价于在 $ n \times n $ 的组合空间沿"锯齿对角线"单次扫描，因此<strong>最多 $ n $ 次比较</strong>：</p>
+
+<p><div class="math-block">$$ T(n) = O(n), \quad S(n) = O(1) $$</div></p>
+
+<p><strong>③ 滑动窗口通用复杂度</strong></p>
+
+<p>设序列长度 $ n $，左右指针各自最多移动 $ n $ 次，故：</p>
+
+<p><div class="math-block">$$ T(n) = O(n + n) = O(n), \quad S(n) = O(1)\ \text{（不含存储结果）} $$</div></p>
+
+<h4>核心要点</h4>
+
+<ul>
+<li>双指针的本质是<strong>用单调性剪枝</strong>：每个指针只向一个方向移动，保证每个候选组合最多被"检查一次"，从而把 $ O(n^2) $ 降为 $ O(n) $。</li>
+<li><strong>快慢指针</strong>经典三连：判环（Floyd）、找中点（快慢速差为 2）、找倒数第 $ k $ 个节点（先让 fast 走 $ k $ 步再同步走）。</li>
+<li><strong>左右指针</strong>依赖"数组有序"这一前置条件；若数组无序需先排序（排序本身 $ O(n\log n) $）。</li>
+<li><strong>滑动窗口</strong>依赖"窗口收缩单调性"（如非负数组的子数组和），右指针扩展、左指针收缩，用于最小/最大长度子串类问题。</li>
+<li>双指针是"技巧"而非"数据结构"，<strong>没有固定的 API 参数表</strong>，它的"参数"是指针的初始位置、速度、移动条件和终止条件——下面逐项拆解。</li>
+</ul>
+
+<h4>技术细节与参数详解</h4>
+
+<blockquote>
+<p>双指针本身没有 API 式参数，但设计一个双指针解法时有 5 个核心"设计参数"，逐一说明其含义与取值：</p>
+</blockquote>
+
+<p>#### 设计参数 1：指针速度（快慢指针的核心）</p>
+<ul>
+<li><strong>含义</strong>：快指针与慢指针每次移动的步数之比。</li>
+<li><strong>类型</strong>：整数步长（如 1、2），或函数式条件（如 <code class="inline-code">fast = fast.next.next</code>）。</li>
+<li><strong>默认值</strong>：经典判环用<strong>慢 1 步 / 快 2 步</strong>。</li>
+<li><strong>取值范围</strong>：快慢任意正整数（只要速度不同即可判环）。</li>
+<li><strong>对结果的影响</strong>：速度比决定相遇所需步数。若 fast 走 $ v_f $ 步、slow 走 $ v_s $ 步且 $ v_f > v_s $，相遇时间 $ t $ 满足 $ t \cdot (v_f - v_s) \equiv a \pmod b $；速度差太小会导致扫描步数变多（仍是 $ O(n) $）；<strong>速度差越大，$ fast $ 越可能先越界（对无环链表更快返回）</strong>。找中点必须用 2:1，才能保证 slow 恰好落在中点。</li>
+<li><strong>推荐设置</strong>：判环用 2:1；找中点用 2:1；找倒数第 $ k $ 个节点用"快指针先走 $ k $ 步，然后等速"。</li>
+</ul>
+
+<p>#### 算法参数 2：移动方向</p>
+<ul>
+<li><strong>含义</strong>：两个指针相对移动的方向关系。</li>
+<li><strong>类型</strong>：同向（快慢/滑窗）或相向（对撞）。</li>
+<li><strong>取值范围</strong>：同向适合"窗口/链表"题型，相向适合"有序数组求和/回文/反转"题型。</li>
+<li><strong>对结果的影响</strong>：方向选错会破坏单调性剪枝的正确性（例如无序数组上用对撞指针求两数之和会漏解）。</li>
+<li><strong>推荐设置</strong>：先判断数据有序性与"是否依赖相邻区间"，有序+求和/最值 → 对撞；子串/区间 → 滑窗；链表 → 快慢。</li>
+</ul>
+
+<p>#### 算法参数 3：指针移动的触发条件</p>
+<ul>
+<li><strong>含义</strong>：什么条件下移动左/慢指针、什么条件下移动右/快指针。</li>
+<li><strong>类型</strong>：条件分支（<code class="inline-code">if sum > target</code>）、循环维护（<code class="inline-code">while</code> 窗口不合法）。</li>
+<li><strong>取值范围</strong>：常见触发有：比较和目标值大小、窗口内和超限、字符频次满足、环检测的判等。</li>
+<li><strong>对结果的影响</strong>：条件决定了"剪枝"是否正确，<strong>移动条件写错是双指针解法的头号 bug 来源</strong>（漏移动导致死循环，或移动过头漏解）。</li>
+<li><strong>推荐设置</strong>：每次循环只允许一个指针移动（或"扩展优先、收缩后检验"），保证单调性不被破坏。</li>
+</ul>
+
+<p>#### 算法参数 4：循环终止条件</p>
+<ul>
+<li><strong>含义</strong>：指针何时停止，返回结果。</li>
+<li><strong>类型</strong>：<code class="inline-code">i < j</code>（对撞）、<code class="inline-code">fast != null && fast.next != null</code>（快慢）、<code class="inline-code">right < n</code>（滑窗）。</li>
+<li><strong>默认值</strong>：对撞 <code class="inline-code">while i < j</code>；快慢 <code class="inline-code">while fast and fast.next</code>；滑窗 <code class="inline-code">while right < len(nums)</code>。</li>
+<li><strong>对结果的影响</strong>：终止条件决定是否遗漏边界（如只含一个元素的窗口、空链表、无环链表）。</li>
+<li><strong>推荐设置</strong>：写代码前先明确"空输入/单元素/无解"三条边界路径。</li>
+</ul>
+
+<p>#### 算法参数 5：返回值与指针结束位置</p>
+<ul>
+<li><strong>含义</strong>：结果来自指针（索引对、是否相遇、窗口起止）还是从指针扫描中归纳（如计数、去重）。</li>
+<li><strong>类型</strong>：索引、布尔值、区间 <code class="inline-code">[i, j)</code>、或累计值。</li>
+<li><strong>对结果的影响</strong>：决定了空间占用（是否额外开结果数组）。</li>
+<li><strong>推荐设置</strong>：尽量原地返回（O(1) 额外空间），只有结果集本身需要时才允许 O(n) 空间。</li>
+</ul>
+
+<h4>代码示例</h4>
+
+<p><pre class="code-block"><code class="language-python"># ============ 示例 1：快慢指针 —— 判断链表是否有环（LeetCode 141）============
+# 定义链表节点结构
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val          # 节点值
+        self.next = next        # 指向下一个节点的引用
+
+def hasCycle(head: ListNode) -&gt; bool:
+    # 若链表为空或只有一个节点，必然无环，直接返回 False
+    if not head or not head.next:
+        return False
+    slow = head                # 慢指针从头部出发，每次走 1 步
+    fast = head                # 快指针也从头部出发，每次走 2 步
+    while fast and fast.next:  # 只要 fast 还没走到链表末尾（防止 fast.next 越界）
+        slow = slow.next       # 慢指针前进 1 个节点
+        fast = fast.next.next  # 快指针前进 2 个节点
+        if slow is fast:       # 快慢相遇 → 链表有环
+            return True
+    return False               # fast 先走到 None，说明链表无环
+
+
+# ============ 示例 2：对撞指针 —— 有序数组两数之和（LeetCode 167）============
+def two_sum(numbers: list[int], target: int) -&gt; list[int]:
+    i = 0                      # 左指针指向数组头
+    j = len(numbers) - 1       # 右指针指向数组尾
+    while i &lt; j:               # 指针未交错则继续
+        s = numbers[i] + numbers[j]   # 计算当前两数和
+        if s == target:        # 恰好等于目标 → 返回下标（题目要求从 1 开始）
+            return [i + 1, j + 1]
+        elif s &lt; target:       # 和太小：只能增大左指针（数组递增，右侧只会更大）
+            i += 1
+        else:                  # 和太大：只能减小右指针
+            j -= 1
+    return [-1, -1]            # 无解兜底（题目保证有解，防御性写法）
+
+
+# ============ 示例 3：滑动窗口 —— 最长无重复字符子串（LeetCode 3）============
+def length_of_longest_substring(s: str) -&gt; int:
+    window = set()             # 记录窗口内已出现的字符，O(1) 判重
+    left = 0                   # 窗口左边界（慢指针）
+    ans = 0                    # 记录历史最长长度
+    for right in range(len(s)):    # 右指针（快指针）逐个扩展
+        while s[right] in window:  # 若新字符已在窗口内，则收缩左边界直到不再重复
+            window.remove(s[left]) # 从窗口中移除最左侧字符
+            left += 1              # 左指针右移一格
+        window.add(s[right])       # 将新字符加入窗口
+        ans = max(ans, right - left + 1)   # 更新最长长度（当前窗口大小）
+    return ans                 # 返回最长无重复子串长度</code></pre></p>
+
+<h4>复杂度分析</h4>
+
+<p><strong>时间复杂度推导</strong>：</p>
+
+<ul>
+<li>对撞指针 / 滑动窗口：左右指针各自最多移动 $ n $ 次，两指针合共不超过 $ 2n $ 步，故 $ T(n) = O(n) $。相比暴力枚举所有 $ (i,j) $ 组合的 $ \binom{n}{2} = \frac{n(n-1)}{2} = O(n^2) $，是<strong>从 $ O(n^2) $ 到 $ O(n) $ 的数量级优化</strong>。</li>
+<li>快慢指针（判环）：环外长度 $ a $、环长 $ b $，慢指针最坏绕环一周前相遇，故 $ T(n) = O(a + b) = O(n) $。</li>
+<li>需要排序的场景（如无序数组两数之和）：额外 $ O(n\log n) $。</li>
+</ul>
+
+<p><strong>空间复杂度推导</strong>：</p>
+
+<ul>
+<li>各指针仅占用常数个变量（$ slow, fast, left, right, ans $），$ S(n) = O(1) $。</li>
+<li>滑动窗口若用哈希集合记录字符，最坏 $ S(n) = O(\sigma) $，$ \sigma $ 为字符集大小（如 ASCII 128、Unicode 更大），可视为常数。</li>
+</ul>
+
+<h4>应用场景</h4>
+
+<ul>
+<li><strong>链表操作</strong>：环形链表检测与环入口、找链表中点、找倒数第 $ k $ 个节点（LeetCode 141/142/876/19）。</li>
+<li><strong>有序数组问题</strong>：两数之和 II、三数之和、四数之和（对指针降维）、盛水最多的容器。</li>
+<li><strong>字符串处理</strong>：反转字符串、回文判断、最长无重复子串、最小覆盖子串（滑动窗口）。</li>
+<li><strong>归并场景</strong>：合并两个有序数组/链表（双指针各指向一个序列，逐个比较取小）。</li>
+<li><strong>原地去重</strong>：删除排序数组重复项（快指针扫描、慢指针收集）。</li>
+</ul>
+
+<h4>参考文档</h4>
+
+<ul>
+<li><a href="https://cloud.tencent.com/developer/article/2576567" target="_blank" class="ref-link">算法之双指针算法：高效遍历的艺术（腾讯云）</a></li>
+<li><a href="https://blog.csdn.net/2301_80079642/article/details/148800538" target="_blank" class="ref-link">数据结构---链表操作技巧（CSDN，含 Floyd 判圈）</a></li>
+<li><a href="https://blog.csdn.net/oqqKuKu12/article/details/159670892" target="_blank" class="ref-link">双指针算法（Two Pointers）基础原理（CSDN）</a></li>
+<li><a href="https://blog.csdn.net/weixin_32864847/article/details/167136094" target="_blank" class="ref-link">Python 双指针详解：快慢指针、滑动窗口与算法面试实战（CSDN）</a></li>
+<li><a href="https://cloud.tencent.com/developer/article/2302223" target="_blank" class="ref-link">名词解释-双指针算法（腾讯云）</a></li>
+</ul>
+
+<hr>
+
+<h3>ALiBi 注意力偏置（Attention with Linear Biases）</h3>
+
+<p><strong>类别</strong>：深度学习 | <strong>难度</strong>：中等</p>
+
+<h4>算法简介</h4>
+
+<p>ALiBi（Attention with Linear Biases，带线性偏置的注意力）是 2021 年由 Ofir Press、Noam Smith 等人在论文《Train Short, Test Long: Attention with Linear Biases Enables Input Length Extrapolation》中提出的<strong>位置编码替代方案</strong>。它彻底抛弃了在词嵌入上叠加位置编码（绝对位置嵌入或正弦编码）的传统做法，而是<strong>在注意力分数计算完之后，直接加上一个与 token 之间相对距离成线性比例的负偏置</strong>——距离越远，偏置越小（惩罚越大）。</p>
+
+<p>这个看似简单的改动带来两个关键收益：</p>
+
+<p>1. <strong>训练短、测试长（length extrapolation）</strong>：用短序列（如 512 token）训练出的模型，可以直接泛化到更长序列（如 1024/2048+ token）而性能不衰减。传统绝对位置编码训练时从未见过长序列位置，外推时位置嵌入匹配失效；ALiBi 的距离惩罚是解析定义的，任何长度都能直接计算。</p>
+<p>2. <strong>无需位置嵌入参数</strong>：省去了位置编码层及其参数，同时位置信息完全由相对距离决定，天然具备平移不变性。</p>
+
+<p>ALiBi 已在多语言机器翻译（M2M-100）、BLOOM 系列大模型上被采用（BLOOM 就用 ALiBi 替代了位置编码），是位置编码演进史（SIN → 学习位置 → ALiBi → RoPE → PI → NTK → YaRN）中承上启下的一环。</p>
+
+<h4>原理示意图</h4>
+
+<p><div class="algo-image"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 900 440" font-family="sans-serif">
+  <!-- 深色背景 -->
+  <rect width="900" height="440" fill="#1e293b" rx="12"/>
+  <!-- 标题 -->
+  <text x="450" y="30" text-anchor="middle" fill="#818cf8" font-size="15" font-weight="600">ALiBi：注意力得分 + 线性距离偏置（每头斜率不同）</text>
+
+  <!-- 左：标准注意力流程 -->
+  <text x="60" y="62" fill="#94a3b8" font-size="13" font-weight="600">传统：加位置编码</text>
+  <rect x="40" y="80" width="180" height="40" rx="6" fill="#334155" stroke="#6366f1"/>
+  <text x="130" y="105" text-anchor="middle" fill="#e2e8f0" font-size="13">输入嵌入 x₁..xₙ</text>
+  <line x1="130" y1="120" x2="130" y2="140" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow)"/>
+  <rect x="40" y="140" width="180" height="40" rx="6" fill="#334155" stroke="#f97316"/>
+  <text x="130" y="165" text-anchor="middle" fill="#f97316" font-size="13">+ 绝对位置编码</text>
+  <line x1="130" y1="180" x2="130" y2="200" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow)"/>
+  <rect x="40" y="200" width="180" height="40" rx="6" fill="#334155" stroke="#6366f1"/>
+  <text x="130" y="225" text-anchor="middle" fill="#e2e8f0" font-size="13">Q K V → attention</text>
+  <text x="130" y="268" text-anchor="middle" fill="#94a3b8" font-size="12">外推时新位置嵌入"从未见过" → 失效</text>
+
+  <!-- 中间：ALiBi 核心流程 -->
+  <text x="360" y="62" fill="#94a3b8" font-size="13" font-weight="600">ALiBi：不加位置编码，注意力后加线性偏置</text>
+  <rect x="290" y="80" width="200" height="40" rx="6" fill="#334155" stroke="#6366f1"/>
+  <text x="390" y="105" text-anchor="middle" fill="#e2e8f0" font-size="13">token x₁……xₙ（无位置编码）</text>
+  <line x1="390" y1="120" x2="390" y2="140" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow)"/>
+  <rect x="290" y="140" width="200" height="40" rx="6" fill="#334155" stroke="#6366f1"/>
+  <text x="390" y="165" text-anchor="middle" fill="#e2e8f0" font-size="13">Q K V → QKᵀ/√d</text>
+  <line x1="390" y1="180" x2="390" y2="200" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow)"/>
+  <rect x="290" y="200" width="200" height="40" rx="6" fill="#22c55e" stroke="#22c55e"/>
+  <text x="390" y="225" text-anchor="middle" fill="#1e293b" font-size="13" font-weight="600">+ m·B（线性偏置）</text>
+  <line x1="390" y1="240" x2="390" y2="260" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow)"/>
+  <rect x="290" y="260" width="200" height="40" rx="6" fill="#334155" stroke="#6366f1"/>
+  <text x="390" y="285" text-anchor="middle" fill="#e2e8f0" font-size="13">softmax → V</text>
+  <text x="390" y="320" text-anchor="middle" fill="#94a3b8" font-size="12">长度任意可算 ⇒ 天然外推，零新增参数</text>
+
+  <!-- 右半：偏置矩阵示意 -->
+  <text x="700" y="62" fill="#94a3b8" font-size="13" font-weight="600">偏置矩阵 B（单向右掩码）</text>
+  <g font-size="12">
+    <rect x="580" y="80" width="240" height="150" rx="6" fill="none" stroke="#6366f1"/>
+    <text x="595" y="102" fill="#94a3b8">q₁</text>
+    <text x="640" y="102" fill="#94a3b8">q₂</text>
+    <text x="685" y="102" fill="#94a3b8">q₃</text>
+    <text x="725" y="102" fill="#94a3b8">q₄</text>
+    <text x="595" y="132" fill="#e2e8f0">0</text>
+    <text x="640" y="132" fill="#e2e8f0">-1</text>
+    <text x="685" y="132" fill="#e2e8f0">-2</text>
+    <text x="730" y="132" fill="#e2e8f0">-3</text>
+    <text x="595" y="166" fill="#94a3b8">-∞</text>
+    <text x="640" y="166" fill="#e2e8f0">0</text>
+    <text x="685" y="166" fill="#e2e8f0">-1</text>
+    <text x="730" y="166" fill="#e2e8f0">-2</text>
+    <text x="595" y="200" fill="#94a3b8">-∞</text>
+    <text x="640" y="200" fill="#94a3b8">-∞</text>
+    <text x="685" y="200" fill="#e2e8f0">0</text>
+    <text x="730" y="200" fill="#e2e8f0">-1</text>
+    <text x="700" y="250" fill="#94a3b8" font-size="12">B[i][j] = -(j-i)，j&gt;i 越远负值越大</text>
+    <text x="700" y="272" fill="#f97316" font-size="12">乘斜率 m_h 后加到 attention 分数</text>
+    <text x="700" y="294" fill="#94a3b8" font-size="12">m 按头递减：1/2, 1/4, …（几何级数）</text>
+  </g>
+
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="6" refX="4" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#6366f1"/>
+    </marker>
+  </defs>
+</svg></div></p>
+
+<h4>数学公式</h4>
+
+<p><strong>① 标准缩放点积注意力（基线）</strong></p>
+
+<p><div class="math-block">$$ \text{Attention}(Q, K, V) = \text{softmax}\!\left(\frac{QK^{\mathsf{T}}}{\sqrt{d_k}}\right) V $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+
+<ul>
+<li>$ Q \in \mathbb{R}^{L_q \times d_k} $：query 矩阵，$ L_q $ 为查询序列长度，$ d_k $ 为键的维度；</li>
+<li>$ K \in \mathbb{R}^{L_k \times d_k} $：key 矩阵，$ L_k $ 为键序列长度（通常 $ L_q = L_k = n $）；</li>
+<li>$ V \in \mathbb{R}^{L_k \times d_v} $：value 矩阵，$ d_v $ 为值的维度；</li>
+<li>$ \sqrt{d_k} $：缩放因子，防止点积数值过大导致 softmax 饱和、梯度消失；</li>
+<li>$ QK^{\mathsf{T}}/\sqrt{d_k} \in \mathbb{R}^{L_q \times L_k} $：注意力分数矩阵（未归一化的 logits）。</li>
+</ul>
+
+<p><strong>② ALiBi 的核心公式</strong></p>
+
+<p><div class="math-block">$$ \text{softmax}\!\left(\frac{QK^{\mathsf{T}}}{\sqrt{d_k}} + m \cdot B\right) V $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+
+<ul>
+<li>$ B \in \mathbb{R}^{L_q \times L_k} $：<strong>线性偏置矩阵</strong>，其中 $ B[i][j] = -(j - i) $（单向自注意力，$ j \ge i $；双向注意力用 $ -|j - i| $），即与两个 token 的<strong>相对距离成正比</strong>的负数；</li>
+<li>$ m $：<strong>该注意力头专属的斜率（slope）</strong>，一个正的超参数，每头不同；</li>
+<li>$ m \cdot B $：逐元素相乘后加到注意力分数上，表示"离得越远，得分被减去越多"；</li>
+<li>其余符号同①。</li>
+</ul>
+
+<p><strong>③ 斜率 $ m $ 的几何级数取值（多头）</strong></p>
+
+<p><div class="math-block">$$ m_h = 2^{-\frac{8h}{H}}, \quad h = 1, 2, \dots, H $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+
+<ul>
+<li>$ H $：注意力头总数；</li>
+<li>$ h $：第 $ h $ 个注意力头（从 1 计数）；</li>
+<li>$ 2^{-8h/H} $：几何级数，<strong>相邻头之间的斜率为 $ \frac{1}{2^{8/H}} $ 倍</strong>。</li>
+<li>当 $ H=8 $ 时：$ m = \frac{1}{2}, \frac{1}{4}, \frac{1}{8}, \frac{1}{16}, \frac{1}{32}, \frac{1}{64}, \frac{1}{128}, \frac{1}{256} $——<strong>前面头部惩罚更轻（更擅长长距离依赖），后面头部惩罚更重（更擅长局部细节）</strong>，多头在"距离敏感性"上自然分工。</li>
+</ul>
+
+<p><strong>④ 为什么 ALiBi 能外推（直觉推导）</strong></p>
+
+<p>对任意长度 $ n' > n_{train} $，偏置矩阵 $ B $ 的元素 $ -(j-i) $ 可以无歧义地计算（只需两个下标），与训练时见过的"位置号"无关。而绝对位置编码（正弦编码/学习嵌入）在位置 $ p > n_{train} $ 时要么超出训练分布、要么嵌入从未被学习过，位置信息立即失效。因此：</p>
+
+<p><div class="math-block">$$ P(\text{test length} = n') \text{ 可解析计算} \quad \forall n' \gg n_{train} $$</div></p>
+
+<h4>核心要点</h4>
+
+<ul>
+<li>ALiBi 的哲学：<strong>位置信息不是加在输入上，而是加在注意力分数上，且与"距离"而非"绝对位置"绑定</strong>——这是它能外推的根源。</li>
+<li>零新增训练参数、零额外推理成本：偏置矩阵 $ B $ 与斜率 $ m $ 都是预设的，不参与训练。</li>
+<li>每个 head 的 $ m $ 构成<strong>几何级数</strong>（$ 2^{-8h/H} $），大 slope 头专注近邻、小 slope 头专注全局，多头自然分工。</li>
+<li>训练时间：ALiBi 用短序列训练即可泛化到长序列，显著降低训练成本。</li>
+<li>与 RoPE 的关系：RoPE 是另一种优秀的相对位置方案（旋转矩阵），ALiBi 与 RoPE 是"二选一"的两条路线；RoPE 在长上下文 LLM（如 LLaMA）中更主流，ALiBi 在多语言/机器翻译（BLOOM、M2M-100）中验证成功。</li>
+<li>注意：ALiBi 只是<strong>给注意力加分</strong>，不改变注意力机制本身，实现极简单（几行代码），是"低开销、高收益"的典型。</li>
+</ul>
+
+<h4>技术细节与参数详解</h4>
+
+<p>#### 参数 1：slope 斜率 $ m $</p>
+<ul>
+<li><strong>含义</strong>：第 $ h $ 个注意力头的距离惩罚系数，决定该头"多远开始衰减、衰减多快"。</li>
+<li><strong>类型</strong>：非负实数（float），通常为 $ \frac{1}{2}, \frac{1}{4}, \dots $ 的几何级数。</li>
+<li><strong>默认值</strong>：$ m_h = 2^{-8h/H} $（$ H $ 为总头数）；$ H=8 $ 时为 $ \{1/2, 1/4, \dots, 1/256\} $。</li>
+<li><strong>取值范围</strong>：理论上 $ m > 0 $ 任意；论文对比了线性、多项式、几何、与头数无关的 $ m=2^{-8} $ 等多种方案，<strong>几何级数效果最优且最稳定</strong>。</li>
+<li><strong>对结果的影响</strong>：$ m $ 过大 → 即使相邻 token 也被显著抑制，模型只看局部无法捕捉长程依赖；$ m $ 过小 → 惩罚近似于无，位置信息丢失，退化回"无位置编码的模型"。</li>
+<li><strong>推荐设置</strong>：保持论文默认 $ 2^{-8h/H} $；若想增强长程依赖（如超长上下文任务），可适当缩小斜率底数（如 $ 2^{-8h/H} $ 改为 $ 2^{-6h/H} $）——需要实验调参。</li>
+</ul>
+
+<p>#### 参数 2：偏置矩阵 $ B $</p>
+<ul>
+<li><strong>含义</strong>：$ L_q \times L_k $ 的矩阵，元素为相对距离的负值（单向：$ -(j-i) $；双向：$ -|j-i| $）。</li>
+<li><strong>类型</strong>：整数/浮点张量，随输入长度动态生成（不参与训练）。</li>
+<li><strong>默认值</strong>：按"当前序列长度"实时构造。</li>
+<li><strong>取值范围</strong>：单向 $ B[i][j] = \begin{cases} 0 & j \le i \\ -(j-i) & j > i \end{cases} $；双向 $ B[i][j] = -|j-i| $。</li>
+<li><strong>对结果的影响</strong>：决定了"相对距离信息"以何种精度进入注意力——距离差 1 的惩罚是 $ -m $，距离差 10 的惩罚是 $ -10m $，<strong>呈线性（linear）</strong>，这正是名字里 Linear 的由来。</li>
+<li><strong>推荐设置</strong>：自回归（causal）模型用单向；编码器/双向模型用双向；若与因果掩码结合，因果掩码（$ -\infty $）与 $ B $ 直接相加即可。</li>
+</ul>
+
+<p>#### 参数 3：是否可学习（可学习性）</p>
+<ul>
+<li><strong>含义</strong>：$ m $ 与 $ B $ 是否作为可训练参数。</li>
+<li><strong>默认值</strong>：<strong>不可学习</strong>（固定超参）。</li>
+<li><strong>对结果的影响</strong>：论文实验证明可学习的 $ m $ 效果不如固定的几何级数（可学习引入训练不稳定性，且丢失外推先验）；$ B $ 若可学习则退化为"学习位置嵌入"，再次面临长度外推失效。</li>
+<li><strong>推荐设置</strong>：固定 $ m $，不学习 $ B $。</li>
+</ul>
+
+<p>#### 参数 4：与位置编码的关系</p>
+<ul>
+<li><strong>含义</strong>：使用 ALiBi 后，输入嵌入层<strong>不再叠加任何位置编码</strong>（不要用 POS embedding，不要加正弦/学习嵌入）。</li>
+<li><strong>默认值</strong>：ALiBi 模型应移除位置嵌入层。</li>
+<li><strong>对结果的影响</strong>：若叠加位置嵌入 + ALiBi 二者都加，位置信息"双份"，效果与训练稳定性都会受损；若只加位置编码不加 ALiBi，则是普通 Transformer 的位置编码路线。</li>
+<li><strong>推荐设置</strong>：使用 ALiBi 时彻底移除位置编码层（词嵌入 + ALiBi 就够了）。</li>
+</ul>
+
+<p>#### 参数 5：序列长度与外推比</p>
+<ul>
+<li><strong>含义</strong>：训练长度 $ n_{train} $ 与推理/测试长度 $ n_{test} $ 的关系。</li>
+<li><strong>默认值</strong>：无严格默认，建议训练 512-1024 token。</li>
+<li><strong>取值范围</strong>：$ n_{test} $ 可为 $ n_{train} $ 的 2-4 倍以上（论文 1024→2048/4096 效果良好）。</li>
+<li><strong>对结果的影响</strong>：$ n_{test} / n_{train} $ 越大，位置外推越难；ALiBi 比绝对位置好得多，但超长倍数（如 16 倍）下仍可能衰减（此时可考虑 RoPE+NTK 等）。</li>
+<li><strong>推荐设置</strong>：$ n_{test} \le 4 \times n_{train} $ 时效果最佳。</li>
+</ul>
+
+<p>#### 参数 6：应用位置（self-attention vs cross-attention）</p>
+<ul>
+<li><strong>含义</strong>：ALiBi 加在哪些注意力上。</li>
+<li><strong>默认值</strong>：仅 self-attention 加（cross-attention 的 key/value 由另一端提供，相对位置语义不明，不加）。</li>
+<li><strong>取值范围</strong>：仅 self-attention，或只加 decoder 不加 encoder（论文对 M2M 的做法）。</li>
+<li><strong>对结果的影响</strong>：加在 cross-attention 上意义不大（无明确相对位置语义），且可能损伤性能。</li>
+<li><strong>推荐设置</strong>：仅 self-attention 上使用。</li>
+</ul>
+
+<h4>代码示例</h4>
+
+<p><pre class="code-block"><code class="language-python">import torch
+import torch.nn as nn
+import math
+
+def get_alibi_slopes(num_heads: int) -&gt; torch.Tensor:
+    &quot;&quot;&quot;
+    计算每个注意力头的斜率 m_h = 2^(-8h/H)，返回形状 (H,)
+    num_heads: 注意力头数 H
+    &quot;&quot;&quot;
+    # h 从 1 到 H 的编号
+    h = torch.arange(1, num_heads + 1, dtype=torch.float32)
+    # 2^(-8h/H)：指数为 -8h/H，底数 2，逐头计算
+    return 2.0 ** (-8.0 * h / num_heads)
+
+def build_alibi_bias(num_heads: int, seq_len: int, causal: bool = True) -&gt; torch.Tensor:
+    &quot;&quot;&quot;
+    构建 ALiBi 偏置张量，形状 (H, 1, L, L)，加到注意力分数上
+    num_heads: 头数 H
+    seq_len  : 序列长度 L
+    causal   : 是否因果（单向）
+    &quot;&quot;&quot;
+    # 位置索引 0..L-1
+    pos = torch.arange(seq_len, dtype=torch.float32)
+    # 相对距离矩阵：dist[i][j] = j - i（i 行 j 列）
+    dist = pos[None, :] - pos[:, None]          # 形状 (L, L)，第 i 行第 j 列 = j - i
+    if causal:                                # 因果模型：只允许 j &gt;= i 看左侧
+        dist = torch.clamp(dist, max=0)      # 把 j &lt; i 的区域截断为 0（无惩罚）
+    else:
+        dist = -torch.abs(dist)               # 双向模型：用距离绝对值取负
+    slopes = get_alibi_slopes(num_heads)      # (H,)
+    # 每个 head 的偏置：slope[h] * dist，扩维到 (H, 1, L, L) 以便广播
+    return (slopes[:, None, None] * dist[None, :, :]).unsqueeze(1)   # (H, 1, L, L)
+
+# ---------- 在注意力中使用 ----------
+class ALiBiMultiHeadAttention(nn.Module):
+    def __init__(self, d_model: int, num_heads: int):
+        super().__init__()
+        self.d_model = d_model                  # 模型维度（总）
+        self.num_heads = num_heads              # 头数 H
+        self.d_head = d_model // num_heads      # 每头维度 d_k = d_model / H
+        # 生成三个投影层（Q、K、V），每个把 d_model 投影到 d_model
+        self.W_q = nn.Linear(d_model, d_model)
+        self.W_k = nn.Linear(d_model, d_model)
+        self.W_v = nn.Linear(d_model, d_model)
+
+    def forward(self, x: torch.Tensor):
+        &quot;&quot;&quot;
+        x: (B, L, d_model)  批 B，长度 L，维数 d_model
+        返回: (B, L, d_model) 注意力输出
+        &quot;&quot;&quot;
+        B, L, _ = x.shape
+        # 1. 投影并切分为多头，形状 (B, H, L, d_head)
+        Q = self.W_q(x).view(B, L, self.num_heads, self.d_head).transpose(1, 2)
+        K = self.W_k(x).view(B, L, self.num_heads, self.d_head).transpose(1, 2)
+        V = self.W_v(x).view(B, L, self.num_heads, self.d_head).transpose(1, 2)
+        # 2. 计算注意力分数 QK^T / sqrt(d_k)，形状 (B, H, L, L)
+        scores = (Q @ K.transpose(-2, -1)) / math.sqrt(self.d_head)
+        # 3. 添加 ALiBi 线性偏置（关键步骤）：(H, 1, L, L) 广播到 (B, H, L, L)
+        alibi = build_alibi_bias(self.num_heads, L, causal=True)   # (H, 1, L, L)
+        scores = scores + alibi.to(scores.device)
+        # 4. softmax + 加权 V
+        probs = torch.softmax(scores, dim=-1)     # 每行（query 维度）归一化
+        out = probs @ V                            # (B, H, L, d_head)
+        # 5. 拼接多头回 d_model
+        return out.transpose(1, 2).reshape(B, L, self.d_model)</code></pre></p>
+
+<h4>复杂度分析</h4>
+
+<p><strong>时间复杂度</strong>：</p>
+
+<ul>
+<li>ALiBi 只在注意力分数矩阵上做一次逐元素加法：$ O(H \cdot L^2) $（$ H $ 头、每头 $ L \times L $ 矩阵）。</li>
+<li>标准缩放点积注意力本身为 $ O(H \cdot L^2 \cdot d_k) $，所以 ALiBi 的开销占比 $ \frac{O(L^2 H)}{O(L^2 H d_k)} = \frac{1}{d_k} $，<strong>相对计算可以忽略</strong>。</li>
+</ul>
+
+<p><strong>空间复杂度</strong>：</p>
+
+<ul>
+<li>偏置矩阵 $ B $ 形状 $ (H, L, L) $，即 $ O(H \cdot L^2) $——与注意力分数矩阵同阶，通常<strong>就地/复用注意力矩阵内存</strong>，不显著增加显存。</li>
+<li>对比学习位置嵌入：训练长度 $ L_{max} $ 需要 $ O(L_{max} \cdot d_{model}) $ 额外参数，且随 $ L_{max} $ 线性增长；ALiBi <strong>零新增参数</strong>。</li>
+</ul>
+
+<p><strong>外推性</strong>：</p>
+
+<ul>
+<li>训练长度 $ L_{train} $ 与测试长度 $ L_{test} $ 解耦：$ L_{test} $ 可大于 $ L_{train} $ 而不需要再训练（绝对位置编码无此性质）——这是 ALiBi 最大的"性价比"。</li>
+</ul>
+
+<h4>应用场景</h4>
+
+<ul>
+<li><strong>超长文本外推</strong>：LLM 长上下文场景——短训练、长推理（如 1024 训练 → 4096 推理），无需续训即可扩长。</li>
+<li><strong>多语言机器翻译</strong>：M2M-100、BLOOM 等 100+ 语言模型：多语言不同长度、长句翻译不失调。</li>
+<li><strong>因果语言模型（decoder-only）</strong>：BLOOM 176B 直接使用 ALiBi 作为位置方案。</li>
+<li><strong>检索/编码器任务</strong>：双向（绝对值）偏置的 ALiBi 也可用于 BERT 式编码器，代替位置嵌入。</li>
+<li><strong>教学与轻量模型</strong>：零参数、易实现、不需要训练位置嵌入，非常适合资源受限的实训部署场景。</li>
+</ul>
+
+<h4>参考文档</h4>
+
+<ul>
+<li><a href="https://arxiv.org/abs/2108.12409" target="_blank" class="ref-link">ALiBi 论文原文：Train Short, Test Long（arXiv:2108.12409）</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/632780188" target="_blank" class="ref-link">【速读经典】ALiBi - 给注意力加上线性偏置（知乎）</a></li>
+<li><a href="https://blog.csdn.net/weixin_29057163/article/details/163930016" target="_blank" class="ref-link">ALiBi 位置编码：原理、实现与在长文本外推中的优势（CSDN）</a></li>
+<li><a href="https://blog.csdn.net/m0_37733448/article/details/154618123" target="_blank" class="ref-link">位置编码演进史：SIN → ALiBi → RoPE → PI → NTK → YaRN（CSDN）</a></li>
+<li><a href="https://blog.csdn.net/2401_85390073/article/details/145207524" target="_blank" class="ref-link">面试官提问：LLM 推理中处理超出 content length 的外推方法（CSDN）</a></li>
+</ul>
+
+<hr>
+
+<h3>RNN 循环神经网络（Recurrent Neural Network）</h3>
+
+<p><strong>类别</strong>：深度学习 | <strong>难度</strong>：中等</p>
+
+<h4>算法简介</h4>
+
+<p>循环神经网络（RNN）是一类<strong>专门处理序列数据</strong>（时间序列、文本、语音等）的神经网络。与普通前馈网络（各层输入输出相互独立）不同，RNN 通过一个<strong>循环连接的隐藏状态（hidden state）$ h_t $</strong>，将上一时间步的"记忆"传递到当前时间步，从而建模序列中的时序依赖关系。</p>
+
+<p>每一时间步 $ t $，RNN 执行同一个共享计算（参数在所有时间步共享）：</p>
+
+<p><div class="math-block">$$ h_t = \tanh(W_{ih} x_t + b_{ih} + W_{hh} h_{t-1} + b_{hh}) $$</div></p>
+
+<p>$ h_t $ 既作为传递给下一时间步的"记忆"，也可输出（$ o_t $）用于预测。正是这种"<strong>同一参数在不同时间步反复使用</strong>"（weight sharing）使 RNN 能处理<strong>任意长度</strong>序列，且参数量不随序列长度增长——这与全连接层对每个时间步各学一套参数完全不同。</p>
+
+<p>RNN 的局限同样著名：<strong>梯度消失/爆炸</strong>（长期依赖难以学习，训练不稳定），以及<strong>无法并行</strong>（必须按时间步顺序迭代）。因此实际工程中被 LSTM（引入记忆门控）、GRU（精简门控）和 Transformer（并行 + 注意力）逐步取代，但 RNN 作为理解序列建模的第一课，仍然是深度学习入门与面试必备，PyTorch 的 <code class="inline-code">nn.RNN</code> 是官方标准实现。</p>
+
+<h4>原理示意图</h4>
+
+<p><div class="algo-image"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 900 360" font-family="sans-serif">
+  <!-- 深色背景 -->
+  <rect width="900" height="360" fill="#1e293b" rx="12"/>
+  <!-- 标题 -->
+  <text x="450" y="30" text-anchor="middle" fill="#818cf8" font-size="15" font-weight="600">RNN 展开结构：同一组参数在所有时间步共享</text>
+
+  <!-- 时间步 1 -->
+  <rect x="60" y="80" width="110" height="46" rx="6" fill="#22c55e" stroke="#22c55e"/>
+  <text x="115" y="102" text-anchor="middle" fill="#1e293b" font-size="13" font-weight="600">W_ih, b_ih</text>
+  <text x="115" y="118" text-anchor="middle" fill="#1e293b" font-size="12">(共享)</text>
+  <rect x="60" y="160" width="110" height="46" rx="6" fill="#22c55e" stroke="#22c55e"/>
+  <text x="115" y="182" text-anchor="middle" fill="#1e293b" font-size="13" font-weight="600">W_hh, b_hh</text>
+  <text x="115" y="198" text-anchor="middle" fill="#1e293b" font-size="12">(共享)</text>
+  <circle cx="115" cy="130" r="26" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="115" y="128" text-anchor="middle" fill="#e2e8f0" font-size="12">tanh</text>
+  <text x="115" y="142" text-anchor="middle" fill="#e2e8f0" font-size="10">h₀→h₁</text>
+  <text x="115" y="72" text-anchor="middle" fill="#e2e8f0" font-size="13">x₁</text>
+  <text x="115" y="225" text-anchor="middle" fill="#e2e8f0" font-size="13">h₁</text>
+
+  <!-- 时间步 2 -->
+  <circle cx="330" cy="130" r="26" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="330" y="128" text-anchor="middle" fill="#e2e8f0" font-size="12">tanh</text>
+  <text x="330" y="142" text-anchor="middle" fill="#e2e8f0" font-size="10">h₁→h₂</text>
+  <text x="330" y="72" text-anchor="middle" fill="#e2e8f0" font-size="13">x₂</text>
+  <text x="330" y="225" text-anchor="middle" fill="#e2e8f0" font-size="13">h₂</text>
+
+  <!-- 时间步 3 -->
+  <circle cx="545" cy="130" r="26" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="545" y="128" text-anchor="middle" fill="#e2e8f0" font-size="12">tanh</text>
+  <text x="545" y="142" text-anchor="middle" fill="#e2e8f0" font-size="10">h₂→h₃</text>
+  <text x="545" y="72" text-anchor="middle" fill="#e2e8f0" font-size="13">x₃</text>
+  <text x="545" y="225" text-anchor="middle" fill="#e2e8f0" font-size="13">h₃</text>
+
+  <!-- 时间步 N -->
+  <circle cx="770" cy="130" r="26" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="770" y="128" text-anchor="middle" fill="#e2e8f0" font-size="12">tanh</text>
+  <text x="770" y="142" text-anchor="middle" fill="#e2e8f0" font-size="10">h_{T-1}→h_T</text>
+  <text x="770" y="72" text-anchor="middle" fill="#e2e8f0" font-size="13">x_T</text>
+  <text x="770" y="225" text-anchor="middle" fill="#e2e8f0" font-size="13">h_T</text>
+
+  <!-- 连接箭头 -->
+  <line x1="141" y1="130" x2="300" y2="130" stroke="#f97316" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="356" y1="130" x2="515" y2="130" stroke="#f97316" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="571" y1="130" x2="740" y2="130" stroke="#f97316" stroke-width="2" marker-end="url(#arrow)"/>
+  <!-- 输入箭头 -->
+  <line x1="115" y1="80" x2="115" y2="102" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="330" y1="80" x2="330" y2="102" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="545" y1="80" x2="545" y2="102" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="770" y1="80" x2="770" y2="102" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow)"/>
+  <!-- 输出箭头 -->
+  <line x1="115" y1="158" x2="115" y2="205" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="330" y1="158" x2="330" y2="205" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="545" y1="158" x2="545" y2="205" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="770" y1="158" x2="770" y2="205" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- 底部说明 -->
+  <text x="450" y="262" text-anchor="middle" fill="#94a3b8" font-size="12">同一个 (W_ih, W_hh, b_ih, b_hh) 在每个时间步被反复使用——参数量与序列长度无关</text>
+  <text x="450" y="288" text-anchor="middle" fill="#f97316" font-size="12">h_t 沿时间轴传递记忆；箭头 = 前向传播顺序（不可并行）</text>
+
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="6" refX="4" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#6366f1"/>
+    </marker>
+  </defs>
+</svg></div></p>
+
+<h4>数学公式</h4>
+
+<p><strong>① 隐藏状态更新公式（PyTorch nn.RNN 的实际计算）</strong></p>
+
+<p><div class="math-block">$$ h_t = \tanh\!\big(W_{ih}\, x_t + b_{ih} + W_{hh}\, h_{t-1} + b_{hh}\big) $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+
+<ul>
+<li>$ x_t \in \mathbb{R}^{d_{in}} $：第 $ t $ 时间步的输入向量（$ d_{in} $ = <code class="inline-code">input_size</code>）；</li>
+<li>$ h_{t-1}, h_t \in \mathbb{R}^{d_h} $：上一时刻与当前时刻的隐藏状态（$ d_h $ = <code class="inline-code">hidden_size</code>，$ h_0 $ 默认全 0）；</li>
+<li>$ W_{ih} \in \mathbb{R}^{d_h \times d_{in}} $：输入到隐藏的权重矩阵；</li>
+<li>$ W_{hh} \in \mathbb{R}^{d_h \times d_h} $：隐藏到隐藏（循环）的权重矩阵——记忆的来源；</li>
+<li>$ b_{ih}, b_{hh} \in \mathbb{R}^{d_h} $：输入与循环的偏置向量；</li>
+<li>$ \tanh $：逐元素双曲正切激活函数，将输出压缩到 $ (-1, 1) $（<code class="inline-code">nonlinearity</code> 参数可取 <code class="inline-code">'tanh'</code> 或 <code class="inline-code">'relu'</code>）。</li>
+</ul>
+
+<p><strong>② 输出公式</strong></p>
+
+<p><div class="math-block">$$ o_t = h_t \quad(\text{无额外输出层时，PyTorch 直接返回隐藏状态}) $$</div></p>
+
+<p><div class="math-block">$$ y_t = \mathrm{softmax}(W_{ho} h_t + b_{ho}) \quad(\text{接入分类头后的最终预测}) $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+
+<ul>
+<li>$ o_t $：第 $ t $ 步的 RNN 输出（即 $ h_t $ 本身）；</li>
+<li>$ W_{ho} \in \mathbb{R}^{d_{out} \times d_h} $：输出权重；$ b_{ho} $：输出偏置（这两者不属于 <code class="inline-code">nn.RNN</code> 本身，通常由外部线性层承担）；</li>
+<li>$ y_t $：经过 $ \mathrm{softmax} $ 得到类别概率。</li>
+</ul>
+
+<p><strong>③ 参数数量公式（每层）</strong></p>
+
+<p><div class="math-block">$$ \text{params} = d_h \times d_{in} + d_h \times d_h + d_h + d_h = d_h\,(d_{in} + d_h + 2) $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+
+<ul>
+<li>$ W_{ih} $ 有 $ d_h \times d_{in} $ 个参数；</li>
+<li>$ W_{hh} $ 有 $ d_h \times d_h $ 个参数；</li>
+<li>两个偏置各 $ d_h $，共 $ 2 d_h $；</li>
+<li>若 <code class="inline-code">bias=False</code>，删去 $ 2 d_h $；若 <code class="inline-code">bidirectional=True</code>，双倍（两个方向各一套全套参数）。</li>
+</ul>
+
+<p><strong>④ 梯度消失/爆炸的根源（BPTT）</strong></p>
+
+<p>反向传播损失 $ L $ 到第 $ k $ 时间步隐藏状态（时序反向传播 BPTT）：</p>
+
+<p><div class="math-block">$$ \frac{\partial L}{\partial h_k} = \frac{\partial L}{\partial h_T} \prod_{j=k+1}^{T} \frac{\partial h_j}{\partial h_{j-1}} = \frac{\partial L}{\partial h_T} \prod_{j=k+1}^{T} \mathrm{diag}\big(f'(h_j)\big)\, W_{hh}^{\mathsf{T}} $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+
+<ul>
+<li>$ f' $ 为激活函数导数，$ \tanh' \in (0,1] $，常接近 0；</li>
+<li>连乘中每个因子含 $ \|W_{hh}\| $（矩阵谱范数）与 $ |f'| $；</li>
+<li>当 $ T - k $ 很大（长序列）且这些因子 < 1 时，乘积指数级衰减 → <strong>梯度消失</strong>（长距离依赖丢失）；> 1 时指数爆炸 → <strong>梯度爆炸</strong>（训练发散，需梯度裁剪）。</li>
+</ul>
+
+<h4>核心要点</h4>
+
+<ul>
+<li><strong>参数共享</strong>：同一组 $ (W_{ih}, W_{hh}, b_{ih}, b_{hh}) $ 在所有时间步复用，参数量与序列长度无关。</li>
+<li><strong>记忆机制</strong>：隐藏状态 $ h_t $ 携带到 $ t $ 为止的历史信息，是 RNN 的"记忆体"。</li>
+<li><strong>不可并行</strong>：$ h_t $ 依赖 $ h_{t-1} $，前向/反向必须按时间顺序迭代（Transformer 因此取而代之）。</li>
+<li><strong>梯度消失/爆炸</strong>：长序列训练困难，是 RNN 的致命弱点（引出 LSTM/GRU 门控与梯度裁剪）。</li>
+<li><code class="inline-code">nn.RNN</code> 提供 8 个参数：<code class="inline-code">input_size</code>、<code class="inline-code">hidden_size</code>、<code class="inline-code">num_layers</code>、<code class="inline-code">nonlinearity</code>、<code class="inline-code">bias</code>、<code class="inline-code">batch_first</code>、<code class="inline-code">dropout</code>、<code class="inline-code">bidirectional</code>，下面逐个详解。</li>
+</ul>
+
+<h4>技术细节与参数详解（PyTorch <code class="inline-code">nn.RNN</code> 全参数）</h4>
+
+<blockquote>
+<p>PyTorch 签名：<code class="inline-code">nn.RNN(input_size, hidden_size, num_layers=1, nonlinearity='tanh', bias=True, batch_first=False, dropout=0, bidirectional=False)</code></p>
+</blockquote>
+
+<p>#### 参数 1：input_size（输入特征维度）</p>
+<ul>
+<li><strong>含义</strong>：每个时间步输入 $ x_t $ 的特征数量（例如词向量维度 300、单变量时序=1、多变量时序=特征数）。</li>
+<li><strong>类型</strong>：<code class="inline-code">int</code></li>
+<li><strong>默认值</strong>：无（必填）。</li>
+<li><strong>取值范围</strong>：$ \ge 1 $ 的整数。</li>
+<li><strong>对结果的影响</strong>：决定 $ W_{ih} $ 形状 $ d_h \times d_{in} $ 与参数量 $ d_h \cdot d_{in} $；过大导致参数量膨胀、过小丢失信息。</li>
+<li><strong>推荐设置</strong>：词嵌入用 128-768；数值时序用实际特征数。</li>
+</ul>
+
+<p>#### 参数 2：hidden_size（隐藏状态维度）</p>
+<ul>
+<li><strong>含义</strong>：$ h_t $ 的维度 $ d_h $，即 RNN 的"记忆容量/表示宽度"。</li>
+<li><strong>类型</strong>：<code class="inline-code">int</code></li>
+<li><strong>默认值</strong>：无（必填）。</li>
+<li><strong>取值范围</strong>：任意正整数（32~1024 常见）。</li>
+<li><strong>对结果的影响</strong>：越大表达力越强但越易过拟合、计算量 $ O(d_h^2) $ 增长；决定所有权重矩阵的第二维。</li>
+<li><strong>推荐设置</strong>：小数据 64~256；大数据/强序列 256~1024；配合早停与 Dropout 防过拟合。</li>
+</ul>
+
+<p>#### 参数 3：num_layers（循环层数）</p>
+<ul>
+<li><strong>含义</strong>：堆叠的 RNN 层数（Stacked RNN），上一层输出作为下一层输入。</li>
+<li><strong>类型</strong>：<code class="inline-code">int</code></li>
+<li><strong>默认值</strong>：<code class="inline-code">1</code></li>
+<li><strong>取值范围</strong>：$ \ge 1 $；常见 1~4（超过 3 层收益骤减、训练难度上升）。</li>
+<li><strong>对结果的影响</strong>：多层可捕捉更抽象的层级时序特征，但梯度传播路径更长、训练更难（需要 dropout 正则化）。</li>
+<li><strong>推荐设置</strong>：任务简单用 1~2；大语料可到 3~4。</li>
+</ul>
+
+<p>#### 参数 4：nonlinearity（激活函数）</p>
+<ul>
+<li><strong>含义</strong>：隐藏状态更新的非线性函数。</li>
+<li><strong>类型</strong>：<code class="inline-code">str</code>，仅 <code class="inline-code">'tanh'</code> 或 <code class="inline-code">'relu'</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">'tanh'</code>（官方推荐）。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">'tanh'</code>、<code class="inline-code">'relu'</code>。</li>
+<li><strong>对结果的影响</strong>：tanh 输出 $ (-1,1) $ 有界、中心化、梯度更稳定；relu 无上界、收敛快但更容易梯度爆炸与神经元死亡；实际标准都是 tanh。</li>
+<li><strong>推荐设置</strong>：<strong>默认 'tanh'</strong>；只有在极短序列实验可用 'relu' 加速。</li>
+</ul>
+
+<p>#### 参数 5：bias（是否使用偏置）</p>
+<ul>
+<li><strong>含义</strong>：$ b_{ih} $ 与 $ b_{hh} $ 是否存在。</li>
+<li><strong>类型</strong>：<code class="inline-code">bool</code></li>
+<li><strong>默认值</strong>：<code class="inline-code">True</code></li>
+<li><strong>对结果的影响</strong>：去掉偏置会降低拟合能力（无法建模线性偏移），几乎总是不利；仅在参数量受限的极端场景可关。</li>
+<li><strong>推荐设置</strong>：<code class="inline-code">True</code>（默认）。</li>
+</ul>
+
+<p>#### 参数 6：batch_first（批量维度是否在第一）</p>
+<ul>
+<li><strong>含义</strong>：输入输出张量的维度顺序。</li>
+<li><strong>类型</strong>：<code class="inline-code">bool</code></li>
+<li><strong>默认值</strong>：<code class="inline-code">False</code> → 输入形状 <code class="inline-code">(seq_len, batch, input_size)</code></li>
+<li><strong>可选</strong>：<code class="inline-code">True</code> → <code class="inline-code">(batch, seq_len, input_size)</code></li>
+<li><strong>对结果的影响</strong>：仅影响张量形状与转置成本；<code class="inline-code">batch_first=True</code> 与 Transformer/生态更一致，代码可读性更好。</li>
+<li><strong>推荐设置</strong>：统一 <code class="inline-code">batch_first=True</code>，减少与其他模块拼接时的维度转换。</li>
+</ul>
+
+<p>#### 参数 7：bidirectional（是否双向）</p>
+<ul>
+<li><strong>含义</strong>：是否同时训练"正向"与"反向"两个 RNN，并把两个方向的隐藏状态拼接作为输出。</li>
+<li><strong>类型</strong>：<code class="inline-code">bool</code></li>
+<li><strong>默认值</strong>：<code class="inline-code">False</code></li>
+<li><strong>对结果的影响</strong>：正向捕获"过去→现在"的依赖，反向捕获"未来→现在"的信息（在序列分类、NER 上显著提升）；但<strong>自回归生成场景禁用</strong>（未来信息不可见），且参数量、输出维度翻倍。</li>
+<li><strong>推荐设置</strong>：非自回归任务（分类/标注）用 <code class="inline-code">True</code>；时序预测/生成任务必须 <code class="inline-code">False</code>。</li>
+</ul>
+
+<p>#### 参数 8：权重初始化与 dtype 等隐式参数</p>
+<ul>
+<li><strong>含义</strong>：<code class="inline-code">nn.RNN</code> 内部对 $ W_{ih} $、$ W_{hh} $ 用均匀分布 $ U(-\sqrt{k}, \sqrt{k}) $（$ k = 1/d_{in} $ 或 $ 1/d_h $）初始化；偏置全 0。</li>
+<li><strong>推荐设置</strong>：一般不需要手动改；若梯度消失严重可尝试正交初始化（<code class="inline-code">orthogonal_</code>）与梯度裁剪（<code class="inline-code">clip_grad_norm_</code>）。</li>
+</ul>
+
+<h4>代码示例</h4>
+
+<p><pre class="code-block"><code class="language-python"># ============ 完整 RNN 序列建模示例（PyTorch）============
+import torch
+import torch.nn as nn
+
+# 1. 造一条简单序列数据：batch=2，seq_len=5，每个时间步 3 个特征
+x = torch.randn(2, 5, 3)        # (batch, seq_len, input_size)
+
+# 2. 定义 RNN 层（逐参数含义见上文详解）
+rnn = nn.RNN(
+    input_size=3,               # 每个时间步输入特征维度 = 3
+    hidden_size=4,              # 隐藏状态维度 = 4（记忆容量）
+    num_layers=2,               # 堆叠 2 层循环层
+    nonlinearity=&#x27;tanh&#x27;,        # 激活函数 tanh（或 &#x27;relu&#x27;）
+    bias=True,                  # 使用偏置（b_ih、b_hh）
+    batch_first=True,           # 输入形状 (batch, seq, feature)
+    dropout=0.2,                # 第 1 层与第 2 层之间的 dropout（num_layers&gt;1 生效）
+    bidirectional=False         # 单向（时序预测场景）
+)
+
+# 3. 前向传播
+out, h_n = rnn(x)
+# out 形状: (batch=2, seq_len=5, hidden_size=4)，每个时间步的输出（=h_t）
+# h_n  形状: (num_layers=2, batch=2, hidden_size=4)，各层最后一个时间步的隐藏状态
+
+# 4. 打印参数量，验证&quot;参数量与序列长度无关&quot;
+total = sum(p.numel() for p in rnn.parameters())
+print(&quot;RNN 参数量:&quot;, total)
+# 计算核对：第1层 (3+4)*4 + 4 + 4 = 40；第2层 (4+4)*4 + 8 = 40；合计 80
+
+# 5. 用最终隐藏状态做分类头（如情感二分类）
+classifier = nn.Linear(4, 2)      # 4 维隐藏状态 → 2 类
+logits = classifier(h_n[-1])      # 取最后一层（层索引 -1）的最终隐藏状态
+probs = torch.softmax(logits, dim=-1)  # 转概率
+print(&quot;分类概率形状:&quot;, probs.shape)      # (batch=2, num_classes=2)
+
+
+# ============ 自实现单层 RNN（与 nn.RNN 等价，便于理解每一步）============
+class MyRNNCell(nn.Module):
+    def __init__(self, input_size, hidden_size):
+        super().__init__()
+        self.W_ih = nn.Parameter(torch.randn(hidden_size, input_size))  # 输入→隐藏权重
+        self.W_hh = nn.Parameter(torch.randn(hidden_size, hidden_size)) # 循环权重（记忆核心）
+        self.b_ih = nn.Parameter(torch.zeros(hidden_size))              # 输入偏置
+        self.b_hh = nn.Parameter(torch.zeros(hidden_size))              # 循环偏置
+
+    def forward(self, x_t, h_prev):
+        # x_t: (batch, input_size)  当前时刻输入
+        # h_t: (batch, hidden)   上一时刻隐藏状态
+        h_new = torch.tanh(
+            x_t @ self.W_ih.t() + self.b_ih          # 输入投影 + 偏置
+            + h_prev @ self.W_hh.t() + self.b_hh     # 隐藏投影（循环） + 偏置
+        )
+        return h_new  # 返回当前隐藏状态
+
+# 使用 MyRNNCell 逐时间步迭代（等价于 nn.RNN 单层单方向）
+cell = MyRNNCell(3, 4)
+h = torch.zeros(2, 4)             # 初始 h_0 = 0
+for t in range(5):                 # 顺序遍历 5 个时间步（RNN 无法并行）
+    h = cell(x[:, t, :], h)        # 更新隐藏状态
+print(&quot;逐时间步最终 h:&quot;, h.shape)    # (2, 4)</code></pre></p>
+
+<h4>复杂度分析</h4>
+
+<p><strong>时间复杂度</strong>：</p>
+
+<ul>
+<li>单层单向 RNN 每时间步：矩阵乘 $ W_{ih} x_t $ 为 $ O(d_h d_{in}) $，$ W_{hh} h_{t-1} $ 为 $ O(d_h^2) $，激活逐元素 $ O(d_h) $；合计 $ O(d_h(d_{in} + d_h)) $。</li>
+<li>序列长度 $ T $：总复杂度 $ O\big(T \cdot d_h (d_{in} + d_h)\big) $——<strong>与 $ T $ 线性</strong>（这是 RNN 相比 Transformer $ O(T^2) $ 在长序列上的潜在优势，但不可并行抵消了这一点）。</li>
+<li>多层 $ L $：乘以 $ L $；双向：乘以 2。</li>
+</ul>
+
+<p><strong>空间复杂度</strong>：</p>
+
+<ul>
+<li>参数：$ L \cdot d_h(d_{in} + d_h + 2) $（每层）；<strong>与 $ T $ 无关</strong>（参数共享）。</li>
+<li>训练过程存储：BPTT 需保存每个时间步的中间量（$ h_1, \dots, h_T $）用于反向传播，$ O(T \cdot d_h) $——随 $ T $ 线性增长，长序列内存压力大。</li>
+</ul>
+
+<p><strong>并行性</strong>：无法沿时间并行（依赖链）；可沿 batch 并行（batch 维度）。</p>
+
+<h4>应用场景</h4>
+
+<ul>
+<li><strong>序列建模教学/入门</strong>：理解"隐藏状态 + 参数共享 + BPTT"的教科书第一课。</li>
+<li><strong>时间序列预测</strong>：单变量/多变量数值预测、传感器数据、电力负荷等（小规模场景仍可用）。</li>
+<li><strong>短文本处理</strong>：字符级语言模型（如名字生成）、短句分类、词性标注（基线模型）。</li>
+<li><strong>手写识别/语音前端</strong>：经典序列到序列（seq2seq）编码器（现代多被 GRU/LSTM/Transformer 替换）。</li>
+<li><strong>教育/原理演示</strong>：天然适合展示循环依赖、梯度消失/爆炸等深度学习概念。</li>
+</ul>
+
+<blockquote>
+<p>注：生产级长序列任务建议使用 LSTM/GRU（缓解梯度消失）或 Transformer（并行 + 长程），RNN 更多作为理解序列建模的起点。</p>
+</blockquote>
+
+<h4>参考文档</h4>
+
+<ul>
+<li><a href="https://pytorch.org/docs/stable/generated/torch.nn.RNN.html" target="_blank" class="ref-link">PyTorch 官方文档：torch.nn.RNN</a></li>
+<li><a href="https://www.cnblogs.com/kpwong/p/13457207.html" target="_blank" class="ref-link">pytorch 中 nn.RNN() 总结（博客园，参数齐全）</a></li>
+<li><a href="https://developer.baidu.com/article/details/3258740" target="_blank" class="ref-link">PyTorch 中 RNN 参数的详细解析（百度开发者中心）</a></li>
+<li><a href="https://developer.baidu.com/article/details/3258758" target="_blank" class="ref-link">循环神经网络 RNN：torch.nn.RNN 类的参数详解与代码示例（百度开发者中心）</a></li>
+<li><a href="https://blog.csdn.net/onlymscn/article/details/157875253" target="_blank" class="ref-link">PyTorch 神经网络常用层 RNN 详解（CSDN）</a></li>
+</ul>
+
+<blockquote>
+<p>AI生成</p>
+</blockquote>
+
+  </div>
+  <div class="footer">
+    <p>由 TeleAgent · 每日算法推送 技能自动生成 | 2026-10-13 09:39</p>
+  </div>
+</div>
+</body>
+</html>
