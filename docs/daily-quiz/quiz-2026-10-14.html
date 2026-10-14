@@ -367,7 +367,7 @@
 
 <div class="header">
   <h1>每日算法 AI 出题</h1>
-  <div class="subtitle">算法 2 道 + AI 2 道 · 第 16 期</div>
+  <div class="subtitle">算法 2 道 + AI 2 道 · 第 16 期 · 衔接今日主题（滑动窗口/LSTM/MQA）</div>
   <div class="date-tag">📅 2026-10-14 ｜ 算法 2 道 · AI 2 道</div>
 </div>
 
@@ -378,25 +378,25 @@
       <span class="difficulty">⭐⭐</span>
       <span class="qid-label">第 1 题</span>
     </div>
-<h2 class="question-title">数据流的中位数（对顶堆）</h2>
-<div class="question-body">设计一个**在线数据流**结构：依次接收一个整数序列中的每个数，每接收一个数后都要返回当前已接收全部元素的中位数。定义：若当前元素个数为奇数，中位数为排序后正中间那个数；若为偶数，为中间两个数的**平均值**（返回浮点数）。<br>
+<h2 class="question-title">最长不含重复字符的子串（滑动窗口）</h2>
+<div class="question-body">给定一个字符串 <code class="inline-code">s</code>，找出其中**不含重复字符**的**最长子串**的长度。<br>
 <br>
-实现函数 <code class="inline-code">solve(nums)</code>：输入完整整数数组，返回一个等长列表，第 <code class="inline-code">i</code> 个元素表示加入 <code class="inline-code">nums[0..i]</code> 后的中位数。要求用**两个堆（对顶堆）**实现，使得每次插入与取中位数都是 <code class="inline-code">O(log n)</code>。</div>
-<div class="info-block"><span class="info-label">输入</span><pre>一个整数数组 nums（1 &lt;= len(nums) &lt;= 10^5，元素在 int 范围内，可为负）。</pre></div>
-<div class="info-block"><span class="info-label">输出</span><pre>返回一个 float 列表，长度为 len(nums)，每个元素为对应前缀的中位数。</pre></div>
+实现函数 <code class="inline-code">solve(s)</code>，返回满足「子串内所有字符各不相同」的最大长度。要求用**滑动窗口**在 <code class="inline-code">O(n)</code> 内完成（配合哈希表记录每个字符最近一次出现的位置）。</div>
+<div class="info-block"><span class="info-label">输入</span><pre>一个字符串 s，仅含可打印字符（字母/数字等），长度 0 &lt;= len(s) &lt;= 10^5。</pre></div>
+<div class="info-block"><span class="info-label">输出</span><pre>一个整数，表示最长不含重复字符子串的长度。</pre></div>
 <div class="example-block">
 <div class="example-title">示例 1</div>
-<pre class="example-io"><span class="io-label">输入：</span>[2,1,3,5,4]</pre>
-<pre class="example-io"><span class="io-label">输出：</span>[2.0, 1.5, 2.0, 2.5, 3.0]</pre>
-<div class="example-explanation">加入2 -&gt; 中位2；加入1 -&gt; (1,2)中位1.5；加入3 -&gt; (1,2,3)中位2；加入5 -&gt; (1,2,3,5)中位(2+3)/2=2.5；加入4 -&gt; (1,2,3,4,5)中位3。</div>
+<pre class="example-io"><span class="io-label">输入：</span>&quot;abcabcbb&quot;</pre>
+<pre class="example-io"><span class="io-label">输出：</span>3</pre>
+<div class="example-explanation">最长不含重复字符的子串是 &quot;abc&quot;（或 &quot;bca&quot;/&quot;cab&quot;），长度为 3。</div>
 </div>
 <div class="example-block">
 <div class="example-title">示例 2</div>
-<pre class="example-io"><span class="io-label">输入：</span>nums=[10,20,30,40,50]</pre>
-<pre class="example-io"><span class="io-label">输出：</span>[10.0, 15.0, 20.0, 25.0, 30.0]</pre>
-<div class="example-explanation">奇数个取中间值，偶数个取两中间值平均。</div>
+<pre class="example-io"><span class="io-label">输入：</span>s=&quot;pwwkew&quot;</pre>
+<pre class="example-io"><span class="io-label">输出：</span>3</pre>
+<div class="example-explanation">最长子串是 &quot;wke&quot;，长度为 3；&quot;pwke&quot; 含 &quot;p&quot;、&quot;w&quot;、&quot;k&quot;、&quot;e&quot; 也长度为 4？不，&quot;pwke&quot; 子串需连续，从下标2起是 &quot;wke&quot; 长度为 3。</div>
 </div>
-<div class="info-block"><span class="info-label">约束</span><div>1 &lt;= n &lt;= 10^5；整数数值范围 [-10^6, 10^6]。时间复杂度要求总体 O(n log n)，空间 O(n)。</div></div>
+<div class="info-block"><span class="info-label">约束</span><div>0 &lt;= len(s) &lt;= 10^5。时间复杂度 O(n)，空间 O(字符集大小)（通常视为 O(1)）。</div></div>
 
     <div class="code-section">
       <div class="code-header">
@@ -404,26 +404,24 @@
         <button class="btn-run" onclick="runCode(1)" id="run_btn_1">▶ 运行</button>
       </div>
       <div class="editor-wrap">
-        <div class="code-editor" id="editor_1" contenteditable="true" spellcheck="false">def solve(nums):
-    # nums: List[int]，返回每个前缀的中位数列表（第 i 个为 nums[0..i] 的中位数）
-    import heapq
-    max_heap = []  # 大顶堆：存较小的一半（元素取负，堆顶即较小半的最大值）
-    min_heap = []  # 小顶堆：存较大的一半（堆顶即较大半的最小值）
-    result = []
-    for num in nums:
+        <div class="code-editor" id="editor_1" contenteditable="true" spellcheck="false">def solve(s):
+    # s: str，返回不含重复字符的最长子串长度
+    last = {}  # 字符 -&gt; 最近一次出现下标
+    left = 0
+    ans = 0
+    for right, ch in enumerate(s):
         # TODO:
-        # 1. 新元素先入 max_heap（heappush(max_heap, -num)）
-        # 2. 若 max_heap 堆顶 &gt; min_heap 堆顶，则交换堆顶（把 -max_heap[0] 移入 min_heap）
-        # 3. 平衡两堆：任意一堆比另一堆多超过 1 个时，把堆顶移到对方
-        # 4. 计算中位数：len 不等取堆顶那个；相等取两堆顶均值
-        result.append(0.0)
-    return result
+        # 1. 若 ch 已出现在窗口内（last[ch] &gt;= left），把 left 上移到 last[ch]+1
+        # 2. 更新 last[ch] = right
+        # 3. ans = max(ans, 窗口长度 right-left+1)
+        pass
+    return ans
 </div>
       </div>
       <div class="code-result" id="result_1" style="display:none;"></div>
       <input type="hidden" id="func_name_1" value="solve">
-      <input type="hidden" id="test_cases_1" value='[[[2, 1, 3, 5, 4]], [[5]], [[1, 2]], [[2, 1]], [[3, 3, 3]], [[-1, -5, 5, 7]], [[10, 20, 30, 40, 50]], [[50, 40, 30, 20, 10]], [[6, 1, 2, 4, 3, 5]], [[1, 1, 1, 1]], [[-1000000, 1000000, 0]], [[1, 2, 3, 4, 5]], [[96, 97, 98, 99]]]'>
-      <input type="hidden" id="expected_outputs_1" value='[[2.0, 1.5, 2.0, 2.5, 3.0], [5.0], [1.0, 1.5], [2.0, 1.5], [3.0, 3.0, 3.0], [-1.0, -3.0, -1.0, 2.0], [10.0, 15.0, 20.0, 25.0, 30.0], [50.0, 45.0, 40.0, 35.0, 30.0], [6.0, 3.5, 2.0, 3.0, 3.0, 3.5], [1.0, 1.0, 1.0, 1.0], [-1000000.0, 0.0, 0.0], [1.0, 1.5, 2.0, 2.5, 3.0], [96.0, 96.5, 97.0, 97.5]]'>
+      <input type="hidden" id="test_cases_1" value='[[&quot;abcabcbb&quot;], [&quot;bbbbbb&quot;], [&quot;pwwkew&quot;], [&quot;&quot;], [&quot;a&quot;], [&quot;au&quot;], [&quot;dvdf&quot;], [&quot;abba&quot;], [&quot;tmmzuxt&quot;], [&quot;abcabcabc&quot;], [&quot;abcdefghij&quot;], [&quot;qrsetskp&quot;], [&quot;aaab&quot;]]'>
+      <input type="hidden" id="expected_outputs_1" value='[3, 1, 3, 0, 1, 2, 3, 2, 5, 3, 10, 5, 2]'>
     </div>
 
     <button class="btn-reveal" onclick="revealSolution(1)" id="reveal_btn_1">
@@ -431,45 +429,25 @@
     </button>
 <div class="solution-section" id="solution_1" style="display:none;">
 <div class="solution-divider">--- 以下为答案与解析 ---</div>
-<div class="solution-block"><h4>💡 解题思路</h4><div>维护两个堆并把数据分成两半：**大顶堆 max_heap** 存较小的一半（元素存负数以便用 Python 最小堆模拟大顶堆），**小顶堆 min_heap** 存较大的一半。核心不变式：① <code class="inline-code">max_heap</code> 中所有元素都 &lt;= <code class="inline-code">min_heap</code> 中所有元素（即 max_heap 堆顶 &lt;= min_heap 堆顶）；② 两堆元素个数相差不超过 1。<br>
-<br>
-**插入流程**：新数先入 <code class="inline-code">max_heap</code>；若 <code class="inline-code">max_heap</code> 堆顶（较小半的最大值）大于 <code class="inline-code">min_heap</code> 堆顶（较大半的最小值），则把前者弹出压入 <code class="inline-code">min_heap</code>，恢复不变式①；再平衡两堆大小（任意一堆多出超过 1 个时，把堆顶移给对方），保证不变式②。<br>
-<br>
-**取中位数**：若 <code class="inline-code">max_heap</code> 多一个，中位数为 <code class="inline-code">max_heap</code> 堆顶；若 <code class="inline-code">min_heap</code> 多一个，中位数为 <code class="inline-code">min_heap</code> 堆顶；两堆相等则取两堆顶平均值。每次插入 <code class="inline-code">O(log n)</code>，取中位数 <code class="inline-code">O(1)</code>。</div></div>
-<div class="solution-block"><h4>📝 参考代码（python）</h4><pre class="code-block">import heapq
-
-def solve(nums):
-    # 对顶堆求数据流中位数
-    # max_heap: 大顶堆，存&quot;较小的一半&quot;（元素存负数，堆顶是较小一半的最大值）
-    # min_heap: 小顶堆，存&quot;较大的一半&quot;，堆顶是较大一半的最小值
-    max_heap = []
-    min_heap = []
-    result = []
-    for num in nums:
-        # 1) 新元素先放入较小堆（max_heap，存负数）
-        heapq.heappush(max_heap, -num)
-        # 2) 保证 max_heap 堆顶 &lt;= min_heap 堆顶，否则交换堆顶
-        if max_heap and min_heap and -max_heap[0] &gt; min_heap[0]:
-            heapq.heappush(min_heap, -heapq.heappop(max_heap))
-        # 3) 平衡两堆大小，保证 |len(max)-len(min)| &lt;= 1
-        if len(max_heap) &gt; len(min_heap) + 1:
-            heapq.heappush(min_heap, -heapq.heappop(max_heap))
-        if len(min_heap) &gt; len(max_heap) + 1:
-            heapq.heappush(max_heap, -heapq.heappop(min_heap))
-        # 4) 取中位数
-        if len(max_heap) &gt; len(min_heap):
-            result.append(float(-max_heap[0]))
-        elif len(min_heap) &gt; len(max_heap):
-            result.append(float(min_heap[0]))
-        else:
-            result.append((-max_heap[0] + min_heap[0]) / 2.0)
-    return result
+<div class="solution-block"><h4>💡 解题思路</h4><div>用**滑动窗口** <code class="inline-code">[left, right]</code> 维护当前不含重复字符的子串：右指针 <code class="inline-code">right</code> 逐个扩展，遇到已在窗口内出现过的字符 <code class="inline-code">ch</code> 时，把左边界 <code class="inline-code">left</code> 上移到 <code class="inline-code">last[ch]+1</code>（即跳过上次出现的位置），保证窗口内永无重复。哈希表 <code class="inline-code">last</code> 记录每个字符最近一次出现下标，用于 O(1) 判断与跳转。窗口长度 <code class="inline-code">right-left+1</code> 不断更新答案。</div></div>
+<div class="solution-block"><h4>📝 参考代码（python）</h4><pre class="code-block">def solve(s):
+    # 最长不含重复字符的子串长度（滑动窗口 + 哈希表记录最近位置）
+    last = {}   # 字符 -&gt; 最近一次出现的下标
+    left = 0    # 窗口左边界
+    ans = 0
+    for right, ch in enumerate(s):
+        # 若 ch 已在当前窗口内（last[ch] &gt;= left），左边界跳到上次出现之后
+        if ch in last and last[ch] &gt;= left:
+            left = last[ch] + 1
+        last[ch] = right               # 更新/记录该字符最近位置
+        ans = max(ans, right - left + 1)  # 窗口长度
+    return ans
 </pre></div>
 <div class="solution-block"><h4>⚡ 复杂度分析</h4><div>
-<span class="complexity-tag">时间 O(n log n)（每次插入 O(log n)）</span>
-<span class="complexity-tag">空间 O(n)（两个堆存储全部元素）</span>
+<span class="complexity-tag">时间 O(n)（左右指针各至多移动 n 次）</span>
+<span class="complexity-tag">空间 O(1)（哈希表最多存字符集大小个键）</span>
 </div></div>
-<div class="solution-block"><h4>🎯 考点</h4><div>对顶堆的中位数结构；用负数模拟大顶堆；大小平衡不变式；大顶堆与小顶堆的大小差控制奇偶判断</div></div>
+<div class="solution-block"><h4>🎯 考点</h4><div>滑动窗口 + 哈希记录最近位置；left 上移要用 max(_, last[ch]+1) 保证不回退（窗口只增不减）；窗口内无重复的维护</div></div>
 </div>
 </div>
 <div class="question-card" data-qid="2">
@@ -532,54 +510,55 @@ def solve(nums):
       <span class="difficulty">⭐⭐</span>
       <span class="qid-label">第 3 题</span>
     </div>
-<h2 class="question-title">朴素贝叶斯分类器的后验概率推导</h2>
-<div class="question-body">请从**贝叶斯定理**出发，逐步推导朴素贝叶斯（Naive Bayes）分类器如何计算后验概率并进行分类决策。要求：明确写出（1）贝叶斯定理公式及为何可忽略分母；（2）**条件独立（朴素）假设**如何把联合概率分解为各特征概率的乘积；（3）为何取对数不改变 <code class="inline-code">argmax</code> 且能避免下溢；（4）给出先验与两类类别条件分布（离散多项式+平滑 / 连续高斯）的极大似然估计式。</div>
+<h2 class="question-title">LSTM 门控单元的前向计算与梯度消失缓解推导</h2>
+<div class="question-body">请推导 LSTM（长短期记忆）的前向计算：给出**遗忘门、输入门、输出门、候选记忆**以及**细胞状态 c_t、隐状态 h_t** 的完整更新式；并在此基础上，从反向传播角度说明**为什么门控机制能缓解普通 RNN 的梯度消失**（与 RNN 的隐状态连乘对比）。要求符号定义清楚、推导到公式级。</div>
 
     <button class="btn-reveal" onclick="revealSolution(3)" id="reveal_btn_3">
       📖 显示答案与解析
     </button>
 <div class="solution-section" id="solution_3" style="display:none;">
 <div class="solution-divider">--- 以下为答案与解析 ---</div>
-<div class="solution-block"><h4>🎯 考点</h4><div>贝叶斯定理 + 分母省略；朴素(条件独立)假设把联合分解成乘积；log 变换保 argmax 且防下溢；MLE+平滑 估计先验与类别条件分布；区分离散多项式/连续高斯两类模型。</div></div>
-<div class="solution-block"><h4>📐 推导过程</h4><div class="derivation-content">设样本特征为 $\mathbf{x}=(x_1,x_2,\dots,x_d)$，类别 $C_k,\ k=1,\dots,K$。<br>
+<div class="solution-block"><h4>🎯 考点</h4><div>三个门(遗忘/输入/输出)+候选门的公式；c_t=f_t⊙c_{t-1}+i_t⊙c̃_t 的加法长程通道；∂c_t/∂c_{t-1}=f_t 使梯度可直通；对比普通 RNN 的 diag(tanh&#x27;)W 连乘谱收缩。</div></div>
+<div class="solution-block"><h4>📐 推导过程</h4><div class="derivation-content">记输入 $x_t$、上一时刻隐状态 $h_{t-1}$、上一细胞状态 $c_{t-1}$，权重与偏置对每个门分别写为 $W_{\cdot}, b_{\cdot}$，$\odot$ 表示逐元素乘（Hadamard）。<br>
 <br>
-**第 1 步：贝叶斯定理（后验）**<br>
+**第 1 步：三个门与候选记忆**（激活：$\sigma$ 为 sigmoid，输出 0~1 起「开关」作用；$\tanh$ 为双曲正切）<br>
 $$<br>
-P(C_k \mid \mathbf{x}) = \frac{P(\mathbf{x} \mid C_k)\,P(C_k)}{P(\mathbf{x})}<br>
+\begin{aligned}<br>
+f_t &amp;= \sigma\big(W_f [h_{t-1}, x_t] + b_f\big) \\<br>
+i_t &amp;= \sigma\big(W_i [h_{t-1}, x_t] + b_i\big) \\<br>
+o_t &amp;= \sigma\big(W_o [h_{t-1}, x_t] + b_o\big) \\<br>
+\tilde{c}_t &amp;= \tanh\big(W_c [h_{t-1}, x_t] + b_c\big)<br>
+\end{aligned}<br>
 $$<br>
-对固定输入 $\mathbf{x}$，分母 $P(\mathbf{x})$ 对所有类别是**相同常数**，不改变各类后验的相对大小，故分类决策可省略分母：<br>
-$$<br>
-\hat{y}=\arg\max_k P(C_k\mid \mathbf{x}) = \arg\max_k\, P(\mathbf{x}\mid C_k)\,P(C_k)<br>
-$$<br>
-即「后验 ∝ 似然 × 先验」。<br>
+$[h_{t-1}, x_t]$ 为拼接向量。$f_t$=遗忘门（保留多少旧记忆）、$i_t$=输入门（写入多少新候选）、$o_t$=输出门（放出多少记忆到隐状态）、$\tilde{c}_t$=候选记忆。<br>
 <br>
-**第 2 步：朴素（条件独立）假设**<br>
-直接估计 $P(\mathbf{x}\mid C_k)$ 需要指数级参数（$d$ 维特征联合分布），数据量不足以估计。朴素贝叶斯假设：**给定类别 $C_k$ 时，各特征条件独立**，于是联合似然可分解为单变量乘积：<br>
+**第 2 步：细胞状态更新（加法式长程通道）**<br>
 $$<br>
-P(\mathbf{x}\mid C_k) = \prod_{i=1}^{d} P(x_i \mid C_k)<br>
+c_t = f_t \odot c_{t-1} + i_t \odot \tilde{c}_t<br>
+$$<br>
+细胞状态通过「遗忘门 × 旧记忆 + 输入门 × 新候选」**逐元素更新**，形成一条跨越时间步的**近似恒等/残差通道**。<br>
+<br>
+**第 3 步：隐状态输出**<br>
+$$<br>
+h_t = o_t \odot \tanh(c_t)<br>
 $$<br>
 <br>
-**第 3 步：取对数化简（不改变 argmax，且防下溢）**<br>
-当 $d$ 较大时，连乘的多个小于 1 的概率会溢出下界趋近 0（下溢）。$\log$ 严格单调，$\arg\max$ 不变，且把乘积变成求和：<br>
+**第 4 步：反向传播与梯度消失分析（与普通 RNN 对比）**<br>
+普通 RNN：$h_t=\tanh(W h_{t-1}+U x_t+b)$，误差沿时间步回传时<br>
 $$<br>
-\hat{y} = \arg\max_k\Big[\log P(C_k) + \sum_{i=1}^{d}\log P(x_i \mid C_k)\Big]<br>
+\frac{\partial h_t}{\partial h_{t-1}} = \mathrm{diag}\big(\tanh&#x27;\big)\,W<br>
 $$<br>
+梯度是 $\prod_{k}\,\mathrm{diag}(\tanh&#x27;) W$ 的**矩阵连乘**；$\tanh&#x27;$ 在饱和时接近 0，$W$ 的谱范数若 &lt;1 则乘积范数指数级收缩——这就是梯度消失（&gt;1 则爆炸）。<br>
 <br>
-**第 4 步：极大似然估计参数（两类特征分布模型）**<br>
-- 先验：$\hat{P}(C_k)=N_k/N$（$N_k$ 为 $C_k$ 类样本数，$N$ 为总样本数）。<br>
-- **离散特征（多项式模型）+ 拉普拉斯平滑**：设第 $i$ 个特征第 $j$ 个取值在 $C_k$ 类的计数为 $N_{kij}$，该特征共有 $m_i$ 个取值，则<br>
+对 LSTM，关键看 $c_t$ 对 $c_{t-1}$ 的偏导：<br>
 $$<br>
-\hat{P}(x_i=a_{ij}\mid C_k) = \frac{N_{kij}+\alpha}{N_k + \alpha\, m_i}<br>
+\frac{\partial c_t}{\partial c_{t-1}} = f_t + \frac{\partial\big(i_t \odot \tilde{c}_t\big)}{\partial c_{t-1}}<br>
 $$<br>
-$\alpha=1$ 即拉普拉斯平滑（加 1 平滑），防止某个取值在训练集中未出现导致概率为 0。<br>
-- **连续特征（高斯朴素贝叶斯）**：假设 $x_i\mid C_k \sim \mathcal{N}(\mu_{ki},\sigma_{ki}^2)$，用类内样本估计：$\hat{\mu}_{ki}=\tfrac1{N_k}\sum_{x_n\in C_k}x_{ni}$，$\hat{\sigma}_{ki}^2=\tfrac1{N_k}\sum_{x_n\in C_k}(x_{ni}-\hat{\mu}_{ki})^2$。<br>
+其中第一项 $f_t$ 是**逐元素的门控系数**，落在 $[0,1]$。当遗忘门 $f_t \approx 1$（需要长期记忆）时，该项接近单位阵，误差沿细胞状态通道几乎**不被压缩**地反向传递；相比普通 RNN 的矩阵连乘，这里退化为「标量门 × 单位阵」的累加式通道，消除了谱范数连乘的指数级收缩/爆炸。<br>
 <br>
-**第 5 步：决策**<br>
-对每个测试样本，代入 $\hat{P}(C_k)$ 与各 $\hat{P}(x_i\mid C_k)$，选对数后验最大者：<br>
-$$<br>
-\hat{y} = \arg\max_k \Big[\log\hat{P}(C_k) + \sum_{i=1}^{d}\log\hat{P}(x_i\mid C_k)\Big]<br>
-$$</div></div>
-<div class="solution-block"><h4>🧠 直觉解释</h4><div>朴素贝叶斯牺牲了「特征间相关性」的建模能力，换取极低的参数复杂度与样本需求——把高维联合分布拆成 d 个一维边缘分布，因此参数少、速度快，在文本分类、垃圾邮件过滤等「特征近似独立」的场景依然表现强健。</div></div>
+**第 5 步：直觉**<br>
+门控把「在时间上传递信息」从「矩阵乘法连乘」改为「选加式（门控相加）」——遗忘门决定旧的细胞记忆以多大比例保留，输入门决定新候选以多大比例写入，从而网络可以自主学会「需要长期保留的就让遗忘门≈1」，梯度沿这条干净通道长距离传播，缓解梯度消失（配合梯度裁剪与门控初始化可缓解梯度爆炸）。</div></div>
+<div class="solution-block"><h4>🧠 直觉解释</h4><div>LSTM 用「门控 + 加法更新细胞状态」把时间维度上的信息传递从连乘变成选择式累加——遗忘门≈1 时，细胞状态是一条误差可直通长距离的残差通道，从机制上缓解了普通 RNN 因隐状态矩阵连乘导致的梯度消失。</div></div>
 </div>
 </div>
 <div class="question-card" data-qid="4">
@@ -589,8 +568,8 @@ $$</div></div>
       <span class="difficulty">⭐⭐</span>
       <span class="qid-label">第 4 题</span>
     </div>
-<h2 class="question-title">知识蒸馏：为什么小模型能逼近（甚至超越）大模型？</h2>
-<div class="question-body">「知识蒸馏（Knowledge Distillation）」是让参数量小得多的学生模型（student）逼近甚至超越大模型（teacher）的经典压缩手段。请从**信息量与训练目标**的角度，解释蒸馏为什么有效，并说出温度 T 与 KL 散度损失的作用。</div>
+<h2 class="question-title">多查询注意力 MQA/GQA 为什么能省 KV 显存并加速解码？</h2>
+<div class="question-body">自回归（解码）阶段，Transformer 为每个 token 计算注意力都要读取/更新过去所有 token 的键值对，KV 缓存是显存与带宽的瓶颈。请解释：**多查询注意力（Multi-Query Attention, MQA）**与**分组查询注意力（Grouped-Query Attention, GQA）**相比标准**多头注意力（MHA）**做了什么改动，为什么能显著减少 KV 显存、提升生成吞吐，代价又是什么？</div>
 
     <button class="btn-reveal" onclick="revealSolution(4)" id="reveal_btn_4">
       📖 显示答案与解析
@@ -598,23 +577,22 @@ $$</div></div>
 <div class="solution-section" id="solution_4" style="display:none;">
 <div class="solution-divider">--- 以下为答案与解析 ---</div>
 <div class="solution-block"><h4>📌 回答要点</h4><ul class="answer-points">
-<li>暗知识信息量更大：one-hot 硬标签只告诉「答案是哪个类别」，而 teacher 输出的软概率 logits 还携带「类间相似度」（例如一张狗图 teacher 给猫 0.7、狗 0.3，说明两者特征接近）——这些 soft label 的信息量远大于硬标签，是 student 学不到的暗知识。</li>
-<li>温度软化分布：用 softmax(z/T)（T&gt;1）把 teacher 的 logits 摊平，放大类别间的相对差距，让「相似类」的信息能被 student 学走；蒸馏损失即 softmax(z_t/T) 与 softmax(z_s/T) 的 KL 散度。</li>
-<li>蒸馏目标 = 软目标 KL 损失 + 硬标签交叉熵损失（加权 α、β），既迁移 teacher 的知识，又保留真实标签的强监督，student 由此学到更平滑的决策边界。</li>
-<li>训练流程是「离线教师-学生」：先训练出大网络 teacher，再固定它，用其软输出（离线）监督小网络 student；student 参数少却通过拟合 teacher 的函数映射获得正则化与更优特征，从而逼近甚至反超 teacher。</li>
-<li>为什么有效本质上是「函数拟合」：小模型硬学 one-hot 容易过拟合且抓不住类间结构；蒸馏让小模型去拟合 teacher 学到的分布，等价于在更高质量、更平滑的目标上优化，训练更稳、泛化更好。</li>
+<li>解码瓶颈定位：自回归每步要读取全部历史 token 的 K、V。MHA 中 K、V 的「头数 = Q 的头数」，KV 缓存 ≈ 层数 × 序列长 × 头数 × 每头维度 × 2（K+V）× 字节，在长上下文与多层下可达数百 MB～数 GB；且 decode 阶段是**访存密集（memory-bound）**，KV 缓存带宽直接决定生成吞吐。</li>
+<li>MQA 的改动：让**所有 Q 头共享同一份 K 与 V**（即 K、V 只保留 1 组，而 Q 保持多头）。KV 缓存因此从头数份降为 1 份，直接缩减约 H 倍（如 32 头 → 约 1/32），decode 每次只读/写一组 K、V，访存带宽与显存显著下降，生成吞吐随之提升。</li>
+<li>GQA（LLaMA-2-70B、LLaMA-3 采用）是折中：把 Q 头分成 G 组，每组共享一份 K/V（K、V 头数 = G，而非 MHA 的 H 或 MQA 的 1）。G 取 1 即退化为 MQA，G=H 即 MHA；GQA 以较小的表达力损失换取与 MQA 接近的显存/带宽收益，质量上优于纯 MQA。</li>
+<li>代价与取舍：共享 K/V 削弱了各头独立建模注意力的表达能力（理论上损失多头的多样性），故常用 GQA 而非极端 MQA；且 KV 共享只发生在**推理的 KV 缓存与每步读取**层面，训练复杂度基本不变，适合大模型大规模部署（降低每卡可承载并发/上下文长度）。</li>
+<li>工程配合：GQA/MQA 可叠加 KV 量化（INT8/INT4）、PagedAttention 分页管理与位置编码长度外推，进一步省显存；在超长上下文场景收益最明显，是当前主流大模型（LLaMA-2/3、Mistral、DeepSeek 等）的标准设计。</li>
 </ul></div>
 <div class="solution-block"><h4>⭐ 加分项</h4><ul class="answer-points">
-<li>温度 T 仅在训练时取 1~7 左右软化，推理时回退到 T=1；也可同时混用软、硬目标做多任务损失。</li>
-<li>蒸馏可与量化/剪枝互补：蒸馏属于「重训式」压缩，常与 INT8/INT4 量化、结构化剪枝结合，先蒸后压能显著减损。</li>
-<li>延伸：特征蒸馏（FitNets 对齐中间层特征）、自蒸馏（student 用 teacher 即大模型自身/同构大网络）、网络蒸馏（GNN）等变体。</li>
-<li>LLM 场景：教师蒸馏可用 PPO/DPO 或直接用 teacher logits 做监督微调（如 Alpaca/Vicuna 对齐式微调、miniLM 蒸馏），其机制与图像分类的静态 softmax 蒸馏有异同。</li>
-<li>student 有时反超 teacher 的原因：teacher 在带噪真实标签上训练，student 学其软分布等价于学「去噪平滑后的目标」，正则化更强，或 student 结构更聚焦于任务。</li>
+<li>KV 显存展开式（fp16、L 层、h 头、d_k 每维、序列 T）：约 2×L×T×h×d_k×2 bytes；MHA→MQA 将该式中的 h 置 1，直接给出数量级缩减证明。</li>
+<li>GQA 出处：Ainslie et al. (2023)；LLaMA-2-70B、LLaMA-3、Mistral 均实证验证 GQA 在大模型上的质量/效率平衡点。</li>
+<li>权重转换：MHA 权重可由 GQA 共享组内取平均（或直接复制）初始化，无需从零训练；也可在训练时直接采用 GQA 配置。</li>
+<li>对比维度：MQA 省显存最多但质量略降；GQA 在中间档；若再加 KV 量化（如 4-bit NF4）能再省约 4 倍。多管齐下是当前长上下文大模型的标准做法。</li>
 </ul></div>
 <div class="solution-block"><h4>🔮 追问预测</h4><ul class="answer-points">
-<li>追问：温度 T 增大到底改变了什么？回答思路：L=KL(σ(z_t/T)||σ(z_s/T))，对 T 求导得 ∂L/∂z_s=(σ(z_s/T)-σ(z_t/T))/T；T 越大 softmax 越平坦、梯度中非最高类的权重被放大，student 对「难例」和类间相似度更敏感。</li>
-<li>追问：蒸馏与直接在小数据集上训练小模型有何本质区别？回答思路：teacher 的软标签提供了比 one-hot 更丰富的监督（类间几何 + 置信度），相当于一种强正则；在小数据上硬训小模型更易过拟合，蒸馏等价于把 teacher 学到的泛化先验迁移给学生。</li>
-<li>追问：LLM 的知识蒸馏与图像分类蒸馏有何不同？回答思路：LLM 是自回归逐 token 生成，teacher 可在每个 token 的 logits 上提供分布（token-level KD），或用生成样本做 pseudo-label；常配合 SFT/RLHF 等对齐，成本更高，需权衡「蒸馏」与「直接用学生生成」。</li>
+<li>追问：为什么 decode 阶段是 memory-bound 而不是 compute-bound？回答思路：每步只新增一个 token 的 Q，但要对全部历史 K 计算注意力，运算量随序列增长，而计算能力 GPU 富余；瓶颈在重复读取/写入 KV 缓存（访存带宽），故减少 KV 数据规模直接提速——这正是 MQA/GQA 的动机。</li>
+<li>追问：MQA 共享 KV 为什么只损失一点点？回答思路：K、V 携带的是「键位置的信息/被查询的内容」，多个头关注的点不同但被查询的『键空间』在语义上可共享；共享只是让一组 KV 服务多个 Q，损失的是各头独立建模键的细微差异，换取显存/带宽的倍数收益，故效果足够好。</li>
+<li>追问：GQA 的 G 取多少合适？回答思路：G 是「省显存 vs 保质量」的滑杆——G 越大越接近 MHA 质量但省得少，越小越接近 MQA；主流取 8（LLaMA-2-70B）或随参数增大，需按目标显存与质量评测实验确定。</li>
 </ul></div>
 </div>
 </div>
@@ -830,7 +808,7 @@ document.addEventListener('keydown', (e) => {
 });
 
 // 将 quiz 数据存入全局变量供选择题使用
-window.__quizData__ = {"date": "2026-10-14", "title": "每日算法 AI 出题", "subtitle": "算法 2 道 + AI 2 道 · 第 16 期", "questions": [{"id": 1, "type": "algorithm_code", "type_label": "算法编程", "difficulty": 2, "title": "数据流的中位数（对顶堆）", "description": "设计一个**在线数据流**结构：依次接收一个整数序列中的每个数，每接收一个数后都要返回当前已接收全部元素的中位数。定义：若当前元素个数为奇数，中位数为排序后正中间那个数；若为偶数，为中间两个数的**平均值**（返回浮点数）。\n\n实现函数 `solve(nums)`：输入完整整数数组，返回一个等长列表，第 `i` 个元素表示加入 `nums[0..i]` 后的中位数。要求用**两个堆（对顶堆）**实现，使得每次插入与取中位数都是 `O(log n)`。", "input_format": "一个整数数组 nums（1 <= len(nums) <= 10^5，元素在 int 范围内，可为负）。", "output_format": "返回一个 float 列表，长度为 len(nums)，每个元素为对应前缀的中位数。", "examples": [{"input": "[2,1,3,5,4]", "output": "[2.0, 1.5, 2.0, 2.5, 3.0]", "explanation": "加入2 -> 中位2；加入1 -> (1,2)中位1.5；加入3 -> (1,2,3)中位2；加入5 -> (1,2,3,5)中位(2+3)/2=2.5；加入4 -> (1,2,3,4,5)中位3。"}, {"input": "nums=[10,20,30,40,50]", "output": "[10.0, 15.0, 20.0, 25.0, 30.0]", "explanation": "奇数个取中间值，偶数个取两中间值平均。"}], "constraints": "1 <= n <= 10^5；整数数值范围 [-10^6, 10^6]。时间复杂度要求总体 O(n log n)，空间 O(n)。", "solution": {"approach": "维护两个堆并把数据分成两半：**大顶堆 max_heap** 存较小的一半（元素存负数以便用 Python 最小堆模拟大顶堆），**小顶堆 min_heap** 存较大的一半。核心不变式：① `max_heap` 中所有元素都 <= `min_heap` 中所有元素（即 max_heap 堆顶 <= min_heap 堆顶）；② 两堆元素个数相差不超过 1。\n\n**插入流程**：新数先入 `max_heap`；若 `max_heap` 堆顶（较小半的最大值）大于 `min_heap` 堆顶（较大半的最小值），则把前者弹出压入 `min_heap`，恢复不变式①；再平衡两堆大小（任意一堆多出超过 1 个时，把堆顶移给对方），保证不变式②。\n\n**取中位数**：若 `max_heap` 多一个，中位数为 `max_heap` 堆顶；若 `min_heap` 多一个，中位数为 `min_heap` 堆顶；两堆相等则取两堆顶平均值。每次插入 `O(log n)`，取中位数 `O(1)`。", "code": "import heapq\n\ndef solve(nums):\n    # 对顶堆求数据流中位数\n    # max_heap: 大顶堆，存\"较小的一半\"（元素存负数，堆顶是较小一半的最大值）\n    # min_heap: 小顶堆，存\"较大的一半\"，堆顶是较大一半的最小值\n    max_heap = []\n    min_heap = []\n    result = []\n    for num in nums:\n        # 1) 新元素先放入较小堆（max_heap，存负数）\n        heapq.heappush(max_heap, -num)\n        # 2) 保证 max_heap 堆顶 <= min_heap 堆顶，否则交换堆顶\n        if max_heap and min_heap and -max_heap[0] > min_heap[0]:\n            heapq.heappush(min_heap, -heapq.heappop(max_heap))\n        # 3) 平衡两堆大小，保证 |len(max)-len(min)| <= 1\n        if len(max_heap) > len(min_heap) + 1:\n            heapq.heappush(min_heap, -heapq.heappop(max_heap))\n        if len(min_heap) > len(max_heap) + 1:\n            heapq.heappush(max_heap, -heapq.heappop(min_heap))\n        # 4) 取中位数\n        if len(max_heap) > len(min_heap):\n            result.append(float(-max_heap[0]))\n        elif len(min_heap) > len(max_heap):\n            result.append(float(min_heap[0]))\n        else:\n            result.append((-max_heap[0] + min_heap[0]) / 2.0)\n    return result\n", "starter_code": "def solve(nums):\n    # nums: List[int]，返回每个前缀的中位数列表（第 i 个为 nums[0..i] 的中位数）\n    import heapq\n    max_heap = []  # 大顶堆：存较小的一半（元素取负，堆顶即较小半的最大值）\n    min_heap = []  # 小顶堆：存较大的一半（堆顶即较大半的最小值）\n    result = []\n    for num in nums:\n        # TODO:\n        # 1. 新元素先入 max_heap（heappush(max_heap, -num)）\n        # 2. 若 max_heap 堆顶 > min_heap 堆顶，则交换堆顶（把 -max_heap[0] 移入 min_heap）\n        # 3. 平衡两堆：任意一堆比另一堆多超过 1 个时，把堆顶移到对方\n        # 4. 计算中位数：len 不等取堆顶那个；相等取两堆顶均值\n        result.append(0.0)\n    return result\n", "code_language": "python", "complexity_time": "O(n log n)（每次插入 O(log n)）", "complexity_space": "O(n)（两个堆存储全部元素）", "key_points": "对顶堆的中位数结构；用负数模拟大顶堆；大小平衡不变式；大顶堆与小顶堆的大小差控制奇偶判断", "test_cases": [[[2, 1, 3, 5, 4]], [[5]], [[1, 2]], [[2, 1]], [[3, 3, 3]], [[-1, -5, 5, 7]], [[10, 20, 30, 40, 50]], [[50, 40, 30, 20, 10]], [[6, 1, 2, 4, 3, 5]], [[1, 1, 1, 1]], [[-1000000, 1000000, 0]], [[1, 2, 3, 4, 5]], [[96, 97, 98, 99]]], "expected_outputs": [[2.0, 1.5, 2.0, 2.5, 3.0], [5.0], [1.0, 1.5], [2.0, 1.5], [3.0, 3.0, 3.0], [-1.0, -3.0, -1.0, 2.0], [10.0, 15.0, 20.0, 25.0, 30.0], [50.0, 45.0, 40.0, 35.0, 30.0], [6.0, 3.5, 2.0, 3.0, 3.0, 3.5], [1.0, 1.0, 1.0, 1.0], [-1000000.0, 0.0, 0.0], [1.0, 1.5, 2.0, 2.5, 3.0], [96.0, 96.5, 97.0, 97.5]]}}, {"id": 2, "type": "algorithm_concept", "type_label": "算法概念", "difficulty": 2, "title": "最小生成树算法辨析（Kruskal vs Prim）", "description": "关于求无向连通带权图最小生成树（MST）的两种经典算法 Kruskal 与 Prim，**以下哪个说法正确**？", "options": ["A. Kruskal 算法把边按权值升序排序，从小到大不断选边，用并查集判断是否成环；时间复杂度为 O(E log E)，更适用于边较少的稀疏图。", "B. Prim 算法从某个顶点出发，每次选择连接「已选集合」与「未选集合」的最小边扩展；时间复杂度 O(V²) 或 O(E log V)，比 Kruskal 更适合边极少的稀疏图。", "C. Kruskal 算法在尝试加入每条边前，需要先用一次 DFS 遍历当前图判断是否构成环，因此更适合边数很大的稠密图。", "D. 若图中存在负权边，则 Kruskal 与 Prim 都无法正确构造最小生成树，必须改用 Bellman-Ford。"], "correct_answer": "A", "solution": {"approach": "判断两个关键点：①Kruskal 判环用**并查集（Union-Find）**而非 DFS；②两种算法的**适用场景**（稀疏 vs 稠密）与复杂度。", "option_analysis": ["A 正确：Kruskal 将 E 条边升序排序（O(E log E)），从小到大逐条尝试，用并查集合并两端顶点、发现两端已在同一连通分量则跳过（O(α(V)) 近似 O(1) 均摊）。E 较小时整体高效，适合稀疏图。", "B 错误：Prim 从顶点出发「点扩展」式生长，稠密图用邻接矩阵实现达到 O(V²)；稀疏图应优先选 Kruskal。选项把两者的适用场景说反了。", "C 错误：Kruskal 判环用**并查集**而非 DFS；若每步都用 DFS 判环，总复杂度退化到 O(E·(V+E))。且 Kruskal 适合稀疏而非稠密图。", "D 错误：MST 完全允许负权边，负权不影响「切割性质/环性质」保证的贪心正确性，Kruskal 与 Prim 对负权图仍能得到最小生成树。负权只会破坏**最短路**的某些假设（如 Dijkstra），与 MST 无关。"], "key_points": "Kruskal=边排序+并查集、适合稀疏图；Prim=点扩展、适合稠密图；两者均基于贪心且有 MST 最优性保证；负权不影响 MST 正确性（只影响最短路）。"}}, {"id": 3, "type": "ai_derivation", "type_label": "AI公式推导", "difficulty": 2, "title": "朴素贝叶斯分类器的后验概率推导", "description": "请从**贝叶斯定理**出发，逐步推导朴素贝叶斯（Naive Bayes）分类器如何计算后验概率并进行分类决策。要求：明确写出（1）贝叶斯定理公式及为何可忽略分母；（2）**条件独立（朴素）假设**如何把联合概率分解为各特征概率的乘积；（3）为何取对数不改变 `argmax` 且能避免下溢；（4）给出先验与两类类别条件分布（离散多项式+平滑 / 连续高斯）的极大似然估计式。", "solution": {"derivation": "设样本特征为 $\\mathbf{x}=(x_1,x_2,\\dots,x_d)$，类别 $C_k,\\ k=1,\\dots,K$。\n\n**第 1 步：贝叶斯定理（后验）**\n$$\nP(C_k \\mid \\mathbf{x}) = \\frac{P(\\mathbf{x} \\mid C_k)\\,P(C_k)}{P(\\mathbf{x})}\n$$\n对固定输入 $\\mathbf{x}$，分母 $P(\\mathbf{x})$ 对所有类别是**相同常数**，不改变各类后验的相对大小，故分类决策可省略分母：\n$$\n\\hat{y}=\\arg\\max_k P(C_k\\mid \\mathbf{x}) = \\arg\\max_k\\, P(\\mathbf{x}\\mid C_k)\\,P(C_k)\n$$\n即「后验 ∝ 似然 × 先验」。\n\n**第 2 步：朴素（条件独立）假设**\n直接估计 $P(\\mathbf{x}\\mid C_k)$ 需要指数级参数（$d$ 维特征联合分布），数据量不足以估计。朴素贝叶斯假设：**给定类别 $C_k$ 时，各特征条件独立**，于是联合似然可分解为单变量乘积：\n$$\nP(\\mathbf{x}\\mid C_k) = \\prod_{i=1}^{d} P(x_i \\mid C_k)\n$$\n\n**第 3 步：取对数化简（不改变 argmax，且防下溢）**\n当 $d$ 较大时，连乘的多个小于 1 的概率会溢出下界趋近 0（下溢）。$\\log$ 严格单调，$\\arg\\max$ 不变，且把乘积变成求和：\n$$\n\\hat{y} = \\arg\\max_k\\Big[\\log P(C_k) + \\sum_{i=1}^{d}\\log P(x_i \\mid C_k)\\Big]\n$$\n\n**第 4 步：极大似然估计参数（两类特征分布模型）**\n- 先验：$\\hat{P}(C_k)=N_k/N$（$N_k$ 为 $C_k$ 类样本数，$N$ 为总样本数）。\n- **离散特征（多项式模型）+ 拉普拉斯平滑**：设第 $i$ 个特征第 $j$ 个取值在 $C_k$ 类的计数为 $N_{kij}$，该特征共有 $m_i$ 个取值，则\n$$\n\\hat{P}(x_i=a_{ij}\\mid C_k) = \\frac{N_{kij}+\\alpha}{N_k + \\alpha\\, m_i}\n$$\n$\\alpha=1$ 即拉普拉斯平滑（加 1 平滑），防止某个取值在训练集中未出现导致概率为 0。\n- **连续特征（高斯朴素贝叶斯）**：假设 $x_i\\mid C_k \\sim \\mathcal{N}(\\mu_{ki},\\sigma_{ki}^2)$，用类内样本估计：$\\hat{\\mu}_{ki}=\\tfrac1{N_k}\\sum_{x_n\\in C_k}x_{ni}$，$\\hat{\\sigma}_{ki}^2=\\tfrac1{N_k}\\sum_{x_n\\in C_k}(x_{ni}-\\hat{\\mu}_{ki})^2$。\n\n**第 5 步：决策**\n对每个测试样本，代入 $\\hat{P}(C_k)$ 与各 $\\hat{P}(x_i\\mid C_k)$，选对数后验最大者：\n$$\n\\hat{y} = \\arg\\max_k \\Big[\\log\\hat{P}(C_k) + \\sum_{i=1}^{d}\\log\\hat{P}(x_i\\mid C_k)\\Big]\n$$", "intuition": "朴素贝叶斯牺牲了「特征间相关性」的建模能力，换取极低的参数复杂度与样本需求——把高维联合分布拆成 d 个一维边缘分布，因此参数少、速度快，在文本分类、垃圾邮件过滤等「特征近似独立」的场景依然表现强健。", "key_points": "贝叶斯定理 + 分母省略；朴素(条件独立)假设把联合分解成乘积；log 变换保 argmax 且防下溢；MLE+平滑 估计先验与类别条件分布；区分离散多项式/连续高斯两类模型。"}}, {"id": 4, "type": "ai_interview", "type_label": "AI面试问答", "difficulty": 2, "title": "知识蒸馏：为什么小模型能逼近（甚至超越）大模型？", "description": "「知识蒸馏（Knowledge Distillation）」是让参数量小得多的学生模型（student）逼近甚至超越大模型（teacher）的经典压缩手段。请从**信息量与训练目标**的角度，解释蒸馏为什么有效，并说出温度 T 与 KL 散度损失的作用。", "solution": {"answer_points": ["暗知识信息量更大：one-hot 硬标签只告诉「答案是哪个类别」，而 teacher 输出的软概率 logits 还携带「类间相似度」（例如一张狗图 teacher 给猫 0.7、狗 0.3，说明两者特征接近）——这些 soft label 的信息量远大于硬标签，是 student 学不到的暗知识。", "温度软化分布：用 softmax(z/T)（T>1）把 teacher 的 logits 摊平，放大类别间的相对差距，让「相似类」的信息能被 student 学走；蒸馏损失即 softmax(z_t/T) 与 softmax(z_s/T) 的 KL 散度。", "蒸馏目标 = 软目标 KL 损失 + 硬标签交叉熵损失（加权 α、β），既迁移 teacher 的知识，又保留真实标签的强监督，student 由此学到更平滑的决策边界。", "训练流程是「离线教师-学生」：先训练出大网络 teacher，再固定它，用其软输出（离线）监督小网络 student；student 参数少却通过拟合 teacher 的函数映射获得正则化与更优特征，从而逼近甚至反超 teacher。", "为什么有效本质上是「函数拟合」：小模型硬学 one-hot 容易过拟合且抓不住类间结构；蒸馏让小模型去拟合 teacher 学到的分布，等价于在更高质量、更平滑的目标上优化，训练更稳、泛化更好。"], "bonus": ["温度 T 仅在训练时取 1~7 左右软化，推理时回退到 T=1；也可同时混用软、硬目标做多任务损失。", "蒸馏可与量化/剪枝互补：蒸馏属于「重训式」压缩，常与 INT8/INT4 量化、结构化剪枝结合，先蒸后压能显著减损。", "延伸：特征蒸馏（FitNets 对齐中间层特征）、自蒸馏（student 用 teacher 即大模型自身/同构大网络）、网络蒸馏（GNN）等变体。", "LLM 场景：教师蒸馏可用 PPO/DPO 或直接用 teacher logits 做监督微调（如 Alpaca/Vicuna 对齐式微调、miniLM 蒸馏），其机制与图像分类的静态 softmax 蒸馏有异同。", "student 有时反超 teacher 的原因：teacher 在带噪真实标签上训练，student 学其软分布等价于学「去噪平滑后的目标」，正则化更强，或 student 结构更聚焦于任务。"], "followup_predictions": ["追问：温度 T 增大到底改变了什么？回答思路：L=KL(σ(z_t/T)||σ(z_s/T))，对 T 求导得 ∂L/∂z_s=(σ(z_s/T)-σ(z_t/T))/T；T 越大 softmax 越平坦、梯度中非最高类的权重被放大，student 对「难例」和类间相似度更敏感。", "追问：蒸馏与直接在小数据集上训练小模型有何本质区别？回答思路：teacher 的软标签提供了比 one-hot 更丰富的监督（类间几何 + 置信度），相当于一种强正则；在小数据上硬训小模型更易过拟合，蒸馏等价于把 teacher 学到的泛化先验迁移给学生。", "追问：LLM 的知识蒸馏与图像分类蒸馏有何不同？回答思路：LLM 是自回归逐 token 生成，teacher 可在每个 token 的 logits 上提供分布（token-level KD），或用生成样本做 pseudo-label；常配合 SFT/RLHF 等对齐，成本更高，需权衡「蒸馏」与「直接用学生生成」。"]}}]};
+window.__quizData__ = {"date": "2026-10-14", "title": "每日算法 AI 出题", "subtitle": "算法 2 道 + AI 2 道 · 第 16 期 · 衔接今日主题（滑动窗口/LSTM/MQA）", "questions": [{"id": 1, "type": "algorithm_code", "type_label": "算法编程", "difficulty": 2, "title": "最长不含重复字符的子串（滑动窗口）", "description": "给定一个字符串 `s`，找出其中**不含重复字符**的**最长子串**的长度。\n\n实现函数 `solve(s)`，返回满足「子串内所有字符各不相同」的最大长度。要求用**滑动窗口**在 `O(n)` 内完成（配合哈希表记录每个字符最近一次出现的位置）。", "input_format": "一个字符串 s，仅含可打印字符（字母/数字等），长度 0 <= len(s) <= 10^5。", "output_format": "一个整数，表示最长不含重复字符子串的长度。", "examples": [{"input": "\"abcabcbb\"", "output": "3", "explanation": "最长不含重复字符的子串是 \"abc\"（或 \"bca\"/\"cab\"），长度为 3。"}, {"input": "s=\"pwwkew\"", "output": "3", "explanation": "最长子串是 \"wke\"，长度为 3；\"pwke\" 含 \"p\"、\"w\"、\"k\"、\"e\" 也长度为 4？不，\"pwke\" 子串需连续，从下标2起是 \"wke\" 长度为 3。"}], "constraints": "0 <= len(s) <= 10^5。时间复杂度 O(n)，空间 O(字符集大小)（通常视为 O(1)）。", "solution": {"approach": "用**滑动窗口** `[left, right]` 维护当前不含重复字符的子串：右指针 `right` 逐个扩展，遇到已在窗口内出现过的字符 `ch` 时，把左边界 `left` 上移到 `last[ch]+1`（即跳过上次出现的位置），保证窗口内永无重复。哈希表 `last` 记录每个字符最近一次出现下标，用于 O(1) 判断与跳转。窗口长度 `right-left+1` 不断更新答案。", "code": "def solve(s):\n    # 最长不含重复字符的子串长度（滑动窗口 + 哈希表记录最近位置）\n    last = {}   # 字符 -> 最近一次出现的下标\n    left = 0    # 窗口左边界\n    ans = 0\n    for right, ch in enumerate(s):\n        # 若 ch 已在当前窗口内（last[ch] >= left），左边界跳到上次出现之后\n        if ch in last and last[ch] >= left:\n            left = last[ch] + 1\n        last[ch] = right               # 更新/记录该字符最近位置\n        ans = max(ans, right - left + 1)  # 窗口长度\n    return ans\n", "starter_code": "def solve(s):\n    # s: str，返回不含重复字符的最长子串长度\n    last = {}  # 字符 -> 最近一次出现下标\n    left = 0\n    ans = 0\n    for right, ch in enumerate(s):\n        # TODO:\n        # 1. 若 ch 已出现在窗口内（last[ch] >= left），把 left 上移到 last[ch]+1\n        # 2. 更新 last[ch] = right\n        # 3. ans = max(ans, 窗口长度 right-left+1)\n        pass\n    return ans\n", "code_language": "python", "complexity_time": "O(n)（左右指针各至多移动 n 次）", "complexity_space": "O(1)（哈希表最多存字符集大小个键）", "key_points": "滑动窗口 + 哈希记录最近位置；left 上移要用 max(_, last[ch]+1) 保证不回退（窗口只增不减）；窗口内无重复的维护", "test_cases": [["abcabcbb"], ["bbbbbb"], ["pwwkew"], [""], ["a"], ["au"], ["dvdf"], ["abba"], ["tmmzuxt"], ["abcabcabc"], ["abcdefghij"], ["qrsetskp"], ["aaab"]], "expected_outputs": [3, 1, 3, 0, 1, 2, 3, 2, 5, 3, 10, 5, 2]}}, {"id": 2, "type": "algorithm_concept", "type_label": "算法概念", "difficulty": 2, "title": "最小生成树算法辨析（Kruskal vs Prim）", "description": "关于求无向连通带权图最小生成树（MST）的两种经典算法 Kruskal 与 Prim，**以下哪个说法正确**？", "options": ["A. Kruskal 算法把边按权值升序排序，从小到大不断选边，用并查集判断是否成环；时间复杂度为 O(E log E)，更适用于边较少的稀疏图。", "B. Prim 算法从某个顶点出发，每次选择连接「已选集合」与「未选集合」的最小边扩展；时间复杂度 O(V²) 或 O(E log V)，比 Kruskal 更适合边极少的稀疏图。", "C. Kruskal 算法在尝试加入每条边前，需要先用一次 DFS 遍历当前图判断是否构成环，因此更适合边数很大的稠密图。", "D. 若图中存在负权边，则 Kruskal 与 Prim 都无法正确构造最小生成树，必须改用 Bellman-Ford。"], "correct_answer": "A", "solution": {"approach": "判断两个关键点：①Kruskal 判环用**并查集（Union-Find）**而非 DFS；②两种算法的**适用场景**（稀疏 vs 稠密）与复杂度。", "option_analysis": ["A 正确：Kruskal 将 E 条边升序排序（O(E log E)），从小到大逐条尝试，用并查集合并两端顶点、发现两端已在同一连通分量则跳过（O(α(V)) 近似 O(1) 均摊）。E 较小时整体高效，适合稀疏图。", "B 错误：Prim 从顶点出发「点扩展」式生长，稠密图用邻接矩阵实现达到 O(V²)；稀疏图应优先选 Kruskal。选项把两者的适用场景说反了。", "C 错误：Kruskal 判环用**并查集**而非 DFS；若每步都用 DFS 判环，总复杂度退化到 O(E·(V+E))。且 Kruskal 适合稀疏而非稠密图。", "D 错误：MST 完全允许负权边，负权不影响「切割性质/环性质」保证的贪心正确性，Kruskal 与 Prim 对负权图仍能得到最小生成树。负权只会破坏**最短路**的某些假设（如 Dijkstra），与 MST 无关。"], "key_points": "Kruskal=边排序+并查集、适合稀疏图；Prim=点扩展、适合稠密图；两者均基于贪心且有 MST 最优性保证；负权不影响 MST 正确性（只影响最短路）。"}}, {"id": 3, "type": "ai_derivation", "type_label": "AI公式推导", "difficulty": 2, "title": "LSTM 门控单元的前向计算与梯度消失缓解推导", "description": "请推导 LSTM（长短期记忆）的前向计算：给出**遗忘门、输入门、输出门、候选记忆**以及**细胞状态 c_t、隐状态 h_t** 的完整更新式；并在此基础上，从反向传播角度说明**为什么门控机制能缓解普通 RNN 的梯度消失**（与 RNN 的隐状态连乘对比）。要求符号定义清楚、推导到公式级。", "solution": {"derivation": "记输入 $x_t$、上一时刻隐状态 $h_{t-1}$、上一细胞状态 $c_{t-1}$，权重与偏置对每个门分别写为 $W_{\\cdot}, b_{\\cdot}$，$\\odot$ 表示逐元素乘（Hadamard）。\n\n**第 1 步：三个门与候选记忆**（激活：$\\sigma$ 为 sigmoid，输出 0~1 起「开关」作用；$\\tanh$ 为双曲正切）\n$$\n\\begin{aligned}\nf_t &= \\sigma\\big(W_f [h_{t-1}, x_t] + b_f\\big) \\\\\ni_t &= \\sigma\\big(W_i [h_{t-1}, x_t] + b_i\\big) \\\\\no_t &= \\sigma\\big(W_o [h_{t-1}, x_t] + b_o\\big) \\\\\n\\tilde{c}_t &= \\tanh\\big(W_c [h_{t-1}, x_t] + b_c\\big)\n\\end{aligned}\n$$\n$[h_{t-1}, x_t]$ 为拼接向量。$f_t$=遗忘门（保留多少旧记忆）、$i_t$=输入门（写入多少新候选）、$o_t$=输出门（放出多少记忆到隐状态）、$\\tilde{c}_t$=候选记忆。\n\n**第 2 步：细胞状态更新（加法式长程通道）**\n$$\nc_t = f_t \\odot c_{t-1} + i_t \\odot \\tilde{c}_t\n$$\n细胞状态通过「遗忘门 × 旧记忆 + 输入门 × 新候选」**逐元素更新**，形成一条跨越时间步的**近似恒等/残差通道**。\n\n**第 3 步：隐状态输出**\n$$\nh_t = o_t \\odot \\tanh(c_t)\n$$\n\n**第 4 步：反向传播与梯度消失分析（与普通 RNN 对比）**\n普通 RNN：$h_t=\\tanh(W h_{t-1}+U x_t+b)$，误差沿时间步回传时\n$$\n\\frac{\\partial h_t}{\\partial h_{t-1}} = \\mathrm{diag}\\big(\\tanh'\\big)\\,W\n$$\n梯度是 $\\prod_{k}\\,\\mathrm{diag}(\\tanh') W$ 的**矩阵连乘**；$\\tanh'$ 在饱和时接近 0，$W$ 的谱范数若 <1 则乘积范数指数级收缩——这就是梯度消失（>1 则爆炸）。\n\n对 LSTM，关键看 $c_t$ 对 $c_{t-1}$ 的偏导：\n$$\n\\frac{\\partial c_t}{\\partial c_{t-1}} = f_t + \\frac{\\partial\\big(i_t \\odot \\tilde{c}_t\\big)}{\\partial c_{t-1}}\n$$\n其中第一项 $f_t$ 是**逐元素的门控系数**，落在 $[0,1]$。当遗忘门 $f_t \\approx 1$（需要长期记忆）时，该项接近单位阵，误差沿细胞状态通道几乎**不被压缩**地反向传递；相比普通 RNN 的矩阵连乘，这里退化为「标量门 × 单位阵」的累加式通道，消除了谱范数连乘的指数级收缩/爆炸。\n\n**第 5 步：直觉**\n门控把「在时间上传递信息」从「矩阵乘法连乘」改为「选加式（门控相加）」——遗忘门决定旧的细胞记忆以多大比例保留，输入门决定新候选以多大比例写入，从而网络可以自主学会「需要长期保留的就让遗忘门≈1」，梯度沿这条干净通道长距离传播，缓解梯度消失（配合梯度裁剪与门控初始化可缓解梯度爆炸）。", "intuition": "LSTM 用「门控 + 加法更新细胞状态」把时间维度上的信息传递从连乘变成选择式累加——遗忘门≈1 时，细胞状态是一条误差可直通长距离的残差通道，从机制上缓解了普通 RNN 因隐状态矩阵连乘导致的梯度消失。", "key_points": "三个门(遗忘/输入/输出)+候选门的公式；c_t=f_t⊙c_{t-1}+i_t⊙c̃_t 的加法长程通道；∂c_t/∂c_{t-1}=f_t 使梯度可直通；对比普通 RNN 的 diag(tanh')W 连乘谱收缩。"}}, {"id": 4, "type": "ai_interview", "type_label": "AI面试问答", "difficulty": 2, "title": "多查询注意力 MQA/GQA 为什么能省 KV 显存并加速解码？", "description": "自回归（解码）阶段，Transformer 为每个 token 计算注意力都要读取/更新过去所有 token 的键值对，KV 缓存是显存与带宽的瓶颈。请解释：**多查询注意力（Multi-Query Attention, MQA）**与**分组查询注意力（Grouped-Query Attention, GQA）**相比标准**多头注意力（MHA）**做了什么改动，为什么能显著减少 KV 显存、提升生成吞吐，代价又是什么？", "solution": {"answer_points": ["解码瓶颈定位：自回归每步要读取全部历史 token 的 K、V。MHA 中 K、V 的「头数 = Q 的头数」，KV 缓存 ≈ 层数 × 序列长 × 头数 × 每头维度 × 2（K+V）× 字节，在长上下文与多层下可达数百 MB～数 GB；且 decode 阶段是**访存密集（memory-bound）**，KV 缓存带宽直接决定生成吞吐。", "MQA 的改动：让**所有 Q 头共享同一份 K 与 V**（即 K、V 只保留 1 组，而 Q 保持多头）。KV 缓存因此从头数份降为 1 份，直接缩减约 H 倍（如 32 头 → 约 1/32），decode 每次只读/写一组 K、V，访存带宽与显存显著下降，生成吞吐随之提升。", "GQA（LLaMA-2-70B、LLaMA-3 采用）是折中：把 Q 头分成 G 组，每组共享一份 K/V（K、V 头数 = G，而非 MHA 的 H 或 MQA 的 1）。G 取 1 即退化为 MQA，G=H 即 MHA；GQA 以较小的表达力损失换取与 MQA 接近的显存/带宽收益，质量上优于纯 MQA。", "代价与取舍：共享 K/V 削弱了各头独立建模注意力的表达能力（理论上损失多头的多样性），故常用 GQA 而非极端 MQA；且 KV 共享只发生在**推理的 KV 缓存与每步读取**层面，训练复杂度基本不变，适合大模型大规模部署（降低每卡可承载并发/上下文长度）。", "工程配合：GQA/MQA 可叠加 KV 量化（INT8/INT4）、PagedAttention 分页管理与位置编码长度外推，进一步省显存；在超长上下文场景收益最明显，是当前主流大模型（LLaMA-2/3、Mistral、DeepSeek 等）的标准设计。"], "bonus": ["KV 显存展开式（fp16、L 层、h 头、d_k 每维、序列 T）：约 2×L×T×h×d_k×2 bytes；MHA→MQA 将该式中的 h 置 1，直接给出数量级缩减证明。", "GQA 出处：Ainslie et al. (2023)；LLaMA-2-70B、LLaMA-3、Mistral 均实证验证 GQA 在大模型上的质量/效率平衡点。", "权重转换：MHA 权重可由 GQA 共享组内取平均（或直接复制）初始化，无需从零训练；也可在训练时直接采用 GQA 配置。", "对比维度：MQA 省显存最多但质量略降；GQA 在中间档；若再加 KV 量化（如 4-bit NF4）能再省约 4 倍。多管齐下是当前长上下文大模型的标准做法。"], "followup_predictions": ["追问：为什么 decode 阶段是 memory-bound 而不是 compute-bound？回答思路：每步只新增一个 token 的 Q，但要对全部历史 K 计算注意力，运算量随序列增长，而计算能力 GPU 富余；瓶颈在重复读取/写入 KV 缓存（访存带宽），故减少 KV 数据规模直接提速——这正是 MQA/GQA 的动机。", "追问：MQA 共享 KV 为什么只损失一点点？回答思路：K、V 携带的是「键位置的信息/被查询的内容」，多个头关注的点不同但被查询的『键空间』在语义上可共享；共享只是让一组 KV 服务多个 Q，损失的是各头独立建模键的细微差异，换取显存/带宽的倍数收益，故效果足够好。", "追问：GQA 的 G 取多少合适？回答思路：G 是「省显存 vs 保质量」的滑杆——G 越大越接近 MHA 质量但省得少，越小越接近 MQA；主流取 8（LLaMA-2-70B）或随参数增大，需按目标显存与质量评测实验确定。"]}}]};
 </script>
 </body>
 </html>
