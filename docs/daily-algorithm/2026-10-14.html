@@ -1,0 +1,1261 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>每日算法讲解 · 2026年10月14日</title>
+<!-- MathJax for LaTeX math formula rendering -->
+<script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\(', '\)']],
+      displayMath: [['$$', '$$'], ['\[', '\]']],
+      processEscapes: true
+    },
+    svg: { fontCache: 'global' }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" id="MathJax-script" async></script>
+<style>
+:root {
+  --primary: #6366f1;
+  --primary-dark: #4f46e5;
+  --bg: #0f172a;
+  --card-bg: #1e293b;
+  --text: #e2e8f0;
+  --text-dim: #94a3b8;
+  --accent: #818cf8;
+  --border: #334155;
+  --code-bg: #0d1117;
+  --code-text: #e6edf3;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans SC", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.8;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+.container { max-width: 1400px; margin: 0 auto; padding: 24px 32px; }
+.header {
+  text-align: center;
+  padding: 40px 0 30px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 32px;
+}
+.header h1 {
+  font-size: 28px;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.header h1 .date { color: var(--accent); }
+.header .subtitle { color: var(--text-dim); font-size: 15px; }
+.repo-link {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 6px 16px;
+  background: var(--primary);
+  color: #fff;
+  border-radius: 20px;
+  text-decoration: none;
+  font-size: 13px;
+  transition: background 0.2s;
+}
+.repo-link:hover { background: var(--primary-dark); }
+.history-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 32px;
+  padding: 16px;
+  background: var(--card-bg);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+.history-nav a {
+  padding: 4px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  color: var(--text-dim);
+  text-decoration: none;
+  background: rgba(99,102,241,0.08);
+  transition: all 0.2s;
+}
+.history-nav a:hover { color: var(--text); background: rgba(99,102,241,0.2); }
+.history-nav a.active { color: #fff; background: var(--primary); }
+.history-nav a.back-index { color: var(--accent); font-weight: 600; background: rgba(99,102,241,0.15); border: 1px solid rgba(99,102,241,0.3); }
+.history-nav a.back-index:hover { color: #fff; background: var(--primary); border-color: var(--primary); }
+.content { margin-bottom: 40px; max-width: 1100px; }
+.content h2 {
+  font-size: 24px;
+  color: var(--accent);
+  margin: 40px 0 16px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--primary);
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+.content h2:first-child { border-top: none; padding-top: 0; }
+.content h3 {
+  font-size: 18px;
+  color: var(--text);
+  margin: 24px 0 12px;
+}
+.content h4 {
+  font-size: 16px;
+  color: var(--accent);
+  margin: 20px 0 10px;
+}
+.content p { margin-bottom: 12px; color: var(--text); }
+.content ul { margin: 8px 0 16px 20px; }
+.content li { margin-bottom: 6px; }
+.content strong { color: var(--accent); }
+.content blockquote {
+  border-left: 4px solid var(--primary);
+  padding: 12px 16px;
+  margin: 16px 0;
+  background: rgba(99,102,241,0.08);
+  border-radius: 0 8px 8px 0;
+}
+.content blockquote p { color: var(--text-dim); margin: 4px 0; }
+.content hr {
+  border: none;
+  height: 1px;
+  background: var(--border);
+  margin: 32px 0;
+}
+.code-block {
+  background: var(--code-bg);
+  border-radius: 10px;
+  padding: 18px 24px;
+  overflow-x: auto;
+  margin: 16px 0;
+  border: 1px solid var(--border);
+  max-width: 100%;
+}
+.code-block code {
+  font-family: "JetBrains Mono", "Fira Code", "Consolas", monospace;
+  font-size: 14px;
+  color: var(--code-text);
+  line-height: 1.6;
+  white-space: pre;
+}
+.inline-code {
+  background: rgba(99,102,241,0.15);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: "Consolas", monospace;
+  font-size: 0.9em;
+  color: var(--accent);
+}
+/* Math formula block */
+.content .math-block {
+  background: rgba(99,102,241,0.06);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 24px;
+  margin: 16px 0;
+  overflow-x: auto;
+  max-width: 100%;
+}
+.content .math-label {
+  font-size: 13px; color: var(--text-dim); margin-bottom: 6px; }
+.content .math-vars {
+  margin: 8px 0 16px 20px; }
+.content .math-vars li { margin-bottom: 4px; color: var(--text-dim); }
+.footer {
+  text-align: center;
+  padding: 24px 0;
+  border-top: 1px solid var(--border);
+  color: var(--text-dim);
+  font-size: 13px;
+}
+.tag {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  background: rgba(99,102,241,0.15);
+  color: var(--accent);
+  margin-left: 8px;
+}
+.content .ref-link {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px dashed rgba(99,102,241,0.4);
+  transition: all 0.2s;
+  word-break: break-all;
+}
+.content .ref-link:hover {
+  color: #fff;
+  border-bottom-color: var(--primary);
+}
+.content li {
+  word-break: break-all;
+}
+/* Table */
+.table-wrapper {
+  overflow-x: auto;
+  margin: 16px 0;
+  max-width: 100%;
+}
+.algo-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  background: var(--card-bg);
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+.algo-table thead {
+  background: rgba(99,102,241,0.15);
+}
+.algo-table th {
+  padding: 10px 16px;
+  text-align: left;
+  color: var(--accent);
+  font-weight: 600;
+  border-bottom: 2px solid var(--primary);
+  white-space: nowrap;
+}
+.algo-table td {
+  padding: 8px 16px;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  word-break: break-all;
+}
+.algo-table tr:last-child td {
+  border-bottom: none;
+}
+.algo-table tr:hover td {
+  background: rgba(99,102,241,0.06);
+}
+/* Algorithm architecture image */
+.algo-image {
+  margin: 20px 0;
+  text-align: center;
+}
+.algo-image img {
+  max-width: 100%;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+.algo-image .image-caption {
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--text-dim);
+}
+.algo-image svg {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+/* ======== 移动端响应式适配 ======== */
+@media (max-width: 768px) {
+  .container { max-width: 100%; padding: 16px 14px; }
+  .header { padding: 24px 0 20px; margin-bottom: 20px; }
+  .header h1 { font-size: 20px; margin-bottom: 4px; }
+  .header .subtitle { font-size: 13px; }
+  .repo-link { margin-top: 10px; padding: 5px 14px; font-size: 12px; }
+  .history-nav { gap: 6px; padding: 10px 12px; margin-bottom: 20px; }
+  .history-nav a { padding: 3px 10px; font-size: 12px; }
+  .content { max-width: 100%; margin-bottom: 28px; }
+  .content h2 { font-size: 20px; margin: 28px 0 12px; }
+  .content h3 { font-size: 17px; margin: 20px 0 10px; }
+  .content h4 { font-size: 15px; margin: 16px 0 8px; }
+  .content p { font-size: 14px; margin-bottom: 10px; }
+  .content ul { margin: 6px 0 12px 16px; }
+  .content li { font-size: 14px; margin-bottom: 5px; }
+  .content blockquote { padding: 10px 12px; margin: 12px 0; }
+  .content blockquote p { font-size: 13px; }
+  .content .math-block { padding: 10px 14px; margin: 12px 0; }
+  .code-block { padding: 12px 14px; margin: 12px 0; }
+  .code-block code { font-size: 12px; line-height: 1.5; }
+  .inline-code { font-size: 0.88em; padding: 1px 5px; }
+  .algo-table { font-size: 12px; }
+  .algo-table th { padding: 6px 10px; }
+  .algo-table td { padding: 6px 10px; }
+  .algo-image { margin: 14px 0; }
+  .algo-image svg { max-width: 100%; height: auto; }
+  .footer { padding: 18px 0; font-size: 12px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>每日算法讲解 · <span class="date">2026年10月14日</span></h1>
+    <p class="subtitle">每天 1 个基础算法 + 2 个 AI/机器学习算法，持续精进</p>
+    <a href="https://syypretend.github.io/test/daily-algorithm" target="_blank" class="repo-link">GitHub 仓库</a>
+  </div>
+  <div class="history-nav"><a href="index.html" class="back-index">← 历史索引</a>
+<a href="2026-10-14.html" class="active">10月14日</a>
+<a href="2026-10-13.html">10月13日</a>
+<a href="2026-10-12.html">10月12日</a>
+<a href="2026-10-10.html">10月10日</a>
+<a href="2026-10-09.html">10月09日</a>
+<a href="2026-10-08.html">10月08日</a>
+<a href="2026-09-30.html">09月30日</a>
+<a href="2026-09-29.html">09月29日</a>
+<a href="2026-09-28.html">09月28日</a>
+<a href="2026-09-24.html">09月24日</a>
+<a href="2026-09-17.html">09月17日</a>
+<a href="2026-09-15.html">09月15日</a>
+<a href="2026-09-14.html">09月14日</a>
+<a href="2026-09-11.html">09月11日</a>
+<a href="2026-09-10.html">09月10日</a>
+<a href="2026-09-09.html">09月09日</a>
+<a href="2026-09-08.html">09月08日</a>
+<a href="2026-09-07.html">09月07日</a>
+</div>
+  <div class="content">
+  <h2>每日算法讲解 · 2026-10-14</h2>
+
+<blockquote>
+<p>今日内容：1 个基础算法 + 2 个 AI/机器学习算法 | 逐参数详解</p>
+</blockquote>
+
+<hr>
+
+<h3>滑动窗口（Sliding Window）</h3>
+
+<p><strong>类别</strong>：技巧 | <strong>难度</strong>：入门</p>
+
+<h4>算法简介</h4>
+
+<p>滑动窗口是一种用于处理「连续子数组 / 子串」类问题的经典算法技巧。它把待研究的区间看成一个<strong>窗口</strong>，窗口始终是原始数组（或字符串）上的一个连续片段 <code class="inline-code">[left, right]</code>。算法维护两个指针：右指针 <code class="inline-code">right</code> 不断向右扩展窗口（把新元素纳入窗口），当窗口内的状态不满足题目要求时，左指针 <code class="inline-code">left</code> 向右收缩窗口（把最左边的元素移出窗口）。这样窗口就像一扇在数组上「滑行」的窗户，只遍历一遍数组就能求出答案，把暴力枚举所有子区间时的 $ O(n^2) $ 时间复杂度降为 $ O(n) $。</p>
+
+<p>滑动窗口的思想与 TCP 协议的滑动窗口机制同源——本质都是「维护一个可伸缩的区间，通过两端指针的移动持续评估区间内状态」。它通常配合<strong>哈希表 / 计数数组</strong>（统计窗口内元素出现次数）或<strong>单调双端队列</strong>（快速求窗口内极值）使用，能解决：最长/最短满足条件的子数组、最小覆盖子串、固定大小窗口内最大值、字符串异位词匹配等高频面试题。</p>
+
+<h4>原理示意图</h4>
+
+<p><div class="algo-image"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 900 420" font-family="sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="6" refX="4" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#6366f1"/>
+    </marker>
+  </defs>
+  <rect width="900" height="420" fill="#1e293b" rx="12"/>
+  <text x="450" y="32" text-anchor="middle" fill="#818cf8" font-size="16" font-weight="600">滑动窗口：right 扩展 / left 收缩</text>
+  <!-- 数组下标 -->
+  <g font-size="12" fill="#94a3b8">
+    <text x="70"  y="75" text-anchor="middle">0</text>
+    <text x="150" y="75" text-anchor="middle">1</text>
+    <text x="230" y="75" text-anchor="middle">2</text>
+    <text x="310" y="75" text-anchor="middle">3</text>
+    <text x="390" y="75" text-anchor="middle">4</text>
+    <text x="470" y="75" text-anchor="middle">5</text>
+    <text x="550" y="75" text-anchor="middle">6</text>
+    <text x="630" y="75" text-anchor="middle">7</text>
+  </g>
+  <!-- 数组格子 -->
+  <g fill="#334155" stroke="#475569" stroke-width="1.5">
+    <rect x="30"  y="90" width="80" height="48" rx="6"/>
+    <rect x="110" y="90" width="80" height="48" rx="6"/>
+    <rect x="190" y="90" width="80" height="48" rx="6"/>
+    <rect x="270" y="90" width="80" height="48" rx="6"/>
+    <rect x="350" y="90" width="80" height="48" rx="6"/>
+    <rect x="430" y="90" width="80" height="48" rx="6"/>
+    <rect x="510" y="90" width="80" height="48" rx="6"/>
+    <rect x="590" y="90" width="80" height="48" rx="6"/>
+  </g>
+  <g fill="#e2e8f0" font-size="16" text-anchor="middle">
+    <text x="70"  y="122">2</text>
+    <text x="150" y="122">1</text>
+    <text x="230" y="122">3</text>
+    <text x="310" y="122">5</text>
+    <text x="390" y="122">1</text>
+    <text x="470" y="122">2</text>
+    <text x="550" y="122">4</text>
+    <text x="630" y="122">7</text>
+  </g>
+  <!-- 当前窗口 [2,5] 高亮（覆盖元素 3 5 1 2） -->
+  <rect x="190" y="88" width="280" height="52" rx="8" fill="none" stroke="#6366f1" stroke-width="3"/>
+  <text x="250" y="175" fill="#818cf8" font-size="13">窗口 [left=2, right=5]（当前和 = 11）</text>
+  <!-- left 指针 -->
+  <line x1="230" y1="200" x2="230" y2="228" stroke="#22c55e" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <text x="230" y="250" text-anchor="middle" fill="#22c55e" font-size="13" font-weight="600">left 收缩出窗</text>
+  <!-- right 指针 -->
+  <line x1="470" y1="200" x2="470" y2="228" stroke="#f97316" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <text x="470" y="250" text-anchor="middle" fill="#f97316" font-size="13" font-weight="600">right 扩展入窗</text>
+  <!-- 底部流程说明 -->
+  <rect x="60"  y="280" width="200" height="46" rx="8" fill="#334155" stroke="#22c55e"/>
+  <text x="160" y="308" text-anchor="middle" fill="#e2e8f0" font-size="13">条件满足 → 收缩 left</text>
+  <line x1="260" y1="303" x2="330" y2="303" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow)"/>
+  <rect x="340" y="280" width="220" height="46" rx="8" fill="#334155" stroke="#f97316"/>
+  <text x="450" y="308" text-anchor="middle" fill="#e2e8f0" font-size="13">条件不满足 → 扩展 right</text>
+  <line x1="560" y1="303" x2="630" y2="303" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow)"/>
+  <rect x="640" y="280" width="180" height="46" rx="8" fill="#334155" stroke="#22c55e"/>
+  <text x="730" y="308" text-anchor="middle" fill="#e2e8f0" font-size="13">更新全局最优解</text>
+  <text x="450" y="375" text-anchor="middle" fill="#94a3b8" font-size="12">每个元素最多被 left 和 right 各访问一次 ⇒ 总时间 O(n)</text>
+</svg></div></p>
+
+<h4>数学公式</h4>
+
+<p><strong>窗口长度（闭区间）</strong>：窗口为闭区间，长度为</p>
+
+<p><div class="math-block">$$ \text{window\_size} = right - left + 1 $$</div></p>
+
+<ul>
+<li>$ right $：窗口右端点下标（当前遍历位置）</li>
+<li>$ left $：窗口左端点下标（可能被向右收缩）</li>
+<li>$ +1 $：闭区间两侧端点都计入长度</li>
+</ul>
+
+<p><strong>总访问次数推导</strong>：滑动窗口保证两个指针都只向右移动，且每个指针最多把每个元素处理一次：</p>
+
+<p><div class="math-block">$$ T(n) = \underbrace{\sum_{i=1}^{n}(\text{right 处理 }a_i)}_{=n} + \underbrace{\sum_{i=1}^{n}(\text{left 处理 }a_i)}_{\le n} = O(n) $$</div></p>
+
+<ul>
+<li>$ T(n) $：总操作次数</li>
+<li>第一个求和：右指针扩展窗口，每个元素恰好入窗一次，共 $ n $ 次</li>
+<li>第二个求和：左指针收缩窗口，每个元素最多出窗一次，最多 $ n $ 次</li>
+</ul>
+
+<p><strong>哈希计数器的状态判定</strong>（以覆盖子串类问题为例）：</p>
+
+<p><div class="math-block">$$ \text{valid} = \sum_{c \in T} \mathbb{1}[\text{cnt}_{window}(c) \ge \text{cnt}_{T}(c)] = |T| $$</div></p>
+
+<ul>
+<li>$ c $：目标集合 $ T $ 中的某个字符</li>
+<li>$ \text{cnt}_{window}(c) $：当前窗口内字符 $ c $ 的出现次数</li>
+<li>$ \text{cnt}_T(c) $：目标串中字符 $ c $ 需要的次数</li>
+<li>$ \mathbb{1}[\cdot] $：指示函数，条件成立取 1，否则取 0</li>
+<li>当满足条件的字符种类数等于 $ |T| $（目标去重字符数）时，窗口即「覆盖」了目标</li>
+</ul>
+
+<h4>核心要点</h4>
+<ul>
+<li>滑动窗口只适用于<strong>连续区间</strong>问题；若子序列可以不连续，则应改用 DP 等其他方法</li>
+<li>窗口的「收缩条件」是算法正确性的关键，必须能准确判定窗口状态是否满足题目要求</li>
+<li>用<strong>计数表</strong>（哈希表/数组）+「未满足的种类数 missing」可把「判断覆盖」从 $ O(k) $ 降到 $ O(1) $</li>
+<li>固定窗口求极值：单调双端队列队首即窗口极值，每个元素入队出队各一次</li>
+<li>窗口移动时只需增量更新统计：右端 <code class="inline-code">+1</code>、左端 <code class="inline-code">-1</code>，不要重新统计整个窗口</li>
+</ul>
+
+<h4>技术细节与参数详解</h4>
+
+<p>滑动窗口没有标准库「函数参数」，它的「参数」就是实现中的控制要素，下面逐个讲解。</p>
+
+<p>#### 1. 窗口类型：固定窗口 / 可变窗口</p>
+<ul>
+<li><strong>含义</strong>：窗口长度固定不变（如「大小为 k 的滑动窗口最大值」）还是随条件动态伸缩（如「最短覆盖子串」）</li>
+<li><strong>类型</strong>：算法设计决策</li>
+<li><strong>默认值</strong>：视题目而定</li>
+<li><strong>对结果的影响</strong>：固定窗口用「长度计数 + 单调队列」；可变窗口用「双指针 + 条件判定」，选错模板会写出错误代码</li>
+<li><strong>推荐设置</strong>：看到「连续 + 固定长度」优先固定窗口；看到「最长/最短/满足某条件」优先可变窗口</li>
+</ul>
+
+<p>#### 2. <code class="inline-code">left</code>：窗口左边界指针</p>
+<ul>
+<li><strong>含义</strong>：窗口最左侧元素的下标，闭区间左端点</li>
+<li><strong>类型</strong>：<code class="inline-code">int</code></li>
+<li><strong>默认值</strong>：<code class="inline-code">0</code></li>
+<li><strong>取值范围</strong>：$ 0 \le left \le right \le n-1 $，且只增不减</li>
+<li><strong>对结果的影响</strong>：<code class="inline-code">left</code> 收缩的时机（while 条件）决定窗口是否会「错过更优解」；收缩过慢窗口可能不满足条件，收缩过快会漏解</li>
+<li><strong>推荐设置</strong>：用 <code class="inline-code">while</code> 循环收缩到「恰好满足条件」为止，保证不漏解</li>
+</ul>
+
+<p>#### 3. <code class="inline-code">right</code>：窗口右边界指针</p>
+<ul>
+<li><strong>含义</strong>：窗口右边界下标，由外层 <code class="inline-code">for</code> 循环驱动，每轮把新元素纳入窗口</li>
+<li><strong>类型</strong>：<code class="inline-code">int</code></li>
+<li><strong>默认值</strong>：<code class="inline-code">0</code> 起遍历</li>
+<li><strong>取值范围</strong>：<code class="inline-code">0</code> 到 <code class="inline-code">n-1</code></li>
+<li><strong>对结果的影响</strong>：决定扩展速度与窗口覆盖范围；right 的遍历顺序不可跳跃，否则窗口不连续</li>
+<li><strong>推荐设置</strong>：一律「只向右扩展」，不回溯，保证 $ O(n) $</li>
+</ul>
+
+<p>#### 4. 计数表 <code class="inline-code">need</code> / <code class="inline-code">have</code>（哈希表或数组）</p>
+<ul>
+<li><strong>含义</strong>：<code class="inline-code">need</code> 记录目标要求，<code class="inline-code">have</code> 记录窗口内现状</li>
+<li><strong>类型</strong>：<code class="inline-code">dict</code> / <code class="inline-code">list</code>（字符有限时用定长数组更快）</li>
+<li><strong>默认值</strong>：空容器</li>
+<li><strong>取值范围</strong>：键为元素，值为非负整数</li>
+<li><strong>对结果的影响</strong>：数组版（<code class="inline-code">ord(ch)</code> 索引）常数更小；哈希版可处理任意可哈希元素；错用「每次重新统计整个窗口」会使复杂度退化到 $ O(n·k) $</li>
+<li><strong>推荐设置</strong>：字符类问题用定长数组（如 <code class="inline-code">[0]*128</code>），一般问题用 <code class="inline-code">defaultdict(int)</code></li>
+</ul>
+
+<p>#### 5. <code class="inline-code">missing</code>：未满足需求的种类数</p>
+<ul>
+<li><strong>含义</strong>：还有多少种元素尚未达标，<code class="inline-code">missing == 0</code> 表示窗口满足条件</li>
+<li><strong>类型</strong>：<code class="inline-code">int</code></li>
+<li><strong>默认值</strong>：<code class="inline-code">len(need)</code>（一开始全部未满足）</li>
+<li><strong>取值范围</strong>：<code class="inline-code">0</code> 到 <code class="inline-code">len(need)</code></li>
+<li><strong>对结果的影响</strong>：用「种类数」而非「总个数」做判据，可避免窗口内某个元素大量冗余导致的误判；维护错误会漏解或死循环</li>
+<li><strong>推荐设置</strong>：只有当某元素的计数<strong>恰好从不足变为达标</strong>（或反向）时才更新 <code class="inline-code">missing</code></li>
+</ul>
+
+<p>#### 6. 收缩条件：<code class="inline-code">while</code> 循环判定</p>
+<ul>
+<li><strong>含义</strong>：当窗口满足题意时不断右移 <code class="inline-code">left</code>，寻找更优（更短/更多）解</li>
+<li><strong>类型</strong>：布尔表达式</li>
+<li><strong>对结果的影响</strong>：收缩停止的位置即当前 <code class="inline-code">right</code> 下的最优窗口；不收缩或收缩过度都得不到正确答案</li>
+<li><strong>推荐设置</strong>：条件写成「窗口合法」就收缩；在收缩过程中同步更新统计与答案</li>
+</ul>
+
+<p>#### 7. 双端队列 <code class="inline-code">deque</code>（固定窗口极值场景）</p>
+<ul>
+<li><strong>含义</strong>：存储窗口内元素下标，队列中对应元素值单调递减（求最大值时）</li>
+<li><strong>类型</strong>：<code class="inline-code">collections.deque</code></li>
+<li><strong>默认值</strong>：空</li>
+<li><strong>取值范围</strong>：下标范围 <code class="inline-code">[i-k+1, i]</code></li>
+<li><strong>对结果的影响</strong>：队首始终是窗口内最大/最小值，取极值为 $ O(1) $；若用暴力重扫则整体变 $ O(nk) $</li>
+<li><strong>推荐设置</strong>：入队前弹出所有「更小且更旧」的队尾，再检查队首是否过期</li>
+</ul>
+
+<h4>代码示例</h4>
+
+<p><pre class="code-block"><code class="language-python"># 示例 1：LeetCode 76 最小覆盖子串（可变窗口 + 计数表）
+def min_window(s: str, t: str) -&gt; str:
+    # need 记录目标串 t 中每个字符所需的次数
+    need = {}
+    for ch in t:
+        need[ch] = need.get(ch, 0) + 1
+    # have 记录当前窗口内每个字符已有的次数
+    have = {}
+    # missing 表示还有几种字符尚未满足；初始为 t 的去重种类数
+    missing = len(need)
+    # left 为窗口左边界，best_start / best_len 记录当前最优窗口
+    left = 0
+    best_start, best_len = 0, float(&#x27;inf&#x27;)
+    # right 从 0 开始逐位扩展窗口
+    for right in range(len(s)):
+        ch = s[right]                      # 取出当前右端字符
+        have[ch] = have.get(ch, 0) + 1     # 窗口内该字符计数 +1
+        # 若该字符是目标字符且恰好达标，则未满足种类数 -1
+        if ch in need and have[ch] == need[ch]:
+            missing -= 1
+        # 窗口已覆盖 t 的全部字符，尝试收缩左边界以寻找更短解
+        while missing == 0:
+            cur_len = right - left + 1     # 当前窗口长度
+            if cur_len &lt; best_len:         # 比已有最优更短则更新
+                best_len = cur_len
+                best_start = left
+            lch = s[left]                  # 待移出窗口的左边字符
+            have[lch] -= 1                 # 窗口内计数 -1
+            # 若移出后该字符不再满足需求，未满足种类数 +1
+            if lch in need and have[lch] &lt; need[lch]:
+                missing += 1
+            left += 1                      # 左边界右移，窗口收缩
+    # 从未找到解则返回空串，否则截取最优窗口
+    return &#x27;&#x27; if best_len == float(&#x27;inf&#x27;) else s[best_start:best_start + best_len]
+
+# 示例 2：LeetCode 239 滑动窗口最大值（固定窗口 + 单调双端队列）
+from collections import deque
+
+def max_sliding_window(nums: list, k: int) -&gt; list:
+    dq = deque()          # dq 存下标，对应元素从队头到队尾单调递减
+    res = []              # 结果列表，每项是当前窗口的最大值
+    for i, v in enumerate(nums):   # 逐元素处理
+        if dq and dq[0] &lt;= i - k:  # 队首下标已滑出窗口范围，出队
+            dq.popleft()
+        while dq and nums[dq[-1]] &lt;= v:  # 弹出队尾所有比 v 小的元素
+            dq.pop()               # 它们永远不可能成为最大值了
+        dq.append(i)               # 当前元素下标入队
+        if i &gt;= k - 1:             # 窗口攒满 k 个元素后开始输出
+            res.append(nums[dq[0]])  # 队首即当前窗口最大值
+    return res</code></pre></p>
+
+<h4>复杂度分析</h4>
+
+<p><strong>时间复杂度的推导</strong>：</p>
+
+<ul>
+<li>外层 <code class="inline-code">for</code>：<code class="inline-code">right</code> 从 0 走到 n-1，共 n 次迭代；</li>
+<li>内层 <code class="inline-code">while</code>：<code class="inline-code">left</code> 只增不减，总移动次数 ≤ n；</li>
+<li>计数表的增删均为 O(1)，因此：</li>
+</ul>
+
+<p><div class="math-block">$$ T(n) = \underbrace{n}_{\text{right 扩展}} + \underbrace{n}_{\text{left 收缩}} = O(n) $$</div></p>
+
+<p>若使用单调队列求极值：每个元素<strong>入队一次、出队一次</strong>，摊还到每个元素仍为 O(1)，总时间同样为 O(n)。</p>
+
+<p><strong>空间复杂度的推导</strong>：</p>
+
+<ul>
+<li>计数表最多存 |T| 或窗口内不同元素种数：O(min(n, |Σ|))，字符场景可视为 O(1)；</li>
+<li>单调队列最多存 k 个下标：O(k)；</li>
+<li>除输入与输出外无额外大数组，总体空间为 O(1) ~ O(k)。</li>
+</ul>
+
+<h4>应用场景</h4>
+
+<ul>
+<li>计算「过去 1 分钟内呼叫量 / 请求量」等滑动时间窗统计</li>
+<li>网络流量监控：连续时间窗内的最大/平均流量</li>
+<li>最小覆盖子串、最长无重复字符子串等字符串处理高频面试题</li>
+<li>数组中「长度不小于 k 的子数组」的最大平均值、最接近目标和连续子段</li>
+</ul>
+
+<h4>参考文档</h4>
+
+<ul>
+<li><a href="https://blog.csdn.net/lxcxjxhx/article/details/151920080" target="_blank" class="ref-link">LeetCode双指针与滑动窗口算法全解析</a></li>
+<li><a href="https://blog.csdn.net/weixin_43899792/article/details/125050466" target="_blank" class="ref-link">数据结构算法——滑动窗口问题（以 LeetCode 滑动窗口题为例）</a></li>
+<li><a href="https://www.cnblogs.com/betaa/p/11643802.html" target="_blank" class="ref-link">Sliding Window（博客园）</a></li>
+<li><a href="https://blog.csdn.net/AlbenXie/article/details/153989805" target="_blank" class="ref-link">常用算法技巧（CSDN）</a></li>
+</ul>
+
+<hr>
+
+<h3>多查询注意力（Multi-Query Attention, MQA）</h3>
+
+<p><strong>类别</strong>：大模型架构 | <strong>难度</strong>：困难</p>
+
+<h4>算法简介</h4>
+
+<p>多查询注意力（MQA）由 Shazeer 于 2019 年在论文《Fast Transformer Decoding: One Write-Head is All You Need》（arXiv:1911.02150）中提出，是<strong>多头注意力（MHA）的一种内存优化变体</strong>。在标准 MHA 中，每个注意力头都有自己独立的 Key 和 Value 投影矩阵，因此推理时每个头都要缓存一份键值对（KV Cache），内存开销随头数线性增长。MQA 的核心思想是：<strong>Query 保持多头，但 Key 和 Value 只保留一个共享头</strong>——所有头的注意力计算共用同一份 K 和 V 向量。这样 KV Cache 的体量直接从「头数份」降为「1 份」，解码（生成）阶段的内存占用与内存带宽需求大幅下降，从而显著加速自回归推理。MQA 带来的参数量削减与速度提升几乎不影响模型质量（论文实验显示质量仅略有下降），因此在 Falcon、PaLM、StarCoder 等大模型中广泛采用；后续的 GQA（分组查询注意力）是它在质量与速度之间的折中演进，MLA（多头潜在注意力）则进一步把 KV 压缩进低维潜在向量。</p>
+
+<h4>原理示意图</h4>
+
+<p><div class="algo-image"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 900 430" font-family="sans-serif">
+  <defs>
+    <marker id="arrowB" markerWidth="8" markerHeight="8" refX="4" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#6366f1"/>
+    </marker>
+  </defs>
+  <rect width="900" height="430" fill="#1e293b" rx="12"/>
+  <text x="450" y="30" text-anchor="middle" fill="#818cf8" font-size="16" font-weight="600">MHA（左） vs MQA（右）：K/V 由「每头一份」变为「共享一份」</text>
+
+  <!-- ===== 左：MHA ===== -->
+  <text x="215" y="70" text-anchor="middle" fill="#e2e8f0" font-size="14" font-weight="600">多头注意力 MHA</text>
+  <rect x="150" y="85" width="130" height="30" rx="6" fill="#334155"/>
+  <text x="215" y="105" text-anchor="middle" fill="#94a3b8" font-size="12">Q 头 1..H（各自独立）</text>
+  <rect x="150" y="125" width="130" height="30" rx="6" fill="#334155"/>
+  <text x="215" y="145" text-anchor="middle" fill="#94a3b8" font-size="12">K 头 1..H（各自独立）</text>
+  <rect x="150" y="170" width="130" height="30" rx="6" fill="#334155"/>
+  <text x="215" y="190" text-anchor="middle" fill="#94a3b8" font-size="12">V 头 1..H（各自独立）</text>
+  <rect x="150" y="230" width="130" height="34" rx="6" fill="#1f2937" stroke="#6366f1" stroke-width="1.5"/>
+  <text x="215" y="250" text-anchor="middle" fill="#f97316" font-size="12">KV 缓存 = H 份</text>
+  <line x1="215" y1="110" x2="215" y2="123" stroke="#6366f1" stroke-width="1.5"/>
+  <line x1="215" y1="155" x2="215" y2="168" stroke="#6366f1" stroke-width="1.5"/>
+  <line x1="215" y1="200" x2="215" y2="228" stroke="#6366f1" stroke-width="1.5"/>
+  <text x="215" y="285" text-anchor="middle" fill="#94a3b8" font-size="12">内存开销随头数线性放大</text>
+
+  <!-- 分割线 -->
+  <line x1="450" y1="60" x2="450" y2="390" stroke="#475569" stroke-width="1.5" stroke-dasharray="6 6"/>
+
+  <!-- ===== 右：MQA ===== -->
+  <text x="685" y="70" text-anchor="middle" fill="#22c55e" font-size="14" font-weight="600">多查询注意力 MQA</text>
+  <rect x="550" y="80" width="130" height="30" rx="6" fill="#334155"/>
+  <text x="615" y="105" text-anchor="middle" fill="#94a3b8" font-size="12">Q 头 1..H（各自独立）</text>
+  <rect x="690" y="125" width="130" height="30" rx="6" fill="#334155" stroke="#22c55e" stroke-width="1.5"/>
+  <text x="755" y="145" text-anchor="middle" fill="#22c55e" font-size="12">K 单头（共享）</text>
+  <rect x="690" y="170" width="130" height="30" rx="6" fill="#334155" stroke="#22c55e" stroke-width="1.5"/>
+  <text x="755" y="190" text-anchor="middle" fill="#22c55e" font-size="12">V 单头（共享）</text>
+  <line x1="615" y1="95" x2="690" y2="145" stroke="#22c55e" stroke-width="1.5" stroke-dasharray="4 4"/>
+  <line x1="615" y1="95" x2="690" y2="190" stroke="#22c55e" stroke-width="1.5" stroke-dasharray="4 4"/>
+  <rect x="690" y="230" width="130" height="34" rx="6" fill="#1f2937" stroke="#22c55e" stroke-width="1.5"/>
+  <text x="755" y="250" text-anchor="middle" fill="#22c55e" font-size="12">KV 缓存 = 1 份</text>
+  <text x="755" y="285" text-anchor="middle" fill="#94a3b8" font-size="12">内存减少约 H 倍</text>
+
+  <!-- 底部结论 -->
+  <rect x="180" y="330" width="540" height="56" rx="10" fill="#1f2937" stroke="#6366f1" stroke-width="1.5"/>
+  <text x="450" y="356" text-anchor="middle" fill="#e2e8f0" font-size="13">H 个 Q 头共享同一份 K、V ⇒ KV Cache 从 H×L×d_k 降为 L×d_k</text>
+  <text x="450" y="378" text-anchor="middle" fill="#94a3b8" font-size="12">带宽降低 → 解码吞吐提升；效果仅轻微下降（Falcon / PaLM / StarCoder 已采用）</text>
+</svg></div></p>
+
+<h4>数学公式</h4>
+
+<p><strong>标准多头注意力（MHA）</strong>：第 $ i $ 个头的输出为</p>
+
+<p><div class="math-block">$$ \text{head}_i = \text{softmax}\left( \frac{Q_i K_i^{\top}}{\sqrt{d_k}} \right) V_i, \quad
+Q_i = XW_i^{Q},\ K_i = XW_i^{K},\ V_i = XW_i^{V} $$</div></p>
+
+<ul>
+<li>$ X \in \mathbb{R}^{L \times d} $：输入序列（长度 $ L $，维度 $ d $，即 <code class="inline-code">d_model</code>）</li>
+<li>$ W_i^{Q}, W_i^{K}, W_i^{V} \in \mathbb{R}^{d \times d_k} $：第 $ i $ 个头独立的 Q/K/V 投影矩阵</li>
+<li>$ d_k = d / h $：每个头的维度（<code class="inline-code">head_dim</code>）</li>
+<li>$ h $：注意力头数（<code class="inline-code">num_heads</code>）</li>
+<li>$ \sqrt{d_k} $：缩放因子，防止内积过大导致 softmax 梯度消失</li>
+</ul>
+
+<p><strong>多查询注意力（MQA）</strong>：只有 Q 保留逐头投影，K/V 共享一份投影：</p>
+
+<p><div class="math-block">$$ \text{head}_i = \text{softmax}\left( \frac{Q_i K^{\top}}{\sqrt{d_k}} \right) V, \quad
+Q_i = XW_i^{Q},\ K = XW^{K},\ V = XW^{V} $$</div></p>
+
+<ul>
+<li>$ W^{K}, W^{V} \in \mathbb{R}^{d \times d_k} $：全局共享的 Key/Value 投影，所有头公用</li>
+<li>最终输出：$ \text{Output} = \text{Concat}(\text{head}_1, \dots, \text{head}_h) W^{O} $</li>
+</ul>
+
+<p><strong>KV 缓存占用对比</strong>（自回归解码时每生成一个 token 都要把新 K/V 追加进缓存）：</p>
+
+<p><div class="math-block">$$ \text{MHA: } h \times L \times d_k \times 2 \qquad \text{MQA: } L \times d_k \times 2 $$</div></p>
+
+<ul>
+<li>$ L $：已生成的序列长度（缓存长度）</li>
+<li>节省比例：$ 1 - \frac{1}{h} $，当 $ h=8 $ 时缓存降低 87.5%</li>
+</ul>
+
+<h4>核心要点</h4>
+
+<ul>
+<li>MQA 的本质是「<strong>多 Q、单 K/V</strong>」，把 KV 缓存的显存占用与带宽需求降低 $ h $ 倍，换取解码速度大幅提升</li>
+<li>训练时 MQA 与 MHA 一样可并行；收益集中在<strong>自回归推理</strong>阶段的缓存与带宽</li>
+<li>共享 K/V 使表达能力略降（各头不能再有独立的键值表征），但实践中质量损失很小</li>
+<li>MQA 是 MHA → GQA（分组共享）→ MLA（低秩潜在压缩）这条优化链的起点，理解 MQA 是读懂 GQA/MLA 的前提</li>
+<li>实现上通过矩阵乘法广播（单份 K/V 与所有头相乘）即可完成共享，无需真正复制</li>
+</ul>
+
+<h4>技术细节与参数详解</h4>
+
+<p>#### 1. <code class="inline-code">num_heads</code>（头数 $ h $）</p>
+<ul>
+<li><strong>含义</strong>：Query 拆分的注意力头数量</li>
+<li><strong>类型</strong>：<code class="inline-code">int</code></li>
+<li><strong>默认值</strong>：<code class="inline-code">8</code>（经典配置，如 <code class="inline-code">d_model=512, h=8</code>）</li>
+<li><strong>取值范围</strong>：一般为 1 ~ d_model 的约数，<code class="inline-code">head_dim</code> 必须整除</li>
+<li><strong>对结果的影响</strong>：头越多，模型可从不同子空间关注不同模式；MQA 的头数不额外增加缓存，所以可以保留较多头</li>
+<li><strong>推荐设置</strong>：沿用 MHA 的头数（如 8/16/32），只改 K/V 的共享策略</li>
+</ul>
+
+<p>#### 2. <code class="inline-code">head_dim</code>（$ d_k $，每头维度）</p>
+<ul>
+<li><strong>含义</strong>：每个注意力头的特征维度，即 K/V 向量的长度</li>
+<li><strong>类型</strong>：<code class="inline-code">int</code></li>
+<li><strong>默认值</strong>：<code class="inline-code">d_model // num_heads</code></li>
+<li><strong>取值范围</strong>：必须整除 <code class="inline-code">d_model</code>，常用 64 或 128</li>
+<li><strong>对结果的影响</strong>：决定注意力的缩放因子 $ \sqrt{d_k} $；<code class="inline-code">d_k</code> 过小表达力不足，过大则 softmax 输入方差增大、梯度不稳</li>
+<li><strong>推荐设置</strong>：保持 64~128 的常见值</li>
+</ul>
+
+<p>#### 3. <code class="inline-code">kv_heads</code>（K/V 共享头数）</p>
+<ul>
+<li><strong>含义</strong>：Key 与 Value 实际的头数，MQA 中固定为 <strong>1</strong></li>
+<li><strong>类型</strong>：<code class="inline-code">int</code></li>
+<li><strong>默认值</strong>：MQA 固定 <code class="inline-code">1</code>（区别于 GQA 的 2~num_heads 及 MHA 的 num_heads）</li>
+<li><strong>取值范围</strong>：MQA 场景下只取 1；该字段通常由 <code class="inline-code">multiquery=True</code> 标志触发</li>
+<li><strong>对结果的影响</strong>：直接决定 KV 缓存大小与参数量；<code class="inline-code">=1</code> 时缓存最少、速度最快，但注意力多样性最低</li>
+<li><strong>推荐</strong>：追求极速用 1（MQA）；质量与速度平衡用 GQA（如 4~8）</li>
+</ul>
+
+<p>#### 4. <code class="inline-code">d_model</code>（<code class="inline-code">embed_dim</code>，模型维度）</p>
+<ul>
+<li><strong>含义</strong>：隐藏层向量维度，所有投影的输入输出基准</li>
+<li><strong>类型</strong>：<code class="inline-code">int</code></li>
+<li><strong>默认值</strong>：依模型而定，常见 512 / 768 / 1024</li>
+<li><strong>取值范围</strong>：任意正整数（通常为 64 的倍数）</li>
+<li><strong>对结果的影响</strong>：与 <code class="inline-code">num_heads</code> 一起决定 <code class="inline-code">head_dim</code> 与总参数量，也是 KV 缓存每步字节数的基础</li>
+<li><strong>推荐设置</strong>：与所选模型/框架对齐即可，不是 MQA 独有参数</li>
+</ul>
+
+<p>#### 5. <code class="inline-code">softmax_scale</code>（缩放因子）</p>
+<ul>
+<li><strong>含义</strong>：<code class="inline-code">attn = Q·K^T * scale</code>，默认 <code class="inline-code">1/√d_k</code></li>
+<li><strong>类型</strong>：<code class="inline-code">float</code></li>
+<li><strong>默认值</strong>：<code class="inline-code">None</code>（自动取 <code class="inline-code">1/√d_k</code>）</li>
+<li><strong>取值范围</strong>：任意正数，实践中 0.01 ~ 0.2 附近</li>
+<li><strong>对结果的影响</strong>：控制注意力分布的「尖锐程度」；过大会接近 one-hot 分布、梯度变差，过小则分布太平、几乎不关注</li>
+<li><strong>推荐设置</strong>：保留默认 <code class="inline-code">1/√d_k</code>，仅在微调阶段按需修改</li>
+</ul>
+
+<p>#### 6. <code class="inline-code">dropout_p</code>（注意力丢弃率）</p>
+<ul>
+<li><strong>含义</strong>：对注意力权重矩阵做随机丢弃，防止过拟合</li>
+<li><strong>类型</strong>：<code class="inline-code">float</code></li>
+<li><strong>默认值</strong>：训练 <code class="inline-code">0.1</code>，推理 <code class="inline-code">0.0</code></li>
+<li><strong>取值范围</strong>：$ 0 \le p \le 1 $</li>
+<li><strong>对结果的影响</strong>：训练时防止头之间过分耦合；推理时必须置 0，否则随机丢弃会破坏确定性输出</li>
+<li><strong>推荐设置</strong>：小模型 <code class="inline-code">0.0~0.1</code>，大模型可 <code class="inline-code">0.1~0.2</code></li>
+</ul>
+
+<p>#### 7. <code class="inline-code">is_causal</code>（因果掩码）</p>
+<ul>
+<li><strong>含义</strong>：是否让每个位置只能看到「当前及之前」的 token</li>
+<li><strong>类型</strong>：<code class="inline-code">bool</code></li>
+<li><strong>默认值</strong>：<code class="inline-code">False</code>（编码器场景）；解码器应设 <code class="inline-code">True</code></li>
+<li><strong>对结果的影响</strong>：设 <code class="inline-code">True</code> 时用上三角掩码把未来位置置 <code class="inline-code">-inf</code>，防止生成时「偷看未来」；设错会导致训练泄露、推理错乱</li>
+<li><strong>推荐设置</strong>：自回归 LM 的 decoder 一律 <code class="inline-code">True</code>；encoder 与双向模型设为 <code class="inline-code">False</code></li>
+</ul>
+
+<p>#### 8. <code class="inline-code">key_padding_mask</code>（填充掩码）</p>
+<ul>
+<li><strong>含义</strong>：标记批次中 padding 位置，避免对填充 token 分配注意力</li>
+<li><strong>类型</strong>：<code class="inline-code">BoolTensor</code>，shape <code class="inline-code">[B, L]</code></li>
+<li><strong>默认值</strong>：<code class="inline-code">None</code>（无 padding）</li>
+<li><strong>取值范围</strong>：与序列长度一致，<code class="inline-code">True</code> 表示该位置是 padding</li>
+<li><strong>对结果的影响</strong>：不设会让模型把注意力浪费在无意义 pad 上，损害批次训练质量</li>
+<li><strong>推荐</strong>：有变长序列与 batch 训练时必传</li>
+</ul>
+
+<p>#### 9. <code class="inline-code">out_proj</code>（输出投影）</p>
+<ul>
+<li><strong>含义</strong>：把拼接后的多头输出映射回 <code class="inline-code">d_model</code> 维度的线性层</li>
+<li><strong>类型</strong>：<code class="inline-code">nn.Linear(d_model, d_model)</code></li>
+<li><strong>默认值</strong>：存在（MHA/MQA 标配）</li>
+<li><strong>对结果的影响</strong>：决定最终输出维度与跨头融合能力；其参数不参与 K/V 共享优化</li>
+<li><strong>推荐设置</strong>：<code class="inline-code">bias</code> 视实现而定，保持与框架默认一致</li>
+</ul>
+
+<p>#### 10. <code class="inline-code">Wqkv</code> 合并投影的参数量</p>
+<ul>
+<li><strong>含义</strong>：输入到 Q/K/V 三路投影的合并线性层</li>
+<li><strong>MHA</strong>：<code class="inline-code">d → 3d</code>（Q、K、V 各 d 维）</li>
+<li><strong>MQA</strong>：<code class="inline-code">d → d + 2×head_dim</code>（Q 全维，K/V 各只有单头维度）</li>
+<li><strong>对结果的影响</strong>：投影参数量下降约 2(h-1)/(3h)；同时 KV 缓存按 h 倍缩减，是加速主因</li>
+<li><strong>推荐</strong>：用 <code class="inline-code">split([d_model, head_dim, head_dim])</code> 切分 Q/K/V</li>
+</ul>
+
+<h4>代码示例</h4>
+
+<p><pre class="code-block"><code class="language-python">import torch
+import torch.nn as nn
+import torch.nn.functional as F
+
+class MultiQueryAttention(nn.Module):
+    &quot;&quot;&quot;MQA：Q 保持多头，K / V 只保留单头共享。&quot;&quot;&quot;
+    def __init__(self, d_model: int, num_heads: int):
+        super().__init__()
+        self.d_model = d_model                    # 模型隐藏维度
+        self.num_heads = num_heads                # 注意力头数（仅 Q 拆头）
+        self.head_dim = d_model // num_heads      # 每头维度 d_k
+        # 合并投影：Q 占 d_model，K 和 V 各只占 head_dim（共享单头）
+        self.Wqkv = nn.Linear(d_model, d_model + 2 * self.head_dim)
+        self.out_proj = nn.Linear(d_model, d_model)  # 输出回 d_model
+
+    def forward(self, x, causal: bool = True):
+        B, S, D = x.shape                         # batch / 序列长 / 维度
+        qkv = self.Wqkv(x)                        # (B, S, D + 2*d_k)
+        # 切分：q 全维，k/v 各 head_dim
+        q, k, v = qkv.split([self.d_model, self.head_dim, self.head_dim], dim=-1)
+        # 把 q 拆成多头形状 (B, H, S, Dk)
+        q = q.view(B, S, self.num_heads, self.head_dim).transpose(1, 2)
+        # k/v 维持单头，扩展出头维 (B, 1, S, Dk)
+        k = k.unsqueeze(1)
+        v = v.unsqueeze(1)
+        # 点积注意力：scores 形状 (B, H, S, S)
+        scores = (q @ k.transpose(-1, -2)) / (self.head_dim ** 0.5)
+        if causal:                                # 因果掩码：上三角置 -inf
+            mask = torch.triu(torch.ones(S, S, device=x.device), diagonal=1).bool()
+            scores = scores.masked_fill(mask, float(&#x27;-inf&#x27;))
+        attn = F.softmax(scores, dim=-1)          # 归一化得到注意力权重
+        out = attn @ v                            # (B, H, S, Dk)
+        out = out.transpose(1, 2).contiguous().view(B, S, -1)  # 拼接多头
+        return self.out_proj(out)                 # 输出投影后返回
+
+# 参数对比：d_model=512, h=8 时
+# MHA 的 Wqkv 权重形状：(512, 1536)
+# MQA 的 Wqkv 权重形状：(512, 512 + 2*64) = (512, 640)
+# KV 缓存每 token：MHA = 8×64×2 = 1024 个浮点；MQA = 64×2 = 128 个浮点</code></pre></p>
+
+<h4>复杂度分析</h4>
+
+<p><strong>参数量</strong>：设输入维度 $ d $、头数 $ h $、每头维度 $ d_k = d/h $：</p>
+
+<ul>
+<li>MHA 的 QKV 投影：$ d \times 3d = 3d^2 $</li>
+<li>MQA 的 QKV 投影：$ d \times (d + 2d_k) = d^2 + 2d d_k = d^2(1 + 2/h) $</li>
+</ul>
+
+<p>参数减少比例：$ 1 - \frac{1 + 2/h}{3} = \frac{2(h-1)}{3h} $（h=8 时约省 58%）。</p>
+
+<p><strong>KV 缓存空间</strong>：自回归生成 L 个 token：</p>
+
+<p><div class="math-block">$$ \text{MHA: } O(h \cdot L \cdot d_k \times 2) \qquad \text{MQA: } O(L \cdot d_k \times 2) $$</div></p>
+
+<p>降低 $ h $ 倍 → 显存压力下降 → 可增大 batch，提升吞吐率。</p>
+
+<p><strong>解码带宽</strong>：每次生成都要读取全部 KV 缓存参与注意力计算；缓存变小意味着从 DRAM 读取的字节数少，计算单元等待减少，解码速度显著提升（论文与 Falcon 等模型实测）。</p>
+
+<h4>应用场景</h4>
+
+<ul>
+<li>大模型自回归解码加速（Falcon、PaLM、StarCoder 等采用 MQA 的代表模型）</li>
+<li>长上下文生成：KV 缓存体量随 L 线性增长，MQA 直接降低显存压力、支持更长序列</li>
+<li>高吞吐在线推理服务（客服机器人、代码补全、文本生成 API）</li>
+<li>作为理解 GQA / MLA 的教学基石，掌握「共享 K/V → 分组共享 → 低秩压缩」的演进</li>
+</ul>
+
+<h4>参考文档</h4>
+
+<ul>
+<li><a href="https://new.qq.com/rain/a/20240307A01RHQ00" target="_blank" class="ref-link">LLM 加速技巧：Multi Query Attention（腾讯新闻）</a></li>
+<li><a href="https://arxiv.org/abs/1911.02150" target="_blank" class="ref-link">Fast Transformer Decoding: One Write-Head is All You Need（论文原文）</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/700588653" target="_blank" class="ref-link">缓存与效果的极限拉扯：从 MHA、MQA、GQA 到 MLA（知乎）</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/1957183547866591577" target="_blank" class="ref-link">GQA vs MHA 深度技术解析（知乎）</a></li>
+</ul>
+
+<hr>
+
+<h3>LSTM 长短期记忆（Long Short-Term Memory）</h3>
+
+<p><strong>类别</strong>：深度学习 | <strong>难度</strong>：中等</p>
+
+<h4>算法简介</h4>
+
+<p>LSTM（Long Short-Term Memory）由 Hochreiter 与 Schmidhuber 于 1997 年提出，是一种专门解决<strong>长期依赖</strong>问题的循环神经网络（RNN）变体。传统 RNN 在每个时间步仅靠一个隐藏状态 $ h_t $ 传递信息，反向传播时梯度沿时间展开连乘，序列一长就会指数级消失或爆炸，导致模型「记不住远距离信息」。LSTM 的改进是引入一条贯穿整个序列的<strong>细胞状态（Cell State）$ C_t $</strong>——相当于一条「记忆传送带」，配合<strong>遗忘门、输入门、输出门</strong>三个门控（每个门输出 [0,1] 之间的比例），用逐元素乘法控制：忘掉什么旧记忆、写入什么新记忆、输出多少给上层。因为细胞状态的更新是「旧状态乘以门值再加新信息」的线性累加，梯度沿这条通路可以近似恒等地反向传播，从而大幅缓解梯度消失。LSTM 在语音识别、机器翻译、时序预测、异常检测等领域长期占据主流地位，直到 Transformer 兴起才逐渐让位，但其门控思想至今仍是序列建模的必修基础。</p>
+
+<h4>原理示意图</h4>
+
+<p><div class="algo-image"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 900 440" font-family="sans-serif">
+  <defs>
+    <marker id="arw" markerWidth="8" markerHeight="8" refX="4" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#6366f1"/>
+    </marker>
+  </defs>
+  <rect width="900" height="440" fill="#1e293b" rx="12"/>
+  <text x="450" y="32" text-anchor="middle" fill="#818cf8" font-size="16" font-weight="600">LSTM 单元：三个门 + 细胞状态传送带</text>
+
+  <!-- 细胞状态传送带 -->
+  <rect x="150" y="52" width="600" height="12" rx="6" fill="#22c55e" opacity="0.8"/>
+  <text x="150" y="42" fill="#22c55e" font-size="12">C_{t-1} →</text>
+  <text x="640" y="42" fill="#22c55e" font-size="12">→ C_t</text>
+
+  <!-- 输入 -->
+  <rect x="40" y="100" width="110" height="36" rx="8" fill="#334155"/>
+  <text x="95" y="123" text-anchor="middle" fill="#e2e8f0" font-size="13">h_{t-1}</text>
+  <rect x="40" y="160" width="110" height="36" rx="8" fill="#334155"/>
+  <text x="95" y="183" text-anchor="middle" fill="#e2e8f0" font-size="13">x_t</text>
+  <line x1="150" y1="128" x2="215" y2="128" stroke="#6366f1" stroke-width="2" marker-end="url(#arw)"/>
+  <line x1="150" y1="178" x2="215" y2="178" stroke="#6366f1" stroke-width="2" marker-end="url(#arw)"/>
+
+  <!-- 四个门 -->
+  <g font-size="12">
+    <rect x="220" y="80"  width="120" height="36" rx="8" fill="#1f2937" stroke="#f97316" stroke-width="1.5"/>
+    <text x="280" y="103" text-anchor="middle" fill="#f97316">遗忘门 f_t=σ</text>
+    <rect x="220" y="128" width="120" height="36" rx="8" fill="#1f2937" stroke="#22c55e" stroke-width="1.5"/>
+    <text x="280" y="151" text-anchor="middle" fill="#22c55e">输入门 i_t=σ</text>
+    <rect x="220" y="176" width="120" height="36" rx="8" fill="#1f2937" stroke="#22c55e" stroke-width="1.5"/>
+    <text x="280" y="199" text-anchor="middle" fill="#22c55e">候选 g_t=tanh</text>
+    <rect x="220" y="224" width="120" height="36" rx="8" fill="#1f2937" stroke="#f97316" stroke-width="1.5"/>
+    <text x="280" y="247" text-anchor="middle" fill="#f97316">输出门 o_t=σ</text>
+  </g>
+
+  <!-- 运算节点 -->
+  <circle cx="400" cy="98"  r="20" fill="#334155" stroke="#f97316"/>
+  <text x="400" y="103" text-anchor="middle" fill="#e2e8f0" font-size="12">×</text>
+  <circle cx="400" cy="200" r="20" fill="#334155" stroke="#22c55e"/>
+  <text x="400" y="205" text-anchor="middle" fill="#e2e8f0" font-size="12">×</text>
+  <circle cx="520" cy="150" r="20" fill="#334155" stroke="#e2e8f0"/>
+  <text x="520" y="155" text-anchor="middle" fill="#e2e8f0" font-size="13">+</text>
+
+  <!-- 连线 -->
+  <line x1="340" y1="98" x2="388" y2="98" stroke="#f97316" stroke-width="1.5"/>
+  <line x1="412" y1="98" x2="505" y2="150" stroke="#6366f1" stroke-width="1.5"/>
+  <line x1="340" y1="200" x2="388" y2="200" stroke="#22c55e" stroke-width="1.5"/>
+  <line x1="412" y1="200" x2="505" y2="150" stroke="#6366f1" stroke-width="1.5"/>
+  <line x1="540" y1="150" x2="660" y2="150" stroke="#6366f1" stroke-width="2" marker-end="url(#arw)"/>
+  <line x1="340" y1="242" x2="660" y2="242" stroke="#f97316" stroke-width="1.5"/>
+  <line x1="660" y1="150" x2="660" y2="200" stroke="#6366f1" stroke-width="1.5"/>
+  <circle cx="660" cy="150" r="12" fill="#334155" stroke="#f97316"/>
+  <text x="660" y="155" text-anchor="middle" fill="#e2e8f0" font-size="11">tanh</text>
+
+  <!-- 输出 -->
+  <rect x="700" y="80" width="170" height="70" rx="10" fill="#334155" stroke="#6366f1" stroke-width="1.5"/>
+  <text x="785" y="103" text-anchor="middle" fill="#e2e8f0" font-size="13">h_t = o_t ⊙ tanh(C_t)</text>
+  <text x="785" y="126" text-anchor="middle" fill="#94a3b8" font-size="12">C_t = f_t⊙C_{t-1}</text>
+  <text x="785" y="144" text-anchor="middle" fill="#94a3b8" font-size="12">+ i_t⊙g_t</text>
+  <line x1="660" y1="90" x2="700" y2="90" stroke="#f97316" stroke-width="1.5"/>
+  <line x1="660" y1="150" x2="700" y2="115" stroke="#6366f1" stroke-width="1.5"/>
+
+  <text x="450" y="420" text-anchor="middle" fill="#94a3b8" font-size="12">⊙ 表示逐元素相乘；σ 为 sigmoid（输出 0~1），tanh 输出 -1~1；细胞状态靠「加法」通路传递梯度，缓解梯度消失</text>
+</svg></div></p>
+
+<h4>数学公式</h4>
+
+<p>设输入 $ x_t $、上一时刻隐藏状态 $ h_{t-1} $、上一时刻细胞状态 $ c_{t-1} $，$ W $ 为输入权重，$ U $ 为循环权重，$ b $ 为偏置。</p>
+
+<p><strong>遗忘门</strong>（决定保留多少旧记忆）：</p>
+
+<p><div class="math-block">$$ f_t = \sigma(W_f x_t + U_f h_{t-1} + b_f) $$</div></p>
+
+<ul>
+<li>$ f_t $：遗忘门输出（0~1，1 表示完全保留）</li>
+<li>$ \sigma $：sigmoid 激活函数，$ \sigma(z) = \dfrac{1}{1+e^{-z}} $</li>
+<li>$ W_f \in \mathbb{R}^{H \times X} $：遗忘门对输入 $ x_t $ 的权重</li>
+<li>$ U_f \in \mathbb{R}^{H \times H} $：遗忘门对上一隐藏状态的循环权重</li>
+<li>$ b_f \in \mathbb{R}^{H} $：遗忘门偏置</li>
+<li>$ H $：隐藏单元数（hidden_size），$ X $：输入特征数（input_size）</li>
+</ul>
+
+<p><strong>输入门 + 候选记忆</strong>（决定写入多少新信息）：</p>
+
+<p><div class="math-block">$$ i_t = \sigma(W_i x_t + U_i h_{t-1} + b_i), \qquad
+\tilde{c}_t = \tanh(W_c x_t + U_c h_{t-1} + b_c) $$</div></p>
+
+<ul>
+<li>$ i_t $：输入门输出（0~1），控制「候选记忆写入的强度」</li>
+<li>$ \tilde{c}_t $：候选记忆（-1~1），由 tanh 产生的新信息</li>
+<li>$ W_i, U_i, b_i $：输入门的输入/循环权重与偏置</li>
+<li>$ W_c, U_c, b_c $：候选记忆的输入/循环权重与偏置</li>
+</ul>
+
+<p><strong>细胞状态更新</strong>（旧记忆衰减 + 新记忆叠加，关键的「加法」通路）：</p>
+
+<p><div class="math-block">$$ c_t = f_t \odot c_{t-1} + i_t \odot \tilde{c}_t $$</div></p>
+
+<ul>
+<li>$ c_t $：当前时刻细胞状态（长期记忆）</li>
+<li>$ \odot $：逐元素相乘（Hadamard 积）</li>
+<li>第一项 $ f_t \odot c_{t-1} $：选择性遗忘旧记忆</li>
+<li>第二项 $ i_t \odot \tilde{c}_t $：选择性写入新记忆</li>
+</ul>
+
+<p><strong>输出门 + 隐藏状态</strong>：</p>
+
+<p><div class="math-block">$$ o_t = \sigma(W_o x_t + U_o h_{t-1} + b_o), \qquad
+h_t = o_t \odot \tanh(c_t) $$</div></p>
+
+<ul>
+<li>$ o_t $：输出门（0~1），决定从细胞状态中放行多少信息</li>
+<li>$ h_t $：当前时刻隐藏状态（输出），也是下一时间步的输入之一</li>
+<li>$ \tanh(c_t) $：把细胞状态压缩到 -1~1 再按比例输出</li>
+</ul>
+
+<p><strong>梯度路径</strong>：从时刻 T 反传到 t，细胞状态链上的偏导数为连乘形式：</p>
+
+<p><div class="math-block">$$ \frac{\partial c_T}{\partial c_t} = \prod_{k=t+1}^{T} f_k $$</div></p>
+
+<ul>
+<li>当 $ f_k \approx 1 $ 时连乘接近 1，梯度可以「穿透」长序列；</li>
+<li>$ f_k < 1 $ 时梯度才衰减——而门是可学习的，网络会学会长期保持 $ f_k \approx 1 $，这正是 LSTM 能记忆长期依赖的根本原因。</li>
+</ul>
+
+<h4>核心要点</h4>
+
+<ul>
+<li>LSTM 的核心是<strong>细胞状态 $ c_t $ + 三个门</strong>，门输出都是 [0,1] 的「比例」，靠逐元素相乘控制信息流量</li>
+<li>「加法」式更新让梯度沿细胞状态链近似恒等传播，缓解传统 RNN 的梯度消失</li>
+<li>标准 LSTM 每步有 4 组权重（遗忘/输入/候选/输出），PyTorch 把它们合并为一个 [4H, X+H] 矩阵一次算出再切分</li>
+<li>双向 LSTM 拼接正反两个方向的隐藏状态；多层 LSTM 把前一层输出作为下一层输入</li>
+<li>门必须用 sigmoid（0~1 的比例），候选与输出用 tanh（-1~1 的表示）</li>
+</ul>
+
+<h4>技术细节与参数详解</h4>
+
+<p>以下以 PyTorch <code class="inline-code">nn.LSTM</code> 为准，逐个讲解关键参数。</p>
+
+<p>#### 1. <code class="inline-code">input_size</code></p>
+<ul>
+<li><strong>含义</strong>：输入序列 $ x_t $ 每个时间步的特征维数</li>
+<li><strong>类型</strong>：<code class="inline-code">int</code></li>
+<li><strong>默认值</strong>：无，必填</li>
+<li><strong>取值范围</strong>：正整数</li>
+<li><strong>对结果的影响</strong>：决定输入权重尺寸；太小特征表达不足，太大会显著增加参数</li>
+<li><strong>推荐设置</strong>：等于你的特征维度/词嵌入维度</li>
+</ul>
+
+<p>#### 2. <code class="inline-code">hidden_size</code></p>
+<ul>
+<li><strong>含义</strong>：隐藏单元数量 $ H $，即 $ h_t $ 与 $ c_t $ 的向量长度</li>
+<li><strong>类型</strong>：<code class="inline-code">int</code></li>
+<li><strong>默认值</strong>：无，必填</li>
+<li><strong>取值范围</strong>：正整数</li>
+<li><strong>对结果的影响</strong>：LSTM 的表达能力与参数量正比于 $ H^2 $（U 矩阵是 H×H）；H 翻倍参数量约翻 4 倍</li>
+<li><strong>推荐设置</strong>：小任务 32~128，中大型任务 256~1024，配合验证集调节</li>
+</ul>
+
+<p>#### 3. <code class="inline-code">num_layers</code></p>
+<ul>
+<li><strong>含义</strong>：堆叠的 LSTM 层数</li>
+<li><strong>类型</strong>：<code class="inline-code">int</code></li>
+<li><strong>默认值</strong>：<code class="inline-code">1</code></li>
+<li><strong>取值范围</strong>：≥1 的整数</li>
+<li><strong>对结果的影响</strong>：加深提升抽象层次与容量，但参数量线性增加、训练更难；层间可用 <code class="inline-code">dropout</code> 缓解</li>
+<li><strong>推荐设置</strong>：初学 1~2 层，生产环境 2~4 层</li>
+</ul>
+
+<p>#### 4. <code class="inline-code">bias</code></p>
+<ul>
+<li><strong>含义</strong>：是否使用偏置项</li>
+<li><strong>类型</strong>：<code class="inline-code">bool</code></li>
+<li><strong>默认值</strong>：<code class="inline-code">True</code></li>
+<li><strong>取值范围</strong>：True / False</li>
+<li><strong>对结果的影响</strong>：False 时门控计算不含偏置，参数略减但拟合灵活性下降</li>
+<li><strong>推荐设置</strong>：保持 True</li>
+</ul>
+
+<p>#### 5. <code class="inline-code">batch_first</code></p>
+<ul>
+<li><strong>含义</strong>：输入张量第一维是否为 batch</li>
+<li><strong>类型</strong>：<code class="inline-code">bool</code></li>
+<li><strong>默认值</strong>：<code class="inline-code">False</code>（默认形状 [seq, batch, feature]）</li>
+<li><strong>取值范围</strong>：True / False</li>
+<li><strong>对结果的影响</strong>：False 时输入为 (seq, batch, feature)；True 后为 (batch, seq, feature)，减少转置错误</li>
+<li><strong>推荐设置</strong>：配合 DataLoader 习惯设 True</li>
+</ul>
+
+<p>#### 6. <code class="inline-code">dropout</code></p>
+<ul>
+<li><strong>含义</strong>：层与层之间的 dropout 丢弃率（注意：不作用于时间步内部）</li>
+<li><strong>类型</strong>：<code class="inline-code">float</code></li>
+<li><strong>默认值</strong>：<code class="inline-code">0.0</code></li>
+<li><strong>取值范围</strong>：0 ≤ dropout ≤ 1，且 num_layers > 1 时才有实际效果</li>
+<li><strong>对结果的影响</strong>：降低层间耦合、缓解过拟合；设 1 会完全置零，训练失效</li>
+<li><strong>推荐设置</strong>：0.1~0.5，随数据量增大而减小</li>
+</ul>
+
+<p>#### 7. <code class="inline-code">bidirectional</code></p>
+<ul>
+<li><strong>含义</strong>：是否为双向 LSTM</li>
+<li><strong>类型</strong>：<code class="inline-code">bool</code></li>
+<li><strong>默认值</strong>：<code class="inline-code">False</code></li>
+<li><strong>取值范围</strong>：True / False</li>
+<li><strong>对结果的影响</strong>：True 时正反向各有一个 LSTM，输出维度变成 2×hidden_size；能同时利用前后文，适合 NER 等标注任务</li>
+<li><strong>推荐设置</strong>：任务需要「未来信息」时启用，否则保持 False</li>
+</ul>
+
+<p>#### 8. <code class="inline-code">proj_size</code></p>
+<ul>
+<li><strong>含义</strong>：对隐藏状态 $ h_t $ 做线性投影后的维度（部分框架支持）</li>
+<li><strong>类型</strong>：<code class="inline-code">int</code> 或 <code class="inline-code">None</code></li>
+<li><strong>默认值</strong>：<code class="inline-code">None</code>（不投影）</li>
+<li><strong>取值范围</strong>：正整数且 ≤ hidden_size；会额外引入投影矩阵参数</li>
+<li><strong>对结果的影响</strong>：把 h 维度压缩到 proj_size，降低输出层参数量与显存；c_t 保持 hidden_size</li>
+<li><strong>推荐设置</strong>：显存紧张或输出维度需求小时使用</li>
+</ul>
+
+<p>#### 9. 输入状态：<code class="inline-code">h_0</code> / <code class="inline-code">c_0</code></p>
+<ul>
+<li><strong>含义</strong>：初始隐藏状态与初始细胞状态；None 时全零</li>
+<li><strong>类型</strong>：Tensor，形状 [num_layers × directions, batch, hidden_size]</li>
+<li><strong>默认值</strong>：None</li>
+<li><strong>对结果的影响</strong>：起始状态影响开头的「记忆起点」；全零是默认，条件生成可注入有意义的初始状态</li>
+<li><strong>推荐设置</strong>：无特殊需求用全零</li>
+</ul>
+
+<p>#### 10. 序列打包：<code class="inline-code">pack_padded_sequence</code></p>
+<ul>
+<li><strong>含义</strong>：对变长序列做 padding 后，用真实长度告诉 LSTM 哪些位置是填充</li>
+<li><strong>类型</strong>：PackedSequence</li>
+<li><strong>对结果的影响</strong>：不处理则 LSTM 会「吃掉」padding、污染输出；处理后计算更高效且正确</li>
+<li><strong>推荐</strong>：批量变长数据必用，返回时用 pad_packed_sequence 还原</li>
+</ul>
+
+<p>#### 11. 权重初始化与学习率</p>
+<ul>
+<li><strong>含义</strong>：LSTM 门权重初始化方式与学习率</li>
+<li><strong>对结果的影响</strong>：sigmoid 门初始偏置设为正数（如遗忘门偏置 1~5）可让初始「记得更多」，利于长序列</li>
+<li><strong>推荐</strong>：循环权重用 orthogonal 初始化，遗忘门偏置初始化为正值</li>
+</ul>
+
+<h4>代码示例</h4>
+
+<p><pre class="code-block"><code class="language-python">import torch
+import torch.nn as nn
+
+# ---------- 示例 1：直接用 nn.LSTM ----------
+batch = 2
+seq_len = 5          # 序列长度（时间步数）
+input_size = 3       # 每步特征维
+hidden_size = 8      # 隐藏单元数
+num_layers = 2       # 两层堆叠
+
+lstm = nn.LSTM(input_size=input_size, hidden_size=hidden_size,
+               num_layers=num_layers, batch_first=True, dropout=0.1)
+x = torch.randn(batch, seq_len, input_size)     # (2, 5, 3) 批次优先
+out, (h_n, c_n) = lstm(x)                        # 前向传播
+# out 形状: (batch, seq_len, hidden_size) 每步输出
+# h_n 形状: (num_layers, batch, hidden_size) 各层最终隐藏状态
+# c_n 形状: (num_layers, batch, hidden_size) 各层最终细胞状态
+print(out.shape)      # torch.Size([2, 5, 16])
+print(h_n.shape)      # torch.Size([2, 2, 16])
+
+# ---------- 示例 2：手写一个 LSTM 单元（便于理解门控） ----------
+class MyLSTMCell(nn.Module):
+    &quot;&quot;&quot;单个时间步的 LSTM 细胞。&quot;&quot;&quot;
+    def __init__(self, input_size, hidden_size):
+        super().__init__()
+        self.hidden_size = hidden_size
+        # 合并 4 组门的输入变换，输出 4H 维
+        self.w_ih = nn.Linear(input_size, 4 * hidden_size)
+        # 上一时刻隐藏状态到 4 组门的变换
+        self.w_hh = nn.Linear(hidden_size, 4 * hidden_size)
+
+    def forward(self, x, state):
+        &quot;&quot;&quot;x: (batch, input_size)；state: (h_prev, c_prev)&quot;&quot;&quot;
+        h_prev, c_prev = state
+        gates = self.w_ih(x) + self.w_hh(h_prev)   # 一次算完 4 组门线性值
+        f, i, g, o = gates.chunk(4, dim=-1)        # 切为 4 段
+        f = torch.sigmoid(f)      # 遗忘门 σ → 0~1
+        i = torch.sigmoid(i)      # 输入门 σ → 0~1
+        g = torch.tanh(g)         # 候选记忆 tanh → -1~1
+        o = torch.sigmoid(o)      # 输出门 σ → 0~1
+        c = f * c_prev + i * g    # 细胞状态：旧记忆衰减 + 新记忆写入
+        h = o * torch.tanh(c)     # 隐藏状态：门控放出细胞信息
+        return h, (h, c)          # 返回隐藏状态与新状态对
+
+cell = MyLSTMCell(3, 16)                        # 3 特征 → 16 隐藏
+h, c = torch.zeros(2, 16), torch.zeros(2, 16)  # 初始状态全零
+for t in range(seq_len):                       # 逐时间步推进
+    h, (h, c) = cell(x[:, t, :], (h, c))       # 用第 t 步输入更新
+print(h.shape)                                # torch.Size([2, 16])
+
+# ---------- 示例 3：小任务训练流程（序列回归） ----------
+import torch.optim as optim
+
+model = nn.LSTM(1, 16, num_layers=1, batch_first=True)  # 1 维输入 → 16 隐
+head = nn.Linear(16, 1)            # 输出回归到 1 维
+opt = optim.Adam(list(model.parameters()) + list(head.parameters()), lr=0.01)
+loss_fn = nn.MSELoss()
+
+for epoch in range(100):
+    seq = torch.randn(2, 10, 1)             # 随机序列 (batch=2, len=10, 1)
+    target = seq[:, -1, :] + 0.5            # 目标：最后一步 + 0.5
+    out, _ = model(seq)                     # 前向
+    pred = head(out[:, -1, :])              # 取最后一步输出回归
+    loss = loss_fn(pred, target)            # MSE 损失
+    opt.zero_grad()                         # 清梯度
+    loss.backward()                         # 反向传播
+    opt.step()                              # 更新参数
+    if epoch % 20 == 0:
+        print(f&quot;epoch {epoch}, loss={loss.item():.4f}&quot;)</code></pre></p>
+
+<h4>复杂度分析</h4>
+
+<p><strong>时间复杂度</strong>：每个时间步需计算 4 组门，每组包含一次矩阵乘法：</p>
+
+<ul>
+<li>单时间步：$ 4 \times (X \cdot H + H \cdot H) = O(H(X+H)) $</li>
+<li>T 个时间步总计：$ O(T \cdot H \cdot (X+H)) $，约 4·T·H·(X+H) 次乘加</li>
+</ul>
+
+<p><strong>空间复杂度</strong>：</p>
+
+<ul>
+<li>权重参数：$ O(4H(X+H)) $</li>
+<li>前向需保存每一步中间激活用于反向：$ O(T \cdot H) $</li>
+<li>双向时时间与空间再乘 2；层数 L 使参数与计算再乘 L</li>
+</ul>
+
+<h4>应用场景</h4>
+
+<ul>
+<li>语音识别 / 语音合成：逐帧序列建模</li>
+<li>自然语言处理：文本分类、机器翻译编码、情感分析、NER</li>
+<li>时序预测：股票/流量/电力负荷预测、设备异常检测</li>
+<li>生物信号：心电分类、基因序列模式识别</li>
+<li>作为 Transformer 的对比基线及低成本序列建模方案</li>
+</ul>
+
+<h4>参考文档</h4>
+
+<ul>
+<li><a href="https://cloud.tencent.com/developer/article/2299598" target="_blank" class="ref-link">RNN 长短期记忆（LSTM）是如何工作的？（腾讯云）</a></li>
+<li><a href="https://blog.csdn.net/m0_62638970/article/details/154182694" target="_blank" class="ref-link">LSTM(Long Short-Term Memory) 个人理解（CSDN）</a></li>
+<li><a href="https://www.cnblogs.com/mmhhhlb/p/18703138" target="_blank" class="ref-link">LSTM(Long Short-Term Memory) 长短时记忆结构（博客园）</a></li>
+<li><a href="https://pytorch.org/docs/stable/generated/torch.nn.LSTM.html" target="_blank" class="ref-link">PyTorch 官方文档：nn.LSTM</a></li>
+</ul>
+
+<blockquote>
+<p>AI生成</p>
+</blockquote>
+
+  </div>
+  <div class="footer">
+    <p>由 TeleAgent · 每日算法推送 技能自动生成 | 2026-10-14 09:40</p>
+  </div>
+</div>
+</body>
+</html>
