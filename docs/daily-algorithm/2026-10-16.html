@@ -754,6 +754,18 @@ if __name__ == &#x27;__main__&#x27;:           # 本地自测（Python 3.7 兼�
 <li>密码与校验：XOR 一次性密码本、异或校验和、RAID5 奇偶校验</li>
 </ul>
 
+<h4>参考文档</h4>
+
+<ul>
+<li><a href="https://docs.python.org/zh-cn/3/library/stdtypes.html#bitwise-operations-on-integer-types" target="_blank" class="ref-link">Python 官方文档：整数类型的位运算方法（<code class="inline-code">bin</code> / <code class="inline-code">int.bit_length</code> / <code class="inline-code">int.bit_count</code> / <code class="inline-code">to_bytes</code>）</a></li>
+<li><a href="https://blog.csdn.net/m0_75034893/article/details/149452488" target="_blank" class="ref-link">位运算详解（干货）- CSDN</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/564808922" target="_blank" class="ref-link">位运算的技巧（判断奇偶/2 的幂/n&(n-1)）- 知乎</a></li>
+<li><a href="https://blog.csdn.net/Baridhu/article/details/123007586" target="_blank" class="ref-link">数据结构和算法：位运算（LowBit/消去最后一位 1/交换两数）- CSDN</a></li>
+<li><a href="https://blog.csdn.net/weixin_42116058/article/details/167593060" target="_blank" class="ref-link">位运算入门：异或抵消与 lowbit 技巧解“只出现一次的数字”- CSDN</a></li>
+<li><a href="https://blog.csdn.net/weixin_32247165/article/details/167817897" target="_blank" class="ref-link">2 的幂判断：从位运算本质到工程应用 isPowerOfTwo - CSDN</a></li>
+<li><a href="https://blog.csdn.net/2301_79558858/article/details/136487053" target="_blank" class="ref-link">位运算（技巧、二进制中 1 的个数、区间或、异或森林）- CSDN</a></li>
+</ul>
+
 <hr>
 
 <h3>MLA 多头潜在注意力</h3>
@@ -765,6 +777,12 @@ if __name__ == &#x27;__main__&#x27;:           # 本地自测（Python 3.7 兼�
 <p>MLA（Multi-head Latent Attention，多头潜在注意力）是 DeepSeek 在 2024 年 5 月发布的 DeepSeek-V2 论文中提出的注意力机制，随后被 DeepSeek-V3、R1 及 Kimi K2 等前沿开源模型沿用，是当前大模型推理成本优化的标志性技术。它要解决的痛点是：自回归解码时每生成一个 token，都要把之前所有 token 的 Key/Value 向量缓存进显存（KV Cache），MHA 架构下每层每 token 需要缓存 $ 2 \times n_h \times d_h $ 个元素；序列越长、批量越大，KV Cache 迅速吞光显存，只能靠重算或换页兜底。已有的 MQA（所有头共享一份 KV）和 GQA（分组共享）通过"共享"省显存，但牺牲了表达能力。MLA 的思路完全不同——"低秩压缩"：用一个下投影矩阵把每个 token 的 KV 联合压缩成一个低维潜在向量 $ c^{KV} $（维度 $ d_c=512 $，远小于 $ 16384=128\times128 $），推理时只缓存这个潜在向量，需要时再经上投影矩阵恢复出各头的 K/V；配合"矩阵吸收"技术，恢复步骤可被数学上等价地融进 Q 的投影和输出投影，不产生额外计算开销。由于 RoPE 位置旋转与低秩压缩的数学形式不兼容（旋转矩阵插在中间无法合并），MLA 又设计了"解耦 RoPE"：把每个头的 Query/Key 拆成"不带位置信息的压缩部分 + 单独的带 RoPE 的小维度部分"，两部分拼接后一起参与注意力打分。据 DeepSeek-V2 论文，其 KV Cache 相比不做压缩的同等头数配置可缩减到约 2% 量级（论文报告中以 LLaMA2-7B 为对照减少 93.3%），生成吞吐最多提升 5.35 倍，且模型质量与全量 MHA 相当甚至更优，真正做到"省显存不降智"。</p>
 
 <h4>原理示意图</h4>
+
+<p>下面这张架构图源自知乎《彻底理解 MLA（Multi-head Latent Attention）》配图（对应 DeepSeek-V2 论文 Figure 3 的完整计算图）。建议对照图中通路阅读：输入隐藏态 $ h_t $（7168 维）出发，左侧 Q 路径经下投影 $ W^{DQ} $ 得到低维潜在向量 $ c_t^Q $（1536 维）再上投影恢复各头 Q；右侧 KV 路径经 $ W^{DKV} $ 压缩成 $ c_t^{KV} $（512 维，即缓存里真正存储的东西）与独立的 RoPE 分支；上投影 $ W^{UK} $/$ W^{UV} $ 恢复各头 K/V，位置相关部分（$ k_t^R $）单独加 RoPE 后与内容部分拼接：</p>
+
+<p><div class="algo-image"><img src="http://pic1.zhimg.com/v2-826c3a4331f2dcd1071a243c5a3cb82c_r.jpg" alt="MLA 架构图：低秩压缩、潜在向量 c_t^KV 与解耦 RoPE 全流程"><div class="image-caption">MLA 架构图：低秩压缩、潜在向量 c_t^KV 与解耦 RoPE 全流程</div></div></p>
+
+<p>理解宏观架构后，再通过下面这张 SVG 直观感受“MLA 到底省了多少 KV Cache”——MHA / GQA / MLA 三种架构的每层每 token 缓存元素数对比：</p>
 
 <p><div class="algo-image"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 960 560" font-family="sans-serif">
   <defs>
@@ -1183,6 +1201,12 @@ print(torch.allclose(score_direct, score_absorbed, atol=1e-6))  # 输出 True：
 <p>Transformer 是 2017 年 Google 论文《Attention Is All You Need》提出的序列建模架构，用自注意力机制（Self-Attention）完全取代了 RNN 的循环结构和 CNN 的局部卷积，让序列中任意两个位置都能一步直达地交换信息（路径长度 O(1)），且整个序列可完全并行训练，彻底解决了 RNN 训练慢、长距离依赖衰减两大痛点。其经典结构为编码器-解码器（Encoder-Decoder）双塔：编码器由 N 层"多头自注意力 + 前馈网络（FFN）"堆叠，每层配残差连接与 LayerNorm；解码器额外多一个"带掩码的自注意力"（下三角掩码防止看到未来）和"交叉注意力"（对编码器输出做 K/V）。三个魔法组件构成核心：Query/Key/Value 三元组的缩放点积注意力负责"按相关性加权取数"；多头机制把 embedding 切到多个子空间并行学习不同的关系模式；位置编码（正弦/可学习/RoPE 等）弥补注意力本身排列不变的缺陷。今天几乎所有大模型都是它的变体：GPT 系列取解码器（decoder-only）、BERT 取编码器（encoder-only）、T5 保留双塔，视觉领域的 ViT、语音领域的 Whisper、蛋白质折叠的 AlphaFold 也全部构建在 Transformer 之上。工程实践中最快上手的方式是 <code class="inline-code">torch.nn.MultiheadAttention</code>，但它有 9 个构造参数和一批易错的 forward 参数（<code class="inline-code">batch_first</code>、<code class="inline-code">attn_mask</code>、<code class="inline-code">key_padding_mask</code> 的方向性），本文逐个讲透。</p>
 
 <h4>原理示意图</h4>
+
+<p>先看《Attention Is All You Need》原论文的经典架构图（编码器-解码器双塔结构，图片来源：zhangtielei.com《白话科普：Transformer 和注意力机制》）。左侧编码器堆叠自注意力 + FFN，右侧解码器额外多“带掩码的自注意力”与“对编码器输出做 K/V 的交叉注意力”，每层均配 Add & Norm 残差归一化：</p>
+
+<p><div class="algo-image"><img src="http://zhangtielei.com/assets/images_transformer/transformer_model_arch.jpg" alt="Transformer 经典架构图：编码器-解码器双塔与内部子层堆叠"><div class="image-caption">Transformer 经典架构图：编码器-解码器双塔与内部子层堆叠</div></div></p>
+
+<p>下面再用一张自绘 SVG 拆解一次前向传播的数据流，以及注意力内部的微观计算步骤：</p>
 
 <p><div class="algo-image"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 960 620" font-family="sans-serif">
   <defs>
@@ -1673,7 +1697,7 @@ print(&#x27;参数量: %.1fM&#x27; % (sum(p.numel() for p in encoder.parameters(
 </blockquote>
   </div>
   <div class="footer">
-    <p>由 TeleAgent · 每日算法推送 技能自动生成 | 2026-10-16 09:29</p>
+    <p>由 TeleAgent · 每日算法推送 技能自动生成 | 2026-10-16 09:44</p>
   </div>
 </div>
 </body>
