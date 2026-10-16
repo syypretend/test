@@ -1,5 +1,42 @@
 [
   {
+    "date": "2026-10-16",
+    "filename": "quiz-2026-10-16.html",
+    "url": "https://syypretend.github.io/test/daily-quiz/quiz-2026-10-16.html",
+    "title": "每日算法 AI 出题 · 第 18 期",
+    "subtitle": "算法 2 道 + AI 2 道 · 知识池轮换（贪心区间调度 / 对顶堆 / XGBoost / 模型量化）",
+    "questions": [
+      {
+        "id": 1,
+        "type": "algorithm_code",
+        "type_label": "算法编程",
+        "title": "无重叠区间（最少移除区间数）",
+        "difficulty": 2
+      },
+      {
+        "id": 2,
+        "type": "algorithm_concept",
+        "type_label": "算法概念",
+        "title": "对顶堆与数据流中位数",
+        "difficulty": 2
+      },
+      {
+        "id": 3,
+        "type": "ai_derivation",
+        "type_label": "AI公式推导",
+        "title": "XGBoost：目标函数与分裂增益的完整推导",
+        "difficulty": 3
+      },
+      {
+        "id": 4,
+        "type": "ai_interview",
+        "type_label": "AI面试问答",
+        "title": "模型量化（GPTQ / AWQ）为什么能省显存并加速大模型推理？",
+        "difficulty": 2
+      }
+    ]
+  },
+  {
     "date": "2026-10-15",
     "filename": "quiz-2026-10-15.html",
     "url": "https://syypretend.github.io/test/daily-quiz/quiz-2026-10-15.html",
