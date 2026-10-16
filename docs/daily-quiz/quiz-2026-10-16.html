@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>每日算法 AI 出题 · 第 18 期 · 2026-10-16</title>
+  <!-- KaTeX 数学公式渲染 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
+  <style>
+    :root {
+      --bg: #0d1117;
+      --card-bg: #161b22;
+      --border: #30363d;
+      --text: #e6edf3;
+      --text-dim: #8b949e;
+      --accent: #58a6ff;
+      --green: #3fb950;
+      --orange: #d29922;
+      --red: #f85149;
+      --purple: #a855f7;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", sans-serif;
+      line-height: 1.7;
+      padding: 16px;
+      max-width: 860px;
+      margin: 0 auto;
+    }
+    .header {
+      text-align: center;
+      padding: 24px 0 16px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 24px;
+    }
+    .header h1 {
+      font-size: 1.5em;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+    .header .subtitle {
+      color: var(--text-dim);
+      font-size: 0.9em;
+    }
+    .header .date-tag {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 2px 12px;
+      border-radius: 12px;
+      background: var(--border);
+      font-size: 0.8em;
+      color: var(--text-dim);
+    }
+
+    /* 题目卡片 */
+    .question-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .question-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+    .type-badge {
+      padding: 2px 10px;
+      border-radius: 10px;
+      font-size: 0.75em;
+      color: white;
+      font-weight: 600;
+    }
+    .difficulty { font-size: 0.85em; }
+    .qid-label { color: var(--text-dim); font-size: 0.8em; margin-left: auto; }
+    .question-title {
+      font-size: 1.25em;
+      margin-bottom: 12px;
+      color: var(--text);
+    }
+    .question-body { margin-bottom: 14px; }
+    .question-body code.inline-code {
+      background: var(--border);
+      padding: 1px 5px;
+      border-radius: 3px;
+      font-size: 0.9em;
+    }
+
+    /* 信息块 */
+    .info-block {
+      background: rgba(88,166,255,0.05);
+      border-left: 3px solid var(--accent);
+      padding: 10px 14px;
+      margin: 10px 0;
+      border-radius: 0 6px 6px 0;
+    }
+    .info-label {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.85em;
+      display: block;
+      margin-bottom: 4px;
+    }
+    .info-block pre {
+      white-space: pre-wrap;
+      font-family: "JetBrains Mono", "Fira Code", monospace;
+      font-size: 0.85em;
+      color: var(--text);
+    }
+
+    /* 示例 */
+    .example-block {
+      background: rgba(63,185,80,0.05);
+      border: 1px solid rgba(63,185,80,0.2);
+      border-radius: 8px;
+      padding: 12px;
+      margin: 10px 0;
+    }
+    .example-title {
+      color: var(--green);
+      font-weight: 600;
+      font-size: 0.85em;
+      margin-bottom: 6px;
+    }
+    .example-io {
+      font-family: monospace;
+      font-size: 0.85em;
+      white-space: pre-wrap;
+      margin: 2px 0;
+    }
+    .io-label { color: var(--text-dim); }
+    .example-explanation {
+      color: var(--text-dim);
+      font-size: 0.85em;
+      margin-top: 6px;
+      padding-top: 6px;
+      border-top: 1px dashed var(--border);
+    }
+
+    /* 选项 */
+    .options-container { margin: 12px 0; }
+    .option-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      padding: 10px 14px;
+      margin: 6px 0;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .option-item:hover { border-color: var(--accent); background: rgba(88,166,255,0.05); }
+    .option-item.correct { border-color: var(--green); background: rgba(63,185,80,0.1); }
+    .option-item.wrong { border-color: var(--red); background: rgba(248,81,73,0.1); }
+    .option-item input[type=radio] { accent-color: var(--accent); margin-top: 4px; }
+    .option-letter {
+      font-weight: 700;
+      color: var(--accent);
+      min-width: 20px;
+    }
+    .option-text { flex: 1; font-size: 0.9em; }
+    .option-feedback {
+      margin: 8px 0;
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-size: 0.85em;
+      display: none;
+    }
+    .option-feedback.show { display: block; }
+    .option-feedback.correct {
+      background: rgba(63,185,80,0.1);
+      color: var(--green);
+    }
+    .option-feedback.wrong { background: rgba(248,81,73,0.1); color: var(--red); }
+
+    /* 代码编辑器 */
+    .code-section {
+      margin: 16px 0;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .code-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 14px;
+      background: rgba(88,166,255,0.08);
+      border-bottom: 1px solid var(--border);
+      font-size: 0.85em;
+      color: var(--accent);
+    }
+    .editor-wrap {
+      position: relative;
+    }
+    .code-editor {
+      min-height: 180px;
+      max-height: 400px;
+      overflow: auto;
+      padding: 12px;
+      font-family: "JetBrains Mono", "Fira Code", "Cascadia Code", monospace;
+      font-size: 13px;
+      line-height: 1.5;
+      white-space: pre;
+      color: var(--text);
+      background: #0d1117;
+      outline: none;
+      tabs: 4;
+    }
+    .btn-run {
+      background: var(--green);
+      color: white;
+      border: none;
+      padding: 4px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.85em;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .btn-run:hover { opacity: 0.85; }
+    .btn-run:disabled { opacity: 0.5; cursor: not-allowed; }
+    .code-result {
+      padding: 12px;
+      background: #0d1117;
+      border-top: 1px solid var(--border);
+      font-family: monospace;
+      font-size: 0.85em;
+      white-space: pre-wrap;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+    .code-result .test-pass { color: var(--green); }
+    .code-result .test-fail { color: var(--red); }
+    .code-result .stderr { color: var(--orange); }
+
+    /* 显示解析按钮 */
+    .btn-reveal {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      margin-top: 16px;
+      background: transparent;
+      border: 2px dashed var(--border);
+      border-radius: 8px;
+      color: var(--text-dim);
+      font-size: 0.95em;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .btn-reveal:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(88,166,255,0.03);
+    }
+    .btn-reveal.loading {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    /* 解析区域 */
+    .solution-section {
+      margin-top: 16px;
+      animation: fadeIn 0.4s ease;
+    }
+    @keyframes fadeIn { from{opacity:0; transform:translateY(10px) } to{opacity:1; transform:translateY(0) } }
+    .solution-divider {
+      text-align: center;
+      color: var(--text-dim);
+      font-size: 0.8em;
+      margin: 16px 0;
+      letter-spacing: 1px;
+    }
+    .answer-highlight {
+      background: rgba(63,185,80,0.1);
+      border: 1px solid var(--green);
+      border-radius: 8px;
+      padding: 10px 16px;
+      margin: 10px 0;
+      font-size: 1.05em;
+      color: var(--green);
+      font-weight: 600;
+    }
+    .solution-block {
+      margin: 14px 0;
+      padding: 14px;
+      background: rgba(255,255,255,0.02);
+      border-radius: 8px;
+    }
+    .solution-block h4 {
+      color: var(--accent);
+      margin-bottom: 8px;
+      font-size: 0.95em;
+    }
+    .solution-block ul.answer-points {
+      padding-left: 20px;
+    }
+    .solution-block ul.answer-points li {
+      margin: 6px 0;
+      font-size: 0.9em;
+    }
+    .code-block {
+      background: #0d1117;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 12px;
+      font-family: "JetBrains Mono", "Fira Code", monospace;
+      font-size: 0.85em;
+      overflow-x: auto;
+      white-space: pre;
+      color: var(--text);
+    }
+    .complexity-tag {
+      display: inline-block;
+      padding: 2px 10px;
+      margin-right: 8px;
+      border-radius: 6px;
+      background: var(--border);
+      font-size: 0.85em;
+      font-family: monospace;
+    }
+    .derivation-content {
+      font-size: 0.9em;
+      line-height: 1.8;
+    }
+
+    /* 运行中加载动画 */
+    .spinner {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      border: 2px solid var(--text-dim);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* 底部 */
+    .footer {
+      text-align: center;
+      padding: 24px 0;
+      color: var(--text-dim);
+      font-size: 0.8em;
+      border-top: 1px solid var(--border);
+      margin-top: 24px;
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 8px; }
+      .question-card { padding: 14px; }
+      .question-title { font-size: 1.1em; }
+      .code-editor { font-size: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <h1>每日算法 AI 出题 · 第 18 期</h1>
+  <div class="subtitle">算法 2 道 + AI 2 道 · 知识池轮换（贪心区间调度 / 对顶堆 / XGBoost / 模型量化）</div>
+  <div class="date-tag">📅 2026-10-16 ｜ 算法 2 道 · AI 2 道</div>
+</div>
+
+<div class="question-card" data-qid="1">
+
+    <div class="question-header">
+      <span class="type-badge" style="background:#3b82f6">算法编程</span>
+      <span class="difficulty">⭐⭐</span>
+      <span class="qid-label">第 1 题</span>
+    </div>
+<h2 class="question-title">无重叠区间（最少移除区间数）</h2>
+<div class="question-body">给定一个区间数组 <code class="inline-code">intervals</code>，其中 <code class="inline-code">intervals[i] = [start_i, end_i]</code>（$start_i \le end_i$）。请返回**最少需要移除的区间数量**，使得剩余区间两两互不重叠。<br>
+<br>
+两区间 $[a,b]$ 与 $[c,d]$ 互不重叠，当且仅当 $b \le c$ 或 $d \le a$（即区间**相接**不算重叠，例如 <code class="inline-code">[1,2]</code> 与 <code class="inline-code">[2,3]</code> 视为不重叠）。<br>
+<br>
+&gt; 本题是经典「区间调度（Interval Scheduling）」贪心问题的反向形式：先求最多能保留多少个互不重叠的区间，移除数 = 总数 − 保留数。</div>
+<div class="info-block"><span class="info-label">输入</span><pre>第一行一个整数 n（1 ≤ n ≤ 10^5）表示区间个数；接下来 n 行，每行两个整数 start end，表示一个区间 [start, end]。</pre></div>
+<div class="info-block"><span class="info-label">输出</span><pre>一个整数，表示最少需要移除的区间数量。</pre></div>
+<div class="example-block">
+<div class="example-title">示例 1</div>
+<pre class="example-io"><span class="io-label">输入：</span>4
+1 2
+2 3
+3 4
+1 3</pre>
+<pre class="example-io"><span class="io-label">输出：</span>1</pre>
+<div class="example-explanation">移除 [1,3] 后剩余 [1,2]、[2,3]、[3,4] 两两不重叠；也可以移除 [1,2]，最少移除 1 个。</div>
+</div>
+<div class="example-block">
+<div class="example-title">示例 2</div>
+<pre class="example-io"><span class="io-label">输入：</span>3
+1 2
+1 2
+1 2</pre>
+<pre class="example-io"><span class="io-label">输出：</span>2</pre>
+<div class="example-explanation">三个区间完全相同，最多保留 1 个，需移除 2 个。</div>
+</div>
+<div class="example-block">
+<div class="example-title">示例 3</div>
+<pre class="example-io"><span class="io-label">输入：</span>2
+1 2
+2 3</pre>
+<pre class="example-io"><span class="io-label">输出：</span>0</pre>
+<div class="example-explanation">[1,2] 与 [2,3] 相接不算重叠，无需移除。</div>
+</div>
+<div class="info-block"><span class="info-label">约束</span><div>$1 \le n \le 10^5$；$-10^9 \le start_i \le end_i \le 10^9$</div></div>
+
+    <div class="code-section">
+      <div class="code-header">
+        <span>🧑‍💻 在线代码编辑器</span>
+        <button class="btn-run" onclick="runCode(1)" id="run_btn_1">▶ 运行</button>
+      </div>
+      <div class="editor-wrap">
+        <div class="code-editor" id="editor_1" contenteditable="true" spellcheck="false">def solve(intervals):
+    # intervals: List[List[int]]，如 [[1,2],[2,3],[3,4],[1,3]]
+    # 返回最少需要移除的区间数量
+    ...</div>
+      </div>
+      <div class="code-result" id="result_1" style="display:none;"></div>
+      <input type="hidden" id="func_name_1" value="solve">
+      <input type="hidden" id="test_cases_1" value='[[[[1, 2], [2, 3], [3, 4], [1, 3]]], [[[1, 2], [1, 2], [1, 2]]], [[[1, 2], [2, 3]]], [[[1, 2]]], [[]], [[[1, 100], [2, 3], [4, 5], [6, 7], [8, 9]]], [[[1, 2], [3, 4], [5, 6], [7, 8]]], [[[1, 6], [2, 5], [3, 4]]], [[[1, 1], [1, 1], [1, 1]]], [[[0, 0], [0, 0], [0, 0]]], [[[1, 4], [4, 5], [4, 4], [2, 3]]], [[[-10, -5], [-6, 0], [-2, 10], [10, 20]]], [[[1, 5], [2, 6], [3, 7], [4, 8], [5, 9]]], [[[1, 3], [2, 4], [3, 5], [4, 6], [5, 7]]], [[[1, 1000000000], [2, 999999999]]], [[[10, 20], [1, 5], [6, 9], [21, 30]]]]'>
+      <input type="hidden" id="expected_outputs_1" value='[1, 2, 0, 0, 0, 1, 0, 2, 0, 0, 1, 1, 3, 2, 1, 0]'>
+    </div>
+
+    <button class="btn-reveal" onclick="revealSolution(1)" id="reveal_btn_1">
+      📖 显示答案与解析
+    </button>
+<div class="solution-section" id="solution_1" style="display:none;">
+<div class="solution-divider">--- 以下为答案与解析 ---</div>
+<div class="solution-block"><h4>💡 解题思路</h4><div>**贪心 + 按右端点排序**：要留下尽可能多的不重叠区间，每次应优先保留「右端点最早」的区间——右端点越早，给后续区间留下的空间越大。<br>
+<br>
+具体做法：<br>
+1. 按右端点升序（右端点相同时按左端点）排序；<br>
+2. 维护 <code class="inline-code">last_end</code> = 当前已保留区间的最大右端点；<br>
+3. 遍历每个区间：若 <code class="inline-code">start &lt; last_end</code> 说明与已保留区间重叠，必须移除（计数 +1）；否则保留，并更新 <code class="inline-code">last_end = end</code>。<br>
+<br>
+正确性：对按右端点排序的区间序列，「保留右端点最小且不冲突的区间」是最优的——任何最优解中的第一个区间都可替换为右端点更早的区间而不影响后面的选择（贪心选择性质）。</div></div>
+<div class="solution-block"><h4>📝 参考代码（python）</h4><pre class="code-block">def solve(intervals):
+    # 按右端点升序排序，右端点相同按左端点
+    intervals.sort(key=lambda x: (x[1], x[0]))
+    removed = 0
+    last_end = float(&#x27;-inf&#x27;)  # 已保留区间的最右端点
+    for start, end in intervals:
+        if start &lt; last_end:
+            removed += 1      # 与上一个保留区间重叠，移除当前区间
+        else:
+            last_end = end    # 不重叠，保留并更新右端点
+    return removed</pre></div>
+<div class="solution-block"><h4>⚡ 复杂度分析</h4><div>
+<span class="complexity-tag">时间 O(n log n)（排序主导）</span>
+<span class="complexity-tag">空间 O(1)（原地排序）</span>
+</div></div>
+<div class="solution-block"><h4>🎯 考点</h4><div>贪心选择性质（右端点越早越优）；重叠判定 start &lt; last_end 的边界（相接不算重叠）；排序稳定性（右端点相同按左端点）。</div></div>
+</div>
+</div>
+<div class="question-card" data-qid="2">
+
+    <div class="question-header">
+      <span class="type-badge" style="background:#10b981">算法概念</span>
+      <span class="difficulty">⭐⭐</span>
+      <span class="qid-label">第 2 题</span>
+    </div>
+<h2 class="question-title">对顶堆与数据流中位数</h2>
+<div class="question-body">要求设计一个结构支持「在线流式」插入整数，并能随时查询当前全部数的中位数。常用的高效做法是维护「对顶堆」（两个堆）。关于对顶堆方案的下列理解中，**正确**的是哪一项？</div>
+<div class="options-container">
+
+            <label class="option-item" data-letter="A">
+              <input type="radio" name="quiz_2" value="A" onchange="checkAnswer(2, 'A')">
+              <span class="option-letter">A</span>
+              <span class="option-text">大顶堆保存较小的一半、小顶堆保存较大的一半；插入后平衡两堆元素个数差不超过 1，则中位数始终可以由两个堆顶直接得到（偶数个取两堆顶平均）</span>
+            </label>
+
+            <label class="option-item" data-letter="B">
+              <input type="radio" name="quiz_2" value="B" onchange="checkAnswer(2, 'B')">
+              <span class="option-letter">B</span>
+              <span class="option-text">两堆的元素个数差可以任意变化，查询中位数时只需要把堆内元素全部取出排序后取中间值</span>
+            </label>
+
+            <label class="option-item" data-letter="C">
+              <input type="radio" name="quiz_2" value="C" onchange="checkAnswer(2, 'C')">
+              <span class="option-letter">C</span>
+              <span class="option-text">小顶堆的堆顶是「较小一半的最大值」，大顶堆的堆顶是「较大一半的最小值」</span>
+            </label>
+
+            <label class="option-item" data-letter="D">
+              <input type="radio" name="quiz_2" value="D" onchange="checkAnswer(2, 'D')">
+              <span class="option-letter">D</span>
+              <span class="option-text">对顶堆每次插入的均摊复杂度为 O(1)，查询中位数的复杂度为 O(log n)</span>
+            </label>
+</div>
+<div class="option-feedback" id="feedback_2"></div>
+
+    <button class="btn-reveal" onclick="revealSolution(2)" id="reveal_btn_2">
+      📖 显示答案与解析
+    </button>
+<div class="solution-section" id="solution_2" style="display:none;">
+<div class="solution-divider">--- 以下为答案与解析 ---</div>
+<div class="answer-highlight">✅ 正确答案：A</div>
+<div class="solution-block"><h4>💡 解题思路</h4><div>对顶堆的精髓是「让两个堆顶贴住中位数」：大顶堆（max-heap）存较小的一半，堆顶即较小一半的最大值；小顶堆（min-heap）存较大的一半，堆顶即较大一半的最小值。二者平衡后，中位数要么在大顶堆堆顶（奇数个），要么是两堆顶的平均（偶数个）。</div></div>
+<div class="solution-block"><h4>🎯 考点</h4><div>堆的性质（大顶堆堆顶最大、小顶堆堆顶最小）；对顶堆平衡条件；在线算法；O(log n) 插入 / O(1) 查询。</div></div>
+<div class="solution-block"><h4>🔍 逐项分析</h4><ul class="answer-points">
+<li>A 正确：这正是对顶堆的标准形态。约定大顶堆 left、小顶堆 right，插入时新元素先与 left 堆顶比较决定进哪个堆，再调整使 |left| − |right| ∈ {0, 1}（大小最多差 1）。奇数时中位数 = left 堆顶；偶数时 = (left 顶 + right 顶) / 2，均 O(1)。</li>
+<li>B 错误：若不维持两堆平衡，堆顶不再是中位数。经典实现必须在每次插入后「重平衡」（把多的那堆堆顶移到另一堆），而不是查询时全量排序重建——后者等于退化回离线做法。</li>
+<li>C 错误：堆顶语义说反了。大顶堆存较小一半，它的堆顶（最大值）才是「较小一半的最大值」；小顶堆存较大一半，堆顶（最小值）才是「较大一半的最小值」。</li>
+<li>D 错误：插入需要一次 O(log n) 的入堆 + 至多一次 O(log n) 的平衡转移，总复杂度 O(log n)；查询中位数才是 O(1)（直接看堆顶）。</li>
+</ul></div>
+</div>
+</div>
+<div class="question-card" data-qid="3">
+
+    <div class="question-header">
+      <span class="type-badge" style="background:#a855f7">AI公式推导</span>
+      <span class="difficulty">⭐⭐⭐</span>
+      <span class="qid-label">第 3 题</span>
+    </div>
+<h2 class="question-title">XGBoost：目标函数与分裂增益的完整推导</h2>
+<div class="question-body">推导 XGBoost 的**带正则化的加法模型目标**、**最优叶子权重闭式解**与**分裂增益公式**（论文 Chen &amp; Guestrin 2016 的核心推导）。要求从加法模型出发，完成二阶泰勒展开、叶子分组、求导求最优、分裂前后对比四个步骤。<br>
+<br>
+&gt; 衔接复习：第 14 期推导过 GBDT 用**一阶**负梯度（残差）拟合；XGBoost 的核心升级是使用**二阶**泰勒展开 + 显式正则项，请对比说明二者差异。</div>
+
+    <button class="btn-reveal" onclick="revealSolution(3)" id="reveal_btn_3">
+      📖 显示答案与解析
+    </button>
+<div class="solution-section" id="solution_3" style="display:none;">
+<div class="solution-divider">--- 以下为答案与解析 ---</div>
+<div class="solution-block"><h4>🎯 考点</h4><div>加法模型 + 结构正则；二阶泰勒展开（对 GBDT 一阶梯度的升级）；叶子分组 G_j/H_j；最优叶子权重 w*=−G/(H+λ)；分裂增益与 γ 预剪枝；平方损失退化验证。</div></div>
+<div class="solution-block"><h4>📐 推导过程</h4><div class="derivation-content">### 第 1 步：加法模型与带正则的目标函数<br>
+设前 $t-1$ 轮已得到模型 $F_{t-1}(x)$，第 $t$ 轮学习一棵回归树 $f_t$，更新为 $F_t(x)=F_{t-1}(x)+f_t(x)$。第 $t$ 轮目标为「经验损失 + 结构正则」：<br>
+<br>
+$$\tilde{\mathcal{L}}^{(t)} = \sum_{i=1}^{n} L\big(y_i,\ \hat{y}_i^{(t-1)} + f_t(x_i)\big) + \Omega(f_t),\qquad \Omega(f) = \gamma T + \tfrac{1}{2}\lambda \sum_{j=1}^{T} w_j^2$$<br>
+<br>
+其中 $T$ 为叶子数、$w_j$ 为第 $j$ 个叶子的输出权重、$\gamma$ 惩罚叶子数（结构复杂度）、$\lambda$ 对叶子权重做 L2 收缩。<br>
+<br>
+### 第 2 步：二阶泰勒展开（XGBoost 的关键升级）<br>
+对损失函数在新树 $f_t(x_i)$ 处做二阶展开，$f_t$ 为增量：<br>
+<br>
+$$L(y_i, \hat{y}^{(t-1)} + f_t) \approx L(y_i, \hat{y}^{(t-1)}) + g_i\, f_t(x_i) + \tfrac{1}{2} h_i\, f_t^2(x_i)$$<br>
+<br>
+其中一阶梯度 $g_i$ 与二阶梯度 $h_i$（在 $\hat y = \hat y^{(t-1)}$ 处取值）：<br>
+<br>
+$$g_i = \frac{\partial L(y_i, \hat y)}{\partial \hat y},\qquad h_i = \frac{\partial^2 L(y_i, \hat y)}{\partial \hat y^2}$$<br>
+<br>
+第一项 $L(y_i,\hat y^{(t-1)})$ 与 $f_t$ 无关，可直接删去。于是目标化为：<br>
+<br>
+$$\tilde{\mathcal{L}}^{(t)} \approx \sum_{i=1}^{n} \left[ g_i f_t(x_i) + \tfrac{1}{2} h_i f_t^2(x_i) \right] + \gamma T + \tfrac{1}{2}\lambda\sum_j w_j^2$$<br>
+<br>
+### 第 3 步：按叶子归集，求最优叶子权重<br>
+树把样本映射到叶子：$f_t(x_i) = w_{q(x_i)}$，其中 $q$ 为「样本→叶子」的映射。记叶子 $j$ 的样本集合 $I_j = \{i\mid q(x_i)=j\}$，并定义叶子上的梯度统计：<br>
+<br>
+$$G_j = \sum_{i\in I_j} g_i,\qquad H_j = \sum_{i\in I_j} h_i$$<br>
+<br>
+目标变为逐叶子独立的二次函数：<br>
+<br>
+$$\tilde{\mathcal{L}}^{(t)} = \sum_{j=1}^{T}\left[ G_j w_j + \tfrac{1}{2}(H_j + \lambda) w_j^2 \right] + \gamma T$$<br>
+<br>
+对 $w_j$ 求导并置零（二次函数最小值）：$\frac{\partial}{\partial w_j} = G_j + (H_j+\lambda)w_j = 0$，得到**最优叶子权重闭式解**：<br>
+<br>
+$$w_j^{*} = -\frac{G_j}{H_j + \lambda}$$<br>
+<br>
+代回得到「给定树结构 $q$ 时的最小目标值」：<br>
+<br>
+$$\tilde{\mathcal{L}}^{*}(q) = -\frac{1}{2}\sum_{j=1}^{T}\frac{G_j^2}{H_j + \lambda} + \gamma T$$<br>
+<br>
+### 第 4 步：分裂增益公式<br>
+树生长时枚举每个候选分裂点：把父叶子（梯度统计 $G, H$）分裂成左右两个新叶子（$G_L,H_L$ / $G_R,H_R$，且 $G=G_L+G_R$、$H=H_L+H_R$）。增益 = 分裂前目标值 − 分裂后目标值（叶子数 $T$ 增加 1，$\gamma$ 相应增加）：<br>
+<br>
+$$\text{Gain} = \frac{1}{2}\left[ \frac{G_L^2}{H_L+\lambda} + \frac{G_R^2}{H_R+\lambda} - \frac{(G_L+G_R)^2}{H_L+H_R+\lambda} \right] - \gamma$$<br>
+<br>
+**只在 $\text{Gain} &gt; 0$ 时保留分裂**：这就是 XGBoost 的分裂准则 + 预剪枝阈值（$\gamma$）。遍历所有特征的所有候选分裂点取最大增益即可建树。<br>
+<br>
+### 直观验证（平方损失退化）<br>
+取 $L = \tfrac12(y-\hat y)^2$：$g_i = \hat y^{(t-1)}-y_i$（残差），$h_i = 1$ 常数。此时 $H_j+\lambda$ 退化为 $|I_j|+\lambda$，$G_j$ 为叶内残差和，最优叶子权重 $w_j^* = -G_j/(|I_j|+\lambda)$ 与「叶内均值收缩」一致——说明 XGBoost 是普通最小二乘回归树的自然推广；而 $\lambda$ 就是岭收缩项。</div></div>
+<div class="solution-block"><h4>🧠 直觉解释</h4><div>XGBoost 把「树的结构」当成可优化的参数：分裂增益 = 「左右子树的二阶梯度统计量之和」比父节点提升多少，再扣掉新增叶子的 γ 成本——大于 0 才分裂，既是最优分裂选择也是正则化预剪枝。</div></div>
+</div>
+</div>
+<div class="question-card" data-qid="4">
+
+    <div class="question-header">
+      <span class="type-badge" style="background:#f59e0b">AI面试问答</span>
+      <span class="difficulty">⭐⭐</span>
+      <span class="qid-label">第 4 题</span>
+    </div>
+<h2 class="question-title">模型量化（GPTQ / AWQ）为什么能省显存并加速大模型推理？</h2>
+<div class="question-body">面试官问：LLM 推理前常做「模型量化」，例如 W8A16、GPTQ 4bit、AWQ。请你解释量化为什么能**压缩显存**并**加速推理**，以及后训练量化（PTQ）如何**控制精度损失**。</div>
+
+    <button class="btn-reveal" onclick="revealSolution(4)" id="reveal_btn_4">
+      📖 显示答案与解析
+    </button>
+<div class="solution-section" id="solution_4" style="display:none;">
+<div class="solution-divider">--- 以下为答案与解析 ---</div>
+<div class="solution-block"><h4>📌 回答要点</h4><ul class="answer-points">
+<li>量化本质与显存账本：把权重从 FP16/BF16 降到 INT8/INT4，位宽减半以上。7B 模型 FP16 权重约 14GB，W8A16（权重 8bit、激活 16bit）降到约 7GB，W4 约 3.5GB，直接降低权重存储与访存带宽。</li>
+<li>加速机制（decode 是 memory-bound）：自回归 decode 阶段每生成 1 个 token 都要把全部权重从显存读一遍，访存带宽是瓶颈；权重位宽减半 → 读权重时间减半 → 生成速度接近翻倍。prefill 是 compute-bound，INT8 张量核（Tensor Core）算力提升也能获益。</li>
+<li>量化数学：线性量化 q = round(w / scale) + zero_point，反量化 w ≈ scale·(q − zero_point)。对称量化 scale = max|w|/127，常按 128 个权重一组（group-wise）定标以保持精度。</li>
+<li>PTQ 控制精度损失三招：① RTN 直接四舍五入在 4bit 误差大 → GPTQ 用近似二阶 Hessian 矩阵贪心逐层校正量化误差（把被量化权重的误差按 Hessian 补偿到其余权重）；② AWQ 用激活值统计识别显著通道，对重要通道的权重乘保护缩放因子（等价于极细粒度的混合精度）；③ SmoothQuant 把激活的异常值数学迁移到权重侧（等价缩放），实现 W8A8 激活也可量化。</li>
+<li>校准数据：PTQ 通常用几百条无标注样本在每层上校准，确定各层 scale/zero_point，使量化误差与真实激活分布对齐。</li>
+</ul></div>
+<div class="solution-block"><h4>⭐ 加分项</h4><ul class="answer-points">
+<li>工程叠加：量化与 KV Cache 量化（INT8 再省约 50%）、PagedAttention、投机解码等正交组合，长上下文场景收益最大；推理端 INT8 通常 &lt;1% 精度损失，4bit 需分组量化保持。</li>
+<li>与蒸馏/LoRA 的关系：蒸馏改「结构」、量化改「精度」，可叠加；LoRA 训练时权重保持 FP16，推理时可先合并再量化。</li>
+<li>激活量化难：激活分布动态且存在少数异常值通道，整体 min/max 定标会被拉偏 → 所以 W8A8 常见 SmoothQuant，KV 量化也有专门处理（如 KIVI）。</li>
+</ul></div>
+<div class="solution-block"><h4>🔮 追问预测</h4><ul class="answer-points">
+<li>追问 1：为什么 decode 阶段量化收益大而 prefill 阶段不明显？→ decode 每 token 需读全部权重，是带宽瓶颈（memory-bound），位宽减半直接折算减速 2 倍；prefill 是算术密集（compute-bound），收益来自 INT8 张量核算力而非带宽。</li>
+<li>追问 2：RTN 与 GPTQ 差别在哪？→ RTN 独立四舍五入每权重、误差不可控；GPTQ 把已量化权重的误差按 Hessian 逆近似补偿到其余未量化权重，逐层贪心最小化输出（如 layer 输出的均方误差），4bit 下显著优于 RTN。</li>
+<li>追问 3：为什么激活比权重难量化？→ 权重训练后分布稳定且近似对称，激活随输入动态变化且存在异常值通道，固定 min/max 会被异常值拉偏 → SmoothQuant 把激活缩放迁移到权重实现 W8A8，或用动态 per-token 量化。</li>
+</ul></div>
+</div>
+</div>
+
+<div class="footer">
+  坚持每日练习，积少成多 💪<br>
+  Powered by TeleAgent · daily-algo-ai-quiz
+</div>
+
+<script>
+// ===== Pyodide 隔离执行测试运行器 =====
+const RUNNER_CODE = "\nimport json, traceback, io, contextlib\n\ndef run_tests(user_code, func_name, test_cases, expected):\n    ns = {}\n    user_stdout = io.StringIO()\n    user_error = None\n\n    try:\n        with contextlib.redirect_stdout(user_stdout):\n            exec(user_code, ns)\n    except Exception:\n        user_error = traceback.format_exc()\n\n    user_out = user_stdout.getvalue()\n\n    if user_error:\n        return {\"error\": user_error, \"stdout\": user_out}\n\n    func = ns.get(func_name)\n    if func is None:\n        return {\"error\": \"未找到函数 \" + str(func_name) + \"，请确保代码中定义了该函数\", \"stdout\": user_out}\n\n    test_results = []\n    for i, tc in enumerate(test_cases):\n        try:\n            actual = func(*tc)\n            exp = expected[i]\n            passed = actual == exp\n            test_results.append({\n                \"passed\": passed,\n                \"input\": str(tc),\n                \"expected\": str(exp),\n                \"actual\": str(actual)\n            })\n        except Exception as e:\n            exp = str(expected[i]) if i < len(expected) else \"N/A\"\n            test_results.append({\n                \"passed\": False,\n                \"input\": str(tc),\n                \"expected\": exp,\n                \"actual\": \"Error: \" + str(e)\n            })\n\n    return {\"stdout\": user_out, \"tests\": test_results}\n";
+
+// ===== 显示/隐藏解析 =====
+function revealSolution(qid) {
+  const sol = document.getElementById('solution_' + qid);
+  const btn = document.getElementById('reveal_btn_' + qid);
+  if (sol.style.display === 'none') {
+    sol.style.display = 'block';
+    btn.innerHTML = '📕 收起解析';
+    // 渲染该区域数学公式
+    if (typeof renderMathInElement !== 'undefined') {
+      renderMathInElement(sol, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false}
+        ]
+      });
+    }
+  } else {
+    sol.style.display = 'none';
+    btn.innerHTML = '📖 显示答案与解析';
+  }
+}
+
+// ===== 选择题作答反馈 =====
+function checkAnswer(qid, selected) {
+  const card = document.querySelector(`[data-qid="${qid}"]`);
+  if (!card) return;
+  const correctAnswer = card.getAttribute('data-correct') || '';
+  // 从全局 quizData 获取
+  const qData = window.__quizData__.questions.find(q => q.id == qid);
+  if (!qData || !qData.correct_answer) return;
+
+  const correct = qData.correct_answer;
+  const feedback = document.getElementById('feedback_' + qid);
+  const options = card.querySelectorAll('.option-item');
+
+  options.forEach(opt => {
+    const letter = opt.getAttribute('data-letter');
+    opt.classList.remove('correct', 'wrong');
+    if (letter === correct) {
+      opt.classList.add('correct');
+    } else if (letter === selected && selected !== correct) {
+      opt.classList.add('wrong');
+    }
+  });
+
+  if (feedback) {
+    feedback.className = 'option-feedback show ' + (selected === correct ? 'correct' : 'wrong');
+    feedback.textContent = selected === correct
+      ? '✅ 回答正确！'
+      : `❌ 正确答案是 ${correct}，再想想？`;
+    feedback.style.display = 'block';
+  }
+}
+
+// ===== Pyodide 代码执行 =====
+let pyodideReady = null;
+let pyodideLoading = false;
+
+function loadPyodideAsync() {
+  if (pyodideReady) return pyodideReady;
+  if (pyodideLoading) return pyodideReady;
+  pyodideLoading = true;
+
+  pyodideReady = new Promise((resolve, reject) => {
+    if (typeof loadPyodide !== 'undefined') {
+      loadPyodide({
+        indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.25.0/full/'
+      }).then(py => {
+        pyodideLoading = false;
+        resolve(py);
+      }).catch(reject);
+    } else {
+      // 动态加载 Pyodide
+      const script = document.createElement('script');
+      script.src = 'https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js';
+      script.onload = () => {
+        loadPyodide({
+          indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.25.0/full/'
+        }).then(py => {
+          pyodideLoading = false;
+          resolve(py);
+        }).catch(reject);
+      };
+      script.onerror = () => {
+        pyodideLoading = false;
+        reject(new Error('Pyodide 加载失败，请检查网络连接'));
+      };
+      document.head.appendChild(script);
+    }
+  });
+  return pyodideReady;
+}
+
+async function runCode(qid) {
+    const editor = document.getElementById('editor_' + qid);
+    const resultDiv = document.getElementById('result_' + qid);
+    const btn = document.getElementById('run_btn_' + qid);
+    const code = editor.innerText;
+    const funcNameInput = document.getElementById('func_name_' + qid);
+    const funcName = funcNameInput ? funcNameInput.value : 'solve';
+    const tcInput = document.getElementById('test_cases_' + qid);
+    const eoInput = document.getElementById('expected_outputs_' + qid);
+    let testCases = [];
+    let expectedOutputs = [];
+    try {
+        testCases = JSON.parse(tcInput.value || '[]');
+        expectedOutputs = JSON.parse(eoInput.value || '[]');
+    } catch(e) {}
+
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span> 运行中...';
+    resultDiv.style.display = 'block';
+    resultDiv.innerHTML = '<span style="color:var(--text-dim)">⏳ 正在加载 Python 运行环境...</span>';
+
+    try {
+        const pyodide = await loadPyodideAsync();
+        resultDiv.innerHTML = '<span style="color:var(--text-dim)">⏳ 正在执行代码...</span>';
+
+        // 确保 run_tests 函数只定义一次
+        if (!window.__runner_ready__) {
+            pyodide.runPython(RUNNER_CODE);
+            window.__runner_ready__ = true;
+        }
+
+        // 调用 run_tests 函数，通过返回值获取结果（不依赖 stdout，每次调用独立）
+        const runTests = pyodide.globals.get('run_tests');
+        const pyResult = runTests(code, funcName, testCases, expectedOutputs);
+        // pyResult 是 Python dict，转为 JS 对象
+        const result = pyResult.toJs({dict_converter: Object.fromEntries});
+
+        let resultHtml = '';
+
+        // 显示用户代码标准输出
+        if (result.stdout && result.stdout.trim()) {
+            resultHtml += '<div style="color:var(--text)">📝 标准输出：</div>';
+            resultHtml += '<pre style="color:var(--text);margin:4px 0;">' + escapeHtml(result.stdout) + '</pre>';
+        }
+
+        // 显示错误信息
+        if (result.error) {
+            resultHtml += '<div class="stderr">⚠️ 错误信息：</div>';
+            resultHtml += '<pre class="stderr" style="margin:4px 0;">' + escapeHtml(result.error) + '</pre>';
+        }
+
+        // 显示测试用例结果
+        if (result.tests && result.tests.length > 0) {
+            let allPassed = result.tests.every(t => t.passed);
+            resultHtml += '<div style="margin-top:8px;color:' + (allPassed ? 'var(--green)' : 'var(--accent)') + '">';
+            resultHtml += allPassed ? '🎉 全部通过！' : '🧪 测试用例结果：';
+            resultHtml += '</div>';
+
+            for (let i = 0; i < result.tests.length; i++) {
+                const t = result.tests[i];
+                if (t.passed) {
+                    resultHtml += '<div class="test-pass">✅ 用例 ' + (i+1) + ' 通过</div>';
+                } else {
+                    resultHtml += '<div class="test-fail">❌ 用例 ' + (i+1) + ' 未通过</div>';
+                    resultHtml += '<pre style="color:var(--text-dim);margin:2px 0;">  输入: ' + escapeHtml(t.input) + '\n  期望: ' + escapeHtml(t.expected) + '\n  实际: ' + escapeHtml(t.actual) + '</pre>';
+                }
+            }
+        }
+
+        if (!resultHtml) {
+            resultHtml = '<span style="color:var(--text-dim)">（代码执行完毕，无输出）</span>';
+        }
+
+        resultDiv.innerHTML = resultHtml;
+
+    } catch(e) {
+        resultDiv.innerHTML = '<div class="stderr">❌ ' + escapeHtml(e.message || String(e)) + '</div>';
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = '▶ 运行';
+    }
+}
+
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+// Ctrl+Enter 运行代码
+document.addEventListener('keydown', (e) => {
+  if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+    const focused = document.activeElement;
+    if (focused && focused.classList.contains('code-editor')) {
+      const qid = focused.id.replace('editor_', '');
+      runCode(qid);
+    }
+  }
+});
+
+// Tab 键在编辑器中插入空格
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Tab' && document.activeElement.classList.contains('code-editor')) {
+    e.preventDefault();
+    document.execCommand('insertText', false, '    ');
+  }
+});
+
+// 将 quiz 数据存入全局变量供选择题使用
+window.__quizData__ = {"date": "2026-10-16", "title": "每日算法 AI 出题 · 第 18 期", "subtitle": "算法 2 道 + AI 2 道 · 知识池轮换（贪心区间调度 / 对顶堆 / XGBoost / 模型量化）", "questions": [{"id": 1, "type": "algorithm_code", "type_label": "算法编程", "difficulty": 2, "title": "无重叠区间（最少移除区间数）", "description": "给定一个区间数组 `intervals`，其中 `intervals[i] = [start_i, end_i]`（$start_i \\le end_i$）。请返回**最少需要移除的区间数量**，使得剩余区间两两互不重叠。\n\n两区间 $[a,b]$ 与 $[c,d]$ 互不重叠，当且仅当 $b \\le c$ 或 $d \\le a$（即区间**相接**不算重叠，例如 `[1,2]` 与 `[2,3]` 视为不重叠）。\n\n> 本题是经典「区间调度（Interval Scheduling）」贪心问题的反向形式：先求最多能保留多少个互不重叠的区间，移除数 = 总数 − 保留数。", "input_format": "第一行一个整数 n（1 ≤ n ≤ 10^5）表示区间个数；接下来 n 行，每行两个整数 start end，表示一个区间 [start, end]。", "output_format": "一个整数，表示最少需要移除的区间数量。", "examples": [{"input": "4\n1 2\n2 3\n3 4\n1 3", "output": "1", "explanation": "移除 [1,3] 后剩余 [1,2]、[2,3]、[3,4] 两两不重叠；也可以移除 [1,2]，最少移除 1 个。"}, {"input": "3\n1 2\n1 2\n1 2", "output": "2", "explanation": "三个区间完全相同，最多保留 1 个，需移除 2 个。"}, {"input": "2\n1 2\n2 3", "output": "0", "explanation": "[1,2] 与 [2,3] 相接不算重叠，无需移除。"}], "constraints": "$1 \\le n \\le 10^5$；$-10^9 \\le start_i \\le end_i \\le 10^9$", "solution": {"approach": "**贪心 + 按右端点排序**：要留下尽可能多的不重叠区间，每次应优先保留「右端点最早」的区间——右端点越早，给后续区间留下的空间越大。\n\n具体做法：\n1. 按右端点升序（右端点相同时按左端点）排序；\n2. 维护 `last_end` = 当前已保留区间的最大右端点；\n3. 遍历每个区间：若 `start < last_end` 说明与已保留区间重叠，必须移除（计数 +1）；否则保留，并更新 `last_end = end`。\n\n正确性：对按右端点排序的区间序列，「保留右端点最小且不冲突的区间」是最优的——任何最优解中的第一个区间都可替换为右端点更早的区间而不影响后面的选择（贪心选择性质）。", "code": "def solve(intervals):\n    # 按右端点升序排序，右端点相同按左端点\n    intervals.sort(key=lambda x: (x[1], x[0]))\n    removed = 0\n    last_end = float('-inf')  # 已保留区间的最右端点\n    for start, end in intervals:\n        if start < last_end:\n            removed += 1      # 与上一个保留区间重叠，移除当前区间\n        else:\n            last_end = end    # 不重叠，保留并更新右端点\n    return removed", "starter_code": "def solve(intervals):\n    # intervals: List[List[int]]，如 [[1,2],[2,3],[3,4],[1,3]]\n    # 返回最少需要移除的区间数量\n    ...", "code_language": "python", "complexity_time": "O(n log n)（排序主导）", "complexity_space": "O(1)（原地排序）", "key_points": "贪心选择性质（右端点越早越优）；重叠判定 start < last_end 的边界（相接不算重叠）；排序稳定性（右端点相同按左端点）。", "test_cases": [[[[1, 2], [2, 3], [3, 4], [1, 3]]], [[[1, 2], [1, 2], [1, 2]]], [[[1, 2], [2, 3]]], [[[1, 2]]], [[]], [[[1, 100], [2, 3], [4, 5], [6, 7], [8, 9]]], [[[1, 2], [3, 4], [5, 6], [7, 8]]], [[[1, 6], [2, 5], [3, 4]]], [[[1, 1], [1, 1], [1, 1]]], [[[0, 0], [0, 0], [0, 0]]], [[[1, 4], [4, 5], [4, 4], [2, 3]]], [[[-10, -5], [-6, 0], [-2, 10], [10, 20]]], [[[1, 5], [2, 6], [3, 7], [4, 8], [5, 9]]], [[[1, 3], [2, 4], [3, 5], [4, 6], [5, 7]]], [[[1, 1000000000], [2, 999999999]]], [[[10, 20], [1, 5], [6, 9], [21, 30]]]], "expected_outputs": [1, 2, 0, 0, 0, 1, 0, 2, 0, 0, 1, 1, 3, 2, 1, 0]}}, {"id": 2, "type": "algorithm_concept", "type_label": "算法概念", "difficulty": 2, "title": "对顶堆与数据流中位数", "description": "要求设计一个结构支持「在线流式」插入整数，并能随时查询当前全部数的中位数。常用的高效做法是维护「对顶堆」（两个堆）。关于对顶堆方案的下列理解中，**正确**的是哪一项？", "options": ["大顶堆保存较小的一半、小顶堆保存较大的一半；插入后平衡两堆元素个数差不超过 1，则中位数始终可以由两个堆顶直接得到（偶数个取两堆顶平均）", "两堆的元素个数差可以任意变化，查询中位数时只需要把堆内元素全部取出排序后取中间值", "小顶堆的堆顶是「较小一半的最大值」，大顶堆的堆顶是「较大一半的最小值」", "对顶堆每次插入的均摊复杂度为 O(1)，查询中位数的复杂度为 O(log n)"], "correct_answer": "A", "solution": {"approach": "对顶堆的精髓是「让两个堆顶贴住中位数」：大顶堆（max-heap）存较小的一半，堆顶即较小一半的最大值；小顶堆（min-heap）存较大的一半，堆顶即较大一半的最小值。二者平衡后，中位数要么在大顶堆堆顶（奇数个），要么是两堆顶的平均（偶数个）。", "option_analysis": ["A 正确：这正是对顶堆的标准形态。约定大顶堆 left、小顶堆 right，插入时新元素先与 left 堆顶比较决定进哪个堆，再调整使 |left| − |right| ∈ {0, 1}（大小最多差 1）。奇数时中位数 = left 堆顶；偶数时 = (left 顶 + right 顶) / 2，均 O(1)。", "B 错误：若不维持两堆平衡，堆顶不再是中位数。经典实现必须在每次插入后「重平衡」（把多的那堆堆顶移到另一堆），而不是查询时全量排序重建——后者等于退化回离线做法。", "C 错误：堆顶语义说反了。大顶堆存较小一半，它的堆顶（最大值）才是「较小一半的最大值」；小顶堆存较大一半，堆顶（最小值）才是「较大一半的最小值」。", "D 错误：插入需要一次 O(log n) 的入堆 + 至多一次 O(log n) 的平衡转移，总复杂度 O(log n)；查询中位数才是 O(1)（直接看堆顶）。"], "key_points": "堆的性质（大顶堆堆顶最大、小顶堆堆顶最小）；对顶堆平衡条件；在线算法；O(log n) 插入 / O(1) 查询。"}}, {"id": 3, "type": "ai_derivation", "type_label": "AI公式推导", "difficulty": 3, "title": "XGBoost：目标函数与分裂增益的完整推导", "description": "推导 XGBoost 的**带正则化的加法模型目标**、**最优叶子权重闭式解**与**分裂增益公式**（论文 Chen & Guestrin 2016 的核心推导）。要求从加法模型出发，完成二阶泰勒展开、叶子分组、求导求最优、分裂前后对比四个步骤。\n\n> 衔接复习：第 14 期推导过 GBDT 用**一阶**负梯度（残差）拟合；XGBoost 的核心升级是使用**二阶**泰勒展开 + 显式正则项，请对比说明二者差异。", "solution": {"derivation": "### 第 1 步：加法模型与带正则的目标函数\n设前 $t-1$ 轮已得到模型 $F_{t-1}(x)$，第 $t$ 轮学习一棵回归树 $f_t$，更新为 $F_t(x)=F_{t-1}(x)+f_t(x)$。第 $t$ 轮目标为「经验损失 + 结构正则」：\n\n$$\\tilde{\\mathcal{L}}^{(t)} = \\sum_{i=1}^{n} L\\big(y_i,\\ \\hat{y}_i^{(t-1)} + f_t(x_i)\\big) + \\Omega(f_t),\\qquad \\Omega(f) = \\gamma T + \\tfrac{1}{2}\\lambda \\sum_{j=1}^{T} w_j^2$$\n\n其中 $T$ 为叶子数、$w_j$ 为第 $j$ 个叶子的输出权重、$\\gamma$ 惩罚叶子数（结构复杂度）、$\\lambda$ 对叶子权重做 L2 收缩。\n\n### 第 2 步：二阶泰勒展开（XGBoost 的关键升级）\n对损失函数在新树 $f_t(x_i)$ 处做二阶展开，$f_t$ 为增量：\n\n$$L(y_i, \\hat{y}^{(t-1)} + f_t) \\approx L(y_i, \\hat{y}^{(t-1)}) + g_i\\, f_t(x_i) + \\tfrac{1}{2} h_i\\, f_t^2(x_i)$$\n\n其中一阶梯度 $g_i$ 与二阶梯度 $h_i$（在 $\\hat y = \\hat y^{(t-1)}$ 处取值）：\n\n$$g_i = \\frac{\\partial L(y_i, \\hat y)}{\\partial \\hat y},\\qquad h_i = \\frac{\\partial^2 L(y_i, \\hat y)}{\\partial \\hat y^2}$$\n\n第一项 $L(y_i,\\hat y^{(t-1)})$ 与 $f_t$ 无关，可直接删去。于是目标化为：\n\n$$\\tilde{\\mathcal{L}}^{(t)} \\approx \\sum_{i=1}^{n} \\left[ g_i f_t(x_i) + \\tfrac{1}{2} h_i f_t^2(x_i) \\right] + \\gamma T + \\tfrac{1}{2}\\lambda\\sum_j w_j^2$$\n\n### 第 3 步：按叶子归集，求最优叶子权重\n树把样本映射到叶子：$f_t(x_i) = w_{q(x_i)}$，其中 $q$ 为「样本→叶子」的映射。记叶子 $j$ 的样本集合 $I_j = \\{i\\mid q(x_i)=j\\}$，并定义叶子上的梯度统计：\n\n$$G_j = \\sum_{i\\in I_j} g_i,\\qquad H_j = \\sum_{i\\in I_j} h_i$$\n\n目标变为逐叶子独立的二次函数：\n\n$$\\tilde{\\mathcal{L}}^{(t)} = \\sum_{j=1}^{T}\\left[ G_j w_j + \\tfrac{1}{2}(H_j + \\lambda) w_j^2 \\right] + \\gamma T$$\n\n对 $w_j$ 求导并置零（二次函数最小值）：$\\frac{\\partial}{\\partial w_j} = G_j + (H_j+\\lambda)w_j = 0$，得到**最优叶子权重闭式解**：\n\n$$w_j^{*} = -\\frac{G_j}{H_j + \\lambda}$$\n\n代回得到「给定树结构 $q$ 时的最小目标值」：\n\n$$\\tilde{\\mathcal{L}}^{*}(q) = -\\frac{1}{2}\\sum_{j=1}^{T}\\frac{G_j^2}{H_j + \\lambda} + \\gamma T$$\n\n### 第 4 步：分裂增益公式\n树生长时枚举每个候选分裂点：把父叶子（梯度统计 $G, H$）分裂成左右两个新叶子（$G_L,H_L$ / $G_R,H_R$，且 $G=G_L+G_R$、$H=H_L+H_R$）。增益 = 分裂前目标值 − 分裂后目标值（叶子数 $T$ 增加 1，$\\gamma$ 相应增加）：\n\n$$\\text{Gain} = \\frac{1}{2}\\left[ \\frac{G_L^2}{H_L+\\lambda} + \\frac{G_R^2}{H_R+\\lambda} - \\frac{(G_L+G_R)^2}{H_L+H_R+\\lambda} \\right] - \\gamma$$\n\n**只在 $\\text{Gain} > 0$ 时保留分裂**：这就是 XGBoost 的分裂准则 + 预剪枝阈值（$\\gamma$）。遍历所有特征的所有候选分裂点取最大增益即可建树。\n\n### 直观验证（平方损失退化）\n取 $L = \\tfrac12(y-\\hat y)^2$：$g_i = \\hat y^{(t-1)}-y_i$（残差），$h_i = 1$ 常数。此时 $H_j+\\lambda$ 退化为 $|I_j|+\\lambda$，$G_j$ 为叶内残差和，最优叶子权重 $w_j^* = -G_j/(|I_j|+\\lambda)$ 与「叶内均值收缩」一致——说明 XGBoost 是普通最小二乘回归树的自然推广；而 $\\lambda$ 就是岭收缩项。", "intuition": "XGBoost 把「树的结构」当成可优化的参数：分裂增益 = 「左右子树的二阶梯度统计量之和」比父节点提升多少，再扣掉新增叶子的 γ 成本——大于 0 才分裂，既是最优分裂选择也是正则化预剪枝。", "key_points": "加法模型 + 结构正则；二阶泰勒展开（对 GBDT 一阶梯度的升级）；叶子分组 G_j/H_j；最优叶子权重 w*=−G/(H+λ)；分裂增益与 γ 预剪枝；平方损失退化验证。"}}, {"id": 4, "type": "ai_interview", "type_label": "AI面试问答", "difficulty": 2, "title": "模型量化（GPTQ / AWQ）为什么能省显存并加速大模型推理？", "description": "面试官问：LLM 推理前常做「模型量化」，例如 W8A16、GPTQ 4bit、AWQ。请你解释量化为什么能**压缩显存**并**加速推理**，以及后训练量化（PTQ）如何**控制精度损失**。", "solution": {"answer_points": ["量化本质与显存账本：把权重从 FP16/BF16 降到 INT8/INT4，位宽减半以上。7B 模型 FP16 权重约 14GB，W8A16（权重 8bit、激活 16bit）降到约 7GB，W4 约 3.5GB，直接降低权重存储与访存带宽。", "加速机制（decode 是 memory-bound）：自回归 decode 阶段每生成 1 个 token 都要把全部权重从显存读一遍，访存带宽是瓶颈；权重位宽减半 → 读权重时间减半 → 生成速度接近翻倍。prefill 是 compute-bound，INT8 张量核（Tensor Core）算力提升也能获益。", "量化数学：线性量化 q = round(w / scale) + zero_point，反量化 w ≈ scale·(q − zero_point)。对称量化 scale = max|w|/127，常按 128 个权重一组（group-wise）定标以保持精度。", "PTQ 控制精度损失三招：① RTN 直接四舍五入在 4bit 误差大 → GPTQ 用近似二阶 Hessian 矩阵贪心逐层校正量化误差（把被量化权重的误差按 Hessian 补偿到其余权重）；② AWQ 用激活值统计识别显著通道，对重要通道的权重乘保护缩放因子（等价于极细粒度的混合精度）；③ SmoothQuant 把激活的异常值数学迁移到权重侧（等价缩放），实现 W8A8 激活也可量化。", "校准数据：PTQ 通常用几百条无标注样本在每层上校准，确定各层 scale/zero_point，使量化误差与真实激活分布对齐。"], "bonus": ["工程叠加：量化与 KV Cache 量化（INT8 再省约 50%）、PagedAttention、投机解码等正交组合，长上下文场景收益最大；推理端 INT8 通常 <1% 精度损失，4bit 需分组量化保持。", "与蒸馏/LoRA 的关系：蒸馏改「结构」、量化改「精度」，可叠加；LoRA 训练时权重保持 FP16，推理时可先合并再量化。", "激活量化难：激活分布动态且存在少数异常值通道，整体 min/max 定标会被拉偏 → 所以 W8A8 常见 SmoothQuant，KV 量化也有专门处理（如 KIVI）。"], "followup_predictions": ["追问 1：为什么 decode 阶段量化收益大而 prefill 阶段不明显？→ decode 每 token 需读全部权重，是带宽瓶颈（memory-bound），位宽减半直接折算减速 2 倍；prefill 是算术密集（compute-bound），收益来自 INT8 张量核算力而非带宽。", "追问 2：RTN 与 GPTQ 差别在哪？→ RTN 独立四舍五入每权重、误差不可控；GPTQ 把已量化权重的误差按 Hessian 逆近似补偿到其余未量化权重，逐层贪心最小化输出（如 layer 输出的均方误差），4bit 下显著优于 RTN。", "追问 3：为什么激活比权重难量化？→ 权重训练后分布稳定且近似对称，激活随输入动态变化且存在异常值通道，固定 min/max 会被异常值拉偏 → SmoothQuant 把激活缩放迁移到权重实现 W8A8，或用动态 per-token 量化。"]}}]};
+</script>
+</body>
+</html>
