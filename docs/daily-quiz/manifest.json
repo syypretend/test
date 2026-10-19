@@ -1,5 +1,42 @@
 [
   {
+    "date": "2026-10-19",
+    "filename": "quiz-2026-10-19.html",
+    "url": "https://syypretend.github.io/test/daily-quiz/quiz-2026-10-19.html",
+    "title": "每日算法 AI 出题 · 第 19 期",
+    "subtitle": "算法 2 道 + AI 2 道 · 衔接今日主题（快速幂 / 投机解码）+ 知识池轮换（并查集 / 偏差-方差）",
+    "questions": [
+      {
+        "id": 1,
+        "type": "algorithm_code",
+        "type_label": "算法编程",
+        "title": "模幂运算（快速幂）",
+        "difficulty": 2
+      },
+      {
+        "id": 2,
+        "type": "algorithm_concept",
+        "type_label": "算法概念",
+        "title": "并查集：路径压缩与按秩合并",
+        "difficulty": 2
+      },
+      {
+        "id": 3,
+        "type": "ai_derivation",
+        "type_label": "AI公式推导",
+        "title": "投机解码：拒绝采样修正为什么能保证输出分布不变",
+        "difficulty": 3
+      },
+      {
+        "id": 4,
+        "type": "ai_interview",
+        "type_label": "AI面试问答",
+        "title": "偏差-方差分解与模型诊断：训练 99% 验证 70% 怎么办",
+        "difficulty": 2
+      }
+    ]
+  },
+  {
     "date": "2026-10-16",
     "filename": "quiz-2026-10-16.html",
     "url": "https://syypretend.github.io/test/daily-quiz/quiz-2026-10-16.html",
