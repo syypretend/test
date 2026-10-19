@@ -339,7 +339,7 @@ body {
 
 <h4>原理示意图</h4>
 
-<p><div class="algo-image"><img src="http://i-blog.csdnimg.cn/direct/690dcdf53fb94265a84fd2135edb2.png" alt="快速幂原理示意（指数二进制分解与平方倍增）"><div class="image-caption">快速幂原理示意（指数二进制分解与平方倍增）</div></div></p>
+<p><div class="algo-image"><img src="https://i-blog.csdnimg.cn/direct/690dcdf53fb94265a84fd2135edb2.png" alt="快速幂原理示意（指数二进制分解与平方倍增）"><div class="image-caption">快速幂原理示意（指数二进制分解与平方倍增）</div></div></p>
 
 <blockquote>
 <p>上图展示指数为奇数时的模运算递推：$ n $ 为奇数时先拆分 $ a^n = a^{n-1}\cdot a $，再把 $ n-1 $ 折半为 $ \lfloor n/2 \rfloor $，配合 $ (x\cdot y)\bmod m = [(x\bmod m)\cdot(y\bmod m)]\bmod m $ 逐步化简，复杂度从 $ O(n) $ 降到 $ O(\log n) $。</p>
@@ -551,7 +551,7 @@ print(F[0][0])  # 输出 55，即第 10 个斐波那契数</code></pre></p>
 
 <h4>原理示意图</h4>
 
-<p><div class="algo-image"><img src="http://picx.zhimg.com/v2-4b8dd2251803f87f750ac8198f0168cf_720w.jpg?source=172ae18b" alt="投机解码原理：草稿模型生成 K 个候选 + 目标模型并行验证"><div class="image-caption">投机解码原理：草稿模型生成 K 个候选 + 目标模型并行验证</div></div></p>
+<p><div class="algo-image"><img src="https://picx.zhimg.com/v2-4b8dd2251803f87f750ac8198f0168cf_720w.jpg?source=172ae18b" alt="投机解码原理：草稿模型生成 K 个候选 + 目标模型并行验证"><div class="image-caption">投机解码原理：草稿模型生成 K 个候选 + 目标模型并行验证</div></div></p>
 
 <blockquote>
 <p>上图对比了传统自回归解码与投机解码：左侧每步只生成 1 个 token；右侧先由草稿模型（小）快速生成一批候选，再由目标模型（大）一次性并行验证，接受的 token 直接作为输出，被拒的 token 从目标分布重新采样。</p>
@@ -765,7 +765,7 @@ vllm serve meta-llama/Llama-3-70B-Instruct \
 
 <h4>原理示意图</h4>
 
-<p><div class="algo-image"><img src="http://picx.zhimg.com/v2-d4d51e97633a76d2ab5093cd8d18500d_r.jpg" alt="注意力机制变体：全注意力 vs 稀疏/窗口/线性注意力对比"><div class="image-caption">注意力机制变体：全注意力 vs 稀疏/窗口/线性注意力对比</div></div></p>
+<p><div class="algo-image"><img src="https://picx.zhimg.com/v2-d4d51e97633a76d2ab5093cd8d18500d_r.jpg" alt="注意力机制变体：全注意力 vs 稀疏/窗口/线性注意力对比"><div class="image-caption">注意力机制变体：全注意力 vs 稀疏/窗口/线性注意力对比</div></div></p>
 
 <blockquote>
 <p>上图展示了多种稀疏注意力模式：Random（随机稀疏）、Window（窗口/局部）、Global（全局，如 BERT 的 [CLS]）、BigBird（三合一）。方格中的点表示该位置的 query-key 对被计算；空白表示被跳过，从而减少计算量。线性注意力（左下角常见表达）则把矩阵结构变为线性 RNN 式的循环。</p>
