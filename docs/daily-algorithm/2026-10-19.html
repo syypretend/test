@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>每日算法讲解 · 2026年10月19日</title>
+<!-- MathJax for LaTeX math formula rendering -->
+<script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\(', '\)']],
+      displayMath: [['$$', '$$'], ['\[', '\]']],
+      processEscapes: true
+    },
+    svg: { fontCache: 'global' }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" id="MathJax-script" async></script>
+<style>
+:root {
+  --primary: #6366f1;
+  --primary-dark: #4f46e5;
+  --bg: #0f172a;
+  --card-bg: #1e293b;
+  --text: #e2e8f0;
+  --text-dim: #94a3b8;
+  --accent: #818cf8;
+  --border: #334155;
+  --code-bg: #0d1117;
+  --code-text: #e6edf3;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans SC", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.8;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+.container { max-width: 1400px; margin: 0 auto; padding: 24px 32px; }
+.header {
+  text-align: center;
+  padding: 40px 0 30px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 32px;
+}
+.header h1 {
+  font-size: 28px;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.header h1 .date { color: var(--accent); }
+.header .subtitle { color: var(--text-dim); font-size: 15px; }
+.repo-link {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 6px 16px;
+  background: var(--primary);
+  color: #fff;
+  border-radius: 20px;
+  text-decoration: none;
+  font-size: 13px;
+  transition: background 0.2s;
+}
+.repo-link:hover { background: var(--primary-dark); }
+.history-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 32px;
+  padding: 16px;
+  background: var(--card-bg);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+.history-nav a {
+  padding: 4px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  color: var(--text-dim);
+  text-decoration: none;
+  background: rgba(99,102,241,0.08);
+  transition: all 0.2s;
+}
+.history-nav a:hover { color: var(--text); background: rgba(99,102,241,0.2); }
+.history-nav a.active { color: #fff; background: var(--primary); }
+.history-nav a.back-index { color: var(--accent); font-weight: 600; background: rgba(99,102,241,0.15); border: 1px solid rgba(99,102,241,0.3); }
+.history-nav a.back-index:hover { color: #fff; background: var(--primary); border-color: var(--primary); }
+.content { margin-bottom: 40px; max-width: 1100px; }
+.content h2 {
+  font-size: 24px;
+  color: var(--accent);
+  margin: 40px 0 16px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--primary);
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+.content h2:first-child { border-top: none; padding-top: 0; }
+.content h3 {
+  font-size: 18px;
+  color: var(--text);
+  margin: 24px 0 12px;
+}
+.content h4 {
+  font-size: 16px;
+  color: var(--accent);
+  margin: 20px 0 10px;
+}
+.content p { margin-bottom: 12px; color: var(--text); }
+.content ul { margin: 8px 0 16px 20px; }
+.content li { margin-bottom: 6px; }
+.content strong { color: var(--accent); }
+.content blockquote {
+  border-left: 4px solid var(--primary);
+  padding: 12px 16px;
+  margin: 16px 0;
+  background: rgba(99,102,241,0.08);
+  border-radius: 0 8px 8px 0;
+}
+.content blockquote p { color: var(--text-dim); margin: 4px 0; }
+.content hr {
+  border: none;
+  height: 1px;
+  background: var(--border);
+  margin: 32px 0;
+}
+.code-block {
+  background: var(--code-bg);
+  border-radius: 10px;
+  padding: 18px 24px;
+  overflow-x: auto;
+  margin: 16px 0;
+  border: 1px solid var(--border);
+  max-width: 100%;
+}
+.code-block code {
+  font-family: "JetBrains Mono", "Fira Code", "Consolas", monospace;
+  font-size: 14px;
+  color: var(--code-text);
+  line-height: 1.6;
+  white-space: pre;
+}
+.inline-code {
+  background: rgba(99,102,241,0.15);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: "Consolas", monospace;
+  font-size: 0.9em;
+  color: var(--accent);
+}
+/* Math formula block */
+.content .math-block {
+  background: rgba(99,102,241,0.06);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 24px;
+  margin: 16px 0;
+  overflow-x: auto;
+  max-width: 100%;
+}
+.content .math-label {
+  font-size: 13px; color: var(--text-dim); margin-bottom: 6px; }
+.content .math-vars {
+  margin: 8px 0 16px 20px; }
+.content .math-vars li { margin-bottom: 4px; color: var(--text-dim); }
+.footer {
+  text-align: center;
+  padding: 24px 0;
+  border-top: 1px solid var(--border);
+  color: var(--text-dim);
+  font-size: 13px;
+}
+.tag {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  background: rgba(99,102,241,0.15);
+  color: var(--accent);
+  margin-left: 8px;
+}
+.content .ref-link {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px dashed rgba(99,102,241,0.4);
+  transition: all 0.2s;
+  word-break: break-all;
+}
+.content .ref-link:hover {
+  color: #fff;
+  border-bottom-color: var(--primary);
+}
+.content li {
+  word-break: break-all;
+}
+/* Table */
+.table-wrapper {
+  overflow-x: auto;
+  margin: 16px 0;
+  max-width: 100%;
+}
+.algo-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  background: var(--card-bg);
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+.algo-table thead {
+  background: rgba(99,102,241,0.15);
+}
+.algo-table th {
+  padding: 10px 16px;
+  text-align: left;
+  color: var(--accent);
+  font-weight: 600;
+  border-bottom: 2px solid var(--primary);
+  white-space: nowrap;
+}
+.algo-table td {
+  padding: 8px 16px;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  word-break: break-all;
+}
+.algo-table tr:last-child td {
+  border-bottom: none;
+}
+.algo-table tr:hover td {
+  background: rgba(99,102,241,0.06);
+}
+/* Algorithm architecture image */
+.algo-image {
+  margin: 20px 0;
+  text-align: center;
+}
+.algo-image img {
+  max-width: 100%;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+.algo-image .image-caption {
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--text-dim);
+}
+.algo-image svg {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+/* ======== 移动端响应式适配 ======== */
+@media (max-width: 768px) {
+  .container { max-width: 100%; padding: 16px 14px; }
+  .header { padding: 24px 0 20px; margin-bottom: 20px; }
+  .header h1 { font-size: 20px; margin-bottom: 4px; }
+  .header .subtitle { font-size: 13px; }
+  .repo-link { margin-top: 10px; padding: 5px 14px; font-size: 12px; }
+  .history-nav { gap: 6px; padding: 10px 12px; margin-bottom: 20px; }
+  .history-nav a { padding: 3px 10px; font-size: 12px; }
+  .content { max-width: 100%; margin-bottom: 28px; }
+  .content h2 { font-size: 20px; margin: 28px 0 12px; }
+  .content h3 { font-size: 17px; margin: 20px 0 10px; }
+  .content h4 { font-size: 15px; margin: 16px 0 8px; }
+  .content p { font-size: 14px; margin-bottom: 10px; }
+  .content ul { margin: 6px 0 12px 16px; }
+  .content li { font-size: 14px; margin-bottom: 5px; }
+  .content blockquote { padding: 10px 12px; margin: 12px 0; }
+  .content blockquote p { font-size: 13px; }
+  .content .math-block { padding: 10px 14px; margin: 12px 0; }
+  .code-block { padding: 12px 14px; margin: 12px 0; }
+  .code-block code { font-size: 12px; line-height: 1.5; }
+  .inline-code { font-size: 0.88em; padding: 1px 5px; }
+  .algo-table { font-size: 12px; }
+  .algo-table th { padding: 6px 10px; }
+  .algo-table td { padding: 6px 10px; }
+  .algo-image { margin: 14px 0; }
+  .algo-image svg { max-width: 100%; height: auto; }
+  .footer { padding: 18px 0; font-size: 12px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>每日算法讲解 · <span class="date">2026年10月19日</span></h1>
+    <p class="subtitle">每天 1 个基础算法 + 2 个 AI/机器学习算法，持续精进</p>
+    <a href="https://syypretend.github.io/test/daily-algorithm" target="_blank" class="repo-link">GitHub 仓库</a>
+  </div>
+  <div class="history-nav"><a href="index.html" class="back-index">← 历史索引</a>
+<a href="2026-10-19.html" class="active">10月19日</a>
+<a href="2026-10-16.html">10月16日</a>
+<a href="2026-10-14.html">10月14日</a>
+<a href="2026-10-13.html">10月13日</a>
+<a href="2026-10-12.html">10月12日</a>
+<a href="2026-10-10.html">10月10日</a>
+<a href="2026-10-09.html">10月09日</a>
+<a href="2026-10-08.html">10月08日</a>
+<a href="2026-09-30.html">09月30日</a>
+<a href="2026-09-29.html">09月29日</a>
+<a href="2026-09-28.html">09月28日</a>
+<a href="2026-09-24.html">09月24日</a>
+<a href="2026-09-17.html">09月17日</a>
+<a href="2026-09-15.html">09月15日</a>
+<a href="2026-09-14.html">09月14日</a>
+<a href="2026-09-11.html">09月11日</a>
+<a href="2026-09-10.html">09月10日</a>
+<a href="2026-09-09.html">09月09日</a>
+<a href="2026-09-08.html">09月08日</a>
+<a href="2026-09-07.html">09月07日</a>
+</div>
+  <div class="content">
+  <h2>每日算法讲解 · 2026-10-19</h2>
+
+<blockquote>
+<p>今日内容：1 个基础算法 + 2 个 AI/机器学习算法 | 逐参数详解</p>
+</blockquote>
+
+<hr>
+
+<h3>快速幂（Fast Exponentiation）</h3>
+
+<p><strong>类别</strong>：数学算法 | <strong>难度</strong>：入门</p>
+
+<h4>算法简介</h4>
+
+<p>快速幂（Fast Exponentiation，又称"二进制取幂" Exponentiation by Squaring）是一种在 $ O(\log n) $ 时间内计算 $ a^n $（尤其是 $ a^n \bmod p $）的高效算法。朴素做法是循环连乘 $ n $ 次，复杂度 $ O(n) $，当 $ n $ 达到 $ 10^9 $ 级别时（如 RSA 解密、模逆元、斐波那契矩阵加速），普通循环会超时，而快速幂只需要约 $ \log_2 n $ 次乘法。</p>
+
+<p>核心思想是把指数 $ n $ 按二进制展开：$ n = \sum_{i} b_i \cdot 2^i $（$ b_i \in \{0,1\} $ 是 $ n $ 的第 $ i $ 个二进制位），那么 $ a^n = a^{\sum b_i 2^i} = \prod_{i: b_i=1} a^{2^i} $。于是只需要预先依次计算 $ a^1, a^2, a^4, a^8, \dots $（每一项是上一项的平方，共 $ \log n $ 项），再挑出二进制位为 1 的项相乘即可。通过"指数右移、底数平方"的迭代或"指数折半"的递归，算法在 $ O(\log n) $ 时间内完成，且配合模运算 $ (x\cdot y)\bmod p = (x\bmod p)\cdot(y\bmod p)\bmod p $ 可避免大整数溢出。</p>
+
+<h4>原理示意图</h4>
+
+<p><div class="algo-image"><img src="http://i-blog.csdnimg.cn/direct/690dcdf53fb94265a84fd2135edb2.png" alt="快速幂原理示意（指数二进制分解与平方倍增）"><div class="image-caption">快速幂原理示意（指数二进制分解与平方倍增）</div></div></p>
+
+<blockquote>
+<p>上图展示指数为奇数时的模运算递推：$ n $ 为奇数时先拆分 $ a^n = a^{n-1}\cdot a $，再把 $ n-1 $ 折半为 $ \lfloor n/2 \rfloor $，配合 $ (x\cdot y)\bmod m = [(x\bmod m)\cdot(y\bmod m)]\bmod m $ 逐步化简，复杂度从 $ O(n) $ 降到 $ O(\log n) $。</p>
+</blockquote>
+
+<h4>数学公式</h4>
+
+<p>核心公式：$ a^n $ 的二进制分解</p>
+
+<p><div class="math-block">$$ n = b_{k-1}2^{k-1} + b_{k-2}2^{k-2} + \cdots + b_1 2^1 + b_0 2^0, \quad b_i \in \{0,1\} $$</div></p>
+
+<p><div class="math-block">$$ a^n = \prod_{i=0}^{k-1} a^{b_i 2^i} = \prod_{i:\, b_i = 1} (a^{2^i}) $$</div></p>
+
+<p>取模形式（用于避免溢出、密码学场景）：</p>
+
+<p><div class="math-block">$$ a^n \bmod p = \left(\prod_{i:\, b_i=1} (a^{2^i} \bmod p)\right) \bmod p $$</div></p>
+
+<p>平方递推关系（迭代式每一步）：</p>
+
+<p><div class="math-block">$$ a^{2^{i+1}} = \left(a^{2^i}\right)^2 $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ n $：指数（幂次），$ k=\lceil \log_2(n+1)\rceil $ 为 $ n $ 的二进制位数</li>
+<li>$ b_i $：$ n $ 的二进制表示中第 $ i $ 位的取值，只能为 0 或 1，决定对应项是否乘入结果</li>
+<li>$ a^{2^i} $：底数 $ a $ 的"平方塔"第 $ i $ 项，由上一项平方得到（倍增）</li>
+<li>$ p $：模数（可选），取模让中间结果始终小于 $ p $，防止溢出</li>
+<li>$ a^n \bmod p $：最终要计算的模幂结果</li>
+</ul>
+
+<h4>核心要点</h4>
+
+<ul>
+<li>核心原理：指数二进制分解 + 底数平方倍增，将连乘次数从 $ n $ 降为 $ \log_2 n $</li>
+<li>只乘"二进制位为 1"的项，位为 0 的项只平方不乘入</li>
+<li>迭代版空间 $ O(1) $、递归版空间 $ O(\log n) $</li>
+<li>取模版每步取模，全程数值不超 $ p^2 $，避免大数溢出</li>
+<li>扩展：矩阵快速幂可 $ O(\log n) $ 求斐波那契等线性递推</li>
+<li>与内置 <code class="inline-code">pow(a, n, mod)</code> 等价（Python 内置即快速幂）</li>
+</ul>
+
+<h4>技术细节与参数详解</h4>
+
+<p>#### 参数1：底数 base（$ a $）</p>
+<ul>
+<li><strong>含义</strong>：被乘方对象，可以是整数、矩阵、模数环元素</li>
+<li><strong>类型</strong>：int / float / 矩阵（矩阵快速幂）</li>
+<li><strong>默认值</strong>：无（必填）</li>
+<li><strong>取值范围</strong>：任意；取模场景通常先做 <code class="inline-code">a %= mod</code> 归一化</li>
+<li><strong>对结果的影响</strong>：底数直接决定结果数值；$ a=1 $ 时结果恒 1，$ a=0 $ 且 $ n>0 $ 时结果恒 0</li>
+<li><strong>推荐设置</strong>：取模场景先 <code class="inline-code">a %= mod</code>，将底数收敛到 $ [0, mod) $</li>
+</ul>
+
+<p>#### 参数2：<code class="inline-code">n</code>（指数 exponent）</p>
+<ul>
+<li><strong>含义</strong>：幂次，决定迭代轮数</li>
+<li><strong>类型</strong>：非负整数（负指数需先求逆元）</li>
+<li><strong>默认值</strong>：无（必填）</li>
+<li><strong>取值范围</strong>：任意非负整数，$ 10^{18} $ 级别均轻松处理；$ n=0 $ 时结果为 1</li>
+<li><strong>对结果的影响</strong>：$ n $ 的二进制位数 $ k=\lfloor \log_2 n\rfloor + 1 $ 直接决定循环轮数，是 $ O(\log n) $ 的来源</li>
+<li><strong>推荐设置</strong>：循环条件 <code class="inline-code">while n:</code>，每轮 <code class="inline-code">n >>= 1</code>（右移一位）</li>
+</ul>
+
+<p>#### 参数3：<code class="inline-code">mod</code>（模数，可选）</p>
+<ul>
+<li><strong>含义</strong>：取模运算的模，用于模幂计算（RSA、费马小定理求逆元等）</li>
+<li><strong>类型</strong>：正整数</li>
+<li><strong>默认值</strong>：None（不取模）</li>
+<li><strong>取值范围</strong>：任意正整数；竞赛常取 $ 10^9+7 $ 或 $ 998244353 $（质数）</li>
+<li><strong>对结果的影响</strong>：决定中间值上限；模数小则更省内存但可能改变结果语义</li>
+<li><strong>推荐设置</strong>：无特殊要求用 $ 10^9+7 $；密码学用 RSA 模数 $ n=pq $</li>
+</ul>
+
+<p>#### 参数4：<code class="inline-code">res</code>（结果累积变量）</p>
+<ul>
+<li><strong>含义</strong>：累乘结果</li>
+<li><strong>类型</strong>：int</li>
+<li><strong>默认值</strong>：1（乘法的单位元）</li>
+<li><strong>取值范围</strong>：$ [0, mod) $（取模时）</li>
+<li><strong>对结果的影响</strong>：初始化为 1 才能保证 $ n=0 $ 时输出 1；每轮按二进制位决定是否累乘</li>
+<li><strong>推荐设置</strong>：取模版 <code class="inline-code">res = 1 % mod</code>（当 mod=1 时避免除零问题）</li>
+</ul>
+
+<p>#### 参数5：<code class="inline-code">base_sq</code>（底数平方，迭代中间量）</p>
+<ul>
+<li><strong>含义</strong>：$ a^{2^i} $ 的当前值，每轮自乘一次</li>
+<li><strong>类型</strong>：int</li>
+<li><strong>默认值</strong>：初始为 <code class="inline-code">a % mod</code></li>
+<li><strong>对结果的影响</strong>：体现"平方倍增"；每轮 <code class="inline-code">base_sq = base_sq * base_sq % mod</code></li>
+<li><strong>推荐设置</strong>：务必先取模再平方，防止中间结果膨胀</li>
+</ul>
+
+<h4>代码示例（Python，每行注释）</h4>
+
+<p><pre class="code-block"><code class="language-python"># 快速幂迭代实现（二进制分解 + 平方倍增）
+def fast_pow(a: int, n: int, mod: int = None) -&gt; int:
+    &quot;&quot;&quot;
+    计算 a^n，可选模 mod
+    :param a:   底数
+    :param n:   指数（非负整数）
+    :param mod: 模数，None 表示不取模
+    :return:    a^n 或 a^n % mod
+    &quot;&quot;&quot;
+    # 取模版本先把底数归一，防止中间结果过大
+    if mod is not None:
+        a %= mod
+        # 结果初始化为模意义下的单位元 1
+        res = 1 % mod
+    else:
+        # 不取模时结果就是 1
+        res = 1
+    # 只要指数还有剩余二进制位就继续循环
+    while n &gt; 0:
+        # 检查当前最低位是否为 1
+        if n &amp; 1:
+            # 位为 1 时把当前底数乘入结果
+            res = (res * a) % mod if mod is not None else res * a
+        # 底数平方，准备下一高位对应的项 a^(2^(i+1))
+        a = (a * a) % mod if mod is not None else a * a
+        # 指数右移一位，相当于 n //= 2，处理下一个二进制位
+        n &gt;&gt;= 1
+    # 返回最终结果
+    return res
+
+# 测试：计算 2^10 = 1024
+print(fast_pow(2, 10))                 # 输出 1024
+# 测试模幂：2^1000000000 % 1000000007（朴素循环必超时，快速幂瞬间完成）
+print(fast_pow(2, 1000000000, 1000000007))   # 输出 140625001
+# Python 内置 pow 三参形式也是快速幂实现，结果一致
+print(pow(2, 1000000000, 1000000007))        # 输出 140625001</code></pre></p>
+
+<p><pre class="code-block"><code class="language-python"># 矩阵快速幂：以斐波那契数列为例，O(log n) 求第 n 项
+def mat_mul(A, B, mod=10**9+7):
+    &quot;&quot;&quot;2x2 矩阵乘法（取模）&quot;&quot;&quot;
+    # 返回 2x2 结果矩阵，每个元素是两个点积之和取模
+    return [[(A[0][0]*B[0][0] + A[0][1]*B[1][0]) % mod,
+             (A[0][0]*B[0][1] + A[0][1]*B[1][1]) % mod],
+            [(A[1][0]*B[0][0] + A[1][1]*B[1][0]) % mod,
+             (A[1][0]*B[0][1] + A[1][1]*B[1][1]) % mod]]
+
+def mat_pow(M, n, mod=10**9+7):
+    &quot;&quot;&quot;矩阵快速幂：M^n&quot;&quot;&quot;
+    # 单位矩阵作为乘法单位元
+    res = [[1, 0], [0, 1]]
+    # 指数二进制分解循环
+    while n:
+        # 最低位为 1 时乘入结果矩阵
+        if n &amp; 1:
+            res = mat_mul(res, M, mod)
+        # 矩阵自乘实现&quot;平方&quot;
+        M = mat_mul(M, M, mod)
+        # 指数右移一位
+        n &gt;&gt;= 1
+    # 返回最终矩阵
+    return res
+
+# 斐波那契：F = [[1,1],[1,0]]^n，结果左上角即 F(n)
+F = mat_pow([[1, 1], [1, 0]], 10)
+print(F[0][0])  # 输出 55，即第 10 个斐波那契数</code></pre></p>
+
+<h4>复杂度分析</h4>
+
+<p><strong>时间复杂度推导</strong>：</p>
+<ul>
+<li>指数 $ n $ 的二进制位数为 $ k = \lfloor \log_2 n \rfloor + 1 $</li>
+<li>迭代版每轮常数次操作（判断、至多 2 次乘法、1 次右移），共 $ k $ 轮</li>
+<li>单次乘法代价 $ O(1) $（固定位数）或 $ O(\log p) $（取模大数）</li>
+<li>总复杂度 $ O(k) = O(\log n) $</li>
+<li>朴素连乘 $ O(n) $，指数越大优势越明显（$ n=10^{18} $ 时 $ 10^{18} $ vs 60）</li>
+</ul>
+
+<p><strong>空间复杂度推导</strong>：</p>
+<ul>
+<li>迭代版只用了 <code class="inline-code">a</code>、<code class="inline-code">res</code>、<code class="inline-code">n</code> 三个变量，$ O(1) $</li>
+<li>递归版每层递归压栈，深度 $ k=\log_2 n $，空间 $ O(\log n) $</li>
+<li>结论：迭代版 O(1) 空间，且无栈溢出风险</li>
+</ul>
+
+<h4>应用场景</h4>
+
+<ul>
+<li><strong>RSA 加密/解密</strong>：$ c = m^e \bmod n $，$ e $ 指数极大，必须快速幂</li>
+<li><strong>模逆元求解</strong>：费马小定理 $ a^{-1} \equiv a^{p-2} \pmod p $（$ p $ 为质数）</li>
+<li><strong>矩阵快速幂</strong>：线性递推（斐波那契、线性同余）$ O(\log n) $ 求第 $ n $ 项</li>
+<li><strong>组合数学</strong>：大组合数取模 $ C(n,k) \bmod p $（配合阶乘预计算）</li>
+<li><strong>哈希与伪随机数</strong>：线性同余生成器 $ x_{n+1}=(ax_n+c)\bmod m $ 的快速跳转</li>
+<li><strong>算法竞赛/面试</strong>：<code class="inline-code">pow</code> 取模、LeetCode 50 题"Pow(x,n)"</li>
+</ul>
+
+<h4>参考文档</h4>
+
+<ul>
+<li><a href="https://blog.csdn.net/2501_93772268/article/details/160059735" target="_blank" class="ref-link">快速幂介绍 - CSDN</a></li>
+<li><a href="https://blog.csdn.net/as_asdf/article/details/150492738" target="_blank" class="ref-link">算法学习：快速幂 - CSDN</a></li>
+<li><a href="https://blog.csdn.net/2301_81354767/article/details/146167085" target="_blank" class="ref-link">数学之快速幂-数的幂次 - CSDN</a></li>
+<li><a href="https://blog.csdn.net/shandianjianbing/article/details/150499904" target="_blank" class="ref-link">快速幂知识点总结 - CSDN</a></li>
+<li><a href="https://www.cnblogs.com/mjust/p/4419519.html" target="_blank" class="ref-link">快速幂算法(Fast exponentiation algorithm) - 博客园</a></li>
+</ul>
+
+<hr>
+
+<h3>投机解码（Speculative Decoding）</h3>
+
+<p><strong>类别</strong>：大模型推理加速 | <strong>难度</strong>：困难</p>
+
+<h4>算法简介</h4>
+
+<p>投机解码（Speculative Decoding）是近年来大模型推理加速领域最实用的技术之一。它的出发点很朴素：<strong>自回归生成太慢了</strong>。每生成一个 token，模型都要把全部权重从显存读一遍（内存带宽墙），700 亿参数意味着每 token 约 140GB 的读取量，GPU 大量时间在等数据而不是算数据。投机解码的巧妙思路是"以小博大"：<strong>用一个小而快的草稿模型（draft model）先快速猜出未来 K 个 token，再用大目标模型（target model）一次性并行验证这 K 个 token</strong>。如果草稿猜得准（大概率接受），大模型一次前向就"产出"了多个 token，速度提升 2~3 倍。更关键的是，通过精巧的"拒绝采样"规则，投机解码在数学上<strong>保证输出分布与目标模型直接生成完全一致</strong>——加速但不损失质量。这项技术如今已是 vLLM、TensorRT-LLM 等主流推理框架的标配能力（<code class="inline-code">speculative_model</code> 参数）。</p>
+
+<h4>原理示意图</h4>
+
+<p><div class="algo-image"><img src="http://picx.zhimg.com/v2-4b8dd2251803f87f750ac8198f0168cf_720w.jpg?source=172ae18b" alt="投机解码原理：草稿模型生成 K 个候选 + 目标模型并行验证"><div class="image-caption">投机解码原理：草稿模型生成 K 个候选 + 目标模型并行验证</div></div></p>
+
+<blockquote>
+<p>上图对比了传统自回归解码与投机解码：左侧每步只生成 1 个 token；右侧先由草稿模型（小）快速生成一批候选，再由目标模型（大）一次性并行验证，接受的 token 直接作为输出，被拒的 token 从目标分布重新采样。</p>
+</blockquote>
+
+<h4>数学公式</h4>
+
+<p><strong>自回归解码（基线）</strong>：每个位置依赖已生成的前缀 $ x_{<t} $</p>
+
+<p><div class="math-block">$$ x_t \sim p_\theta(x_t \mid x_{<t}) $$</div></p>
+
+<p><strong>草稿模型生成候选</strong>：草稿模型 $ q_\phi $ 先自回归生成 $ K $ 个候选 token $ \tilde{x}_{t+1}, \dots, \tilde{x}_{t+K} $</p>
+
+<p><strong>目标模型并行验证</strong>：对每个候选位置计算目标模型真实分布 $ p_\theta $</p>
+
+<p><strong>拒绝采样（接受/拒绝规则）</strong>：对第 $ i $ 个候选 token，以概率接受</p>
+
+<p><div class="math-block">$$ \min\left(1, \frac{p_\theta(\tilde{x}_i \mid \text{prefix})}{q_\phi(\tilde{x}_i \mid \text{prefix})}\right) $$</div></p>
+
+<p><strong>期望接受数量</strong>（加速的关键指标）：</p>
+
+<p><div class="math-block">$$ \mathbb{E}[\#\text{accepted}] \approx \sum_{i=1}^{K} \alpha^i = \frac{\alpha(1-\alpha^{K})}{1-\alpha} $$</div></p>
+
+<p><strong>加速比</strong>：</p>
+
+<p><div class="math-block">$$ \text{Speedup} \approx \frac{\mathbb{E}[\#\text{accepted}] + 1}{\text{总前向次数}} \approx \frac{1 + \mathbb{E}[\#\text{accepted}]}{1 + \frac{\text{draft 计算量}}{\text{target 计算量}}\cdot\frac{1}{\text{前向次数归一}}} $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ x_{<t} $：已生成的前缀 token</li>
+<li>$ p_\theta $：目标（大）模型的概率分布，$ \theta $ 为其参数</li>
+<li>$ q_\phi $：草稿（小）模型的概率分布，$ \phi $ 为其参数</li>
+<li>$ \tilde{x}_i $：草稿模型生成的第 $ i $ 个候选 token</li>
+<li>$ K $：每轮生成的草稿 token 数量（典型 3~8）</li>
+<li>$ \alpha $：接受率（草稿与目标分布一致的概率，期望值），$ \alpha \in [0,1] $</li>
+<li>$ \mathbb{E}[\#\text{accepted}] $：期望接受的 token 数，越大加速越明显</li>
+</ul>
+
+<h4>核心要点</h4>
+
+<ul>
+<li>草稿-验证两阶段：小模型猜，大模型校，一次大模型前向产出多个 token</li>
+<li>分布保持性：拒绝采样保证输出分布<strong>严格等于</strong>目标模型（无质量损失）</li>
+<li>加速比取决于草稿模型与目标模型的"契合度"（接受率 $ \alpha $）</li>
+<li>典型效果：接受率 0.8、$ K=5 $ 时前向次数降为 1/4，端到端约 2~3 倍</li>
+<li>选型：草稿模型须与目标模型共享词表（tokenizer），通常同族（如 Llama-3-8B 配 70B）</li>
+<li>工程成熟：vLLM <code class="inline-code">--speculative-model</code> 一行开启；EAGLE、Medusa 等改进变体继续刷新速度</li>
+</ul>
+
+<h4>技术细节与参数详解（vLLM / TensorRT-LLM 中的核心参数）</h4>
+
+<p>#### 参数1：<code class="inline-code">speculative_model</code>（草稿模型路径/名称）</p>
+<ul>
+<li><strong>含义</strong>：指定作为草稿模型的小模型</li>
+<li><strong>类型</strong>：字符串（模型 ID 或本地路径）</li>
+<li><strong>默认值</strong>：None（默认不启用投机解码）</li>
+<li><strong>取值范围</strong>：任何与目标模型词表一致的轻量模型</li>
+<li><strong>对结果的影响</strong>：草稿质量直接决定接受率与加速比；选错模型可能不加速甚至变慢</li>
+<li><strong>推荐设置</strong>：优先用同族小模型（如 Llama-3-8B 配 Llama-3-70B）；或专用草稿头（EAGLE-3、Medusa）</li>
+</ul>
+
+<p>#### 参数2：<code class="inline-code">num_speculative_tokens</code>（草稿长度 K）</p>
+<ul>
+<li><strong>含义</strong>：每轮草稿模型生成的候选 token 数量</li>
+<li><strong>类型</strong>：int</li>
+<li><strong>默认值</strong>：5（vLLM 常见默认）</li>
+<li><strong>取值范围</strong>：一般 3~8，也可更大</li>
+<li><strong>对结果的影响</strong>：K 越大单轮吞吐越高，但草稿出错概率累积，存在最优值；过大时被拒后浪费计算</li>
+<li><strong>推荐设置</strong>：先试 5，观察接受率调优；接受率高可增大 K</li>
+</ul>
+
+<p>#### 参数3：<code class="inline-code">speculative_max_model_len</code></p>
+<ul>
+<li><strong>含义</strong>：投机解码允许的最大序列长度</li>
+<li><strong>类型</strong>：int</li>
+<li><strong>默认值</strong>：默认同 <code class="inline-code">max_model_len</code></li>
+<li><strong>取值范围</strong>：不超过模型最大上下文</li>
+<li><strong>对结果的影响</strong>：限制草稿验证的 KV 缓存范围，防止超长序列时显存爆炸</li>
+<li><strong>推荐设置</strong>：与 <code class="inline-code">max_model_len</code> 一致即可</li>
+</ul>
+
+<p>#### 参数4：<code class="inline-code">speculative_draft_tensor_parallel_size</code></p>
+<ul>
+<li><strong>含义</strong>：草稿模型自身的张量并行度</li>
+<li><strong>类型</strong>：int</li>
+<li><strong>默认值</strong>：1（草稿模型不并行）</li>
+<li><strong>取值范围</strong>：1~GPU 数</li>
+<li><strong>对结果的影响</strong>：草稿模型小，通常单卡即可，过大反而引入通信开销</li>
+<li><strong>推荐设置</strong>：1（除非草稿模型也很大）</li>
+</ul>
+
+<p>#### 参数5：<code class="inline-code">gpu_memory_utilization</code></p>
+<ul>
+<li><strong>含义</strong>：允许使用的显存比例</li>
+<li><strong>类型</strong>：float</li>
+<li><strong>默认值</strong>：0.9</li>
+<li><strong>取值范围</strong>：0~1</li>
+<li><strong>对结果的影响</strong>：投机解码需要同时驻留两个模型，显存不足会导致 OOM 或草稿被挤掉</li>
+<li><strong>推荐设置</strong>：留足两个模型的显存；显存紧时用 0.85~0.9</li>
+</ul>
+
+<p>#### 参数6：<code class="inline-code">temperature</code>（采样温度）</p>
+<ul>
+<li><strong>含义</strong>：解码采样的温度系数</li>
+<li><strong>类型</strong>：float</li>
+<li><strong>默认值</strong>：0.7（vLLM 常见）</li>
+<li><strong>取值范围</strong>：0~2+</li>
+<li><strong>对结果的影响</strong>：温度越低分布越尖锐、接受率越高；投机解码常配合贪心或低温度使用</li>
+<li><strong>推荐设置</strong>：追求速度设 0（贪心）；需要多样性与速度折中设 0.3~0.6</li>
+</ul>
+
+<p>#### 参数7：<code class="inline-code">top_p</code> / <code class="inline-code">top_k</code>（核采样与 top-k 采样参数）</p>
+<ul>
+<li><strong>含义</strong>：控制候选词集合大小</li>
+<li><strong>类型</strong>：float / int</li>
+<li><strong>默认值</strong>：top_p=1.0，top_k=-1（不限制）</li>
+<li><strong>取值范围</strong>：top_p ∈ (0,1]；top_k ≥ 1</li>
+<li><strong>对结果的影响</strong>：收窄采样空间可提升与草稿一致的概率，间接提高接受率</li>
+<li><strong>推荐设置</strong>：top_p=0.9，top_k=40~100 的常用组合</li>
+</ul>
+
+<p>#### 参数8：<code class="inline-code">n</code>（批内生成序列数）与 <code class="inline-code">best_of</code></p>
+<ul>
+<li><strong>含义</strong>：每条提示生成几条候选序列</li>
+<li><strong>类型</strong>：int</li>
+<li><strong>默认值</strong>：1</li>
+<li><strong>对结果的影响</strong>：投机解码对批量处理友好，batch 越大吞吐收益越明显</li>
+<li><strong>推荐设置</strong>：服务场景保持默认；压测关注吞吐时加大并发而非 n</li>
+</ul>
+
+<h4>代码示例（vLLM 一行开启，每行注释）</h4>
+
+<p><pre class="code-block"><code class="language-python"># 方式一：vLLM Python API 启用投机解码
+from vllm import LLM, SamplingParams
+
+# 初始化推理引擎：目标模型 + 草稿模型
+llm = LLM(
+    model=&quot;meta-llama/Llama-3-70B-Instruct&quot;,      # 目标大模型
+    speculative_model=&quot;meta-llama/Llama-3-8B-Instruct&quot;,  # 草稿小模型（同族）
+    num_speculative_tokens=5,                     # 每轮生成 5 个草稿 token
+    tensor_parallel_size=4,                       # 目标模型 4 卡并行
+    gpu_memory_utilization=0.9,                   # 显存利用率
+    dtype=&quot;float16&quot;,                              # 半精度推理
+)
+
+# 采样参数：低温度提高接受率
+sampling_params = SamplingParams(
+    temperature=0.7,     # 采样温度
+    top_p=0.9,           # 核采样概率阈值
+    max_tokens=2048,     # 最大生成长度
+)
+
+# 批量生成（投机解码对批量最友好）
+prompts = [
+    &quot;Explain the PagedAttention algorithm in detail.&quot;,
+    &quot;Write a Python function to merge two sorted linked lists.&quot;,
+]
+outputs = llm.generate(prompts, sampling_params)
+for output in outputs:
+    print(output.outputs[0].text)   # 输出与未开投机完全一致</code></pre></p>
+
+<p><pre class="code-block"><code class="language-bash"># 方式二：vLLM 命令行一键启用
+# 服务端同样用 OpenAI 兼容 API，客户端零改动
+vllm serve meta-llama/Llama-3-70B-Instruct \
+  --speculative-model meta-llama/Llama-3-8B-Instruct \  # 草稿模型
+  --num-speculative-tokens 5 \                          # 草稿长度
+  --tensor-parallel-size 4 \                          # 目标模型并行度
+  --port 8000                                        # 服务端口</code></pre></p>
+
+<h4>复杂度分析</h4>
+
+<p><strong>时间复杂度推导</strong>：</p>
+<ul>
+<li>传统自回归：生成 $ T $ 个 token 需 $ T $ 次大模型前向，每次代价 $ O(L_{\text{target}}) $（$ L $ 为每层计算量×层数）</li>
+<li>投机解码：每轮 1 次草稿前向（$ K $ 个 token 自回归，代价约 $ K \times L_{\text{draft}} $）+ 1 次大模型前向（一次验证 $ K $ 个位置，代价约 $ L_{\text{target}} $）</li>
+<li>若期望接受数 $ \mathbb{E}[A] $，则总前向次数约为 $ T / (\mathbb{E}[A]+1) $</li>
+<li>总代价 $ T \cdot L_{\text{target}} \to \frac{T}{1+\mathbb{E}[A]}\cdot(L_{\text{target}} + K\cdot L_{\text{draft}}) $</li>
+<li>当草稿模型足够小（$ L_{\text{draft}}\ll L_{\text{target}} $）且接受率高时，加速比 ≈ $ 1+\mathbb{E}[A] $，即 2~4 倍</li>
+<li>空间：需额外驻留草稿模型（约 1/10~1/8 目标大小），总体空间 $ O(L_{\text{target}} + L_{\text{draft}}) $</li>
+</ul>
+
+<h4>应用场景</h4>
+
+<ul>
+<li><strong>生产 LLM 服务</strong>：vLLM/TensorRT-LLM 部署 Chat 模型，吞吐提升 2~3 倍，成本减半</li>
+<li><strong>批量离线生成</strong>：摘要、代码补全、数据提取等大规模批处理任务</li>
+<li><strong>低延迟在线推理</strong>：配合小模型先答再验证，首 token 延迟与整体延迟双优化</li>
+<li><strong>受限显存环境</strong>：小目标模型也能受益（如 8B 目标 + 1B 草稿）</li>
+<li><strong>不适合</strong>：短输出（<50 token）、超高并发小请求、草稿与目标差异大的跨族组合</li>
+</ul>
+
+<h4>参考文档</h4>
+
+<ul>
+<li><a href="https://baijiahao.baidu.com/s?id=1861364337861385840&wfr=spider&for=pc" target="_blank" class="ref-link">投机解码原理详解：小模型打草稿，大模型一次验证 - 百家号</a></li>
+<li><a href="https://cloud.tencent.com/developer/article/2616548" target="_blank" class="ref-link">大模型高效推理|投机解码原理介绍 - 腾讯云</a></li>
+<li><a href="https://blog.csdn.net/picture_share/article/details/161471792" target="_blank" class="ref-link">手写 Speculative Decoding：大模型推理加速的工程实现 - CSDN</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/2022405144868823666" target="_blank" class="ref-link">大模型推理的投机解码 Speculative Decoding - 知乎</a></li>
+<li><a href="https://blog.csdn.net/gitblog_01190/article/details/168343058" target="_blank" class="ref-link">如何用 EAGLE-3 草稿模型让大模型推理快人一步 - CSDN</a></li>
+</ul>
+
+<hr>
+
+<h3>注意力机制变体（Attention Mechanism Variants）</h3>
+
+<p><strong>类别</strong>：深度学习/大模型架构 | <strong>难度</strong>：困难</p>
+
+<h4>算法简介</h4>
+
+<p>注意力机制是 Transformer 的基石：每个 token 与序列中所有其他 token 计算相关性权重并加权聚合，这让模型能捕捉长程依赖，但代价是 $ O(n^2) $ 的时间和空间复杂度——序列一长（例如几十万 token 的上下文），显存与算力都吃不消。于是诞生了一大批"注意力机制变体"来突破这个平方瓶颈，核心诉求是<strong>在不损失效果的前提下降低复杂度或常数</strong>。主流方向包括：①<strong>线性注意力（Linear Attention）</strong>：用核函数近似 softmax，将 $ QK^T $ 的平方矩阵乘法改写为 $ Q(K^TV) $，复杂度降到 $ O(n) $；②<strong>稀疏注意力（Sparse Attention）</strong>：让每个 token 只看固定窗口或随机选择的少数 token（如 Longformer、BigBird）；③<strong>FlashAttention</strong>：通过 IO 感知分块计算，不物化 $ n\times n $ 矩阵，把常数系数优化到极致（这是当今大模型训练的标准配置）；④<strong>滑动窗口/局部注意力</strong>：限定每个 token 只看邻域窗口（如 Mistral 的 sliding window）；⑤<strong>线性注意力循环化</strong>（Mamba 等）：把注意力重写为循环，序列长度无关。注意力变体的本质，是在"表达能力"与"计算/显存效率"之间做取舍的工程-算法平衡。</p>
+
+<h4>原理示意图</h4>
+
+<p><div class="algo-image"><img src="http://picx.zhimg.com/v2-d4d51e97633a76d2ab5093cd8d18500d_r.jpg" alt="注意力机制变体：全注意力 vs 稀疏/窗口/线性注意力对比"><div class="image-caption">注意力机制变体：全注意力 vs 稀疏/窗口/线性注意力对比</div></div></p>
+
+<blockquote>
+<p>上图展示了多种稀疏注意力模式：Random（随机稀疏）、Window（窗口/局部）、Global（全局，如 BERT 的 [CLS]）、BigBird（三合一）。方格中的点表示该位置的 query-key 对被计算；空白表示被跳过，从而减少计算量。线性注意力（左下角常见表达）则把矩阵结构变为线性 RNN 式的循环。</p>
+</blockquote>
+
+<h4>数学公式</h4>
+
+<p>标准缩放点积注意力（基线）：</p>
+
+<p><div class="math-block">$$ \text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^\top}{\sqrt{d_k}}\right)V $$</div></p>
+
+<p>其中 $ Q \in \mathbb{R}^{n\times d_k} $，$ K \in \mathbb{R}^{n\times d_k} $，$ V \in \mathbb{R}^{n\times d_v} $。</p>
+
+<p><strong>复杂度</strong>：时间 $ O(n^2 d_k) $，空间 $ O(n^2) $。</p>
+
+<p>线性注意力（用核函数近似 softmax，消去 $ QK^\top $ 大矩阵）：</p>
+
+<p><div class="math-block">$$ \text{Attn}_{\text{lin}}(Q,K,V)_i = \frac{\phi(Q_i)^\top \sum_j \phi(K_j) V_j^\top}{\phi(Q_i)^\top \sum_j \phi(K_j)} $$</div></p>
+
+<p><strong>复杂度</strong>：时间 $ O(n d_k d_v) $（先算 $ \sum_j \phi(K_j)V_j^\top $ 每行再乘以 $ \phi(Q_i) $），空间 $ O(n) $。</p>
+
+<p><strong>稀疏注意力（窗口模式）</strong>：只允许每个 query 关注窗口内 $ w $ 个 key</p>
+
+<p><div class="math-block">$$ \text{Attn}_{\text{win}}(Q,K,V)_i = \text{softmax}\left(\frac{Q_i K_{[i-w, i+w]}^\top}{\sqrt{d_k}}\right)V_{[i-w,i+w]} $$</div></p>
+
+<p>复杂度：$ O(n\cdot w \cdot d_k) $，$ w\ll n $ 时为 $ O(n) $。</p>
+
+<p><strong>FlashAttention 公式（在线 softmax 分块）</strong>：将注意力分解为 $ B_c $ 个块，维护运行最大 $ m $ 与运行归一和 $ \ell $：</p>
+
+<p><div class="math-block">$$ \ell^{(t)} \gets \ell^{(t-1)} + \exp(m^{(t-1)} - m^{(t)}) \cdot \sum_j e^{s_{ij} - m^{(t)}} $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ n $：序列长度（token 数）</li>
+<li>$ d_k $：key 维度；$ d_v $：value 维度</li>
+<li>$ Q,K,V $：query、key、value 矩阵</li>
+<li>$ w $：窗口大小（滑动窗口注意力）</li>
+<li>$ \phi(\cdot) $：核函数（如 ReLU/指数核），把 $ Q,K $ 投影到正数空间</li>
+<li>$ m^{(t)} $：第 $ t $ 块的运行最大值；$ \ell^{(t)} $：运行归一化因子；$ s_{ij} $：注意力 logit</li>
+</ul>
+
+<h4>核心要点</h4>
+
+<ul>
+<li><strong>线性注意力</strong>把 $ O(n^2) $ 降为 $ O(n) $，但弱化了 softmax 的归一化/稀疏性，容易退化</li>
+<li><strong>稀疏注意力</strong>用窗口/全局 token 的稀疏结构近似全注意力，本质仍是 $ O(n) $ 计算</li>
+<li><strong>FlashAttention</strong> 在不改动输出的前提下把 HBM 访问降到最优，是训练超长上下文的硬件级优化</li>
+<li><strong>滑动窗口</strong>（如 Mistral、Gemma2）在固定开销下近似长上下文，适配滚动 KV 缓存</li>
+<li>变体的共同目标：<strong>在保持核心"查询-键相关性"语义的同时打破平方瓶颈</strong></li>
+<li>生产选型：训练用 FlashAttention（保精度）；长上下文在线推理用滑动窗口+KV cache 量化</li>
+</ul>
+
+<h4>技术细节与参数详解（以 FlashAttention / 窗口注意力的实现参数为例）</h4>
+
+<p>#### 参数1：<code class="inline-code">block_size</code>（FlashAttention 的分块大小）</p>
+<ul>
+<li><strong>含义</strong>：计算时把 Q/K/V 分成多少行一块，逐块加载到 SRAM</li>
+<li><strong>类型</strong>：int</li>
+<li><strong>默认值</strong>：由内核决定（如 128）</li>
+<li><strong>取值范围</strong>：通常 64~256（受 SRAM 大小限制）</li>
+<li><strong>对结果的影响</strong>：块越大，HBM 往返越少但 SRAM 占用越高；需在吞吐与容量间平衡</li>
+<li><strong>推荐设置</strong>：用默认；显存极小的设备可调小</li>
+</ul>
+
+<p>#### 参数2：<code class="inline-code">num_heads</code>（注意力头数）</p>
+<ul>
+<li><strong>含义</strong>：多头注意力的头数量</li>
+<li><strong>类型</strong>：int</li>
+<li><strong>默认值</strong>：8（Transformer 论文默认 8）</li>
+<li><strong>取值范围</strong>：1~64（需整除 embed_dim）</li>
+<li><strong>对结果的影响</strong>：头越多并行子空间越多，可捕获更多类型关系；头过大每头维度变小效果变差</li>
+<li><strong>推荐</strong>：head_dim=64 附近（embed_dim/num_heads ≈ 64）</li>
+</ul>
+
+<p>#### 参数3：<code class="inline-code">head_dim</code>（每头维度）</p>
+<ul>
+<li><strong>含义</strong>：每个注意力头的投影维度 $ d_k=d_v $</li>
+<li><strong>类型</strong>：int</li>
+<li><strong>默认值</strong>：64（经典设置）</li>
+<li><strong>取值范围</strong>：16~128 常用</li>
+<li><strong>对结果的影响</strong>：决定每头表达力与总参数量；过小表达能力不足，过大则显存（QK^T）</li>
+<li><strong>推荐</strong>：64 或 128，遵循模型惯例</li>
+</ul>
+
+<p>#### 参数4：<code class="inline-code">window_size</code>（滑动窗口注意力窗口）</p>
+<ul>
+<li><strong>含义</strong>：每个 token 只能注意前后 window_size 个 token</li>
+<li><strong>类型</strong>：int</li>
+<li><strong>默认值</strong>：如 Mistral 使用 4096</li>
+<li><strong>取值范围</strong>：1~n</li>
+<li><strong>对结果的影响</strong>：窗口太小丢长程信息，窗口太大近似全注意力失去优化意义</li>
+<li><strong>推荐</strong>：根据任务最长依赖长度设置（如 4096/8192）</li>
+</ul>
+
+<p>#### 参数5：<code class="inline-code">softmax_scale</code>（缩放因子）</p>
+<ul>
+<li><strong>含义</strong>：QK^T 除以的缩放值（通常 $ \sqrt{d_k} $）</li>
+<li><strong>类型</strong>：float</li>
+<li><strong>默认值</strong>：$ \sqrt{head\_dim} $</li>
+<li><strong>取值范围</strong>：正数</li>
+<li><strong>对结果的影响</strong>：缩放保持数值稳定；错误缩放会破坏 softmax 分布</li>
+<li><strong>推荐</strong>：使用默认 $ 1/\sqrt{d_k} $</li>
+</ul>
+
+<p>#### 参数6：<code class="inline-code">num_blocks</code>（分块数，PagedAttention/分页 KV 缓存）</p>
+<ul>
+<li><strong>含义</strong>：KV 缓存按块管理时的块数量</li>
+<li><strong>类型</strong>：int</li>
+<li><strong>默认值</strong>：根据序列长度计算</li>
+<li><strong>取值范围</strong>：≥1</li>
+<li><strong>对结果的影响</strong>：控制 KV 缓存的内存分配粒度，影响缓存利用率</li>
+<li><strong>推荐</strong>：交由推理引擎（vLLM）自动管理</li>
+</ul>
+
+<p>#### 参数7：<code class="inline-code">recompute_kv</code>（重计算开关）</p>
+<ul>
+<li><strong>含义</strong>：反向传播是否重算 K、V 以减少显存</li>
+<li><strong>类型</strong>：bool</li>
+<li><strong>默认值</strong>：取决于框架</li>
+<li><strong>对结果的影响</strong>：训练显存占用减半，代价是额外的计算</li>
+<li><strong>推荐</strong>：长上下文训练开启</li>
+</ul>
+
+<h4>代码示例（PyTorch 实现窗口注意力 + FlashAttention 调用，每行注释）</h4>
+
+<p><pre class="code-block"><code class="language-python">import torch
+import torch.nn.functional as F
+
+def window_attention(q, k, v, window_size):
+    &quot;&quot;&quot;
+    滑动窗口注意力：每个 query 只看前后 window_size 个 key
+    :param q: (B, H, N, d) query
+    :param k: (B, H, N, d) key
+    :param v: (B, H, N, d) value
+    :param window_size: 窗口半径（单侧）
+    &quot;&quot;&quot;
+    B, H, N, d = q.shape
+    # 计算所有位置的缩放点积分数（临时矩阵，注意力实现时用掩码避免全量）
+    scores = torch.matmul(q, k.transpose(-2, -1)) / (d ** 0.5)  # (B,H,N,N)
+    # 构造窗口掩码：距离大于 window_size 的位置置为 -inf
+    idx = torch.arange(N, device=q.device)
+    dist = (idx[None, :] - idx[:, None]).abs()                  # 相对距离矩阵
+    mask = dist &gt; window_size                                    # 超窗位置掩码
+    scores = scores.masked_fill(mask, float(&#x27;-inf&#x27;))            # 屏蔽窗口外位置
+    attn = torch.softmax(scores, dim=-1)                       # 归一化
+    out = torch.matmul(attn, v)                                # 加权求和
+    return out
+
+# 使用示例：8 头、64 维、128 token，窗口 16
+q = torch.randn(2, 8, 128, 64)
+k = torch.randn(2, 8, 128, 64)
+v = torch.randn(2, 8, 128, 64)
+out = windowed_attention(q, k, v, window_size=16)
+print(out.shape)  # torch.Size([2, 8, 128, 64])</code></pre></p>
+
+<p><pre class="code-block"><code class="language-python"># FlashAttention 内核（在线 softmax 的高效分块实现示意）
+# 实际生产中直接使用 fused 内核（如 triton 实现），下面给出分块计算逻辑
+import math
+
+def flash_attention_blocks(q, k, v, block=64):
+    &quot;&quot;&quot;分块注意力（示意）：不物化 NxN 矩阵，逐块更新运行统计&quot;&quot;&quot;
+    B, H, N, d = q.shape
+    out = torch.zeros_like(q)                     # 输出缓存
+    for i in range(0, N, block):                 # 外层循环：query 块
+        q_blk = q[:, :, i:i+block]               # 当前 query 块
+        m = torch.full((B, H, block, 1), -float(&#x27;inf&#x27;), device=q.device)  # 运行 max
+        l = torch.zeros((B, H, block, 1), device=q.device)                 # 运行 sum exp
+        acc = torch.zeros((B, H, block, d), device=q.device)               # 累加器
+        for j in range(0, N, block):             # 内层循环遍历 key/value 块
+            k_j = k[:, :, j:j+block]             # key 块
+            v_j = v[:, :, j:j+block]             # value 块
+            s = torch.matmul(q_i, k_j.transpose(-2, -1)) / math.sqrt(d)  # 分数
+            m_new = torch.maximum(m, s.max(dim=-1, keepdim=True).values) # 新 max
+            p = torch.exp(s - m_new)             # 稳定指数
+            l = l * torch.exp(m - m_new) + p.sum(dim=-1, keepdim=True)   # 更新 l
+            acc = acc * torch.exp(m - m_new) + torch.matmul(p, v_j)      # 更新累加
+            m = m_new                            # 同步 max
+        out[:, :, i:i+block] = acc / l           # 归一化输出
+    return out</code></pre></p>
+
+<h4>复杂度分析</h4>
+
+<p><strong>标准注意力</strong>：时间 $ O(n^2 d) $，空间 $ O(n^2) $——序列长度平方膨胀。</p>
+
+<p><strong>线性注意力</strong>：把计算顺序从 $ QK^T V $ 变为 $ Q (K^T V) $，时间 $ O(n d_k d_v) $，空间 $ O(n d_v) $；不再有 $ n^2 $ 项。</p>
+
+<p><strong>滑动窗口注意力</strong>：每个 query 只算 $ 2w+1 $ 个 key，时间 $ O(n w d) $，空间 $ O(n w) $；$ w $ 远小于 $ n $ 时线性。</p>
+
+<p><strong>FlashAttention</strong>：时间与标准注意力同阶 $ O(n^2 d) $，但 HBM 访问从 $ O(n^2) $ 降到 $ O(n) $，实际加速 2~10 倍（因 I/O 占主导），空间 O(n)。</p>
+
+<h4>应用场景</h4>
+
+<ul>
+<li><strong>长上下文大模型训练</strong>：GPT-4、Llama-3、Qwen 系列等都依赖 FlashAttention 训练 8K~128K 上下文</li>
+<li><strong>在线流式推理</strong>：滑动窗口 + KV 缓存（如 Mistral、Gemma 2）支持无限滚动生成</li>
+<li><strong>长文档/长代码理解</strong>：BigQuery、Longformer 稀疏注意力处理 1M token 文档</li>
+<li><strong>视觉 Transformer</strong>：窗口化注意力（Swin）平衡图像 patch 之间的计算</li>
+<li><strong>高效记忆系统</strong>：线性注意力（Mamba 类）让状态随时间增长而 O(1) 更新</li>
+<li><strong>推荐系统/序列推荐</strong>：长行为序列建模中避免平方爆炸</li>
+</ul>
+
+<h4>参考文档</h4>
+
+<ul>
+<li><a href="https://blog.csdn.net/Android_XG/article/details/149933534" target="_blank" class="ref-link">一文讲透注意力机制演进全解析 - CSDN</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/2035750256118338261" target="_blank" class="ref-link">必知必会：高效注意力机制——Sparse Attention与Linear Attention详解 - 知乎</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/2068265383627428421" target="_blank" class="ref-link">注意力内核进化史：FlashAttention 系列与 Flash Linear Attention - 知乎</a></li>
+<li><a href="http://finance.sina.com.cn/wm/2026-10-12/doc-iniuxmtq0414666.shtml" target="_blank" class="ref-link">注意力也是 FFN？从快权重出发理解高效注意力 | NeurIPS 26 - 新浪财经</a></li>
+<li><a href="https://baike.baidu.com/item/Linear%20Attention/67673962" target="_blank" class="ref-link">Linear Attention - 百度百科</a></li>
+</ul>
+
+<hr>
+
+<blockquote>
+<p>AI生成</p>
+</blockquote>
+  </div>
+  <div class="footer">
+    <p>由 TeleAgent · 每日算法推送 技能自动生成 | 2026-10-19 09:38</p>
+  </div>
+</div>
+</body>
+</html>
