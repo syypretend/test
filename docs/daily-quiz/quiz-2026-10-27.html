@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>每日算法 AI 出题 · 第 20 期 · 2026-10-27</title>
+  <!-- KaTeX 数学公式渲染 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
+  <style>
+    :root {
+      --bg: #0d1117;
+      --card-bg: #161b22;
+      --border: #30363d;
+      --text: #e6edf3;
+      --text-dim: #8b949e;
+      --accent: #58a6ff;
+      --green: #3fb950;
+      --orange: #d29922;
+      --red: #f85149;
+      --purple: #a855f7;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", sans-serif;
+      line-height: 1.7;
+      padding: 16px;
+      max-width: 860px;
+      margin: 0 auto;
+    }
+    .header {
+      text-align: center;
+      padding: 24px 0 16px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 24px;
+    }
+    .header h1 {
+      font-size: 1.5em;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+    .header .subtitle {
+      color: var(--text-dim);
+      font-size: 0.9em;
+    }
+    .header .date-tag {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 2px 12px;
+      border-radius: 12px;
+      background: var(--border);
+      font-size: 0.8em;
+      color: var(--text-dim);
+    }
+
+    /* 题目卡片 */
+    .question-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .question-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+    .type-badge {
+      padding: 2px 10px;
+      border-radius: 10px;
+      font-size: 0.75em;
+      color: white;
+      font-weight: 600;
+    }
+    .difficulty { font-size: 0.85em; }
+    .qid-label { color: var(--text-dim); font-size: 0.8em; margin-left: auto; }
+    .question-title {
+      font-size: 1.25em;
+      margin-bottom: 12px;
+      color: var(--text);
+    }
+    .question-body { margin-bottom: 14px; }
+    .question-body code.inline-code {
+      background: var(--border);
+      padding: 1px 5px;
+      border-radius: 3px;
+      font-size: 0.9em;
+    }
+
+    /* 信息块 */
+    .info-block {
+      background: rgba(88,166,255,0.05);
+      border-left: 3px solid var(--accent);
+      padding: 10px 14px;
+      margin: 10px 0;
+      border-radius: 0 6px 6px 0;
+    }
+    .info-label {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.85em;
+      display: block;
+      margin-bottom: 4px;
+    }
+    .info-block pre {
+      white-space: pre-wrap;
+      font-family: "JetBrains Mono", "Fira Code", monospace;
+      font-size: 0.85em;
+      color: var(--text);
+    }
+
+    /* 示例 */
+    .example-block {
+      background: rgba(63,185,80,0.05);
+      border: 1px solid rgba(63,185,80,0.2);
+      border-radius: 8px;
+      padding: 12px;
+      margin: 10px 0;
+    }
+    .example-title {
+      color: var(--green);
+      font-weight: 600;
+      font-size: 0.85em;
+      margin-bottom: 6px;
+    }
+    .example-io {
+      font-family: monospace;
+      font-size: 0.85em;
+      white-space: pre-wrap;
+      margin: 2px 0;
+    }
+    .io-label { color: var(--text-dim); }
+    .example-explanation {
+      color: var(--text-dim);
+      font-size: 0.85em;
+      margin-top: 6px;
+      padding-top: 6px;
+      border-top: 1px dashed var(--border);
+    }
+
+    /* 选项 */
+    .options-container { margin: 12px 0; }
+    .option-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      padding: 10px 14px;
+      margin: 6px 0;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .option-item:hover { border-color: var(--accent); background: rgba(88,166,255,0.05); }
+    .option-item.correct { border-color: var(--green); background: rgba(63,185,80,0.1); }
+    .option-item.wrong { border-color: var(--red); background: rgba(248,81,73,0.1); }
+    .option-item input[type=radio] { accent-color: var(--accent); margin-top: 4px; }
+    .option-letter {
+      font-weight: 700;
+      color: var(--accent);
+      min-width: 20px;
+    }
+    .option-text { flex: 1; font-size: 0.9em; }
+    .option-feedback {
+      margin: 8px 0;
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-size: 0.85em;
+      display: none;
+    }
+    .option-feedback.show { display: block; }
+    .option-feedback.correct {
+      background: rgba(63,185,80,0.1);
+      color: var(--green);
+    }
+    .option-feedback.wrong { background: rgba(248,81,73,0.1); color: var(--red); }
+
+    /* 代码编辑器 */
+    .code-section {
+      margin: 16px 0;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .code-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 14px;
+      background: rgba(88,166,255,0.08);
+      border-bottom: 1px solid var(--border);
+      font-size: 0.85em;
+      color: var(--accent);
+    }
+    .editor-wrap {
+      position: relative;
+    }
+    .code-editor {
+      min-height: 180px;
+      max-height: 400px;
+      overflow: auto;
+      padding: 12px;
+      font-family: "JetBrains Mono", "Fira Code", "Cascadia Code", monospace;
+      font-size: 13px;
+      line-height: 1.5;
+      white-space: pre;
+      color: var(--text);
+      background: #0d1117;
+      outline: none;
+      tabs: 4;
+    }
+    .btn-run {
+      background: var(--green);
+      color: white;
+      border: none;
+      padding: 4px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.85em;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .btn-run:hover { opacity: 0.85; }
+    .btn-run:disabled { opacity: 0.5; cursor: not-allowed; }
+    .code-result {
+      padding: 12px;
+      background: #0d1117;
+      border-top: 1px solid var(--border);
+      font-family: monospace;
+      font-size: 0.85em;
+      white-space: pre-wrap;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+    .code-result .test-pass { color: var(--green); }
+    .code-result .test-fail { color: var(--red); }
+    .code-result .stderr { color: var(--orange); }
+
+    /* 显示解析按钮 */
+    .btn-reveal {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      margin-top: 16px;
+      background: transparent;
+      border: 2px dashed var(--border);
+      border-radius: 8px;
+      color: var(--text-dim);
+      font-size: 0.95em;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .btn-reveal:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(88,166,255,0.03);
+    }
+    .btn-reveal.loading {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    /* 解析区域 */
+    .solution-section {
+      margin-top: 16px;
+      animation: fadeIn 0.4s ease;
+    }
+    @keyframes fadeIn { from{opacity:0; transform:translateY(10px) } to{opacity:1; transform:translateY(0) } }
+    .solution-divider {
+      text-align: center;
+      color: var(--text-dim);
+      font-size: 0.8em;
+      margin: 16px 0;
+      letter-spacing: 1px;
+    }
+    .answer-highlight {
+      background: rgba(63,185,80,0.1);
+      border: 1px solid var(--green);
+      border-radius: 8px;
+      padding: 10px 16px;
+      margin: 10px 0;
+      font-size: 1.05em;
+      color: var(--green);
+      font-weight: 600;
+    }
+    .solution-block {
+      margin: 14px 0;
+      padding: 14px;
+      background: rgba(255,255,255,0.02);
+      border-radius: 8px;
+    }
+    .solution-block h4 {
+      color: var(--accent);
+      margin-bottom: 8px;
+      font-size: 0.95em;
+    }
+    .solution-block ul.answer-points {
+      padding-left: 20px;
+    }
+    .solution-block ul.answer-points li {
+      margin: 6px 0;
+      font-size: 0.9em;
+    }
+    .code-block {
+      background: #0d1117;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 12px;
+      font-family: "JetBrains Mono", "Fira Code", monospace;
+      font-size: 0.85em;
+      overflow-x: auto;
+      white-space: pre;
+      color: var(--text);
+    }
+    .complexity-tag {
+      display: inline-block;
+      padding: 2px 10px;
+      margin-right: 8px;
+      border-radius: 6px;
+      background: var(--border);
+      font-size: 0.85em;
+      font-family: monospace;
+    }
+    .derivation-content {
+      font-size: 0.9em;
+      line-height: 1.8;
+    }
+
+    /* 运行中加载动画 */
+    .spinner {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      border: 2px solid var(--text-dim);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* 底部 */
+    .footer {
+      text-align: center;
+      padding: 24px 0;
+      color: var(--text-dim);
+      font-size: 0.8em;
+      border-top: 1px solid var(--border);
+      margin-top: 24px;
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 8px; }
+      .question-card { padding: 14px; }
+      .question-title { font-size: 1.1em; }
+      .code-editor { font-size: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <h1>每日算法 AI 出题 · 第 20 期</h1>
+  <div class="subtitle">算法 2 道 + AI 2 道 · 衔接最近主题（一致性哈希 / 模型合并）+ 知识池补空白（层序遍历 / 反向传播四公式）</div>
+  <div class="date-tag">📅 2026-10-27 ｜ 算法 2 道 · AI 2 道</div>
+</div>
+
+<div class="question-card" data-qid="1">
+
+    <div class="question-header">
+      <span class="type-badge" style="background:#3b82f6">算法编程</span>
+      <span class="difficulty">⭐⭐</span>
+      <span class="qid-label">第 1 题</span>
+    </div>
+<h2 class="question-title">二叉树的层序遍历（BFS）</h2>
+<div class="question-body">给定一棵二叉树，请实现函数 <code class="inline-code">solve(tree)</code>，返回它的**层序遍历**结果：自顶向下、同一层从左到右，每一层的节点值组成一个子数组，最终返回按层排列的二维数组。<br>
+<br>
+输入 <code class="inline-code">tree</code> 是二叉树的**层序数组表示**（<code class="inline-code">None</code> 表示空节点，例如 <code class="inline-code">[3, 9, 20, None, None, 15, 7]</code> 表示根 3，左子 9，右子 20，20 的左子 15、右子 7）。<br>
+<br>
+**要求**：使用 BFS 队列实现（宽度优先搜索），并把每一层的节点**单独收集为一个子数组**。技巧：每轮出队前先记录当前队列长度 <code class="inline-code">size</code>，只处理 <code class="inline-code">size</code> 个节点——这 <code class="inline-code">size</code> 个节点正好构成完整的一层。</div>
+<div class="info-block"><span class="info-label">输入</span><pre>一个列表 `tree`：二叉树的层序数组，元素为整数或 `None`。</pre></div>
+<div class="info-block"><span class="info-label">输出</span><pre>`List[List[int]]`：按层分组的结果；空树返回 `[]`。</pre></div>
+<div class="example-block">
+<div class="example-title">示例 1</div>
+<pre class="example-io"><span class="io-label">输入：</span>tree = [3, 9, 20, None, None, 15, 7]</pre>
+<pre class="example-io"><span class="io-label">输出：</span>[[3], [9, 20], [15, 7]]</pre>
+<div class="example-explanation">第一层只有根 3；第二层是 9、20；第三层是 15、7。</div>
+</div>
+<div class="example-block">
+<div class="example-title">示例 2</div>
+<pre class="example-io"><span class="io-label">输入：</span>tree = [1]</pre>
+<pre class="example-io"><span class="io-label">输出：</span>[[1]]</pre>
+<div class="example-explanation">单节点树只有一层。</div>
+</div>
+<div class="example-block">
+<div class="example-title">示例 3</div>
+<pre class="example-io"><span class="io-label">输入：</span>tree = []</pre>
+<pre class="example-io"><span class="io-label">输出：</span>[]</pre>
+<div class="example-explanation">空树没有任何层，返回空列表。</div>
+</div>
+<div class="info-block"><span class="info-label">约束</span><div>- 节点数 $0 \le n \le 2000$
+- 节点值：$-1000 \le val \le 1000$
+- `None` 只表示占位空节点；层序数组末尾不会出现多余的 `None`。</div></div>
+
+    <div class="code-section">
+      <div class="code-header">
+        <span>🧑‍💻 在线代码编辑器</span>
+        <button class="btn-run" onclick="runCode(1)" id="run_btn_1">▶ 运行</button>
+      </div>
+      <div class="editor-wrap">
+        <div class="code-editor" id="editor_1" contenteditable="true" spellcheck="false">from collections import deque
+
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+def build_tree(arr):
+    &quot;&quot;&quot;层序数组建树：arr[0] 为根，None 表示空节点&quot;&quot;&quot;
+    if not arr or arr[0] is None:
+        return None
+    root = TreeNode(arr[0])
+    q = deque([root])
+    i = 1
+    while q and i &lt; len(arr):
+        cur = q.popleft()
+        if arr[i] is not None:
+            cur.left = TreeNode(arr[i])
+            q.append(cur.left)
+        i += 1
+        if i &lt; len(arr) and arr[i] is not None:
+            cur.right = TreeNode(arr[i])
+            q.append(cur.right)
+        i += 1
+    return root
+
+def solve_level(tree):
+    # TODO: 返回二叉树的层序遍历结果 List[List[int]]
+    # 提示：BFS 队列 + 每轮先记录 size = len(q)，再只弹出 size 个节点组成一层
+    pass
+</div>
+      </div>
+      <div class="code-result" id="result_1" style="display:none;"></div>
+      <input type="hidden" id="func_name_1" value="__init__">
+      <input type="hidden" id="test_cases_1" value='[[[3, 9, 20, null, null, 15, 7]], [[1]], [[]], [[1, 2, 3, 4, 5, 6, 7]], [[1, 2, 3, null, null, 4, 5]], [[1, 2, 3, null, 4]], [[1, null, 2]], [[1, 2, null, 3, null]], [[5, 4, 4, null, null, 3, 8]], [[-1, -2, -3]], [[1, null, null]], [[1, 2]], [[1, null, 2, null, 3]], [[1, 2, null, 3, null, 4, null]]]'>
+      <input type="hidden" id="expected_outputs_1" value='[[[3], [9, 20], [15, 7]], [[1]], [], [[1], [2, 3], [4, 5, 6, 7]], [[1], [2, 3], [4, 5]], [[1], [2, 3], [4]], [[1], [2]], [[1], [2], [3]], [[5], [4, 4], [3, 8]], [[-1], [-2, -3]], [[1]], [[1], [2]], [[1], [2], [3]], [[1], [2], [3], [4]]]'>
+    </div>
+
+    <button class="btn-reveal" onclick="revealSolution(1)" id="reveal_btn_1">
+      📖 显示答案与解析
+    </button>
+<div class="solution-section" id="solution_1" style="display:none;">
+<div class="solution-divider">--- 以下为答案与解析 ---</div>
+<div class="solution-block"><h4>💡 解题思路</h4><div>BFS 层序遍历的核心是**用队列 + 固定每轮长度**：队列里永远是「当前层的全部节点」——因为我们是按层把节点入队的，每一轮开始时队列恰好装着下一层的全部节点。<br>
+<br>
+具体做法：<br>
+1. 空树直接返回 <code class="inline-code">[]</code>；<br>
+2. 根节点入队；<br>
+3. 循环：记录 <code class="inline-code">size = len(queue)</code>（**必须在出队前记录**，因为出队时队列会变短）→ 弹出 <code class="inline-code">size</code> 个节点组成 <code class="inline-code">level</code> 列表 → 顺手把每个节点的左右子入队（下一层）；<br>
+4. 把 <code class="inline-code">level</code> 加入结果。<br>
+<br>
+关键点：**先固定 <code class="inline-code">size</code> 再弹出**，否则把子节点入队后会把下一层的节点也弹进当前层。</div></div>
+<div class="solution-block"><h4>📝 参考代码（python）</h4><pre class="code-block">from collections import deque
+
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+def build_tree(arr):
+    &quot;&quot;&quot;层序数组建树：arr[0] 为根，None 表示空节点&quot;&quot;&quot;
+    if not arr or arr[0] is None:
+        return None
+    root = TreeNode(arr[0])
+    q = deque([root])
+    i = 1
+    while q and i &lt; len(arr):
+        cur = q.popleft()
+        if arr[i] is not None:
+            cur.left = TreeNode(arr[i])
+            q.append(cur.left)
+        i += 1
+        if i &lt; len(arr) and arr[i] is not None:
+            cur.right = TreeNode(arr[i])
+            q.append(cur.right)
+        i += 1
+    return root
+
+def solve_level(tree):
+    root = build_tree(tree)
+    if root is None:
+        return []
+    res = []
+    q = deque([root])
+    while q:
+        level = []
+        size = len(q)          # 关键：先固定本层节点数
+        for _ in range(size):  # 只弹出本层节点
+            node = q.popleft()
+            level.append(node.val)
+            if node.left:
+                q.append(node.left)
+            if node.right:
+                q.append(node.right)
+        res.append(level)
+    return res</pre></div>
+<div class="solution-block"><h4>⚡ 复杂度分析</h4><div>
+<span class="complexity-tag">时间 O(n)——每个节点恰好入队出队一次，n 为节点数</span>
+<span class="complexity-tag">空间 O(n)——队列最多同时容纳一层节点（满二叉树最后层约 n/2），结果数组 O(n)</span>
+</div></div>
+<div class="solution-block"><h4>🎯 考点</h4><div>BFS 层序遍历模板：队列 + 固定 size 分层；与 DFS 递归（深度优先）的差异对比；二叉树层序数组建树（<code class="inline-code">None</code> 占位）；应用：二叉树的锯齿形遍历、每层最大值、最小深度等变体。</div></div>
+</div>
+</div>
+<div class="question-card" data-qid="2">
+
+    <div class="question-header">
+      <span class="type-badge" style="background:#10b981">算法概念</span>
+      <span class="difficulty">⭐⭐</span>
+      <span class="qid-label">第 2 题</span>
+    </div>
+<h2 class="question-title">一致性哈希：为什么增删节点只影响局部数据</h2>
+<div class="question-body">在分布式缓存、负载均衡、分库分表等场景中，为了减少节点增删时数据的重分布代价，常用**一致性哈希（Consistent Hashing）**。关于一致性哈希的说法，**正确**的是：<br>
+<br>
+&gt; 衔接 10-26 晨间讲解《一致性哈希》——本题把讲解中的结论落到概念辨析。</div>
+<div class="options-container">
+
+            <label class="option-item" data-letter="A">
+              <input type="radio" name="quiz_2" value="A" onchange="checkAnswer(2, 'A')">
+              <span class="option-letter">A</span>
+              <span class="option-text">一致性哈希把哈希值空间组织成首尾相接的环形结构，服务器按节点 key 定位到环上的点；查找某个 key 时沿顺时针找第一个服务器节点。当服务器加入或离开时，只有哈希环上对应相邻区间内的 key 需要迁移，其余数据的映射不受影响</span>
+            </label>
+
+            <label class="option-item" data-letter="B">
+              <input type="radio" name="quiz_2" value="B" onchange="checkAnswer(2, 'B')">
+              <span class="option-letter">B</span>
+              <span class="option-text">与「取模哈希（key % n）」相比，一致性哈希的主要优势是哈希函数本身的计算速度更快，因为 key 只需要在环上做一次哈希定位</span>
+            </label>
+
+            <label class="option-item" data-letter="C">
+              <input type="radio" name="quiz_2" value="C" onchange="checkAnswer(2, 'C')">
+              <span class="option-letter">C</span>
+              <span class="option-text">哈希环上服务器节点越少，数据分布就越均匀——因为环上的节点少，每个 key 都能在较短的弧长内找到落点</span>
+            </label>
+
+            <label class="option-item" data-letter="D">
+              <input type="radio" name="quiz_2" value="D" onchange="checkAnswer(2, 'D')">
+              <span class="option-letter">D</span>
+              <span class="option-text">为了保证分布均匀，每个服务器在哈希环上只能放置一个虚拟节点，放置多个虚拟节点会破坏均匀性</span>
+            </label>
+</div>
+<div class="option-feedback" id="feedback_2"></div>
+
+    <button class="btn-reveal" onclick="revealSolution(2)" id="reveal_btn_2">
+      📖 显示答案与解析
+    </button>
+<div class="solution-section" id="solution_2" style="display:none;">
+<div class="solution-divider">--- 以下为答案与解析 ---</div>
+<div class="answer-highlight">✅ 正确答案：A</div>
+<div class="solution-block"><h4>💡 解题思路</h4><div>一致性哈希回答的是「增删节点时，多少数据需要搬移」：普通取模哈希 <code class="inline-code">key % n</code> 在 n 变化后**几乎所有 key 的槽位都变**（全量重排）；一致性哈希把变化限制在受影响区间内。四个选项分别考查核心性质（A）、与取模哈希的差异本质（B）、节点数与均匀性的关系（C）、虚拟节点（D）。</div></div>
+<div class="solution-block"><h4>🎯 考点</h4><div>一致性哈希三个记忆点：① 环形空间 + 顺时针后继；② 增删节点只迁移受影响区间（关键优势）；③ 虚拟节点解决节点少时的不均匀 + 支持加权。应用：Memcached/Redis 集群缓存、Cassandra、负载均衡、CDN 边缘缓存；工程上配合「环上二分找后继」可 O(log n) 定位。</div></div>
+<div class="solution-block"><h4>🔍 逐项分析</h4><ul class="answer-points">
+<li>**A 正确**。哈希环 + 顺时针查找是经典结构。节点离开时，原落在该节点上的 key 沿顺时针移到**下一个**节点（只搬动这一小段区间）；节点加入时，只把「新节点与前一节点之间」区间的 key 从原后继搬过来。其余区间完全不动——迁移量与**被变动的相邻区间**成正比，而不是与总数据量成正比。</li>
+<li>**B 错误**。速度不是卖点：取模哈希一次取模也是 O(1)，一致性哈希定位要一次哈希 + 在环上找后继（哈希表/有序表 O(log n)）。真正的优势是**增删节点时数据迁移最小化**（从 O(n) 全量重排降为只迁移受影响区间），以及「映射稳定性」——旧数据的存储位置尽量不因集群规模变化而改变。</li>
+<li>**C 错误**。恰恰相反：节点很少时（如 2~3 个），每个节点在环上占据的弧长跨度极大，数据极易扎堆到少数节点上，分布非常不均。均匀化靠的是**虚拟节点**：每个物理节点在环上映射多个哈希位置，把大弧段切碎，各物理节点按比例均匀分得 key。</li>
+<li>**D 错误**。虚拟节点恰恰要**多个**才有效：同一物理节点放置 k 个虚拟点后，它在环上的落点增多，获得 key 的份额趋近均匀；还能通过调节 k 实现「加权」（大容量节点多放虚拟点）。只放一个虚拟节点等于没加虚拟，无法解决小规模不均问题。</li>
+</ul></div>
+</div>
+</div>
+<div class="question-card" data-qid="3">
+
+    <div class="question-header">
+      <span class="type-badge" style="background:#a855f7">AI公式推导</span>
+      <span class="difficulty">⭐⭐</span>
+      <span class="qid-label">第 3 题</span>
+    </div>
+<h2 class="question-title">反向传播（BP）四公式：从链式法则到参数梯度</h2>
+<div class="question-body">考虑一个 $L$ 层全连接神经网络，逐层定义为：<br>
+<br>
+$$z^l = W^l a^{l-1} + b^l, \qquad a^l = \sigma(z^l), \qquad l = 1, \dots, L$$<br>
+<br>
+其中 $a^0 = x$ 为输入，$W^l, b^l$ 为第 $l$ 层参数，$\sigma$ 为逐元素激活函数，损失为标量 $L$（如均方误差 $L = \tfrac{1}{2}\|a^L - y\|_2^2$）。<br>
+<br>
+定义第 $l$ 层**误差** $\delta^l = \dfrac{\partial L}{\partial z^l}$。请完整推导反向传播四公式（BP1–BP4）：<br>
+<br>
+**(1)** 输出层误差：$\delta^L = \nabla_a L \odot \sigma&#x27;(z^L)$；<br>
+**(2)** 误差回传：$\delta^l = \big((W^{l+1})^{\mathrm{T}}\delta^{l+1}\big) \odot \sigma&#x27;(z^l)$；<br>
+**(3)** 权重梯度：$\dfrac{\partial L}{\partial W^l} = \delta^l (a^{l-1})^{\mathrm{T}}$；<br>
+**(4)** 偏置梯度：$\dfrac{\partial L}{\partial b^l} = \delta^l$。<br>
+<br>
+要求写出每一步链式法则的中间过程（标量 → 向量），并说明第 (3) 步权重梯度的矩阵形式为什么是**外积**。</div>
+
+    <button class="btn-reveal" onclick="revealSolution(3)" id="reveal_btn_3">
+      📖 显示答案与解析
+    </button>
+<div class="solution-section" id="solution_3" style="display:none;">
+<div class="solution-divider">--- 以下为答案与解析 ---</div>
+<div class="solution-block"><h4>🎯 考点</h4><div>考点：① 链式法则在多层复合函数的展开（先标量后向量化）；② 逐元素激活使交叉项消失；③ $W^{\mathrm{T}}$ 回传与 $\odot\sigma&#x27;$ 门控；④ 权重梯度 = 外积 $\delta (a^{l-1})^{\mathrm{T}}$（为什么缓存前向激活）；⑤ 与 Softmax 交叉熵（第 9 期）、RNN BPTT（第 6 期）、LSTM 门控（第 16 期）呼应。</div></div>
+<div class="solution-block"><h4>📐 推导过程</h4><div class="derivation-content">**符号约定**：$n_l$ 为第 $l$ 层神经元数；$W^l \in \mathbb{R}^{n_l \times n_{l-1}}$，$b^l \in \mathbb{R}^{n_l}$；$z^l, a^l, \delta^l \in \mathbb{R}^{n_l}$；$\odot$ 为逐元素（Hadamard）乘积；$\sigma&#x27;(\cdot)$ 逐元素作用。<br>
+<br>
+---<br>
+<br>
+**第 1 步：输出层误差 (BP1)**<br>
+<br>
+对输出层第 $j$ 个神经元，由链式法则（先看损失对输出 $a^L$ 的依赖，再看输出对加权和的依赖）：<br>
+<br>
+$$\delta^L_j = \frac{\partial L}{\partial z^L_j} = \sum_i \frac{\partial L}{\partial a^L_i} \cdot \frac{\partial a^L_i}{\partial z^L_j}$$<br>
+<br>
+因为 $a^L_i = \sigma(z^L_i)$ 只依赖 $z^L_i$（逐元素激活），$i \neq j$ 的交叉项偏导为 0，只剩 $i = j$：<br>
+<br>
+$$\delta^L_j = \frac{\partial L}{\partial a^L_j} \cdot \sigma&#x27;(z^L_j)$$<br>
+<br>
+写成向量：$\delta^L = \nabla_a L \odot \sigma&#x27;(z^L)$。<br>
+<br>
+以 MSE 为例验证：$L = \frac{1}{2}\|a^L - y\|_2^2 \Rightarrow \nabla_a L = a^L - y$，故 $\delta^L = (a^L - y) \odot \sigma&#x27;(z^L)$。若 $L$ 为交叉熵且输出层为 Softmax，梯度会进一步化简（第 7 期已推导 Softmax 交叉熵梯度，可对照）。<br>
+<br>
+---<br>
+<br>
+**第 2 步：误差逐层回传 (BP2)**<br>
+<br>
+先计算相邻两层加权和的导数关系。由 $z^{l+1} = W^{l+1}\sigma(z^l) + b^{l+1}$：<br>
+<br>
+$$\frac{\partial z^{l+1}_k}{\partial z^l_j} = W^{l+1}_{kj}\,\sigma&#x27;(z^l_j)$$<br>
+<br>
+（注意：$z^{l+1}_k = \sum_j W^{l+1}_{kj}\sigma(z^l_j) + b^{l+1}_k$，对 $z^l_j$ 求偏导只留下 $\sigma&#x27;(z^l_j)$ 那一项。）<br>
+<br>
+再由链式法则把 $\delta^{l+1}$ 拉回 $l$ 层：<br>
+<br>
+$$\delta^l_j = \sum_k \frac{\partial L}{\partial z^{l+1}_k}\cdot\frac{\partial z^{l+1}_k}{\partial z^l_j} = \sum_k \delta^{l+1}_k\, W^{l+1}_{kj}\,\sigma&#x27;(z^l_j)$$<br>
+<br>
+右边 $\sum_k \delta^{l+1}_k W^{l+1}_{kj}$ 正是 $(W^{l+1})^{\mathrm{T}}\delta^{l+1}$ 的第 $j$ 个分量，于是：<br>
+<br>
+$$\delta^l = \big((W^{l+1})^{\mathrm{T}} \delta^{l+1}\big) \odot \sigma&#x27;(z^l)$$<br>
+<br>
+直觉：误差沿网络反向传播时，先被 $W^{\mathrm{T}}$「线性混合」到上一层神经元，再被激活导数 $\sigma&#x27;(z^l)$ 「逐元素门控」——这就是为什么 $\sigma&#x27;$ 总小于 1（sigmoid）时深网误差会指数衰减（梯度消失），呼应 RNN BPTT 与 LSTM 门控直通的主题。<br>
+<br>
+---<br>
+<br>
+**第 3 步：权重梯度 (BP3)**<br>
+<br>
+$W^l$ 的单个元素 $W^l_{jk}$ 只通过 $z^l_j = \sum_k W^l_{jk} a^{l-1}_k + b^l_j$ 影响损失：<br>
+<br>
+$$\frac{\partial z^l_j}{\partial W^l_{jk}} = a^{l-1}_k$$<br>
+<br>
+链式法则：<br>
+<br>
+$$\frac{\partial L}{\partial W^l_{jk}} = \frac{\partial L}{\partial z^l_j}\cdot\frac{\partial z^l_j}{\partial W^l_{jk}} = \delta^l_j\, a^{l-1}_k$$<br>
+<br>
+对所有 $j,k$ 汇总成矩阵：第 $j$ 行第 $k$ 列元素为 $\delta^l_j a^{l-1}_k$——这正是**外积** $\delta^l (a^{l-1})^{\mathrm{T}}$：<br>
+<br>
+$$\frac{\partial L}{\partial W^l} = \delta^l (a^{l-1})^{\mathrm{T}}$$<br>
+<br>
+直觉：梯度矩阵的每个元素是「**本层灵敏度 $\delta$ × 上一层激活值 $a$**」，所以**前向时缓存的 $a^{l-1}$ 和反向算出的 $\delta^l$ 缺一不可**。<br>
+<br>
+---<br>
+<br>
+**第 4 步：偏置梯度 (BP4)**<br>
+<br>
+同理，$\frac{\partial z^l_j}{\partial b^l_j} = 1$：<br>
+<br>
+$$\frac{\partial L}{\partial b^l_j} = \frac{\partial L}{\partial z^l_j}\cdot 1 = \delta^l_j, \qquad \frac{\partial L}{\partial b^l} = \delta^l$$<br>
+<br>
+偏置的梯度**就是误差向量本身**，无需求外积——这也是为什么实现中偏置梯度计算最便宜。<br>
+<br>
+---<br>
+<br>
+**第 5 步：训练循环与复杂度**<br>
+<br>
+一次参数更新的完整流程：<br>
+1. **前向**：算 $z^1, a^1, \dots, z^L, a^L$，沿途缓存每个 $z^l$（BP2 需要）与 $a^{l-1}$（BP3 需要），算出 $L$；<br>
+2. **反向**：BP1 得 $\delta^L$，BP2 逐层回传得到所有 $\delta^l$；<br>
+3. **梯度**：BP3 / BP4 得到 $\frac{\partial L}{\partial W^l}, \frac{\partial L}{\partial b^l}$；<br>
+4. **更新**：$W^l \leftarrow W^l - \eta\frac{\partial L}{\partial W^l}$（SGD 等）。<br>
+<br>
+前向与反向各是一轮矩阵连乘，复杂度同阶（都是每层一次矩阵乘法 $O(n_l n_{l-1})$）；相比数值微分（每个参数一次前向，$O(N)$ 倍代价），反向传播是工程可行的关键。</div></div>
+<div class="solution-block"><h4>🧠 直觉解释</h4><div>把 $\delta^l$ 想成「第 $l$ 层每个神经元的**敏感度**」：输出层由「损失对输出导数 × 激活斜率」给出；每往回传一层，误差被 $W^{\mathrm{T}}$ 线性搬回上一位置、再被 $\sigma&#x27;$ 逐元素缩放——四公式不过是对敏感度的完整追踪。</div></div>
+</div>
+</div>
+<div class="question-card" data-qid="4">
+
+    <div class="question-header">
+      <span class="type-badge" style="background:#f59e0b">AI面试问答</span>
+      <span class="difficulty">⭐⭐</span>
+      <span class="qid-label">第 4 题</span>
+    </div>
+<h2 class="question-title">大模型合并（Model Merging）：原理、方法与工程要点</h2>
+<div class="question-body">面试官：<br>
+<br>
+「我们微调出了多个大模型——一个擅长客服问答、一个擅长合同审核、一个在数学推理上更优。现在希望在推理时只部署一个模型、一次性拿到这些能力，不想跑多个模型做集成。你会怎么做？」<br>
+<br>
+请回答：<br>
+1. 什么是模型合并（Model Merging / Weight Merging）？与「多模型集成（Ensemble）」的本质区别是什么？<br>
+2. 常用合并方法有哪些（至少列出 3 类，并说明其核心操作）；<br>
+3. 为什么合并权重在深度网络上「碰巧能行」（给出直觉级解释）；<br>
+4. 合并与 LoRA 微调是什么关系？工程落地需要注意哪些坑？<br>
+<br>
+&gt; 衔接 10-26 晨间讲解《模型合并 Model Merging》——本题把讲解整理成面试标准答案。</div>
+
+    <button class="btn-reveal" onclick="revealSolution(4)" id="reveal_btn_4">
+      📖 显示答案与解析
+    </button>
+<div class="solution-section" id="solution_4" style="display:none;">
+<div class="solution-divider">--- 以下为答案与解析 ---</div>
+<div class="solution-block"><h4>📌 回答要点</h4><ul class="answer-points">
+<li>**定义与本质区别**：模型合并把多个模型的**参数（权重）**按某种规则合成一份，推理时只需一个模型一次前向，额外推理开销 ≈ 0；而 Ensemble 是把多个模型的**输出**（软投票/平均）融合，推理时 N 个模型都要跑，开销 N 倍。所以 merge 是「参数空间融合」，ensemble 是「预测空间融合」——merge 牺牲了集成带来的性能上界，换来部署成本的大幅下降，适合多任务/多模态/持续学习的生产落地。</li>
+<li>**主要方法（3 类）**：① **权重平均族**——直接或加权平均（如 Fisher 加权按参数重要性给权重）、Model Soup（多个超参/初值的模型平均，常获更好泛化）；② **任务向量族（Task Arithmetic）**——定义任务向量 $\tau_i = M_i - M_{\text{base}}$，合并 $M = M_{\text{base}} + \sum_i \lambda_i \tau_i$（也可用负号 $-$ 实现「消除某能力」，如去毒/去版权）；③ **冲突消解族**——TIES-Merging（先按幅度修剪「小权重」、再对冲突参数做**多数符号投票**、最后只合并符号一致的部分）、DARE（随机丢弃大部分任务向量并 re-scale，常与 LoRA 组合）；另外还有 Layer-wise 嫁接（跨结构拼接）、SLERP（球面线性插值，任务向量短时更稳）。</li>
+<li>**为什么能工作（直觉）**：核心经验规律是**低维连通性 / 线性模式连通性（LMC）**——大模型从同一基座出发做不同任务微调，其解与基座初始化之间常落在同一个「低损失盆地」中，盆地内部近似平坦连通，因此权重向量的算术组合（平均、插值、相加）仍大概率落在低损失区域，不会像小模型那样「平均两个解 = 一个很差解」。这与损失景观的平坦性、SGD 收敛解共享下界低维子空间有关，也是合并能生效的宏观理由。</li>
+<li>**与 LoRA 的关系**：① 推理侧，LoRA 训练后可以**合并回基座**（$W&#x27; = W + \alpha BA$），实现「零额外延迟」的 LoRA 部署，这正是权重合并的一个特例；② 多个任务 LoRA 可做**插值/合并**成组合（LoRA merge、LoRA soup），各方向参数可加减、可缩放；③ Task Arithmetic 的 delta 如果就是 LoRA 的低秩增量，则合并天然兼容；④ 工程上常「基座 + 多 LoRA 动态路由」与「多 LoRA 合并」是两种互补路线——前者可切换灵活、后者推理更快。</li>
+<li>**工程落地的坑**：① **同源性要求**——架构、层数、词表、tokenizer、维度必须一致（不同基座如 Llama vs Qwen 不能直接 merge），异构只能考虑层数/嫁接或重训练；② **任务冲突**——目标任务差异大时合并性能衰减明显，需要验：在验证集上扫 λ（或各层/各任务权重）网格，必要时合并后再做少量 SFT 校准；③ **合并 ≠ 集成上界**——别期待合并超过最强单模型太多，它的价值是「单模型能力叠加 + 部署不变」；④ 结合量化/蒸馏/剪枝叠加时注意精度损失叠加效应。</li>
+</ul></div>
+<div class="solution-block"><h4>⭐ 加分项</h4><ul class="answer-points">
+<li>**与 MoE 的对比**：MoE 是「稀疏激活、按 token 路由专家」——每个 token 只走部分专家参数，知识分别存储、路由复用；而合并是把多个任务的知识**压缩进同一套稠密参数**，两者在「知识容量 vs 推理成本/能力隔离」上做了不同的取舍，可类比说明 merge 的容量瓶颈。</li>
+<li>**Fisher 加权平均**：用各任务 Fisher 信息矩阵对角元素作为权重分配 λ——对某个任务「重要」的参数少让别的任务改写，本质是参数空间的贝叶斯「先验」近似，与 EWC 思路同源。</li>
+<li>**对齐与能力折中**：merge 也被用于「对齐不失智」——将 SFT / RLHF 模型与基座做 Task Arithmetic（如 DPO-offline 系数、orpo），缓解对齐微调导致的灾难性遗忘（capability retention），工业界常用。</li>
+<li>**与持续学习的关系**：合并天然适合「数据隐私/增量任务」——新任务练成增量权重后 merge 进去，旧任务的数据可以不再保留，规避数据合规问题。</li>
+</ul></div>
+<div class="solution-block"><h4>🔮 追问预测</h4><ul class="answer-points">
+<li>**追问 1：两个任务方向冲突怎么办？** 回答思路：符号冲突是合并不稳定的主因——用 TIES 的多数符号投票、或按 Fisher 重要性把「重要参数」保护起来、或对不同任务用不同 λ（甚至逐层 λ）；本质是梯度/参数方向不一致，先检测冲突（如参数符号相反且幅度相近）再消解。</li>
+<li>**追问 2：合并后的模型需要评估吗？λ 怎么选？** 回答：必须评估——合并后的模型不是「免费午餐」，需要在任务验证集/基准上扫 λ 网格（0~1）与各层权重组合；严重退化时回退为逐层 merge 或转集成。</li>
+<li>**追问 3：merge 和 MoE 有什么区别？各适合什么场景？** 回答：merge 适合「任务数量少、可压缩进单参数、推理成本敏感」；MoE 适合「任务/专家多、需要能力隔离、显存足够」——后者参数量大但激活稀疏，前者参数小、稠密推理快。</li>
+<li>**追问 4：为什么 merge 不能保证比集成好？** 回答：merge 是参数空间上的假设性操作，其有效依赖 LMC/低损失盆地，任务差异过大时平均会落在高损失区域；集成在预测空间取期望，风险更小但推理成本线性增长——两者是「性能上限 vs 推理成本」的 trade-off。</li>
+</ul></div>
+</div>
+</div>
+
+<div class="footer">
+  坚持每日练习，积少成多 💪<br>
+  Powered by TeleAgent · daily-algo-ai-quiz
+</div>
+
+<script>
+// ===== Pyodide 隔离执行测试运行器 =====
+const RUNNER_CODE = "\nimport json, traceback, io, contextlib\n\ndef run_tests(user_code, func_name, test_cases, expected):\n    ns = {}\n    user_stdout = io.StringIO()\n    user_error = None\n\n    try:\n        with contextlib.redirect_stdout(user_stdout):\n            exec(user_code, ns)\n    except Exception:\n        user_error = traceback.format_exc()\n\n    user_out = user_stdout.getvalue()\n\n    if user_error:\n        return {\"error\": user_error, \"stdout\": user_out}\n\n    func = ns.get(func_name)\n    if func is None:\n        return {\"error\": \"未找到函数 \" + str(func_name) + \"，请确保代码中定义了该函数\", \"stdout\": user_out}\n\n    test_results = []\n    for i, tc in enumerate(test_cases):\n        try:\n            actual = func(*tc)\n            exp = expected[i]\n            passed = actual == exp\n            test_results.append({\n                \"passed\": passed,\n                \"input\": str(tc),\n                \"expected\": str(exp),\n                \"actual\": str(actual)\n            })\n        except Exception as e:\n            exp = str(expected[i]) if i < len(expected) else \"N/A\"\n            test_results.append({\n                \"passed\": False,\n                \"input\": str(tc),\n                \"expected\": exp,\n                \"actual\": \"Error: \" + str(e)\n            })\n\n    return {\"stdout\": user_out, \"tests\": test_results}\n";
+
+// ===== 显示/隐藏解析 =====
+function revealSolution(qid) {
+  const sol = document.getElementById('solution_' + qid);
+  const btn = document.getElementById('reveal_btn_' + qid);
+  if (sol.style.display === 'none') {
+    sol.style.display = 'block';
+    btn.innerHTML = '📕 收起解析';
+    // 渲染该区域数学公式
+    if (typeof renderMathInElement !== 'undefined') {
+      renderMathInElement(sol, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false}
+        ]
+      });
+    }
+  } else {
+    sol.style.display = 'none';
+    btn.innerHTML = '📖 显示答案与解析';
+  }
+}
+
+// ===== 选择题作答反馈 =====
+function checkAnswer(qid, selected) {
+  const card = document.querySelector(`[data-qid="${qid}"]`);
+  if (!card) return;
+  const correctAnswer = card.getAttribute('data-correct') || '';
+  // 从全局 quizData 获取
+  const qData = window.__quizData__.questions.find(q => q.id == qid);
+  if (!qData || !qData.correct_answer) return;
+
+  const correct = qData.correct_answer;
+  const feedback = document.getElementById('feedback_' + qid);
+  const options = card.querySelectorAll('.option-item');
+
+  options.forEach(opt => {
+    const letter = opt.getAttribute('data-letter');
+    opt.classList.remove('correct', 'wrong');
+    if (letter === correct) {
+      opt.classList.add('correct');
+    } else if (letter === selected && selected !== correct) {
+      opt.classList.add('wrong');
+    }
+  });
+
+  if (feedback) {
+    feedback.className = 'option-feedback show ' + (selected === correct ? 'correct' : 'wrong');
+    feedback.textContent = selected === correct
+      ? '✅ 回答正确！'
+      : `❌ 正确答案是 ${correct}，再想想？`;
+    feedback.style.display = 'block';
+  }
+}
+
+// ===== Pyodide 代码执行 =====
+let pyodideReady = null;
+let pyodideLoading = false;
+
+function loadPyodideAsync() {
+  if (pyodideReady) return pyodideReady;
+  if (pyodideLoading) return pyodideReady;
+  pyodideLoading = true;
+
+  pyodideReady = new Promise((resolve, reject) => {
+    if (typeof loadPyodide !== 'undefined') {
+      loadPyodide({
+        indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.25.0/full/'
+      }).then(py => {
+        pyodideLoading = false;
+        resolve(py);
+      }).catch(reject);
+    } else {
+      // 动态加载 Pyodide
+      const script = document.createElement('script');
+      script.src = 'https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js';
+      script.onload = () => {
+        loadPyodide({
+          indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.25.0/full/'
+        }).then(py => {
+          pyodideLoading = false;
+          resolve(py);
+        }).catch(reject);
+      };
+      script.onerror = () => {
+        pyodideLoading = false;
+        reject(new Error('Pyodide 加载失败，请检查网络连接'));
+      };
+      document.head.appendChild(script);
+    }
+  });
+  return pyodideReady;
+}
+
+async function runCode(qid) {
+    const editor = document.getElementById('editor_' + qid);
+    const resultDiv = document.getElementById('result_' + qid);
+    const btn = document.getElementById('run_btn_' + qid);
+    const code = editor.innerText;
+    const funcNameInput = document.getElementById('func_name_' + qid);
+    const funcName = funcNameInput ? funcNameInput.value : 'solve';
+    const tcInput = document.getElementById('test_cases_' + qid);
+    const eoInput = document.getElementById('expected_outputs_' + qid);
+    let testCases = [];
+    let expectedOutputs = [];
+    try {
+        testCases = JSON.parse(tcInput.value || '[]');
+        expectedOutputs = JSON.parse(eoInput.value || '[]');
+    } catch(e) {}
+
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span> 运行中...';
+    resultDiv.style.display = 'block';
+    resultDiv.innerHTML = '<span style="color:var(--text-dim)">⏳ 正在加载 Python 运行环境...</span>';
+
+    try {
+        const pyodide = await loadPyodideAsync();
+        resultDiv.innerHTML = '<span style="color:var(--text-dim)">⏳ 正在执行代码...</span>';
+
+        // 确保 run_tests 函数只定义一次
+        if (!window.__runner_ready__) {
+            pyodide.runPython(RUNNER_CODE);
+            window.__runner_ready__ = true;
+        }
+
+        // 调用 run_tests 函数，通过返回值获取结果（不依赖 stdout，每次调用独立）
+        const runTests = pyodide.globals.get('run_tests');
+        const pyResult = runTests(code, funcName, testCases, expectedOutputs);
+        // pyResult 是 Python dict，转为 JS 对象
+        const result = pyResult.toJs({dict_converter: Object.fromEntries});
+
+        let resultHtml = '';
+
+        // 显示用户代码标准输出
+        if (result.stdout && result.stdout.trim()) {
+            resultHtml += '<div style="color:var(--text)">📝 标准输出：</div>';
+            resultHtml += '<pre style="color:var(--text);margin:4px 0;">' + escapeHtml(result.stdout) + '</pre>';
+        }
+
+        // 显示错误信息
+        if (result.error) {
+            resultHtml += '<div class="stderr">⚠️ 错误信息：</div>';
+            resultHtml += '<pre class="stderr" style="margin:4px 0;">' + escapeHtml(result.error) + '</pre>';
+        }
+
+        // 显示测试用例结果
+        if (result.tests && result.tests.length > 0) {
+            let allPassed = result.tests.every(t => t.passed);
+            resultHtml += '<div style="margin-top:8px;color:' + (allPassed ? 'var(--green)' : 'var(--accent)') + '">';
+            resultHtml += allPassed ? '🎉 全部通过！' : '🧪 测试用例结果：';
+            resultHtml += '</div>';
+
+            for (let i = 0; i < result.tests.length; i++) {
+                const t = result.tests[i];
+                if (t.passed) {
+                    resultHtml += '<div class="test-pass">✅ 用例 ' + (i+1) + ' 通过</div>';
+                } else {
+                    resultHtml += '<div class="test-fail">❌ 用例 ' + (i+1) + ' 未通过</div>';
+                    resultHtml += '<pre style="color:var(--text-dim);margin:2px 0;">  输入: ' + escapeHtml(t.input) + '\n  期望: ' + escapeHtml(t.expected) + '\n  实际: ' + escapeHtml(t.actual) + '</pre>';
+                }
+            }
+        }
+
+        if (!resultHtml) {
+            resultHtml = '<span style="color:var(--text-dim)">（代码执行完毕，无输出）</span>';
+        }
+
+        resultDiv.innerHTML = resultHtml;
+
+    } catch(e) {
+        resultDiv.innerHTML = '<div class="stderr">❌ ' + escapeHtml(e.message || String(e)) + '</div>';
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = '▶ 运行';
+    }
+}
+
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+// Ctrl+Enter 运行代码
+document.addEventListener('keydown', (e) => {
+  if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+    const focused = document.activeElement;
+    if (focused && focused.classList.contains('code-editor')) {
+      const qid = focused.id.replace('editor_', '');
+      runCode(qid);
+    }
+  }
+});
+
+// Tab 键在编辑器中插入空格
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Tab' && document.activeElement.classList.contains('code-editor')) {
+    e.preventDefault();
+    document.execCommand('insertText', false, '    ');
+  }
+});
+
+// 将 quiz 数据存入全局变量供选择题使用
+window.__quizData__ = {"date": "2026-10-27", "title": "每日算法 AI 出题 · 第 20 期", "subtitle": "算法 2 道 + AI 2 道 · 衔接最近主题（一致性哈希 / 模型合并）+ 知识池补空白（层序遍历 / 反向传播四公式）", "questions": [{"id": 1, "type": "algorithm_code", "type_label": "算法编程", "difficulty": 2, "title": "二叉树的层序遍历（BFS）", "description": "给定一棵二叉树，请实现函数 `solve(tree)`，返回它的**层序遍历**结果：自顶向下、同一层从左到右，每一层的节点值组成一个子数组，最终返回按层排列的二维数组。\n\n输入 `tree` 是二叉树的**层序数组表示**（`None` 表示空节点，例如 `[3, 9, 20, None, None, 15, 7]` 表示根 3，左子 9，右子 20，20 的左子 15、右子 7）。\n\n**要求**：使用 BFS 队列实现（宽度优先搜索），并把每一层的节点**单独收集为一个子数组**。技巧：每轮出队前先记录当前队列长度 `size`，只处理 `size` 个节点——这 `size` 个节点正好构成完整的一层。", "input_format": "一个列表 `tree`：二叉树的层序数组，元素为整数或 `None`。", "output_format": "`List[List[int]]`：按层分组的结果；空树返回 `[]`。", "examples": [{"input": "tree = [3, 9, 20, None, None, 15, 7]", "output": "[[3], [9, 20], [15, 7]]", "explanation": "第一层只有根 3；第二层是 9、20；第三层是 15、7。"}, {"input": "tree = [1]", "output": "[[1]]", "explanation": "单节点树只有一层。"}, {"input": "tree = []", "output": "[]", "explanation": "空树没有任何层，返回空列表。"}], "constraints": "- 节点数 $0 \\le n \\le 2000$\n- 节点值：$-1000 \\le val \\le 1000$\n- `None` 只表示占位空节点；层序数组末尾不会出现多余的 `None`。", "solution": {"approach": "BFS 层序遍历的核心是**用队列 + 固定每轮长度**：队列里永远是「当前层的全部节点」——因为我们是按层把节点入队的，每一轮开始时队列恰好装着下一层的全部节点。\n\n具体做法：\n1. 空树直接返回 `[]`；\n2. 根节点入队；\n3. 循环：记录 `size = len(queue)`（**必须在出队前记录**，因为出队时队列会变短）→ 弹出 `size` 个节点组成 `level` 列表 → 顺手把每个节点的左右子入队（下一层）；\n4. 把 `level` 加入结果。\n\n关键点：**先固定 `size` 再弹出**，否则把子节点入队后会把下一层的节点也弹进当前层。", "code": "from collections import deque\n\nclass TreeNode:\n    def __init__(self, val=0, left=None, right=None):\n        self.val = val\n        self.left = left\n        self.right = right\n\ndef build_tree(arr):\n    \"\"\"层序数组建树：arr[0] 为根，None 表示空节点\"\"\"\n    if not arr or arr[0] is None:\n        return None\n    root = TreeNode(arr[0])\n    q = deque([root])\n    i = 1\n    while q and i < len(arr):\n        cur = q.popleft()\n        if arr[i] is not None:\n            cur.left = TreeNode(arr[i])\n            q.append(cur.left)\n        i += 1\n        if i < len(arr) and arr[i] is not None:\n            cur.right = TreeNode(arr[i])\n            q.append(cur.right)\n        i += 1\n    return root\n\ndef solve_level(tree):\n    root = build_tree(tree)\n    if root is None:\n        return []\n    res = []\n    q = deque([root])\n    while q:\n        level = []\n        size = len(q)          # 关键：先固定本层节点数\n        for _ in range(size):  # 只弹出本层节点\n            node = q.popleft()\n            level.append(node.val)\n            if node.left:\n                q.append(node.left)\n            if node.right:\n                q.append(node.right)\n        res.append(level)\n    return res", "starter_code": "from collections import deque\n\nclass TreeNode:\n    def __init__(self, val=0, left=None, right=None):\n        self.val = val\n        self.left = left\n        self.right = right\n\ndef build_tree(arr):\n    \"\"\"层序数组建树：arr[0] 为根，None 表示空节点\"\"\"\n    if not arr or arr[0] is None:\n        return None\n    root = TreeNode(arr[0])\n    q = deque([root])\n    i = 1\n    while q and i < len(arr):\n        cur = q.popleft()\n        if arr[i] is not None:\n            cur.left = TreeNode(arr[i])\n            q.append(cur.left)\n        i += 1\n        if i < len(arr) and arr[i] is not None:\n            cur.right = TreeNode(arr[i])\n            q.append(cur.right)\n        i += 1\n    return root\n\ndef solve_level(tree):\n    # TODO: 返回二叉树的层序遍历结果 List[List[int]]\n    # 提示：BFS 队列 + 每轮先记录 size = len(q)，再只弹出 size 个节点组成一层\n    pass\n", "code_language": "python", "complexity_time": "O(n)——每个节点恰好入队出队一次，n 为节点数", "complexity_space": "O(n)——队列最多同时容纳一层节点（满二叉树最后层约 n/2），结果数组 O(n)", "key_points": "BFS 层序遍历模板：队列 + 固定 size 分层；与 DFS 递归（深度优先）的差异对比；二叉树层序数组建树（`None` 占位）；应用：二叉树的锯齿形遍历、每层最大值、最小深度等变体。", "test_cases": [[[3, 9, 20, null, null, 15, 7]], [[1]], [[]], [[1, 2, 3, 4, 5, 6, 7]], [[1, 2, 3, null, null, 4, 5]], [[1, 2, 3, null, 4]], [[1, null, 2]], [[1, 2, null, 3, null]], [[5, 4, 4, null, null, 3, 8]], [[-1, -2, -3]], [[1, null, null]], [[1, 2]], [[1, null, 2, null, 3]], [[1, 2, null, 3, null, 4, null]]], "expected_outputs": [[[3], [9, 20], [15, 7]], [[1]], [], [[1], [2, 3], [4, 5, 6, 7]], [[1], [2, 3], [4, 5]], [[1], [2, 3], [4]], [[1], [2]], [[1], [2], [3]], [[5], [4, 4], [3, 8]], [[-1], [-2, -3]], [[1]], [[1], [2]], [[1], [2], [3]], [[1], [2], [3], [4]]]}}, {"id": 2, "type": "algorithm_concept", "type_label": "算法概念", "difficulty": 2, "title": "一致性哈希：为什么增删节点只影响局部数据", "description": "在分布式缓存、负载均衡、分库分表等场景中，为了减少节点增删时数据的重分布代价，常用**一致性哈希（Consistent Hashing）**。关于一致性哈希的说法，**正确**的是：\n\n> 衔接 10-26 晨间讲解《一致性哈希》——本题把讲解中的结论落到概念辨析。", "options": ["一致性哈希把哈希值空间组织成首尾相接的环形结构，服务器按节点 key 定位到环上的点；查找某个 key 时沿顺时针找第一个服务器节点。当服务器加入或离开时，只有哈希环上对应相邻区间内的 key 需要迁移，其余数据的映射不受影响", "与「取模哈希（key % n）」相比，一致性哈希的主要优势是哈希函数本身的计算速度更快，因为 key 只需要在环上做一次哈希定位", "哈希环上服务器节点越少，数据分布就越均匀——因为环上的节点少，每个 key 都能在较短的弧长内找到落点", "为了保证分布均匀，每个服务器在哈希环上只能放置一个虚拟节点，放置多个虚拟节点会破坏均匀性"], "correct_answer": "A", "solution": {"approach": "一致性哈希回答的是「增删节点时，多少数据需要搬移」：普通取模哈希 `key % n` 在 n 变化后**几乎所有 key 的槽位都变**（全量重排）；一致性哈希把变化限制在受影响区间内。四个选项分别考查核心性质（A）、与取模哈希的差异本质（B）、节点数与均匀性的关系（C）、虚拟节点（D）。", "option_analysis": ["**A 正确**。哈希环 + 顺时针查找是经典结构。节点离开时，原落在该节点上的 key 沿顺时针移到**下一个**节点（只搬动这一小段区间）；节点加入时，只把「新节点与前一节点之间」区间的 key 从原后继搬过来。其余区间完全不动——迁移量与**被变动的相邻区间**成正比，而不是与总数据量成正比。", "**B 错误**。速度不是卖点：取模哈希一次取模也是 O(1)，一致性哈希定位要一次哈希 + 在环上找后继（哈希表/有序表 O(log n)）。真正的优势是**增删节点时数据迁移最小化**（从 O(n) 全量重排降为只迁移受影响区间），以及「映射稳定性」——旧数据的存储位置尽量不因集群规模变化而改变。", "**C 错误**。恰恰相反：节点很少时（如 2~3 个），每个节点在环上占据的弧长跨度极大，数据极易扎堆到少数节点上，分布非常不均。均匀化靠的是**虚拟节点**：每个物理节点在环上映射多个哈希位置，把大弧段切碎，各物理节点按比例均匀分得 key。", "**D 错误**。虚拟节点恰恰要**多个**才有效：同一物理节点放置 k 个虚拟点后，它在环上的落点增多，获得 key 的份额趋近均匀；还能通过调节 k 实现「加权」（大容量节点多放虚拟点）。只放一个虚拟节点等于没加虚拟，无法解决小规模不均问题。"], "key_points": "一致性哈希三个记忆点：① 环形空间 + 顺时针后继；② 增删节点只迁移受影响区间（关键优势）；③ 虚拟节点解决节点少时的不均匀 + 支持加权。应用：Memcached/Redis 集群缓存、Cassandra、负载均衡、CDN 边缘缓存；工程上配合「环上二分找后继」可 O(log n) 定位。"}}, {"id": 3, "type": "ai_derivation", "type_label": "AI公式推导", "difficulty": 2, "title": "反向传播（BP）四公式：从链式法则到参数梯度", "description": "考虑一个 $L$ 层全连接神经网络，逐层定义为：\n\n$$z^l = W^l a^{l-1} + b^l, \\qquad a^l = \\sigma(z^l), \\qquad l = 1, \\dots, L$$\n\n其中 $a^0 = x$ 为输入，$W^l, b^l$ 为第 $l$ 层参数，$\\sigma$ 为逐元素激活函数，损失为标量 $L$（如均方误差 $L = \\tfrac{1}{2}\\|a^L - y\\|_2^2$）。\n\n定义第 $l$ 层**误差** $\\delta^l = \\dfrac{\\partial L}{\\partial z^l}$。请完整推导反向传播四公式（BP1–BP4）：\n\n**(1)** 输出层误差：$\\delta^L = \\nabla_a L \\odot \\sigma'(z^L)$；\n**(2)** 误差回传：$\\delta^l = \\big((W^{l+1})^{\\mathrm{T}}\\delta^{l+1}\\big) \\odot \\sigma'(z^l)$；\n**(3)** 权重梯度：$\\dfrac{\\partial L}{\\partial W^l} = \\delta^l (a^{l-1})^{\\mathrm{T}}$；\n**(4)** 偏置梯度：$\\dfrac{\\partial L}{\\partial b^l} = \\delta^l$。\n\n要求写出每一步链式法则的中间过程（标量 → 向量），并说明第 (3) 步权重梯度的矩阵形式为什么是**外积**。", "solution": {"derivation": "**符号约定**：$n_l$ 为第 $l$ 层神经元数；$W^l \\in \\mathbb{R}^{n_l \\times n_{l-1}}$，$b^l \\in \\mathbb{R}^{n_l}$；$z^l, a^l, \\delta^l \\in \\mathbb{R}^{n_l}$；$\\odot$ 为逐元素（Hadamard）乘积；$\\sigma'(\\cdot)$ 逐元素作用。\n\n---\n\n**第 1 步：输出层误差 (BP1)**\n\n对输出层第 $j$ 个神经元，由链式法则（先看损失对输出 $a^L$ 的依赖，再看输出对加权和的依赖）：\n\n$$\\delta^L_j = \\frac{\\partial L}{\\partial z^L_j} = \\sum_i \\frac{\\partial L}{\\partial a^L_i} \\cdot \\frac{\\partial a^L_i}{\\partial z^L_j}$$\n\n因为 $a^L_i = \\sigma(z^L_i)$ 只依赖 $z^L_i$（逐元素激活），$i \\neq j$ 的交叉项偏导为 0，只剩 $i = j$：\n\n$$\\delta^L_j = \\frac{\\partial L}{\\partial a^L_j} \\cdot \\sigma'(z^L_j)$$\n\n写成向量：$\\delta^L = \\nabla_a L \\odot \\sigma'(z^L)$。\n\n以 MSE 为例验证：$L = \\frac{1}{2}\\|a^L - y\\|_2^2 \\Rightarrow \\nabla_a L = a^L - y$，故 $\\delta^L = (a^L - y) \\odot \\sigma'(z^L)$。若 $L$ 为交叉熵且输出层为 Softmax，梯度会进一步化简（第 7 期已推导 Softmax 交叉熵梯度，可对照）。\n\n---\n\n**第 2 步：误差逐层回传 (BP2)**\n\n先计算相邻两层加权和的导数关系。由 $z^{l+1} = W^{l+1}\\sigma(z^l) + b^{l+1}$：\n\n$$\\frac{\\partial z^{l+1}_k}{\\partial z^l_j} = W^{l+1}_{kj}\\,\\sigma'(z^l_j)$$\n\n（注意：$z^{l+1}_k = \\sum_j W^{l+1}_{kj}\\sigma(z^l_j) + b^{l+1}_k$，对 $z^l_j$ 求偏导只留下 $\\sigma'(z^l_j)$ 那一项。）\n\n再由链式法则把 $\\delta^{l+1}$ 拉回 $l$ 层：\n\n$$\\delta^l_j = \\sum_k \\frac{\\partial L}{\\partial z^{l+1}_k}\\cdot\\frac{\\partial z^{l+1}_k}{\\partial z^l_j} = \\sum_k \\delta^{l+1}_k\\, W^{l+1}_{kj}\\,\\sigma'(z^l_j)$$\n\n右边 $\\sum_k \\delta^{l+1}_k W^{l+1}_{kj}$ 正是 $(W^{l+1})^{\\mathrm{T}}\\delta^{l+1}$ 的第 $j$ 个分量，于是：\n\n$$\\delta^l = \\big((W^{l+1})^{\\mathrm{T}} \\delta^{l+1}\\big) \\odot \\sigma'(z^l)$$\n\n直觉：误差沿网络反向传播时，先被 $W^{\\mathrm{T}}$「线性混合」到上一层神经元，再被激活导数 $\\sigma'(z^l)$ 「逐元素门控」——这就是为什么 $\\sigma'$ 总小于 1（sigmoid）时深网误差会指数衰减（梯度消失），呼应 RNN BPTT 与 LSTM 门控直通的主题。\n\n---\n\n**第 3 步：权重梯度 (BP3)**\n\n$W^l$ 的单个元素 $W^l_{jk}$ 只通过 $z^l_j = \\sum_k W^l_{jk} a^{l-1}_k + b^l_j$ 影响损失：\n\n$$\\frac{\\partial z^l_j}{\\partial W^l_{jk}} = a^{l-1}_k$$\n\n链式法则：\n\n$$\\frac{\\partial L}{\\partial W^l_{jk}} = \\frac{\\partial L}{\\partial z^l_j}\\cdot\\frac{\\partial z^l_j}{\\partial W^l_{jk}} = \\delta^l_j\\, a^{l-1}_k$$\n\n对所有 $j,k$ 汇总成矩阵：第 $j$ 行第 $k$ 列元素为 $\\delta^l_j a^{l-1}_k$——这正是**外积** $\\delta^l (a^{l-1})^{\\mathrm{T}}$：\n\n$$\\frac{\\partial L}{\\partial W^l} = \\delta^l (a^{l-1})^{\\mathrm{T}}$$\n\n直觉：梯度矩阵的每个元素是「**本层灵敏度 $\\delta$ × 上一层激活值 $a$**」，所以**前向时缓存的 $a^{l-1}$ 和反向算出的 $\\delta^l$ 缺一不可**。\n\n---\n\n**第 4 步：偏置梯度 (BP4)**\n\n同理，$\\frac{\\partial z^l_j}{\\partial b^l_j} = 1$：\n\n$$\\frac{\\partial L}{\\partial b^l_j} = \\frac{\\partial L}{\\partial z^l_j}\\cdot 1 = \\delta^l_j, \\qquad \\frac{\\partial L}{\\partial b^l} = \\delta^l$$\n\n偏置的梯度**就是误差向量本身**，无需求外积——这也是为什么实现中偏置梯度计算最便宜。\n\n---\n\n**第 5 步：训练循环与复杂度**\n\n一次参数更新的完整流程：\n1. **前向**：算 $z^1, a^1, \\dots, z^L, a^L$，沿途缓存每个 $z^l$（BP2 需要）与 $a^{l-1}$（BP3 需要），算出 $L$；\n2. **反向**：BP1 得 $\\delta^L$，BP2 逐层回传得到所有 $\\delta^l$；\n3. **梯度**：BP3 / BP4 得到 $\\frac{\\partial L}{\\partial W^l}, \\frac{\\partial L}{\\partial b^l}$；\n4. **更新**：$W^l \\leftarrow W^l - \\eta\\frac{\\partial L}{\\partial W^l}$（SGD 等）。\n\n前向与反向各是一轮矩阵连乘，复杂度同阶（都是每层一次矩阵乘法 $O(n_l n_{l-1})$）；相比数值微分（每个参数一次前向，$O(N)$ 倍代价），反向传播是工程可行的关键。", "intuition": "把 $\\delta^l$ 想成「第 $l$ 层每个神经元的**敏感度**」：输出层由「损失对输出导数 × 激活斜率」给出；每往回传一层，误差被 $W^{\\mathrm{T}}$ 线性搬回上一位置、再被 $\\sigma'$ 逐元素缩放——四公式不过是对敏感度的完整追踪。", "key_points": "考点：① 链式法则在多层复合函数的展开（先标量后向量化）；② 逐元素激活使交叉项消失；③ $W^{\\mathrm{T}}$ 回传与 $\\odot\\sigma'$ 门控；④ 权重梯度 = 外积 $\\delta (a^{l-1})^{\\mathrm{T}}$（为什么缓存前向激活）；⑤ 与 Softmax 交叉熵（第 9 期）、RNN BPTT（第 6 期）、LSTM 门控（第 16 期）呼应。"}}, {"id": 4, "type": "ai_interview", "type_label": "AI面试问答", "difficulty": 2, "title": "大模型合并（Model Merging）：原理、方法与工程要点", "description": "面试官：\n\n「我们微调出了多个大模型——一个擅长客服问答、一个擅长合同审核、一个在数学推理上更优。现在希望在推理时只部署一个模型、一次性拿到这些能力，不想跑多个模型做集成。你会怎么做？」\n\n请回答：\n1. 什么是模型合并（Model Merging / Weight Merging）？与「多模型集成（Ensemble）」的本质区别是什么？\n2. 常用合并方法有哪些（至少列出 3 类，并说明其核心操作）；\n3. 为什么合并权重在深度网络上「碰巧能行」（给出直觉级解释）；\n4. 合并与 LoRA 微调是什么关系？工程落地需要注意哪些坑？\n\n> 衔接 10-26 晨间讲解《模型合并 Model Merging》——本题把讲解整理成面试标准答案。", "solution": {"answer_points": ["**定义与本质区别**：模型合并把多个模型的**参数（权重）**按某种规则合成一份，推理时只需一个模型一次前向，额外推理开销 ≈ 0；而 Ensemble 是把多个模型的**输出**（软投票/平均）融合，推理时 N 个模型都要跑，开销 N 倍。所以 merge 是「参数空间融合」，ensemble 是「预测空间融合」——merge 牺牲了集成带来的性能上界，换来部署成本的大幅下降，适合多任务/多模态/持续学习的生产落地。", "**主要方法（3 类）**：① **权重平均族**——直接或加权平均（如 Fisher 加权按参数重要性给权重）、Model Soup（多个超参/初值的模型平均，常获更好泛化）；② **任务向量族（Task Arithmetic）**——定义任务向量 $\\tau_i = M_i - M_{\\text{base}}$，合并 $M = M_{\\text{base}} + \\sum_i \\lambda_i \\tau_i$（也可用负号 $-$ 实现「消除某能力」，如去毒/去版权）；③ **冲突消解族**——TIES-Merging（先按幅度修剪「小权重」、再对冲突参数做**多数符号投票**、最后只合并符号一致的部分）、DARE（随机丢弃大部分任务向量并 re-scale，常与 LoRA 组合）；另外还有 Layer-wise 嫁接（跨结构拼接）、SLERP（球面线性插值，任务向量短时更稳）。", "**为什么能工作（直觉）**：核心经验规律是**低维连通性 / 线性模式连通性（LMC）**——大模型从同一基座出发做不同任务微调，其解与基座初始化之间常落在同一个「低损失盆地」中，盆地内部近似平坦连通，因此权重向量的算术组合（平均、插值、相加）仍大概率落在低损失区域，不会像小模型那样「平均两个解 = 一个很差解」。这与损失景观的平坦性、SGD 收敛解共享下界低维子空间有关，也是合并能生效的宏观理由。", "**与 LoRA 的关系**：① 推理侧，LoRA 训练后可以**合并回基座**（$W' = W + \\alpha BA$），实现「零额外延迟」的 LoRA 部署，这正是权重合并的一个特例；② 多个任务 LoRA 可做**插值/合并**成组合（LoRA merge、LoRA soup），各方向参数可加减、可缩放；③ Task Arithmetic 的 delta 如果就是 LoRA 的低秩增量，则合并天然兼容；④ 工程上常「基座 + 多 LoRA 动态路由」与「多 LoRA 合并」是两种互补路线——前者可切换灵活、后者推理更快。", "**工程落地的坑**：① **同源性要求**——架构、层数、词表、tokenizer、维度必须一致（不同基座如 Llama vs Qwen 不能直接 merge），异构只能考虑层数/嫁接或重训练；② **任务冲突**——目标任务差异大时合并性能衰减明显，需要验：在验证集上扫 λ（或各层/各任务权重）网格，必要时合并后再做少量 SFT 校准；③ **合并 ≠ 集成上界**——别期待合并超过最强单模型太多，它的价值是「单模型能力叠加 + 部署不变」；④ 结合量化/蒸馏/剪枝叠加时注意精度损失叠加效应。"], "bonus": ["**与 MoE 的对比**：MoE 是「稀疏激活、按 token 路由专家」——每个 token 只走部分专家参数，知识分别存储、路由复用；而合并是把多个任务的知识**压缩进同一套稠密参数**，两者在「知识容量 vs 推理成本/能力隔离」上做了不同的取舍，可类比说明 merge 的容量瓶颈。", "**Fisher 加权平均**：用各任务 Fisher 信息矩阵对角元素作为权重分配 λ——对某个任务「重要」的参数少让别的任务改写，本质是参数空间的贝叶斯「先验」近似，与 EWC 思路同源。", "**对齐与能力折中**：merge 也被用于「对齐不失智」——将 SFT / RLHF 模型与基座做 Task Arithmetic（如 DPO-offline 系数、orpo），缓解对齐微调导致的灾难性遗忘（capability retention），工业界常用。", "**与持续学习的关系**：合并天然适合「数据隐私/增量任务」——新任务练成增量权重后 merge 进去，旧任务的数据可以不再保留，规避数据合规问题。"], "followup_predictions": ["**追问 1：两个任务方向冲突怎么办？** 回答思路：符号冲突是合并不稳定的主因——用 TIES 的多数符号投票、或按 Fisher 重要性把「重要参数」保护起来、或对不同任务用不同 λ（甚至逐层 λ）；本质是梯度/参数方向不一致，先检测冲突（如参数符号相反且幅度相近）再消解。", "**追问 2：合并后的模型需要评估吗？λ 怎么选？** 回答：必须评估——合并后的模型不是「免费午餐」，需要在任务验证集/基准上扫 λ 网格（0~1）与各层权重组合；严重退化时回退为逐层 merge 或转集成。", "**追问 3：merge 和 MoE 有什么区别？各适合什么场景？** 回答：merge 适合「任务数量少、可压缩进单参数、推理成本敏感」；MoE 适合「任务/专家多、需要能力隔离、显存足够」——后者参数量大但激活稀疏，前者参数小、稠密推理快。", "**追问 4：为什么 merge 不能保证比集成好？** 回答：merge 是参数空间上的假设性操作，其有效依赖 LMC/低损失盆地，任务差异过大时平均会落在高损失区域；集成在预测空间取期望，风险更小但推理成本线性增长——两者是「性能上限 vs 推理成本」的 trade-off。"]}}]};
+</script>
+</body>
+</html>
