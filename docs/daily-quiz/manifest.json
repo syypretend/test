@@ -1,5 +1,42 @@
 [
   {
+    "date": "2026-10-28",
+    "filename": "quiz-2026-10-28.html",
+    "url": "https://syypretend.github.io/test/daily-quiz/quiz-2026-10-28.html",
+    "title": "每日算法 AI 出题 · 第 21 期",
+    "subtitle": "算法 2 道 + AI 2 道 · 兑现第 20 期候选（LCS / 循环队列 / DPO 推导 / 核函数）+ 双序列 DP 与偏好优化新维度",
+    "questions": [
+      {
+        "id": 1,
+        "type": "algorithm_code",
+        "type_label": "算法编程",
+        "title": "最长公共子序列（LCS）",
+        "difficulty": 2
+      },
+      {
+        "id": 2,
+        "type": "algorithm_concept",
+        "type_label": "算法概念",
+        "title": "循环队列：判空与判满条件",
+        "difficulty": 1
+      },
+      {
+        "id": 3,
+        "type": "ai_derivation",
+        "type_label": "AI公式推导",
+        "title": "DPO 直接偏好优化：最优策略闭式解与梯度推导",
+        "difficulty": 3
+      },
+      {
+        "id": 4,
+        "type": "ai_interview",
+        "type_label": "AI面试问答",
+        "title": "SVM 的核技巧：为什么核函数能让线性 SVM 处理非线性问题？",
+        "difficulty": 2
+      }
+    ]
+  },
+  {
     "date": "2026-10-27",
     "filename": "quiz-2026-10-27.html",
     "url": "https://syypretend.github.io/test/daily-quiz/quiz-2026-10-27.html",
