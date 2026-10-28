@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>每日算法 AI 出题 · 第 21 期 · 2026-10-28</title>
+  <!-- KaTeX 数学公式渲染 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
+  <style>
+    :root {
+      --bg: #0d1117;
+      --card-bg: #161b22;
+      --border: #30363d;
+      --text: #e6edf3;
+      --text-dim: #8b949e;
+      --accent: #58a6ff;
+      --green: #3fb950;
+      --orange: #d29922;
+      --red: #f85149;
+      --purple: #a855f7;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", sans-serif;
+      line-height: 1.7;
+      padding: 16px;
+      max-width: 860px;
+      margin: 0 auto;
+    }
+    .header {
+      text-align: center;
+      padding: 24px 0 16px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 24px;
+    }
+    .header h1 {
+      font-size: 1.5em;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+    .header .subtitle {
+      color: var(--text-dim);
+      font-size: 0.9em;
+    }
+    .header .date-tag {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 2px 12px;
+      border-radius: 12px;
+      background: var(--border);
+      font-size: 0.8em;
+      color: var(--text-dim);
+    }
+
+    /* 题目卡片 */
+    .question-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .question-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+    .type-badge {
+      padding: 2px 10px;
+      border-radius: 10px;
+      font-size: 0.75em;
+      color: white;
+      font-weight: 600;
+    }
+    .difficulty { font-size: 0.85em; }
+    .qid-label { color: var(--text-dim); font-size: 0.8em; margin-left: auto; }
+    .question-title {
+      font-size: 1.25em;
+      margin-bottom: 12px;
+      color: var(--text);
+    }
+    .question-body { margin-bottom: 14px; }
+    .question-body code.inline-code {
+      background: var(--border);
+      padding: 1px 5px;
+      border-radius: 3px;
+      font-size: 0.9em;
+    }
+
+    /* 信息块 */
+    .info-block {
+      background: rgba(88,166,255,0.05);
+      border-left: 3px solid var(--accent);
+      padding: 10px 14px;
+      margin: 10px 0;
+      border-radius: 0 6px 6px 0;
+    }
+    .info-label {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.85em;
+      display: block;
+      margin-bottom: 4px;
+    }
+    .info-block pre {
+      white-space: pre-wrap;
+      font-family: "JetBrains Mono", "Fira Code", monospace;
+      font-size: 0.85em;
+      color: var(--text);
+    }
+
+    /* 示例 */
+    .example-block {
+      background: rgba(63,185,80,0.05);
+      border: 1px solid rgba(63,185,80,0.2);
+      border-radius: 8px;
+      padding: 12px;
+      margin: 10px 0;
+    }
+    .example-title {
+      color: var(--green);
+      font-weight: 600;
+      font-size: 0.85em;
+      margin-bottom: 6px;
+    }
+    .example-io {
+      font-family: monospace;
+      font-size: 0.85em;
+      white-space: pre-wrap;
+      margin: 2px 0;
+    }
+    .io-label { color: var(--text-dim); }
+    .example-explanation {
+      color: var(--text-dim);
+      font-size: 0.85em;
+      margin-top: 6px;
+      padding-top: 6px;
+      border-top: 1px dashed var(--border);
+    }
+
+    /* 选项 */
+    .options-container { margin: 12px 0; }
+    .option-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      padding: 10px 14px;
+      margin: 6px 0;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .option-item:hover { border-color: var(--accent); background: rgba(88,166,255,0.05); }
+    .option-item.correct { border-color: var(--green); background: rgba(63,185,80,0.1); }
+    .option-item.wrong { border-color: var(--red); background: rgba(248,81,73,0.1); }
+    .option-item input[type=radio] { accent-color: var(--accent); margin-top: 4px; }
+    .option-letter {
+      font-weight: 700;
+      color: var(--accent);
+      min-width: 20px;
+    }
+    .option-text { flex: 1; font-size: 0.9em; }
+    .option-feedback {
+      margin: 8px 0;
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-size: 0.85em;
+      display: none;
+    }
+    .option-feedback.show { display: block; }
+    .option-feedback.correct {
+      background: rgba(63,185,80,0.1);
+      color: var(--green);
+    }
+    .option-feedback.wrong { background: rgba(248,81,73,0.1); color: var(--red); }
+
+    /* 代码编辑器 */
+    .code-section {
+      margin: 16px 0;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .code-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 14px;
+      background: rgba(88,166,255,0.08);
+      border-bottom: 1px solid var(--border);
+      font-size: 0.85em;
+      color: var(--accent);
+    }
+    .editor-wrap {
+      position: relative;
+    }
+    .code-editor {
+      min-height: 180px;
+      max-height: 400px;
+      overflow: auto;
+      padding: 12px;
+      font-family: "JetBrains Mono", "Fira Code", "Cascadia Code", monospace;
+      font-size: 13px;
+      line-height: 1.5;
+      white-space: pre;
+      color: var(--text);
+      background: #0d1117;
+      outline: none;
+      tabs: 4;
+    }
+    .btn-run {
+      background: var(--green);
+      color: white;
+      border: none;
+      padding: 4px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.85em;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .btn-run:hover { opacity: 0.85; }
+    .btn-run:disabled { opacity: 0.5; cursor: not-allowed; }
+    .code-result {
+      padding: 12px;
+      background: #0d1117;
+      border-top: 1px solid var(--border);
+      font-family: monospace;
+      font-size: 0.85em;
+      white-space: pre-wrap;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+    .code-result .test-pass { color: var(--green); }
+    .code-result .test-fail { color: var(--red); }
+    .code-result .stderr { color: var(--orange); }
+
+    /* 显示解析按钮 */
+    .btn-reveal {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      margin-top: 16px;
+      background: transparent;
+      border: 2px dashed var(--border);
+      border-radius: 8px;
+      color: var(--text-dim);
+      font-size: 0.95em;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .btn-reveal:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(88,166,255,0.03);
+    }
+    .btn-reveal.loading {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    /* 解析区域 */
+    .solution-section {
+      margin-top: 16px;
+      animation: fadeIn 0.4s ease;
+    }
+    @keyframes fadeIn { from{opacity:0; transform:translateY(10px) } to{opacity:1; transform:translateY(0) } }
+    .solution-divider {
+      text-align: center;
+      color: var(--text-dim);
+      font-size: 0.8em;
+      margin: 16px 0;
+      letter-spacing: 1px;
+    }
+    .answer-highlight {
+      background: rgba(63,185,80,0.1);
+      border: 1px solid var(--green);
+      border-radius: 8px;
+      padding: 10px 16px;
+      margin: 10px 0;
+      font-size: 1.05em;
+      color: var(--green);
+      font-weight: 600;
+    }
+    .solution-block {
+      margin: 14px 0;
+      padding: 14px;
+      background: rgba(255,255,255,0.02);
+      border-radius: 8px;
+    }
+    .solution-block h4 {
+      color: var(--accent);
+      margin-bottom: 8px;
+      font-size: 0.95em;
+    }
+    .solution-block ul.answer-points {
+      padding-left: 20px;
+    }
+    .solution-block ul.answer-points li {
+      margin: 6px 0;
+      font-size: 0.9em;
+    }
+    .code-block {
+      background: #0d1117;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 12px;
+      font-family: "JetBrains Mono", "Fira Code", monospace;
+      font-size: 0.85em;
+      overflow-x: auto;
+      white-space: pre;
+      color: var(--text);
+    }
+    .complexity-tag {
+      display: inline-block;
+      padding: 2px 10px;
+      margin-right: 8px;
+      border-radius: 6px;
+      background: var(--border);
+      font-size: 0.85em;
+      font-family: monospace;
+    }
+    .derivation-content {
+      font-size: 0.9em;
+      line-height: 1.8;
+    }
+
+    /* 运行中加载动画 */
+    .spinner {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      border: 2px solid var(--text-dim);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* 底部 */
+    .footer {
+      text-align: center;
+      padding: 24px 0;
+      color: var(--text-dim);
+      font-size: 0.8em;
+      border-top: 1px solid var(--border);
+      margin-top: 24px;
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 8px; }
+      .question-card { padding: 14px; }
+      .question-title { font-size: 1.1em; }
+      .code-editor { font-size: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <h1>每日算法 AI 出题 · 第 21 期</h1>
+  <div class="subtitle">算法 2 道 + AI 2 道 · 兑现第 20 期候选（LCS / 循环队列 / DPO 推导 / 核函数）+ 双序列 DP 与偏好优化新维度</div>
+  <div class="date-tag">📅 2026-10-28 ｜ 算法 2 道 · AI 2 道</div>
+</div>
+
+<div class="question-card" data-qid="1">
+
+    <div class="question-header">
+      <span class="type-badge" style="background:#3b82f6">算法编程</span>
+      <span class="difficulty">⭐⭐</span>
+      <span class="qid-label">第 1 题</span>
+    </div>
+<h2 class="question-title">最长公共子序列（LCS）</h2>
+<div class="question-body">给定两个字符串 <code class="inline-code">text1</code> 和 <code class="inline-code">text2</code>，请实现函数 <code class="inline-code">solve(text1, text2)</code>，返回它们**最长公共子序列（LCS）**的长度。<br>
+<br>
+子序列是指：从原字符串中**按顺序**删除若干（或零个）字符后得到的新字符串，**不要求连续**。例如 <code class="inline-code">&quot;ace&quot;</code> 是 <code class="inline-code">&quot;abcde&quot;</code> 的子序列，而 <code class="inline-code">&quot;aec&quot;</code> 不是。<br>
+<br>
+**要求**：使用二维动态规划，令 $dp[i][j]$ 表示 <code class="inline-code">text1</code> 前 $i$ 个字符与 <code class="inline-code">text2</code> 前 $j$ 个字符的 LCS 长度；当两个字符相等时取左上角 $+1$，否则取上、左的较大值。</div>
+<div class="info-block"><span class="info-label">输入</span><pre>两个字符串 `text1`、`text2`，均只含小写英文字母。</pre></div>
+<div class="info-block"><span class="info-label">输出</span><pre>一个整数：最长公共子序列的长度。</pre></div>
+<div class="example-block">
+<div class="example-title">示例 1</div>
+<pre class="example-io"><span class="io-label">输入：</span>text1 = &quot;abcde&quot;, text2 = &quot;ace&quot;</pre>
+<pre class="example-io"><span class="io-label">输出：</span>3</pre>
+<div class="example-explanation">最长公共子序列是 &quot;ace&quot;，长度为 3。</div>
+</div>
+<div class="example-block">
+<div class="example-title">示例 2</div>
+<pre class="example-io"><span class="io-label">输入：</span>text1 = &quot;abc&quot;, text2 = &quot;def&quot;</pre>
+<pre class="example-io"><span class="io-label">输出：</span>0</pre>
+<div class="example-explanation">没有任何公共字符，长度为 0。</div>
+</div>
+<div class="example-block">
+<div class="example-title">示例 3</div>
+<pre class="example-io"><span class="io-label">输入：</span>text1 = &quot;abc&quot;, text2 = &quot;abcbc&quot;</pre>
+<pre class="example-io"><span class="io-label">输出：</span>3</pre>
+<div class="example-explanation">最长公共子序列是 &quot;abc&quot;（text2 中取前 3 个字符即可），长度为 3。</div>
+</div>
+<div class="info-block"><span class="info-label">约束</span><div>- $0 \le |text1|, |text2| \le 1000$
+- 字符串只含小写英文字母。</div></div>
+
+    <div class="code-section">
+      <div class="code-header">
+        <span>🧑‍💻 在线代码编辑器</span>
+        <button class="btn-run" onclick="runCode(1)" id="run_btn_1">▶ 运行</button>
+      </div>
+      <div class="editor-wrap">
+        <div class="code-editor" id="editor_1" contenteditable="true" spellcheck="false">def solve(text1, text2):
+    # 返回 text1 与 text2 的最长公共子序列（LCS）长度
+    # dp[i][j] = text1[:i] 与 text2[:j] 的 LCS 长度
+    pass
+</div>
+      </div>
+      <div class="code-result" id="result_1" style="display:none;"></div>
+      <input type="hidden" id="func_name_1" value="solve">
+      <input type="hidden" id="test_cases_1" value='[[&quot;abcde&quot;, &quot;ace&quot;], [&quot;abc&quot;, &quot;abc&quot;], [&quot;abc&quot;, &quot;def&quot;], [&quot;&quot;, &quot;abc&quot;], [&quot;&quot;, &quot;&quot;], [&quot;a&quot;, &quot;a&quot;], [&quot;a&quot;, &quot;b&quot;], [&quot;bl&quot;, &quot;yby&quot;], [&quot;pmjghexybyrgzowy&quot;, &quot;hafewqbgncvebihkd&quot;], [&quot;abc&quot;, &quot;abcbc&quot;], [&quot;aaaaaaaaaa&quot;, &quot;aaaaa&quot;], [&quot;abcdefg&quot;, &quot;gfedcba&quot;], [&quot;aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa&quot;, &quot;aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa&quot;], [&quot;abc&quot;, &quot;&quot;]]'>
+      <input type="hidden" id="expected_outputs_1" value='[3, 3, 0, 0, 0, 1, 0, 1, 4, 3, 5, 1, 1000, 0]'>
+    </div>
+
+    <button class="btn-reveal" onclick="revealSolution(1)" id="reveal_btn_1">
+      📖 显示答案与解析
+    </button>
+<div class="solution-section" id="solution_1" style="display:none;">
+<div class="solution-divider">--- 以下为答案与解析 ---</div>
+<div class="solution-block"><h4>💡 解题思路</h4><div>**状态定义**：$dp[i][j]$ = $text1[0:i]$ 与 $text2[0:j]$ 的最长公共子序列长度（$i, j$ 为前缀长度，$dp[0][*] = dp[*][0] = 0$ 表示空串）。<br>
+<br>
+**转移方程**：<br>
+- 若 $text1[i-1] = text2[j-1]$（当前两个字符相等），则该字符一定可以接到任意更短前缀的 LCS 后面，$dp[i][j] = dp[i-1][j-1] + 1$；<br>
+- 否则，两个字符至少有一个不会出现在 LCS 中，$dp[i][j] = \max(dp[i-1][j],\, dp[i][j-1])$。<br>
+<br>
+**为什么相等时不用考虑 $\max(dp[i-1][j], dp[i][j-1])$**：若 $text1[i-1] = text2[j-1]$，则把这一对字符加入，必然得到比两边任意一个更长的合法公共子序列（可由 LCS 最优子结构 + 反证法验证），故直接取 $dp[i-1][j-1] + 1$ 即可，且不会比只考虑前 $i-1$ 或前 $j-1$ 个字符更差。<br>
+<br>
+实现用 $(m+1) \times (n+1)$ 二维数组，下标从 1 开始避免边界判断；也可滚动数组只保留两行把空间压到 $O(\min(m,n))$。</div></div>
+<div class="solution-block"><h4>📝 参考代码（python）</h4><pre class="code-block">def solve(text1, text2):
+    m, n = len(text1), len(text2)
+    dp = [[0] * (n + 1) for _ in range(m + 1)]
+    for i in range(1, m + 1):
+        for j in range(1, n + 1):
+            if text1[i - 1] == text2[j - 1]:
+                dp[i][j] = dp[i - 1][j - 1] + 1
+            else:
+                dp[i][j] = max(dp[i - 1][j], dp[i][j - 1])
+    return dp[m][n]
+</pre></div>
+<div class="solution-block"><h4>⚡ 复杂度分析</h4><div>
+<span class="complexity-tag">时间 O(mn)——双重循环填表，m、n 为两串长度</span>
+<span class="complexity-tag">空间 O(mn)——二维 dp 表；可滚动数组优化为 O(min(m,n))</span>
+</div></div>
+<div class="solution-block"><h4>🎯 考点</h4><div>双序列 DP 模板（LCS 是母题，变体有「编辑距离」「最长重复子数组」）；转移方程分「相等 / 不相等」两类；与 LIS（单序列 DP，第 7 期）、0-1 背包（组合 DP，第 17 期）对比，建立 DP 题型分类体系。</div></div>
+</div>
+</div>
+<div class="question-card" data-qid="2">
+
+    <div class="question-header">
+      <span class="type-badge" style="background:#10b981">算法概念</span>
+      <span class="difficulty">⭐</span>
+      <span class="qid-label">第 2 题</span>
+    </div>
+<h2 class="question-title">循环队列：判空与判满条件</h2>
+<div class="question-body">用数组实现**循环队列**时，一般用两个下标 <code class="inline-code">front</code>（队头）与 <code class="inline-code">rear</code>（队尾），并通过取模运算让数组首尾相接。关于循环队列判空、判满的说法，**正确**的是：</div>
+<div class="options-container">
+
+            <label class="option-item" data-letter="A">
+              <input type="radio" name="quiz_2" value="A" onchange="checkAnswer(2, 'A')">
+              <span class="option-letter">A</span>
+              <span class="option-text">采用「牺牲一个存储单元」的方案时：判空条件为 front == rear，判满条件为 (rear + 1) % capacity == front，此时队列最多容纳 capacity - 1 个元素</span>
+            </label>
+
+            <label class="option-item" data-letter="B">
+              <input type="radio" name="quiz_2" value="B" onchange="checkAnswer(2, 'B')">
+              <span class="option-letter">B</span>
+              <span class="option-text">判空条件为 rear == (front + 1) % capacity，判满条件为 front == rear——当 rear 恰好位于 front 前一个位置时队列为空</span>
+            </label>
+
+            <label class="option-item" data-letter="C">
+              <input type="radio" name="quiz_2" value="C" onchange="checkAnswer(2, 'C')">
+              <span class="option-letter">C</span>
+              <span class="option-text">若额外用一个 size 计数器记录当前元素个数，则队满条件为 size == capacity - 1，队空条件为 size == 0</span>
+            </label>
+
+            <label class="option-item" data-letter="D">
+              <input type="radio" name="quiz_2" value="D" onchange="checkAnswer(2, 'D')">
+              <span class="option-letter">D</span>
+              <span class="option-text">入队时只需判断 rear 是否等于 front：相等则说明队列已满、不能入队</span>
+            </label>
+</div>
+<div class="option-feedback" id="feedback_2"></div>
+
+    <button class="btn-reveal" onclick="revealSolution(2)" id="reveal_btn_2">
+      📖 显示答案与解析
+    </button>
+<div class="solution-section" id="solution_2" style="display:none;">
+<div class="solution-divider">--- 以下为答案与解析 ---</div>
+<div class="answer-highlight">✅ 正确答案：A</div>
+<div class="solution-block"><h4>💡 解题思路</h4><div>循环队列的核心难点在于：用下标差如何**区分空与满**——不额外记录时，<code class="inline-code">front == rear</code> 既可能是空也可能是满。常用两种解法：牺牲一个存储单元，或额外计数器。四个选项分别考查：牺牲单元的判空判满条件（A）、把空满条件记反（B）、计数器方案的判满值（C）、把空状态误当满状态（D）。</div></div>
+<div class="solution-block"><h4>🎯 考点</h4><div>循环队列三件套记忆点：① 判空 <code class="inline-code">front == rear</code>；② 牺牲单元判满 <code class="inline-code">(rear+1)%cap == front</code>；③ 实际容量 <code class="inline-code">cap-1</code>。替代方案是 size 计数器（满 = cap）或布尔标志位。工程应用：Ring Buffer（日志/音频/网络缓冲）、生产者-消费者模型、LeetCode 622 设计循环队列。</div></div>
+<div class="solution-block"><h4>🔍 逐项分析</h4><ul class="answer-points">
+<li>**A 正确**。牺牲一个单元：队满时让 <code class="inline-code">rear</code> 停在 <code class="inline-code">front</code> 前一个位置，因此判满条件是 <code class="inline-code">(rear + 1) % capacity == front</code>；判空条件是 <code class="inline-code">front == rear</code>。因为空出了一个位置无法存放数据，实际可容纳 <code class="inline-code">capacity - 1</code> 个元素——这是最常见的实现（STL deque/很多开源代码的默认方案）。</li>
+<li>**B 错误**。判空条件是 <code class="inline-code">front == rear</code>，而不是 <code class="inline-code">rear == (front + 1) % capacity</code>。<code class="inline-code">rear 恰好在 front 前一格</code> 恰恰是**满**的条件（牺牲单元方案），题干把空、满条件写反了，属典型记忆混淆。</li>
+<li>**C 错误**。引入 <code class="inline-code">size</code> 计数器后，满的条件是 <code class="inline-code">size == capacity</code>（数组满员，所有格都用上），空的条件是 <code class="inline-code">size == 0</code>。写成 <code class="inline-code">size == capacity - 1</code> 少算了一个元素（那是牺牲单元方案的容量上限），会提前报满、浪费一格。</li>
+<li>**D 错误**。<code class="inline-code">rear == front</code> 表示队列**为空**，不是满——入队前检查它判断的是「是否空队列」而非「是否满」；满的判断要用 <code class="inline-code">(rear+1) % capacity == front</code>（牺牲单元）或 <code class="inline-code">size == capacity</code>（计数器）。</li>
+</ul></div>
+</div>
+</div>
+<div class="question-card" data-qid="3">
+
+    <div class="question-header">
+      <span class="type-badge" style="background:#a855f7">AI公式推导</span>
+      <span class="difficulty">⭐⭐⭐</span>
+      <span class="qid-label">第 3 题</span>
+    </div>
+<h2 class="question-title">DPO 直接偏好优化：最优策略闭式解与梯度推导</h2>
+<div class="question-body">在 RLHF 中，人类偏好数据 $\mathcal{D} = \{(x, y_w, y_l)\}$（$y_w$ 为被偏好的回答，$y_l$ 为被拒绝的回答）通常先训一个**奖励模型**，再用强化学习（如 PPO）对齐策略。**DPO（Direct Preference Optimization，Rafailov et al., 2023）** 提出：既然奖励模型的最优解可以闭式解出，那么可以直接用**参考策略** $\pi_{\text{ref}}$ 与当前策略的比值来表达偏好。<br>
+<br>
+请完成以下推导（分 4 步）：<br>
+**(1)** 求解带 KL 约束的 RL 目标 $\max_{\pi}\, \mathbb{E}_{y \sim \pi(\cdot|x)}[r(x,y)] - \beta\, \text{KL}(\pi(\cdot|x)\|\,\pi_{\text{ref}}(\cdot|x))$ 的最优策略闭式解 $\pi^*(y|x)$；<br>
+**(2)** 由最优策略反解奖励 $r(x,y)$（称为奖励重参数化）；<br>
+**(3)** 将其代入 Bradley-Terry 偏好模型 $P(y_w \succ y_l|x) = \sigma\big(r(x,y_w) - r(x,y_l)\big)$，得到 DPO 的偏好概率表达式（说明配分函数如何抵消）；<br>
+**(4)** 写出 DPO 训练目标 $\mathcal{L}_{\text{DPO}}$ 及其对 $\theta$ 的梯度，并解释梯度中的权重项含义。</div>
+
+    <button class="btn-reveal" onclick="revealSolution(3)" id="reveal_btn_3">
+      📖 显示答案与解析
+    </button>
+<div class="solution-section" id="solution_3" style="display:none;">
+<div class="solution-divider">--- 以下为答案与解析 ---</div>
+<div class="solution-block"><h4>🎯 考点</h4><div>考点：① 拉格朗日法求带 KL 约束的最优策略闭式解；② 奖励重参数化（策略比值编码奖励）；③ Bradley-Terry 代入时配分函数抵消（不计算 Z 的关键）；④ 梯度权重 σ(-u) 的自适应加权语义；⑤ 与 PPO/RLHF 的对比（免奖励模型、免在线采样、无重要性权重）。</div></div>
+<div class="solution-block"><h4>📐 推导过程</h4><div class="derivation-content">**第 1 步：求解带 KL 约束的 RL 最优策略**<br>
+<br>
+对每个输入 $x$，问题为（记 $\pi_y = \pi(y|x)$，$p_y = \pi_{\text{ref}}(y|x)$，约束 $\sum_y \pi_y = 1$）：<br>
+<br>
+$$\max_{\pi} \sum_y \pi_y r(x,y) - \beta \sum_y \pi_y \log\frac{\pi_y}{p_y} \;\;\text{s.t.}\;\; \sum_y \pi_y = 1$$<br>
+<br>
+构造拉格朗日函数 $\mathcal{L} = \sum_y \pi_y r(x,y) - \beta \sum_y \pi_y \log\frac{\pi_y}{p_y} + \lambda\left(\sum_y \pi_y - 1\right)$，对 $\pi_y$ 求偏导并令为 0：<br>
+<br>
+$$\frac{\partial \mathcal{L}}{\partial \pi_y} = r(x,y) - \beta\left(\log\frac{\pi_y}{p_y} + 1\right) + \lambda = 0$$<br>
+<br>
+$$\Rightarrow \log \frac{\pi_y}{p_y} = \frac{r(x,y) + \lambda - \beta}{\beta} \;\Rightarrow\; \pi_y = p_y \cdot \exp\left(\frac{r(x,y) + \lambda - \beta}{\beta}\right)$$<br>
+<br>
+令 $Z(x) = \sum_y p_y \exp\left(\frac{r(x,y)}{\beta}\right)$（配分函数），由归一化 $\sum_y \pi_y = 1$ 得 $\exp\left(\frac{\lambda-\beta}{\beta}\right) = \frac{1}{Z(x)}$，于是最优策略为：<br>
+<br>
+$$\boxed{\pi^*(y|x) = \frac{1}{Z(x)}\, \pi_{\text{ref}}(y|x)\, \exp\!\left(\frac{r(x,y)}{\beta}\right)}$$<br>
+<br>
+**第 2 步：奖励重参数化（Reward Reparameterization）**<br>
+<br>
+上式两边取对数解出 $r(x,y)$（把 $\pi^*$ 换成当前要训练的策略 $\pi_\theta$）：<br>
+<br>
+$$r(x,y) = \beta \log \frac{\pi_\theta(y|x)}{\pi_{\text{ref}}(y|x)} + \beta \log Z(x)$$<br>
+<br>
+这说明：**策略比值就是对「隐式奖励」的重新参数化**——不必训练独立的奖励模型，奖励被编码进了策略与参考策略的对数比里（由 $\beta$ 控制幅度）。<br>
+<br>
+**第 3 步：代入 Bradley-Terry 偏好模型**<br>
+<br>
+Bradley-Terry：$P(y_w \succ y_l \mid x) = \dfrac{e^{r(x,y_w)}}{e^{r(x,y_w)} + e^{r(x,y_l)}} = \sigma\big(r(x,y_w) - r(x,y_l)\big)$。把第 2 步 $r$ 的表达式代入，两个 $\beta\log Z(x)$ 项**完全抵消**：<br>
+<br>
+$$P(y_w \succ y_l \mid x) = \sigma\!\left(\beta\log \frac{\pi_\theta(y_w|x)}{\pi_{\text{ref}}(y_w|x)} - \beta\log \frac{\pi_\theta(y_l|x)}{\pi_{\text{ref}}(y_l|x)}\right)$$<br>
+<br>
+配分函数 $Z(x)$ 只在括号外出现且互为相反数消去，这正是 DPO 无需显式计算配分函数的关键——它只依赖策略与参考策略的比值。<br>
+<br>
+**第 4 步：DPO 目标与梯度**<br>
+<br>
+DPO 用偏好数据的负对数似然作为训练目标（对偏好概率取 $\log$ 再加负号）：<br>
+<br>
+$$\mathcal{L}_{\text{DPO}}(\theta) = -\mathbb{E}_{(x,y_w,y_l)\sim \mathcal{D}}\left[\log \sigma\!\left(\beta \log\frac{\pi_\theta(y_w|x)}{\pi_{\text{ref}}(y_w|x)} - \beta \log\frac{\pi_\theta(y_l|x)}{\pi_{\text{ref}}(y_l|x)}\right)\right]$$<br>
+<br>
+令 $u = \beta\left(\log\frac{\pi_\theta(y_w|x)}{\pi_{\text{ref}}(y_w|x)} - \log\frac{\pi_\theta(y_l|x)}{\pi_{\text{ref}}(y_l|x)}\right)$，利用 $\sigma&#x27;(u) = \sigma(u)(1-\sigma(u))$ 与 $\sigma(-u) = 1-\sigma(u)$，链式法则得梯度：<br>
+<br>
+$$\nabla_\theta \mathcal{L}_{\text{DPO}} = -\beta\, \mathbb{E}\left[\sigma(-u)\cdot\left(\nabla_\theta \log \pi_\theta(y_w|x) - \nabla_\theta \log \pi_\theta(y_l|x)\right)\right]$$<br>
+<br>
+**权重项含义**：$\sigma(-u)$ 就是「当前策略对偏好对犯错的置信程度」——若 $u &gt; 0$（策略已给出偏好对的概率高于参考），$\sigma(-u)$ 接近 0，梯度小、更新放缓；若 $u &lt; 0$（策略偏好反了），$\sigma(-u) \to 1$，梯度接近满量，朝增大 $\pi(y_w)$、减小 $\pi(y_l)$ 的方向大步修正。整体无需奖励模型、无需在线采样（数据离线即可），训练过程即用 <code class="inline-code">ref</code> 策略对比的隐式奖励做加权梯度上升。</div></div>
+<div class="solution-block"><h4>🧠 直觉解释</h4><div>DPO 把「学一个奖励模型」变成「直接学策略」，用 πθ/π_ref 的比值 + sigmoid 权重隐式编码了 Bradley-Terry 偏好：策略比参考策略更偏好的样本（u&gt;0）几乎不再更新，只有犯错的样本才会获得大梯度。</div></div>
+</div>
+</div>
+<div class="question-card" data-qid="4">
+
+    <div class="question-header">
+      <span class="type-badge" style="background:#f59e0b">AI面试问答</span>
+      <span class="difficulty">⭐⭐</span>
+      <span class="qid-label">第 4 题</span>
+    </div>
+<h2 class="question-title">SVM 的核技巧：为什么核函数能让线性 SVM 处理非线性问题？</h2>
+<div class="question-body">面试官：「线性 SVM 只能处理线性可分数据。请解释**核技巧（Kernel Trick）**是如何让 SVM 处理非线性分类的；常用的核函数有哪些、怎么选；并简述 **SMO 算法**的基本思想。」</div>
+
+    <button class="btn-reveal" onclick="revealSolution(4)" id="reveal_btn_4">
+      📖 显示答案与解析
+    </button>
+<div class="solution-section" id="solution_4" style="display:none;">
+<div class="solution-divider">--- 以下为答案与解析 ---</div>
+<div class="solution-block"><h4>📌 回答要点</h4><ul class="answer-points">
+<li>**核技巧的数学基础（为什么只需要内积）**：SVM 的对偶问题 $\max \sum_i \alpha_i - \frac12 \sum_{i,j}\alpha_i\alpha_j y_i y_j \langle x_i, x_j \rangle$ 与决策函数 $f(x) = \text{sign}\left(\sum_i \alpha_i y_i \langle x_i, x \rangle + b\right)$ 都**只依赖样本间的内积**，而从不直接出现样本坐标。因此把样本映射到高维特征空间 $\phi(x)$ 后，内积 $\langle \phi(x_i), \phi(x_j) \rangle$ 可以用核函数 $K(x_i, x_j)$ 直接计算，**避免显式计算高维映射**（维灾难消失），这就是核技巧。</li>
+<li>**常用核函数**：① 线性核 $K(x,z)=\langle x,z\rangle$（高维稀疏/线性可分场景，快且可解释）；② 多项式核 $K(x,z)=(\gamma\langle x,z\rangle + r)^d$（已知多项式阶时用）；③ 高斯（RBF）核 $K(x,z)=\exp(-\gamma\|x-z\|^2)$——最常用，隐含映射到无穷维特征空间、只有一个超参 $\gamma$，类不可分时先用它；④ Sigmoid 核（类神经网络的激活形式）。</li>
+<li>**选型思路（经验法则）**：先验线性可分、特征多且样本少（如文本 TF-IDF）→ 线性核；特征少、样本多、明显非线性 → RBF；类别边界近似多项式 → 多项式；工程默认流程是「先试线性核，再试 RBF 配 $\gamma$（如 $\gamma=1/d$）网格搜索 + 交叉验证」。</li>
+<li>**SMO 算法思想**：对偶问题约束中 $\sum_i \alpha_i y_i = 0$ 决定——每次只能同时优化**两个**变量（其余固定）才能满足等式约束。SMO 选违反 KKT 条件最严重的两个 $\alpha_i$（用启发式：外层遍历边界点，内层选 $|E_i - E_j|$ 最大的 $j$，$E$ 为预测误差），对其解析求解二次规划后更新 $b$ 与误差缓存，反复迭代直至收敛。每个子问题都有闭式解，因此 SMO 把 O(n²) 甚至更昂贵的二次规划求解变成 O(n)~O(n²) 的可行迭代。</li>
+<li>**加分项（深层理解）**：核函数合法的充要条件是核矩阵 Gram 半正定（Mercer 条件）；RBF 的 $\gamma$ 大 → 决策边界更弯曲（过拟合风险），$\gamma$ 小 → 更平滑（欠拟合）；$C$（软间隔惩罚）大 → 尽可能分开、容忍小噪更小；核函数可组合（线性组合/乘积仍为核）。</li>
+</ul></div>
+<div class="solution-block"><h4>⭐ 加分项</h4><ul class="answer-points">
+<li>**与对偶问题联系**：核技巧与第 11 期「SVM 对偶推导」联动——对偶形式天然只含内积，这是核技巧能成立的前提（先有对偶，才有核）。</li>
+<li>**与正则化联系**：软间隔 $C$ 实质是目标里 $\frac12\|w\|^2 + C\sum \xi_i$ 的权衡，等价于损失项的惩罚系数，正则化直觉一致。</li>
+<li>**工程细节**：sklearn 中 RBF 的 <code class="inline-code">gamma</code> 默认 &#x27;scale&#x27;（= 1/(n_features·X.var())），调参通常先 grid 扫 C ∈ {0.1..1000}、gamma ∈ {0.001..1}；核函数在 kernel 参数中一行切换，验证时注意归一化（特征尺度对 RBF 距离影响大）。</li>
+<li>**局限与替代**：核方法在百万级样本上训练慢（核矩阵 O(n²) 存储），深度网络/核近似（如 Random Fourier Features）是替代方向；这也解释了现代大模型为何少用核 SVM。</li>
+</ul></div>
+<div class="solution-block"><h4>🔮 追问预测</h4><ul class="answer-points">
+<li>**追问 1：RBF 为什么最常用？** 回答：RBF 的隐式映射维数无限（高斯核可展开为多项式级数），覆盖的决策边界形状最灵活；只有 γ 一个超参；对两类任何分布几乎都能拟合到任意精度，配合 C 控制复杂程度。</li>
+<li>**追问 2：核函数必须满足什么条件？** 回答：Mercer 条件——对任意样本集，核矩阵 $K_{ij}=K(x_i,x_j)$ 必须对称半正定，否则对应的优化问题无解或决策不可解释；核的闭式组合（正系数和、乘积）保持合法。</li>
+<li>**追问 3：SMO 为什么一次只选两个 α？** 回答：对偶约束 $\sum\alpha_i y_i = 0$ 是一个线性等式——任意两个变量即可在保持等式成立的条件下做一次解析优化（把两者绑定、转成一个一维二次问题），其余变量固定。选三个或更多会破坏解析解，得不偿失。</li>
+<li>**追问 4：γ 和 C 对过拟合的影响？** 回答：γ 控制核函数的宽度（决策边界弯曲程度），γ 过大高方差；C 控制对误分类的容忍度，C 过大几乎不允许误差，也可能过拟合且计算更慢。实际用交叉验证扫 C×γ 网格。</li>
+</ul></div>
+</div>
+</div>
+
+<div class="footer">
+  坚持每日练习，积少成多 💪<br>
+  Powered by TeleAgent · daily-algo-ai-quiz
+</div>
+
+<script>
+// ===== Pyodide 隔离执行测试运行器 =====
+const RUNNER_CODE = "\nimport json, traceback, io, contextlib\n\ndef run_tests(user_code, func_name, test_cases, expected):\n    ns = {}\n    user_stdout = io.StringIO()\n    user_error = None\n\n    try:\n        with contextlib.redirect_stdout(user_stdout):\n            exec(user_code, ns)\n    except Exception:\n        user_error = traceback.format_exc()\n\n    user_out = user_stdout.getvalue()\n\n    if user_error:\n        return {\"error\": user_error, \"stdout\": user_out}\n\n    func = ns.get(func_name)\n    if func is None:\n        return {\"error\": \"未找到函数 \" + str(func_name) + \"，请确保代码中定义了该函数\", \"stdout\": user_out}\n\n    test_results = []\n    for i, tc in enumerate(test_cases):\n        try:\n            actual = func(*tc)\n            exp = expected[i]\n            passed = actual == exp\n            test_results.append({\n                \"passed\": passed,\n                \"input\": str(tc),\n                \"expected\": str(exp),\n                \"actual\": str(actual)\n            })\n        except Exception as e:\n            exp = str(expected[i]) if i < len(expected) else \"N/A\"\n            test_results.append({\n                \"passed\": False,\n                \"input\": str(tc),\n                \"expected\": exp,\n                \"actual\": \"Error: \" + str(e)\n            })\n\n    return {\"stdout\": user_out, \"tests\": test_results}\n";
+
+// ===== 显示/隐藏解析 =====
+function revealSolution(qid) {
+  const sol = document.getElementById('solution_' + qid);
+  const btn = document.getElementById('reveal_btn_' + qid);
+  if (sol.style.display === 'none') {
+    sol.style.display = 'block';
+    btn.innerHTML = '📕 收起解析';
+    // 渲染该区域数学公式
+    if (typeof renderMathInElement !== 'undefined') {
+      renderMathInElement(sol, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false}
+        ]
+      });
+    }
+  } else {
+    sol.style.display = 'none';
+    btn.innerHTML = '📖 显示答案与解析';
+  }
+}
+
+// ===== 选择题作答反馈 =====
+function checkAnswer(qid, selected) {
+  const card = document.querySelector(`[data-qid="${qid}"]`);
+  if (!card) return;
+  const correctAnswer = card.getAttribute('data-correct') || '';
+  // 从全局 quizData 获取
+  const qData = window.__quizData__.questions.find(q => q.id == qid);
+  if (!qData || !qData.correct_answer) return;
+
+  const correct = qData.correct_answer;
+  const feedback = document.getElementById('feedback_' + qid);
+  const options = card.querySelectorAll('.option-item');
+
+  options.forEach(opt => {
+    const letter = opt.getAttribute('data-letter');
+    opt.classList.remove('correct', 'wrong');
+    if (letter === correct) {
+      opt.classList.add('correct');
+    } else if (letter === selected && selected !== correct) {
+      opt.classList.add('wrong');
+    }
+  });
+
+  if (feedback) {
+    feedback.className = 'option-feedback show ' + (selected === correct ? 'correct' : 'wrong');
+    feedback.textContent = selected === correct
+      ? '✅ 回答正确！'
+      : `❌ 正确答案是 ${correct}，再想想？`;
+    feedback.style.display = 'block';
+  }
+}
+
+// ===== Pyodide 代码执行 =====
+let pyodideReady = null;
+let pyodideLoading = false;
+
+function loadPyodideAsync() {
+  if (pyodideReady) return pyodideReady;
+  if (pyodideLoading) return pyodideReady;
+  pyodideLoading = true;
+
+  pyodideReady = new Promise((resolve, reject) => {
+    if (typeof loadPyodide !== 'undefined') {
+      loadPyodide({
+        indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.25.0/full/'
+      }).then(py => {
+        pyodideLoading = false;
+        resolve(py);
+      }).catch(reject);
+    } else {
+      // 动态加载 Pyodide
+      const script = document.createElement('script');
+      script.src = 'https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js';
+      script.onload = () => {
+        loadPyodide({
+          indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.25.0/full/'
+        }).then(py => {
+          pyodideLoading = false;
+          resolve(py);
+        }).catch(reject);
+      };
+      script.onerror = () => {
+        pyodideLoading = false;
+        reject(new Error('Pyodide 加载失败，请检查网络连接'));
+      };
+      document.head.appendChild(script);
+    }
+  });
+  return pyodideReady;
+}
+
+async function runCode(qid) {
+    const editor = document.getElementById('editor_' + qid);
+    const resultDiv = document.getElementById('result_' + qid);
+    const btn = document.getElementById('run_btn_' + qid);
+    const code = editor.innerText;
+    const funcNameInput = document.getElementById('func_name_' + qid);
+    const funcName = funcNameInput ? funcNameInput.value : 'solve';
+    const tcInput = document.getElementById('test_cases_' + qid);
+    const eoInput = document.getElementById('expected_outputs_' + qid);
+    let testCases = [];
+    let expectedOutputs = [];
+    try {
+        testCases = JSON.parse(tcInput.value || '[]');
+        expectedOutputs = JSON.parse(eoInput.value || '[]');
+    } catch(e) {}
+
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span> 运行中...';
+    resultDiv.style.display = 'block';
+    resultDiv.innerHTML = '<span style="color:var(--text-dim)">⏳ 正在加载 Python 运行环境...</span>';
+
+    try {
+        const pyodide = await loadPyodideAsync();
+        resultDiv.innerHTML = '<span style="color:var(--text-dim)">⏳ 正在执行代码...</span>';
+
+        // 确保 run_tests 函数只定义一次
+        if (!window.__runner_ready__) {
+            pyodide.runPython(RUNNER_CODE);
+            window.__runner_ready__ = true;
+        }
+
+        // 调用 run_tests 函数，通过返回值获取结果（不依赖 stdout，每次调用独立）
+        const runTests = pyodide.globals.get('run_tests');
+        const pyResult = runTests(code, funcName, testCases, expectedOutputs);
+        // pyResult 是 Python dict，转为 JS 对象
+        const result = pyResult.toJs({dict_converter: Object.fromEntries});
+
+        let resultHtml = '';
+
+        // 显示用户代码标准输出
+        if (result.stdout && result.stdout.trim()) {
+            resultHtml += '<div style="color:var(--text)">📝 标准输出：</div>';
+            resultHtml += '<pre style="color:var(--text);margin:4px 0;">' + escapeHtml(result.stdout) + '</pre>';
+        }
+
+        // 显示错误信息
+        if (result.error) {
+            resultHtml += '<div class="stderr">⚠️ 错误信息：</div>';
+            resultHtml += '<pre class="stderr" style="margin:4px 0;">' + escapeHtml(result.error) + '</pre>';
+        }
+
+        // 显示测试用例结果
+        if (result.tests && result.tests.length > 0) {
+            let allPassed = result.tests.every(t => t.passed);
+            resultHtml += '<div style="margin-top:8px;color:' + (allPassed ? 'var(--green)' : 'var(--accent)') + '">';
+            resultHtml += allPassed ? '🎉 全部通过！' : '🧪 测试用例结果：';
+            resultHtml += '</div>';
+
+            for (let i = 0; i < result.tests.length; i++) {
+                const t = result.tests[i];
+                if (t.passed) {
+                    resultHtml += '<div class="test-pass">✅ 用例 ' + (i+1) + ' 通过</div>';
+                } else {
+                    resultHtml += '<div class="test-fail">❌ 用例 ' + (i+1) + ' 未通过</div>';
+                    resultHtml += '<pre style="color:var(--text-dim);margin:2px 0;">  输入: ' + escapeHtml(t.input) + '\n  期望: ' + escapeHtml(t.expected) + '\n  实际: ' + escapeHtml(t.actual) + '</pre>';
+                }
+            }
+        }
+
+        if (!resultHtml) {
+            resultHtml = '<span style="color:var(--text-dim)">（代码执行完毕，无输出）</span>';
+        }
+
+        resultDiv.innerHTML = resultHtml;
+
+    } catch(e) {
+        resultDiv.innerHTML = '<div class="stderr">❌ ' + escapeHtml(e.message || String(e)) + '</div>';
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = '▶ 运行';
+    }
+}
+
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+// Ctrl+Enter 运行代码
+document.addEventListener('keydown', (e) => {
+  if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+    const focused = document.activeElement;
+    if (focused && focused.classList.contains('code-editor')) {
+      const qid = focused.id.replace('editor_', '');
+      runCode(qid);
+    }
+  }
+});
+
+// Tab 键在编辑器中插入空格
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Tab' && document.activeElement.classList.contains('code-editor')) {
+    e.preventDefault();
+    document.execCommand('insertText', false, '    ');
+  }
+});
+
+// 将 quiz 数据存入全局变量供选择题使用
+window.__quizData__ = {"date": "2026-10-28", "title": "每日算法 AI 出题 · 第 21 期", "subtitle": "算法 2 道 + AI 2 道 · 兑现第 20 期候选（LCS / 循环队列 / DPO 推导 / 核函数）+ 双序列 DP 与偏好优化新维度", "questions": [{"id": 1, "type": "algorithm_code", "type_label": "算法编程", "difficulty": 2, "title": "最长公共子序列（LCS）", "description": "给定两个字符串 `text1` 和 `text2`，请实现函数 `solve(text1, text2)`，返回它们**最长公共子序列（LCS）**的长度。\n\n子序列是指：从原字符串中**按顺序**删除若干（或零个）字符后得到的新字符串，**不要求连续**。例如 `\"ace\"` 是 `\"abcde\"` 的子序列，而 `\"aec\"` 不是。\n\n**要求**：使用二维动态规划，令 $dp[i][j]$ 表示 `text1` 前 $i$ 个字符与 `text2` 前 $j$ 个字符的 LCS 长度；当两个字符相等时取左上角 $+1$，否则取上、左的较大值。", "input_format": "两个字符串 `text1`、`text2`，均只含小写英文字母。", "output_format": "一个整数：最长公共子序列的长度。", "examples": [{"input": "text1 = \"abcde\", text2 = \"ace\"", "output": "3", "explanation": "最长公共子序列是 \"ace\"，长度为 3。"}, {"input": "text1 = \"abc\", text2 = \"def\"", "output": "0", "explanation": "没有任何公共字符，长度为 0。"}, {"input": "text1 = \"abc\", text2 = \"abcbc\"", "output": "3", "explanation": "最长公共子序列是 \"abc\"（text2 中取前 3 个字符即可），长度为 3。"}], "constraints": "- $0 \\le |text1|, |text2| \\le 1000$\n- 字符串只含小写英文字母。", "solution": {"approach": "**状态定义**：$dp[i][j]$ = $text1[0:i]$ 与 $text2[0:j]$ 的最长公共子序列长度（$i, j$ 为前缀长度，$dp[0][*] = dp[*][0] = 0$ 表示空串）。\n\n**转移方程**：\n- 若 $text1[i-1] = text2[j-1]$（当前两个字符相等），则该字符一定可以接到任意更短前缀的 LCS 后面，$dp[i][j] = dp[i-1][j-1] + 1$；\n- 否则，两个字符至少有一个不会出现在 LCS 中，$dp[i][j] = \\max(dp[i-1][j],\\, dp[i][j-1])$。\n\n**为什么相等时不用考虑 $\\max(dp[i-1][j], dp[i][j-1])$**：若 $text1[i-1] = text2[j-1]$，则把这一对字符加入，必然得到比两边任意一个更长的合法公共子序列（可由 LCS 最优子结构 + 反证法验证），故直接取 $dp[i-1][j-1] + 1$ 即可，且不会比只考虑前 $i-1$ 或前 $j-1$ 个字符更差。\n\n实现用 $(m+1) \\times (n+1)$ 二维数组，下标从 1 开始避免边界判断；也可滚动数组只保留两行把空间压到 $O(\\min(m,n))$。", "code": "def solve(text1, text2):\n    m, n = len(text1), len(text2)\n    dp = [[0] * (n + 1) for _ in range(m + 1)]\n    for i in range(1, m + 1):\n        for j in range(1, n + 1):\n            if text1[i - 1] == text2[j - 1]:\n                dp[i][j] = dp[i - 1][j - 1] + 1\n            else:\n                dp[i][j] = max(dp[i - 1][j], dp[i][j - 1])\n    return dp[m][n]\n", "starter_code": "def solve(text1, text2):\n    # 返回 text1 与 text2 的最长公共子序列（LCS）长度\n    # dp[i][j] = text1[:i] 与 text2[:j] 的 LCS 长度\n    pass\n", "code_language": "python", "complexity_time": "O(mn)——双重循环填表，m、n 为两串长度", "complexity_space": "O(mn)——二维 dp 表；可滚动数组优化为 O(min(m,n))", "key_points": "双序列 DP 模板（LCS 是母题，变体有「编辑距离」「最长重复子数组」）；转移方程分「相等 / 不相等」两类；与 LIS（单序列 DP，第 7 期）、0-1 背包（组合 DP，第 17 期）对比，建立 DP 题型分类体系。", "test_cases": [["abcde", "ace"], ["abc", "abc"], ["abc", "def"], ["", "abc"], ["", ""], ["a", "a"], ["a", "b"], ["bl", "yby"], ["pmjghexybyrgzowy", "hafewqbgncvebihkd"], ["abc", "abcbc"], ["aaaaaaaaaa", "aaaaa"], ["abcdefg", "gfedcba"], ["aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"], ["abc", ""]], "expected_outputs": [3, 3, 0, 0, 0, 1, 0, 1, 4, 3, 5, 1, 1000, 0]}}, {"id": 2, "type": "algorithm_concept", "type_label": "算法概念", "difficulty": 1, "title": "循环队列：判空与判满条件", "description": "用数组实现**循环队列**时，一般用两个下标 `front`（队头）与 `rear`（队尾），并通过取模运算让数组首尾相接。关于循环队列判空、判满的说法，**正确**的是：", "options": ["采用「牺牲一个存储单元」的方案时：判空条件为 front == rear，判满条件为 (rear + 1) % capacity == front，此时队列最多容纳 capacity - 1 个元素", "判空条件为 rear == (front + 1) % capacity，判满条件为 front == rear——当 rear 恰好位于 front 前一个位置时队列为空", "若额外用一个 size 计数器记录当前元素个数，则队满条件为 size == capacity - 1，队空条件为 size == 0", "入队时只需判断 rear 是否等于 front：相等则说明队列已满、不能入队"], "correct_answer": "A", "solution": {"approach": "循环队列的核心难点在于：用下标差如何**区分空与满**——不额外记录时，`front == rear` 既可能是空也可能是满。常用两种解法：牺牲一个存储单元，或额外计数器。四个选项分别考查：牺牲单元的判空判满条件（A）、把空满条件记反（B）、计数器方案的判满值（C）、把空状态误当满状态（D）。", "option_analysis": ["**A 正确**。牺牲一个单元：队满时让 `rear` 停在 `front` 前一个位置，因此判满条件是 `(rear + 1) % capacity == front`；判空条件是 `front == rear`。因为空出了一个位置无法存放数据，实际可容纳 `capacity - 1` 个元素——这是最常见的实现（STL deque/很多开源代码的默认方案）。", "**B 错误**。判空条件是 `front == rear`，而不是 `rear == (front + 1) % capacity`。`rear 恰好在 front 前一格` 恰恰是**满**的条件（牺牲单元方案），题干把空、满条件写反了，属典型记忆混淆。", "**C 错误**。引入 `size` 计数器后，满的条件是 `size == capacity`（数组满员，所有格都用上），空的条件是 `size == 0`。写成 `size == capacity - 1` 少算了一个元素（那是牺牲单元方案的容量上限），会提前报满、浪费一格。", "**D 错误**。`rear == front` 表示队列**为空**，不是满——入队前检查它判断的是「是否空队列」而非「是否满」；满的判断要用 `(rear+1) % capacity == front`（牺牲单元）或 `size == capacity`（计数器）。"], "key_points": "循环队列三件套记忆点：① 判空 `front == rear`；② 牺牲单元判满 `(rear+1)%cap == front`；③ 实际容量 `cap-1`。替代方案是 size 计数器（满 = cap）或布尔标志位。工程应用：Ring Buffer（日志/音频/网络缓冲）、生产者-消费者模型、LeetCode 622 设计循环队列。"}}, {"id": 3, "type": "ai_derivation", "type_label": "AI公式推导", "difficulty": 3, "title": "DPO 直接偏好优化：最优策略闭式解与梯度推导", "description": "在 RLHF 中，人类偏好数据 $\\mathcal{D} = \\{(x, y_w, y_l)\\}$（$y_w$ 为被偏好的回答，$y_l$ 为被拒绝的回答）通常先训一个**奖励模型**，再用强化学习（如 PPO）对齐策略。**DPO（Direct Preference Optimization，Rafailov et al., 2023）** 提出：既然奖励模型的最优解可以闭式解出，那么可以直接用**参考策略** $\\pi_{\\text{ref}}$ 与当前策略的比值来表达偏好。\n\n请完成以下推导（分 4 步）：\n**(1)** 求解带 KL 约束的 RL 目标 $\\max_{\\pi}\\, \\mathbb{E}_{y \\sim \\pi(\\cdot|x)}[r(x,y)] - \\beta\\, \\text{KL}(\\pi(\\cdot|x)\\|\\,\\pi_{\\text{ref}}(\\cdot|x))$ 的最优策略闭式解 $\\pi^*(y|x)$；\n**(2)** 由最优策略反解奖励 $r(x,y)$（称为奖励重参数化）；\n**(3)** 将其代入 Bradley-Terry 偏好模型 $P(y_w \\succ y_l|x) = \\sigma\\big(r(x,y_w) - r(x,y_l)\\big)$，得到 DPO 的偏好概率表达式（说明配分函数如何抵消）；\n**(4)** 写出 DPO 训练目标 $\\mathcal{L}_{\\text{DPO}}$ 及其对 $\\theta$ 的梯度，并解释梯度中的权重项含义。", "solution": {"derivation": "**第 1 步：求解带 KL 约束的 RL 最优策略**\n\n对每个输入 $x$，问题为（记 $\\pi_y = \\pi(y|x)$，$p_y = \\pi_{\\text{ref}}(y|x)$，约束 $\\sum_y \\pi_y = 1$）：\n\n$$\\max_{\\pi} \\sum_y \\pi_y r(x,y) - \\beta \\sum_y \\pi_y \\log\\frac{\\pi_y}{p_y} \\;\\;\\text{s.t.}\\;\\; \\sum_y \\pi_y = 1$$\n\n构造拉格朗日函数 $\\mathcal{L} = \\sum_y \\pi_y r(x,y) - \\beta \\sum_y \\pi_y \\log\\frac{\\pi_y}{p_y} + \\lambda\\left(\\sum_y \\pi_y - 1\\right)$，对 $\\pi_y$ 求偏导并令为 0：\n\n$$\\frac{\\partial \\mathcal{L}}{\\partial \\pi_y} = r(x,y) - \\beta\\left(\\log\\frac{\\pi_y}{p_y} + 1\\right) + \\lambda = 0$$\n\n$$\\Rightarrow \\log \\frac{\\pi_y}{p_y} = \\frac{r(x,y) + \\lambda - \\beta}{\\beta} \\;\\Rightarrow\\; \\pi_y = p_y \\cdot \\exp\\left(\\frac{r(x,y) + \\lambda - \\beta}{\\beta}\\right)$$\n\n令 $Z(x) = \\sum_y p_y \\exp\\left(\\frac{r(x,y)}{\\beta}\\right)$（配分函数），由归一化 $\\sum_y \\pi_y = 1$ 得 $\\exp\\left(\\frac{\\lambda-\\beta}{\\beta}\\right) = \\frac{1}{Z(x)}$，于是最优策略为：\n\n$$\\boxed{\\pi^*(y|x) = \\frac{1}{Z(x)}\\, \\pi_{\\text{ref}}(y|x)\\, \\exp\\!\\left(\\frac{r(x,y)}{\\beta}\\right)}$$\n\n**第 2 步：奖励重参数化（Reward Reparameterization）**\n\n上式两边取对数解出 $r(x,y)$（把 $\\pi^*$ 换成当前要训练的策略 $\\pi_\\theta$）：\n\n$$r(x,y) = \\beta \\log \\frac{\\pi_\\theta(y|x)}{\\pi_{\\text{ref}}(y|x)} + \\beta \\log Z(x)$$\n\n这说明：**策略比值就是对「隐式奖励」的重新参数化**——不必训练独立的奖励模型，奖励被编码进了策略与参考策略的对数比里（由 $\\beta$ 控制幅度）。\n\n**第 3 步：代入 Bradley-Terry 偏好模型**\n\nBradley-Terry：$P(y_w \\succ y_l \\mid x) = \\dfrac{e^{r(x,y_w)}}{e^{r(x,y_w)} + e^{r(x,y_l)}} = \\sigma\\big(r(x,y_w) - r(x,y_l)\\big)$。把第 2 步 $r$ 的表达式代入，两个 $\\beta\\log Z(x)$ 项**完全抵消**：\n\n$$P(y_w \\succ y_l \\mid x) = \\sigma\\!\\left(\\beta\\log \\frac{\\pi_\\theta(y_w|x)}{\\pi_{\\text{ref}}(y_w|x)} - \\beta\\log \\frac{\\pi_\\theta(y_l|x)}{\\pi_{\\text{ref}}(y_l|x)}\\right)$$\n\n配分函数 $Z(x)$ 只在括号外出现且互为相反数消去，这正是 DPO 无需显式计算配分函数的关键——它只依赖策略与参考策略的比值。\n\n**第 4 步：DPO 目标与梯度**\n\nDPO 用偏好数据的负对数似然作为训练目标（对偏好概率取 $\\log$ 再加负号）：\n\n$$\\mathcal{L}_{\\text{DPO}}(\\theta) = -\\mathbb{E}_{(x,y_w,y_l)\\sim \\mathcal{D}}\\left[\\log \\sigma\\!\\left(\\beta \\log\\frac{\\pi_\\theta(y_w|x)}{\\pi_{\\text{ref}}(y_w|x)} - \\beta \\log\\frac{\\pi_\\theta(y_l|x)}{\\pi_{\\text{ref}}(y_l|x)}\\right)\\right]$$\n\n令 $u = \\beta\\left(\\log\\frac{\\pi_\\theta(y_w|x)}{\\pi_{\\text{ref}}(y_w|x)} - \\log\\frac{\\pi_\\theta(y_l|x)}{\\pi_{\\text{ref}}(y_l|x)}\\right)$，利用 $\\sigma'(u) = \\sigma(u)(1-\\sigma(u))$ 与 $\\sigma(-u) = 1-\\sigma(u)$，链式法则得梯度：\n\n$$\\nabla_\\theta \\mathcal{L}_{\\text{DPO}} = -\\beta\\, \\mathbb{E}\\left[\\sigma(-u)\\cdot\\left(\\nabla_\\theta \\log \\pi_\\theta(y_w|x) - \\nabla_\\theta \\log \\pi_\\theta(y_l|x)\\right)\\right]$$\n\n**权重项含义**：$\\sigma(-u)$ 就是「当前策略对偏好对犯错的置信程度」——若 $u > 0$（策略已给出偏好对的概率高于参考），$\\sigma(-u)$ 接近 0，梯度小、更新放缓；若 $u < 0$（策略偏好反了），$\\sigma(-u) \\to 1$，梯度接近满量，朝增大 $\\pi(y_w)$、减小 $\\pi(y_l)$ 的方向大步修正。整体无需奖励模型、无需在线采样（数据离线即可），训练过程即用 `ref` 策略对比的隐式奖励做加权梯度上升。", "intuition": "DPO 把「学一个奖励模型」变成「直接学策略」，用 πθ/π_ref 的比值 + sigmoid 权重隐式编码了 Bradley-Terry 偏好：策略比参考策略更偏好的样本（u>0）几乎不再更新，只有犯错的样本才会获得大梯度。", "key_points": "考点：① 拉格朗日法求带 KL 约束的最优策略闭式解；② 奖励重参数化（策略比值编码奖励）；③ Bradley-Terry 代入时配分函数抵消（不计算 Z 的关键）；④ 梯度权重 σ(-u) 的自适应加权语义；⑤ 与 PPO/RLHF 的对比（免奖励模型、免在线采样、无重要性权重）。"}}, {"id": 4, "type": "ai_interview", "type_label": "AI面试问答", "difficulty": 2, "title": "SVM 的核技巧：为什么核函数能让线性 SVM 处理非线性问题？", "description": "面试官：「线性 SVM 只能处理线性可分数据。请解释**核技巧（Kernel Trick）**是如何让 SVM 处理非线性分类的；常用的核函数有哪些、怎么选；并简述 **SMO 算法**的基本思想。」", "solution": {"answer_points": ["**核技巧的数学基础（为什么只需要内积）**：SVM 的对偶问题 $\\max \\sum_i \\alpha_i - \\frac12 \\sum_{i,j}\\alpha_i\\alpha_j y_i y_j \\langle x_i, x_j \\rangle$ 与决策函数 $f(x) = \\text{sign}\\left(\\sum_i \\alpha_i y_i \\langle x_i, x \\rangle + b\\right)$ 都**只依赖样本间的内积**，而从不直接出现样本坐标。因此把样本映射到高维特征空间 $\\phi(x)$ 后，内积 $\\langle \\phi(x_i), \\phi(x_j) \\rangle$ 可以用核函数 $K(x_i, x_j)$ 直接计算，**避免显式计算高维映射**（维灾难消失），这就是核技巧。", "**常用核函数**：① 线性核 $K(x,z)=\\langle x,z\\rangle$（高维稀疏/线性可分场景，快且可解释）；② 多项式核 $K(x,z)=(\\gamma\\langle x,z\\rangle + r)^d$（已知多项式阶时用）；③ 高斯（RBF）核 $K(x,z)=\\exp(-\\gamma\\|x-z\\|^2)$——最常用，隐含映射到无穷维特征空间、只有一个超参 $\\gamma$，类不可分时先用它；④ Sigmoid 核（类神经网络的激活形式）。", "**选型思路（经验法则）**：先验线性可分、特征多且样本少（如文本 TF-IDF）→ 线性核；特征少、样本多、明显非线性 → RBF；类别边界近似多项式 → 多项式；工程默认流程是「先试线性核，再试 RBF 配 $\\gamma$（如 $\\gamma=1/d$）网格搜索 + 交叉验证」。", "**SMO 算法思想**：对偶问题约束中 $\\sum_i \\alpha_i y_i = 0$ 决定——每次只能同时优化**两个**变量（其余固定）才能满足等式约束。SMO 选违反 KKT 条件最严重的两个 $\\alpha_i$（用启发式：外层遍历边界点，内层选 $|E_i - E_j|$ 最大的 $j$，$E$ 为预测误差），对其解析求解二次规划后更新 $b$ 与误差缓存，反复迭代直至收敛。每个子问题都有闭式解，因此 SMO 把 O(n²) 甚至更昂贵的二次规划求解变成 O(n)~O(n²) 的可行迭代。", "**加分项（深层理解）**：核函数合法的充要条件是核矩阵 Gram 半正定（Mercer 条件）；RBF 的 $\\gamma$ 大 → 决策边界更弯曲（过拟合风险），$\\gamma$ 小 → 更平滑（欠拟合）；$C$（软间隔惩罚）大 → 尽可能分开、容忍小噪更小；核函数可组合（线性组合/乘积仍为核）。"], "bonus": ["**与对偶问题联系**：核技巧与第 11 期「SVM 对偶推导」联动——对偶形式天然只含内积，这是核技巧能成立的前提（先有对偶，才有核）。", "**与正则化联系**：软间隔 $C$ 实质是目标里 $\\frac12\\|w\\|^2 + C\\sum \\xi_i$ 的权衡，等价于损失项的惩罚系数，正则化直觉一致。", "**工程细节**：sklearn 中 RBF 的 `gamma` 默认 'scale'（= 1/(n_features·X.var())），调参通常先 grid 扫 C ∈ {0.1..1000}、gamma ∈ {0.001..1}；核函数在 kernel 参数中一行切换，验证时注意归一化（特征尺度对 RBF 距离影响大）。", "**局限与替代**：核方法在百万级样本上训练慢（核矩阵 O(n²) 存储），深度网络/核近似（如 Random Fourier Features）是替代方向；这也解释了现代大模型为何少用核 SVM。"], "followup_predictions": ["**追问 1：RBF 为什么最常用？** 回答：RBF 的隐式映射维数无限（高斯核可展开为多项式级数），覆盖的决策边界形状最灵活；只有 γ 一个超参；对两类任何分布几乎都能拟合到任意精度，配合 C 控制复杂程度。", "**追问 2：核函数必须满足什么条件？** 回答：Mercer 条件——对任意样本集，核矩阵 $K_{ij}=K(x_i,x_j)$ 必须对称半正定，否则对应的优化问题无解或决策不可解释；核的闭式组合（正系数和、乘积）保持合法。", "**追问 3：SMO 为什么一次只选两个 α？** 回答：对偶约束 $\\sum\\alpha_i y_i = 0$ 是一个线性等式——任意两个变量即可在保持等式成立的条件下做一次解析优化（把两者绑定、转成一个一维二次问题），其余变量固定。选三个或更多会破坏解析解，得不偿失。", "**追问 4：γ 和 C 对过拟合的影响？** 回答：γ 控制核函数的宽度（决策边界弯曲程度），γ 过大高方差；C 控制对误分类的容忍度，C 过大几乎不允许误差，也可能过拟合且计算更慢。实际用交叉验证扫 C×γ 网格。"]}}]};
+</script>
+</body>
+</html>
