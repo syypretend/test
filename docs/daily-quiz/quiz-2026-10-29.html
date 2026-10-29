@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>每日算法 AI 出题 · 第 22 期 · 2026-10-29</title>
+  <!-- KaTeX 数学公式渲染 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
+  <style>
+    :root {
+      --bg: #0d1117;
+      --card-bg: #161b22;
+      --border: #30363d;
+      --text: #e6edf3;
+      --text-dim: #8b949e;
+      --accent: #58a6ff;
+      --green: #3fb950;
+      --orange: #d29922;
+      --red: #f85149;
+      --purple: #a855f7;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", sans-serif;
+      line-height: 1.7;
+      padding: 16px;
+      max-width: 860px;
+      margin: 0 auto;
+    }
+    .header {
+      text-align: center;
+      padding: 24px 0 16px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 24px;
+    }
+    .header h1 {
+      font-size: 1.5em;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+    .header .subtitle {
+      color: var(--text-dim);
+      font-size: 0.9em;
+    }
+    .header .date-tag {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 2px 12px;
+      border-radius: 12px;
+      background: var(--border);
+      font-size: 0.8em;
+      color: var(--text-dim);
+    }
+
+    /* 题目卡片 */
+    .question-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .question-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+    .type-badge {
+      padding: 2px 10px;
+      border-radius: 10px;
+      font-size: 0.75em;
+      color: white;
+      font-weight: 600;
+    }
+    .difficulty { font-size: 0.85em; }
+    .qid-label { color: var(--text-dim); font-size: 0.8em; margin-left: auto; }
+    .question-title {
+      font-size: 1.25em;
+      margin-bottom: 12px;
+      color: var(--text);
+    }
+    .question-body { margin-bottom: 14px; }
+    .question-body code.inline-code {
+      background: var(--border);
+      padding: 1px 5px;
+      border-radius: 3px;
+      font-size: 0.9em;
+    }
+
+    /* 信息块 */
+    .info-block {
+      background: rgba(88,166,255,0.05);
+      border-left: 3px solid var(--accent);
+      padding: 10px 14px;
+      margin: 10px 0;
+      border-radius: 0 6px 6px 0;
+    }
+    .info-label {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.85em;
+      display: block;
+      margin-bottom: 4px;
+    }
+    .info-block pre {
+      white-space: pre-wrap;
+      font-family: "JetBrains Mono", "Fira Code", monospace;
+      font-size: 0.85em;
+      color: var(--text);
+    }
+
+    /* 示例 */
+    .example-block {
+      background: rgba(63,185,80,0.05);
+      border: 1px solid rgba(63,185,80,0.2);
+      border-radius: 8px;
+      padding: 12px;
+      margin: 10px 0;
+    }
+    .example-title {
+      color: var(--green);
+      font-weight: 600;
+      font-size: 0.85em;
+      margin-bottom: 6px;
+    }
+    .example-io {
+      font-family: monospace;
+      font-size: 0.85em;
+      white-space: pre-wrap;
+      margin: 2px 0;
+    }
+    .io-label { color: var(--text-dim); }
+    .example-explanation {
+      color: var(--text-dim);
+      font-size: 0.85em;
+      margin-top: 6px;
+      padding-top: 6px;
+      border-top: 1px dashed var(--border);
+    }
+
+    /* 选项 */
+    .options-container { margin: 12px 0; }
+    .option-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      padding: 10px 14px;
+      margin: 6px 0;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .option-item:hover { border-color: var(--accent); background: rgba(88,166,255,0.05); }
+    .option-item.correct { border-color: var(--green); background: rgba(63,185,80,0.1); }
+    .option-item.wrong { border-color: var(--red); background: rgba(248,81,73,0.1); }
+    .option-item input[type=radio] { accent-color: var(--accent); margin-top: 4px; }
+    .option-letter {
+      font-weight: 700;
+      color: var(--accent);
+      min-width: 20px;
+    }
+    .option-text { flex: 1; font-size: 0.9em; }
+    .option-feedback {
+      margin: 8px 0;
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-size: 0.85em;
+      display: none;
+    }
+    .option-feedback.show { display: block; }
+    .option-feedback.correct {
+      background: rgba(63,185,80,0.1);
+      color: var(--green);
+    }
+    .option-feedback.wrong { background: rgba(248,81,73,0.1); color: var(--red); }
+
+    /* 代码编辑器 */
+    .code-section {
+      margin: 16px 0;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .code-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 14px;
+      background: rgba(88,166,255,0.08);
+      border-bottom: 1px solid var(--border);
+      font-size: 0.85em;
+      color: var(--accent);
+    }
+    .editor-wrap {
+      position: relative;
+    }
+    .code-editor {
+      min-height: 180px;
+      max-height: 400px;
+      overflow: auto;
+      padding: 12px;
+      font-family: "JetBrains Mono", "Fira Code", "Cascadia Code", monospace;
+      font-size: 13px;
+      line-height: 1.5;
+      white-space: pre;
+      color: var(--text);
+      background: #0d1117;
+      outline: none;
+      tabs: 4;
+    }
+    .btn-run {
+      background: var(--green);
+      color: white;
+      border: none;
+      padding: 4px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.85em;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .btn-run:hover { opacity: 0.85; }
+    .btn-run:disabled { opacity: 0.5; cursor: not-allowed; }
+    .code-result {
+      padding: 12px;
+      background: #0d1117;
+      border-top: 1px solid var(--border);
+      font-family: monospace;
+      font-size: 0.85em;
+      white-space: pre-wrap;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+    .code-result .test-pass { color: var(--green); }
+    .code-result .test-fail { color: var(--red); }
+    .code-result .stderr { color: var(--orange); }
+
+    /* 显示解析按钮 */
+    .btn-reveal {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      margin-top: 16px;
+      background: transparent;
+      border: 2px dashed var(--border);
+      border-radius: 8px;
+      color: var(--text-dim);
+      font-size: 0.95em;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .btn-reveal:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(88,166,255,0.03);
+    }
+    .btn-reveal.loading {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    /* 解析区域 */
+    .solution-section {
+      margin-top: 16px;
+      animation: fadeIn 0.4s ease;
+    }
+    @keyframes fadeIn { from{opacity:0; transform:translateY(10px) } to{opacity:1; transform:translateY(0) } }
+    .solution-divider {
+      text-align: center;
+      color: var(--text-dim);
+      font-size: 0.8em;
+      margin: 16px 0;
+      letter-spacing: 1px;
+    }
+    .answer-highlight {
+      background: rgba(63,185,80,0.1);
+      border: 1px solid var(--green);
+      border-radius: 8px;
+      padding: 10px 16px;
+      margin: 10px 0;
+      font-size: 1.05em;
+      color: var(--green);
+      font-weight: 600;
+    }
+    .solution-block {
+      margin: 14px 0;
+      padding: 14px;
+      background: rgba(255,255,255,0.02);
+      border-radius: 8px;
+    }
+    .solution-block h4 {
+      color: var(--accent);
+      margin-bottom: 8px;
+      font-size: 0.95em;
+    }
+    .solution-block ul.answer-points {
+      padding-left: 20px;
+    }
+    .solution-block ul.answer-points li {
+      margin: 6px 0;
+      font-size: 0.9em;
+    }
+    .code-block {
+      background: #0d1117;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 12px;
+      font-family: "JetBrains Mono", "Fira Code", monospace;
+      font-size: 0.85em;
+      overflow-x: auto;
+      white-space: pre;
+      color: var(--text);
+    }
+    .complexity-tag {
+      display: inline-block;
+      padding: 2px 10px;
+      margin-right: 8px;
+      border-radius: 6px;
+      background: var(--border);
+      font-size: 0.85em;
+      font-family: monospace;
+    }
+    .derivation-content {
+      font-size: 0.9em;
+      line-height: 1.8;
+    }
+
+    /* 运行中加载动画 */
+    .spinner {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      border: 2px solid var(--text-dim);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* 底部 */
+    .footer {
+      text-align: center;
+      padding: 24px 0;
+      color: var(--text-dim);
+      font-size: 0.8em;
+      border-top: 1px solid var(--border);
+      margin-top: 24px;
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 8px; }
+      .question-card { padding: 14px; }
+      .question-title { font-size: 1.1em; }
+      .code-editor { font-size: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <h1>每日算法 AI 出题 · 第 22 期</h1>
+  <div class="subtitle">算法 2 道 + AI 2 道</div>
+  <div class="date-tag">📅 2026-10-29 ｜ 算法 2 道 · AI 2 道</div>
+</div>
+
+<div class="question-card" data-qid="1">
+
+    <div class="question-header">
+      <span class="type-badge" style="background:#3b82f6">算法编程</span>
+      <span class="difficulty">⭐⭐</span>
+      <span class="qid-label">第 1 题</span>
+    </div>
+<h2 class="question-title">环形打家劫舍（首尾相邻版）</h2>
+<div class="question-body">你是一个专业的小偷，计划偷窃沿街的房屋。每间房内都藏有一定的现金，影响你偷窃的唯一制约因素就是**相邻的房屋装有相互连通的防盗系统**，如果两间相邻的房屋在同一晚上被小偷闯入，系统会自动报警。<br>
+<br>
+这一次，房屋围成一个**环**——也就是说，第一间房和最后一间房也是相邻的。给定一个代表每个房屋存放金额的非负整数数组 <code class="inline-code">nums</code>，请计算在**不触动警报装置**的情况下，一夜之内能够偷窃到的最高金额。<br>
+<br>
+提示：环形约束并不能简单地&quot;把数组当成链&quot;做一次 DP，请思考如何把一个环拆成两个**互斥的线性子问题**。</div>
+<div class="info-block"><span class="info-label">输入</span><pre>一个非负整数数组 nums，表示每间房屋的金额。</pre></div>
+<div class="info-block"><span class="info-label">输出</span><pre>一个整数，表示能偷到的最大金额。</pre></div>
+<div class="example-block">
+<div class="example-title">示例 1</div>
+<pre class="example-io"><span class="io-label">输入：</span>nums = [2, 3, 2]</pre>
+<pre class="example-io"><span class="io-label">输出：</span>3</pre>
+<div class="example-explanation">不能偷第 0 间和第 2 间（首尾相邻），只能偷第 1 间的 3，故最大金额为 3。</div>
+</div>
+<div class="example-block">
+<div class="example-title">示例 2</div>
+<pre class="example-io"><span class="io-label">输入：</span>nums = [1, 2, 3, 1]</pre>
+<pre class="example-io"><span class="io-label">输出：</span>4</pre>
+<div class="example-explanation">偷第 0 间（1）和第 2 间（3），二者不相邻，合计 4；不能选 1+3+1 因为首尾相邻。</div>
+</div>
+<div class="example-block">
+<div class="example-title">示例 3</div>
+<pre class="example-io"><span class="io-label">输入：</span>nums = [10, 1, 1, 10]</pre>
+<pre class="example-io"><span class="io-label">输出：</span>11</pre>
+<div class="example-explanation">两端的 10 相邻（环形），只能取其一：10 + 1 = 11，而不是 20。</div>
+</div>
+<div class="info-block"><span class="info-label">约束</span><div>1 &lt;= nums.length &lt;= 100；0 &lt;= nums[i] &lt;= 1000；nums 首尾视为相邻。</div></div>
+
+    <div class="code-section">
+      <div class="code-header">
+        <span>🧑‍💻 在线代码编辑器</span>
+        <button class="btn-run" onclick="runCode(1)" id="run_btn_1">▶ 运行</button>
+      </div>
+      <div class="editor-wrap">
+        <div class="code-editor" id="editor_1" contenteditable="true" spellcheck="false">def rob(nums):
+    &quot;&quot;&quot;
+    环形房屋打家劫舍：
+    相邻房屋不能同时偷，首尾两间也算相邻。
+    返回能偷到的最大金额。
+    &quot;&quot;&quot;
+    # 在这里编写你的代码
+    pass</div>
+      </div>
+      <div class="code-result" id="result_1" style="display:none;"></div>
+      <input type="hidden" id="func_name_1" value="rob">
+      <input type="hidden" id="test_cases_1" value='[[[2, 3, 2]], [[1, 2, 3, 1]], [[1]], [[5]], [[0]], [[1, 2]], [[2, 1, 1, 2]], [[0, 0, 0, 0]], [[1, 1, 1, 1]], [[10, 1, 1, 10]], [[200, 3, 140, 20, 10]], [[5, 4, 3, 2, 1]], [[1, 2, 3, 4, 5]], [[2, 7, 9, 3, 1]], [[1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000]], [[0, 1000, 0, 1000, 0]]]'>
+      <input type="hidden" id="expected_outputs_1" value='[3, 4, 1, 5, 0, 2, 3, 0, 2, 11, 340, 8, 8, 11, 50000, 2000]'>
+    </div>
+
+    <button class="btn-reveal" onclick="revealSolution(1)" id="reveal_btn_1">
+      📖 显示答案与解析
+    </button>
+<div class="solution-section" id="solution_1" style="display:none;">
+<div class="solution-divider">--- 以下为答案与解析 ---</div>
+<div class="solution-block"><h4>💡 解题思路</h4><div>环形数组的关键在于：**第 0 间和第 n-1 间互斥**。于是最优解必然属于下面两种情况之一：<br>
+<br>
+1. **不偷第 n-1 间**：问题退化为在 <code class="inline-code">nums[0..n-2]</code> 上做线性打家劫舍；<br>
+2. **不偷第 0 间**：问题退化为在 <code class="inline-code">nums[1..n-1]</code> 上做线性打家劫舍。<br>
+<br>
+两者取最大即可（若同时不偷首尾，两种方案都覆盖得到，不影响正确性）。<br>
+<br>
+线性版本的状态定义：<code class="inline-code">dp[i]</code> 表示考虑前 i 间房能偷到的最大金额，转移为<br>
+<br>
+$$dp[i] = \max(dp[i-1],\; dp[i-2] + nums[i-1])$$<br>
+<br>
+含义是&quot;第 i 间不偷&quot;或&quot;第 i 间偷（则第 i-1 间必不偷）&quot;。用两个滚动变量即可把空间降到 O(1)。<br>
+<br>
+**易错点**：<br>
+- n=2 时首尾相邻，两个子数组各只有一个元素，答案是 <code class="inline-code">max(nums)</code>；<br>
+- 不能直接 <code class="inline-code">max(线性DP(nums), 线性DP(nums[1:-1]) + nums[0] + nums[-1])</code> 之类拼凑，容易重复计数；<br>
+- 全 0 数组要返回 0 而不是 -1。</div></div>
+<div class="solution-block"><h4>📝 参考代码（python）</h4><pre class="code-block">def rob(nums):
+    &quot;&quot;&quot;环形打家劫舍：拆成&quot;不偷最后一间&quot;和&quot;不偷第一间&quot;两个线性问题。&quot;&quot;&quot;
+    n = len(nums)
+    if n == 1:
+        return nums[0]
+
+    def rob_line(arr):
+        # dp[i] = 前 i 间房能偷到的最大金额（滚动两个变量）
+        prev2, prev1 = 0, 0
+        for x in arr:
+            prev2, prev1 = prev1, max(prev1, prev2 + x)
+        return prev1
+
+    return max(rob_line(nums[:-1]), rob_line(nums[1:]))</pre></div>
+<div class="solution-block"><h4>⚡ 复杂度分析</h4><div>
+<span class="complexity-tag">时间 O(n)</span>
+<span class="complexity-tag">空间 O(1)</span>
+</div></div>
+<div class="solution-block"><h4>🎯 考点</h4><div>考点：动态规划（Topic 13）·环形 DP 的&quot;破环成链&quot;技巧。核心是把环形互斥约束转化为两个线性子问题，再用滚动变量把空间压到 O(1)。同类思想可迁移到&quot;环形加油站&quot;&quot;环形最大子数组和（LeetCode 918）&quot;等题。</div></div>
+</div>
+</div>
+<div class="question-card" data-qid="2">
+
+    <div class="question-header">
+      <span class="type-badge" style="background:#10b981">算法概念</span>
+      <span class="difficulty">⭐⭐</span>
+      <span class="qid-label">第 2 题</span>
+    </div>
+<h2 class="question-title">自底向上建堆为什么是 O(n)？</h2>
+<div class="question-body">把一个无序数组通过 **Floyd 自底向上建堆（heapify）** 调整为小顶堆/大顶堆时，常见写法是从 <code class="inline-code">n//2 - 1</code> 号下标开始向前对每个节点执行一次下沉（sift-down）。关于它的时间复杂度，下列说法**正确**的是：</div>
+<div class="options-container">
+
+            <label class="option-item" data-letter="A">
+              <input type="radio" name="quiz_2" value="A" onchange="checkAnswer(2, 'A')">
+              <span class="option-letter">A</span>
+              <span class="option-text">A. 总代价为 O(n)。因为高度为 h 的节点最多有 n/2^(h+1) 个，每个下沉代价 O(h)，而 Σ h/2^h 收敛到常数 2，故总代价是 O(n) 而非 O(n log n)。</span>
+            </label>
+
+            <label class="option-item" data-letter="B">
+              <input type="radio" name="quiz_2" value="B" onchange="checkAnswer(2, 'B')">
+              <span class="option-letter">B</span>
+              <span class="option-text">B. 总代价为 O(n log n)。因为每个节点下沉一次最坏要走 O(log n) 层，一共 n 个节点，相乘即得。</span>
+            </label>
+
+            <label class="option-item" data-letter="C">
+              <input type="radio" name="quiz_2" value="C" onchange="checkAnswer(2, 'C')">
+              <span class="option-letter">C</span>
+              <span class="option-text">C. 自底向上建堆是 O(n log n)，而逐个插入（上浮）建堆是 O(n)，所以工程上都用插入法建堆。</span>
+            </label>
+
+            <label class="option-item" data-letter="D">
+              <input type="radio" name="quiz_2" value="D" onchange="checkAnswer(2, 'D')">
+              <span class="option-letter">D</span>
+              <span class="option-text">D. 建堆是 O(n)，因此整个堆排序也是 O(n)——建堆完成后数组已经有序，后续只需顺序输出。</span>
+            </label>
+</div>
+<div class="option-feedback" id="feedback_2"></div>
+
+    <button class="btn-reveal" onclick="revealSolution(2)" id="reveal_btn_2">
+      📖 显示答案与解析
+    </button>
+<div class="solution-section" id="solution_2" style="display:none;">
+<div class="solution-divider">--- 以下为答案与解析 ---</div>
+<div class="answer-highlight">✅ 正确答案：A</div>
+<div class="solution-block"><h4>💡 解题思路</h4><div>关键在于&quot;**不是所有节点都有 log n 的高度**&quot;。完全二叉树中，绝大多数节点集中在底层，而底层节点高度为 0，几乎不用下沉；高度越大节点越少，代价按几何级数衰减，求和后收敛为常数。</div></div>
+<div class="solution-block"><h4>🎯 考点</h4><div>考点：堆（Topic 5）·建堆摊还复杂度分析。要能写出求和式并用几何级数收敛说明 O(n)，同时区分&quot;建堆&quot;&quot;插入建堆&quot;&quot;堆排序&quot;三者复杂度。</div></div>
+<div class="solution-block"><h4>🔍 逐项分析</h4><ul class="answer-points">
+<li>A 正确：高度为 h 的节点数约为 n/2^(h+1)，每个下沉最多 h 次比较交换，总代价 T(n) = Σ_{h=0}^{log n} (n/2^(h+1))·h = (n/2)·Σ h/2^h = (n/2)·2 = O(n)。（利用 Σ_{h≥1} h/2^h = 2。）</li>
+<li>B 错误：把&quot;最坏高度 O(log n)&quot;直接乘节点数 n，忽略了不同高度节点的数量分布，这是把上界当成了紧界；只有根节点附近才接近 log n 层，数量极少。</li>
+<li>C 错误：两者说反了——逐个插入建堆是 O(n log n)（每次上浮 O(log n)），自底向上建堆才是 O(n)，这正是标准库优先采用它的原因。</li>
+<li>D 错误：建堆只保证&quot;堆序性质&quot;（父 ≤/≥ 子），是**偏序**而非全序；堆排序仍要反复取堆顶并下沉，整体是 O(n log n)。</li>
+</ul></div>
+</div>
+</div>
+<div class="question-card" data-qid="3">
+
+    <div class="question-header">
+      <span class="type-badge" style="background:#a855f7">AI公式推导</span>
+      <span class="difficulty">⭐⭐⭐</span>
+      <span class="qid-label">第 3 题</span>
+    </div>
+<h2 class="question-title">从 BCE 到 softplus：二分类损失的数值稳定推导</h2>
+<div class="question-body">训练二分类模型时，标签 $y\in\{0,1\}$，模型输出 logit $z$，预测概率 $p=\sigma(z)$。教科书上的二元交叉熵为<br>
+<br>
+$$L=-\big[y\log p+(1-y)\log(1-p)\big]$$<br>
+<br>
+但工程实现（如 PyTorch 的 <code class="inline-code">BCEWithLogitsLoss</code>）从不先算 $p$ 再取对数，而是直接在 logit 上计算。请完成以下任务：<br>
+<br>
+1. 把 $p=\sigma(z)$ 代入，把 $L$ 化简为只含 $z$ 的形式，并证明<br>
+$L=\mathrm{softplus}(z)-y z$；<br>
+2. 说明&quot;先算 $p$ 再取 $\log$&quot;在 $|z|$ 很大时为什么会产生 $\infty$ / <code class="inline-code">NaN</code>；<br>
+3. 给出 $\mathrm{softplus}$ 的数值稳定实现形式并证明其等价性；<br>
+4. 推导 $\dfrac{\partial L}{\partial z}=\sigma(z)-y$，并解释它为什么天然数值安全。</div>
+
+    <button class="btn-reveal" onclick="revealSolution(3)" id="reveal_btn_3">
+      📖 显示答案与解析
+    </button>
+<div class="solution-section" id="solution_3" style="display:none;">
+<div class="solution-divider">--- 以下为答案与解析 ---</div>
+<div class="solution-block"><h4>🎯 考点</h4><div>考点：交叉熵 + sigmoid 的数值稳定性（AI 池·神经网络基础/训练技巧维度）。要掌握：恒等式 $\log\sigma(z)=-\mathrm{softplus}(-z)$、$L=\mathrm{softplus}(z)-yz$、$\partial L/\partial z=\sigma(z)-y$，以及 softplus/log-sum-exp 的稳定写法。这三条正是所有深度学习框架损失函数实现的骨架。</div></div>
+<div class="solution-block"><h4>📐 推导过程</h4><div class="derivation-content">**Step 0：符号与两个恒等式**<br>
+<br>
+记 $\sigma(z)=\dfrac{1}{1+e^{-z}}$，则 $1-\sigma(z)=\sigma(-z)=\dfrac{1}{1+e^{z}}$，且 $\sigma&#x27;(z)=\sigma(z)\big(1-\sigma(z)\big)$。<br>
+<br>
+**Step 1：代入并化简为 logit 形式**<br>
+<br>
+先看两个对数项：<br>
+<br>
+$$\log\sigma(z)=\log\frac{1}{1+e^{-z}}=-\log\big(1+e^{-z}\big)$$<br>
+<br>
+$$\log\big(1-\sigma(z)\big)=\log\frac{1}{1+e^{z}}=-\log\big(1+e^{z}\big)$$<br>
+<br>
+代回 $L$：<br>
+<br>
+$$L=y\log\big(1+e^{-z}\big)+(1-y)\log\big(1+e^{z}\big)$$<br>
+<br>
+引入 $\mathrm{softplus}(x)=\log(1+e^{x})$，即<br>
+<br>
+$$L=y\,\mathrm{softplus}(-z)+(1-y)\,\mathrm{softplus}(z)$$<br>
+<br>
+利用恒等式 $\mathrm{softplus}(-z)=\mathrm{softplus}(z)-z$（因为 $\log(1+e^{-z})=\log\frac{1+e^{z}}{e^{z}}=\log(1+e^{z})-z$）展开：<br>
+<br>
+$$L=y\big[\mathrm{softplus}(z)-z\big]+(1-y)\mathrm{softplus}(z)=\mathrm{softplus}(z)-y z$$<br>
+<br>
+**关键收益**：$L$ 只依赖 $z$，其中没有任何 $\log 0$ 或 $\log$ 的负数参数，而 $y$ 只以线性项 $yz$ 出现。<br>
+<br>
+**Step 2：先算 $p$ 再取 $\log$ 的数值灾难**<br>
+<br>
+设 $z=-40$（模型非常确信是负类）。数学上 $p=\sigma(-40)=e^{-40}/(1+e^{-40})\approx 4.2\times10^{-18}$，但 float32 的最小正规数约为 $1.2\times10^{-38}$、次正规数下限约 $1.4\times10^{-45}$，而 float16 的下限只有约 $6\times10^{-8}$。于是：<br>
+<br>
+- float16 下 $e^{-40}$ 直接下溢为 $0$，$p=0$，$\log p=-\infty$，$L=+\infty$，反向传播得到 $\mathrm{NaN}$；<br>
+- $z=+40$ 时 $e^{40}\approx2.4\times10^{17}$ 在 float32 中上溢（上限约 $3.4\times10^{38}$ 尚可，但 float16 上限仅 $65504$，$e^{11.09}$ 即溢出），$p$ 被截断为 $1$，$\log(1-p)=-\infty$。<br>
+<br>
+本质原因是：**取对数把相对误差放大了**——$p$ 的极小值被浮点下溢抹成 0 后，$\log$ 无法从其&quot;死值&quot;恢复信息。而 $\mathrm{softplus}(z)-yz$ 中，先做的是加法，大数被 $\max$ 保护，不会走到 $\infty$。<br>
+<br>
+**Step 3：softplus 的稳定形式**<br>
+<br>
+$$\mathrm{softplus}(x)=\max(x,0)+\log\big(1+e^{-|x|}\big)$$<br>
+<br>
+证明（分两种情况，指数项恒 $\le 0$ 故永不溢出）：<br>
+<br>
+- $x\ge 0$：$\max=x$，右端 $=x+\log(1+e^{-x})=\log\big(e^{x}(1+e^{-x})\big)=\log(e^{x}+1)$ ✓<br>
+- $x&lt;0$：$\max=0$，右端 $=\log(1+e^{x})=\log(1+e^{-|x|})$ ✓<br>
+<br>
+这与 log-sum-exp 的稳定技巧同源：$\log\sum_i e^{x_i}=m+\log\sum_i e^{x_i-m}$，$m=\max_i x_i$；此处只有两个&quot;项&quot; $0$ 与 $x$，故 $m=\max(0,x)$。<br>
+<br>
+**Step 4：梯度推导**<br>
+<br>
+对 $L=\mathrm{softplus}(z)-yz$ 求导，$\dfrac{d}{dz}\mathrm{softplus}(z)=\sigma(z)$，于是<br>
+<br>
+$$\frac{\partial L}{\partial z}=\sigma(z)-y$$<br>
+<br>
+若沿原始链路核对一遍：$\dfrac{\partial L}{\partial p}=-\dfrac{y}{p}+\dfrac{1-y}{1-p}$，$\dfrac{\partial p}{\partial z}=p(1-p)$，相乘得<br>
+<br>
+$$\frac{\partial L}{\partial z}=-y(1-p)+(1-y)p=p-y=\sigma(z)-y$$<br>
+<br>
+与上式一致，说明 sigmoid 与 log 的导数**精确抵消**了 $p(1-p)$ 分母，所以梯度里不再出现 $1/p$ 这类&quot;小分母&quot;。即使 $\sigma(z)$ 在数值上饱和到 $0$ 或 $1$，梯度也只是变成 $0$（消失），而不会像 $1/p$ 那样爆炸成 $\infty$。<br>
+<br>
+**Step 5：多分类推广（选修）**<br>
+<br>
+同样的手法给出 softmax + 交叉熵的稳定形式：对 logits $z\in\mathbb{R}^{K}$ 与 one-hot $y$，<br>
+<br>
+$$L=-z_{c}+\log\sum_{k=1}^{K}e^{z_k}=\log\sum_{k}e^{z_k-m}-(z_c-m),\quad m=\max_k z_k$$<br>
+<br>
+这正是 <code class="inline-code">torch.nn.CrossEntropyLoss</code> 内部使用 log-sum-exp 的原因。</div></div>
+<div class="solution-block"><h4>🧠 直觉解释</h4><div>$y\log\sigma(z)$ 这类项在数学上&quot;等价&quot;，在浮点数上却&quot;不等价&quot;：把 $\log$ 与 $\sigma$ 合并成 softplus 后，最大的数被 $\max$ 保护住、指数项恒非正，既不会溢出也不会下溢；而梯度化简成 $\sigma(z)-y$ 后连分母都不剩，只可能&quot;梯度消失&quot;，不可能&quot;梯度爆炸&quot;。</div></div>
+</div>
+</div>
+<div class="question-card" data-qid="4">
+
+    <div class="question-header">
+      <span class="type-badge" style="background:#f59e0b">AI面试问答</span>
+      <span class="difficulty">⭐⭐⭐</span>
+      <span class="qid-label">第 4 题</span>
+    </div>
+<h2 class="question-title">MLA（多头潜在注意力）如何压缩 KV Cache？</h2>
+<div class="question-body">面试官问：DeepSeek 系列模型使用 MLA（Multi-head Latent Attention）替代标准 MHA，号称把推理时的 KV Cache 压缩到原来的十分之一量级，而效果不降反升。请你讲清楚：MLA 到底压了什么、怎么压的、为什么它比 MQA/GQA 更&quot;安全&quot;，以及实现上最棘手的地方在哪里。</div>
+
+    <button class="btn-reveal" onclick="revealSolution(4)" id="reveal_btn_4">
+      📖 显示答案与解析
+    </button>
+<div class="solution-section" id="solution_4" style="display:none;">
+<div class="solution-divider">--- 以下为答案与解析 ---</div>
+<div class="solution-block"><h4>📌 回答要点</h4><ul class="answer-points">
+<li>**先说痛点**：自回归解码时每层都要缓存历史 token 的 K 和 V，显存占用为 $2\cdot n_h\cdot d_h\cdot L\cdot B$（头数×头维×序列长×批大小），长上下文场景下 KV Cache 往往比模型权重还大，且 decode 阶段每步都要把整份 cache 从 HBM 读进 SM，是典型的 memory-bound 瓶颈——所以压缩的不只是显存，更是**带宽**。</li>
+<li>**MQA/GQA 的思路是&quot;共享头&quot;**：MQA 让所有 Q 头共用 1 组 KV，GQA 让每组若干 Q 头共用 1 组 KV（GQA 组数 $g$ 介于 1 和 $n_h$ 之间）。压缩率等于 $n_h/g$，粗暴有效，但共享意味着不同头被迫用同一份 K/V 表达不同 subspace，表达能力受损。</li>
+<li>**MLA 的思路是&quot;低秩压缩&quot;而非&quot;共享&quot;**：不再缓存完整 K/V，而是先把隐状态 $h_t$ 投影成一个低维 latent $c_t=W^{DKV}h_t\in\mathbb{R}^{d_c}$，其中 $d_c\ll 2n_hd_h$，**只缓存 $c_t$**；需要时再用上投影矩阵 $W^{UK},W^{UV}$ 还原出各头的 K、V。因为每个头仍然有自己独立的上投影，头与头之间不再共享同一份表示，所以能在极大压缩下保住 MHA 级别的表达能力。</li>
+<li>**关键补丁：解耦 RoPE**。RoPE 是位置相关的旋转操作，它与线性投影**不可交换**（$\mathrm{RoPE}(Wc)\neq W\,\mathrm{RoPE}(c)$），因此如果对缓存的 latent 直接施加 RoPE，还原出的 K 位置信息就错了；而如果先还原再 RoPE，则每步都要重算全部历史 K，缓存收益归零。MLA 的解法是**额外维护一份很小的、显式带 RoPE 的 key** $k^R_t$（每头仅 $d_h^R$ 维，通常 64），查询侧也拼接对应的带位置分量，两部分得分相加。所以严格说 MLA = 「低秩压缩（$c^{KV}$）」+「解耦 RoPE（$k^R$）」两件事。</li>
+<li>**收益与代价**：推理时 $W^{UK}$ 可以&quot;吸收&quot;进 $W^Q$、$W^{UV}$ 吸收进 $W^O$，从而在 decode 阶段不做显式还原，计算量甚至低于 MHA；代价是实现复杂（prefill 与 decode 两套 kernel、吸收前后数值一致性、张量并行时 latent 维度的切分方式受限、量化时 latent 分布更敏感）。</li>
+</ul></div>
+<div class="solution-block"><h4>⭐ 加分项</h4><ul class="answer-points">
+<li>能给出量级感：DeepSeek-V2 报告中，MLA 的 KV Cache 约为同等 MHA 的 1/10 左右，吞吐提升数倍；DeepSeek-V3 继续沿用，说明不是一次性技巧。</li>
+<li>能说清对比维度：MQA/GQA 压的是&quot;头数&quot;（结构化共享），MLA 压的是&quot;表示维度&quot;（低秩），两者正交，理论上可以叠加（先低秩再分组），但工程收益与复杂度需要权衡。</li>
+<li>能指出&quot;效果不降反升&quot;的机理：低秩瓶颈相当于对 KV 表示加了强正则，配合更大的训练规模，反而缓解了过拟合；且 latent 缓存减少了访存，允许更大 batch。</li>
+<li>能把 KV Cache 问题上升为&quot;推理优化的三段论&quot;：减少缓存体积（MLA/GQA）、减少读取次数（PagedAttention 分页管理、continuous batching）、减少精度位宽（KV 量化 FP8/INT8），三者可以组合使用。</li>
+</ul></div>
+<div class="solution-block"><h4>🔮 追问预测</h4><ul class="answer-points">
+<li>**追问：为什么 RoPE 不能作用在压缩后的 latent 上？** 回答思路：RoPE 是逐位置的正交旋转，作用在 $q,k$ 上依赖 head 维度的成对结构；而 latent 是跨头共享的低维向量，旋转矩阵与上投影矩阵 $W^{UK}$ 不对易，先转后投 ≠ 先投后转，结果相当于给 K 施加了错误的位置相位；解耦一份独立的小 key 是最省事的修复。</li>
+<li>**追问：MLA 和 GQA 能不能一起用？** 回答思路：可以，先做低秩投影再在 latent 上分组共享；但压缩率叠加后表达能力下降更快，实践中更常见的是 MLA 单独使用。</li>
+<li>**追问：KV Cache 量化与 MLA 叠加有什么坑？** 回答思路：latent 的数值范围由投影矩阵决定，不同通道方差差异大，per-tensor 量化误差大，需要 per-channel / 分组量化；且 FP8 下的动态范围要结合 RoPE 分量的独立尺度处理。</li>
+<li>**追问：既然 MLA 这么好，为什么不是所有模型都用？** 回答思路：一是实现与训练成本高（需要专门 kernel 与并行策略），二是吸收式优化与 LoRA 微调、张量并行的组合约束多；很多团队用 GQA 就能拿到 80% 的收益，性价比更高。</li>
+</ul></div>
+</div>
+</div>
+
+<div class="footer">
+  坚持每日练习，积少成多 💪<br>
+  Powered by TeleAgent · daily-algo-ai-quiz
+</div>
+
+<script>
+// ===== Pyodide 隔离执行测试运行器 =====
+const RUNNER_CODE = "\nimport json, traceback, io, contextlib\n\ndef run_tests(user_code, func_name, test_cases, expected):\n    ns = {}\n    user_stdout = io.StringIO()\n    user_error = None\n\n    try:\n        with contextlib.redirect_stdout(user_stdout):\n            exec(user_code, ns)\n    except Exception:\n        user_error = traceback.format_exc()\n\n    user_out = user_stdout.getvalue()\n\n    if user_error:\n        return {\"error\": user_error, \"stdout\": user_out}\n\n    func = ns.get(func_name)\n    if func is None:\n        return {\"error\": \"未找到函数 \" + str(func_name) + \"，请确保代码中定义了该函数\", \"stdout\": user_out}\n\n    test_results = []\n    for i, tc in enumerate(test_cases):\n        try:\n            actual = func(*tc)\n            exp = expected[i]\n            passed = actual == exp\n            test_results.append({\n                \"passed\": passed,\n                \"input\": str(tc),\n                \"expected\": str(exp),\n                \"actual\": str(actual)\n            })\n        except Exception as e:\n            exp = str(expected[i]) if i < len(expected) else \"N/A\"\n            test_results.append({\n                \"passed\": False,\n                \"input\": str(tc),\n                \"expected\": exp,\n                \"actual\": \"Error: \" + str(e)\n            })\n\n    return {\"stdout\": user_out, \"tests\": test_results}\n";
+
+// ===== 显示/隐藏解析 =====
+function revealSolution(qid) {
+  const sol = document.getElementById('solution_' + qid);
+  const btn = document.getElementById('reveal_btn_' + qid);
+  if (sol.style.display === 'none') {
+    sol.style.display = 'block';
+    btn.innerHTML = '📕 收起解析';
+    // 渲染该区域数学公式
+    if (typeof renderMathInElement !== 'undefined') {
+      renderMathInElement(sol, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false}
+        ]
+      });
+    }
+  } else {
+    sol.style.display = 'none';
+    btn.innerHTML = '📖 显示答案与解析';
+  }
+}
+
+// ===== 选择题作答反馈 =====
+function checkAnswer(qid, selected) {
+  const card = document.querySelector(`[data-qid="${qid}"]`);
+  if (!card) return;
+  const correctAnswer = card.getAttribute('data-correct') || '';
+  // 从全局 quizData 获取
+  const qData = window.__quizData__.questions.find(q => q.id == qid);
+  if (!qData || !qData.correct_answer) return;
+
+  const correct = qData.correct_answer;
+  const feedback = document.getElementById('feedback_' + qid);
+  const options = card.querySelectorAll('.option-item');
+
+  options.forEach(opt => {
+    const letter = opt.getAttribute('data-letter');
+    opt.classList.remove('correct', 'wrong');
+    if (letter === correct) {
+      opt.classList.add('correct');
+    } else if (letter === selected && selected !== correct) {
+      opt.classList.add('wrong');
+    }
+  });
+
+  if (feedback) {
+    feedback.className = 'option-feedback show ' + (selected === correct ? 'correct' : 'wrong');
+    feedback.textContent = selected === correct
+      ? '✅ 回答正确！'
+      : `❌ 正确答案是 ${correct}，再想想？`;
+    feedback.style.display = 'block';
+  }
+}
+
+// ===== Pyodide 代码执行 =====
+let pyodideReady = null;
+let pyodideLoading = false;
+
+function loadPyodideAsync() {
+  if (pyodideReady) return pyodideReady;
+  if (pyodideLoading) return pyodideReady;
+  pyodideLoading = true;
+
+  pyodideReady = new Promise((resolve, reject) => {
+    if (typeof loadPyodide !== 'undefined') {
+      loadPyodide({
+        indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.25.0/full/'
+      }).then(py => {
+        pyodideLoading = false;
+        resolve(py);
+      }).catch(reject);
+    } else {
+      // 动态加载 Pyodide
+      const script = document.createElement('script');
+      script.src = 'https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js';
+      script.onload = () => {
+        loadPyodide({
+          indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.25.0/full/'
+        }).then(py => {
+          pyodideLoading = false;
+          resolve(py);
+        }).catch(reject);
+      };
+      script.onerror = () => {
+        pyodideLoading = false;
+        reject(new Error('Pyodide 加载失败，请检查网络连接'));
+      };
+      document.head.appendChild(script);
+    }
+  });
+  return pyodideReady;
+}
+
+async function runCode(qid) {
+    const editor = document.getElementById('editor_' + qid);
+    const resultDiv = document.getElementById('result_' + qid);
+    const btn = document.getElementById('run_btn_' + qid);
+    const code = editor.innerText;
+    const funcNameInput = document.getElementById('func_name_' + qid);
+    const funcName = funcNameInput ? funcNameInput.value : 'solve';
+    const tcInput = document.getElementById('test_cases_' + qid);
+    const eoInput = document.getElementById('expected_outputs_' + qid);
+    let testCases = [];
+    let expectedOutputs = [];
+    try {
+        testCases = JSON.parse(tcInput.value || '[]');
+        expectedOutputs = JSON.parse(eoInput.value || '[]');
+    } catch(e) {}
+
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span> 运行中...';
+    resultDiv.style.display = 'block';
+    resultDiv.innerHTML = '<span style="color:var(--text-dim)">⏳ 正在加载 Python 运行环境...</span>';
+
+    try {
+        const pyodide = await loadPyodideAsync();
+        resultDiv.innerHTML = '<span style="color:var(--text-dim)">⏳ 正在执行代码...</span>';
+
+        // 确保 run_tests 函数只定义一次
+        if (!window.__runner_ready__) {
+            pyodide.runPython(RUNNER_CODE);
+            window.__runner_ready__ = true;
+        }
+
+        // 调用 run_tests 函数，通过返回值获取结果（不依赖 stdout，每次调用独立）
+        const runTests = pyodide.globals.get('run_tests');
+        const pyResult = runTests(code, funcName, testCases, expectedOutputs);
+        // pyResult 是 Python dict，转为 JS 对象
+        const result = pyResult.toJs({dict_converter: Object.fromEntries});
+
+        let resultHtml = '';
+
+        // 显示用户代码标准输出
+        if (result.stdout && result.stdout.trim()) {
+            resultHtml += '<div style="color:var(--text)">📝 标准输出：</div>';
+            resultHtml += '<pre style="color:var(--text);margin:4px 0;">' + escapeHtml(result.stdout) + '</pre>';
+        }
+
+        // 显示错误信息
+        if (result.error) {
+            resultHtml += '<div class="stderr">⚠️ 错误信息：</div>';
+            resultHtml += '<pre class="stderr" style="margin:4px 0;">' + escapeHtml(result.error) + '</pre>';
+        }
+
+        // 显示测试用例结果
+        if (result.tests && result.tests.length > 0) {
+            let allPassed = result.tests.every(t => t.passed);
+            resultHtml += '<div style="margin-top:8px;color:' + (allPassed ? 'var(--green)' : 'var(--accent)') + '">';
+            resultHtml += allPassed ? '🎉 全部通过！' : '🧪 测试用例结果：';
+            resultHtml += '</div>';
+
+            for (let i = 0; i < result.tests.length; i++) {
+                const t = result.tests[i];
+                if (t.passed) {
+                    resultHtml += '<div class="test-pass">✅ 用例 ' + (i+1) + ' 通过</div>';
+                } else {
+                    resultHtml += '<div class="test-fail">❌ 用例 ' + (i+1) + ' 未通过</div>';
+                    resultHtml += '<pre style="color:var(--text-dim);margin:2px 0;">  输入: ' + escapeHtml(t.input) + '\n  期望: ' + escapeHtml(t.expected) + '\n  实际: ' + escapeHtml(t.actual) + '</pre>';
+                }
+            }
+        }
+
+        if (!resultHtml) {
+            resultHtml = '<span style="color:var(--text-dim)">（代码执行完毕，无输出）</span>';
+        }
+
+        resultDiv.innerHTML = resultHtml;
+
+    } catch(e) {
+        resultDiv.innerHTML = '<div class="stderr">❌ ' + escapeHtml(e.message || String(e)) + '</div>';
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = '▶ 运行';
+    }
+}
+
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+// Ctrl+Enter 运行代码
+document.addEventListener('keydown', (e) => {
+  if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+    const focused = document.activeElement;
+    if (focused && focused.classList.contains('code-editor')) {
+      const qid = focused.id.replace('editor_', '');
+      runCode(qid);
+    }
+  }
+});
+
+// Tab 键在编辑器中插入空格
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Tab' && document.activeElement.classList.contains('code-editor')) {
+    e.preventDefault();
+    document.execCommand('insertText', false, '    ');
+  }
+});
+
+// 将 quiz 数据存入全局变量供选择题使用
+window.__quizData__ = {"date": "2026-10-29", "title": "每日算法 AI 出题 · 第 22 期", "subtitle": "算法 2 道 + AI 2 道", "questions": [{"id": 1, "type": "algorithm_code", "type_label": "算法编程", "difficulty": 2, "title": "环形打家劫舍（首尾相邻版）", "description": "你是一个专业的小偷，计划偷窃沿街的房屋。每间房内都藏有一定的现金，影响你偷窃的唯一制约因素就是**相邻的房屋装有相互连通的防盗系统**，如果两间相邻的房屋在同一晚上被小偷闯入，系统会自动报警。\n\n这一次，房屋围成一个**环**——也就是说，第一间房和最后一间房也是相邻的。给定一个代表每个房屋存放金额的非负整数数组 `nums`，请计算在**不触动警报装置**的情况下，一夜之内能够偷窃到的最高金额。\n\n提示：环形约束并不能简单地\"把数组当成链\"做一次 DP，请思考如何把一个环拆成两个**互斥的线性子问题**。", "input_format": "一个非负整数数组 nums，表示每间房屋的金额。", "output_format": "一个整数，表示能偷到的最大金额。", "examples": [{"input": "nums = [2, 3, 2]", "output": "3", "explanation": "不能偷第 0 间和第 2 间（首尾相邻），只能偷第 1 间的 3，故最大金额为 3。"}, {"input": "nums = [1, 2, 3, 1]", "output": "4", "explanation": "偷第 0 间（1）和第 2 间（3），二者不相邻，合计 4；不能选 1+3+1 因为首尾相邻。"}, {"input": "nums = [10, 1, 1, 10]", "output": "11", "explanation": "两端的 10 相邻（环形），只能取其一：10 + 1 = 11，而不是 20。"}], "constraints": "1 <= nums.length <= 100；0 <= nums[i] <= 1000；nums 首尾视为相邻。", "solution": {"approach": "环形数组的关键在于：**第 0 间和第 n-1 间互斥**。于是最优解必然属于下面两种情况之一：\n\n1. **不偷第 n-1 间**：问题退化为在 `nums[0..n-2]` 上做线性打家劫舍；\n2. **不偷第 0 间**：问题退化为在 `nums[1..n-1]` 上做线性打家劫舍。\n\n两者取最大即可（若同时不偷首尾，两种方案都覆盖得到，不影响正确性）。\n\n线性版本的状态定义：`dp[i]` 表示考虑前 i 间房能偷到的最大金额，转移为\n\n$$dp[i] = \\max(dp[i-1],\\; dp[i-2] + nums[i-1])$$\n\n含义是\"第 i 间不偷\"或\"第 i 间偷（则第 i-1 间必不偷）\"。用两个滚动变量即可把空间降到 O(1)。\n\n**易错点**：\n- n=2 时首尾相邻，两个子数组各只有一个元素，答案是 `max(nums)`；\n- 不能直接 `max(线性DP(nums), 线性DP(nums[1:-1]) + nums[0] + nums[-1])` 之类拼凑，容易重复计数；\n- 全 0 数组要返回 0 而不是 -1。", "code": "def rob(nums):\n    \"\"\"环形打家劫舍：拆成\"不偷最后一间\"和\"不偷第一间\"两个线性问题。\"\"\"\n    n = len(nums)\n    if n == 1:\n        return nums[0]\n\n    def rob_line(arr):\n        # dp[i] = 前 i 间房能偷到的最大金额（滚动两个变量）\n        prev2, prev1 = 0, 0\n        for x in arr:\n            prev2, prev1 = prev1, max(prev1, prev2 + x)\n        return prev1\n\n    return max(rob_line(nums[:-1]), rob_line(nums[1:]))", "starter_code": "def rob(nums):\n    \"\"\"\n    环形房屋打家劫舍：\n    相邻房屋不能同时偷，首尾两间也算相邻。\n    返回能偷到的最大金额。\n    \"\"\"\n    # 在这里编写你的代码\n    pass", "code_language": "python", "complexity_time": "O(n)", "complexity_space": "O(1)", "key_points": "考点：动态规划（Topic 13）·环形 DP 的\"破环成链\"技巧。核心是把环形互斥约束转化为两个线性子问题，再用滚动变量把空间压到 O(1)。同类思想可迁移到\"环形加油站\"\"环形最大子数组和（LeetCode 918）\"等题。", "test_cases": [[[2, 3, 2]], [[1, 2, 3, 1]], [[1]], [[5]], [[0]], [[1, 2]], [[2, 1, 1, 2]], [[0, 0, 0, 0]], [[1, 1, 1, 1]], [[10, 1, 1, 10]], [[200, 3, 140, 20, 10]], [[5, 4, 3, 2, 1]], [[1, 2, 3, 4, 5]], [[2, 7, 9, 3, 1]], [[1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000]], [[0, 1000, 0, 1000, 0]]], "expected_outputs": [3, 4, 1, 5, 0, 2, 3, 0, 2, 11, 340, 8, 8, 11, 50000, 2000]}}, {"id": 2, "type": "algorithm_concept", "type_label": "算法概念", "difficulty": 2, "title": "自底向上建堆为什么是 O(n)？", "description": "把一个无序数组通过 **Floyd 自底向上建堆（heapify）** 调整为小顶堆/大顶堆时，常见写法是从 `n//2 - 1` 号下标开始向前对每个节点执行一次下沉（sift-down）。关于它的时间复杂度，下列说法**正确**的是：", "options": ["A. 总代价为 O(n)。因为高度为 h 的节点最多有 n/2^(h+1) 个，每个下沉代价 O(h)，而 Σ h/2^h 收敛到常数 2，故总代价是 O(n) 而非 O(n log n)。", "B. 总代价为 O(n log n)。因为每个节点下沉一次最坏要走 O(log n) 层，一共 n 个节点，相乘即得。", "C. 自底向上建堆是 O(n log n)，而逐个插入（上浮）建堆是 O(n)，所以工程上都用插入法建堆。", "D. 建堆是 O(n)，因此整个堆排序也是 O(n)——建堆完成后数组已经有序，后续只需顺序输出。"], "correct_answer": "A", "solution": {"approach": "关键在于\"**不是所有节点都有 log n 的高度**\"。完全二叉树中，绝大多数节点集中在底层，而底层节点高度为 0，几乎不用下沉；高度越大节点越少，代价按几何级数衰减，求和后收敛为常数。", "option_analysis": ["A 正确：高度为 h 的节点数约为 n/2^(h+1)，每个下沉最多 h 次比较交换，总代价 T(n) = Σ_{h=0}^{log n} (n/2^(h+1))·h = (n/2)·Σ h/2^h = (n/2)·2 = O(n)。（利用 Σ_{h≥1} h/2^h = 2。）", "B 错误：把\"最坏高度 O(log n)\"直接乘节点数 n，忽略了不同高度节点的数量分布，这是把上界当成了紧界；只有根节点附近才接近 log n 层，数量极少。", "C 错误：两者说反了——逐个插入建堆是 O(n log n)（每次上浮 O(log n)），自底向上建堆才是 O(n)，这正是标准库优先采用它的原因。", "D 错误：建堆只保证\"堆序性质\"（父 ≤/≥ 子），是**偏序**而非全序；堆排序仍要反复取堆顶并下沉，整体是 O(n log n)。"], "key_points": "考点：堆（Topic 5）·建堆摊还复杂度分析。要能写出求和式并用几何级数收敛说明 O(n)，同时区分\"建堆\"\"插入建堆\"\"堆排序\"三者复杂度。"}}, {"id": 3, "type": "ai_derivation", "type_label": "AI公式推导", "difficulty": 3, "title": "从 BCE 到 softplus：二分类损失的数值稳定推导", "description": "训练二分类模型时，标签 $y\\in\\{0,1\\}$，模型输出 logit $z$，预测概率 $p=\\sigma(z)$。教科书上的二元交叉熵为\n\n$$L=-\\big[y\\log p+(1-y)\\log(1-p)\\big]$$\n\n但工程实现（如 PyTorch 的 `BCEWithLogitsLoss`）从不先算 $p$ 再取对数，而是直接在 logit 上计算。请完成以下任务：\n\n1. 把 $p=\\sigma(z)$ 代入，把 $L$ 化简为只含 $z$ 的形式，并证明\n$L=\\mathrm{softplus}(z)-y z$；\n2. 说明\"先算 $p$ 再取 $\\log$\"在 $|z|$ 很大时为什么会产生 $\\infty$ / `NaN`；\n3. 给出 $\\mathrm{softplus}$ 的数值稳定实现形式并证明其等价性；\n4. 推导 $\\dfrac{\\partial L}{\\partial z}=\\sigma(z)-y$，并解释它为什么天然数值安全。", "solution": {"derivation": "**Step 0：符号与两个恒等式**\n\n记 $\\sigma(z)=\\dfrac{1}{1+e^{-z}}$，则 $1-\\sigma(z)=\\sigma(-z)=\\dfrac{1}{1+e^{z}}$，且 $\\sigma'(z)=\\sigma(z)\\big(1-\\sigma(z)\\big)$。\n\n**Step 1：代入并化简为 logit 形式**\n\n先看两个对数项：\n\n$$\\log\\sigma(z)=\\log\\frac{1}{1+e^{-z}}=-\\log\\big(1+e^{-z}\\big)$$\n\n$$\\log\\big(1-\\sigma(z)\\big)=\\log\\frac{1}{1+e^{z}}=-\\log\\big(1+e^{z}\\big)$$\n\n代回 $L$：\n\n$$L=y\\log\\big(1+e^{-z}\\big)+(1-y)\\log\\big(1+e^{z}\\big)$$\n\n引入 $\\mathrm{softplus}(x)=\\log(1+e^{x})$，即\n\n$$L=y\\,\\mathrm{softplus}(-z)+(1-y)\\,\\mathrm{softplus}(z)$$\n\n利用恒等式 $\\mathrm{softplus}(-z)=\\mathrm{softplus}(z)-z$（因为 $\\log(1+e^{-z})=\\log\\frac{1+e^{z}}{e^{z}}=\\log(1+e^{z})-z$）展开：\n\n$$L=y\\big[\\mathrm{softplus}(z)-z\\big]+(1-y)\\mathrm{softplus}(z)=\\mathrm{softplus}(z)-y z$$\n\n**关键收益**：$L$ 只依赖 $z$，其中没有任何 $\\log 0$ 或 $\\log$ 的负数参数，而 $y$ 只以线性项 $yz$ 出现。\n\n**Step 2：先算 $p$ 再取 $\\log$ 的数值灾难**\n\n设 $z=-40$（模型非常确信是负类）。数学上 $p=\\sigma(-40)=e^{-40}/(1+e^{-40})\\approx 4.2\\times10^{-18}$，但 float32 的最小正规数约为 $1.2\\times10^{-38}$、次正规数下限约 $1.4\\times10^{-45}$，而 float16 的下限只有约 $6\\times10^{-8}$。于是：\n\n- float16 下 $e^{-40}$ 直接下溢为 $0$，$p=0$，$\\log p=-\\infty$，$L=+\\infty$，反向传播得到 $\\mathrm{NaN}$；\n- $z=+40$ 时 $e^{40}\\approx2.4\\times10^{17}$ 在 float32 中上溢（上限约 $3.4\\times10^{38}$ 尚可，但 float16 上限仅 $65504$，$e^{11.09}$ 即溢出），$p$ 被截断为 $1$，$\\log(1-p)=-\\infty$。\n\n本质原因是：**取对数把相对误差放大了**——$p$ 的极小值被浮点下溢抹成 0 后，$\\log$ 无法从其\"死值\"恢复信息。而 $\\mathrm{softplus}(z)-yz$ 中，先做的是加法，大数被 $\\max$ 保护，不会走到 $\\infty$。\n\n**Step 3：softplus 的稳定形式**\n\n$$\\mathrm{softplus}(x)=\\max(x,0)+\\log\\big(1+e^{-|x|}\\big)$$\n\n证明（分两种情况，指数项恒 $\\le 0$ 故永不溢出）：\n\n- $x\\ge 0$：$\\max=x$，右端 $=x+\\log(1+e^{-x})=\\log\\big(e^{x}(1+e^{-x})\\big)=\\log(e^{x}+1)$ ✓\n- $x<0$：$\\max=0$，右端 $=\\log(1+e^{x})=\\log(1+e^{-|x|})$ ✓\n\n这与 log-sum-exp 的稳定技巧同源：$\\log\\sum_i e^{x_i}=m+\\log\\sum_i e^{x_i-m}$，$m=\\max_i x_i$；此处只有两个\"项\" $0$ 与 $x$，故 $m=\\max(0,x)$。\n\n**Step 4：梯度推导**\n\n对 $L=\\mathrm{softplus}(z)-yz$ 求导，$\\dfrac{d}{dz}\\mathrm{softplus}(z)=\\sigma(z)$，于是\n\n$$\\frac{\\partial L}{\\partial z}=\\sigma(z)-y$$\n\n若沿原始链路核对一遍：$\\dfrac{\\partial L}{\\partial p}=-\\dfrac{y}{p}+\\dfrac{1-y}{1-p}$，$\\dfrac{\\partial p}{\\partial z}=p(1-p)$，相乘得\n\n$$\\frac{\\partial L}{\\partial z}=-y(1-p)+(1-y)p=p-y=\\sigma(z)-y$$\n\n与上式一致，说明 sigmoid 与 log 的导数**精确抵消**了 $p(1-p)$ 分母，所以梯度里不再出现 $1/p$ 这类\"小分母\"。即使 $\\sigma(z)$ 在数值上饱和到 $0$ 或 $1$，梯度也只是变成 $0$（消失），而不会像 $1/p$ 那样爆炸成 $\\infty$。\n\n**Step 5：多分类推广（选修）**\n\n同样的手法给出 softmax + 交叉熵的稳定形式：对 logits $z\\in\\mathbb{R}^{K}$ 与 one-hot $y$，\n\n$$L=-z_{c}+\\log\\sum_{k=1}^{K}e^{z_k}=\\log\\sum_{k}e^{z_k-m}-(z_c-m),\\quad m=\\max_k z_k$$\n\n这正是 `torch.nn.CrossEntropyLoss` 内部使用 log-sum-exp 的原因。", "intuition": "$y\\log\\sigma(z)$ 这类项在数学上\"等价\"，在浮点数上却\"不等价\"：把 $\\log$ 与 $\\sigma$ 合并成 softplus 后，最大的数被 $\\max$ 保护住、指数项恒非正，既不会溢出也不会下溢；而梯度化简成 $\\sigma(z)-y$ 后连分母都不剩，只可能\"梯度消失\"，不可能\"梯度爆炸\"。", "key_points": "考点：交叉熵 + sigmoid 的数值稳定性（AI 池·神经网络基础/训练技巧维度）。要掌握：恒等式 $\\log\\sigma(z)=-\\mathrm{softplus}(-z)$、$L=\\mathrm{softplus}(z)-yz$、$\\partial L/\\partial z=\\sigma(z)-y$，以及 softplus/log-sum-exp 的稳定写法。这三条正是所有深度学习框架损失函数实现的骨架。"}}, {"id": 4, "type": "ai_interview", "type_label": "AI面试问答", "difficulty": 3, "title": "MLA（多头潜在注意力）如何压缩 KV Cache？", "description": "面试官问：DeepSeek 系列模型使用 MLA（Multi-head Latent Attention）替代标准 MHA，号称把推理时的 KV Cache 压缩到原来的十分之一量级，而效果不降反升。请你讲清楚：MLA 到底压了什么、怎么压的、为什么它比 MQA/GQA 更\"安全\"，以及实现上最棘手的地方在哪里。", "solution": {"answer_points": ["**先说痛点**：自回归解码时每层都要缓存历史 token 的 K 和 V，显存占用为 $2\\cdot n_h\\cdot d_h\\cdot L\\cdot B$（头数×头维×序列长×批大小），长上下文场景下 KV Cache 往往比模型权重还大，且 decode 阶段每步都要把整份 cache 从 HBM 读进 SM，是典型的 memory-bound 瓶颈——所以压缩的不只是显存，更是**带宽**。", "**MQA/GQA 的思路是\"共享头\"**：MQA 让所有 Q 头共用 1 组 KV，GQA 让每组若干 Q 头共用 1 组 KV（GQA 组数 $g$ 介于 1 和 $n_h$ 之间）。压缩率等于 $n_h/g$，粗暴有效，但共享意味着不同头被迫用同一份 K/V 表达不同 subspace，表达能力受损。", "**MLA 的思路是\"低秩压缩\"而非\"共享\"**：不再缓存完整 K/V，而是先把隐状态 $h_t$ 投影成一个低维 latent $c_t=W^{DKV}h_t\\in\\mathbb{R}^{d_c}$，其中 $d_c\\ll 2n_hd_h$，**只缓存 $c_t$**；需要时再用上投影矩阵 $W^{UK},W^{UV}$ 还原出各头的 K、V。因为每个头仍然有自己独立的上投影，头与头之间不再共享同一份表示，所以能在极大压缩下保住 MHA 级别的表达能力。", "**关键补丁：解耦 RoPE**。RoPE 是位置相关的旋转操作，它与线性投影**不可交换**（$\\mathrm{RoPE}(Wc)\\neq W\\,\\mathrm{RoPE}(c)$），因此如果对缓存的 latent 直接施加 RoPE，还原出的 K 位置信息就错了；而如果先还原再 RoPE，则每步都要重算全部历史 K，缓存收益归零。MLA 的解法是**额外维护一份很小的、显式带 RoPE 的 key** $k^R_t$（每头仅 $d_h^R$ 维，通常 64），查询侧也拼接对应的带位置分量，两部分得分相加。所以严格说 MLA = 「低秩压缩（$c^{KV}$）」+「解耦 RoPE（$k^R$）」两件事。", "**收益与代价**：推理时 $W^{UK}$ 可以\"吸收\"进 $W^Q$、$W^{UV}$ 吸收进 $W^O$，从而在 decode 阶段不做显式还原，计算量甚至低于 MHA；代价是实现复杂（prefill 与 decode 两套 kernel、吸收前后数值一致性、张量并行时 latent 维度的切分方式受限、量化时 latent 分布更敏感）。"], "bonus": ["能给出量级感：DeepSeek-V2 报告中，MLA 的 KV Cache 约为同等 MHA 的 1/10 左右，吞吐提升数倍；DeepSeek-V3 继续沿用，说明不是一次性技巧。", "能说清对比维度：MQA/GQA 压的是\"头数\"（结构化共享），MLA 压的是\"表示维度\"（低秩），两者正交，理论上可以叠加（先低秩再分组），但工程收益与复杂度需要权衡。", "能指出\"效果不降反升\"的机理：低秩瓶颈相当于对 KV 表示加了强正则，配合更大的训练规模，反而缓解了过拟合；且 latent 缓存减少了访存，允许更大 batch。", "能把 KV Cache 问题上升为\"推理优化的三段论\"：减少缓存体积（MLA/GQA）、减少读取次数（PagedAttention 分页管理、continuous batching）、减少精度位宽（KV 量化 FP8/INT8），三者可以组合使用。"], "followup_predictions": ["**追问：为什么 RoPE 不能作用在压缩后的 latent 上？** 回答思路：RoPE 是逐位置的正交旋转，作用在 $q,k$ 上依赖 head 维度的成对结构；而 latent 是跨头共享的低维向量，旋转矩阵与上投影矩阵 $W^{UK}$ 不对易，先转后投 ≠ 先投后转，结果相当于给 K 施加了错误的位置相位；解耦一份独立的小 key 是最省事的修复。", "**追问：MLA 和 GQA 能不能一起用？** 回答思路：可以，先做低秩投影再在 latent 上分组共享；但压缩率叠加后表达能力下降更快，实践中更常见的是 MLA 单独使用。", "**追问：KV Cache 量化与 MLA 叠加有什么坑？** 回答思路：latent 的数值范围由投影矩阵决定，不同通道方差差异大，per-tensor 量化误差大，需要 per-channel / 分组量化；且 FP8 下的动态范围要结合 RoPE 分量的独立尺度处理。", "**追问：既然 MLA 这么好，为什么不是所有模型都用？** 回答思路：一是实现与训练成本高（需要专门 kernel 与并行策略），二是吸收式优化与 LoRA 微调、张量并行的组合约束多；很多团队用 GQA 就能拿到 80% 的收益，性价比更高。"]}}]};
+</script>
+</body>
+</html>
