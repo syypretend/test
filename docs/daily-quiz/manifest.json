@@ -1,5 +1,42 @@
 [
   {
+    "date": "2026-10-29",
+    "filename": "quiz-2026-10-29.html",
+    "url": "https://syypretend.github.io/test/daily-quiz/quiz-2026-10-29.html",
+    "title": "每日算法 AI 出题 · 第 22 期",
+    "subtitle": "算法 2 道 + AI 2 道",
+    "questions": [
+      {
+        "id": 1,
+        "type": "algorithm_code",
+        "type_label": "算法编程",
+        "title": "环形打家劫舍（首尾相邻版）",
+        "difficulty": 2
+      },
+      {
+        "id": 2,
+        "type": "algorithm_concept",
+        "type_label": "算法概念",
+        "title": "自底向上建堆为什么是 O(n)？",
+        "difficulty": 2
+      },
+      {
+        "id": 3,
+        "type": "ai_derivation",
+        "type_label": "AI公式推导",
+        "title": "从 BCE 到 softplus：二分类损失的数值稳定推导",
+        "difficulty": 3
+      },
+      {
+        "id": 4,
+        "type": "ai_interview",
+        "type_label": "AI面试问答",
+        "title": "MLA（多头潜在注意力）如何压缩 KV Cache？",
+        "difficulty": 3
+      }
+    ]
+  },
+  {
     "date": "2026-10-28",
     "filename": "quiz-2026-10-28.html",
     "url": "https://syypretend.github.io/test/daily-quiz/quiz-2026-10-28.html",
