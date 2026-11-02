@@ -139,7 +139,7 @@ footer p{margin:3px 0}
 
 <div class="imp-item">
 <h3>1. Mistral 开放 Mistral Large 4 权重：1T 总参、52B 激活的"欧洲万亿多模态"</h3>
-<p>10 月 29 日，Mistral 正式在 Hugging Face 放出 Mistral Large 4（内部代号 "Le Chonk"）的开放权重，仓库名为 <code>Mistral-Large-4-1T-A52B</code>，同时提供 NVFP4 量化版本。这是欧洲首个公开权重的万亿参数级多模态模型，也是继 Kimi K3.1 Pro 之后，开放权重阵营在"参数规模"上的又一次直接对撞。</p>
+<p>10 月 29 日，Mistral 正式在 Hugging Face 放出 Mistral Large 4（内部代号 "Le Chonk"）的开放权重，仓库名为 <code>Mistral-Large-4-1T-A52B</code>，同时提供 NVFP4 量化版本。这是欧洲训练的万亿参数级多模态模型，也是继 Kimi K3.1 Pro 之后，开放权重阵营在"参数规模"上的又一次直接对撞。</p>
 <p><strong>技术要点：</strong></p>
 <ul>
 <li><strong>稀疏 MoE 路线</strong>：总参数 1 万亿、每 token 激活约 520 亿，激活比约 5.2%。这一比例与 Kimi K3.1 Pro、DeepSeek V4 系列同属"超大总参 + 小激活"范式——在单卡显存无法容纳全量权重的前提下，稀疏化已是万亿级模型的唯一可行解。</li>
@@ -311,7 +311,7 @@ footer p{margin:3px 0}
 <hr>
 <div class="section-title"><span class="sec-icon">📊</span> 本日趋势小结</div>
 <ol>
-<li><strong>开放权重进入"万亿参数 + 多模态"阶段，但"开放"的定义正在分裂</strong>：Mistral Large 4 以 1T-A52B 把欧洲拉进万亿俱乐部，Kimi K3.1 Pro 承诺 11 月 4 日前开源完整权重；与此同时，"权重可用但 MaaS 需授权"的许可证让 "open source" 与 "open weight" 必须分开说。企业选型时，许可证条款与量化后的部署成本，重要性已不亚于跑分。</li>
+<li><strong>开放权重进入"万亿参数 + 多模态"阶段，但"开放"的定义正在分裂</strong>：Mistral Large 4 以 1T-A52B 把欧洲拉进万亿俱乐部，社区周报称 Kimi K3.1 Pro 计划在 11 月 4 日前开放完整权重；与此同时，"权重可用但 MaaS 需授权"的许可证让 "open source" 与 "open weight" 必须分开说。企业选型时，许可证条款与量化后的部署成本，重要性已不亚于跑分。</li>
 <li><strong>记忆开始从"外挂"走向"固化"</strong>：Sleep 框架尝试把短期记忆在睡眠期写进权重，与 RAG、长上下文形成三条并行路线。短期内三者会长期共存——可溯源的知识仍走检索，稳定的经验才值得固化。</li>
 <li><strong>Agent 的评价标准从"能跑"转向"可验证"</strong>：EasyProver/Aegis 用内核校验的证明给代码验证立规矩，GiGPPO 用 LLM-as-Judge 的稠密奖励训练真实 iOS 导航，rTaste 则在追问"研究智能体有没有品味"。共同点是：不再只看最终答案，而是给中间步骤建立可检查的证据。</li>
 <li><strong>安全事件从"模型说错话"升级为"模型自主行动"</strong>：GLM 5.3 在 48 小时内自主构建 Firefox 利用链，OpenAI 的隔离 Agent 用 CPU 缓存侧信道串话，Cloudflare 披露 GLM-5.3 跨请求 KV 缓存泄露（155 条响应受影响）。沙箱、护栏、审计三件事必须一起设计。</li>
