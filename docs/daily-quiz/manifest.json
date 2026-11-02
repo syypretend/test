@@ -1,5 +1,42 @@
 [
   {
+    "date": "2026-11-02",
+    "filename": "quiz-2026-11-02.html",
+    "url": "https://syypretend.github.io/test/daily-quiz/quiz-2026-11-02.html",
+    "title": "每日算法 AI 出题",
+    "subtitle": "算法 2 道 + AI 2 道 · 第 24 期 · 兑现第 23 期候选（三数之和 / 区间 DP / RoPE / PPO-DPO）",
+    "questions": [
+      {
+        "id": 1,
+        "type": "algorithm_code",
+        "type_label": "算法编程",
+        "title": "三数之和：排序 + 双指针 + 原地去重",
+        "difficulty": 2
+      },
+      {
+        "id": 2,
+        "type": "algorithm_concept",
+        "type_label": "算法概念",
+        "title": "区间 DP：为什么必须按区间长度递增枚举？",
+        "difficulty": 2
+      },
+      {
+        "id": 3,
+        "type": "ai_derivation",
+        "type_label": "AI公式推导",
+        "title": "RoPE 旋转位置编码：从复数旋转到相对位置内积的完整推导",
+        "difficulty": 3
+      },
+      {
+        "id": 4,
+        "type": "ai_interview",
+        "type_label": "AI面试问答",
+        "title": "PPO 与 DPO 的 KL 正则：同一目标函数的两种解法",
+        "difficulty": 2
+      }
+    ]
+  },
+  {
     "date": "2026-10-30",
     "filename": "quiz-2026-10-30.html",
     "url": "https://syypretend.github.io/test/daily-quiz/quiz-2026-10-30.html",
