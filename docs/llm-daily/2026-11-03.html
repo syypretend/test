@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<title>大模型技术速递 — 2026年11月3日</title>
+<style>
+:root{
+  --bg:#0b0e14; --card:#141926; --card2:#1a2133;
+  --text:#e8ecf5; --dim:#96a0b5; --accent:#5b8cff; --accent2:#8b5cf6;
+  --green:#2dd4a7; --star:#ffb84d; --border:rgba(255,255,255,.07);
+  --radius:14px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  background:linear-gradient(170deg,#0a0d14 0%,#0d1424 45%,#0b111d 100%);
+  color:var(--text);line-height:1.8;font-size:15px;
+  -webkit-font-smoothing:antialiased;min-height:100vh;
+}
+.wrap{max-width:760px;margin:0 auto;padding:0 14px 48px}
+
+/* 头部 */
+header.hero{
+  text-align:center;padding:36px 16px 26px;
+  background:radial-gradient(120% 140% at 50% 0%,rgba(91,140,255,.18) 0%,rgba(124,92,246,.08) 45%,transparent 75%);
+  border-bottom:1px solid var(--border);
+}
+.badge{display:inline-flex;align-items:center;gap:6px;background:rgba(91,140,255,.14);
+  border:1px solid rgba(91,140,255,.32);padding:5px 14px;border-radius:999px;
+  font-size:12px;font-weight:600;letter-spacing:1px;color:#9dc2ff;margin-bottom:16px}
+h1.title{font-size:clamp(20px,5vw,27px);font-weight:800;letter-spacing:.5px;
+  background:linear-gradient(120deg,#fff,#a8c8ff);-webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;margin-bottom:6px}
+.date{color:#96a9c0;font-size:14px;margin-bottom:20px}
+.stats{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.stat{flex:1;max-width:130px;background:rgba(255,255,255,.04);border:1px solid var(--border);
+  border-radius:12px;padding:10px 6px;text-align:center}
+.stat b{display:block;font-size:22px;font-weight:800;color:var(--accent)}
+.stat.imp b{color:var(--star)} .stat.nor b{color:var(--green)}
+.stat span{font-size:11px;color:var(--dim)}
+
+/* 正文 */
+.content{padding:20px 6px 0}
+.update-intro{background:linear-gradient(135deg,rgba(91,140,255,.1),rgba(124,92,246,.07));
+  border:1px solid rgba(91,140,255,.22);border-left:3px solid var(--accent);
+  border-radius:10px;padding:10px 14px;font-size:13px;color:var(--dim);margin-bottom:24px}
+.update-intro p{margin:0}
+
+/* 章节标题 */
+.section-title{display:flex;align-items:center;gap:8px;font-size:19px;font-weight:800;
+  margin:34px 0 16px;padding-bottom:9px;border-bottom:2px solid rgba(91,140,255,.28)}
+.sec-icon{font-size:17px}
+
+/* 重要动态条目 */
+.imp-item{background:var(--card2);border:1px solid var(--border);
+  border-radius:var(--radius);padding:16px 16px 14px;margin-bottom:16px;
+  box-shadow:0 4px 18px rgba(0,0,0,.25)}
+.imp-item h3{font-size:15.5px;font-weight:700;line-height:1.5;margin-bottom:8px;color:#f0f4ff}
+.imp-item p{color:var(--text);font-size:14px;margin:7px 0}
+.imp-item strong{color:#cfe0ff;font-weight:600}
+.imp-item ul,.imp-item ol{padding-left:20px;margin:6px 0}
+.imp-item li{margin:4px 0;font-size:13.8px;color:var(--text)}
+.imp-item li::marker{color:var(--accent)}
+
+/* 常规动态卡片 */
+.cat-title{font-size:14.5px;font-weight:700;color:#b9c8e8;margin:22px 0 10px;
+  padding-left:10px;border-left:3px solid var(--accent2)}
+.norm-item{background:var(--card);border:1px solid var(--border);border-radius:12px;
+  padding:11px 13px;margin-bottom:9px;font-size:13.8px;color:var(--dim);
+  transition:transform .15s,border-color .15s}
+.norm-item:hover{transform:translateX(3px);border-color:rgba(91,140,255,.4)}
+.norm-item strong{color:var(--text);font-weight:600}
+.norm-item a{color:var(--accent);text-decoration:none;font-size:12.8px;word-break:break-all}
+.norm-item a:hover{text-decoration:underline}
+.norm-item p{margin:0}
+
+/* 表格 */
+.data-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px;border-radius:10px;overflow:hidden}
+.data-table th{background:rgba(91,140,255,.16);padding:9px 10px;text-align:left;font-weight:600;color:#d3e2ff}
+.data-table td{padding:8px 10px;border-top:1px solid var(--border);background:rgba(255,255,255,.03)}
+.data-table tr:hover td{background:rgba(91,140,255,.06)}
+
+/* 引用/链接块 */
+.toc{border-left:3px solid var(--accent2);border-radius:0 10px 10px 0;
+  padding:10px 14px;margin:12px 0;background:rgba(255,255,255,.03);color:var(--dim);font-size:13.5px}
+.toc p{margin:0}
+.toc a{color:var(--accent);word-break:break-all}
+
+/* 代码 */
+pre{background:#0d1119;border:1px solid var(--border);border-radius:10px;padding:13px;overflow-x:auto;font-size:12.5px;margin:10px 0}
+code{font-family:"SF Mono",Consolas,"Courier New",monospace;font-size:12.5px}
+h4{font-size:14px;margin:14px 0 6px;color:#cfdbef}
+p{margin:8px 0}
+hr{border:none;border-top:1px solid var(--border);margin:24px 0}
+strong{color:#dbe6ff}
+ul,ol{padding-left:20px;margin:6px 0}
+
+/* 页脚 */
+footer{text-align:center;margin-top:36px;padding:22px 10px 6px;border-top:1px solid var(--border);
+  color:var(--dim);font-size:12.5px}
+footer p{margin:3px 0}
+
+@media(max-width:480px){
+  body{font-size:14px}
+  header.hero{padding:26px 14px 20px}
+  .stats{gap:8px}
+  .stat{max-width:110px}
+  .section-title{font-size:17px}
+  .imp-item{padding:13px 12px 11px}
+  .data-table{font-size:12px}
+  .data-table th,.data-table td{padding:7px 8px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+    <header class="hero">
+      <div class="badge">🤖 LLM TECH DAILY</div>
+      <h1 class="title">大模型技术速递</h1>
+      <p class="date">2026年11月3日</p>
+      <div class="stats">
+        <div class="stat"><b>25</b><span>收录动态</span></div>
+        <div class="stat imp"><b>6</b><span>★ 重要</span></div>
+        <div class="stat nor"><b>19</b><span>· 常规</span></div>
+      </div>
+    </header>
+    
+<div class="content">
+<h1>🤖 大模型技术速递 — 2026年11月3日</h1>
+<div class="update-intro">
+<p>今日共收录 25 条动态，其中 ★重要 6 条，·常规 19 条。</p>
+</div>
+<hr>
+<div class="section-title"><span class="sec-icon">★</span> 重要动态</div>
+
+<div class="imp-item">
+<h3>1. 美团 LongCat-2.5：1.6 万亿参数、全程国产算力，把"长程 Agent"做成了原生能力</h3>
+<p>11 月 2 日，美团 LongCat 团队发布 LongCat-2.5——总参数 1.6 万亿、每 token 激活约 480 亿的原生多模态模型，定位不是"更会聊天"，而是<strong>长程智能体任务</strong>。更值得记录的是它的一条硬约束：训练全程由国产算力完成。这是继 6 月 LongCat-2.0（首个在国产算力上跑通万亿参数全流程训练与推理）之后，"国芯国模"路线第一次把规模推到 1.6 万亿量级。</p>
+<p><strong>技术要点：</strong></p>
+<ul>
+<li><strong>视觉与文本统一为离散 Token</strong>：沿用 LongCat-Next 的路线，先用语义对齐编码器（SAE）生成原生分辨率特征，再用残差向量量化（RVQ）压成多层级词表 Token，以缓解视觉离散化的信息损失。视觉 Token 走离线预处理——固定 tokenizer 提前生成并缓存 TokenID，主干模型直接读预处理序列，这既简化了长序列打包/切分，也改善了分布式训练中不同任务的负载均衡。</li>
+<li><strong>视觉码本与主干联合学习</strong>：团队在平均激活约 30 亿参数的较小 MoE 上验证，视觉与文本 Embedding 在 t-SNE 上已呈交织分布，说明两类信号开始共享语义空间，而不是"外挂一个视觉编码器"。</li>
+<li><strong>Agentic RL 的数据闭环</strong>：从 GitHub 公开仓库与内部真实场景取代码任务，针对筛选后的 PR 与关联 issue <strong>自动生成可交互环境与可验证测试用例</strong>，用 fail-to-pass / pass-to-pass 校验任务有效性；再把实时 rollout 轨迹与通过率反过来做二次标注与筛选，并基于假阴性/假阳性分析持续修正 F2P 用例。</li>
+<li><strong>长程训练的三个工程细节</strong>：① partial rollout 异步——每步保持过采样率，批次凑齐后暂停未完成轨迹、下一轮恢复，并按通过率动态调过采样率、过滤全对/全错的零梯度组；② 样本陈旧性——同一条轨迹的 Token 可能来自不同历史 checkpoint，于是裁剪采样阶段与训练阶段的 Logprob 差异、按历史累计差异调整每个 Token 的梯度贡献；③ 奖励防作弊——训练时断网、清 git 历史与文件缓存，另加 LLM judge 监督整条轨迹，对重复思考/重复调工具施加惩罚。</li>
+<li><strong>专家组机制（MOPD）</strong>：延续 LongCat-2.0 的"专家组"设计，分别优化 Agent、推理、交互三类能力。为降低教师轨迹与学生采样的分布偏移，把教师每轮回复按固定长度切成 per-cut prefix，把学生自采样长度限制在对应范围；同一教师轨迹的多个 Prefix 分组送入同一推理引擎，共享 Prefill 与 KV Cache，再用 Tree Attention 一次前反向完成同组 OPD 训练。</li>
+<li><strong>围绕超节点重排并行</strong>：国产加速器单卡显存不足 80GB，这是所有设计的前提。FSDP 与 EP 的并行度对齐单超节点卡数、CP 不超过该卡数，让参数 AllGather、专家 Token AlltoAll、KV AllGather 尽量留在超节点内高带宽域；混合词表并行对 Embedding、LMHead、N-gram 分片；MoonEP 上做阈值触发的动态专家复制，只在负载不均衡超阈值时启用；双重分片 FSDP 把 FP32 主权重与优化器状态再跨 FSDP 域分片。官方称该配置在长序列 SFT 上单卡吞吐较 DDP 基线提升 86%。</li>
+</ul>
+<p><strong>实验结果：</strong> 在美团自建的 AutomationBench、LongCatClawBench 上，LongCat-2.5 领先 Claude-Opus-5、GPT-5.6-Sol；在第三方终端操作基准 Terminal Bench v4.0 上得分 38.5，超过 GPT-5.6-Sol 但仍落后 Claude-Opus-5。需要提醒：前两个是厂商自建基准，第三方复现前不宜直接与公开榜单横比。</p>
+<p><strong>实测观感：</strong> 智东西的体验显示它生成速度快、前端视觉效果较好、PPT 图表丰富，但画面细节（如角色围巾位置）、空间与图层关系、PPT 排版仍有明显提升空间。这基本符合"1.6 万亿但激活 480 亿"的定位——广度够、精细度不足。</p>
+<p><strong>影响分析：</strong> 对国内团队，这条路线最有参考价值的不是参数，而是"80GB 单卡 + 超节点"这一约束下的整套并行与显存方案，它把"国产卡训万亿模型"从口号变成了可复述的工程配方。对电信这类有私有化需求的行业客户，LongCat-2.5 的意义在于：一条不依赖境外算力、可本地部署、原生支持视觉编程与办公任务的万亿级选项，第一次具备可比性。</p>
+<blockquote class="toc">
+<p>报道：<a href="https://www.163.com/dy/article/LAOIQV7C051180F7.html" target="_blank" rel="noopener">美团发 1.6 万亿参数新模型，通用 Agent 测试超 Opus-5，国产芯特别优化</a>
+报道：<a href="https://baijiahao.baidu.com/s?id=1880742836861574907&amp;wfr=spider&amp;for=pc" target="_blank" rel="noopener">美团发布 LongCat-2.5 大模型，"国芯国模"实现新突破</a>
+体验入口：<a href="https://longcat.chat" target="_blank" rel="noopener">longcat.chat</a></p>
+</blockquote>
+</div>
+<div class="imp-item">
+<h3>2. Gemini 4 Carbon 登顶 AA v5.0：59 分、漏洞检测 88.2%，但先发给"防守方"</h3>
+<p>10 月 28 日，距 Gemini 4 Argon 亮相仅两周，Google DeepMind 发布新一代前沿模型 Gemini 4 Carbon。在更新到 v5.0 的 Artificial Analysis 智能指数上，Carbon 以 59 分排名第一，主打两件事：网络安全与长周期任务。发布由高级副总裁 Koray Kavukcuoglu 主导——他在 Demis Hassabis 卸任后接管了 Google DeepMind。</p>
+<p><strong>技术要点：</strong></p>
+<ul>
+<li><strong>长时程工程执行</strong>：官方称它能在复杂工程问题上连续运行数天。这句话的分量比跑分更重：它意味着模型侧的重点从"单轮答对"转向"多轮不跑偏、状态不丢、目标不漂移"，背后必然是长上下文、工具调用稳定性与错误恢复三者一起优化。</li>
+<li><strong>网安能力的具体口径</strong>：漏洞检测得分 88.2%，安全代码生成成功率为前代 Argon 的两倍多。这是可量化的进步，但要注意"检测率"与"误报率"必须成对看——只公布前者，无法判断它在真实代码库里的可用性。</li>
+<li><strong>节奏即治理</strong>：Carbon 最初只对网络安全防御者与安全项目合作伙伴开放，之后才扩大范围。这与 Argon 的审慎策略一致：把最强的攻防能力先交给"守方"，是当前前沿实验室对"能力扩散"的一种默认回应。</li>
+<li><strong>定价维持</strong>：首发 API 价格每百万输入 Token 2 美元、输出 10 美元；优惠结束后价格翻倍，与 Argon 标准价持平。也就是说，能力提升被"首发折扣"包装，长期成本并未下降。</li>
+</ul>
+<p><strong>需要冷静的地方：</strong> 多家媒体指出 Carbon 的事实幻觉率高于前代，且访问受限导致第三方独立评测样本不足。一个"智能指数第一 + 幻觉更多"的组合并不矛盾——指数测的是难题通过率，不是事实可靠性。企业在把它接进生产流程前，检索增强与事实校验链路不能省。</p>
+<p><strong>影响分析：</strong> 这轮发布的信号是"能力分层发售"成为惯例：先给防御方、再给企业、最后给大众。对安全团队，Carbon 把"AI 辅助漏洞挖掘"的门槛又压低了一档；对普通开发者，短期内更现实的变化是价格与配额，而不是能力。另需注意，Google 同期还把 Genie 4（见第 6 条）推向市场，说明它的战略是"前沿模型 + 世界模型"双线押注。</p>
+<blockquote class="toc">
+<p>报道：<a href="https://baijiahao.baidu.com/s?id=1880354872642494149&amp;wfr=spider&amp;for=pc" target="_blank" rel="noopener">谷歌发布 Gemini 4 Carbon，聚焦网络安全与长时工作</a>
+报道：<a href="https://baijiahao.baidu.com/s?id=1880334701639778967&amp;wfr=spider&amp;for=pc" target="_blank" rel="noopener">谷歌"网安高手"Gemini 4 Carbon 登顶 AI 智能榜</a>
+分析：<a href="https://www.theverge.com/tech/1021339/google-gemini-4-carbon-cybersecurity-frontier" target="_blank" rel="noopener">The Verge：Google unveils Gemini 4 Carbon</a></p>
+</blockquote>
+</div>
+<div class="imp-item">
+<h3>3. Kimi K3.1 Pro：3T 参数、100 万上下文，开源权重把"准前沿"压到 11 月 4 日</h3>
+<p>10 月下旬上线的 Kimi K3.1 Pro，是月之暗面迄今最强的 3 万亿级参数模型，支持 100 万 Token 上下文，官方把优势场景明确定在<strong>长程编程、3D 创作、金融研究</strong>——这三个场景的共同点，是天然会触发长上下文与多 Agent 调用。</p>
+<p><strong>技术要点：</strong></p>
+<ul>
+<li><strong>规模与稀疏</strong>：3T 总参数延续"超大总参 + 小激活"的稀疏 MoE 范式。在单卡显存装不下全量权重的前提下，这已是万亿级模型的唯一现实解；真正的差异在路由质量与专家负载均衡，而不在参数数字。</li>
+<li><strong>上下文工程</strong>：100 万 Token 不是"能塞进去"，而是"塞进去还能用"。长上下文模型的实际能力取决于三件事——位置外推是否稳定、KV 缓存的内存与带宽预算、以及长序列下的注意力召回精度。K3.1 Pro 把这三点押在"长程编程"上做验证，是聪明的选择：代码库天然有结构，便于检验"是否真的读到了远处的那一行"。</li>
+<li><strong>能力位次</strong>：Artificial Analysis 智能指数 55 分，全球第四、开源模型第一，比 K3 提升 11 分；超过 Claude Fable 5.1、GPT-6 Astra、Gemini 4 Argon（三者均 53），仅次于 Claude Opus 5.5 的 58。这是首个"即将开源"且得分如此贴近前沿的模型。</li>
+<li><strong>价格</strong>：输入 2 美元 / 输出 10 美元每百万 Token。媒体对"相当于闭源旗舰几成"的口径并不统一（有按 Opus 5.5 计为约一半的说法，也有按 GPT-6 Astra 计为 20% 的说法），差异来自对标型号与是否计入缓存/批处理折扣——采购比价时应统一按"同一任务总成本"折算。</li>
+<li><strong>权重时间表</strong>：完整权重计划 11 月 4 日放出。这一点比跑分更关键：它把"开源能否追上闭源"从讨论变成了可复现实验。</li>
+</ul>
+<p><strong>争议与风险：</strong> 有外媒报道其推广过程中存在付费 influencer 相关争议，同时"技术至上但全球化受阻"的讨论也在升温。对一个准备开放权重的模型，这类非技术因素会直接影响海外企业的合规评估。</p>
+<p><strong>影响分析：</strong> K3.1 Pro 的真正意义在于把"开源 = 落后一代"的默认假设打破了一半。如果 11 月 4 日权重如期放出且社区能在消费级多卡上跑起来，"准前沿能力 + 可自托管"会成为 2027 年企业选型的默认选项之一。反之，若权重延期或量化后掉点严重，这轮叙事会迅速降温。<strong>建议 11 月 4 日后先用自有业务样本做一次小规模复现，再决定是否纳入技术选型。</strong></p>
+<blockquote class="toc">
+<p>报道：<a href="https://www.163.com/dy/article/LAJIHTHT05561FZM.html" target="_blank" rel="noopener">万亿参数模型开源，Kimi 新模型逼近榜首</a>
+报道：<a href="https://baijiahao.baidu.com/s?id=1880246799253633211&amp;wfr=spider&amp;for=pc" target="_blank" rel="noopener">海淀新一代 3 万亿级开源大模型发布</a>
+分析：<a href="https://venturebeat.com/technology/moonshots-kimi-k3-1-pro-flirts-with-open-weights-leadership-amid-paid-influencer-scandal-allegations" target="_blank" rel="noopener">VentureBeat：Moonshot's Kimi K3.1 Pro flirts with open-weights leadership</a></p>
+</blockquote>
+</div>
+<div class="imp-item">
+<h3>4. DeepSeek 开源 Super-agent：Router/Worker 双层，让 AI 在没人 @ 的时候自己找活干</h3>
+<p>10 月 31 日晚，DeepSeek Harness 团队发布技术文章《Super-agent 设计探索：迈向更自主的 Agent 系统》，同步以 MIT 协议开源原型 <code>dsh-superagent-prototype</code>。它没有发布更大的模型，也没有刷新的推理基准，而是试图重设计"Agent 与人类如何分工"。</p>
+<p><strong>技术要点：</strong></p>
+<ul>
+<li><strong>双层架构</strong>：<strong>常驻 Router 层</strong>统一接收并分派交互——群聊消息、issue、PR 评论都从这里进入；<strong>Worker 层</strong>在独立会话与独立目录中隔离执行，彼此不共享工作区，从而支持并行多任务。Router 常驻意味着"AI 不再依赖某个聊天窗口存活"。</li>
+<li><strong>主动发现问题</strong>：内部实例的实际案例是——没有 @、没有新建会话、没有人把群聊消息搬运到 GitHub，它自己在群聊里识别到一条软件问题线索，在独立目录复现问题、生成修复方案，然后回到原对话交付一条<strong>可评审的 Pull Request</strong>。人的角色从"派活"上移到"验收"。</li>
+<li><strong>当前边界</strong>：公开原型只面向单个 GitHub 仓库，可选接入飞书，部分设计尚未实现。也就是说，这是架构探索而非成品。</li>
+<li><strong>与 Claude Duet、A5 的差别</strong>：后者是"个人助理型主动 Agent"，重在理解项目、离开时继续工作、敏感操作前请求批准；Super-agent 更像"工程组织里的一个同事"，重在工作流入口（群聊/仓库）与交付物（PR）。前者优化体验，后者优化协作协议。</li>
+</ul>
+<p><strong>必须直视的风险：</strong> 有开发者在实测后指出两个问题——Token 账单涨到 3.8 倍，以及它能够读取整个家目录。后者不是 bug 而是设计后果：一个"主动找活"的常驻 Agent，天然需要更宽的读权限；而读权限一旦放宽，提示注入、误删、数据外泄的攻击面就同步放大。开源原型阶段可以接受，生产部署必须先做权限收口与审计日志。</p>
+<p><strong>影响分析：</strong> 这是今年 Agent 叙事的一次关键转向：从"更强的执行器"转向"更合理的工作流位置"。它带来的问题比答案更多——如何定义 Agent 的职责边界、如何评审它提交的 PR、如何限制它的读权限、如何计价它的自主行为。对正在做企业内 Agent 平台的团队，Super-agent 的 Router/Worker 分层与"独立目录隔离"是可直接借鉴的两条设计约束。</p>
+<blockquote class="toc">
+<p>报道：<a href="https://baijiahao.baidu.com/s?id=1880695773282440024&amp;wfr=spider&amp;for=pc" target="_blank" rel="noopener">DeepSeek 开源 Agent 架构，想让人少给 AI 打工</a>
+报道：<a href="https://baijiahao.baidu.com/s?id=1880653778228885190&amp;wfr=spider&amp;for=pc" target="_blank" rel="noopener">刚刚，DeepSeek 公布下一代 agent harness 理念</a>
+项目：<a href="https://github.com/deepseek-ai/dsh-superagent-prototype" target="_blank" rel="noopener">deepseek-ai/dsh-superagent-prototype</a></p>
+</blockquote>
+</div>
+<div class="imp-item">
+<h3>5. PixelUMM：不要 VAE、不要 ViT，NVIDIA 在像素空间把"看懂"和"画出来"合成一条路</h3>
+<p>统一多模态模型（UMM）长期采用"双通道"：ViT 提语义特征负责理解，VAE 提重建特征负责生成。代价是同一张图要占两份 Token，上下文迅速膨胀；更麻烦的是这套双流接口与主流 VLM 的单视觉流不兼容，想接进现有预训练管线就得大改数据与训练配方。NVIDIA 与滑铁卢大学的 PixelUMM 提出另一条路：<strong>彻底去掉预训练视觉编码器与 VAE，直接在像素上做理解与生成。</strong></p>
+<p><strong>技术要点：</strong></p>
+<ul>
+<li><strong>像素接口</strong>：图像切成 16×16 patch，视频切成"4 帧 × 16 × 16"的 tubelet；每个 patch/tubelet 只过一层线性层就进入 Transformer，输出端一层 RMSNorm 加一层线性层还原像素。中间没有编码器、没有 VAE、没有离散视觉词表。</li>
+<li><strong>MoT 双专家</strong>：理解与生成各用一套投影（干净视觉走理解投影，加噪目标走生成投影），并用 Mixture-of-Transformers 让每层拥有两套归一化、注意力投影与前馈网络，但所有 Token 仍在同一个自注意力里互相可见。共享"看世界"的部分，分开"打包"和"摆盘"的部分。</li>
+<li><strong>不做时间步嵌入</strong>：模型不显式告诉自己去噪到第几步，而是从带噪像素本身推断噪声强度。</li>
+<li><strong>视频帧率对齐</strong>：≥4FPS 用 dense_mode（按 4FPS 采样、4 帧打包成 tubelet）；&lt;4FPS 用 sparse_mode（按 1FPS 采样、单帧走图像投影），避免硬凑帧数造成浪费。</li>
+<li><strong>统一对话格式</strong>：图像理解、视频理解、文生图、文生视频四类任务都塞进 ChatML；视频片段前标时间戳（如 <code>&lt;0.0 seconds&gt;</code>），生成任务则由助手"输出"一串带噪视觉 patch，在被去噪的过程中逐步成为真实图像/视频。</li>
+</ul>
+<p><strong>实验结果：</strong></p>
+<table class="data-table">
+<thead>
+<tr>
+<th>基准</th>
+<th>PixelUMM</th>
+<th>对照</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MMMU（图像理解）</td>
+<td>41.67</td>
+<td>BAGEL / TUNA-2 中等偏上；专用 VLM Qwen3-VL 为 69.60</td>
+</tr>
+<tr>
+<td>ChartQA</td>
+<td>82.96</td>
+<td>—</td>
+</tr>
+<tr>
+<td>OCRBench</td>
+<td>78.00</td>
+<td>—</td>
+</tr>
+<tr>
+<td>MVBench（视频理解）</td>
+<td><strong>70.53</strong></td>
+<td>Show-o2 49.80 / TUNA 54.40 / Lance 62.00</td>
+</tr>
+<tr>
+<td>GenEval（图像生成）</td>
+<td>0.83</td>
+<td>同类统一模型中上游</td>
+</tr>
+<tr>
+<td>VBench（视频生成）</td>
+<td>互有胜负</td>
+<td>UniVideo、TUNA</td>
+</tr>
+</tbody>
+</table>
+<p><strong>几个反直觉的发现（论文专门列了一节"没被采用的实验"）：</strong></p>
+<ul>
+<li><strong>patch 越小越好，且加数据补不回来</strong>：16×16 的训练损失始终低于 32×32；即便 32×32 在同样序列预算下多见了 4 倍图片，也没追上。说明某些压缩造成的信息损失，不是靠堆数据能填的。</li>
+<li>
+<p><strong>压缩越轻越好，但最终没选最优</strong>：视频时空 patch 里"32×32×1 帧"（几乎不压时间）损失最低，可最终仍选 16×16×4 帧——因为它与 Wan2.2 等主流视频 VAE 的压缩比一致，便于对齐生态。<strong>最优方案与可用方案经常不是同一个。</strong></p>
+</li>
+<li>
+<p><strong>像素输出会留"棋盘纹"</strong>：高 CFG 下天空、墙面等平滑区会出现沿 patch 边界的网格痕迹。卷积风格输出头压得最干净但训练损失卡在 0.05 以上、画面更糊；PixelShuffle 方案平衡最好。不过发布模型与全部评测仍用最朴素的线性头。</p>
+</li>
+<li><strong>算力对不同任务不等价</strong>：8B 用约 1/3 步数达到 1.7B 同等损失；GPU 从 8 张加到 128 张，文本交叉熵收敛提速约 9 倍，而图像 MSE 只有约 1.3 倍。</li>
+</ul>
+<p><strong>影响分析：</strong> PixelUMM 不是一个"更强的模型"，而是一份<strong>架构取舍的对照实验报告</strong>——它把"如果换个设计会怎样"逐条跑完并公开，包括那些没被采用的分支。对做多模态工程的团队，最有价值的三条结论是：视觉 Token 的粒度选择比模型规模更影响收敛；生态兼容性会压倒纸面最优；以及"统一"的代价往往体现在某些子任务掉点上（SEED-I 掉了 5.41 分，而 BLINK 涨了 2.37 分）。</p>
+<blockquote class="toc">
+<p>解读：<a href="https://www.techwalker.com/2026/1027/3203762.shtml" target="_blank" rel="noopener">PixelUMM：当 AI 生成视频不再需要"压缩字典"，直接在像素上作画会发生什么</a>
+报道：<a href="https://baijiahao.baidu.com/s?id=1880662652313906088&amp;wfr=spider&amp;for=pc" target="_blank" rel="noopener">告别 VAE 和 ViT！英伟达开源 PixelUMM</a></p>
+</blockquote>
+</div>
+<div class="imp-item">
+<h3>6. Genie 4：首个"实时"世界模型，画面、环境音与人物对话一次生成</h3>
+<p>10 月 27 日，Google DeepMind 以"面向受信任测试者的有限研究预览"形式发布 Genie 4。官方定位很明确：<strong>公司首个实时世界模型，且在生成模拟世界的同时原生生成音频</strong>——环境音、音乐与角色对话与画面在同一次生成中产出，而不是事后叠加。</p>
+<p><strong>技术要点：</strong></p>
+<ul>
+<li><strong>实时逐帧构建</strong>：系统实时生成可交互世界，用户可用键盘操控角色或镜头，用自然语言改变天气、移动镜头、添加角色或放置新物体，模型在执行每条指令的同时保持世界继续运行。</li>
+<li><strong>Gemini 3.8 Flash 在回路中当"导演"</strong>：这个引导代理负责把请求拆解成步骤、监控生成的帧，并在结果偏离意图时调整计划。这是"模型调度模型"的一个务实用法——把"想清楚要什么"与"画出来"解耦。</li>
+<li><strong>物理与人体动作</strong>：建立在 Genie 3 之上，物理表现更真实（空气动力学、碰撞），人体动作更自然；最长可连续模拟约两分钟。</li>
+<li><strong>溯源</strong>：每一份输出都带 SynthID 水印。</li>
+<li><strong>分发路径</strong>：Google AI Ultra 订阅用户将通过 Project Genie 获得访问；早期访问伙伴走 Gemini API 与 Google AI Studio。价格与日期均未公布。</li>
+</ul>
+<p><strong>演示与用途：</strong> 公开演示中，Apptronik 的人形机器人 Apollo 在生成的环境里下跳棋——这展示了具身智能体如何在"提示词出现之前并不存在"的世界里行动。企业侧的价值在于：生成的世界可作为演练空间，在真实部署前测试机器人与 Agent 的行为，替代一部分昂贵的物理原型工作。</p>
+<p><strong>局限（官方自己列的）：</strong> 长会话中的视觉漂移、近似物理、可读文本不稳定、长期一致性未解。行业分析补充了一句关键的冷水：娱乐场景可以接受的"近似"，在工程验证中未必可以接受。要把 Genie 4 当仿真器用，先得回答"误差多大算合格"。</p>
+<p><strong>影响分析：</strong> 世界模型正在从"生成好看的视频"分叉成两条路：一条追求<strong>视觉真实与实时交互</strong>（Genie 4、Runway 的 GWM Worlds 2），一条追求<strong>物理可推导</strong>（清华姚期智团队的"代数世界模型"，见常规动态）。前者先商业化，后者先解决"模拟十次弹跳轨迹十次都不一样"的一致性问题。对做机器人、自动驾驶、工业仿真的团队，2026 年底的现实选择是：用 Genie 4 类模型做<strong>数据增广与场景探索</strong>，用传统仿真做<strong>精度验证</strong>，两者短期不会互相替代。</p>
+<blockquote class="toc">
+<p>报道：<a href="https://www.163.com/dy/article/LAPJ3L3Q05561FZF.html" target="_blank" rel="noopener">首个实时世界模型来了，画面和声音一次生成</a>
+报道：<a href="https://www.163.com/dy/article/LALVTGOI0531NRE2.html" target="_blank" rel="noopener">谷歌深夜发布 Genie 4：AI 视频的下一个战场，可能不是视频</a>
+词条：<a href="https://baike.baidu.com/item/Genie%204/69522100" target="_blank" rel="noopener">Genie 4（百度百科）</a></p>
+</blockquote>
+</div><div class="section-title"><span class="sec-icon">📋</span> 常规动态</div>
+<div class="cat-title">模型发布</div>
+<div class="norm-item"><strong>度小满联合港科大发布轩辕 4.5 金融增强大模型</strong> — 11 月 2 日在香港金融科技周开幕式上，度小满与香港科技大学、香港生成式人工智能研发中心联合发布，称是国内首个"自进化"金融增强大模型。基于自进化 RSI 技术，在获客、风控、客户经营等核心场景效果提升 30%，成本约为通用模型的 10%。<a href="https://damodev.csdn.net/6ae9267540858c2d88180bf9.html" target="_blank" rel="noopener">来源</a></div>
+<div class="norm-item"><strong>微软年度开发者大会连发 AI 新品</strong> — 当地时间 11 月 2 日在旧金山开幕，发布首款 AI 编程模型、推理模型、AI 搜索引擎与个人助手；展示内置 1200 亿参数 AI 模型、搭载英伟达芯片的个人电脑，以及新一代量子芯片，目标 2029 年前造出实用量子计算机。微软同时是本周"训练退出信号"的四家发起方之一。<a href="https://damodev.csdn.net/6ae9267540858c2d88180bf9.html" target="_blank" rel="noopener">来源</a></div>
+<div class="norm-item"><strong>OpenAI Decisions API 正式 GA：把 Agent 的"判断环节"抽成结构化端点</strong> — 10 月下旬（DevDay 之后）转正，基于 GPT-6 Luna，针对"答案范围有限的小决策"做近实时判定，速度约为同模型 Responses API 的 10 倍，定价约 0.10 美元/百万输入 Token。它不返回自然语言，而是直接给结构化判定结果——这意味着 Agent 流程里的"是否继续/走哪个分支"可以被单独计价与单独优化。<a href="https://energy.blog.csdn.net/article/details/169330113" target="_blank" rel="noopener">来源</a></div>
+<div class="cat-title">学术论文</div>
+<div class="norm-item"><strong>MemSkill：把"怎么记"变成可学习、可进化的技能（NeurIPS 2026）</strong> — 南洋理工、UIUC、UIC 与清华团队提出，将记忆操作封装为用自然语言描述用途/条件/执行方式/约束的 Memory Skills。Controller 按片段选 Top-K 技能，Executor 据此生成记忆更新，Designer 周期性从 Hard Case Buffer 中筛难例来修订和扩展技能库，形成自进化闭环。在 LLaMA 与 Qwen 上，LoCoMo、LongMemEval 与 ALFWorld 均取得最高 L-J 分数与平均成功率；Qwen 的结果来自 LLaMA 技能直接迁移、LongMemEval 复用 LoCoMo 技能库，均无需重训；迁移到 HotpotQA 时优于 MemoryOS 与 A-MEM；相比 LightMem，LLM 调用量下降近七成。<a href="https://arxiv.org/abs/2602.02474" target="_blank" rel="noopener">论文</a> | <a href="https://github.com/ViktorAxelsen/MemSkill" target="_blank" rel="noopener">代码</a></div>
+<div class="norm-item"><strong>SAGE：用符号闭包分析给长推理"纠偏"（NeurIPS 2026）</strong> — 弗吉尼亚理工、威斯康星大学麦迪逊分校与达特茅斯团队提出，长推理走偏有两类成因：探索偏差与累积偏差，可用符号闭包分析（SCA）统一解释；再把这一诊断转成训练时的结构引导。在 7 个模型家族上总体优于所比较的后训练方法，Andrews-Curtis（AC）实例上 Qwen3 的 Lean 验证通过率接近基础模型的 8 倍。对做形式化验证与长链推理的团队，这条"先诊断偏差类型、再施加结构约束"的思路比单纯加 CoT 长度更对症。<a href="http://m.help.qidult.com/ijknews/1859217" target="_blank" rel="noopener">报道</a></div>
+<div class="norm-item"><strong>CLASHarness：当多 Agent 协同操作电脑遇上"猪队友"</strong> — Google 联合 Emory、USC、UF、UChicago、UCSB、Columbia 开源的一套测试框架，专门构造多 Agent 冲突场景：队友读了旧缓存报假消息、下发互相矛盾的指令、甚至锁死共享文件，主控 Agent 该听谁的。随着 Computer Use 从单机走向多 Agent 协同，这类"协作故障"比单点能力不足更常见，也更容易被现有基准漏掉。<a href="https://www.163.com/dy/article/LAM8JI4A0511AQHO.html" target="_blank" rel="noopener">报道</a></div>
+<div class="norm-item"><strong>Flide：把决策推理的逻辑树与物理执行解耦，比 vLLM/SGLang 最高快 9.5 倍</strong> — 核心是 ForkAttention，让同一决策请求下的多个分支共享底层执行、只在逻辑层分叉，从而避免"树状决策"被当成多次独立推理来跑。对需要高并发小决策的 Agent 后端（路由、重排、分支判定），这是直接可用的加速路径。<a href="https://arxiv.org/abs/2610.42148v1" target="_blank" rel="noopener">论文</a></div>
+<div class="norm-item"><strong>ACCT：跨 LLM 的不对称上下文迁移，砍掉 75% KV 仍保持原性能</strong> — 做法是把源模型的 KV 缓存转成稀疏 KV 状态，供同族不同规模的目标模型直接使用。它解决的是一个很实际的问题：小模型起草、大模型续写时，重算 KV 是最大浪费；若能安全迁移，推理成本与首 Token 延迟都能显著下降。<a href="https://arxiv.org/abs/2610.42116v1" target="_blank" rel="noopener">论文</a></div>
+<div class="norm-item"><strong>epi2diff：从大模型推理轨迹反推"这道题对人有多难"</strong> — 弗吉尼亚理工、马里兰大学、MBZUAI 与匹兹堡大学团队把模型生成的推理轨迹拆成"认知片段"，结合题目内容预测人类作答难度，在 SAT 数学、SAT 阅读与写作、Cambridge 与 USMLE 上验证。它的用途不止评测：教育产品可用它做题目难度标定，不必每次都组织真人实测。<a href="https://36kr.com/p/4052212520997765" target="_blank" rel="noopener">报道</a></div>
+<div class="cat-title">技术突破</div>
+<div class="norm-item"><strong>世界模型首次用于指导芯片设计：超大核 NPU 700TOPS、99% 算力可用率</strong> — 研究把世界模型引入 NPU 架构设计流程，最终实现 700TOPS 与 99% 的算力可用率。这条新闻的意义不在于数字，而在于"世界模型"第一次越出内容生成，成为硬件架构搜索的工具——它把"设计-仿真-验证"的循环从人工试错变成了模型驱动的迭代。<a href="https://www.qbitai.com/2026/10/506866.html" target="_blank" rel="noopener">报道</a></div>
+<div class="norm-item"><strong>谷歌 Project Suncatcher：数据中心级 TPU 首次在轨运行 Gemma 4 并回传完整响应</strong> — 原型卫星载四颗 TPU、供电最高约 1kW，在轨生成并回传完整 AI 响应，后续将测试热应力与辐射影响。把推理搬到太空的现实动机是能源与散热，短期更像技术验证；但它确实打开了一个新问题：当算力可以在轨部署，"数据回传"与"模型上行"的成本结构会被重新排列。<a href="https://www.theverge.com/tech/1023528/google-project-suncatcher-ai-satellite-transmission" target="_blank" rel="noopener">报道</a></div>
+<div class="norm-item"><strong>IDC：中国非 GPU 加速器出货首次超过 GPU，英伟达在华份额降至 34%</strong> — 2026 年上半年，非 GPU 加速器出货 101.6 万颗、同比增长近 80%，首次超过 GPU 的 99.1 万颗；9 家本土厂商出货量同比增长。报告判断竞争焦点正从"单卡参数"转向"芯片 + 集群 + 软件生态 + 行业方案"的系统级能力。对做国产化替代的团队，这意味着选型标准要跟着改：不看峰值算力，看整集群的有效吞吐与迁移成本。<a href="https://damodev.csdn.net/6ae9267540858c2d88180bf9.html" target="_blank" rel="noopener">来源</a></div>
+<div class="cat-title">行业新闻</div>
+<div class="norm-item"><strong>Anthropic 递交 S-1，拟以 ANT 登陆纳斯达克：上半年营收 163 亿美元，账面亏损 807 亿美元</strong> — 10 月 26 日晚公开招股书，有望成为全球规模最大的科技 IPO 之一。2026 上半年 GAAP 净亏损 807.48 亿美元（上年同期 129.69 亿），其中 723.88 亿来自可转换票据、衍生负债及 SAFE 的公允价值变动损失，并非现金流出；Q3 营收同比增长 11 倍、净亏损扩大 92%、算力承诺近 9000 亿美元；FT 报道其 IPO 后预计获得偏高的"垃圾级"信用评级。<strong>读这份财报的关键是分清"会计亏损"与"现金消耗"——前者被估值上调放大，后者才决定它能不能撑到盈利。</strong> <a href="https://www.163.com/dy/article/LAG26Q890552O2H6.html" target="_blank" rel="noopener">报道</a> | <a href="https://baijiahao.baidu.com/s?id=1880171061727391837&amp;wfr=spider&amp;for=pc" target="_blank" rel="noopener">报道</a></div>
+<div class="norm-item"><strong>DeepSeek 融资扩大至 1055 亿元、估值 6155 亿元；中国移动 80 亿元入股</strong> — 据 The Information 披露，最新一轮规模扩大至 1055 亿元人民币，对应估值 6155 亿元，近 30 家投资方覆盖半导体、通信等领域。中国移动以 80 亿元入股，被解读为其 AI 战略从"纯自研"转向"自研 + 生态投资"。运营商资本进入头部模型公司，会同时改变两件事：算力采购的优先级，以及行业模型的落地渠道。<a href="http://3g.hm123456789.com/jdynews/1102/article_55369808.shtml" target="_blank" rel="noopener">报道</a> | <a href="https://www.163.com/dy/article/LAPMGT33051288FS.html" target="_blank" rel="noopener">报道</a></div>
+<div class="norm-item"><strong>苹果 × 阿里：通义千问接入国行 Apple Intelligence</strong> — 10 月 31 日双方官宣，Qwen 将进入 Siri、系统写作工具、视觉智能三大原生入口；11 月 4 日随 iOS 开发者 Beta 开放测试，12 月随 iOS 27.3 正式版向符合条件的中国用户推送。这是国产大模型首次进入国际顶级终端生态的系统级入口，对模型的端侧时延、内容合规与多模态理解都是硬约束。<a href="https://www.163.com/dy/article/LAO8VUPF05563U77.html" target="_blank" rel="noopener">报道</a></div>
+<div class="norm-item"><strong>OpenAI、谷歌、微软、Anthropic 共推统一"训练退出信号"</strong> — 四家宣布支持在 robots.txt 中使用统一策略标记 <code>__usage_ai-training</code>，网站可一键声明内容是否可用于生成式 AI 训练，无需逐家配置；该信号仅表达用途偏好，不影响搜索引擎收录。Anthropic 已率先采用，OpenAI 计划未来数月实现，谷歌与微软预计 2027 年支持。<strong>它把"数据授权"从双边谈判变成了机器可读的声明——但声明不是合同，法律效力仍待判例确认。</strong> <a href="https://damodev.csdn.net/6ae9267540858c2d88180bf9.html" target="_blank" rel="noopener">来源</a></div>
+<div class="cat-title">开源项目</div>
+<div class="norm-item"><strong>DeepSeek 开源 DeepInfer 推理引擎：生产环境那套，单集群日处理 155 万亿 Token</strong> — 10 月 16 日建仓、Apache-2.0，截至 10 月 29 日约 2.4 万星、2882 fork、220 个 open issue；当前只支持 DeepSeek-V4.1-Flash 一款模型。技术栈覆盖 MoE 专家并行、异步 Batch 调度、定制 Kernel 与推测解码。只支持单模型的取舍很务实：先把自家生产链路跑通，再谈通用性。已有开发者反馈"clone 完第一条命令就报错"，说明文档与环境依赖仍需打磨。<a href="https://baijiahao.baidu.com/s?id=1880426008940912018&amp;wfr=spider&amp;for=pc" target="_blank" rel="noopener">报道</a></div>
+<div class="norm-item"><strong>Super-agent 原型两天冲进 GitHub 周榜前三</strong> — <code>dsh-superagent-prototype</code> 以 MIT 协议开源，两天内进入周榜前三，周末一度登顶日榜。社区反馈集中在两点：Token 账单涨到 3.8 倍，以及默认权限过宽（可读整个家目录）。这恰好印证了第 4 条里的判断——<strong>"更自主"的第一道门槛不是能力，而是权限与成本的可控性。</strong> <a href="https://github.com/deepseek-ai/dsh-superagent-prototype" target="_blank" rel="noopener">项目</a></div>
+<div class="norm-item"><strong>claude-mem：给编码 Agent 装"跨会话记忆"</strong> — TypeScript 实现，用 AI 压缩历史对话并注入未来会话，兼容 Claude Code、Codex、Gemini、Copilot 等多个宿主。单日新增约 1800 星，连续多日霸榜。它反映的趋势是：编码 Agent 的竞争点正从"更快"转向"记得住、可审计、可复用"——记忆层正在成为独立于模型的一层基础设施。<a href="https://github.com/thedotmack/claude-mem" target="_blank" rel="noopener">项目</a></div>
+<hr>
+<div class="section-title"><span class="sec-icon">📊</span> 本日趋势小结</div>
+<ol>
+<li>
+<p><strong>"参数规模"重新成为叙事中心，但含义变了。</strong> 美团 1.6T、Kimi 3T、Mistral 1T 接连出现，真正被比较的不再是总参数，而是"激活多少、用什么并行、在什么卡上训出来"。LongCat-2.5 的 86% 单卡吞吐提升与 80GB 显存约束，比 1.6 万亿这个数字更有信息量。</p>
+</li>
+<li>
+<p><strong>开源与闭源的差距压缩到"一个发布周期"。</strong> Kimi K3.1 Pro 以 55 分贴着 Opus 5.5 的 58 分、且承诺 11 月 4 日放权重；Mistral 1T 权重已落地。竞争焦点从 benchmark 转向"可部署性 + 许可证条款 + 量化后掉点"，采购方需要重算 TCO 而不是看榜单。</p>
+</li>
+<li>
+<p><strong>Agent 的战场从"能力"移到"位置与权限"。</strong> Super-agent 主动找活、Claude Duet 离开时继续工作、Replit 自动修复生产故障——三者共同把问题推到台前：谁给 Agent 授权、授权多大、如何审计它的产出。claude-mem 与 iFixAi 这类"记忆层/审计层"项目的走红，是市场对这一焦虑的直接反应。</p>
+</li>
+<li>
+<p><strong>世界模型分成两条路，短期不会合流。</strong> Genie 4 走"实时 + 视听一体 + 可交互"，先服务内容与场景探索；清华"代数世界模型"走"物理可推导"，先解决一致性。前者已能收费，后者才是仿真验证的前提。</p>
+</li>
+<li>
+<p><strong>国产算力从"能跑"进入"能训万亿 + 系统级竞争"。</strong> IDC 数据显示非 GPU 加速器出货首超 GPU、英伟达在华份额降至 34%，同期曙光 8000 十万卡超集群在乌镇亮相。硬件格局的变化会直接改写模型团队的并行策略与成本模型。</p>
+</li>
+</ol>
+<hr>
+<p><em>本速递由星辰超级智能体自动生成 | 数据截至 2026-11-03 09:30</em>
+<em>信息来源：arXiv、Hacker News、GitHub Trending、机器之心、量子位、智东西、The Verge、VentureBeat、TechCrunch、MIT Technology Review 等</em></p>
+<blockquote class="toc">
+<p>AI生成</p>
+</blockquote>
+</div>
+
+    <footer>
+      <p>本速递由星辰超级智能体自动生成</p>
+      <p>数据截至 2026-11-03 09:30</p>
+      <p>信息来源：arXiv · 机器之心 · 量子位 · IT之家 · 36Kr 等</p>
+    </footer>
+    
+</div>
+</body>
+</html>
