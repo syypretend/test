@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>每日算法 AI 出题 · 2026-11-04</title>
+  <!-- KaTeX 数学公式渲染 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
+  <style>
+    :root {
+      --bg: #0d1117;
+      --card-bg: #161b22;
+      --border: #30363d;
+      --text: #e6edf3;
+      --text-dim: #8b949e;
+      --accent: #58a6ff;
+      --green: #3fb950;
+      --orange: #d29922;
+      --red: #f85149;
+      --purple: #a855f7;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", sans-serif;
+      line-height: 1.7;
+      padding: 16px;
+      max-width: 860px;
+      margin: 0 auto;
+    }
+    .header {
+      text-align: center;
+      padding: 24px 0 16px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 24px;
+    }
+    .header h1 {
+      font-size: 1.5em;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+    .header .subtitle {
+      color: var(--text-dim);
+      font-size: 0.9em;
+    }
+    .header .date-tag {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 2px 12px;
+      border-radius: 12px;
+      background: var(--border);
+      font-size: 0.8em;
+      color: var(--text-dim);
+    }
+
+    /* 题目卡片 */
+    .question-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .question-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+    .type-badge {
+      padding: 2px 10px;
+      border-radius: 10px;
+      font-size: 0.75em;
+      color: white;
+      font-weight: 600;
+    }
+    .difficulty { font-size: 0.85em; }
+    .qid-label { color: var(--text-dim); font-size: 0.8em; margin-left: auto; }
+    .question-title {
+      font-size: 1.25em;
+      margin-bottom: 12px;
+      color: var(--text);
+    }
+    .question-body { margin-bottom: 14px; }
+    .question-body code.inline-code {
+      background: var(--border);
+      padding: 1px 5px;
+      border-radius: 3px;
+      font-size: 0.9em;
+    }
+
+    /* 信息块 */
+    .info-block {
+      background: rgba(88,166,255,0.05);
+      border-left: 3px solid var(--accent);
+      padding: 10px 14px;
+      margin: 10px 0;
+      border-radius: 0 6px 6px 0;
+    }
+    .info-label {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.85em;
+      display: block;
+      margin-bottom: 4px;
+    }
+    .info-block pre {
+      white-space: pre-wrap;
+      font-family: "JetBrains Mono", "Fira Code", monospace;
+      font-size: 0.85em;
+      color: var(--text);
+    }
+
+    /* 示例 */
+    .example-block {
+      background: rgba(63,185,80,0.05);
+      border: 1px solid rgba(63,185,80,0.2);
+      border-radius: 8px;
+      padding: 12px;
+      margin: 10px 0;
+    }
+    .example-title {
+      color: var(--green);
+      font-weight: 600;
+      font-size: 0.85em;
+      margin-bottom: 6px;
+    }
+    .example-io {
+      font-family: monospace;
+      font-size: 0.85em;
+      white-space: pre-wrap;
+      margin: 2px 0;
+    }
+    .io-label { color: var(--text-dim); }
+    .example-explanation {
+      color: var(--text-dim);
+      font-size: 0.85em;
+      margin-top: 6px;
+      padding-top: 6px;
+      border-top: 1px dashed var(--border);
+    }
+
+    /* 选项 */
+    .options-container { margin: 12px 0; }
+    .option-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      padding: 10px 14px;
+      margin: 6px 0;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .option-item:hover { border-color: var(--accent); background: rgba(88,166,255,0.05); }
+    .option-item.correct { border-color: var(--green); background: rgba(63,185,80,0.1); }
+    .option-item.wrong { border-color: var(--red); background: rgba(248,81,73,0.1); }
+    .option-item input[type=radio] { accent-color: var(--accent); margin-top: 4px; }
+    .option-letter {
+      font-weight: 700;
+      color: var(--accent);
+      min-width: 20px;
+    }
+    .option-text { flex: 1; font-size: 0.9em; }
+    .option-feedback {
+      margin: 8px 0;
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-size: 0.85em;
+      display: none;
+    }
+    .option-feedback.show { display: block; }
+    .option-feedback.correct {
+      background: rgba(63,185,80,0.1);
+      color: var(--green);
+    }
+    .option-feedback.wrong { background: rgba(248,81,73,0.1); color: var(--red); }
+
+    /* 代码编辑器 */
+    .code-section {
+      margin: 16px 0;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .code-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 14px;
+      background: rgba(88,166,255,0.08);
+      border-bottom: 1px solid var(--border);
+      font-size: 0.85em;
+      color: var(--accent);
+    }
+    .editor-wrap {
+      position: relative;
+    }
+    .code-editor {
+      min-height: 180px;
+      max-height: 400px;
+      overflow: auto;
+      padding: 12px;
+      font-family: "JetBrains Mono", "Fira Code", "Cascadia Code", monospace;
+      font-size: 13px;
+      line-height: 1.5;
+      white-space: pre;
+      color: var(--text);
+      background: #0d1117;
+      outline: none;
+      tabs: 4;
+    }
+    .btn-run {
+      background: var(--green);
+      color: white;
+      border: none;
+      padding: 4px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.85em;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .btn-run:hover { opacity: 0.85; }
+    .btn-run:disabled { opacity: 0.5; cursor: not-allowed; }
+    .code-result {
+      padding: 12px;
+      background: #0d1117;
+      border-top: 1px solid var(--border);
+      font-family: monospace;
+      font-size: 0.85em;
+      white-space: pre-wrap;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+    .code-result .test-pass { color: var(--green); }
+    .code-result .test-fail { color: var(--red); }
+    .code-result .stderr { color: var(--orange); }
+
+    /* 显示解析按钮 */
+    .btn-reveal {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      margin-top: 16px;
+      background: transparent;
+      border: 2px dashed var(--border);
+      border-radius: 8px;
+      color: var(--text-dim);
+      font-size: 0.95em;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .btn-reveal:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(88,166,255,0.03);
+    }
+    .btn-reveal.loading {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    /* 解析区域 */
+    .solution-section {
+      margin-top: 16px;
+      animation: fadeIn 0.4s ease;
+    }
+    @keyframes fadeIn { from{opacity:0; transform:translateY(10px) } to{opacity:1; transform:translateY(0) } }
+    .solution-divider {
+      text-align: center;
+      color: var(--text-dim);
+      font-size: 0.8em;
+      margin: 16px 0;
+      letter-spacing: 1px;
+    }
+    .answer-highlight {
+      background: rgba(63,185,80,0.1);
+      border: 1px solid var(--green);
+      border-radius: 8px;
+      padding: 10px 16px;
+      margin: 10px 0;
+      font-size: 1.05em;
+      color: var(--green);
+      font-weight: 600;
+    }
+    .solution-block {
+      margin: 14px 0;
+      padding: 14px;
+      background: rgba(255,255,255,0.02);
+      border-radius: 8px;
+    }
+    .solution-block h4 {
+      color: var(--accent);
+      margin-bottom: 8px;
+      font-size: 0.95em;
+    }
+    .solution-block ul.answer-points {
+      padding-left: 20px;
+    }
+    .solution-block ul.answer-points li {
+      margin: 6px 0;
+      font-size: 0.9em;
+    }
+    .code-block {
+      background: #0d1117;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 12px;
+      font-family: "JetBrains Mono", "Fira Code", monospace;
+      font-size: 0.85em;
+      overflow-x: auto;
+      white-space: pre;
+      color: var(--text);
+    }
+    .complexity-tag {
+      display: inline-block;
+      padding: 2px 10px;
+      margin-right: 8px;
+      border-radius: 6px;
+      background: var(--border);
+      font-size: 0.85em;
+      font-family: monospace;
+    }
+    .derivation-content {
+      font-size: 0.9em;
+      line-height: 1.8;
+    }
+
+    /* 运行中加载动画 */
+    .spinner {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      border: 2px solid var(--text-dim);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* 底部 */
+    .footer {
+      text-align: center;
+      padding: 24px 0;
+      color: var(--text-dim);
+      font-size: 0.8em;
+      border-top: 1px solid var(--border);
+      margin-top: 24px;
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 8px; }
+      .question-card { padding: 14px; }
+      .question-title { font-size: 1.1em; }
+      .code-editor { font-size: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <h1>每日算法 AI 出题</h1>
+  <div class="subtitle">算法 2 道 + AI 2 道 · 编辑距离 / 跳表 / VAE / RAG</div>
+  <div class="date-tag">📅 2026-11-04 ｜ 算法 2 道 · AI 2 道</div>
+</div>
+
+<div class="question-card" data-qid="1">
+
+    <div class="question-header">
+      <span class="type-badge" style="background:#3b82f6">算法编程</span>
+      <span class="difficulty">⭐⭐</span>
+      <span class="qid-label">第 1 题</span>
+    </div>
+<h2 class="question-title">编辑距离（Levenshtein Distance）</h2>
+<div class="question-body">给你两个字符串 <code class="inline-code">word1</code> 和 <code class="inline-code">word2</code>，请返回将 <code class="inline-code">word1</code> 转换成 <code class="inline-code">word2</code> 所使用的<strong>最少操作数</strong>。<br>
+<br>
+每次操作可以对任意一个字符串执行以下三种动作之一：<br>
+<br>
+1. 插入一个字符；<br>
+2. 删除一个字符；<br>
+3. 替换一个字符。<br>
+<br>
+这是二维动态规划的经典题：设 $dp[i][j]$ 为 <code class="inline-code">word1</code> 前 $i$ 个字符转成 <code class="inline-code">word2</code> 前 $j$ 个字符的最少操作数，思考末尾字符相同与不同两种情况，写出状态转移方程。</div>
+<div class="info-block"><span class="info-label">输入</span><pre>两个字符串 word1、word2，以 Python 函数参数按顺序传入。</pre></div>
+<div class="info-block"><span class="info-label">输出</span><pre>返回一个整数，表示最少操作数。</pre></div>
+<div class="example-block">
+<div class="example-title">示例 1</div>
+<pre class="example-io"><span class="io-label">输入：</span>word1 = &quot;horse&quot;, word2 = &quot;ros&quot;</pre>
+<pre class="example-io"><span class="io-label">输出：</span>3</pre>
+<div class="example-explanation">horse → rorse（把 h 替换成 r）→ rose（删除 r）→ ros（删除 e），共 3 步。</div>
+</div>
+<div class="example-block">
+<div class="example-title">示例 2</div>
+<pre class="example-io"><span class="io-label">输入：</span>word1 = &quot;intention&quot;, word2 = &quot;execution&quot;</pre>
+<pre class="example-io"><span class="io-label">输出：</span>5</pre>
+<div class="example-explanation">intention → inention（删 t）→ enention（i 换 e）→ exention（n 换 x）→ exection（n 换 c）→ execution（插 u），共 5 步。</div>
+</div>
+<div class="info-block"><span class="info-label">约束</span><div>0 &lt;= word1.length, word2.length &lt;= 500；字符串仅包含小写英文字母。</div></div>
+
+    <div class="code-section">
+      <div class="code-header">
+        <span>🧑‍💻 在线代码编辑器</span>
+        <button class="btn-run" onclick="runCode(1)" id="run_btn_1">▶ 运行</button>
+      </div>
+      <div class="editor-wrap">
+        <div class="code-editor" id="editor_1" contenteditable="true" spellcheck="false">def min_distance(word1: str, word2: str) -&gt; int:
+    # 在这里实现你的代码
+    pass
+</div>
+      </div>
+      <div class="code-result" id="result_1" style="display:none;"></div>
+      <input type="hidden" id="func_name_1" value="min_distance">
+      <input type="hidden" id="test_cases_1" value='[[&quot;horse&quot;, &quot;ros&quot;], [&quot;intention&quot;, &quot;execution&quot;], [&quot;&quot;, &quot;&quot;], [&quot;&quot;, &quot;abc&quot;], [&quot;abc&quot;, &quot;&quot;], [&quot;a&quot;, &quot;a&quot;], [&quot;a&quot;, &quot;b&quot;], [&quot;abc&quot;, &quot;abc&quot;], [&quot;kitten&quot;, &quot;sitting&quot;], [&quot;flaw&quot;, &quot;lawn&quot;], [&quot;abcdefghij&quot;, &quot;jihgfedcba&quot;], [&quot;aaaaa&quot;, &quot;aaaaa&quot;], [&quot;abcde&quot;, &quot;abc&quot;], [&quot;aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa&quot;, &quot;bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb&quot;], [&quot;teacher&quot;, &quot;detacher&quot;]]'>
+      <input type="hidden" id="expected_outputs_1" value='[3, 5, 0, 3, 3, 0, 1, 0, 3, 2, 10, 0, 2, 100, 2]'>
+    </div>
+
+    <button class="btn-reveal" onclick="revealSolution(1)" id="reveal_btn_1">
+      📖 显示答案与解析
+    </button>
+<div class="solution-section" id="solution_1" style="display:none;">
+<div class="solution-divider">--- 以下为答案与解析 ---</div>
+<div class="solution-block"><h4>💡 解题思路</h4><div><strong>状态定义</strong>：$dp[i][j]$ = <code class="inline-code">word1[:i]</code> 变成 <code class="inline-code">word2[:j]</code> 的最少操作数。<br>
+<br>
+<strong>边界</strong>：$dp[i][0] = i$（全部删除），$dp[0][j] = j$（全部插入）。<br>
+<br>
+<strong>转移</strong>：<br>
+- 若 <code class="inline-code">word1[i-1] == word2[j-1]</code>，末字符已经匹配，不需要操作：$dp[i][j] = dp[i-1][j-1]$；<br>
+- 否则在三种操作中取最小再 +1：<br>
+$$dp[i][j] = 1 + \min\big(dp[i-1][j],\ dp[i][j-1],\ dp[i-1][j-1]\big)$$<br>
+  其中 $dp[i-1][j]+1$ 是删除 <code class="inline-code">word1[i-1]</code>，$dp[i][j-1]+1$ 是插入 <code class="inline-code">word2[j-1]</code>，$dp[i-1][j-1]+1$ 是把 <code class="inline-code">word1[i-1]</code> 替换成 <code class="inline-code">word2[j-1]</code>。<br>
+<br>
+<strong>空间优化</strong>：每一行只依赖上一行与当前行左侧，可用一维数组滚动，但必须用变量 <code class="inline-code">prev_diag</code> 保存左上角的值，否则会被当前行覆盖。</div></div>
+<div class="solution-block"><h4>📝 参考代码（python）</h4><pre class="code-block">def min_distance(word1: str, word2: str) -&gt; int:
+    &quot;&quot;&quot;编辑距离：一维滚动数组实现，时间 O(mn)，空间 O(n)。&quot;&quot;&quot;
+    m, n = len(word1), len(word2)
+
+    # dp[j] 表示「当前处理到的 word1 前缀」转换到 word2[:j] 的最小操作数
+    # 初始为第 0 行：空串 -&gt; word2[:j] 需要 j 次插入
+    dp = list(range(n + 1))
+
+    for i in range(1, m + 1):
+        prev_diag = dp[0]          # 保存 dp[i-1][j-1]，即左上角
+        dp[0] = i                  # 第 i 行第 0 列：word1[:i] -&gt; 空串需 i 次删除
+
+        for j in range(1, n + 1):
+            tmp = dp[j]            # 覆盖前先存下 dp[i-1][j]（正上方）
+            if word1[i - 1] == word2[j - 1]:
+                # 末字符相同，不需要新操作，直接继承左上角
+                dp[j] = prev_diag
+            else:
+                # 三者取最小：删除(左) / 插入(上) / 替换(左上)，再 +1
+                dp[j] = 1 + min(dp[j], dp[j - 1], prev_diag)
+            prev_diag = tmp        # 供下一列使用
+
+    return dp[n]
+</pre></div>
+<div class="solution-block"><h4>⚡ 复杂度分析</h4><div>
+<span class="complexity-tag">时间 O(m·n)，m、n 为两串长度</span>
+<span class="complexity-tag">空间 O(n)（一维滚动数组；未优化时为 O(m·n)）</span>
+</div></div>
+<div class="solution-block"><h4>🎯 考点</h4><div>二维 DP 的状态定义与边界、三种操作的转移来源、滚动数组的左上角保护</div></div>
+</div>
+</div>
+<div class="question-card" data-qid="2">
+
+    <div class="question-header">
+      <span class="type-badge" style="background:#10b981">算法概念</span>
+      <span class="difficulty">⭐⭐</span>
+      <span class="qid-label">第 2 题</span>
+    </div>
+<h2 class="question-title">跳表（Skip List）：随机化如何带来期望 O(log n)？</h2>
+<div class="question-body">跳表是在有序链表上叠加多层索引的结构，Redis 的有序集合（zset）就用它实现。关于它的复杂度与维护方式，下列说法<strong>正确</strong>的是？</div>
+<div class="options-container">
+
+            <label class="option-item" data-letter="A">
+              <input type="radio" name="quiz_2" value="A" onchange="checkAnswer(2, 'A')">
+              <span class="option-letter">A</span>
+              <span class="option-text">跳表的查询最坏时间复杂度是 $O(\log n)$，因为每一层索引都把元素数量严格减半。</span>
+            </label>
+
+            <label class="option-item" data-letter="B">
+              <input type="radio" name="quiz_2" value="B" onchange="checkAnswer(2, 'B')">
+              <span class="option-letter">B</span>
+              <span class="option-text">跳表插入时以固定概率（通常 1/2）决定新节点是否继续向上建索引，期望层数为 $O(\log n)$，查询、插入、删除的期望复杂度均为 $O(\log n)$。</span>
+            </label>
+
+            <label class="option-item" data-letter="C">
+              <input type="radio" name="quiz_2" value="C" onchange="checkAnswer(2, 'C')">
+              <span class="option-letter">C</span>
+              <span class="option-text">跳表必须像 AVL 树一样在每次插入后检查左右子树高度差并旋转，才能保证索引层数平衡。</span>
+            </label>
+
+            <label class="option-item" data-letter="D">
+              <input type="radio" name="quiz_2" value="D" onchange="checkAnswer(2, 'D')">
+              <span class="option-letter">D</span>
+              <span class="option-text">跳表删除节点后必须重建全部索引层，否则查询会退化为 $O(n)$ 且无法恢复。</span>
+            </label>
+</div>
+<div class="option-feedback" id="feedback_2"></div>
+
+    <button class="btn-reveal" onclick="revealSolution(2)" id="reveal_btn_2">
+      📖 显示答案与解析
+    </button>
+<div class="solution-section" id="solution_2" style="display:none;">
+<div class="solution-divider">--- 以下为答案与解析 ---</div>
+<div class="answer-highlight">✅ 正确答案：B</div>
+<div class="solution-block"><h4>💡 解题思路</h4><div>跳表用「抛硬币」式的随机化代替严格平衡：每个节点以概率 $p$（常取 $1/2$）晋升到上一层，直到失败为止。节点出现在第 $k$ 层的概率是 $p^{k-1}$，因此第 $k$ 层期望节点数为 $n p^{k-1}$，当 $n p^{k-1} \approx 1$ 时得到期望层数 $L \approx \log_{1/p} n$。在每层期望比较常数个节点，故查询期望 $O(\log n)$。</div></div>
+<div class="solution-block"><h4>🎯 考点</h4><div>期望复杂度 vs 最坏复杂度、随机化平衡思想、与平衡树的实现代价对比、Redis zset 的应用</div></div>
+<div class="solution-block"><h4>🔍 逐项分析</h4><ul class="answer-points">
+<li>错误。跳表没有强制「每层减半」，最坏情况（随机数极端不利）仍可能是 $O(n)$；$O(\log n)$ 是<strong>期望</strong>而非最坏复杂度。</li>
+<li>正确。随机晋升使结构以高概率保持近似平衡，且无需旋转；插入只需修改各层前驱指针，删除同理。</li>
+<li>错误。跳表完全不做旋转，平衡性来自随机化；这正是它实现比红黑树简单的原因。</li>
+<li>错误。删除只需在各层摘除该节点并修改相邻指针，索引自然保持有效，无需重建。</li>
+</ul></div>
+</div>
+</div>
+<div class="question-card" data-qid="3">
+
+    <div class="question-header">
+      <span class="type-badge" style="background:#a855f7">AI公式推导</span>
+      <span class="difficulty">⭐⭐⭐</span>
+      <span class="qid-label">第 3 题</span>
+    </div>
+<h2 class="question-title">VAE 的 ELBO：从对数边缘似然到重构项 + KL 项</h2>
+<div class="question-body">变分自编码器（VAE）最大化数据对数似然 $\log p_\theta(x)$，但直接计算需要对隐变量积分，通常不可解。请完成：<br>
+<br>
+1. 引入近似后验 $q_\phi(z\mid x)$，推导出<strong>证据下界（ELBO）</strong>，并证明 $\log p_\theta(x) = \text{ELBO} + \mathrm{KL}(q_\phi(z\mid x)\,\|\,p_\theta(z\mid x))$；<br>
+2. 把 ELBO 拆成「重构项 − KL 项」；<br>
+3. 设 $q_\phi(z\mid x)=\mathcal{N}(\mu,\mathrm{diag}(\sigma^2))$、先验 $p(z)=\mathcal{N}(0,I)$，推导 KL 项的<strong>闭式解</strong>；<br>
+4. 说明重参数化技巧 $z=\mu+\sigma\odot\varepsilon$ 为什么是必要的。</div>
+
+    <button class="btn-reveal" onclick="revealSolution(3)" id="reveal_btn_3">
+      📖 显示答案与解析
+    </button>
+<div class="solution-section" id="solution_3" style="display:none;">
+<div class="solution-divider">--- 以下为答案与解析 ---</div>
+<div class="solution-block"><h4>🎯 考点</h4><div>Jensen/期望形式的变分下界、KL 非负性、对角高斯 KL 闭式解、重参数化的可导性动机</div></div>
+<div class="solution-block"><h4>📐 推导过程</h4><div class="derivation-content"><strong>第 0 步：符号约定</strong><br>
+<br>
+- $x$：观测数据；$z$：隐变量；$\theta$：解码器（生成网络）参数；$\phi$：编码器（推断网络）参数。<br>
+- $p_\theta(x,z)=p(z)p_\theta(x\mid z)$，其中先验 $p(z)=\mathcal{N}(0,I)$。<br>
+- $q_\phi(z\mid x)$ 是任意一个关于 $z$ 的概率密度（要求绝对连续）。<br>
+<br>
+<strong>第 1 步：把对数似然写成期望形式</strong><br>
+<br>
+对任意 $q_\phi(z\mid x)&gt;0$，有 $\int q_\phi(z\mid x)\,dz=1$，因此<br>
+<br>
+$$\log p_\theta(x)=\log p_\theta(x)\int q_\phi(z\mid x)\,dz=\int q_\phi(z\mid x)\log p_\theta(x)\,dz=\mathbb{E}_{q_\phi(z\mid x)}\big[\log p_\theta(x)\big].$$<br>
+<br>
+<strong>第 2 步：乘除 $q_\phi(z\mid x)$ 构造可分解项</strong><br>
+<br>
+由贝叶斯公式 $p_\theta(x)=\dfrac{p_\theta(x,z)}{p_\theta(z\mid x)}$，代入得<br>
+<br>
+$$\log p_\theta(x)=\mathbb{E}_{q}\left[\log\frac{p_\theta(x,z)}{p_\theta(z\mid x)}\right]=\mathbb{E}_{q}\left[\log\frac{p_\theta(x,z)}{q_\phi(z\mid x)}\right]+\mathbb{E}_{q}\left[\log\frac{q_\phi(z\mid x)}{p_\theta(z\mid x)}\right].$$<br>
+<br>
+第二项正是 KL 散度：<br>
+<br>
+$$\mathbb{E}_{q_\phi(z\mid x)}\left[\log\frac{q_\phi(z\mid x)}{p_\theta(z\mid x)}\right]=\mathrm{KL}\big(q_\phi(z\mid x)\,\|\,p_\theta(z\mid x)\big)\ge 0.$$<br>
+<br>
+于是<br>
+<br>
+$$\log p_\theta(x)=\underbrace{\mathbb{E}_{q_\phi(z\mid x)}\left[\log\frac{p_\theta(x,z)}{q_\phi(z\mid x)}\right]}_{\text{ELBO}(\theta,\phi;x)}+\mathrm{KL}\big(q_\phi(z\mid x)\,\|\,p_\theta(z\mid x)\big).$$<br>
+<br>
+因为 KL $\ge 0$，所以 $\text{ELBO}\le \log p_\theta(x)$，最大化 ELBO 即在下界逼近真实似然；当 $q_\phi(z\mid x)=p_\theta(z\mid x)$ 时 KL 为 0，下界取等。<br>
+<br>
+<strong>第 3 步：拆成重构项与 KL 项</strong><br>
+<br>
+把联合分布拆开 $p_\theta(x,z)=p(z)p_\theta(x\mid z)$：<br>
+<br>
+$$\text{ELBO}=\mathbb{E}_{q_\phi(z\mid x)}\big[\log p_\theta(x\mid z)\big]-\mathbb{E}_{q_\phi(z\mid x)}\left[\log\frac{q_\phi(z\mid x)}{p(z)}\right]=\underbrace{\mathbb{E}_{q}\big[\log p_\theta(x\mid z)\big]}_{\text{重构项}}-\underbrace{\mathrm{KL}\big(q_\phi(z\mid x)\,\|\,p(z)\big)}_{\text{正则项}}.$$<br>
+<br>
+重构项鼓励隐变量保留能还原 $x$ 的信息；KL 项把近似后验拉向标准正态先验，保证隐空间连续、可采样。<br>
+<br>
+<strong>第 4 步：对角高斯下 KL 的闭式解</strong><br>
+<br>
+设维度为 $d$，$q_\phi(z\mid x)=\prod_{j=1}^{d}\mathcal{N}(\mu_j,\sigma_j^2)$，$p(z)=\prod_{j=1}^{d}\mathcal{N}(0,1)$。KL 按维度可加，逐维计算：<br>
+<br>
+$$\mathrm{KL}\big(\mathcal{N}(\mu,\sigma^2)\,\|\,\mathcal{N}(0,1)\big)=\int \mathcal{N}(z;\mu,\sigma^2)\log\frac{\mathcal{N}(z;\mu,\sigma^2)}{\mathcal{N}(z;0,1)}\,dz.$$<br>
+<br>
+代入密度并取对数：<br>
+<br>
+$$\log\frac{\mathcal{N}(z;\mu,\sigma^2)}{\mathcal{N}(z;0,1)}=-\frac{(z-\mu)^2}{2\sigma^2}-\frac{1}{2}\log\sigma^2+\frac{z^2}{2}.$$<br>
+<br>
+利用 $\mathbb{E}[z]=\mu$、$\mathbb{E}[(z-\mu)^2]=\sigma^2$、$\mathbb{E}[z^2]=\mu^2+\sigma^2$，逐项求期望：<br>
+<br>
+$$\mathbb{E}\left[-\frac{(z-\mu)^2}{2\sigma^2}\right]=-\frac{1}{2},\qquad\mathbb{E}\left[\frac{z^2}{2}\right]=\frac{\mu^2+\sigma^2}{2}.$$<br>
+<br>
+合并得单维结果：<br>
+<br>
+$$\mathrm{KL}=\frac{1}{2}\left(\mu^2+\sigma^2-1-\log\sigma^2\right).$$<br>
+<br>
+多维对角情形求和：<br>
+<br>
+$$\mathrm{KL}\big(q_\phi(z\mid x)\,\|\,p(z)\big)=\frac{1}{2}\sum_{j=1}^{d}\left(\mu_j^2+\sigma_j^2-1-\log\sigma_j^2\right).$$<br>
+<br>
+实际实现中网络输出 $\log\sigma^2$ 而非 $\sigma^2$，既保证方差为正，又避免除零与数值下溢。<br>
+<br>
+<strong>第 5 步：重构项的高斯形式</strong><br>
+<br>
+若解码器设 $p_\theta(x\mid z)=\mathcal{N}(\hat{x},\tau^2 I)$，则<br>
+<br>
+$$\log p_\theta(x\mid z)=-\frac{\|x-\hat{x}\|^2}{2\tau^2}-\frac{D}{2}\log(2\pi\tau^2),$$<br>
+<br>
+对 $z$ 求期望后，最大化重构项等价于最小化均方误差 $\|x-\hat{x}\|^2$（二值数据则对应伯努利交叉熵）。<br>
+<br>
+<strong>第 6 步：重参数化技巧</strong><br>
+<br>
+ELBO 需要对 $\phi$ 求梯度，但采样 $z\sim q_\phi(z\mid x)$ 这一步是随机的，采样结果对 $\phi$ 不可导，无法直接反传。重参数化把随机性外移：<br>
+<br>
+$$\varepsilon\sim\mathcal{N}(0,I),\qquad z=\mu_\phi(x)+\sigma_\phi(x)\odot\varepsilon.$$<br>
+<br>
+此时 $z$ 是 $\phi$ 的确定性函数与独立噪声的组合，$\dfrac{\partial z}{\partial\mu}=\mathbf{1}$、$\dfrac{\partial z}{\partial\sigma}=\varepsilon$，梯度可以正常穿过采样操作回传到编码器。<br>
+<br>
+<strong>最终结论</strong><br>
+<br>
+$$\mathcal{L}(\theta,\phi;x)=\mathbb{E}_{\varepsilon\sim\mathcal{N}(0,I)}\big[\log p_\theta(x\mid \mu_\phi(x)+\sigma_\phi(x)\odot\varepsilon)\big]-\frac{1}{2}\sum_{j=1}^{d}\left(\mu_j^2+\sigma_j^2-1-\log\sigma_j^2\right).$$</div></div>
+<div class="solution-block"><h4>🧠 直觉解释</h4><div>ELBO 是「用编码器猜一个隐分布、再用解码器还原数据」的可计算下界：重构项要求还原得准，KL 项要求隐分布别偏离先验太远，二者拉扯出连续可生成的隐空间。</div></div>
+</div>
+</div>
+<div class="question-card" data-qid="4">
+
+    <div class="question-header">
+      <span class="type-badge" style="background:#f59e0b">AI面试问答</span>
+      <span class="difficulty">⭐⭐</span>
+      <span class="qid-label">第 4 题</span>
+    </div>
+<h2 class="question-title">RAG 为什么要做混合检索（BM25 + 向量）？RRF 如何融合？</h2>
+<div class="question-body">面试官问：我们做企业知识库问答，只用向量检索经常漏掉型号、工单号、专有名词；加上 BM25 后又不知道两路结果怎么合并。请说明混合检索的必要性、融合方法和工程要点。</div>
+
+    <button class="btn-reveal" onclick="revealSolution(4)" id="reveal_btn_4">
+      📖 显示答案与解析
+    </button>
+<div class="solution-section" id="solution_4" style="display:none;">
+<div class="solution-divider">--- 以下为答案与解析 ---</div>
+<div class="solution-block"><h4>📌 回答要点</h4><ul class="answer-points">
+<li><strong>两路召回互补</strong>：BM25 是稀疏词频匹配，擅长精确命中型号、编号、缩写、人名等低频关键词，对未登录词和领域术语稳定；向量检索是稠密语义匹配，擅长同义改写、口语化提问和跨表述召回。单一路径都有系统性盲区。</li>
+<li><strong>RRF（Reciprocal Rank Fusion）无需分数归一化</strong>：对每篇文档按各路排名计算 $\text{score}(d)=\sum_{i}\dfrac{1}{k+\text{rank}_i(d)}$，常取 $k=60$。它只使用排名而非原始分数，避免 BM25 分数与余弦相似度量纲不同、分布漂移的问题。</li>
+<li><strong>两阶段结构</strong>：召回阶段并行跑 BM25 与向量检索各取 Top-N（如 50），RRF 融合后取 Top-M（如 20），再用 cross-encoder 重排模型精排取 Top-K 送入 LLM，兼顾召回率与精度。</li>
+<li><strong>中文场景的关键细节</strong>：BM25 依赖分词，型号/编号需自定义词典或字符级 n-gram 兜底；向量模型要选中文/领域适配版本，并保证建库与查询使用同一模型、同一归一化方式。</li>
+<li><strong>用数据驱动参数</strong>：以 Recall@K、MRR、nDCG 评估召回质量，分别统计「仅向量命中」「仅 BM25 命中」「两者都命中」的比例，据此决定各路 Top-N、RRF 的 $k$ 以及是否引入权重。</li>
+</ul></div>
+<div class="solution-block"><h4>⭐ 加分项</h4><ul class="answer-points">
+<li>指出 RRF 的局限：它丢弃了分数信息，当某一路置信度差异很大时可能融合出次优结果；可用加权 RRF 或学习型融合（如基于 LambdaMART 的排序融合）改进。</li>
+<li>提及查询侧优化：查询改写/扩展（HyDE、同义词、实体抽取）能显著提升稀疏与稠密两路的召回，尤其是多轮对话中的指代消解。</li>
+<li>工程上把 BM25 与向量索引放在同一检索服务中并行发起，控制超时与降级；对权限过滤要在召回前或融合前完成，避免越权内容进入上下文。</li>
+<li>能说出评估闭环：离线构建「问题-正确文档」标注集，线上用点击/采纳率与答案忠实度（faithfulness）监控。</li>
+</ul></div>
+<div class="solution-block"><h4>🔮 追问预测</h4><ul class="answer-points">
+<li>追问「RRF 的 k 为什么取 60？」——回答：k 起平滑作用，抑制头部排名的绝对优势、让多路共识更稳；60 来自原论文经验值，实际应在验证集上调，k 越小头部越强势。</li>
+<li>追问「BM25 和向量分数能不能直接加权求和？」——回答：需先做归一化（min-max/z-score/分位数），但两路分布随查询变化大，归一化不稳定，因此优先 RRF；若要加权，需在固定验证集上学习权重。</li>
+<li>追问「混合检索后上下文还是太长怎么办？」——回答：重排后按相关性截断、去重（同文档多段）、按 token 预算动态分配，并保留引用片段以便溯源。</li>
+</ul></div>
+</div>
+</div>
+
+<div class="footer">
+  坚持每日练习，积少成多 💪<br>
+  Powered by TeleAgent · daily-algo-ai-quiz
+</div>
+
+<script>
+// ===== Pyodide 隔离执行测试运行器 =====
+const RUNNER_CODE = "\nimport json, traceback, io, contextlib\n\ndef run_tests(user_code, func_name, test_cases, expected):\n    ns = {}\n    user_stdout = io.StringIO()\n    user_error = None\n\n    try:\n        with contextlib.redirect_stdout(user_stdout):\n            exec(user_code, ns)\n    except Exception:\n        user_error = traceback.format_exc()\n\n    user_out = user_stdout.getvalue()\n\n    if user_error:\n        return {\"error\": user_error, \"stdout\": user_out}\n\n    func = ns.get(func_name)\n    if func is None:\n        return {\"error\": \"未找到函数 \" + str(func_name) + \"，请确保代码中定义了该函数\", \"stdout\": user_out}\n\n    test_results = []\n    for i, tc in enumerate(test_cases):\n        try:\n            actual = func(*tc)\n            exp = expected[i]\n            passed = actual == exp\n            test_results.append({\n                \"passed\": passed,\n                \"input\": str(tc),\n                \"expected\": str(exp),\n                \"actual\": str(actual)\n            })\n        except Exception as e:\n            exp = str(expected[i]) if i < len(expected) else \"N/A\"\n            test_results.append({\n                \"passed\": False,\n                \"input\": str(tc),\n                \"expected\": exp,\n                \"actual\": \"Error: \" + str(e)\n            })\n\n    return {\"stdout\": user_out, \"tests\": test_results}\n";
+
+// ===== 显示/隐藏解析 =====
+function revealSolution(qid) {
+  const sol = document.getElementById('solution_' + qid);
+  const btn = document.getElementById('reveal_btn_' + qid);
+  if (sol.style.display === 'none') {
+    sol.style.display = 'block';
+    btn.innerHTML = '📕 收起解析';
+    // 渲染该区域数学公式
+    if (typeof renderMathInElement !== 'undefined') {
+      renderMathInElement(sol, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false}
+        ]
+      });
+    }
+  } else {
+    sol.style.display = 'none';
+    btn.innerHTML = '📖 显示答案与解析';
+  }
+}
+
+// ===== 选择题作答反馈 =====
+function checkAnswer(qid, selected) {
+  const card = document.querySelector(`[data-qid="${qid}"]`);
+  if (!card) return;
+  const correctAnswer = card.getAttribute('data-correct') || '';
+  // 从全局 quizData 获取
+  const qData = window.__quizData__.questions.find(q => q.id == qid);
+  if (!qData || !qData.correct_answer) return;
+
+  const correct = qData.correct_answer;
+  const feedback = document.getElementById('feedback_' + qid);
+  const options = card.querySelectorAll('.option-item');
+
+  options.forEach(opt => {
+    const letter = opt.getAttribute('data-letter');
+    opt.classList.remove('correct', 'wrong');
+    if (letter === correct) {
+      opt.classList.add('correct');
+    } else if (letter === selected && selected !== correct) {
+      opt.classList.add('wrong');
+    }
+  });
+
+  if (feedback) {
+    feedback.className = 'option-feedback show ' + (selected === correct ? 'correct' : 'wrong');
+    feedback.textContent = selected === correct
+      ? '✅ 回答正确！'
+      : `❌ 正确答案是 ${correct}，再想想？`;
+    feedback.style.display = 'block';
+  }
+}
+
+// ===== Pyodide 代码执行 =====
+let pyodideReady = null;
+let pyodideLoading = false;
+
+function loadPyodideAsync() {
+  if (pyodideReady) return pyodideReady;
+  if (pyodideLoading) return pyodideReady;
+  pyodideLoading = true;
+
+  pyodideReady = new Promise((resolve, reject) => {
+    if (typeof loadPyodide !== 'undefined') {
+      loadPyodide({
+        indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.25.0/full/'
+      }).then(py => {
+        pyodideLoading = false;
+        resolve(py);
+      }).catch(reject);
+    } else {
+      // 动态加载 Pyodide
+      const script = document.createElement('script');
+      script.src = 'https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js';
+      script.onload = () => {
+        loadPyodide({
+          indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.25.0/full/'
+        }).then(py => {
+          pyodideLoading = false;
+          resolve(py);
+        }).catch(reject);
+      };
+      script.onerror = () => {
+        pyodideLoading = false;
+        reject(new Error('Pyodide 加载失败，请检查网络连接'));
+      };
+      document.head.appendChild(script);
+    }
+  });
+  return pyodideReady;
+}
+
+async function runCode(qid) {
+    const editor = document.getElementById('editor_' + qid);
+    const resultDiv = document.getElementById('result_' + qid);
+    const btn = document.getElementById('run_btn_' + qid);
+    const code = editor.innerText;
+    const funcNameInput = document.getElementById('func_name_' + qid);
+    const funcName = funcNameInput ? funcNameInput.value : 'solve';
+    const tcInput = document.getElementById('test_cases_' + qid);
+    const eoInput = document.getElementById('expected_outputs_' + qid);
+    let testCases = [];
+    let expectedOutputs = [];
+    try {
+        testCases = JSON.parse(tcInput.value || '[]');
+        expectedOutputs = JSON.parse(eoInput.value || '[]');
+    } catch(e) {}
+
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span> 运行中...';
+    resultDiv.style.display = 'block';
+    resultDiv.innerHTML = '<span style="color:var(--text-dim)">⏳ 正在加载 Python 运行环境...</span>';
+
+    try {
+        const pyodide = await loadPyodideAsync();
+        resultDiv.innerHTML = '<span style="color:var(--text-dim)">⏳ 正在执行代码...</span>';
+
+        // 确保 run_tests 函数只定义一次
+        if (!window.__runner_ready__) {
+            pyodide.runPython(RUNNER_CODE);
+            window.__runner_ready__ = true;
+        }
+
+        // 调用 run_tests 函数，通过返回值获取结果（不依赖 stdout，每次调用独立）
+        const runTests = pyodide.globals.get('run_tests');
+        const pyResult = runTests(code, funcName, testCases, expectedOutputs);
+        // pyResult 是 Python dict，转为 JS 对象
+        const result = pyResult.toJs({dict_converter: Object.fromEntries});
+
+        let resultHtml = '';
+
+        // 显示用户代码标准输出
+        if (result.stdout && result.stdout.trim()) {
+            resultHtml += '<div style="color:var(--text)">📝 标准输出：</div>';
+            resultHtml += '<pre style="color:var(--text);margin:4px 0;">' + escapeHtml(result.stdout) + '</pre>';
+        }
+
+        // 显示错误信息
+        if (result.error) {
+            resultHtml += '<div class="stderr">⚠️ 错误信息：</div>';
+            resultHtml += '<pre class="stderr" style="margin:4px 0;">' + escapeHtml(result.error) + '</pre>';
+        }
+
+        // 显示测试用例结果
+        if (result.tests && result.tests.length > 0) {
+            let allPassed = result.tests.every(t => t.passed);
+            resultHtml += '<div style="margin-top:8px;color:' + (allPassed ? 'var(--green)' : 'var(--accent)') + '">';
+            resultHtml += allPassed ? '🎉 全部通过！' : '🧪 测试用例结果：';
+            resultHtml += '</div>';
+
+            for (let i = 0; i < result.tests.length; i++) {
+                const t = result.tests[i];
+                if (t.passed) {
+                    resultHtml += '<div class="test-pass">✅ 用例 ' + (i+1) + ' 通过</div>';
+                } else {
+                    resultHtml += '<div class="test-fail">❌ 用例 ' + (i+1) + ' 未通过</div>';
+                    resultHtml += '<pre style="color:var(--text-dim);margin:2px 0;">  输入: ' + escapeHtml(t.input) + '\n  期望: ' + escapeHtml(t.expected) + '\n  实际: ' + escapeHtml(t.actual) + '</pre>';
+                }
+            }
+        }
+
+        if (!resultHtml) {
+            resultHtml = '<span style="color:var(--text-dim)">（代码执行完毕，无输出）</span>';
+        }
+
+        resultDiv.innerHTML = resultHtml;
+
+    } catch(e) {
+        resultDiv.innerHTML = '<div class="stderr">❌ ' + escapeHtml(e.message || String(e)) + '</div>';
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = '▶ 运行';
+    }
+}
+
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+// Ctrl+Enter 运行代码
+document.addEventListener('keydown', (e) => {
+  if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+    const focused = document.activeElement;
+    if (focused && focused.classList.contains('code-editor')) {
+      const qid = focused.id.replace('editor_', '');
+      runCode(qid);
+    }
+  }
+});
+
+// Tab 键在编辑器中插入空格
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Tab' && document.activeElement.classList.contains('code-editor')) {
+    e.preventDefault();
+    document.execCommand('insertText', false, '    ');
+  }
+});
+
+// 将 quiz 数据存入全局变量供选择题使用
+window.__quizData__ = {"date": "2026-11-04", "title": "每日算法 AI 出题", "subtitle": "算法 2 道 + AI 2 道 · 编辑距离 / 跳表 / VAE / RAG", "questions": [{"id": 1, "type": "algorithm_code", "type_label": "算法编程", "difficulty": 2, "title": "编辑距离（Levenshtein Distance）", "description": "给你两个字符串 `word1` 和 `word2`，请返回将 `word1` 转换成 `word2` 所使用的**最少操作数**。\n\n每次操作可以对任意一个字符串执行以下三种动作之一：\n\n1. 插入一个字符；\n2. 删除一个字符；\n3. 替换一个字符。\n\n这是二维动态规划的经典题：设 $dp[i][j]$ 为 `word1` 前 $i$ 个字符转成 `word2` 前 $j$ 个字符的最少操作数，思考末尾字符相同与不同两种情况，写出状态转移方程。", "input_format": "两个字符串 word1、word2，以 Python 函数参数按顺序传入。", "output_format": "返回一个整数，表示最少操作数。", "examples": [{"input": "word1 = \"horse\", word2 = \"ros\"", "output": "3", "explanation": "horse → rorse（把 h 替换成 r）→ rose（删除 r）→ ros（删除 e），共 3 步。"}, {"input": "word1 = \"intention\", word2 = \"execution\"", "output": "5", "explanation": "intention → inention（删 t）→ enention（i 换 e）→ exention（n 换 x）→ exection（n 换 c）→ execution（插 u），共 5 步。"}], "constraints": "0 <= word1.length, word2.length <= 500；字符串仅包含小写英文字母。", "solution": {"approach": "**状态定义**：$dp[i][j]$ = `word1[:i]` 变成 `word2[:j]` 的最少操作数。\n\n**边界**：$dp[i][0] = i$（全部删除），$dp[0][j] = j$（全部插入）。\n\n**转移**：\n- 若 `word1[i-1] == word2[j-1]`，末字符已经匹配，不需要操作：$dp[i][j] = dp[i-1][j-1]$；\n- 否则在三种操作中取最小再 +1：\n$$dp[i][j] = 1 + \\min\\big(dp[i-1][j],\\ dp[i][j-1],\\ dp[i-1][j-1]\\big)$$\n  其中 $dp[i-1][j]+1$ 是删除 `word1[i-1]`，$dp[i][j-1]+1$ 是插入 `word2[j-1]`，$dp[i-1][j-1]+1$ 是把 `word1[i-1]` 替换成 `word2[j-1]`。\n\n**空间优化**：每一行只依赖上一行与当前行左侧，可用一维数组滚动，但必须用变量 `prev_diag` 保存左上角的值，否则会被当前行覆盖。", "code": "def min_distance(word1: str, word2: str) -> int:\n    \"\"\"编辑距离：一维滚动数组实现，时间 O(mn)，空间 O(n)。\"\"\"\n    m, n = len(word1), len(word2)\n\n    # dp[j] 表示「当前处理到的 word1 前缀」转换到 word2[:j] 的最小操作数\n    # 初始为第 0 行：空串 -> word2[:j] 需要 j 次插入\n    dp = list(range(n + 1))\n\n    for i in range(1, m + 1):\n        prev_diag = dp[0]          # 保存 dp[i-1][j-1]，即左上角\n        dp[0] = i                  # 第 i 行第 0 列：word1[:i] -> 空串需 i 次删除\n\n        for j in range(1, n + 1):\n            tmp = dp[j]            # 覆盖前先存下 dp[i-1][j]（正上方）\n            if word1[i - 1] == word2[j - 1]:\n                # 末字符相同，不需要新操作，直接继承左上角\n                dp[j] = prev_diag\n            else:\n                # 三者取最小：删除(左) / 插入(上) / 替换(左上)，再 +1\n                dp[j] = 1 + min(dp[j], dp[j - 1], prev_diag)\n            prev_diag = tmp        # 供下一列使用\n\n    return dp[n]\n", "starter_code": "def min_distance(word1: str, word2: str) -> int:\n    # 在这里实现你的代码\n    pass\n", "code_language": "python", "complexity_time": "O(m·n)，m、n 为两串长度", "complexity_space": "O(n)（一维滚动数组；未优化时为 O(m·n)）", "key_points": "二维 DP 的状态定义与边界、三种操作的转移来源、滚动数组的左上角保护", "test_cases": [["horse", "ros"], ["intention", "execution"], ["", ""], ["", "abc"], ["abc", ""], ["a", "a"], ["a", "b"], ["abc", "abc"], ["kitten", "sitting"], ["flaw", "lawn"], ["abcdefghij", "jihgfedcba"], ["aaaaa", "aaaaa"], ["abcde", "abc"], ["aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"], ["teacher", "detacher"]], "expected_outputs": [3, 5, 0, 3, 3, 0, 1, 0, 3, 2, 10, 0, 2, 100, 2]}}, {"id": 2, "type": "algorithm_concept", "type_label": "算法概念", "difficulty": 2, "title": "跳表（Skip List）：随机化如何带来期望 O(log n)？", "description": "跳表是在有序链表上叠加多层索引的结构，Redis 的有序集合（zset）就用它实现。关于它的复杂度与维护方式，下列说法**正确**的是？", "options": ["跳表的查询最坏时间复杂度是 $O(\\log n)$，因为每一层索引都把元素数量严格减半。", "跳表插入时以固定概率（通常 1/2）决定新节点是否继续向上建索引，期望层数为 $O(\\log n)$，查询、插入、删除的期望复杂度均为 $O(\\log n)$。", "跳表必须像 AVL 树一样在每次插入后检查左右子树高度差并旋转，才能保证索引层数平衡。", "跳表删除节点后必须重建全部索引层，否则查询会退化为 $O(n)$ 且无法恢复。"], "correct_answer": "B", "solution": {"approach": "跳表用「抛硬币」式的随机化代替严格平衡：每个节点以概率 $p$（常取 $1/2$）晋升到上一层，直到失败为止。节点出现在第 $k$ 层的概率是 $p^{k-1}$，因此第 $k$ 层期望节点数为 $n p^{k-1}$，当 $n p^{k-1} \\approx 1$ 时得到期望层数 $L \\approx \\log_{1/p} n$。在每层期望比较常数个节点，故查询期望 $O(\\log n)$。", "option_analysis": ["错误。跳表没有强制「每层减半」，最坏情况（随机数极端不利）仍可能是 $O(n)$；$O(\\log n)$ 是**期望**而非最坏复杂度。", "正确。随机晋升使结构以高概率保持近似平衡，且无需旋转；插入只需修改各层前驱指针，删除同理。", "错误。跳表完全不做旋转，平衡性来自随机化；这正是它实现比红黑树简单的原因。", "错误。删除只需在各层摘除该节点并修改相邻指针，索引自然保持有效，无需重建。"], "key_points": "期望复杂度 vs 最坏复杂度、随机化平衡思想、与平衡树的实现代价对比、Redis zset 的应用"}}, {"id": 3, "type": "ai_derivation", "type_label": "AI公式推导", "difficulty": 3, "title": "VAE 的 ELBO：从对数边缘似然到重构项 + KL 项", "description": "变分自编码器（VAE）最大化数据对数似然 $\\log p_\\theta(x)$，但直接计算需要对隐变量积分，通常不可解。请完成：\n\n1. 引入近似后验 $q_\\phi(z\\mid x)$，推导出**证据下界（ELBO）**，并证明 $\\log p_\\theta(x) = \\text{ELBO} + \\mathrm{KL}(q_\\phi(z\\mid x)\\,\\|\\,p_\\theta(z\\mid x))$；\n2. 把 ELBO 拆成「重构项 − KL 项」；\n3. 设 $q_\\phi(z\\mid x)=\\mathcal{N}(\\mu,\\mathrm{diag}(\\sigma^2))$、先验 $p(z)=\\mathcal{N}(0,I)$，推导 KL 项的**闭式解**；\n4. 说明重参数化技巧 $z=\\mu+\\sigma\\odot\\varepsilon$ 为什么是必要的。", "solution": {"derivation": "**第 0 步：符号约定**\n\n- $x$：观测数据；$z$：隐变量；$\\theta$：解码器（生成网络）参数；$\\phi$：编码器（推断网络）参数。\n- $p_\\theta(x,z)=p(z)p_\\theta(x\\mid z)$，其中先验 $p(z)=\\mathcal{N}(0,I)$。\n- $q_\\phi(z\\mid x)$ 是任意一个关于 $z$ 的概率密度（要求绝对连续）。\n\n**第 1 步：把对数似然写成期望形式**\n\n对任意 $q_\\phi(z\\mid x)>0$，有 $\\int q_\\phi(z\\mid x)\\,dz=1$，因此\n\n$$\\log p_\\theta(x)=\\log p_\\theta(x)\\int q_\\phi(z\\mid x)\\,dz=\\int q_\\phi(z\\mid x)\\log p_\\theta(x)\\,dz=\\mathbb{E}_{q_\\phi(z\\mid x)}\\big[\\log p_\\theta(x)\\big].$$\n\n**第 2 步：乘除 $q_\\phi(z\\mid x)$ 构造可分解项**\n\n由贝叶斯公式 $p_\\theta(x)=\\dfrac{p_\\theta(x,z)}{p_\\theta(z\\mid x)}$，代入得\n\n$$\\log p_\\theta(x)=\\mathbb{E}_{q}\\left[\\log\\frac{p_\\theta(x,z)}{p_\\theta(z\\mid x)}\\right]=\\mathbb{E}_{q}\\left[\\log\\frac{p_\\theta(x,z)}{q_\\phi(z\\mid x)}\\right]+\\mathbb{E}_{q}\\left[\\log\\frac{q_\\phi(z\\mid x)}{p_\\theta(z\\mid x)}\\right].$$\n\n第二项正是 KL 散度：\n\n$$\\mathbb{E}_{q_\\phi(z\\mid x)}\\left[\\log\\frac{q_\\phi(z\\mid x)}{p_\\theta(z\\mid x)}\\right]=\\mathrm{KL}\\big(q_\\phi(z\\mid x)\\,\\|\\,p_\\theta(z\\mid x)\\big)\\ge 0.$$\n\n于是\n\n$$\\log p_\\theta(x)=\\underbrace{\\mathbb{E}_{q_\\phi(z\\mid x)}\\left[\\log\\frac{p_\\theta(x,z)}{q_\\phi(z\\mid x)}\\right]}_{\\text{ELBO}(\\theta,\\phi;x)}+\\mathrm{KL}\\big(q_\\phi(z\\mid x)\\,\\|\\,p_\\theta(z\\mid x)\\big).$$\n\n因为 KL $\\ge 0$，所以 $\\text{ELBO}\\le \\log p_\\theta(x)$，最大化 ELBO 即在下界逼近真实似然；当 $q_\\phi(z\\mid x)=p_\\theta(z\\mid x)$ 时 KL 为 0，下界取等。\n\n**第 3 步：拆成重构项与 KL 项**\n\n把联合分布拆开 $p_\\theta(x,z)=p(z)p_\\theta(x\\mid z)$：\n\n$$\\text{ELBO}=\\mathbb{E}_{q_\\phi(z\\mid x)}\\big[\\log p_\\theta(x\\mid z)\\big]-\\mathbb{E}_{q_\\phi(z\\mid x)}\\left[\\log\\frac{q_\\phi(z\\mid x)}{p(z)}\\right]=\\underbrace{\\mathbb{E}_{q}\\big[\\log p_\\theta(x\\mid z)\\big]}_{\\text{重构项}}-\\underbrace{\\mathrm{KL}\\big(q_\\phi(z\\mid x)\\,\\|\\,p(z)\\big)}_{\\text{正则项}}.$$\n\n重构项鼓励隐变量保留能还原 $x$ 的信息；KL 项把近似后验拉向标准正态先验，保证隐空间连续、可采样。\n\n**第 4 步：对角高斯下 KL 的闭式解**\n\n设维度为 $d$，$q_\\phi(z\\mid x)=\\prod_{j=1}^{d}\\mathcal{N}(\\mu_j,\\sigma_j^2)$，$p(z)=\\prod_{j=1}^{d}\\mathcal{N}(0,1)$。KL 按维度可加，逐维计算：\n\n$$\\mathrm{KL}\\big(\\mathcal{N}(\\mu,\\sigma^2)\\,\\|\\,\\mathcal{N}(0,1)\\big)=\\int \\mathcal{N}(z;\\mu,\\sigma^2)\\log\\frac{\\mathcal{N}(z;\\mu,\\sigma^2)}{\\mathcal{N}(z;0,1)}\\,dz.$$\n\n代入密度并取对数：\n\n$$\\log\\frac{\\mathcal{N}(z;\\mu,\\sigma^2)}{\\mathcal{N}(z;0,1)}=-\\frac{(z-\\mu)^2}{2\\sigma^2}-\\frac{1}{2}\\log\\sigma^2+\\frac{z^2}{2}.$$\n\n利用 $\\mathbb{E}[z]=\\mu$、$\\mathbb{E}[(z-\\mu)^2]=\\sigma^2$、$\\mathbb{E}[z^2]=\\mu^2+\\sigma^2$，逐项求期望：\n\n$$\\mathbb{E}\\left[-\\frac{(z-\\mu)^2}{2\\sigma^2}\\right]=-\\frac{1}{2},\\qquad\\mathbb{E}\\left[\\frac{z^2}{2}\\right]=\\frac{\\mu^2+\\sigma^2}{2}.$$\n\n合并得单维结果：\n\n$$\\mathrm{KL}=\\frac{1}{2}\\left(\\mu^2+\\sigma^2-1-\\log\\sigma^2\\right).$$\n\n多维对角情形求和：\n\n$$\\mathrm{KL}\\big(q_\\phi(z\\mid x)\\,\\|\\,p(z)\\big)=\\frac{1}{2}\\sum_{j=1}^{d}\\left(\\mu_j^2+\\sigma_j^2-1-\\log\\sigma_j^2\\right).$$\n\n实际实现中网络输出 $\\log\\sigma^2$ 而非 $\\sigma^2$，既保证方差为正，又避免除零与数值下溢。\n\n**第 5 步：重构项的高斯形式**\n\n若解码器设 $p_\\theta(x\\mid z)=\\mathcal{N}(\\hat{x},\\tau^2 I)$，则\n\n$$\\log p_\\theta(x\\mid z)=-\\frac{\\|x-\\hat{x}\\|^2}{2\\tau^2}-\\frac{D}{2}\\log(2\\pi\\tau^2),$$\n\n对 $z$ 求期望后，最大化重构项等价于最小化均方误差 $\\|x-\\hat{x}\\|^2$（二值数据则对应伯努利交叉熵）。\n\n**第 6 步：重参数化技巧**\n\nELBO 需要对 $\\phi$ 求梯度，但采样 $z\\sim q_\\phi(z\\mid x)$ 这一步是随机的，采样结果对 $\\phi$ 不可导，无法直接反传。重参数化把随机性外移：\n\n$$\\varepsilon\\sim\\mathcal{N}(0,I),\\qquad z=\\mu_\\phi(x)+\\sigma_\\phi(x)\\odot\\varepsilon.$$\n\n此时 $z$ 是 $\\phi$ 的确定性函数与独立噪声的组合，$\\dfrac{\\partial z}{\\partial\\mu}=\\mathbf{1}$、$\\dfrac{\\partial z}{\\partial\\sigma}=\\varepsilon$，梯度可以正常穿过采样操作回传到编码器。\n\n**最终结论**\n\n$$\\mathcal{L}(\\theta,\\phi;x)=\\mathbb{E}_{\\varepsilon\\sim\\mathcal{N}(0,I)}\\big[\\log p_\\theta(x\\mid \\mu_\\phi(x)+\\sigma_\\phi(x)\\odot\\varepsilon)\\big]-\\frac{1}{2}\\sum_{j=1}^{d}\\left(\\mu_j^2+\\sigma_j^2-1-\\log\\sigma_j^2\\right).$$", "intuition": "ELBO 是「用编码器猜一个隐分布、再用解码器还原数据」的可计算下界：重构项要求还原得准，KL 项要求隐分布别偏离先验太远，二者拉扯出连续可生成的隐空间。", "key_points": "Jensen/期望形式的变分下界、KL 非负性、对角高斯 KL 闭式解、重参数化的可导性动机"}}, {"id": 4, "type": "ai_interview", "type_label": "AI面试问答", "difficulty": 2, "title": "RAG 为什么要做混合检索（BM25 + 向量）？RRF 如何融合？", "description": "面试官问：我们做企业知识库问答，只用向量检索经常漏掉型号、工单号、专有名词；加上 BM25 后又不知道两路结果怎么合并。请说明混合检索的必要性、融合方法和工程要点。", "solution": {"answer_points": ["**两路召回互补**：BM25 是稀疏词频匹配，擅长精确命中型号、编号、缩写、人名等低频关键词，对未登录词和领域术语稳定；向量检索是稠密语义匹配，擅长同义改写、口语化提问和跨表述召回。单一路径都有系统性盲区。", "**RRF（Reciprocal Rank Fusion）无需分数归一化**：对每篇文档按各路排名计算 $\\text{score}(d)=\\sum_{i}\\dfrac{1}{k+\\text{rank}_i(d)}$，常取 $k=60$。它只使用排名而非原始分数，避免 BM25 分数与余弦相似度量纲不同、分布漂移的问题。", "**两阶段结构**：召回阶段并行跑 BM25 与向量检索各取 Top-N（如 50），RRF 融合后取 Top-M（如 20），再用 cross-encoder 重排模型精排取 Top-K 送入 LLM，兼顾召回率与精度。", "**中文场景的关键细节**：BM25 依赖分词，型号/编号需自定义词典或字符级 n-gram 兜底；向量模型要选中文/领域适配版本，并保证建库与查询使用同一模型、同一归一化方式。", "**用数据驱动参数**：以 Recall@K、MRR、nDCG 评估召回质量，分别统计「仅向量命中」「仅 BM25 命中」「两者都命中」的比例，据此决定各路 Top-N、RRF 的 $k$ 以及是否引入权重。"], "bonus": ["指出 RRF 的局限：它丢弃了分数信息，当某一路置信度差异很大时可能融合出次优结果；可用加权 RRF 或学习型融合（如基于 LambdaMART 的排序融合）改进。", "提及查询侧优化：查询改写/扩展（HyDE、同义词、实体抽取）能显著提升稀疏与稠密两路的召回，尤其是多轮对话中的指代消解。", "工程上把 BM25 与向量索引放在同一检索服务中并行发起，控制超时与降级；对权限过滤要在召回前或融合前完成，避免越权内容进入上下文。", "能说出评估闭环：离线构建「问题-正确文档」标注集，线上用点击/采纳率与答案忠实度（faithfulness）监控。"], "followup_predictions": ["追问「RRF 的 k 为什么取 60？」——回答：k 起平滑作用，抑制头部排名的绝对优势、让多路共识更稳；60 来自原论文经验值，实际应在验证集上调，k 越小头部越强势。", "追问「BM25 和向量分数能不能直接加权求和？」——回答：需先做归一化（min-max/z-score/分位数），但两路分布随查询变化大，归一化不稳定，因此优先 RRF；若要加权，需在固定验证集上学习权重。", "追问「混合检索后上下文还是太长怎么办？」——回答：重排后按相关性截断、去重（同文档多段）、按 token 预算动态分配，并保留引用片段以便溯源。"]}}]};
+</script>
+</body>
+</html>
