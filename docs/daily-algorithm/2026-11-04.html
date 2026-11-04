@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>每日算法讲解 · 2026年11月04日</title>
+<!-- MathJax for LaTeX math formula rendering -->
+<script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\(', '\)']],
+      displayMath: [['$$', '$$'], ['\[', '\]']],
+      processEscapes: true
+    },
+    svg: { fontCache: 'global' }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" id="MathJax-script" async></script>
+<style>
+:root {
+  --primary: #6366f1;
+  --primary-dark: #4f46e5;
+  --bg: #0f172a;
+  --card-bg: #1e293b;
+  --text: #e2e8f0;
+  --text-dim: #94a3b8;
+  --accent: #818cf8;
+  --border: #334155;
+  --code-bg: #0d1117;
+  --code-text: #e6edf3;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans SC", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.8;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+.container { max-width: 1400px; margin: 0 auto; padding: 24px 32px; }
+.header {
+  text-align: center;
+  padding: 40px 0 30px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 32px;
+}
+.header h1 {
+  font-size: 28px;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.header h1 .date { color: var(--accent); }
+.header .subtitle { color: var(--text-dim); font-size: 15px; }
+.repo-link {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 6px 16px;
+  background: var(--primary);
+  color: #fff;
+  border-radius: 20px;
+  text-decoration: none;
+  font-size: 13px;
+  transition: background 0.2s;
+}
+.repo-link:hover { background: var(--primary-dark); }
+.history-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 32px;
+  padding: 16px;
+  background: var(--card-bg);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+.history-nav a {
+  padding: 4px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  color: var(--text-dim);
+  text-decoration: none;
+  background: rgba(99,102,241,0.08);
+  transition: all 0.2s;
+}
+.history-nav a:hover { color: var(--text); background: rgba(99,102,241,0.2); }
+.history-nav a.active { color: #fff; background: var(--primary); }
+.history-nav a.back-index { color: var(--accent); font-weight: 600; background: rgba(99,102,241,0.15); border: 1px solid rgba(99,102,241,0.3); }
+.history-nav a.back-index:hover { color: #fff; background: var(--primary); border-color: var(--primary); }
+.content { margin-bottom: 40px; max-width: 1100px; }
+.content h2 {
+  font-size: 24px;
+  color: var(--accent);
+  margin: 40px 0 16px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--primary);
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+.content h2:first-child { border-top: none; padding-top: 0; }
+.content h3 {
+  font-size: 18px;
+  color: var(--text);
+  margin: 24px 0 12px;
+}
+.content h4 {
+  font-size: 16px;
+  color: var(--accent);
+  margin: 20px 0 10px;
+}
+.content p { margin-bottom: 12px; color: var(--text); }
+.content ul { margin: 8px 0 16px 20px; }
+.content li { margin-bottom: 6px; }
+.content strong { color: var(--accent); }
+.content blockquote {
+  border-left: 4px solid var(--primary);
+  padding: 12px 16px;
+  margin: 16px 0;
+  background: rgba(99,102,241,0.08);
+  border-radius: 0 8px 8px 0;
+}
+.content blockquote p { color: var(--text-dim); margin: 4px 0; }
+.content hr {
+  border: none;
+  height: 1px;
+  background: var(--border);
+  margin: 32px 0;
+}
+.code-block {
+  background: var(--code-bg);
+  border-radius: 10px;
+  padding: 18px 24px;
+  overflow-x: auto;
+  margin: 16px 0;
+  border: 1px solid var(--border);
+  max-width: 100%;
+}
+.code-block code {
+  font-family: "JetBrains Mono", "Fira Code", "Consolas", monospace;
+  font-size: 14px;
+  color: var(--code-text);
+  line-height: 1.6;
+  white-space: pre;
+}
+.inline-code {
+  background: rgba(99,102,241,0.15);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: "Consolas", monospace;
+  font-size: 0.9em;
+  color: var(--accent);
+}
+/* Math formula block */
+.content .math-block {
+  background: rgba(99,102,241,0.06);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 24px;
+  margin: 16px 0;
+  overflow-x: auto;
+  max-width: 100%;
+}
+.content .math-label {
+  font-size: 13px; color: var(--text-dim); margin-bottom: 6px; }
+.content .math-vars {
+  margin: 8px 0 16px 20px; }
+.content .math-vars li { margin-bottom: 4px; color: var(--text-dim); }
+.footer {
+  text-align: center;
+  padding: 24px 0;
+  border-top: 1px solid var(--border);
+  color: var(--text-dim);
+  font-size: 13px;
+}
+.tag {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  background: rgba(99,102,241,0.15);
+  color: var(--accent);
+  margin-left: 8px;
+}
+.content .ref-link {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px dashed rgba(99,102,241,0.4);
+  transition: all 0.2s;
+  word-break: break-all;
+}
+.content .ref-link:hover {
+  color: #fff;
+  border-bottom-color: var(--primary);
+}
+.content li {
+  word-break: break-all;
+}
+/* Table */
+.table-wrapper {
+  overflow-x: auto;
+  margin: 16px 0;
+  max-width: 100%;
+}
+.algo-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  background: var(--card-bg);
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+.algo-table thead {
+  background: rgba(99,102,241,0.15);
+}
+.algo-table th {
+  padding: 10px 16px;
+  text-align: left;
+  color: var(--accent);
+  font-weight: 600;
+  border-bottom: 2px solid var(--primary);
+  white-space: nowrap;
+}
+.algo-table td {
+  padding: 8px 16px;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  word-break: break-all;
+}
+.algo-table tr:last-child td {
+  border-bottom: none;
+}
+.algo-table tr:hover td {
+  background: rgba(99,102,241,0.06);
+}
+/* Algorithm architecture image */
+.algo-image {
+  margin: 20px 0;
+  text-align: center;
+}
+.algo-image img {
+  max-width: 100%;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+.algo-image .image-caption {
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--text-dim);
+}
+.algo-image svg {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+/* ======== 移动端响应式适配 ======== */
+@media (max-width: 768px) {
+  .container { max-width: 100%; padding: 16px 14px; }
+  .header { padding: 24px 0 20px; margin-bottom: 20px; }
+  .header h1 { font-size: 20px; margin-bottom: 4px; }
+  .header .subtitle { font-size: 13px; }
+  .repo-link { margin-top: 10px; padding: 5px 14px; font-size: 12px; }
+  .history-nav { gap: 6px; padding: 10px 12px; margin-bottom: 20px; }
+  .history-nav a { padding: 3px 10px; font-size: 12px; }
+  .content { max-width: 100%; margin-bottom: 28px; }
+  .content h2 { font-size: 20px; margin: 28px 0 12px; }
+  .content h3 { font-size: 17px; margin: 20px 0 10px; }
+  .content h4 { font-size: 15px; margin: 16px 0 8px; }
+  .content p { font-size: 14px; margin-bottom: 10px; }
+  .content ul { margin: 6px 0 12px 16px; }
+  .content li { font-size: 14px; margin-bottom: 5px; }
+  .content blockquote { padding: 10px 12px; margin: 12px 0; }
+  .content blockquote p { font-size: 13px; }
+  .content .math-block { padding: 10px 14px; margin: 12px 0; }
+  .code-block { padding: 12px 14px; margin: 12px 0; }
+  .code-block code { font-size: 12px; line-height: 1.5; }
+  .inline-code { font-size: 0.88em; padding: 1px 5px; }
+  .algo-table { font-size: 12px; }
+  .algo-table th { padding: 6px 10px; }
+  .algo-table td { padding: 6px 10px; }
+  .algo-image { margin: 14px 0; }
+  .algo-image svg { max-width: 100%; height: auto; }
+  .footer { padding: 18px 0; font-size: 12px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>每日算法讲解 · <span class="date">2026年11月04日</span></h1>
+    <p class="subtitle">每天 1 个基础算法 + 2 个 AI/机器学习算法，持续精进</p>
+    <a href="https://syypretend.github.io/test/daily-algorithm" target="_blank" class="repo-link">GitHub 仓库</a>
+  </div>
+  <div class="history-nav"><a href="index.html" class="back-index">← 历史索引</a>
+<a href="2026-11-04.html" class="active">11月04日</a>
+<a href="2026-10-28.html">10月28日</a>
+<a href="2026-10-26.html">10月26日</a>
+<a href="2026-10-19.html">10月19日</a>
+<a href="2026-10-16.html">10月16日</a>
+<a href="2026-10-14.html">10月14日</a>
+<a href="2026-10-13.html">10月13日</a>
+<a href="2026-10-12.html">10月12日</a>
+<a href="2026-10-10.html">10月10日</a>
+<a href="2026-10-09.html">10月09日</a>
+<a href="2026-10-08.html">10月08日</a>
+<a href="2026-09-30.html">09月30日</a>
+<a href="2026-09-29.html">09月29日</a>
+<a href="2026-09-28.html">09月28日</a>
+<a href="2026-09-24.html">09月24日</a>
+<a href="2026-09-17.html">09月17日</a>
+<a href="2026-09-15.html">09月15日</a>
+<a href="2026-09-14.html">09月14日</a>
+<a href="2026-09-11.html">09月11日</a>
+<a href="2026-09-10.html">09月10日</a>
+<a href="2026-09-09.html">09月09日</a>
+<a href="2026-09-08.html">09月08日</a>
+<a href="2026-09-07.html">09月07日</a>
+</div>
+  <div class="content">
+  <h2>每日算法讲解 · 2026-11-04</h2>
+
+<blockquote>
+<p>今日内容：1 个基础算法 + 2 个 AI/机器学习算法 | 逐参数详解</p>
+</blockquote>
+
+<hr>
+
+<h3>外排序（External Sort）</h3>
+
+<p><strong>类别</strong>：排序算法 | <strong>难度</strong>：中等</p>
+
+<h4>算法简介</h4>
+
+<p>外排序（External Sort）是当待排序数据量远超内存容量（如几十 GB 到 TB 级文件）时，必须借助磁盘文件分块完成的排序技术。核心思想是「分治 + 归并」：先把大文件切分成一个个能整体装入内存的小片段（称为 run / 顺串），在内存中对每个片段做内排序，形成有序的初始顺串写入磁盘；再采用多路归并（k-way merge）把这些有序顺串逐轮合并，直至合并成单一有序文件。与普通归并排序的本质区别在于，外排序的代价由磁盘 I/O（读写次数）主导，因此工程上通过「增大内存缓冲区」「提高归并路数 k」「使用置换选择生成尽可能大的初始顺串」等手段来减少磁盘访问次数。它是数据库排序算子（如 PostgreSQL tuplesort）、大数据排序的基础。</p>
+
+<h4>原理示意图</h4>
+
+<p><div class="algo-image"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 900 460" font-family="sans-serif">
+  <rect width="900" height="460" fill="#1e293b" rx="12"/>
+  <text x="450" y="30" text-anchor="middle" fill="#818cf8" font-size="15" font-weight="600">外排序：分块内排 + 多路归并 流程</text>
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="6" refX="4" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#6366f1"/>
+    </marker>
+  </defs>
+  <text x="120" y="60" text-anchor="middle" fill="#94a3b8" font-size="12">① 切分</text>
+  <rect x="50" y="70" width="140" height="40" rx="6" fill="#334155" stroke="#6366f1"/>
+  <text x="120" y="95" text-anchor="middle" fill="#e2e8f0" font-size="12">大文件 8 条记录</text>
+  <line x1="190" y1="90" x2="300" y2="90" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow)"/>
+  <rect x="310" y="70" width="120" height="40" rx="6" fill="#334155" stroke="#22c55e"/>
+  <text x="370" y="95" text-anchor="middle" fill="#e2e8f0" font-size="12">内存缓冲 (M)</text>
+  <text x="450" y="160" text-anchor="middle" fill="#94a3b8" font-size="12">② 内排序生成初始顺串(run)</text>
+  <rect x="120" y="175" width="200" height="46" rx="6" fill="#1e3a5f" stroke="#22c55e"/>
+  <text x="220" y="195" text-anchor="middle" fill="#e2e8f0" font-size="12">Run1: 3 6 9 12</text>
+  <text x="220" y="212" text-anchor="middle" fill="#94a3b8" font-size="11">磁盘文件</text>
+  <rect x="360" y="175" width="200" height="46" rx="6" fill="#1e3a5f" stroke="#22c55e"/>
+  <text x="460" y="195" text-anchor="middle" fill="#e2e8f0" font-size="12">Run2: 1 5 7 10</text>
+  <text x="460" y="212" text-anchor="middle" fill="#94a3b8" font-size="11">磁盘文件</text>
+  <rect x="600" y="175" width="200" height="46" rx="6" fill="#1e3a5f" stroke="#22c55e"/>
+  <text x="700" y="195" text-anchor="middle" fill="#e2e8f0" font-size="12">Run3: 2 4 8 11</text>
+  <text x="700" y="212" text-anchor="middle" fill="#94a3b8" font-size="11">磁盘文件</text>
+  <line x1="220" y1="221" x2="350" y2="270" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="460" y1="221" x2="450" y2="270" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="700" y1="221" x2="550" y2="270" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow)"/>
+  <rect x="360" y="270" width="180" height="46" rx="6" fill="#7c3aed" stroke="#a78bfa"/>
+  <text x="450" y="292" text-anchor="middle" fill="#e2e8f0" font-size="12">③ 多路归并 (k=3)</text>
+  <text x="450" y="308" text-anchor="middle" fill="#c4b5fd" font-size="11">每轮取 3 路最小者</text>
+  <line x1="450" y1="316" x2="450" y2="360" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow)"/>
+  <rect x="300" y="360" width="300" height="50" rx="8" fill="#166534" stroke="#22c55e"/>
+  <text x="450" y="383" text-anchor="middle" fill="#e2e8f0" font-size="13">有序结果: 1 2 3 … 12</text>
+  <text x="450" y="400" text-anchor="middle" fill="#86efac" font-size="11">一趟 k 路归并完成</text>
+</svg></div></p>
+
+<h4>数学公式</h4>
+
+<p><strong>初始顺串数量</strong>：设原始记录数 $ N $，内存一次最多容纳 $ M $ 条记录，则切分后生成的初始顺串数量为：</p>
+
+<p><div class="math-block">$$ R = \left\lceil \frac{N}{M} \right\rceil $$</div></p>
+
+<p><strong>归并趟数</strong>：使用 $ k $ 路归并（一次从 $ k $ 个顺串中各取最小者合并），每趟归并把当前顺串数压缩为原来的 $ 1/k $，归并趟数为：</p>
+
+<p><div class="math-block">$$ d = \left\lceil \log_k R \right\rceil = \left\lceil \log_k \left\lceil \frac{N}{M} \right\rceil \right\rceil $$</div></p>
+
+<p><strong>总 I/O 次数（磁盘读写次数）</strong>：每个顺串在每趟归并中都要被读写一次（先读入、再写出），加上初始内排序时每个数据块也被读写一次：</p>
+
+<p><div class="math-block">$$ \text{Total I/O} = 2 \times (d + 1) \times N = 2N\left( \left\lceil \log_k \left\lceil \frac{N}{M} \right\rceil \right\rceil + 1 \right) $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ N $：待排序的记录总数（数据规模，决定顺串个数）</li>
+<li>$ M $：内存缓冲区一次能容纳的记录数（决定初始顺串长度）</li>
+<li>$ k $：多路归并的路数（每次同时合并多少个顺串）</li>
+<li>$ R $：初始顺串总数</li>
+<li>$ d $：归并趟数（不含初始建串那一趟）</li>
+<li>$ \lceil \cdot \rceil $：向上取整</li>
+</ul>
+
+<p><strong>关键结论</strong>：$ k $ 越大、$ M $ 越大，$ d $ 越小，磁盘 I/O 越少，排序越快——所以外排序优化的本质就是「增大多路数、增大缓冲区」。</p>
+
+<h4>核心要点</h4>
+<ul>
+<li>核心思想是「分治 + 归并」：先内排序生成多个有序顺串，再多路归并合并。</li>
+<li>性能瓶颈是磁盘 I/O 次数，而非比较次数，一切优化围绕减少 I/O。</li>
+<li>多路归并（$ k $ 路）显著降低归并趟数，是性能的关键。</li>
+<li>缓冲区大小的权衡：缓冲越大顺串越长、趟数越少，但占用内存越多。</li>
+<li>外排序是数据库、Hadoop、大数据文件排序的底层基石。</li>
+</ul>
+
+<h4>技术细节与参数详解</h4>
+
+<p>#### 参数1：内存缓冲区大小（run 内建排序的可用内存）</p>
+<ul>
+<li><strong>含义</strong>：每次加载进内存、进行内排序的最大数据量，决定初始顺串长度。</li>
+<li><strong>类型</strong>：整数（字节或记录条数），如 M 条记录。</li>
+<li><strong>默认值</strong>：实现相关，通常取系统可用内存的某个比例（如剩余内存的 50%~70%）。</li>
+<li><strong>取值范围</strong>：最小需能容纳一块数据；最大受可用 RAM 限制。</li>
+<li><strong>对结果的影响</strong>：缓冲区越大，初始顺串越长 → 初始顺串数 $ R $ 越少 → 归并趟数 $ d $ 越少 → 磁盘 I/O 越少，速度越快。</li>
+<li><strong>推荐设置</strong>：尽量使用接近可用内存的上限，给系统留足余量防止交换（swap）导致性能骤降。</li>
+</ul>
+
+<p>#### 参数2：多路归并路数 k（fan-in）</p>
+<ul>
+<li><strong>含义</strong>：一次归并同时合并多少个有序顺串。</li>
+<li><strong>类型</strong>：整数，$ k \ge 2 $。</li>
+<li><strong>默认值</strong>：常见 2~16，视实现而定（数据库常用 8、16、32 等 2 的幂）。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">2 到顺串总数 R</code>。</li>
+<li><strong>对结果的影响</strong>：$ k $ 越大，归并趟数 $ d=\lceil \log_k R\rceil $ 越小，磁盘读写越少；但单趟归并需用 $ k $ 个输入缓冲 + 1 个输出缓冲，内存随 $ k $ 线性增长。每轮内部比较略多，但相比 I/O 可忽略。</li>
+<li><strong>推荐设置</strong>：在内存允许范围内取较大的 $ k $（如 16/32/64），以获得更少的趟数。</li>
+</ul>
+
+<p>#### 参数3：输入/输出缓冲区个数与大小</p>
+<ul>
+<li><strong>含义</strong>：多路归并时每路占用的读缓冲区与写出的输出缓冲区大小。</li>
+<li><strong>类型</strong>：<code class="inline-code">int</code>，单位字节或块数。</li>
+<li><strong>默认值</strong>：实现相关，通常按块（如 4KB/8KB）分配。</li>
+<li><strong>取值范围</strong>：总缓冲内存 = $ k \times $ 输入缓冲 + 输出缓冲，不能超过可用内存。</li>
+<li><strong>对结果的影响</strong>：缓冲越大，每次磁盘读写批量越大，I/O 效率越高；但占用内存越多，可能挤占 k 或顺串长度。</li>
+<li><strong>推荐设置</strong>：折中，输入输出缓冲保持均衡；总内存预算内优先加大缓冲。</li>
+</ul>
+
+<p>#### 参数4：置换选择（replacement selection）是否启用</p>
+<ul>
+<li><strong>含义</strong>：一种生成初始顺串的技巧，利用堆扫描数据尽量生成更长的顺串（长度可达 $ 2M $），减少顺串数。</li>
+<li><strong>类型</strong>：布尔开关项。</li>
+<li><strong>默认值</strong>：高级外排序实现默认开启（如 PostgreSQL、部分 Hadoop 实现）。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">True</code> / <code class="inline-code">False</code>。</li>
+<li><strong>影响</strong>：开启后初始顺串平均长度为 $ 2M $，顺串数减半，归并趟数进一步下降，I/O 更少；代价是需一个小根堆，逻辑更复杂。</li>
+<li><strong>推荐</strong>：数据有序度较高时启用收益明显，建议默认开启。</li>
+</ul>
+
+<p>#### 参数5：块/页大小（block / page size）</p>
+<ul>
+<li><strong>含义</strong>：磁盘读写的最小单位（DBMS 中常见 page）。</li>
+<li><strong>类型</strong>：<code class="inline-code">int</code>，字节。</li>
+<li><strong>默认值</strong>：常见 4KB / 8KB（如 PostgreSQL 默认 8KB）。</li>
+<li><strong>取值范围</strong>：系统块大小 ~ 文件系统块大小（512B~几十 KB）。</li>
+<li><strong>影响</strong>：越大则单次 I/O 吞吐越高、I/O 次数越少，但缓冲占用多、随机存取浪费大。</li>
+<li><strong>推荐</strong>：对齐文件系统块大小，常在 4K~64K。</li>
+</ul>
+
+<p>#### 参数6：归并选择树（tournament tree / 败者树）</p>
+<ul>
+<li><strong>含义</strong>：多路归并时用「败者树」管理 k 个顺串的最小值选择，减少比较次数。</li>
+<li><strong>类型</strong>：实现策略（胜者树 / 败者树）。</li>
+<li><strong>影响</strong>：把从 k 个候选中找最小值的比较次数从 $ O(k) $ 降到 $ O(\log k) $，k 较大时明显省 CPU，但不影响 I/O 次数。</li>
+<li><strong>建议</strong>：k 较大（>8）时使用败者树。</li>
+</ul>
+
+<h4>代码示例</h4>
+
+<p><pre class="code-block"><code class="language-python"># 多路归并外排序（简化演示：数据视为数字列表）
+import heapq  # 堆，用于 k 路归并快速取最小
+
+def kway_merge(runs, k=2):
+    &quot;&quot;&quot;把多个有序列表(runs)按 k 路归并成一个有序列表。
+    参数：
+      runs: list[list]，每个元素是一个已排好序的顺串
+      k   : 归并路数，一次合并 k 个顺串
+    返回合并后的有序列表。&quot;&quot;&quot;
+    # 使用优先队列(小根堆)做 k 路归并
+    heap = []                       # 堆内每个元素是 (值, 所在顺串索引, 顺串内元素索引)
+    for idx, run in enumerate(runs):    # 遍历每个顺串
+        if run:                      # 该顺串非空
+            # 把每个顺串第一个元素推入堆，作为初始候选
+            heapq.heappush(heap, (run[0], idx, 0))
+    result = []                     # 保存归并结果的有序列表
+    while heap:                     # 只要堆里还有候选
+        val, r_idx, e_idx = heapq.heappop(heap)   # 弹出当前最小的元素
+        result.append(val)          # 把它写入结果
+        if e_idx + 1 &lt; len(runs[r_idx]):          # 该顺串还有下一个元素
+            nxt = runs[r_idx][e_idx + 1]          # 取下一个元素
+            heapq.heappush(heap, (nxt, r_idx, e_idx + 1))  # 入堆继续比较
+    return result                  # 返回合并后的完整有序结果
+
+def external_sort(data, memory_size=4, k=2):
+    &quot;&quot;&quot;模拟外排序：先分块内排序生成顺串，再多路归并。
+      data       : 原始数据列表
+      memory_size: 每块大小(相当于内存可容纳的记录数)
+      k          : 多路归并的路数
+    返回有序列表。&quot;&quot;&quot;
+    runs = []                       # 存放生成的初始顺串
+    # 第一步：分块 + 每块内排序生成有序 run
+    for i in range(0, len(data), memory_size):
+        block = data[i:i + memory_size]  # 切出一个能装进内存的块
+        runs.append(sorted(block))       # 内存内排序，生成一个有序顺串
+    # 第二步：k 路归并（这里为简洁只用一次归并）
+    return k_sort_merge(runs, k)         # 返回归并结果
+
+# 测试：12 个数字，内存一次装 4 个，三路归并
+sample = [12, 3, 9, 6, 10, 5, 7, 1, 11, 4, 8, 2]
+print(external_sort(sample, memory_size=4, k=2))
+# 输出: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]</code></pre></p>
+
+<h4>复杂度分析</h4>
+<ul>
+<li><strong>时间</strong>：内建排序阶段每块 $ O(M\log M) $，共 $ N/M $ 块，总 $ O(N\log M) $；归并阶段每趟读写整文件 $ O(N) $，共 $ d+1 $ 趟，总 $ O(N \cdot d) $。整体：</li>
+</ul>
+<p><div class="math-block">$$ \text{时间复杂度} = O(N\log M + N \log_k \tfrac{N}{M}) $$</div></p>
+<ul>
+<li><strong>空间复杂度</strong>：内存占用 $ O(M + k\cdot \text{buffer}) $（块缓冲 + 路缓冲 + 堆），磁盘额外存储空间 $ O(N) $（顺串临时文件）。实际对外排序而言，<strong>I/O 次数</strong> $ 2(d+1)N $（前文公式）是主要代价，比比较次数重要得多。</li>
+</ul>
+
+<h4>应用场景</h4>
+<ul>
+<li>对超大文件（几十 GB~TB）排序，如日志排序、数据导出排序。</li>
+<li>数据库排序算子（PostgreSQL tuplesort、MySQL filesort）的底层支撑。</li>
+<li>Hadoop/Spark 的 MapReduce shuffle 排序，HDFS 大文件排序。</li>
+<li>搜索引擎索引构建的排序、外部求 Top-K。</li>
+</ul>
+
+<h4>参考文档</h4>
+<ul>
+<li><a href="https://blog.csdn.net/JJOHJHOUJ/article/details/149639220" target="_blank" class="ref-link">数据结构自学：利用归并排序实现外排序（CSDN）</a></li>
+<li><a href="https://blog.csdn.net/qq_43899283/article/details/161691684" target="_blank" class="ref-link">PostgreSQL 内核学习——外部排序生成与归并（CSDN）</a></li>
+</ul>
+
+<hr>
+
+<h3>层次聚类（Hierarchical Clustering / AgglomerativeClustering）</h3>
+
+<p><strong>类别</strong>：无监督学习 | <strong>难度</strong>：中等</p>
+
+<h4>算法简介</h4>
+
+<p>层次聚类（Hierarchical Clustering）是一种不需要预先指定簇个数的无监督聚类方法。它通过迭代地把「最相似」的两个样本/簇合并（凝聚式 Agglomerative）或把「最不相似」的簇分裂（分裂式 Divisive）构建一棵树状结构（树状图）。最常用的是凝聚式：一开始每个样本自成一簇，每一步计算两两簇的相似度（由 distance/affinity + linkage 定义），合并距离最近的两个簇，直到只剩一个簇或达到预设条件。与 K-Means 不同，它输出的是完整层次结构，可在任意层级剪切得到不同粒度的聚类，适用于簇数未知或需要展示数据层级关系的场景。scikit-learn 中对应类为 <code class="inline-code">sklearn.cluster.AgglomerativeClustering</code>。</p>
+
+<h4>原理示意图</h4>
+
+<p><div class="algo-image"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 900 440" font-family="sans-serif">
+  <rect width="900" height="440" fill="#1e293b" rx="12"/>
+  <text x="450" y="30" text-anchor="middle" fill="#818cf8" font-size="15" font-weight="600">凝聚层次聚类：自底向上合并 树状图</text>
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="6" refX="4" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#6366f1"/>
+    </marker>
+  </defs>
+  <rect x="80" y="360" width="60" height="40" rx="6" fill="#334155" stroke="#22c55e"/>
+  <text x="110" y="385" text-anchor="middle" fill="#e2e8f0" font-size="12">a</text>
+  <rect x="220" y="360" width="60" height="40" rx="6" fill="#334155" stroke="#22c55e"/>
+  <text x="250" y="385" text-anchor="middle" fill="#e2e8f0" font-size="12">b</text>
+  <rect x="360" y="360" width="60" height="40" rx="6" fill="#334155" stroke="#22c55e"/>
+  <text x="390" y="385" text-anchor="middle" fill="#e2e8f0" font-size="12">c</text>
+  <rect x="500" y="360" width="60" height="40" rx="6" fill="#334155" stroke="#22c55e"/>
+  <text x="530" y="385" text-anchor="middle" fill="#e2e8f0" font-size="12">d</text>
+  <rect x="640" y="360" width="60" height="40" rx="6" fill="#334155" stroke="#22c55e"/>
+  <text x="670" y="385" text-anchor="middle" fill="#e2e8f0" font-size="12">e</text>
+  <rect x="140" y="270" width="80" height="40" rx="6" fill="#1e3a5f" stroke="#6366f1"/>
+  <text x="180" y="295" text-anchor="middle" fill="#e2e8f0" font-size="12">(a,b)</text>
+  <rect x="420" y="270" width="80" height="40" rx="6" fill="#1e3a5f" stroke="#6366f1"/>
+  <text x="460" y="295" text-anchor="middle" fill="#e2e8f0" font-size="12">(c,d)</text>
+  <rect x="620" y="270" width="80" height="40" rx="6" fill="#1e3a5f" stroke="#6366f1"/>
+  <text x="660" y="295" text-anchor="middle" fill="#e2e8f0" font-size="12">e</text>
+  <line x1="110" y1="360" x2="155" y2="310" stroke="#6366f1" stroke-width="2"/>
+  <line x1="250" y1="360" x2="205" y2="310" stroke="#6366f1" stroke-width="2"/>
+  <line x1="390" y1="360" x2="430" y2="310" stroke="#6366f1" stroke-width="2"/>
+  <line x1="530" y1="360" x2="490" y2="310" stroke="#6366f1" stroke-width="2"/>
+  <line x1="670" y1="360" x2="660" y2="310" stroke="#6366f1" stroke-width="2"/>
+  <rect x="280" y="180" width="120" height="40" rx="6" fill="#7c3aed" stroke="#a78bfa"/>
+  <text x="340" y="205" text-anchor="middle" fill="#e2e8f0" font-size="12">((a,b),(c,d))</text>
+  <rect x="600" y="180" width="80" height="40" rx="6" fill="#7c3aed" stroke="#a78bfa"/>
+  <text x="640" y="205" text-anchor="middle" fill="#e2e8f0" font-size="12">e</text>
+  <line x1="180" y1="270" x2="300" y2="220" stroke="#6366f1" stroke-width="2"/>
+  <line x1="460" y1="270" x2="380" y2="220" stroke="#6366f1" stroke-width="2"/>
+  <line x1="660" y1="270" x2="640" y2="220" stroke="#6366f1" stroke-width="2"/>
+  <rect x="400" y="80" width="160" height="40" rx="6" fill="#166534" stroke="#22c55e"/>
+  <text x="480" y="105" text-anchor="middle" fill="#e2e8f0" font-size="12">最终一个簇</text>
+  <line x1="340" y1="180" x2="450" y2="120" stroke="#6366f1" stroke-width="2"/>
+  <line x1="640" y1="180" x2="510" y2="120" stroke="#6366f1" stroke-width="2"/>
+  <text x="760" y="50" text-anchor="middle" fill="#94a3b8" font-size="12">高度=合并距离</text>
+</svg></div></p>
+
+<h4>数学公式</h4>
+
+<p>凝聚式每轮合并距离最近的两簇。设两簇 $ A $、$ B $，样本 $ a\in A $、$ b\in B $，簇间距离由 linkage 定义：</p>
+
+<p><strong>1. 单链接（single，最小距离）</strong>：</p>
+<p><div class="math-block">$$ d_{single}(A,B) = \min_{a \in A, b \in B} \operatorname{dist}(a,b) $$</div></p>
+
+<p><strong>2. 全链接（complete，最大距离）</strong>：</p>
+<p><div class="math-block">$$ d_{complete}(A,B) = \max_{a \in A, b \in B} \operatorname{dist}(a,b) $$</div></p>
+
+<p><strong>3. 平均链接（average）</strong>：</p>
+<p><div class="math-block">$$ d_{average}(A,B) = \frac{1}{|A|\,|B|}\sum_{a\in A}\sum_{b\in B}\operatorname{dist}(a,b) $$</div></p>
+
+<p><strong>4. 沃德方差（Ward）</strong>：合并两簇后总簇内方差增量的平方根：</p>
+
+<p><div class="math-block">$$ d_{ward}(A,B) = \sqrt{\frac{|A||B|}{|A|+|B|}} \cdot \lVert \mu_A - \mu_B \rVert_2 $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ A, B $：两个簇（样本的集合）</li>
+<li>$ a, b $：簇中的样本向量</li>
+<li>$ \operatorname{dist}(a,b) $：样本对距离，默认为欧几里得距离（affinity）</li>
+<li>$ |A|, |B| $：两簇的样本个数</li>
+<li>$ \mu_A, \mu_B $：两簇的质心（均值向量）</li>
+<li>$ \lVert \cdot \rVert_2 $：欧几里得范数</li>
+</ul>
+
+<p><strong>Ward 前提</strong>：只能配欧氏距离（euclidean），因基于中心距离/方差。</p>
+
+<h4>核心要点</h4>
+<ul>
+<li>层次聚类不预置簇数，可从树状图任意高度切出不同数量的簇。</li>
+<li>凝聚式（自底向上）最常用，对应 <code class="inline-code">AgglomerativeClustering</code>。</li>
+<li>关键由 <code class="inline-code">linkage</code>（簇间距离）+ <code class="inline-code">affinity</code>（样本距离）共同决定合并顺序。</li>
+<li>Ward 只能配欧氏；average 可用多种距离。</li>
+<li>复杂度 $ O(n^2)\sim O(n^3) $，适合中小规模数据。</li>
+</ul>
+
+<h4>技术细节与参数详解</h4>
+
+<p>#### 参数1：n_clusters（目标簇数）</p>
+<ul>
+<li><strong>含义</strong>：从树状图顶层往下剪断的个数，即最终簇的个数。</li>
+<li><strong>类型</strong>：<code class="inline-code">int</code> 或 <code class="inline-code">None</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">2</code>。</li>
+<li><strong>取值范围</strong>：$ 1 \le n\_clusters \le $ 样本数。当 <code class="inline-code">distance_threshold</code> 非 None 时必须为 <code class="inline-code">None</code>。</li>
+<li><strong>影响</strong>：决定聚类粒度。切点越低（簇越多）则聚类越细。</li>
+<li><strong>推荐</strong>：知道目标簇数就设置；否则设 <code class="inline-code">None</code> 用 <code class="inline-code">distance_threshold</code> 剪枝。</li>
+</ul>
+
+<p>#### 参数2：affinity（样本距离度量）</p>
+<ul>
+<li><strong>含义</strong>：衡量两个<strong>样本点</strong>之间的距离。</li>
+<li><strong>类型</strong>：<code class="inline-code">str</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">'euclidean'</code>。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">'euclidean'</code>、<code class="inline-code">'l1'</code>、<code class="inline-code">'l2'</code>、<code class="inline-code">'manhattan'</code>、<code class="inline-code">'cosine'</code>，或 <code class="inline-code">'precomputed'</code>（X 为距离矩阵）。</li>
+<li><strong>影响</strong>：决定样本相似度，影响簇形状与合并顺序。<code class="inline-code">linkage='ward'</code> 时只能 <code class="inline-code">'euclidean'</code>。</li>
+<li><strong>推荐</strong>：数据标准化后默认欧氏；稀疏/文本用 cosine。</li>
+</ul>
+
+<p>#### 参数3：linkage（簇间距离链接法）</p>
+<ul>
+<li><strong>含义</strong>：两个簇之间距离的计算策略。</li>
+<li><strong>类型</strong>：<code class="inline-code">str</code>，<code class="inline-code">{'ward','complete','average','single'}</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">'ward'</code>。</li>
+<li><strong>影响</strong>：</li>
+<li><code class="inline-code">ward</code>：最小化方差增量，簇紧凑球状，对异常值敏感，最常用。</li>
+<li><code class="inline-code">complete</code>：最大距离，簇紧实，易受离群点影响。</li>
+<li><code class="inline-code">average</code>：平均距离，综合折中，尺度鲁棒。</li>
+<li><code class="inline-code">single</code>：最小距离，可处理复杂形状但有链式效应，对噪声敏感。</li>
+<li><strong>推荐</strong>：默认 <code class="inline-code">ward</code>；数据有噪声用 <code class="inline-code">average</code>。</li>
+</ul>
+
+<p>#### 参数4：distance_threshold（距离阈值）</p>
+<ul>
+<li><strong>含义</strong>：最大合并距离，超过则不合并，自动决定簇数。</li>
+<li><strong>类型</strong>：<code class="inline-code">float</code> 或 <code class="inline-code">None</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">None</code>。</li>
+<li><strong>取值范围</strong>：$ 0 < \text{阈值} \le $ 最大样本距离。</li>
+<li><strong>影响</strong>：设置后自动得到簇数（无需 n_clusters），启用时需 <code class="inline-code">compute_full_tree=True</code>。</li>
+<li><strong>推荐</strong>：想按距离自动确定簇数时使用；值越小簇越多。</li>
+</ul>
+
+<p>#### 参数5：connectivity（连通性矩阵）</p>
+<ul>
+<li><strong>含义</strong>：样本间的邻接约束，限制哪些样本才能被合并。</li>
+<li><strong>类型</strong>：array-like (n×n)、稀疏矩阵或 <code class="inline-code">None</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">None</code>。</li>
+<li><strong>影响</strong>：设置后只能在连通图中合并相邻样本，保留拓扑结构（像素邻域、关系图）；否则全局合并。</li>
+<li><strong>推荐</strong>：图/图像数据才设置。</li>
+</ul>
+
+<p>#### 参数6：compute_full_tree（是否计算整棵树）</p>
+<ul>
+<li><strong>含义</strong>：是否构建整棵合并树。</li>
+<li><strong>类型</strong>：<code class="inline-code">'auto'</code> 或 <code class="inline-code">bool</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">'auto'</code>。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">True</code>/<code class="inline-code">False</code>/<code class="inline-code">'auto'</code>（自动判断，取决于内存）。</li>
+<li><strong>影响</strong>：需要 <code class="inline-code">children_</code>、画树状图或 <code class="inline-code">distance_threshold</code> 剪枝时需 <code class="inline-code">True</code>；否则 <code class="inline-code">False</code> 省内存。</li>
+<li><strong>推荐</strong>：需要完整层级或剪枝时 <code class="inline-code">True</code>。</li>
+</ul>
+
+<p>#### 参数7：memory（缓存路径）</p>
+<ul>
+<li><strong>含义</strong>：缓存中间计算的路径，用于内存受限时持久化。</li>
+<li><strong>类型</strong>：<code class="inline-code">str</code> 或 <code class="inline-code">None</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">None</code>。</li>
+<li><strong>影响</strong>：较大数据集下缓存避免重复计算相似度，节省 RAM。</li>
+<li><strong>推荐</strong>：数据较大且内存紧张时设置。</li>
+</ul>
+
+<h4>代码示例</h4>
+<p><pre class="code-block"><code class="language-python"># 导入库
+import numpy as np
+from sklearn.cluster import AgglomerativeClustering
+import scipy.cluster.hierarchy as h   # 用于画树状图
+import matplotlib.pyplot as plt
+
+# 构造 6 个二维样本（人工划成 2-3 簇）
+X = np.array([[1, 2], [1.5, 1.8], [5, 5], [5.2, 4.8],
+              [8, 2], [7.8, 2.2]])   # X: 每个样本一行特征
+
+# 创建凝聚层次聚类模型
+model = AgglomerativeClustering(
+    n_clusters=2,        # 目标簇数
+    affinity=&#x27;euclidean&#x27;,# 样本距离：欧氏
+    linkage=&#x27;ward&#x27;,      # 簇间距离：沃德(方差最小化)
+    compute_full_tree=True,  # 计算整棵树以便可视化
+)
+y_pred = model.fit_predict(X)   # 训练并得到每样本簇标签
+print(&quot;簇标签:&quot;, y_pred)        # 输出如 [0 0 1 1 1 1]
+
+# 用 scipy 画树状图 dendrogram 展示合并层次
+Z = h.linkage(X, method=&#x27;ward&#x27;)            # 计算合并距离
+plt.figure(figsize=(6, 4))
+h.dendrogram(Z)                          # 画树状图
+plt.title(&quot;Agglomerative 树状图&quot;)
+plt.xlabel(&quot;样本编号&quot;)
+plt.ylabel(&quot;合并距离&quot;)
+plt.tight_layout()
+plt.show()</code></pre></p>
+
+<h4>复杂度分析</h4>
+<ul>
+<li><strong>时间复杂度</strong>：对 $ n $ 个样本，凝聚式聚类约 $ O(n^2) $（使用优先队列优化）～$ O(n^3) $（朴素）。空间复杂度 $ O(n^2) $（距离矩阵）。</li>
+</ul>
+<p><div class="math-block">$$ \text{时间}=O(n^2), \quad \text{空间}=O(n^2) $$</div></p>
+<ul>
+<li><strong>说明</strong>：$ n $ 很大时内存/时间不可承受，是层次聚类主要缺点；大数据可用小样本或降维，或换 K-Means（$ O(n\cdot k\cdot iter) $）。</li>
+</ul>
+
+<h4>应用场景</h4>
+<ul>
+<li>探索性分析：展示数据的自然层级结构。</li>
+<li>基因/文本聚类、图像分割（像素层次合并）。</li>
+<li>簇数未知或需要多粒度聚类时。</li>
+<li>图/连通约束聚类（通过 connectivity）。</li>
+</ul>
+
+<h4>参考文档</h4>
+<ul>
+<li><a href="https://scikit-learn.org.cn/view/371.html" target="_blank" class="ref-link">scikit-learn AgglomerativeClustering 中文文档</a></li>
+<li><a href="https://blog.csdn.net/ustbbsy/article/details/80960652" target="_blank" class="ref-link">Scikit-learn 聚类方法详解（CSDN）</a></li>
+<li><a href="https://blog.csdn.net/caoli201314/article/details/152225139" target="_blank" class="ref-link">Scikit-learn Python 聚类-Agglomerative Clustering（CSDN）</a></li>
+</ul>
+
+<hr>
+
+<h3>Adapter Tuning（适配器微调）</h3>
+
+<p><strong>类别</strong>：大模型微调 | <strong>难度</strong>：困难</p>
+
+<h4>算法简介</h4>
+
+<p>Adapter Tuning（适配器微调）是一种<strong>参数高效微调（PEFT）</strong>技术，由 Houlsby 等人 2019 年提出。核心思想是在预训练 Transformer 每一层（通常在 FFN 之后）<strong>插入一个小的「瓶颈（bottleneck）」模块</strong>：先把隐藏向量通过小矩阵 <code class="inline-code">down-projection</code>（降维）压缩到低维，经非线性激活后再通过 <code class="inline-code">up-projection</code>（升维）恢复到原维度，形成残差旁路。微调时<strong>冻结预训练模型全部原始参数，只训练新增 Adapter 参数</strong>，极大降低每个下游任务的训练与存储成本（可训练参数通常只有总量 0.1%~5%）。因预训练权重不变，可为不同任务各自保存轻量 Adapter，便于多任务复用与热切换。</p>
+
+<h4>原理示意图</h4>
+
+<p><div class="algo-image"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 900 420" font-family="sans-serif">
+  <rect width="900" height="420" fill="#1e293b" rx="12"/>
+  <text x="450" y="30" text-anchor="middle" fill="#818cf8" font-size="15" font-weight="600">Adapter Tuning：层内插入瓶颈旁路</text>
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="6" refX="4" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#6366f1"/>
+    </marker>
+  </defs>
+  <text x="120" y="60" text-anchor="middle" fill="#94a3b8" font-size="12">主干(冻结) Self-Attention</text>
+  <rect x="40" y="70" width="160" height="50" rx="6" fill="#334155" stroke="#6366f1"/>
+  <text x="120" y="98" text-anchor="middle" fill="#e2e8f0" font-size="12">Multi-Head Attn</text>
+  <line x1="120" y1="120" x2="120" y2="150" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="120" y="165" text-anchor="middle" fill="#94a3b8" font-size="12">主干层 FFN</text>
+  <rect x="40" y="175" width="160" height="50" rx="6" fill="#334155" stroke="#6366f1"/>
+  <text x="120" y="203" text-anchor="middle" fill="#e2e8f0" font-size="12">Feed-Forward</text>
+  <line x1="120" y1="225" x2="120" y2="255" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow)"/>
+  <rect x="40" y="260" width="160" height="40" rx="6" fill="#1e3a5f" stroke="#6366f1"/>
+  <text x="120" y="285" text-anchor="middle" fill="#e2e8f0" font-size="12">LayerNorm 输出 h</text>
+  <text x="470" y="90" text-anchor="middle" fill="#22c55e" font-size="12" font-weight="600">Adapter（新增可训练）</text>
+  <rect x="360" y="100" width="220" height="46" rx="6" fill="#166534" stroke="#22c55e"/>
+  <text x="470" y="120" text-anchor="middle" fill="#e2e8f0" font-size="13">1) Down-proj（降维到 r 维）</text>
+  <text x="470" y="137" text-anchor="middle" fill="#86efac" font-size="11">压缩 h → 瓶颈</text>
+  <line x1="250" y1="135" x2="360" y2="130" stroke="#22c55e" stroke-width="2" marker-end="url(#arrow)"/>
+  <rect x="360" y="160" width="220" height="40" rx="6" fill="#166534" stroke="#22c55e"/>
+  <text x="470" y="183" text-anchor="middle" fill="#e2e8f0" font-size="12">2 非线性激活</text>
+  <line x1="470" y1="146" x2="470" y2="160" stroke="#22c55e" stroke-width="2"/>
+  <rect x="360" y="210" width="220" height="46" rx="6" fill="#166534" stroke="#22c55e"/>
+  <text x="470" y="230" text-anchor="middle" fill="#e2e8f0" font-size="13">3 Up-proj(升维回 d)</text>
+  <text x="470" y="247" text-anchor="middle" fill="#86efac" font-size="11">输出与输入同维</text>
+  <line x1="470" y1="200" x2="470" y2="210" stroke="#22c55e" stroke-width="2"/>
+  <line x1="470" y1="256" x2="470" y2="282" stroke="#22c55e" stroke-width="2"/>
+  <line x1="250" y1="282" x2="360" y2="282" stroke="#22c55e" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="470" y="320" text-anchor="middle" fill="#94a3b8" font-size="12">输出 = 主干 h + Adapter(h) 残差</text>
+  <rect x="320" y="335" width="300" height="40" rx="6" fill="#7c3aed" stroke="#a78bfa"/>
+  <text x="470" y="360" text-anchor="middle" fill="#e2e8f0" font-size="13">下一个 Transformer 层</text>
+  <line x1="120" y1="300" x2="380" y2="355" stroke="#6366f1" stroke-width="2"/>
+  <line x1="470" y1="282" x2="470" y2="335" stroke="#22c55e" stroke-width="2" marker-end="url(#arrow)"/>
+</svg></div></p>
+
+<h4>数学公式</h4>
+
+<p><strong>瓶颈 Adapter 的正向传播</strong>：输入隐藏向量 $ h \in \mathbb{R}^{d} $，Adapter 输出：</p>
+
+<p><div class="math-block">$$ h_{\text{adapt}} = W_{up}\ \sigma(W_{down}\, h) $$</div></p>
+
+<p>与主干残差相加作为该层输出：</p>
+
+<p><div class="math-block">$$ h' = h + h_{\text{adapt}} $$</div></p>
+
+<p><strong>参数量与瓶颈缩减</strong>：设隐藏维 $ d $、瓶颈维 $ d' $，瓶颈率：</p>
+
+<p><div class="math-block">$$ r = \frac{d'}{d} \quad(\text{常见 } r=0.1\sim0.5) $$</div></p>
+
+<p>Adapter 参数量 $ = 2\, d\, d' = 2\, r\, d^2 $，远小于全连接 $ d^2 $，可训练参数占比约 <strong>0.1%~5%</strong>。</p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ h\in\mathbb{R}^d $：某层输出的隐藏状态向量，维度 $ d $（隐藏维）</li>
+<li>$ W_{down}\in\mathbb{R}^{d'\times d} $：下投影（压缩），把 $ d $ 压到 $ d' $</li>
+<li>$ W_{up}\in\mathbb{R}^{d\times d'} $：上投影（升维），把 $ d' $ 升回 $ d $</li>
+<li>$ d' $：瓶颈维度（压缩后中间维）</li>
+<li>$ r $：瓶颈率（reduction ratio）</li>
+<li>$ h' $：加入 Adapter 后的输出，与输入同维（保证残差相加）</li>
+<li>一般 Adapter 前还有一层 LayerNorm 归一化</li>
+</ul>
+
+<h4>核心要点</h4>
+<ul>
+<li>只训练 Adapter 参数（约总量 0.1%~5%），冻结整个预训练模型。</li>
+<li>一个模型可同时挂多个任务的 Adapter，多任务共享骨干、热插拔。</li>
+<li>Adapter 常放在 FFN 后（Houlsby）或每层 Attn/FFN 后（Pfeiffer 变体）。</li>
+<li>用 <code class="inline-code">bottleneck + 残差</code> 平衡表达力与推理成本。</li>
+<li>相比 Prompt-Tuning 不消耗输入 token 长度。</li>
+</ul>
+
+<h4>技术细节与参数详解</h4>
+<p>以 adapter-transformers / HF PEFT 的 adapter_config 为例。</p>
+
+<p>#### 参数1：reduction_factor（瓶颈缩减系数）</p>
+<ul>
+<li><strong>含义</strong>：瓶颈维度 $ d' = d/r $（把 $ d $ 维压缩 $ r $ 倍）。</li>
+<li><strong>类型</strong>：<code class="inline-code">int</code> 或 <code class="inline-code">float</code>。</li>
+<li><strong>默认值</strong>：常为 <code class="inline-code">2</code>~<code class="inline-code">16</code>（原版 2~64，实践 8/16 常见）。</li>
+<li><strong>取值范围</strong>：$ r \ge 1 $，越大瓶颈越小。</li>
+<li><strong>影响</strong>：$ r $ 越大 → 参数越少（约 $ 2d^2/r $）但性能略降；越小 → 参数多、能力强但成本高。</li>
+<li><strong>推荐</strong>：默认 <code class="inline-code">16</code> 起步，精度不足逐步调小（4、2）。</li>
+</ul>
+
+<p>#### 参数2：hidden_dim（瓶颈隐藏维度）</p>
+<ul>
+<li><strong>含义</strong>：Down-projection 之后的中间维度。</li>
+<li><strong>类型</strong>：<code class="inline-code">int</code>。</li>
+<li><strong>默认值</strong>：由 $ d / r $ 得到；也可直接给定。</li>
+<li><strong>取值范围</strong>：$ 0 < hidden\_dim < d $。</li>
+<li><strong>影响</strong>：直接控制 Adapter 参数量与拟合能力，越大越强但越贵。</li>
+<li><strong>推荐</strong>：与 reduction_factor 二选一设置。</li>
+</ul>
+
+<p>#### 参数3：down_scale / down_proj 权重</p>
+<ul>
+<li><strong>含义</strong>：下投影矩阵大小（$ d\to d' $）。</li>
+<li><strong>默认</strong>：与瓶颈一致，<code class="inline-code">Linear(d, d')</code>。</li>
+<li><strong>影响</strong>：决定压缩瓶颈，因而决定可训练参数量。</li>
+</ul>
+
+<p>#### 参数4：up_scale / up_proj 权重</p>
+<ul>
+<li><strong>含义</strong>：上投影矩阵大小（$ d'\to d $）。</li>
+<li><strong>默认</strong>：<code class="inline-code">Linear(d', d)</code>，恢复原维度。</li>
+<li><strong>影响</strong>：与 down 形成瓶颈，保证残差相加维度一致。</li>
+</ul>
+
+<p>#### 参数5：non_linearity（非线性激活）</p>
+<ul>
+<li><strong>含义</strong>：瓶颈处激活函数。</li>
+<li><strong>类型</strong>：<code class="inline-code">str</code>，<code class="inline-code">'relu'</code>/<code class="inline-code">'gelu'</code>/<code class="inline-code">'tanh'</code>/<code class="inline-code">'swish'</code>。</li>
+<li><strong>默认值</strong>：原版 <code class="inline-code">relu</code>，也常用 <code class="inline-code">gelu</code>。</li>
+<li><strong>影响</strong>：引入非线性，让 Adapter 能近似复杂映射。ReLU 简单稀疏，GELU 平滑（Transformer 上常更稳定）。</li>
+<li><strong>推荐</strong>：Transformer 上 <code class="inline-code">gelu</code> 常用；简单任务 <code class="inline-code">relu</code> 更快。</li>
+</ul>
+
+<p>#### 参数6：adapter_config 其余开关（LayerNorm、bias）</p>
+<ul>
+<li><strong>含义</strong>：<code class="inline-code">ln_before/ln_after</code>（是否加 LayerNorm）、<code class="inline-code">bias</code>（是否训练偏置）等。</li>
+<li><strong>影响</strong>：<code class="inline-code">bias=True</code> 加少量可训练偏置；LayerNorm 提升稳定性但参数多。</li>
+</ul>
+
+<p>#### 参数7：训练超参</p>
+<ul>
+<li><strong>含义</strong>：学习率、batch、epoch、优化器（AdamW）。</li>
+<li><strong>推荐</strong>：学习率通常取全量微调的 1~10 倍（1e-4~1e-3），因只少量参数；batch 视内存定。</li>
+<li><strong>说明</strong>：过小欠拟合、过大震荡。</li>
+</ul>
+
+<h4>代码示例</h4>
+<p><pre class="code-block"><code class="language-python"># 以瓶颈 Adapter 模块示意（PyTorch）
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+
+class Adapter(nn.Module):
+    &quot;&quot;&quot;瓶颈 Adapter：Down→激活→Up，残差返回。&quot;&quot;&quot;
+    def __init__(self, d_in, r, non_linearity=&quot;relu&quot;):
+        super().__init__()
+        d_bottleneck = d_in // r            # 瓶颈维度 = 隐藏维 ÷ 缩减率
+        self.down = nn.Linear(d_in, d_bottleneck)   # 降维：d → r 分之一
+        self.up   = nn.Linear(d_bottleneck, d_in)   # 升维：恢复到 d
+        self.non_linearity = non_linearity          # 激活类型
+        nn.init.xavier_uniform_(self.down.weight)   # 初始化下投影权重
+        nn.init.zeros_(self.up.weight)              # 上投影初始0，残差为0
+        nn.init.zeros_(self.up.bias)                # 偏置清零
+
+    def forward(self, h):
+        &quot;&quot;&quot;h: (B, L, d) 隐藏向量，返回 (B,L,d) 同维度。&quot;&quot;&quot;
+        down = self.down(h)                          # (B,L,d) -&gt; (B,L,d_bot)
+        if self.non_linearity == &quot;relu&quot;:
+            down = F.relu(down)                      # ReLU 激活
+        else:
+            down = F.gelu(down)                      # GELU 激活
+        up = self.up(down)                           # (B,L,d_bot) -&gt; (B,L,d)
+        return up                                    # 返回 adapter 输出
+
+# 使用：冻结主干，只训练 Adapter
+model = SomeTransformer()          # 预训练模型
+for p in model.parameters():
+    p.requires_grad = False        # 冻结所有主干参数
+adapter = Adapter(d_in=model_hidden_dim, r=8)  # 只新增可训练 Adapter
+optimizer = torch.optim.AdamW(adapter.parameters(), lr=5e-4)  # 只优化 Adapter</code></pre></p>
+
+<h4>复杂度分析</h4>
+<ul>
+<li><strong>参数量</strong>：$ N_{adapter} = 2d^2/r $（down $ d\cdot d $ + up $ d\cdot d $），相对全量 $ d^2 $ 大幅减少。以 $ r=16 $ 计，可训练参数约为总量 <strong>0.1%~5%</strong>。</li>
+<li><strong>时间</strong>：训练约为全量微调的 $ 1/r\sim1/8 $（只反传 Adapter 梯度）；推理引入一点计算，增加约 2%~4% 延迟（原版报告）。</li>
+<li><strong>空间</strong>：每任务只需保存 Adapter 权重（MB 级），无需整模型副本，多任务共享骨干存储。</li>
+</ul>
+
+<h4>应用场景</h4>
+<ul>
+<li>多任务 NLP：共享预训练骨干，各挂轻量 Adapter。</li>
+<li>低资源/受限环境：无法全量微调时用少量参数微调。</li>
+<li>热插拔/在线更新：任务变更只换 Adapter 权重。</li>
+<li>云/边缘部署：只需保存小 Adapter。</li>
+</ul>
+
+<h4>参考文档</h4>
+<ul>
+<li><a href="https://cloud.tencent.com/developer/article/2186743" target="_blank" class="ref-link">一文了解 Adapter Tuning（腾讯云）</a></li>
+<li><a href="https://blog.csdn.net/2301_77818837/article/details/135355919" target="_blank" class="ref-link">适配器微调 Adapter tuning（CSDN）</a></li>
+<li><a href="https://blog.csdn.net/qq_54445177/article/details/147117463" target="_blank" class="ref-link">大模型微调「瘦身」记：Adapter Tuning 系列技术（CSDN）</a></li>
+</ul>
+
+<blockquote>
+<p>AI生成</p>
+</blockquote>
+
+  </div>
+  <div class="footer">
+    <p>由 TeleAgent · 每日算法推送 技能自动生成 | 2026-11-04 09:40</p>
+  </div>
+</div>
+</body>
+</html>
