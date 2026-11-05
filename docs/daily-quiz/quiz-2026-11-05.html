@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>每日算法 AI 出题 · 第 27 期 · 2026-11-05</title>
+  <!-- KaTeX 数学公式渲染 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
+  <style>
+    :root {
+      --bg: #0d1117;
+      --card-bg: #161b22;
+      --border: #30363d;
+      --text: #e6edf3;
+      --text-dim: #8b949e;
+      --accent: #58a6ff;
+      --green: #3fb950;
+      --orange: #d29922;
+      --red: #f85149;
+      --purple: #a855f7;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", sans-serif;
+      line-height: 1.7;
+      padding: 16px;
+      max-width: 860px;
+      margin: 0 auto;
+    }
+    .header {
+      text-align: center;
+      padding: 24px 0 16px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 24px;
+    }
+    .header h1 {
+      font-size: 1.5em;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+    .header .subtitle {
+      color: var(--text-dim);
+      font-size: 0.9em;
+    }
+    .header .date-tag {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 2px 12px;
+      border-radius: 12px;
+      background: var(--border);
+      font-size: 0.8em;
+      color: var(--text-dim);
+    }
+
+    /* 题目卡片 */
+    .question-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .question-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+    .type-badge {
+      padding: 2px 10px;
+      border-radius: 10px;
+      font-size: 0.75em;
+      color: white;
+      font-weight: 600;
+    }
+    .difficulty { font-size: 0.85em; }
+    .qid-label { color: var(--text-dim); font-size: 0.8em; margin-left: auto; }
+    .question-title {
+      font-size: 1.25em;
+      margin-bottom: 12px;
+      color: var(--text);
+    }
+    .question-body { margin-bottom: 14px; }
+    .question-body code.inline-code {
+      background: var(--border);
+      padding: 1px 5px;
+      border-radius: 3px;
+      font-size: 0.9em;
+    }
+
+    /* 信息块 */
+    .info-block {
+      background: rgba(88,166,255,0.05);
+      border-left: 3px solid var(--accent);
+      padding: 10px 14px;
+      margin: 10px 0;
+      border-radius: 0 6px 6px 0;
+    }
+    .info-label {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.85em;
+      display: block;
+      margin-bottom: 4px;
+    }
+    .info-block pre {
+      white-space: pre-wrap;
+      font-family: "JetBrains Mono", "Fira Code", monospace;
+      font-size: 0.85em;
+      color: var(--text);
+    }
+
+    /* 示例 */
+    .example-block {
+      background: rgba(63,185,80,0.05);
+      border: 1px solid rgba(63,185,80,0.2);
+      border-radius: 8px;
+      padding: 12px;
+      margin: 10px 0;
+    }
+    .example-title {
+      color: var(--green);
+      font-weight: 600;
+      font-size: 0.85em;
+      margin-bottom: 6px;
+    }
+    .example-io {
+      font-family: monospace;
+      font-size: 0.85em;
+      white-space: pre-wrap;
+      margin: 2px 0;
+    }
+    .io-label { color: var(--text-dim); }
+    .example-explanation {
+      color: var(--text-dim);
+      font-size: 0.85em;
+      margin-top: 6px;
+      padding-top: 6px;
+      border-top: 1px dashed var(--border);
+    }
+
+    /* 选项 */
+    .options-container { margin: 12px 0; }
+    .option-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      padding: 10px 14px;
+      margin: 6px 0;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .option-item:hover { border-color: var(--accent); background: rgba(88,166,255,0.05); }
+    .option-item.correct { border-color: var(--green); background: rgba(63,185,80,0.1); }
+    .option-item.wrong { border-color: var(--red); background: rgba(248,81,73,0.1); }
+    .option-item input[type=radio] { accent-color: var(--accent); margin-top: 4px; }
+    .option-letter {
+      font-weight: 700;
+      color: var(--accent);
+      min-width: 20px;
+    }
+    .option-text { flex: 1; font-size: 0.9em; }
+    .option-feedback {
+      margin: 8px 0;
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-size: 0.85em;
+      display: none;
+    }
+    .option-feedback.show { display: block; }
+    .option-feedback.correct {
+      background: rgba(63,185,80,0.1);
+      color: var(--green);
+    }
+    .option-feedback.wrong { background: rgba(248,81,73,0.1); color: var(--red); }
+
+    /* 代码编辑器 */
+    .code-section {
+      margin: 16px 0;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .code-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 14px;
+      background: rgba(88,166,255,0.08);
+      border-bottom: 1px solid var(--border);
+      font-size: 0.85em;
+      color: var(--accent);
+    }
+    .editor-wrap {
+      position: relative;
+    }
+    .code-editor {
+      min-height: 180px;
+      max-height: 400px;
+      overflow: auto;
+      padding: 12px;
+      font-family: "JetBrains Mono", "Fira Code", "Cascadia Code", monospace;
+      font-size: 13px;
+      line-height: 1.5;
+      white-space: pre;
+      color: var(--text);
+      background: #0d1117;
+      outline: none;
+      tabs: 4;
+    }
+    .btn-run {
+      background: var(--green);
+      color: white;
+      border: none;
+      padding: 4px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.85em;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .btn-run:hover { opacity: 0.85; }
+    .btn-run:disabled { opacity: 0.5; cursor: not-allowed; }
+    .code-result {
+      padding: 12px;
+      background: #0d1117;
+      border-top: 1px solid var(--border);
+      font-family: monospace;
+      font-size: 0.85em;
+      white-space: pre-wrap;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+    .code-result .test-pass { color: var(--green); }
+    .code-result .test-fail { color: var(--red); }
+    .code-result .stderr { color: var(--orange); }
+
+    /* 显示解析按钮 */
+    .btn-reveal {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      margin-top: 16px;
+      background: transparent;
+      border: 2px dashed var(--border);
+      border-radius: 8px;
+      color: var(--text-dim);
+      font-size: 0.95em;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .btn-reveal:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(88,166,255,0.03);
+    }
+    .btn-reveal.loading {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    /* 解析区域 */
+    .solution-section {
+      margin-top: 16px;
+      animation: fadeIn 0.4s ease;
+    }
+    @keyframes fadeIn { from{opacity:0; transform:translateY(10px) } to{opacity:1; transform:translateY(0) } }
+    .solution-divider {
+      text-align: center;
+      color: var(--text-dim);
+      font-size: 0.8em;
+      margin: 16px 0;
+      letter-spacing: 1px;
+    }
+    .answer-highlight {
+      background: rgba(63,185,80,0.1);
+      border: 1px solid var(--green);
+      border-radius: 8px;
+      padding: 10px 16px;
+      margin: 10px 0;
+      font-size: 1.05em;
+      color: var(--green);
+      font-weight: 600;
+    }
+    .solution-block {
+      margin: 14px 0;
+      padding: 14px;
+      background: rgba(255,255,255,0.02);
+      border-radius: 8px;
+    }
+    .solution-block h4 {
+      color: var(--accent);
+      margin-bottom: 8px;
+      font-size: 0.95em;
+    }
+    .solution-block ul.answer-points {
+      padding-left: 20px;
+    }
+    .solution-block ul.answer-points li {
+      margin: 6px 0;
+      font-size: 0.9em;
+    }
+    .code-block {
+      background: #0d1117;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 12px;
+      font-family: "JetBrains Mono", "Fira Code", monospace;
+      font-size: 0.85em;
+      overflow-x: auto;
+      white-space: pre;
+      color: var(--text);
+    }
+    .complexity-tag {
+      display: inline-block;
+      padding: 2px 10px;
+      margin-right: 8px;
+      border-radius: 6px;
+      background: var(--border);
+      font-size: 0.85em;
+      font-family: monospace;
+    }
+    .derivation-content {
+      font-size: 0.9em;
+      line-height: 1.8;
+    }
+
+    /* 运行中加载动画 */
+    .spinner {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      border: 2px solid var(--text-dim);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* 底部 */
+    .footer {
+      text-align: center;
+      padding: 24px 0;
+      color: var(--text-dim);
+      font-size: 0.8em;
+      border-top: 1px solid var(--border);
+      margin-top: 24px;
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 8px; }
+      .question-card { padding: 14px; }
+      .question-title { font-size: 1.1em; }
+      .code-editor { font-size: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <h1>每日算法 AI 出题 · 第 27 期</h1>
+  <div class="subtitle">算法 2 道 + AI 2 道 · 单调栈 / 差分数组 / InfoNCE / 幻觉治理</div>
+  <div class="date-tag">📅 2026-11-05 ｜ 算法 2 道 · AI 2 道</div>
+</div>
+
+<div class="question-card" data-qid="1">
+
+    <div class="question-header">
+      <span class="type-badge" style="background:#3b82f6">算法编程</span>
+      <span class="difficulty">⭐⭐⭐</span>
+      <span class="qid-label">第 1 题</span>
+    </div>
+<h2 class="question-title">柱状图中的最大矩形（单调栈）</h2>
+<div class="question-body">给定 $n$ 个非负整数，表示柱状图中每个柱子的高度，每个柱子宽度均为 $1$。求该柱状图中能够勾勒出的最大矩形面积。<br>
+<br>
+要求设计 $O(n)$ 的解法：对每根柱子，找出「以它为高度时能向左右扩展到的最远边界」，用<strong>单调递增栈</strong>在弹栈时一次性结算。</div>
+<div class="info-block"><span class="info-label">输入</span><pre>一个整数数组 heights，表示各柱子的高度。</pre></div>
+<div class="info-block"><span class="info-label">输出</span><pre>一个整数，表示最大矩形面积。</pre></div>
+<div class="example-block">
+<div class="example-title">示例 1</div>
+<pre class="example-io"><span class="io-label">输入：</span>heights = [2,1,5,6,2,3]</pre>
+<pre class="example-io"><span class="io-label">输出：</span>10</pre>
+<div class="example-explanation">以高度 5 和 6 组成宽 2 的矩形，面积为 5×2=10，是最大者。</div>
+</div>
+<div class="example-block">
+<div class="example-title">示例 2</div>
+<pre class="example-io"><span class="io-label">输入：</span>heights = [2,4]</pre>
+<pre class="example-io"><span class="io-label">输出：</span>4</pre>
+<div class="example-explanation">高度 4 的柱子单独构成 4×1=4；两根合起来高度只能取 2，面积 2×2=4。</div>
+</div>
+<div class="info-block"><span class="info-label">约束</span><div>1 &lt;= heights.length &lt;= 10^5；0 &lt;= heights[i] &lt;= 10^4。答案最大可达 10^9，Python 整数无溢出问题。</div></div>
+
+    <div class="code-section">
+      <div class="code-header">
+        <span>🧑‍💻 在线代码编辑器</span>
+        <button class="btn-run" onclick="runCode(1)" id="run_btn_1">▶ 运行</button>
+      </div>
+      <div class="editor-wrap">
+        <div class="code-editor" id="editor_1" contenteditable="true" spellcheck="false">def largestRectangleArea(heights):
+    &quot;&quot;&quot;
+    返回柱状图中能勾勒出的最大矩形面积。
+    :param heights: List[int]，每个柱子的高度，宽度均为 1
+    :return: int
+    &quot;&quot;&quot;
+    # 在这里编写你的代码
+    pass
+</div>
+      </div>
+      <div class="code-result" id="result_1" style="display:none;"></div>
+      <input type="hidden" id="func_name_1" value="largestRectangleArea">
+      <input type="hidden" id="test_cases_1" value='[[[2, 1, 5, 6, 2, 3]], [[2, 4]], [[]], [[1]], [[0]], [[5]], [[2, 2, 2, 2]], [[1, 2, 3, 4, 5]], [[5, 4, 3, 2, 1]], [[0, 0, 0]], [[4, 2, 0, 3, 2, 5]], [[1, 2, 2]], [[3, 6, 5, 7, 4, 8, 1, 0]], [[10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000]], [[2, 1, 2]]]'>
+      <input type="hidden" id="expected_outputs_1" value='[10, 4, 0, 1, 0, 5, 8, 9, 9, 0, 6, 4, 20, 10000000, 3]'>
+    </div>
+
+    <button class="btn-reveal" onclick="revealSolution(1)" id="reveal_btn_1">
+      📖 显示答案与解析
+    </button>
+<div class="solution-section" id="solution_1" style="display:none;">
+<div class="solution-divider">--- 以下为答案与解析 ---</div>
+<div class="solution-block"><h4>💡 解题思路</h4><div>枚举「矩形的高度」而不是左右边界：对每根柱子 i，若以 heights[i] 为矩形高度，则矩形能向左延伸到第一个高度严格小于它的柱子之后，向右延伸到第一个高度严格小于它的柱子之前。用单调递增栈维护尚未确定右边界的下标：遍历到 i 时，若 heights[i] 小于栈顶高度，说明栈顶柱子的右边界就是 i，弹栈并以其高度结算；左边界是弹栈后新的栈顶（若栈空则为 -1）。在数组末尾追加哨兵 0，保证遍历结束后栈中所有柱子都被结算。由于每个下标最多入栈、出栈一次，总复杂度 O(n)。</div></div>
+<div class="solution-block"><h4>📝 参考代码（python）</h4><pre class="code-block">def largestRectangleArea(heights):
+    # 单调递增栈：存下标，栈内对应高度单调不减
+    stack = []
+    best = 0
+    # 末尾加哨兵 0，强制把栈中剩余柱子全部弹出结算
+    for i, h in enumerate(heights + [0]):
+        while stack and heights[stack[-1]] &gt; h:
+            height = heights[stack.pop()]       # 被弹出柱子作为矩形高度
+            left = stack[-1] if stack else -1   # 左边第一个更矮的柱子
+            width = i - left - 1                # 右边界 i，左边界 left
+            best = max(best, height * width)
+        stack.append(i)
+    return best
+</pre></div>
+<div class="solution-block"><h4>⚡ 复杂度分析</h4><div>
+<span class="complexity-tag">时间 O(n)，每个下标入栈、出栈各至多一次</span>
+<span class="complexity-tag">空间 O(n)，栈最多存放 n 个下标</span>
+</div></div>
+<div class="solution-block"><h4>🎯 考点</h4><div>单调栈的「延迟结算」思想；哨兵简化边界处理；用下标而非高度入栈才能算宽度；严格大于才弹栈，保证等高峰值也能正确处理（等高的前一根会在后一根处结算出更大或相等的宽度）。</div></div>
+</div>
+</div>
+<div class="question-card" data-qid="2">
+
+    <div class="question-header">
+      <span class="type-badge" style="background:#10b981">算法概念</span>
+      <span class="difficulty">⭐⭐</span>
+      <span class="qid-label">第 2 题</span>
+    </div>
+<h2 class="question-title">差分数组：区间批量加法的 O(1) 更新</h2>
+<div class="question-body">需要对长度为 $n$ 的数组 $a$ 执行 $m$ 次操作「把区间 $[l, r]$ 内所有元素加上 $v$」，最后一次性输出整个数组。定义差分数组 $d$：$d[0]=a[0]$，$d[i]=a[i]-a[i-1]\ (i\ge 1)$。下列哪项描述是<strong>正确</strong>的？</div>
+<div class="options-container">
+
+            <label class="option-item" data-letter="A">
+              <input type="radio" name="quiz_2" value="A" onchange="checkAnswer(2, 'A')">
+              <span class="option-letter">A</span>
+              <span class="option-text">A. 每次区间加只需 d[l] += v、d[r+1] -= v（r+1&lt;n 时），单次 O(1)；全部操作后对 d 求前缀和即可还原 a，总复杂度 O(n+m)</span>
+            </label>
+
+            <label class="option-item" data-letter="B">
+              <input type="radio" name="quiz_2" value="B" onchange="checkAnswer(2, 'B')">
+              <span class="option-letter">B</span>
+              <span class="option-text">B. 每次区间加需要 O(log n)，必须配合树状数组或线段树才能实现</span>
+            </label>
+
+            <label class="option-item" data-letter="C">
+              <input type="radio" name="quiz_2" value="C" onchange="checkAnswer(2, 'C')">
+              <span class="option-letter">C</span>
+              <span class="option-text">C. 差分数组只能支持单点修改，无法处理区间修改</span>
+            </label>
+
+            <label class="option-item" data-letter="D">
+              <input type="radio" name="quiz_2" value="D" onchange="checkAnswer(2, 'D')">
+              <span class="option-letter">D</span>
+              <span class="option-text">D. 全部操作完成后应对 d 求后缀和才能还原原数组</span>
+            </label>
+</div>
+<div class="option-feedback" id="feedback_2"></div>
+
+    <button class="btn-reveal" onclick="revealSolution(2)" id="reveal_btn_2">
+      📖 显示答案与解析
+    </button>
+<div class="solution-section" id="solution_2" style="display:none;">
+<div class="solution-divider">--- 以下为答案与解析 ---</div>
+<div class="answer-highlight">✅ 正确答案：A</div>
+<div class="solution-block"><h4>💡 解题思路</h4><div>差分数组的核心是把「区间整体加 v」转化为「两个端点的单点修改」：区间内每个元素的增量在差分表示中会相互抵消，只有 l 处的差值增加 v、r+1 处的差值减少 v。所有离线修改结束后，对 d 做一次前缀和即得最终数组。</div></div>
+<div class="solution-block"><h4>🎯 考点</h4><div>差分是前缀和的逆运算；区间修改 O(1)、离线还原 O(n)；二维差分可把子矩阵加值转为四个角点的修改；当查询与修改交替出现时，需升级为树状数组/线段树。</div></div>
+<div class="solution-block"><h4>🔍 逐项分析</h4><ul class="answer-points">
+<li>A 正确。d[l] += v 使从 l 开始的所有位置在累加前缀和时都多出 v；d[r+1] -= v 让 r+1 及之后的位置把这份增量抵消掉，恰好只影响 [l, r]。每次修改 O(1)，m 次共 O(m)，还原 O(n)，总计 O(n+m)。</li>
+<li>B 错误。O(log n) 是「需要在线查询任意前缀和/区间和」时才引入树状数组或线段树的代价；本题只要求全部修改做完后统一输出，差分数组即可做到 O(1) 修改。</li>
+<li>C 错误。差分数组恰恰是为区间修改设计的；单点修改在它上面反而是 d[i] += v、d[i+1] -= v 这种退化形式。</li>
+<li>D 错误。还原要用<strong>前缀和</strong> a[i] = d[0] + d[1] + ... + d[i]，因为 d[i] 的定义就是相邻元素的差；后缀和没有对应含义。</li>
+</ul></div>
+</div>
+</div>
+<div class="question-card" data-qid="3">
+
+    <div class="question-header">
+      <span class="type-badge" style="background:#a855f7">AI公式推导</span>
+      <span class="difficulty">⭐⭐⭐</span>
+      <span class="qid-label">第 3 题</span>
+    </div>
+<h2 class="question-title">InfoNCE 对比损失：对 query 向量的梯度推导</h2>
+<div class="question-body">InfoNCE 是句向量 / 图文检索模型（如 Sentence-BERT、CLIP）最常用的训练目标，也是 RAG 中 embedding 微调的基础。设 query 向量为 $q\in\mathbb{R}^d$，正样本为 $k^+$，$K$ 个负样本为 $k_1,\dots,k_K$。相似度取带温度的余弦/内积打分：<br>
+<br>
+$$s(q,k)=\frac{q^{\top}k}{\tau}$$<br>
+<br>
+损失定义为<br>
+<br>
+$$\mathcal{L}=-\log\frac{\exp(s(q,k^+))}{\exp(s(q,k^+))+\sum_{j=1}^{K}\exp(s(q,k_j))}$$<br>
+<br>
+请推导 $\dfrac{\partial\mathcal{L}}{\partial q}$，并说明温度 $\tau$ 在梯度中的作用。</div>
+
+    <button class="btn-reveal" onclick="revealSolution(3)" id="reveal_btn_3">
+      📖 显示答案与解析
+    </button>
+<div class="solution-section" id="solution_3" style="display:none;">
+<div class="solution-divider">--- 以下为答案与解析 ---</div>
+<div class="solution-block"><h4>🎯 考点</h4><div>InfoNCE = (K+1) 路交叉熵；梯度 = (1/τ)(E_p[k] − k+)；温度同时缩放梯度幅值与 softmax 尖锐度；batch 内负样本即 in-batch negatives，对称式损失对 q、k 两侧各算一次；K 越大 InfoNCE 越紧地逼近互信息下界 log K − L。</div></div>
+<div class="solution-block"><h4>📐 推导过程</h4><div class="derivation-content"><strong>第 1 步：统一记号。</strong> 令 $z_0=s(q,k^+)=\dfrac{q^{\top}k^+}{\tau}$，$z_j=s(q,k_j)=\dfrac{q^{\top}k_j}{\tau}\ (j=1..K)$。则<br>
+$$\mathcal{L}=-z_0+\log\Big(e^{z_0}+\sum_{j=1}^{K}e^{z_j}\Big)=-z_0+\log\sum_{i=0}^{K}e^{z_i}$$<br>
+<br>
+<strong>第 2 步：对 logits 求导。</strong> 对任意 $i\in\{0,..,K\}$：<br>
+$$\frac{\partial \mathcal{L}}{\partial z_i}=-\mathbb{1}[i=0]+\frac{e^{z_i}}{\sum_{m=0}^{K}e^{z_m}}=-\mathbb{1}[i=0]+p_i$$<br>
+其中 $p_i=\mathrm{softmax}(z)_i$ 是「正样本 + 全部负样本」上的 softmax 概率。这一步说明：InfoNCE 本质就是一个 $(K+1)$ 分类的交叉熵，正样本是正确类别。<br>
+<br>
+<strong>第 3 步：logits 对 q 求导。</strong> 因为 $z_i=\dfrac{q^{\top}k_i}{\tau}$（把 $k^+$ 记作 $k_0$），有<br>
+$$\frac{\partial z_i}{\partial q}=\frac{k_i}{\tau}$$<br>
+<br>
+<strong>第 4 步：链式法则合并。</strong><br>
+$$\frac{\partial \mathcal{L}}{\partial q}=\sum_{i=0}^{K}\frac{\partial \mathcal{L}}{\partial z_i}\cdot\frac{\partial z_i}{\partial q}=\frac{1}{\tau}\Big(\sum_{i=0}^{K}p_i k_i-k_0\Big)$$<br>
+即<br>
+$$\boxed{\ \frac{\partial \mathcal{L}}{\partial q}=\frac{1}{\tau}\big(\mathbb{E}_{p}[k]-k^{+}\big)\ }$$<br>
+<br>
+<strong>第 5 步：含义与温度的作用。</strong><br>
+- $\mathbb{E}_p[k]$ 是按 softmax 权重对所有候选做的加权平均；梯度方向是「从负样本加权中心指向正样本」，即把 $q$ 拉向 $k^+$、推离被赋予高概率的困难负样本。<br>
+- 当 $p_0\to 1$（已经分对且 margin 很大）时 $\mathbb{E}_p[k]\to k^+$，梯度趋于 0，损失饱和。<br>
+- 温度 $\tau$ 出现在两个地方：一是缩放梯度 $1/\tau$；二是改变 $p$ 的尖锐程度——$\tau$ 越小分布越尖锐，梯度越集中在最难的负样本上（更难但更易训练不稳定、需要梯度裁剪或 warmup）；$\tau$ 越大分布越平滑，所有负样本都参与、梯度更稳但判别力弱。<br>
+- 若进一步对 $\tau$ 求导：$\partial z_i/\partial\tau=-q^{\top}k_i/\tau^2$，可得 $\partial\mathcal{L}/\partial\tau=\dfrac{1}{\tau}\big(\mathbb{E}_p[q^{\top}k]-q^{\top}k^+\big)$，因此 $\tau$ 也可学习（如 CLIP 的可学习 logit scale）。</div></div>
+<div class="solution-block"><h4>🧠 直觉解释</h4><div>InfoNCE 就是一个「正样本 vs 一堆负样本」的 softmax 分类：梯度等于（按概率加权的负样本中心）减去正样本，温度决定你把注意力放在多难的负样本上。</div></div>
+</div>
+</div>
+<div class="question-card" data-qid="4">
+
+    <div class="question-header">
+      <span class="type-badge" style="background:#f59e0b">AI面试问答</span>
+      <span class="difficulty">⭐⭐</span>
+      <span class="qid-label">第 4 题</span>
+    </div>
+<h2 class="question-title">大模型幻觉的成因与工程化缓解方案</h2>
+<div class="question-body">面试官问：「你们线上大模型应用怎么处理幻觉（Hallucination）？请说明幻觉的成因，以及你会从哪些层面做缓解。」</div>
+
+    <button class="btn-reveal" onclick="revealSolution(4)" id="reveal_btn_4">
+      📖 显示答案与解析
+    </button>
+<div class="solution-section" id="solution_4" style="display:none;">
+<div class="solution-divider">--- 以下为答案与解析 ---</div>
+<div class="solution-block"><h4>📌 回答要点</h4><ul class="answer-points">
+<li><strong>先定义再分类</strong>：幻觉指模型生成了不忠实于输入或不符合事实的内容，分为内在幻觉（与给定上下文矛盾）和外在幻觉（无法从上下文验证、凭空补充）。两者治理手段不同，先分清再谈方案。</li>
+<li><strong>成因一：知识与目标错配</strong>。预训练目标是 next-token 似然，优化的是「像人写的」而不是「是真的」；长尾事实在训练语料中出现少，模型只能用相似模式补全，表现为自信地编造。</li>
+<li><strong>成因二：上下文使用失败</strong>。RAG 场景中检索没召回、召回了噪声、或关键信息落在长上下文中部（lost in the middle），模型仍按参数记忆作答，造成与文档冲突。</li>
+<li><strong>成因三：解码与对齐副作用</strong>。高温采样放大随机性；RLHF 偏好「有帮助、完整」的回答，会诱发模型在不知道时也硬答（谄媚/过度自信），而不是说「不确定」。</li>
+<li><strong>缓解要分层落地</strong>：① 数据层——RAG 保证可溯源、chunk 与召回评估、必要时做知识库时效更新；② 训练层——SFT 加入「据实回答/拒答」样本，偏好优化中用事实性奖励，领域内做继续预训练；③ 解码层——降低 temperature/top-p、结构化输出、工具调用替代记忆性回答；④ 后处理层——引用对齐校验、规则/小模型事实核查、置信度低时转人工；⑤ 评估层——建立事实性评测集与 faithfulness 指标，线上抽样监控。</li>
+</ul></div>
+<div class="solution-block"><h4>⭐ 加分项</h4><ul class="answer-points">
+<li>指出幻觉不可能被彻底消除，工程目标是「把不可控幻觉变成可检测、可兜底的风险」，因此要配套引用、置信度与人工兜底，而不是只追求模型能力。</li>
+<li>能区分「事实性（factuality）」与「忠实性（faithfulness）」：RAG 场景更应先保证忠实性（不超出上下文），再谈参数知识的事实性。</li>
+<li>提到长上下文的位置偏置：把关键证据放在开头/结尾或做重排，比单纯扩大窗口更有效。</li>
+<li>提到不确定性估计：logit 熵、多次采样一致性（self-consistency）、语义熵都可作为拒答/转人工的信号。</li>
+</ul></div>
+<div class="solution-block"><h4>🔮 追问预测</h4><ul class="answer-points">
+<li><strong>追问：RAG 已经给了文档，为什么还会幻觉？</strong> 答：检索可能没召回正确片段；上下文有冲突或噪声；模型存在位置偏置和「参数记忆优先」倾向；生成时仍可能做无依据的跨句推理。对应要做召回评估、重排、引用约束和「仅依据上下文作答」的提示与训练。</li>
+<li><strong>追问：怎么量化幻觉率？</strong> 答：构建领域事实性测试集，用人工标注或强模型做 judge，指标包括事实错误率、无依据断言比例、引用支持率（faithfulness）；线上可用抽样人评 + 自动核查 + 用户反馈闭环。</li>
+<li><strong>追问：怎么让模型学会说「不知道」？</strong> 答：训练数据中加入拒答与澄清样本；做校准（confidence calibration）；推理时用一致性/熵阈值触发拒答；产品层提供「未找到依据」的标准话术与转人工入口。</li>
+</ul></div>
+</div>
+</div>
+
+<div class="footer">
+  坚持每日练习，积少成多 💪<br>
+  Powered by TeleAgent · daily-algo-ai-quiz
+</div>
+
+<script>
+// ===== Pyodide 隔离执行测试运行器 =====
+const RUNNER_CODE = "\nimport json, traceback, io, contextlib\n\ndef run_tests(user_code, func_name, test_cases, expected):\n    ns = {}\n    user_stdout = io.StringIO()\n    user_error = None\n\n    try:\n        with contextlib.redirect_stdout(user_stdout):\n            exec(user_code, ns)\n    except Exception:\n        user_error = traceback.format_exc()\n\n    user_out = user_stdout.getvalue()\n\n    if user_error:\n        return {\"error\": user_error, \"stdout\": user_out}\n\n    func = ns.get(func_name)\n    if func is None:\n        return {\"error\": \"未找到函数 \" + str(func_name) + \"，请确保代码中定义了该函数\", \"stdout\": user_out}\n\n    test_results = []\n    for i, tc in enumerate(test_cases):\n        try:\n            actual = func(*tc)\n            exp = expected[i]\n            passed = actual == exp\n            test_results.append({\n                \"passed\": passed,\n                \"input\": str(tc),\n                \"expected\": str(exp),\n                \"actual\": str(actual)\n            })\n        except Exception as e:\n            exp = str(expected[i]) if i < len(expected) else \"N/A\"\n            test_results.append({\n                \"passed\": False,\n                \"input\": str(tc),\n                \"expected\": exp,\n                \"actual\": \"Error: \" + str(e)\n            })\n\n    return {\"stdout\": user_out, \"tests\": test_results}\n";
+
+// ===== 显示/隐藏解析 =====
+function revealSolution(qid) {
+  const sol = document.getElementById('solution_' + qid);
+  const btn = document.getElementById('reveal_btn_' + qid);
+  if (sol.style.display === 'none') {
+    sol.style.display = 'block';
+    btn.innerHTML = '📕 收起解析';
+    // 渲染该区域数学公式
+    if (typeof renderMathInElement !== 'undefined') {
+      renderMathInElement(sol, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false}
+        ]
+      });
+    }
+  } else {
+    sol.style.display = 'none';
+    btn.innerHTML = '📖 显示答案与解析';
+  }
+}
+
+// ===== 选择题作答反馈 =====
+function checkAnswer(qid, selected) {
+  const card = document.querySelector(`[data-qid="${qid}"]`);
+  if (!card) return;
+  const correctAnswer = card.getAttribute('data-correct') || '';
+  // 从全局 quizData 获取
+  const qData = window.__quizData__.questions.find(q => q.id == qid);
+  if (!qData || !qData.correct_answer) return;
+
+  const correct = qData.correct_answer;
+  const feedback = document.getElementById('feedback_' + qid);
+  const options = card.querySelectorAll('.option-item');
+
+  options.forEach(opt => {
+    const letter = opt.getAttribute('data-letter');
+    opt.classList.remove('correct', 'wrong');
+    if (letter === correct) {
+      opt.classList.add('correct');
+    } else if (letter === selected && selected !== correct) {
+      opt.classList.add('wrong');
+    }
+  });
+
+  if (feedback) {
+    feedback.className = 'option-feedback show ' + (selected === correct ? 'correct' : 'wrong');
+    feedback.textContent = selected === correct
+      ? '✅ 回答正确！'
+      : `❌ 正确答案是 ${correct}，再想想？`;
+    feedback.style.display = 'block';
+  }
+}
+
+// ===== Pyodide 代码执行 =====
+let pyodideReady = null;
+let pyodideLoading = false;
+
+function loadPyodideAsync() {
+  if (pyodideReady) return pyodideReady;
+  if (pyodideLoading) return pyodideReady;
+  pyodideLoading = true;
+
+  pyodideReady = new Promise((resolve, reject) => {
+    if (typeof loadPyodide !== 'undefined') {
+      loadPyodide({
+        indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.25.0/full/'
+      }).then(py => {
+        pyodideLoading = false;
+        resolve(py);
+      }).catch(reject);
+    } else {
+      // 动态加载 Pyodide
+      const script = document.createElement('script');
+      script.src = 'https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js';
+      script.onload = () => {
+        loadPyodide({
+          indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.25.0/full/'
+        }).then(py => {
+          pyodideLoading = false;
+          resolve(py);
+        }).catch(reject);
+      };
+      script.onerror = () => {
+        pyodideLoading = false;
+        reject(new Error('Pyodide 加载失败，请检查网络连接'));
+      };
+      document.head.appendChild(script);
+    }
+  });
+  return pyodideReady;
+}
+
+async function runCode(qid) {
+    const editor = document.getElementById('editor_' + qid);
+    const resultDiv = document.getElementById('result_' + qid);
+    const btn = document.getElementById('run_btn_' + qid);
+    const code = editor.innerText;
+    const funcNameInput = document.getElementById('func_name_' + qid);
+    const funcName = funcNameInput ? funcNameInput.value : 'solve';
+    const tcInput = document.getElementById('test_cases_' + qid);
+    const eoInput = document.getElementById('expected_outputs_' + qid);
+    let testCases = [];
+    let expectedOutputs = [];
+    try {
+        testCases = JSON.parse(tcInput.value || '[]');
+        expectedOutputs = JSON.parse(eoInput.value || '[]');
+    } catch(e) {}
+
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span> 运行中...';
+    resultDiv.style.display = 'block';
+    resultDiv.innerHTML = '<span style="color:var(--text-dim)">⏳ 正在加载 Python 运行环境...</span>';
+
+    try {
+        const pyodide = await loadPyodideAsync();
+        resultDiv.innerHTML = '<span style="color:var(--text-dim)">⏳ 正在执行代码...</span>';
+
+        // 确保 run_tests 函数只定义一次
+        if (!window.__runner_ready__) {
+            pyodide.runPython(RUNNER_CODE);
+            window.__runner_ready__ = true;
+        }
+
+        // 调用 run_tests 函数，通过返回值获取结果（不依赖 stdout，每次调用独立）
+        const runTests = pyodide.globals.get('run_tests');
+        const pyResult = runTests(code, funcName, testCases, expectedOutputs);
+        // pyResult 是 Python dict，转为 JS 对象
+        const result = pyResult.toJs({dict_converter: Object.fromEntries});
+
+        let resultHtml = '';
+
+        // 显示用户代码标准输出
+        if (result.stdout && result.stdout.trim()) {
+            resultHtml += '<div style="color:var(--text)">📝 标准输出：</div>';
+            resultHtml += '<pre style="color:var(--text);margin:4px 0;">' + escapeHtml(result.stdout) + '</pre>';
+        }
+
+        // 显示错误信息
+        if (result.error) {
+            resultHtml += '<div class="stderr">⚠️ 错误信息：</div>';
+            resultHtml += '<pre class="stderr" style="margin:4px 0;">' + escapeHtml(result.error) + '</pre>';
+        }
+
+        // 显示测试用例结果
+        if (result.tests && result.tests.length > 0) {
+            let allPassed = result.tests.every(t => t.passed);
+            resultHtml += '<div style="margin-top:8px;color:' + (allPassed ? 'var(--green)' : 'var(--accent)') + '">';
+            resultHtml += allPassed ? '🎉 全部通过！' : '🧪 测试用例结果：';
+            resultHtml += '</div>';
+
+            for (let i = 0; i < result.tests.length; i++) {
+                const t = result.tests[i];
+                if (t.passed) {
+                    resultHtml += '<div class="test-pass">✅ 用例 ' + (i+1) + ' 通过</div>';
+                } else {
+                    resultHtml += '<div class="test-fail">❌ 用例 ' + (i+1) + ' 未通过</div>';
+                    resultHtml += '<pre style="color:var(--text-dim);margin:2px 0;">  输入: ' + escapeHtml(t.input) + '\n  期望: ' + escapeHtml(t.expected) + '\n  实际: ' + escapeHtml(t.actual) + '</pre>';
+                }
+            }
+        }
+
+        if (!resultHtml) {
+            resultHtml = '<span style="color:var(--text-dim)">（代码执行完毕，无输出）</span>';
+        }
+
+        resultDiv.innerHTML = resultHtml;
+
+    } catch(e) {
+        resultDiv.innerHTML = '<div class="stderr">❌ ' + escapeHtml(e.message || String(e)) + '</div>';
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = '▶ 运行';
+    }
+}
+
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+// Ctrl+Enter 运行代码
+document.addEventListener('keydown', (e) => {
+  if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+    const focused = document.activeElement;
+    if (focused && focused.classList.contains('code-editor')) {
+      const qid = focused.id.replace('editor_', '');
+      runCode(qid);
+    }
+  }
+});
+
+// Tab 键在编辑器中插入空格
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Tab' && document.activeElement.classList.contains('code-editor')) {
+    e.preventDefault();
+    document.execCommand('insertText', false, '    ');
+  }
+});
+
+// 将 quiz 数据存入全局变量供选择题使用
+window.__quizData__ = {"date": "2026-11-05", "title": "每日算法 AI 出题 · 第 27 期", "subtitle": "算法 2 道 + AI 2 道 · 单调栈 / 差分数组 / InfoNCE / 幻觉治理", "questions": [{"id": 1, "type": "algorithm_code", "type_label": "算法编程", "difficulty": 3, "title": "柱状图中的最大矩形（单调栈）", "description": "给定 $n$ 个非负整数，表示柱状图中每个柱子的高度，每个柱子宽度均为 $1$。求该柱状图中能够勾勒出的最大矩形面积。\n\n要求设计 $O(n)$ 的解法：对每根柱子，找出「以它为高度时能向左右扩展到的最远边界」，用**单调递增栈**在弹栈时一次性结算。", "input_format": "一个整数数组 heights，表示各柱子的高度。", "output_format": "一个整数，表示最大矩形面积。", "examples": [{"input": "heights = [2,1,5,6,2,3]", "output": "10", "explanation": "以高度 5 和 6 组成宽 2 的矩形，面积为 5×2=10，是最大者。"}, {"input": "heights = [2,4]", "output": "4", "explanation": "高度 4 的柱子单独构成 4×1=4；两根合起来高度只能取 2，面积 2×2=4。"}], "constraints": "1 <= heights.length <= 10^5；0 <= heights[i] <= 10^4。答案最大可达 10^9，Python 整数无溢出问题。", "solution": {"approach": "枚举「矩形的高度」而不是左右边界：对每根柱子 i，若以 heights[i] 为矩形高度，则矩形能向左延伸到第一个高度严格小于它的柱子之后，向右延伸到第一个高度严格小于它的柱子之前。用单调递增栈维护尚未确定右边界的下标：遍历到 i 时，若 heights[i] 小于栈顶高度，说明栈顶柱子的右边界就是 i，弹栈并以其高度结算；左边界是弹栈后新的栈顶（若栈空则为 -1）。在数组末尾追加哨兵 0，保证遍历结束后栈中所有柱子都被结算。由于每个下标最多入栈、出栈一次，总复杂度 O(n)。", "code": "def largestRectangleArea(heights):\n    # 单调递增栈：存下标，栈内对应高度单调不减\n    stack = []\n    best = 0\n    # 末尾加哨兵 0，强制把栈中剩余柱子全部弹出结算\n    for i, h in enumerate(heights + [0]):\n        while stack and heights[stack[-1]] > h:\n            height = heights[stack.pop()]       # 被弹出柱子作为矩形高度\n            left = stack[-1] if stack else -1   # 左边第一个更矮的柱子\n            width = i - left - 1                # 右边界 i，左边界 left\n            best = max(best, height * width)\n        stack.append(i)\n    return best\n", "starter_code": "def largestRectangleArea(heights):\n    \"\"\"\n    返回柱状图中能勾勒出的最大矩形面积。\n    :param heights: List[int]，每个柱子的高度，宽度均为 1\n    :return: int\n    \"\"\"\n    # 在这里编写你的代码\n    pass\n", "code_language": "python", "complexity_time": "O(n)，每个下标入栈、出栈各至多一次", "complexity_space": "O(n)，栈最多存放 n 个下标", "key_points": "单调栈的「延迟结算」思想；哨兵简化边界处理；用下标而非高度入栈才能算宽度；严格大于才弹栈，保证等高峰值也能正确处理（等高的前一根会在后一根处结算出更大或相等的宽度）。", "test_cases": [[[2, 1, 5, 6, 2, 3]], [[2, 4]], [[]], [[1]], [[0]], [[5]], [[2, 2, 2, 2]], [[1, 2, 3, 4, 5]], [[5, 4, 3, 2, 1]], [[0, 0, 0]], [[4, 2, 0, 3, 2, 5]], [[1, 2, 2]], [[3, 6, 5, 7, 4, 8, 1, 0]], [[10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000]], [[2, 1, 2]]], "expected_outputs": [10, 4, 0, 1, 0, 5, 8, 9, 9, 0, 6, 4, 20, 10000000, 3]}}, {"id": 2, "type": "algorithm_concept", "type_label": "算法概念", "difficulty": 2, "title": "差分数组：区间批量加法的 O(1) 更新", "description": "需要对长度为 $n$ 的数组 $a$ 执行 $m$ 次操作「把区间 $[l, r]$ 内所有元素加上 $v$」，最后一次性输出整个数组。定义差分数组 $d$：$d[0]=a[0]$，$d[i]=a[i]-a[i-1]\\ (i\\ge 1)$。下列哪项描述是**正确**的？", "options": ["A. 每次区间加只需 d[l] += v、d[r+1] -= v（r+1<n 时），单次 O(1)；全部操作后对 d 求前缀和即可还原 a，总复杂度 O(n+m)", "B. 每次区间加需要 O(log n)，必须配合树状数组或线段树才能实现", "C. 差分数组只能支持单点修改，无法处理区间修改", "D. 全部操作完成后应对 d 求后缀和才能还原原数组"], "correct_answer": "A", "solution": {"approach": "差分数组的核心是把「区间整体加 v」转化为「两个端点的单点修改」：区间内每个元素的增量在差分表示中会相互抵消，只有 l 处的差值增加 v、r+1 处的差值减少 v。所有离线修改结束后，对 d 做一次前缀和即得最终数组。", "option_analysis": ["A 正确。d[l] += v 使从 l 开始的所有位置在累加前缀和时都多出 v；d[r+1] -= v 让 r+1 及之后的位置把这份增量抵消掉，恰好只影响 [l, r]。每次修改 O(1)，m 次共 O(m)，还原 O(n)，总计 O(n+m)。", "B 错误。O(log n) 是「需要在线查询任意前缀和/区间和」时才引入树状数组或线段树的代价；本题只要求全部修改做完后统一输出，差分数组即可做到 O(1) 修改。", "C 错误。差分数组恰恰是为区间修改设计的；单点修改在它上面反而是 d[i] += v、d[i+1] -= v 这种退化形式。", "D 错误。还原要用**前缀和** a[i] = d[0] + d[1] + ... + d[i]，因为 d[i] 的定义就是相邻元素的差；后缀和没有对应含义。"], "key_points": "差分是前缀和的逆运算；区间修改 O(1)、离线还原 O(n)；二维差分可把子矩阵加值转为四个角点的修改；当查询与修改交替出现时，需升级为树状数组/线段树。"}}, {"id": 3, "type": "ai_derivation", "type_label": "AI公式推导", "difficulty": 3, "title": "InfoNCE 对比损失：对 query 向量的梯度推导", "description": "InfoNCE 是句向量 / 图文检索模型（如 Sentence-BERT、CLIP）最常用的训练目标，也是 RAG 中 embedding 微调的基础。设 query 向量为 $q\\in\\mathbb{R}^d$，正样本为 $k^+$，$K$ 个负样本为 $k_1,\\dots,k_K$。相似度取带温度的余弦/内积打分：\n\n$$s(q,k)=\\frac{q^{\\top}k}{\\tau}$$\n\n损失定义为\n\n$$\\mathcal{L}=-\\log\\frac{\\exp(s(q,k^+))}{\\exp(s(q,k^+))+\\sum_{j=1}^{K}\\exp(s(q,k_j))}$$\n\n请推导 $\\dfrac{\\partial\\mathcal{L}}{\\partial q}$，并说明温度 $\\tau$ 在梯度中的作用。", "solution": {"derivation": "**第 1 步：统一记号。** 令 $z_0=s(q,k^+)=\\dfrac{q^{\\top}k^+}{\\tau}$，$z_j=s(q,k_j)=\\dfrac{q^{\\top}k_j}{\\tau}\\ (j=1..K)$。则\n$$\\mathcal{L}=-z_0+\\log\\Big(e^{z_0}+\\sum_{j=1}^{K}e^{z_j}\\Big)=-z_0+\\log\\sum_{i=0}^{K}e^{z_i}$$\n\n**第 2 步：对 logits 求导。** 对任意 $i\\in\\{0,..,K\\}$：\n$$\\frac{\\partial \\mathcal{L}}{\\partial z_i}=-\\mathbb{1}[i=0]+\\frac{e^{z_i}}{\\sum_{m=0}^{K}e^{z_m}}=-\\mathbb{1}[i=0]+p_i$$\n其中 $p_i=\\mathrm{softmax}(z)_i$ 是「正样本 + 全部负样本」上的 softmax 概率。这一步说明：InfoNCE 本质就是一个 $(K+1)$ 分类的交叉熵，正样本是正确类别。\n\n**第 3 步：logits 对 q 求导。** 因为 $z_i=\\dfrac{q^{\\top}k_i}{\\tau}$（把 $k^+$ 记作 $k_0$），有\n$$\\frac{\\partial z_i}{\\partial q}=\\frac{k_i}{\\tau}$$\n\n**第 4 步：链式法则合并。**\n$$\\frac{\\partial \\mathcal{L}}{\\partial q}=\\sum_{i=0}^{K}\\frac{\\partial \\mathcal{L}}{\\partial z_i}\\cdot\\frac{\\partial z_i}{\\partial q}=\\frac{1}{\\tau}\\Big(\\sum_{i=0}^{K}p_i k_i-k_0\\Big)$$\n即\n$$\\boxed{\\ \\frac{\\partial \\mathcal{L}}{\\partial q}=\\frac{1}{\\tau}\\big(\\mathbb{E}_{p}[k]-k^{+}\\big)\\ }$$\n\n**第 5 步：含义与温度的作用。**\n- $\\mathbb{E}_p[k]$ 是按 softmax 权重对所有候选做的加权平均；梯度方向是「从负样本加权中心指向正样本」，即把 $q$ 拉向 $k^+$、推离被赋予高概率的困难负样本。\n- 当 $p_0\\to 1$（已经分对且 margin 很大）时 $\\mathbb{E}_p[k]\\to k^+$，梯度趋于 0，损失饱和。\n- 温度 $\\tau$ 出现在两个地方：一是缩放梯度 $1/\\tau$；二是改变 $p$ 的尖锐程度——$\\tau$ 越小分布越尖锐，梯度越集中在最难的负样本上（更难但更易训练不稳定、需要梯度裁剪或 warmup）；$\\tau$ 越大分布越平滑，所有负样本都参与、梯度更稳但判别力弱。\n- 若进一步对 $\\tau$ 求导：$\\partial z_i/\\partial\\tau=-q^{\\top}k_i/\\tau^2$，可得 $\\partial\\mathcal{L}/\\partial\\tau=\\dfrac{1}{\\tau}\\big(\\mathbb{E}_p[q^{\\top}k]-q^{\\top}k^+\\big)$，因此 $\\tau$ 也可学习（如 CLIP 的可学习 logit scale）。", "intuition": "InfoNCE 就是一个「正样本 vs 一堆负样本」的 softmax 分类：梯度等于（按概率加权的负样本中心）减去正样本，温度决定你把注意力放在多难的负样本上。", "key_points": "InfoNCE = (K+1) 路交叉熵；梯度 = (1/τ)(E_p[k] − k+)；温度同时缩放梯度幅值与 softmax 尖锐度；batch 内负样本即 in-batch negatives，对称式损失对 q、k 两侧各算一次；K 越大 InfoNCE 越紧地逼近互信息下界 log K − L。"}}, {"id": 4, "type": "ai_interview", "type_label": "AI面试问答", "difficulty": 2, "title": "大模型幻觉的成因与工程化缓解方案", "description": "面试官问：「你们线上大模型应用怎么处理幻觉（Hallucination）？请说明幻觉的成因，以及你会从哪些层面做缓解。」", "solution": {"answer_points": ["**先定义再分类**：幻觉指模型生成了不忠实于输入或不符合事实的内容，分为内在幻觉（与给定上下文矛盾）和外在幻觉（无法从上下文验证、凭空补充）。两者治理手段不同，先分清再谈方案。", "**成因一：知识与目标错配**。预训练目标是 next-token 似然，优化的是「像人写的」而不是「是真的」；长尾事实在训练语料中出现少，模型只能用相似模式补全，表现为自信地编造。", "**成因二：上下文使用失败**。RAG 场景中检索没召回、召回了噪声、或关键信息落在长上下文中部（lost in the middle），模型仍按参数记忆作答，造成与文档冲突。", "**成因三：解码与对齐副作用**。高温采样放大随机性；RLHF 偏好「有帮助、完整」的回答，会诱发模型在不知道时也硬答（谄媚/过度自信），而不是说「不确定」。", "**缓解要分层落地**：① 数据层——RAG 保证可溯源、chunk 与召回评估、必要时做知识库时效更新；② 训练层——SFT 加入「据实回答/拒答」样本，偏好优化中用事实性奖励，领域内做继续预训练；③ 解码层——降低 temperature/top-p、结构化输出、工具调用替代记忆性回答；④ 后处理层——引用对齐校验、规则/小模型事实核查、置信度低时转人工；⑤ 评估层——建立事实性评测集与 faithfulness 指标，线上抽样监控。"], "bonus": ["指出幻觉不可能被彻底消除，工程目标是「把不可控幻觉变成可检测、可兜底的风险」，因此要配套引用、置信度与人工兜底，而不是只追求模型能力。", "能区分「事实性（factuality）」与「忠实性（faithfulness）」：RAG 场景更应先保证忠实性（不超出上下文），再谈参数知识的事实性。", "提到长上下文的位置偏置：把关键证据放在开头/结尾或做重排，比单纯扩大窗口更有效。", "提到不确定性估计：logit 熵、多次采样一致性（self-consistency）、语义熵都可作为拒答/转人工的信号。"], "followup_predictions": ["**追问：RAG 已经给了文档，为什么还会幻觉？** 答：检索可能没召回正确片段；上下文有冲突或噪声；模型存在位置偏置和「参数记忆优先」倾向；生成时仍可能做无依据的跨句推理。对应要做召回评估、重排、引用约束和「仅依据上下文作答」的提示与训练。", "**追问：怎么量化幻觉率？** 答：构建领域事实性测试集，用人工标注或强模型做 judge，指标包括事实错误率、无依据断言比例、引用支持率（faithfulness）；线上可用抽样人评 + 自动核查 + 用户反馈闭环。", "**追问：怎么让模型学会说「不知道」？** 答：训练数据中加入拒答与澄清样本；做校准（confidence calibration）；推理时用一致性/熵阈值触发拒答；产品层提供「未找到依据」的标准话术与转人工入口。"]}}]};
+</script>
+</body>
+</html>
