@@ -1,0 +1,1841 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>每日算法讲解 · 2026年11月06日</title>
+<!-- MathJax for LaTeX math formula rendering -->
+<script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\(', '\)']],
+      displayMath: [['$$', '$$'], ['\[', '\]']],
+      processEscapes: true
+    },
+    svg: { fontCache: 'global' }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" id="MathJax-script" async></script>
+<style>
+:root {
+  --primary: #6366f1;
+  --primary-dark: #4f46e5;
+  --bg: #0f172a;
+  --card-bg: #1e293b;
+  --text: #e2e8f0;
+  --text-dim: #94a3b8;
+  --accent: #818cf8;
+  --border: #334155;
+  --code-bg: #0d1117;
+  --code-text: #e6edf3;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans SC", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.8;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+.container { max-width: 1400px; margin: 0 auto; padding: 24px 32px; }
+.header {
+  text-align: center;
+  padding: 40px 0 30px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 32px;
+}
+.header h1 {
+  font-size: 28px;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.header h1 .date { color: var(--accent); }
+.header .subtitle { color: var(--text-dim); font-size: 15px; }
+.repo-link {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 6px 16px;
+  background: var(--primary);
+  color: #fff;
+  border-radius: 20px;
+  text-decoration: none;
+  font-size: 13px;
+  transition: background 0.2s;
+}
+.repo-link:hover { background: var(--primary-dark); }
+.history-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 32px;
+  padding: 16px;
+  background: var(--card-bg);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+.history-nav a {
+  padding: 4px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  color: var(--text-dim);
+  text-decoration: none;
+  background: rgba(99,102,241,0.08);
+  transition: all 0.2s;
+}
+.history-nav a:hover { color: var(--text); background: rgba(99,102,241,0.2); }
+.history-nav a.active { color: #fff; background: var(--primary); }
+.history-nav a.back-index { color: var(--accent); font-weight: 600; background: rgba(99,102,241,0.15); border: 1px solid rgba(99,102,241,0.3); }
+.history-nav a.back-index:hover { color: #fff; background: var(--primary); border-color: var(--primary); }
+.content { margin-bottom: 40px; max-width: 1100px; }
+.content h2 {
+  font-size: 24px;
+  color: var(--accent);
+  margin: 40px 0 16px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--primary);
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+.content h2:first-child { border-top: none; padding-top: 0; }
+.content h3 {
+  font-size: 18px;
+  color: var(--text);
+  margin: 24px 0 12px;
+}
+.content h4 {
+  font-size: 16px;
+  color: var(--accent);
+  margin: 20px 0 10px;
+}
+.content p { margin-bottom: 12px; color: var(--text); }
+.content ul { margin: 8px 0 16px 20px; }
+.content li { margin-bottom: 6px; }
+.content strong { color: var(--accent); }
+.content blockquote {
+  border-left: 4px solid var(--primary);
+  padding: 12px 16px;
+  margin: 16px 0;
+  background: rgba(99,102,241,0.08);
+  border-radius: 0 8px 8px 0;
+}
+.content blockquote p { color: var(--text-dim); margin: 4px 0; }
+.content hr {
+  border: none;
+  height: 1px;
+  background: var(--border);
+  margin: 32px 0;
+}
+.code-block {
+  background: var(--code-bg);
+  border-radius: 10px;
+  padding: 18px 24px;
+  overflow-x: auto;
+  margin: 16px 0;
+  border: 1px solid var(--border);
+  max-width: 100%;
+}
+.code-block code {
+  font-family: "JetBrains Mono", "Fira Code", "Consolas", monospace;
+  font-size: 14px;
+  color: var(--code-text);
+  line-height: 1.6;
+  white-space: pre;
+}
+.inline-code {
+  background: rgba(99,102,241,0.15);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: "Consolas", monospace;
+  font-size: 0.9em;
+  color: var(--accent);
+}
+/* Math formula block */
+.content .math-block {
+  background: rgba(99,102,241,0.06);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 24px;
+  margin: 16px 0;
+  overflow-x: auto;
+  max-width: 100%;
+}
+.content .math-label {
+  font-size: 13px; color: var(--text-dim); margin-bottom: 6px; }
+.content .math-vars {
+  margin: 8px 0 16px 20px; }
+.content .math-vars li { margin-bottom: 4px; color: var(--text-dim); }
+.footer {
+  text-align: center;
+  padding: 24px 0;
+  border-top: 1px solid var(--border);
+  color: var(--text-dim);
+  font-size: 13px;
+}
+.tag {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  background: rgba(99,102,241,0.15);
+  color: var(--accent);
+  margin-left: 8px;
+}
+.content .ref-link {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px dashed rgba(99,102,241,0.4);
+  transition: all 0.2s;
+  word-break: break-all;
+}
+.content .ref-link:hover {
+  color: #fff;
+  border-bottom-color: var(--primary);
+}
+.content li {
+  word-break: break-all;
+}
+/* Table */
+.table-wrapper {
+  overflow-x: auto;
+  margin: 16px 0;
+  max-width: 100%;
+}
+.algo-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  background: var(--card-bg);
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+.algo-table thead {
+  background: rgba(99,102,241,0.15);
+}
+.algo-table th {
+  padding: 10px 16px;
+  text-align: left;
+  color: var(--accent);
+  font-weight: 600;
+  border-bottom: 2px solid var(--primary);
+  white-space: nowrap;
+}
+.algo-table td {
+  padding: 8px 16px;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  word-break: break-all;
+}
+.algo-table tr:last-child td {
+  border-bottom: none;
+}
+.algo-table tr:hover td {
+  background: rgba(99,102,241,0.06);
+}
+/* Algorithm architecture image */
+.algo-image {
+  margin: 20px 0;
+  text-align: center;
+}
+.algo-image img {
+  max-width: 100%;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+.algo-image .image-caption {
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--text-dim);
+}
+.algo-image svg {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+/* ======== 移动端响应式适配 ======== */
+@media (max-width: 768px) {
+  .container { max-width: 100%; padding: 16px 14px; }
+  .header { padding: 24px 0 20px; margin-bottom: 20px; }
+  .header h1 { font-size: 20px; margin-bottom: 4px; }
+  .header .subtitle { font-size: 13px; }
+  .repo-link { margin-top: 10px; padding: 5px 14px; font-size: 12px; }
+  .history-nav { gap: 6px; padding: 10px 12px; margin-bottom: 20px; }
+  .history-nav a { padding: 3px 10px; font-size: 12px; }
+  .content { max-width: 100%; margin-bottom: 28px; }
+  .content h2 { font-size: 20px; margin: 28px 0 12px; }
+  .content h3 { font-size: 17px; margin: 20px 0 10px; }
+  .content h4 { font-size: 15px; margin: 16px 0 8px; }
+  .content p { font-size: 14px; margin-bottom: 10px; }
+  .content ul { margin: 6px 0 12px 16px; }
+  .content li { font-size: 14px; margin-bottom: 5px; }
+  .content blockquote { padding: 10px 12px; margin: 12px 0; }
+  .content blockquote p { font-size: 13px; }
+  .content .math-block { padding: 10px 14px; margin: 12px 0; }
+  .code-block { padding: 12px 14px; margin: 12px 0; }
+  .code-block code { font-size: 12px; line-height: 1.5; }
+  .inline-code { font-size: 0.88em; padding: 1px 5px; }
+  .algo-table { font-size: 12px; }
+  .algo-table th { padding: 6px 10px; }
+  .algo-table td { padding: 6px 10px; }
+  .algo-image { margin: 14px 0; }
+  .algo-image svg { max-width: 100%; height: auto; }
+  .footer { padding: 18px 0; font-size: 12px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>每日算法讲解 · <span class="date">2026年11月06日</span></h1>
+    <p class="subtitle">每天 1 个基础算法 + 2 个 AI/机器学习算法，持续精进</p>
+    <a href="https://syypretend.github.io/test/daily-algorithm" target="_blank" class="repo-link">GitHub 仓库</a>
+  </div>
+  <div class="history-nav"><a href="index.html" class="back-index">← 历史索引</a>
+<a href="2026-11-06.html" class="active">11月06日</a>
+<a href="2026-11-05.html">11月05日</a>
+<a href="2026-11-04.html">11月04日</a>
+<a href="2026-10-28.html">10月28日</a>
+<a href="2026-10-26.html">10月26日</a>
+<a href="2026-10-19.html">10月19日</a>
+<a href="2026-10-16.html">10月16日</a>
+<a href="2026-10-14.html">10月14日</a>
+<a href="2026-10-13.html">10月13日</a>
+<a href="2026-10-12.html">10月12日</a>
+<a href="2026-10-10.html">10月10日</a>
+<a href="2026-10-09.html">10月09日</a>
+<a href="2026-10-08.html">10月08日</a>
+<a href="2026-09-30.html">09月30日</a>
+<a href="2026-09-29.html">09月29日</a>
+<a href="2026-09-28.html">09月28日</a>
+<a href="2026-09-24.html">09月24日</a>
+<a href="2026-09-17.html">09月17日</a>
+<a href="2026-09-15.html">09月15日</a>
+<a href="2026-09-14.html">09月14日</a>
+<a href="2026-09-11.html">09月11日</a>
+<a href="2026-09-10.html">09月10日</a>
+<a href="2026-09-09.html">09月09日</a>
+<a href="2026-09-08.html">09月08日</a>
+<a href="2026-09-07.html">09月07日</a>
+</div>
+  <div class="content">
+  <h2>每日算法讲解 · 2026-11-06</h2>
+
+<blockquote>
+<p>今日内容：1 个基础算法 + 2 个 AI/机器学习算法 | 逐参数详解</p>
+</blockquote>
+
+<hr>
+
+<h3>快速选择（Quickselect）</h3>
+
+<p><strong>类别</strong>：查找算法 | <strong>难度</strong>：入门</p>
+
+<h4>算法简介</h4>
+
+<p>快速选择（Quickselect）是 Tony Hoare 于 1961 年提出的选择算法，最初以 "Algorithm 65: FIND" 的名字发表，因此也被称为 <strong>Hoare 选择算法</strong>。它要解决的问题是：在无序数组中找出升序意义下第 $ k $ 个元素（第 $ k $ 小），而不需要对整个数组排序。它的思想与快速排序同源：选一个主元（pivot），把数组划分成"小于主元""等于主元""大于主元"三段；划分完成后，主元的最终下标就已经确定。此时把目标排名 $ k $ 与主元下标比较，若相等则直接返回；若 $ k $ 更小，说明答案一定在左段，右段可以整体丢弃；反之只在右段继续。与快速排序"两侧都要递归"不同，快速选择<strong>每次只进入一侧</strong>，因此工作量按几何级数衰减：$ n + n/2 + n/4 + \cdots < 2n $，平均时间复杂度为 $ O(n) $。最坏情况下（每次划分极不均衡）会退化为 $ O(n^2) $，用随机主元可以把这种概率压到极低，用"中位数的中位数"（BFPRT）则可以获得确定性的最坏 $ O(n) $。</p>
+
+<h4>原理示意图</h4>
+
+<p><div class="algo-image"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 900 430" font-family="sans-serif">
+  <defs>
+    <marker id="qs-arrow" markerWidth="8" markerHeight="6" refX="4" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#6366f1"/>
+    </marker>
+  </defs>
+  <rect width="900" height="430" fill="#1e293b" rx="12"/>
+  <text x="450" y="30" text-anchor="middle" fill="#818cf8" font-size="15" font-weight="600">快速选择：一次三路划分，只递归包含 k 的一侧</text>
+
+  <text x="24" y="87" fill="#94a3b8" font-size="12">原始数组</text>
+  <rect x="120" y="62" width="66" height="40" rx="6" fill="#334155" stroke="#475569"/>
+  <text x="153" y="87" text-anchor="middle" fill="#e2e8f0" font-size="14">3</text>
+  <rect x="200" y="62" width="66" height="40" rx="6" fill="#334155" stroke="#475569"/>
+  <text x="233" y="87" text-anchor="middle" fill="#e2e8f0" font-size="14">7</text>
+  <rect x="280" y="62" width="66" height="40" rx="6" fill="#334155" stroke="#475569"/>
+  <text x="313" y="87" text-anchor="middle" fill="#e2e8f0" font-size="14">1</text>
+  <rect x="360" y="62" width="66" height="40" rx="6" fill="#334155" stroke="#475569"/>
+  <text x="393" y="87" text-anchor="middle" fill="#e2e8f0" font-size="14">9</text>
+  <rect x="440" y="62" width="66" height="40" rx="6" fill="#7c2d12" stroke="#f97316" stroke-width="2"/>
+  <text x="473" y="87" text-anchor="middle" fill="#fdba74" font-size="14" font-weight="600">5</text>
+  <rect x="520" y="62" width="66" height="40" rx="6" fill="#334155" stroke="#475569"/>
+  <text x="553" y="87" text-anchor="middle" fill="#e2e8f0" font-size="14">2</text>
+  <rect x="600" y="62" width="66" height="40" rx="6" fill="#334155" stroke="#475569"/>
+  <text x="633" y="87" text-anchor="middle" fill="#e2e8f0" font-size="14">8</text>
+  <rect x="680" y="62" width="66" height="40" rx="6" fill="#334155" stroke="#475569"/>
+  <text x="713" y="87" text-anchor="middle" fill="#e2e8f0" font-size="14">4</text>
+  <text x="760" y="87" fill="#f97316" font-size="12">← pivot</text>
+
+  <line x1="473" y1="104" x2="473" y2="132" stroke="#6366f1" stroke-width="2" marker-end="url(#qs-arrow)"/>
+
+  <text x="120" y="153" fill="#22c55e" font-size="11">小于区（4 个）</text>
+  <rect x="120" y="160" width="66" height="40" rx="6" fill="#14532d" stroke="#22c55e"/>
+  <text x="153" y="185" text-anchor="middle" fill="#dcfce7" font-size="14">3</text>
+  <rect x="200" y="160" width="66" height="40" rx="6" fill="#14532d" stroke="#22c55e"/>
+  <text x="233" y="185" text-anchor="middle" fill="#dcfce7" font-size="14">1</text>
+  <rect x="280" y="160" width="66" height="40" rx="6" fill="#14532d" stroke="#22c55e"/>
+  <text x="313" y="185" text-anchor="middle" fill="#dcfce7" font-size="14">2</text>
+  <rect x="360" y="160" width="66" height="40" rx="6" fill="#14532d" stroke="#22c55e"/>
+  <text x="393" y="185" text-anchor="middle" fill="#dcfce7" font-size="14">4</text>
+
+  <rect x="440" y="160" width="66" height="40" rx="6" fill="#7c2d12" stroke="#f97316" stroke-width="2"/>
+  <text x="473" y="185" text-anchor="middle" fill="#fdba74" font-size="14" font-weight="600">5</text>
+  <text x="440" y="221" fill="#f97316" font-size="11">等于区，pivot 下标=4</text>
+
+  <text x="520" y="153" fill="#818cf8" font-size="11">大于区（3 个）</text>
+  <rect x="520" y="160" width="66" height="40" rx="6" fill="#312e81" stroke="#6366f1"/>
+  <text x="553" y="185" text-anchor="middle" fill="#e0e7ff" font-size="14">7</text>
+  <rect x="600" y="160" width="66" height="40" rx="6" fill="#312e81" stroke="#6366f1"/>
+  <text x="633" y="185" text-anchor="middle" fill="#e0e7ff" font-size="14">9</text>
+  <rect x="680" y="160" width="66" height="40" rx="6" fill="#312e81" stroke="#6366f1"/>
+  <text x="713" y="185" text-anchor="middle" fill="#e0e7ff" font-size="14">8</text>
+
+  <rect x="120" y="250" width="690" height="50" rx="8" fill="#0f172a" stroke="#334155"/>
+  <text x="140" y="280" fill="#e2e8f0" font-size="13">目标 k = 6（0-indexed，即第 7 小）；因为 k &gt; pivot_index = 4，丢弃左半（含 pivot），只在右半继续</text>
+
+  <line x1="473" y1="200" x2="473" y2="250" stroke="#f97316" stroke-width="2" stroke-dasharray="4 3" marker-end="url(#qs-arrow)"/>
+
+  <text x="120" y="327" fill="#94a3b8" font-size="11">规模衰减</text>
+  <rect x="120" y="335" width="100" height="44" rx="6" fill="#334155" stroke="#6366f1"/>
+  <text x="170" y="362" text-anchor="middle" fill="#e2e8f0" font-size="13">n = 8</text>
+  <line x1="220" y1="357" x2="280" y2="357" stroke="#6366f1" stroke-width="2" marker-end="url(#qs-arrow)"/>
+  <rect x="285" y="335" width="100" height="44" rx="6" fill="#334155" stroke="#6366f1"/>
+  <text x="335" y="362" text-anchor="middle" fill="#e2e8f0" font-size="13">n' = 3</text>
+  <line x1="385" y1="357" x2="445" y2="357" stroke="#6366f1" stroke-width="2" marker-end="url(#qs-arrow)"/>
+  <rect x="450" y="335" width="100" height="44" rx="6" fill="#334155" stroke="#6366f1"/>
+  <text x="500" y="362" text-anchor="middle" fill="#e2e8f0" font-size="13">n'' = 1</text>
+  <text x="580" y="348" fill="#22c55e" font-size="12">8 + 3 + 1 = 12 &lt; 2n</text>
+  <text x="580" y="368" fill="#94a3b8" font-size="11">几何级数收敛，期望线性时间</text>
+
+  <text x="450" y="412" text-anchor="middle" fill="#818cf8" font-size="14" font-weight="600">T(n) = T(n/2) + O(n)  ⇒  T(n) = O(n)（期望）</text>
+</svg></div></p>
+
+<p>图中上半部分是划分过程：以 5 为主元做三路划分后，小于 5 的四个元素在左、等于 5 的在下标 4、大于 5 的三个元素在右。因为目标 $ k=6 $ 大于主元下标 4，左半段连同主元可以整体丢弃，只在右半段继续，规模从 8 降到 3 再降到 1。下半部分说明总工作量是 $ 8+3+1=12 $，小于 $ 2n=16 $，这正是几何级数收敛带来的线性代价。</p>
+
+<h4>数学公式</h4>
+
+<p><strong>1. 期望递归式与线性时间</strong></p>
+
+<p><div class="math-block">$$ T(n) = T\!\left(\frac{n}{2}\right) + cn \;\Longrightarrow\; T(n) = cn\left(1 + \frac{1}{2} + \frac{1}{4} + \cdots\right) < 2cn = O(n) $$</div></p>
+
+<p>变量解释：</p>
+<ul>
+<li>$ T(n) $：在 $ n $ 个元素中查找第 $ k $ 小的期望代价。</li>
+<li>$ T(n/2) $：理想情况下每次划分把问题缩小一半，只递归一侧的代价。</li>
+<li>$ cn $：一次划分需要扫描整个区间，$ c $ 是每次比较与交换的常数开销。</li>
+<li>等比级数 $ 1 + 1/2 + 1/4 + \cdots = 2 $，因此总代价不超过 $ 2cn $。</li>
+</ul>
+
+<p>严格地说，随机主元下的划分比例不是固定的一半，而是服从均匀分布；但期望意义上的递推上限仍然成立。更精细的分析给出：查找中位数的期望比较次数约为 $ 3.39n $，任意排名的期望比较次数不超过 $ 4n $。</p>
+
+<p><strong>2. 期望比较次数的递推上界</strong></p>
+
+<p><div class="math-block">$$ C(n) \le n - 1 + \frac{1}{n}\sum_{i=1}^{n}\max\{C(i-1),\,C(n-i)\} \le 4n $$</div></p>
+
+<p>变量解释：</p>
+<ul>
+<li>$ C(n) $：在 $ n $ 个元素上执行快速选择的比较次数。</li>
+<li>$ n-1 $：一次划分中主元与其余 $ n-1 $ 个元素各比较一次。</li>
+<li>$ i $：主元最终落在第 $ i $ 个位置（1-indexed），左段有 $ i-1 $ 个元素，右段有 $ n-i $ 个元素。</li>
+<li>$ \max\{C(i-1), C(n-i)\} $：因为只递归包含 $ k $ 的那一侧，代价取两段中较大的那个。</li>
+<li>$ 1/n $：主元等概率落在 $ n $ 个位置中的任意一个。</li>
+<li>$ 4n $：该递推的上界，说明期望比较次数是线性的。</li>
+</ul>
+
+<p><strong>3. 中位数的中位数（BFPRT）的最坏情况递推</strong></p>
+
+<p><div class="math-block">$$ T(n) \le T\!\left(\frac{n}{5}\right) + T\!\left(\frac{7n}{10}\right) + O(n) \;\Longrightarrow\; T(n) = O(n) $$</div></p>
+
+<p>变量解释：</p>
+<ul>
+<li>$ T(n/5) $：把 $ n $ 个元素每 5 个一组，共 $ n/5 $ 组，递归求各组中位数的中位数。</li>
+<li>$ T(7n/10) $：以该中位数为 pivot 划分后，至少有 $ 3n/10 $ 个元素不大于它、也至少有 $ 3n/10 $ 个元素不小于它，因此需要继续处理的规模至多为 $ 7n/10 $。</li>
+<li>$ O(n) $：分组、求每组中位数、划分扫描的线性开销。</li>
+<li>因为 $ 1/5 + 7/10 = 9/10 < 1 $，递归规模按 $ 0.9 $ 倍衰减，总代价是 $ O(n) $ 的等比级数。</li>
+</ul>
+
+<p><strong>4. 第 k 大与第 k 小的下标换算</strong></p>
+
+<p><div class="math-block">$$ k_{\text{small}} = n - k_{\text{large}} \qquad (k_{\text{large}} \text{ 为 1-indexed}) $$</div></p>
+
+<p>变量解释：</p>
+<ul>
+<li>$ n $：数组长度。</li>
+<li>$ k_{\text{large}} $：第 $ k $ 大，从 1 开始计数，$ k_{\text{large}}=1 $ 表示最大值。</li>
+<li>$ k_{\text{small}} $：对应的 0-indexed 升序下标。</li>
+<li>例：$ n=8 $、第 3 大，对应升序下标 $ 8-3=5 $，即第 6 小。</li>
+</ul>
+
+<p><strong>5. 最坏情况的二次递推</strong></p>
+
+<p><div class="math-block">$$ T_{\text{worst}}(n) = T_{\text{worst}}(n-1) + O(n) = \sum_{i=1}^{n} O(i) = O(n^2) $$</div></p>
+
+<p>变量解释：</p>
+<ul>
+<li>$ T_{\text{worst}}(n-1) $：每次划分只排除一个元素（主元落在端点），问题规模只减 1。</li>
+<li>$ O(n) $：本次划分仍需扫描当前区间。</li>
+<li>求和 $ \sum_{i=1}^{n} i = n(n+1)/2 $，因此最坏为二次时间。</li>
+</ul>
+
+<h4>核心要点</h4>
+
+<ul>
+<li><strong>只递归一侧</strong>：这是快速选择与快速排序的本质区别，也是它能做到期望 $ O(n) $ 的根本原因。</li>
+<li><strong>划分后主元归位</strong>：一次划分结束，pivot 的最终下标就确定了；此后它不会再移动。</li>
+<li><strong>排名比较决定方向</strong>：$ k < p $ 去左段，$ k > p $ 去右段，$ k = p $ 直接命中；等于区的处理让重复元素也能一次跳过。</li>
+<li><strong>三路划分是工程刚需</strong>：面对大量重复值（评分、年龄、状态码、枚举），两路划分会退化成 $ O(n^2) $，三路划分仍是 $ O(n) $。</li>
+<li><strong>随机化是对抗退化输入的最低成本手段</strong>：对已排序、逆序、锯齿形等"快排杀手"输入，随机主元把期望代价拉回线性。</li>
+<li><strong>确定性最坏 $ O(n) $ 需要 BFPRT 或 introselect</strong>：前者常数大，后者在平均性能与最坏保证之间折中，是 C++ <code class="inline-code">std::nth_element</code> 的主流实现思路。</li>
+<li><strong>原地但不稳定</strong>：快速选择只保证第 $ k $ 位正确、左侧不大于它、右侧不小于它，不保证左右两侧内部有序，也不保证相等元素的相对次序。</li>
+<li><strong>不要用它替代排序</strong>：如果后续还要全部有序，直接排序更划算；快速选择只适合"只关心一个或前几个排名"的场景。</li>
+</ul>
+
+<h4>技术细节与参数详解</h4>
+
+<blockquote>
+<p>快速选择不是某个固定库函数，它的"参数"是决定正确性、性能与语义的一组结构性选择。下面按 API 参数的标准逐项拆解；最后再给出 C++ <code class="inline-code">std::nth_element</code> 的真实签名参数，便于对照工业实现。</p>
+</blockquote>
+
+<p><strong>参数 1：<code class="inline-code">k</code>（目标排名）</strong></p>
+
+<ul>
+<li><strong>含义</strong>：目标元素在升序意义下的位置。<code class="inline-code">k=0</code> 表示最小值，<code class="inline-code">k=n-1</code> 表示最大值，<code class="inline-code">k=n//2</code> 表示下中位数。</li>
+<li><strong>类型</strong>：整数 <code class="inline-code">int</code>（Python 中任意精度整数均可）。</li>
+<li><strong>默认值</strong>：无默认值，必填；在 C++ 中对应迭代器位置 <code class="inline-code">nth</code>。</li>
+<li><strong>取值范围</strong>：$ 0 \le k < n $。越界必须显式报错，否则会出现死循环或返回错误元素。</li>
+<li><strong>对结果的影响</strong>：直接决定每一步递归的方向；<code class="inline-code">k</code> 取中位数时问题规模期望减半，取端点时退化为"找最小/最大"，一趟扫描即可。</li>
+<li><strong>推荐设置</strong>：统一使用 0-indexed，避免"第 k 小"与"下标 k"混淆；求第 $ k $ 大（1-indexed）时先换算为 <code class="inline-code">n-k</code>；封装函数时第一行做边界检查。</li>
+</ul>
+
+<p><strong>参数 2：<code class="inline-code">pivot_strategy</code>（主元选择策略）</strong></p>
+
+<ul>
+<li><strong>含义</strong>：决定用哪个元素作为划分基准。</li>
+<li><strong>类型</strong>：枚举或可调用对象（传入数组与区间，返回下标）。</li>
+<li><strong>默认值</strong>：教学实现常用 <code class="inline-code">last</code> 或 <code class="inline-code">first</code>；工业实现常用随机主元或 median-of-three。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">first</code>、<code class="inline-code">last</code>、<code class="inline-code">random</code>、<code class="inline-code">median_of_three</code>、<code class="inline-code">ninther</code>（九数取中）、<code class="inline-code">median_of_medians</code>（BFPRT）。</li>
+<li><strong>对结果的影响</strong>：决定期望常数与最坏情况。<code class="inline-code">first</code>/<code class="inline-code">last</code> 对有序数组会每次只排除一个元素，退化为 $ O(n^2) $；<code class="inline-code">random</code> 使期望为 $ O(n) $；<code class="inline-code">median_of_three</code> 能抵抗常见的锯齿输入，但仍可被构造性数据攻击；<code class="inline-code">median_of_medians</code> 保证最坏 $ O(n) $，但常数通常是随机的 3 到 10 倍。</li>
+<li><strong>推荐设置</strong>：通用场景用 <code class="inline-code">random</code>；面向不可信输入或硬实时场景用 introselect（随机 + 深度上限 + BFPRT 兜底）；小数组（$ n<50 $）可用 <code class="inline-code">median_of_three</code> 降低随机数开销。</li>
+</ul>
+
+<p><strong>参数 3：<code class="inline-code">partition_scheme</code>（划分方式）</strong></p>
+
+<ul>
+<li><strong>含义</strong>：如何把区间分成"小于、等于、大于"主元的三部分。</li>
+<li><strong>类型</strong>：枚举。</li>
+<li><strong>默认值</strong>：教学代码多用 Lomuto；工业代码多用 Hoare 或三路划分。</li>
+<li><strong>取值范围</strong>：Lomuto 单指针、Hoare 双指针、三路 Dutch National Flag。</li>
+<li><strong>对结果的影响</strong>：Lomuto 写法简单但交换次数多，且所有元素相等时会把全部元素分到一侧，退化为 $ O(n^2) $；Hoare 双指针交换次数少、划分更均衡，但边界条件容易写错；三路划分把等于主元的元素集中到中间，全等数组可以一趟结束，是含重复值数据的正确选择。</li>
+<li><strong>推荐设置</strong>：数据可能大量重复时<strong>必须</strong>三路；一般数据用 Hoare 或三路；只在教学演示中用 Lomuto。</li>
+</ul>
+
+<p><strong>参数 4：<code class="inline-code">lo</code> / <code class="inline-code">hi</code>（搜索区间）</strong></p>
+
+<ul>
+<li><strong>含义</strong>：当前仍在候选范围内的闭区间 <code class="inline-code">[lo, hi]</code>。</li>
+<li><strong>类型</strong>：整数下标。</li>
+<li><strong>默认值</strong>：<code class="inline-code">lo=0</code>、<code class="inline-code">hi=n-1</code>。</li>
+<li><strong>取值范围</strong>：$ 0 \le lo \le hi < n $；空区间用 <code class="inline-code">lo > hi</code> 表示。</li>
+<li><strong>对结果的影响</strong>：区间语义不统一是快速选择最常见的 bug 来源。闭区间配 <code class="inline-code">while lo <= hi</code>，半开区间配 <code class="inline-code">while lo < hi</code>；混用会导致死循环、漏掉端点或数组越界。</li>
+<li><strong>推荐设置</strong>：全程统一闭区间；每次递归前显式判断 <code class="inline-code">lo <= hi</code>；把区间收缩写成 <code class="inline-code">hi = lt - 1</code> / <code class="inline-code">lo = gt + 1</code>，不要写成 <code class="inline-code">lt</code> / <code class="inline-code">gt</code>。</li>
+</ul>
+
+<p><strong>参数 5：<code class="inline-code">key</code> / <code class="inline-code">comp</code>（比较键与比较器）</strong></p>
+
+<ul>
+<li><strong>含义</strong>：定义"大小"的规则。Python 用 <code class="inline-code">key</code> 把元素映射为可比较的键；C++ 用 <code class="inline-code">comp</code> 传入严格弱序比较器。</li>
+<li><strong>类型</strong>：可调用对象（Python <code class="inline-code">Callable[[T], Any]</code>，C++ <code class="inline-code">bool(const T&, const T&)</code>）。</li>
+<li><strong>默认值</strong>：<code class="inline-code">None</code>，即直接比较元素本身。</li>
+<li><strong>取值范围</strong>：任意全序函数；C++ 比较器必须满足严格弱序（非自反、传递、不可比传递）。</li>
+<li><strong>对结果的影响</strong>：决定"第 k 小"的语义。对记录按多字段排序时，键应是元组；对浮点数含 NaN 时，比较不满足全序，结果未定义，需要先过滤或自定义 NaN 规则。</li>
+<li><strong>推荐设置</strong>：Python 中预先物化键（decorate），避免每次比较都调用昂贵函数；C++ 中确保比较器对相等元素返回 <code class="inline-code">false</code>；对结构体排序时用 <code class="inline-code">std::tie</code> 生成字典序。</li>
+</ul>
+
+<p><strong>参数 6：<code class="inline-code">random_seed</code>（随机种子）</strong></p>
+
+<ul>
+<li><strong>含义</strong>：随机主元的随机源种子。</li>
+<li><strong>类型</strong>：整数、<code class="inline-code">None</code> 或随机数生成器对象。</li>
+<li><strong>默认值</strong>：<code class="inline-code">None</code>，使用系统熵源。</li>
+<li><strong>取值范围</strong>：任意整数；相同种子会复现相同的 pivot 序列。</li>
+<li><strong>对结果的影响</strong>：不影响正确性，只影响性能与可复现性。固定种子便于复现实验和排查性能问题，但在对抗场景下可能被对手利用，制造固定退化路径。</li>
+<li><strong>推荐设置</strong>：单元测试固定种子；生产环境不固定；分布式训练/批处理记录种子，便于复现。</li>
+</ul>
+
+<p><strong>参数 7：<code class="inline-code">depth_limit</code>（递归深度上限，introselect）</strong></p>
+
+<ul>
+<li><strong>含义</strong>：允许连续随机划分的最大深度，超过后切换到 BFPRT 的确定性选主元，防止最坏情况。</li>
+<li><strong>类型</strong>：整数。</li>
+<li><strong>默认值</strong>：常见实现取 <code class="inline-code">2 * floor(log2(n))</code>。</li>
+<li><strong>取值范围</strong>：大于等于 0；0 表示立即使用 BFPRT。</li>
+<li><strong>对结果的影响</strong>：太小会让算法过早进入高常数路径，平均性能下降；太大则失去最坏情况保护，退化为 $ O(n^2) $ 的风险上升。</li>
+<li><strong>推荐设置</strong>：<code class="inline-code">2 <em> floor(log2(n))</code>；对尾延迟敏感的服务可降到 <code class="inline-code">1.5 </em> floor(log2(n))</code>，用少量平均性能换更稳的最坏保证。</li>
+</ul>
+
+<p><strong>参数 8：<code class="inline-code">insertion_threshold</code>（小区间阈值）</strong></p>
+
+<ul>
+<li><strong>含义</strong>：当区间长度小于该阈值时，改用插入排序或直接线性扫描，避免递归与函数调用开销。</li>
+<li><strong>类型</strong>：整数。</li>
+<li><strong>默认值</strong>：工业实现常见 16 到 32。</li>
+<li><strong>取值范围</strong>：1 到 64。</li>
+<li><strong>对结果的影响</strong>：适度增大能减少递归层数、改善缓存局部性；过大则让小区间退化为 $ O(m^2) $，整体常数上升。</li>
+<li><strong>推荐设置</strong>：C/C++ 取 16；Python 因解释器开销大，可取 32；若区间已经很小且只需要最小值，直接用 <code class="inline-code">min()</code> 扫描。</li>
+</ul>
+
+<p><strong>参数 9：<code class="inline-code">duplicate_policy</code>（重复元素策略）</strong></p>
+
+<ul>
+<li><strong>含义</strong>：如何处理与主元相等的元素。</li>
+<li><strong>类型</strong>：枚举。</li>
+<li><strong>默认值</strong>：两路划分，不单独处理相等元素。</li>
+<li><strong>取值范围</strong>：两路、三路、先检测全等再直接返回。</li>
+<li><strong>对结果的影响</strong>：全等数组在两路划分下每次只能排除一个元素，复杂度 $ O(n^2) $；三路划分一次把全部相等元素归位，复杂度 $ O(n) $。对 top-k 场景，重复值还会影响"第 k 个"的稳定性语义。</li>
+<li><strong>推荐设置</strong>：默认三路；如果业务保证元素互异，可用两路以减少一次比较。</li>
+</ul>
+
+<p><strong>参数 10：<code class="inline-code">return_mode</code>（返回语义）</strong></p>
+
+<ul>
+<li><strong>含义</strong>：函数返回什么，以及是否修改原数组。</li>
+<li><strong>类型</strong>：枚举。</li>
+<li><strong>默认值</strong>：返回第 $ k $ 个元素的值。</li>
+<li><strong>取值范围</strong>：返回值、返回下标、返回前 $ k $ 个元素、原地重排后返回 <code class="inline-code">None</code>。</li>
+<li><strong>对结果的影响</strong>：决定是否需要复制数组、是否需要额外 $ O(k) $ 空间。<code class="inline-code">std::nth_element</code> 返回 <code class="inline-code">void</code>，但保证 <code class="inline-code">nth</code> 位置上的元素就是排序后该位置的元素，且左侧元素都不大于它、右侧元素都不小于它。</li>
+<li><strong>推荐设置</strong>：只取一个值用返回值模式；要 top-k 集合，先复制再划分，然后取前 $ k $ 个；不允许修改输入时务必先 <code class="inline-code">copy</code>。</li>
+</ul>
+
+<p><strong>C++ <code class="inline-code">std::nth_element</code> 的真实签名参数</strong></p>
+
+<div class="table-wrapper"><table class="algo-table"><thead><tr><th>参数</th><th>含义</th><th>类型</th><th>默认值</th><th>说明</th></tr></thead><tbody><tr><td><code class="inline-code">first</code></td><td>区间起始迭代器</td><td>随机访问迭代器</td><td>无</td><td>必须可读写</td></tr><tr><td><code class="inline-code">nth</code></td><td>目标位置迭代器</td><td>随机访问迭代器</td><td>无</td><td>结束后该位置元素即为第 n 小</td></tr><tr><td><code class="inline-code">last</code></td><td>区间结束迭代器</td><td>随机访问迭代器</td><td>无</td><td>左闭右开</td></tr><tr><td><code class="inline-code">comp</code></td><td>比较器</td><td>可调用对象</td><td><code class="inline-code">less<></code></td><td>必须严格弱序</td></tr><tr><td><code class="inline-code">policy</code></td><td>执行策略</td><td>执行策略对象</td><td>无</td><td>C++17 并行重载</td></tr></tbody></table></div>
+
+<h4>代码示例</h4>
+
+<p>下面给出一个<strong>可直接运行</strong>的 Python 实现：随机主元 + 三路划分 + 迭代收缩。每一行都加了注释，末尾附带随机对照测试与全等数组测试。</p>
+
+<p><pre class="code-block"><code class="language-python">import random
+from typing import List
+
+
+def quickselect(nums: List[int], k: int) -&gt; int:
+    &quot;&quot;&quot;返回升序意义下第 k 个元素（0-indexed），原地重排 nums。&quot;&quot;&quot;
+    if not 0 &lt;= k &lt; len(nums):                     # 边界检查：k 必须在 [0, n-1] 内
+        raise IndexError(f&quot;k={k} 越界，应在 [0, {len(nums) - 1}] 内&quot;)  # 越界立即报错，避免后续死循环
+
+    a = nums                                       # 用局部变量指向原列表，明确&quot;原地修改&quot;语义
+    lo, hi = 0, len(a) - 1                         # 当前搜索区间为闭区间 [lo, hi]
+
+    while lo &lt;= hi:                                # 区间非空时继续；空区间说明逻辑有误
+        pivot_pos = random.randint(lo, hi)         # 在区间内均匀随机选一个下标作为主元
+        a[lo], a[pivot_pos] = a[pivot_pos], a[lo]  # 把主元交换到区间最左端，便于后续扫描
+        pivot = a[lo]                              # 保存主元的值，后续比较都用它
+
+        lt, i, gt = lo, lo + 1, hi                 # lt 指向&quot;小于区&quot;的右边界，gt 指向&quot;大于区&quot;的左边界
+        while i &lt;= gt:                             # i 是当前扫描指针，直到与 gt 相遇
+            if a[i] &lt; pivot:                       # 情况一：当前元素小于主元
+                a[lt], a[i] = a[i], a[lt]          # 把它换到小于区末尾
+                lt += 1                            # 小于区向右扩张一格
+                i += 1                             # 当前元素已处理，扫描指针右移
+            elif a[i] &gt; pivot:                     # 情况二：当前元素大于主元
+                a[i], a[gt] = a[gt], a[i]          # 把它换到大于区开头
+                gt -= 1                            # 大于区向左扩张一格
+            else:                                  # 情况三：当前元素等于主元
+                i += 1                             # 留在等于区，扫描指针右移
+
+        # 划分结束：a[lo:lt] &lt; pivot，a[lt:gt+1] == pivot，a[gt+1:hi+1] &gt; pivot
+        if k &lt; lt:                                 # 目标排名落在小于区
+            hi = lt - 1                            # 丢弃等于区和大于区，只保留左段
+        elif k &gt; gt:                               # 目标排名落在大区
+            lo = gt + 1                            # 丢弃小于区和等于区，只保留右段
+        else:                                      # 目标排名落在等于区
+            return a[k]                            # 等于区所有元素都等于 pivot，直接返回
+
+    raise RuntimeError(&quot;unreachable: 区间收缩逻辑错误&quot;)  # 正常情况下不会到达这里
+
+
+def test_quickselect() -&gt; None:
+    &quot;&quot;&quot;随机对照测试：与 sorted 的结果逐一比较。&quot;&quot;&quot;
+    random.seed(20261106)                          # 固定随机种子，保证测试可复现
+    for n in range(1, 60):                         # 覆盖从 1 到 59 的各种规模
+        for _ in range(200):                       # 每个规模跑 200 组随机数据
+            arr = [random.randint(-20, 20) for _ in range(n)]  # 故意制造大量重复值
+            k = random.randrange(n)                # 随机选择一个目标排名
+            got = quickselect(arr[:], k)           # 传入副本，避免测试之间互相影响
+            want = sorted(arr)[k]                  # 用排序得到标准答案
+            assert got == want, (arr, k, got, want)  # 任何不一致都立即失败
+    all_equal = [7] * 1000                         # 构造全等数组，专门测试三路划分
+    assert quickselect(all_equal, 500) == 7        # 全等数组应能在 O(n) 内返回
+    print(&quot;all tests passed&quot;)                      # 全部通过后输出提示
+
+
+if __name__ == &quot;__main__&quot;:                         # 作为脚本直接运行时执行测试
+    test_quickselect()                             # 调用测试函数</code></pre></p>
+
+<p>对应的 C++ 工业用法如下，<code class="inline-code">std::nth_element</code> 内部通常就是 introselect：</p>
+
+<p><pre class="code-block"><code class="language-cpp">#include &lt;algorithm&gt;                           // 提供 std::nth_element
+#include &lt;vector&gt;                              // 提供 std::vector
+#include &lt;iostream&gt;                            // 提供 std::cout
+
+int main() {
+    std::vector&lt;int&gt; v{3, 7, 1, 9, 5, 2, 8, 4};   // 待选择的数组
+    std::size_t k = 6;                              // 目标排名，0-indexed
+    std::nth_element(v.begin(), v.begin() + k, v.end());  // 原地重排，使 v[k] 为第 k 小
+    std::cout &lt;&lt; v[k] &lt;&lt; std::endl;                 // 输出 8
+    return 0;                                       // 正常退出
+}</code></pre></p>
+
+<p>运行 Python 版本会输出 <code class="inline-code">all tests passed</code>。需要注意：<code class="inline-code">quickselect</code> 会修改传入的列表；如果业务不允许修改原数据，请先复制。三路划分让全等数组的测试也能在 $ O(n) $ 内完成，这是两路划分做不到的。</p>
+
+<h4>复杂度分析</h4>
+
+<p><strong>时间复杂度</strong></p>
+
+<ul>
+<li><strong>最好情况</strong>：第一次选中的主元恰好落在目标位置，只需一趟划分，比较 $ n-1 $ 次，$ O(n) $。</li>
+<li><strong>平均情况</strong>：随机主元下，每次划分的期望规模按几何级数衰减。设第 $ i $ 层处理的区间长度为 $ n_i $，则 $ E[n_{i+1}] \le n_i/2 $，总代价为 $ n + n/2 + n/4 + \cdots < 2n $，故期望 $ O(n) $。更精细的比较次数上界为 $ 4n $，查找中位数的期望比较次数约为 $ 3.39n $。</li>
+<li><strong>最坏情况</strong>：每次主元都落在区间端点，问题规模只减 1，总代价为 $ \sum_{i=1}^{n} i = n(n+1)/2 = O(n^2) $。对已排序数组使用"取第一个元素"作为主元，就会精确触发这种退化。</li>
+<li><strong>确定性最坏 $ O(n) $</strong>：BFPRT（median of medians）通过分组取中位数保证划分比例至少 $ 3:7 $，递推 $ T(n) \le T(n/5) + T(7n/10) + O(n) $，因 $ 1/5 + 7/10 = 0.9 < 1 $，总代价为 $ O(n) $；代价是常数显著增大，工程中通常只在深度超限时启用。</li>
+<li><strong>与全排序对比</strong>：全排序的决策树下界是 $ \Omega(n \log n) $；快速选择只关心一个排名，期望 $ O(n) $，在 $ n=10^6 $ 时通常只需几百万次比较，而排序需要约两千万次。</li>
+</ul>
+
+<p><strong>空间复杂度</strong></p>
+
+<ul>
+<li><strong>迭代版本</strong>：只使用 <code class="inline-code">lo</code>、<code class="inline-code">hi</code>、<code class="inline-code">lt</code>、<code class="inline-code">i</code>、<code class="inline-code">gt</code>、<code class="inline-code">pivot</code> 等常数个变量，额外空间 $ O(1) $。</li>
+<li><strong>递归版本</strong>：期望递归深度 $ O(\log n) $，最坏 $ O(n) $；如果编译器不做尾递归优化，栈空间分别为 $ O(\log n) $ 与 $ O(n) $。</li>
+<li><strong>BFPRT</strong>：分组需要 $ O(n) $ 的临时空间（或原地分组），递归栈 $ O(\log n) $。</li>
+</ul>
+
+<p><strong>工程常数</strong></p>
+
+<ul>
+<li>划分是顺序扫描，缓存友好；随机主元只引入一次随机访问。</li>
+<li>三路划分在重复值多时显著减少无效递归；两路划分在重复值多时会产生大量"空划分"。</li>
+<li>对小数组，函数调用与递归开销可能超过比较本身，插入排序阈值能明显降低常数。</li>
+<li>在 GPU 或向量化场景，快速选择的分支预测不友好，反而不如基于直方图的选择算法。</li>
+</ul>
+
+<h4>应用场景</h4>
+
+<ul>
+<li><strong>Top-K 与排行榜</strong>：只找出第 $ K $ 名的阈值，再线性扫一遍收集所有不小于阈值的元素，整体 $ O(n) $；比全排序后再截断更适合大数组。</li>
+<li><strong>分位数统计</strong>：计算 P50、P95、P99 延迟、收入分布、成绩分布；监控系统常用快速选择避免对百万级样本全排序。</li>
+<li><strong>中位数滤波</strong>：图像去噪、信号去噪中，对滑动窗口求中位数；窗口较小时可用插入排序，窗口较大时可用快速选择或双堆。</li>
+<li><strong>C++ 标准库与数值库</strong>：<code class="inline-code">std::nth_element</code>、NumPy 的 <code class="inline-code">np.partition</code>、Pandas 的 <code class="inline-code">quantile</code> 在底层都使用选择算法。</li>
+<li><strong>数据库 top-k 查询</strong>：<code class="inline-code">ORDER BY ... LIMIT K</code> 在无法利用索引时，常用堆或选择算法先定位阈值，再回表取数。</li>
+<li><strong>机器学习</strong>：kNN 中找第 $ k $ 近邻的距离、DBSCAN 的 k-距离图、K-Means++ 的加权采样，都需要频繁做选择。</li>
+<li><strong>快速排序的优化</strong>：三路快排的划分逻辑与快速选择完全一致；理解快速选择有助于写出正确的三路划分。</li>
+<li><strong>面试高频题</strong>：LeetCode 215「数组中的第 K 个最大元素」、剑指 Offer 40「最小的 k 个数」、LeetCode 973「最接近原点的 K 个点」都可以用快速选择求解。</li>
+</ul>
+
+<h4>参考文档</h4>
+
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Quickselect" target="_blank" class="ref-link">Wikipedia: Quickselect</a></li>
+<li><a href="https://dl.acm.org/doi/10.1145/366622.366647" target="_blank" class="ref-link">Hoare, C. A. R. (1961). Algorithm 65: FIND. Communications of the ACM</a></li>
+<li><a href="https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/" target="_blank" class="ref-link">CLRS 第 9 章：中位数与顺序统计量</a></li>
+<li><a href="https://en.cppreference.com/w/cpp/algorithm/nth_element" target="_blank" class="ref-link">cppreference: std::nth_element</a></li>
+<li><a href="https://numpy.org/doc/stable/reference/generated/numpy.partition.html" target="_blank" class="ref-link">NumPy: numpy.partition</a></li>
+<li><a href="https://leetcode.cn/problems/kth-largest-element-in-an-array/" target="_blank" class="ref-link">LeetCode 215：数组中的第 K 个最大元素</a></li>
+<li><a href="https://leetcode.cn/problems/k-closest-points-to-origin/" target="_blank" class="ref-link">LeetCode 973：最接近原点的 K 个点</a></li>
+</ul>
+
+<hr>
+
+<blockquote>
+<p>AI生成</p>
+</blockquote>
+
+<h3>OPTICS 聚类（Ordering Points To Identify the Clustering Structure）</h3>
+
+<p><strong>类别</strong>：无监督学习 | <strong>难度</strong>：中等</p>
+
+<h4>算法简介</h4>
+
+<p>OPTICS 由 Ankerst、Breunig、Kriegel 与 Sander 在 1999 年 SIGMOD 上提出，全称 <strong>Ordering Points To Identify the Clustering Structure</strong>。它要解决 DBSCAN 最棘手的问题：DBSCAN 的邻域半径 $ \varepsilon $ 是全局固定的，当数据中同时存在高密度簇与低密度簇时，一个 $ \varepsilon $ 要么把高密度簇过度合并，要么把低密度簇整体判为噪声。OPTICS 不再输出"某个固定 $ \varepsilon $ 下的扁平簇"，而是按照密度可达关系把样本排成一个序列，并记录每个样本的<strong>可达距离</strong>，形成一张可达距离图。图中每一个"山谷"对应一个簇，山谷越深代表该处密度越高；山谷之间的高峰则是簇边界或噪声。用户可以在这张图上按任意密度尺度切分，也可以让算法用 $ \xi $ 参数自动提取簇。因此 OPTICS 常被理解为"一次运行，输出所有 $ \varepsilon $ 下的 DBSCAN 结果"的算法，特别适合密度不均匀、簇数未知的数据。</p>
+
+<h4>原理示意图</h4>
+
+<p><div class="algo-image"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 900 470" font-family="sans-serif">
+  <defs>
+    <marker id="optics-arrow" markerWidth="8" markerHeight="6" refX="4" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#f97316"/>
+    </marker>
+  </defs>
+  <rect width="900" height="470" fill="#1e293b" rx="12"/>
+  <text x="450" y="30" text-anchor="middle" fill="#818cf8" font-size="15" font-weight="600">OPTICS：核心距离、可达距离与可达距离图</text>
+
+  <rect x="24" y="52" width="410" height="258" rx="8" fill="#0f172a" stroke="#334155"/>
+  <text x="40" y="72" fill="#94a3b8" font-size="12">二维样本空间</text>
+
+  <circle cx="110" cy="150" r="4" fill="#22c55e"/>
+  <circle cx="126" cy="138" r="4" fill="#22c55e"/>
+  <circle cx="143" cy="152" r="4" fill="#22c55e"/>
+  <circle cx="104" cy="168" r="4" fill="#22c55e"/>
+  <circle cx="128" cy="172" r="4" fill="#22c55e"/>
+  <circle cx="150" cy="142" r="4" fill="#22c55e"/>
+  <circle cx="118" cy="124" r="4" fill="#22c55e"/>
+  <circle cx="94" cy="142" r="4" fill="#22c55e"/>
+  <circle cx="146" cy="170" r="4" fill="#22c55e"/>
+  <circle cx="114" cy="188" r="4" fill="#22c55e"/>
+  <circle cx="88" cy="175" r="4" fill="#22c55e"/>
+  <circle cx="160" cy="160" r="4" fill="#22c55e"/>
+
+  <circle cx="282" cy="168" r="4" fill="#6366f1"/>
+  <circle cx="320" cy="174" r="4" fill="#6366f1"/>
+  <circle cx="342" cy="198" r="4" fill="#6366f1"/>
+  <circle cx="302" cy="214" r="4" fill="#6366f1"/>
+  <circle cx="270" cy="204" r="4" fill="#6366f1"/>
+  <circle cx="330" cy="224" r="4" fill="#6366f1"/>
+  <circle cx="350" cy="180" r="4" fill="#6366f1"/>
+
+  <circle cx="130" cy="155" r="55" fill="none" stroke="#f97316" stroke-width="1.5" stroke-dasharray="5 4"/>
+  <circle cx="130" cy="155" r="6" fill="#f97316"/>
+  <text x="136" y="146" fill="#fdba74" font-size="12">p（核心点）</text>
+  <text x="188" y="120" fill="#f97316" font-size="11">ε-邻域</text>
+
+  <circle cx="302" cy="214" r="5" fill="#fbbf24"/>
+  <text x="309" y="232" fill="#fbbf24" font-size="12">q</text>
+  <line x1="136" y1="158" x2="296" y2="210" stroke="#f97316" stroke-width="1.6" stroke-dasharray="4 3" marker-end="url(#optics-arrow)"/>
+  <text x="200" y="176" fill="#fdba74" font-size="11">d(p, q)</text>
+
+  <text x="40" y="292" fill="#22c55e" font-size="11">高密度簇</text>
+  <text x="272" y="292" fill="#818cf8" font-size="11">低密度簇</text>
+
+  <rect x="466" y="52" width="410" height="258" rx="8" fill="#0f172a" stroke="#334155"/>
+  <text x="482" y="72" fill="#94a3b8" font-size="12">可达距离图（Reachability Plot）</text>
+
+  <line x1="486" y1="284" x2="856" y2="284" stroke="#475569" stroke-width="1"/>
+  <line x1="486" y1="74" x2="486" y2="284" stroke="#475569" stroke-width="1"/>
+  <text x="478" y="180" fill="#94a3b8" font-size="11" transform="rotate(-90 478 180)">可达距离 r</text>
+  <text x="671" y="302" text-anchor="middle" fill="#94a3b8" font-size="11">按 ordering_ 排列的样本序号</text>
+
+  <polyline fill="none" stroke="#22c55e" stroke-width="2" points="486,268 506,250 522,130 540,96 556,104 574,98 592,102 610,246 626,262 644,168 662,150 680,156 698,250 716,268 736,270 754,264 772,252 790,120 808,104 826,114 844,246 856,258"/>
+  <line x1="540" y1="96" x2="540" y2="284" stroke="#22c55e" stroke-width="1" stroke-dasharray="3 4" opacity="0.5"/>
+  <line x1="592" y1="102" x2="592" y2="284" stroke="#22c55e" stroke-width="1" stroke-dasharray="3 4" opacity="0.5"/>
+  <line x1="644" y1="168" x2="644" y2="284" stroke="#6366f1" stroke-width="1" stroke-dasharray="3 4" opacity="0.5"/>
+  <line x1="680" y1="156" x2="680" y2="284" stroke="#6366f1" stroke-width="1" stroke-dasharray="3 4" opacity="0.5"/>
+
+  <text x="566" y="88" text-anchor="middle" fill="#22c55e" font-size="11">簇 1（高密度，谷底深）</text>
+  <text x="662" y="142" text-anchor="middle" fill="#818cf8" font-size="11">簇 2（低密度，谷底浅）</text>
+  <text x="716" y="250" text-anchor="middle" fill="#f97316" font-size="10">噪声/边界峰值</text>
+
+  <rect x="24" y="330" width="852" height="112" rx="8" fill="#0f172a" stroke="#334155"/>
+  <text x="40" y="356" fill="#e2e8f0" font-size="12">核心距离：d_core(p) = min{ r ≥ 0 : |N_r(p)| ≥ min_samples }，即 p 成为核心点的最小半径</text>
+  <text x="40" y="382" fill="#e2e8f0" font-size="12">可达距离：r(p, q) = max{ d_core(p), d(p, q) }，从核心点 p 看 q 时的"有效距离"</text>
+  <text x="40" y="408" fill="#e2e8f0" font-size="12">簇边界：可达距离图中陡峭的上升/下降沿，由 ξ 控制最小陡峭度；谷底越深，簇越密</text>
+  <text x="40" y="432" fill="#94a3b8" font-size="11">sklearn 实现先对每个点做 k 近邻搜索，再按可达距离排序，时间复杂度为 O(n²)</text>
+</svg></div></p>
+
+<p>左图展示两个密度不同的簇：绿色簇点间距小、密度高，蓝色簇点间距大、密度低。对核心点 $ p $ 而言，其 $ \varepsilon $-邻域内至少包含 <code class="inline-code">min_samples</code> 个点，因此 $ p $ 的核心距离较小；从 $ p $ 看向 $ q $ 时，可达距离取"$ p $ 的核心距离"与"$ p $、$ q $ 的实际距离"中的较大者。右图是把所有点按 OPTICS 的访问顺序排列后画出的可达距离曲线：曲线下探形成的山谷对应簇，山谷越深说明密度越高；两个山谷之间的高峰是簇边界；孤立的低密度点会形成接近顶部的高原。由于高密度簇与低密度簇的谷底深度不同，OPTICS 能在一张图上同时保留两种密度的结构，而单一 $ \varepsilon $ 的 DBSCAN 做不到。</p>
+
+<h4>数学公式</h4>
+
+<p><strong>1. ε-邻域与核心距离</strong></p>
+
+<p><div class="math-block">$$ N_\varepsilon(p) = \{\, q \in D \mid d(p,q) \le \varepsilon \,\}, \qquad d_{\text{core}}(p) = \min\{\, r \ge 0 \;\big|\; |N_r(p)| \ge \text{min\_samples} \,\} $$</div></p>
+
+<p>变量解释：</p>
+<ul>
+<li>$ D $：样本集合，共 $ n $ 个点。</li>
+<li>$ p $：当前考察的样本点。</li>
+<li>$ N_\varepsilon(p) $：与 $ p $ 距离不超过 $ \varepsilon $ 的所有样本构成的邻域。</li>
+<li>$ d(p,q) $：度量函数，默认是 Minkowski 距离（$ p=2 $ 时为欧氏距离）。</li>
+<li>$ \text{min\_samples} $：成为核心点所需的最小邻域样本数（<strong>包含 $ p $ 自身</strong>）。</li>
+<li>$ d_{\text{core}}(p) $：使 $ p $ 的邻域至少包含 <code class="inline-code">min_samples</code> 个点的最小半径；若在 <code class="inline-code">max_eps</code> 内都达不到，则记为 $ \infty $，$ p $ 永远不是核心点。</li>
+<li>等价说法：$ d_{\text{core}}(p) $ 是 $ p $ 到第 <code class="inline-code">min_samples</code> 个最近邻的距离，计数时把 $ p $ 自己算作第 1 个（距离为 0）。</li>
+</ul>
+
+<p><strong>2. 可达距离</strong></p>
+
+<p><div class="math-block">$$ r(p,q) = \max\{\, d_{\text{core}}(p),\; d(p,q) \,\} $$</div></p>
+
+<p>变量解释：</p>
+<ul>
+<li>$ r(p,q) $：从核心点 $ p $ 出发观察 $ q $ 时的可达距离。</li>
+<li>$ d_{\text{core}}(p) $：$ p $ 的核心距离，起"下限"作用。</li>
+<li>$ d(p,q) $：$ p $ 与 $ q $ 的实际距离。</li>
+<li>取最大值意味着：只要 $ q $ 落在 $ p $ 的核心邻域内，无论多近，可达距离都不小于 $ p $ 的核心距离；这让同一核心点周围的点拥有相近的可达距离，避免曲线因个别近邻而剧烈抖动。</li>
+</ul>
+
+<p><strong>3. 排序过程中的可达距离更新</strong></p>
+
+<p><div class="math-block">$$ r_{\text{new}}(q) = \min\{\, r_{\text{old}}(q),\; \max(d_{\text{core}}(p),\, d(p,q)) \,\} $$</div></p>
+
+<p>变量解释：</p>
+<ul>
+<li>$ r_{\text{old}}(q) $：$ q $ 当前记录的可达距离，初始为 $ \infty $。</li>
+<li>$ p $：刚刚被处理的核心点。</li>
+<li>$ q $：$ p $ 的邻域中尚未处理的点。</li>
+<li>取最小值表示：一个点可能被多个核心点"看到"，最终记录的是所有可能路径中最短的那条可达距离，这也是"密度可达"的最优路径。</li>
+</ul>
+
+<p><strong>4. ξ 陡峭度与簇边界</strong></p>
+
+<p><div class="math-block">$$ \text{上升陡坡：}\; r_{i+1} \le (1-\xi)\,r_i \qquad\qquad \text{下降陡坡：}\; r_{i+1} \ge \frac{r_i}{1-\xi} $$</div></p>
+
+<p>变量解释：</p>
+<ul>
+<li>$ r_i $、$ r_{i+1} $：按 <code class="inline-code">ordering_</code> 排列后相邻两个样本的可达距离。</li>
+<li>$ \xi \in (0,1) $：最小陡峭度阈值，默认 0.05。</li>
+<li>$ 1-\xi $：允许的相对下降比例。$ \xi=0.05 $ 表示相邻两点的可达距离若下降超过 5%，就认为进入了"陡峭上升沿"（在图中从左向右看，可达距离突然变小）。</li>
+<li>下降陡坡的判别式等价于 $ r_{i+1}(1-\xi) \ge r_i $，即从谷底离开时可达距离突然变大。</li>
+<li>簇的起点通常在一个陡峭上升沿之后，终点在随后的陡峭下降沿之前；<code class="inline-code">min_cluster_size</code> 用于过滤过短的区间。</li>
+</ul>
+
+<p><strong>5. DBSCAN 式切分</strong></p>
+
+<p><div class="math-block">$$ \text{core}(p) \iff d_{\text{core}}(p) \le \varepsilon, \qquad q \text{ 与 } p \text{ 密度相连} \iff \exists\, p_1,\dots,p_m:\ p_1=p,\ p_m=q,\ d(p_{i+1},p_i) \le \varepsilon $$</div></p>
+
+<p>变量解释：</p>
+<ul>
+<li>$ \varepsilon $：<code class="inline-code">cluster_method='dbscan'</code> 时使用的全局半径。</li>
+<li>$ \text{core}(p) $：核心点判定，等价于邻域内至少有 <code class="inline-code">min_samples</code> 个点。</li>
+<li>密度相连：存在一条链，链上相邻点的距离都不超过 $ \varepsilon $，且中间点都是核心点；所有互相密度相连的点构成一个簇。</li>
+<li>在 OPTICS 中，这个 $ \varepsilon $ 只是对可达距离图做一条水平切线，切线以下的连续区间就是一个簇。</li>
+</ul>
+
+<h4>核心要点</h4>
+
+<ul>
+<li><strong>一次运行，多尺度输出</strong>：OPTICS 不把 $ \varepsilon $ 写死，而是输出可达距离图；不同 $ \varepsilon $ 等价于在图上画不同高度的水平线。</li>
+<li><strong>核心距离是密度的局部度量</strong>：它随点的局部密度自适应变化，高密度区域核心距离小，低密度区域核心距离大。</li>
+<li><strong>可达距离是"从核心点看世界"的距离</strong>：它把核心距离作为下限，使同一簇内的可达距离保持平滑。</li>
+<li><strong>排序不是聚类结果</strong>：<code class="inline-code">ordering_</code> 只是访问顺序，真正的簇标签要靠 <code class="inline-code">xi</code> 或 <code class="inline-code">dbscan</code> 提取。</li>
+<li><strong>xi 提取看的是"形状"而不是"高度"</strong>：它寻找可达距离曲线的陡峭沿，因此能同时发现不同密度的簇。</li>
+<li><strong>min_samples 同时影响核心距离与最小簇规模</strong>：它是 OPTICS 最关键的参数，比 DBSCAN 的 <code class="inline-code">eps</code> 更稳健，但仍需按数据密度调整。</li>
+<li><strong>高维会削弱密度概念</strong>：维度升高后距离趋于集中，任何基于距离的密度聚类都会退化，建议先降维或使用余弦距离。</li>
+<li><strong>sklearn 实现是 $ O(n^2) $</strong>：官方文档明确说明未使用堆来管理候选点，因此大数据集要谨慎，或改用 HDBSCAN。</li>
+</ul>
+
+<h4>技术细节与参数详解</h4>
+
+<p><code class="inline-code">sklearn.cluster.OPTICS</code> 的完整签名如下（scikit-learn 1.9 文档）：</p>
+
+<p><pre class="code-block"><code class="language-python">OPTICS(*, min_samples=5, max_eps=inf, metric=&#x27;minkowski&#x27;, p=2,
+       metric_params=None, cluster_method=&#x27;xi&#x27;, eps=None, xi=0.05,
+       predecessor_correction=True, min_cluster_size=None,
+       algorithm=&#x27;auto&#x27;, leaf_size=30, memory=None, n_jobs=None)</code></pre></p>
+
+<p>下面逐参数拆解。</p>
+
+<p><strong>参数 1：<code class="inline-code">min_samples</code></strong></p>
+
+<ul>
+<li><strong>含义</strong>：一个点的邻域内至少要有多少个样本（<strong>包含该点自身</strong>）才算核心点；同时决定核心距离取第几个近邻。</li>
+<li><strong>类型</strong>：<code class="inline-code">int</code> 或 <code class="inline-code">float</code>。</li>
+<li><strong>默认值</strong>：5。</li>
+<li><strong>取值范围</strong>：整数必须大于 1；浮点数必须在 $ (0,1) $ 之间，表示样本总数的比例，实际取 $ \lceil \text{min\_samples} \times n \rceil $，且至少为 2。</li>
+<li><strong>对结果的影响</strong>：增大它会让密度估计更平滑、核心距离更大、更多点被判为噪声，簇数量减少且更保守；减小它会提高敏感度，容易把噪声误判为簇，也容易产生碎片化的小簇。维度越高，需要的 <code class="inline-code">min_samples</code> 越大，经验值为 $ 2 \times $ 维度。</li>
+<li><strong>推荐设置</strong>：从 5 到 10 起调；样本量很大时用比例（如 0.01 到 0.02）；用 k-距离图的拐点辅助选择；对含噪数据宁大勿小。</li>
+</ul>
+
+<p><strong>参数 2：<code class="inline-code">max_eps</code></strong></p>
+
+<ul>
+<li><strong>含义</strong>：邻域搜索的最大半径，也是可达距离的上限；超过该半径的点不再认为与当前点密度可达。</li>
+<li><strong>类型</strong>：<code class="inline-code">float</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">np.inf</code>。</li>
+<li><strong>取值范围</strong>：$ (0, +\infty] $。</li>
+<li><strong>对结果的影响</strong>：取 $ \infty $ 时会考虑所有尺度，结构最完整但运行最慢；减小它能显著加速，并截断大尺度结构，但可能把低密度簇整体丢掉。它只影响"搜索范围"，不是最终的簇边界。</li>
+<li><strong>推荐设置</strong>：探索阶段用默认 $ \infty $；生产环境用样本距离的高分位数（如 90% 到 99%）作为上限，兼顾速度与召回。</li>
+</ul>
+
+<p><strong>参数 3：<code class="inline-code">metric</code></strong></p>
+
+<ul>
+<li><strong>含义</strong>：距离度量函数。</li>
+<li><strong>类型</strong>：<code class="inline-code">str</code> 或可调用对象。</li>
+<li><strong>默认值</strong>：<code class="inline-code">'minkowski'</code>。</li>
+<li><strong>取值范围</strong>：scikit-learn 支持的 <code class="inline-code">cityblock</code>、<code class="inline-code">cosine</code>、<code class="inline-code">euclidean</code>、<code class="inline-code">l1</code>、<code class="inline-code">l2</code>、<code class="inline-code">manhattan</code>，以及 <code class="inline-code">scipy.spatial.distance</code> 中的 <code class="inline-code">braycurtis</code>、<code class="inline-code">canberra</code>、<code class="inline-code">chebyshev</code>、<code class="inline-code">correlation</code>、<code class="inline-code">dice</code>、<code class="inline-code">hamming</code>、<code class="inline-code">jaccard</code>、<code class="inline-code">mahalanobis</code>、<code class="inline-code">minkowski</code>、<code class="inline-code">seuclidean</code>、<code class="inline-code">sqeuclidean</code> 等；也可传 <code class="inline-code">'precomputed'</code>，此时 <code class="inline-code">X</code> 必须是方阵距离矩阵。</li>
+<li><strong>对结果的影响</strong>：决定"邻域"的形状与语义。连续特征用欧氏距离；文本嵌入或高维稀疏向量用余弦距离；经纬度用 haversine；集合型特征用 Jaccard；特征量纲差异大时用马氏距离或先标准化。</li>
+<li><strong>推荐设置</strong>：连续数值特征先 <code class="inline-code">StandardScaler</code> 再用欧氏距离；嵌入向量用 <code class="inline-code">cosine</code>；地理坐标用 <code class="inline-code">haversine</code>；稀疏计数用 <code class="inline-code">jaccard</code>。</li>
+</ul>
+
+<p><strong>参数 4：<code class="inline-code">p</code></strong></p>
+
+<ul>
+<li><strong>含义</strong>：Minkowski 距离的幂次。</li>
+<li><strong>类型</strong>：<code class="inline-code">float</code>。</li>
+<li><strong>默认值</strong>：2。</li>
+<li><strong>取值范围</strong>：$ p \ge 1 $；$ p=1 $ 等价曼哈顿距离，$ p=2 $ 等价欧氏距离，$ p \to \infty $ 等价切比雪夫距离。</li>
+<li><strong>对结果的影响</strong>：$ p $ 越小，距离对异常维度越鲁棒，邻域偏向菱形；$ p $ 越大，邻域偏向正方形，最大维度差异主导距离。它只在 <code class="inline-code">metric='minkowski'</code> 时生效。</li>
+<li><strong>推荐设置</strong>：默认 2；高维稀疏或含异常值时试 $ p=1 $；需要"任一维度超标即远"时用大 $ p $。</li>
+</ul>
+
+<p><strong>参数 5：<code class="inline-code">metric_params</code></strong></p>
+
+<ul>
+<li><strong>含义</strong>：传给距离函数的额外关键字参数。</li>
+<li><strong>类型</strong>：<code class="inline-code">dict</code> 或 <code class="inline-code">None</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">None</code>。</li>
+<li><strong>取值范围</strong>：取决于所选度量；例如 <code class="inline-code">mahalanobis</code> 需要 <code class="inline-code">VI</code>（协方差矩阵的逆），<code class="inline-code">seuclidean</code> 需要 <code class="inline-code">V</code>（方差向量）。</li>
+<li><strong>对结果的影响</strong>：只在特定度量下生效；参数错误会直接报错或得到无意义的距离。</li>
+<li><strong>推荐设置</strong>：使用马氏距离时传入稳健估计的协方差逆矩阵；其余情况保持 <code class="inline-code">None</code>。</li>
+</ul>
+
+<p><strong>参数 6：<code class="inline-code">cluster_method</code></strong></p>
+
+<ul>
+<li><strong>含义</strong>：从可达距离图中提取簇的方法。</li>
+<li><strong>类型</strong>：<code class="inline-code">str</code>，二选一。</li>
+<li><strong>默认值</strong>：<code class="inline-code">'xi'</code>。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">'xi'</code> 或 <code class="inline-code">'dbscan'</code>。</li>
+<li><strong>对结果的影响</strong>：<code class="inline-code">'xi'</code> 按陡峭度自动识别簇边界，能同时处理不同密度，簇数由数据决定；<code class="inline-code">'dbscan'</code> 按单一 <code class="inline-code">eps</code> 水平切分，结果等价于在该 <code class="inline-code">eps</code> 下运行 DBSCAN，适合需要可控密度阈值或复现实验的场景。</li>
+<li><strong>推荐设置</strong>：探索性分析用 <code class="inline-code">'xi'</code>；生产环境若已有明确密度阈值，用 <code class="inline-code">'dbscan'</code> 更可解释。</li>
+</ul>
+
+<p><strong>参数 7：<code class="inline-code">eps</code></strong></p>
+
+<ul>
+<li><strong>含义</strong>：<code class="inline-code">cluster_method='dbscan'</code> 时使用的全局邻域半径。</li>
+<li><strong>类型</strong>：<code class="inline-code">float</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">None</code>，此时自动取 <code class="inline-code">max_eps</code>。</li>
+<li><strong>取值范围</strong>：$ (0, \text{max\_eps}] $。</li>
+<li><strong>对结果的影响</strong>：越大，簇越少、越大，更多边界点被吸收；越小，簇越多、噪声越多。它是 DBSCAN 式的"一刀切"密度阈值。</li>
+<li><strong>推荐设置</strong>：用 k-距离图的拐点，或先跑 <code class="inline-code">xi</code> 找到山谷对应的可达距离，再把它作为 <code class="inline-code">eps</code>；不要超过 <code class="inline-code">max_eps</code>。</li>
+</ul>
+
+<p><strong>参数 8：<code class="inline-code">xi</code></strong></p>
+
+<ul>
+<li><strong>含义</strong>：判定"陡峭沿"的最小相对陡峭度。</li>
+<li><strong>类型</strong>：<code class="inline-code">float</code>。</li>
+<li><strong>默认值</strong>：0.05。</li>
+<li><strong>取值范围</strong>：$ (0, 1) $。</li>
+<li><strong>对结果的影响</strong>：越小，越容易把微小的起伏判为边界，簇更多、更碎；越大，越保守，只保留显著的密度变化，簇更少。0.05 表示相邻可达距离变化超过 5% 才算陡坡。</li>
+<li><strong>推荐设置</strong>：从 0.05 起，在 0.01 到 0.1 之间扫描；配合 <code class="inline-code">min_cluster_size</code> 抑制碎片。</li>
+</ul>
+
+<p><strong>参数 9：<code class="inline-code">predecessor_correction</code></strong></p>
+
+<ul>
+<li><strong>含义</strong>：是否用 OPTICS 计算出的前驱关系修正簇边界。</li>
+<li><strong>类型</strong>：<code class="inline-code">bool</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">True</code>。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">True</code> 或 <code class="inline-code">False</code>。</li>
+<li><strong>对结果的影响</strong>：开启后可以减少 $ \xi $ 方法把本应分离的簇错误合并的情况；官方文档指出对大多数数据集影响很小，但在边界复杂的数据上更稳。</li>
+<li><strong>推荐设置</strong>：保持 <code class="inline-code">True</code>；若怀疑簇被过度合并，可关闭后对比。</li>
+</ul>
+
+<p><strong>参数 10：<code class="inline-code">min_cluster_size</code></strong></p>
+
+<ul>
+<li><strong>含义</strong>：一个簇允许的最小样本数。</li>
+<li><strong>类型</strong>：<code class="inline-code">int</code> 或 <code class="inline-code">float</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">None</code>，此时使用 <code class="inline-code">min_samples</code> 的值。</li>
+<li><strong>取值范围</strong>：整数大于 1；浮点数在 $ (0,1) $ 之间表示比例，实际取 $ \lceil \text{min\_cluster\_size} \times n \rceil $，至少为 2。</li>
+<li><strong>对结果的影响</strong>：增大它会把小簇判为噪声，抑制碎片；过大会丢掉业务上重要的小群体。只在 <code class="inline-code">cluster_method='xi'</code> 时生效。</li>
+<li><strong>推荐设置</strong>：按业务最小群体规模设定；没有先验时用 1% 到 5% 的比例。</li>
+</ul>
+
+<p><strong>参数 11：<code class="inline-code">algorithm</code></strong></p>
+
+<ul>
+<li><strong>含义</strong>：最近邻搜索使用的算法。</li>
+<li><strong>类型</strong>：<code class="inline-code">str</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">'auto'</code>。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">'auto'</code>、<code class="inline-code">'ball_tree'</code>、<code class="inline-code">'kd_tree'</code>、<code class="inline-code">'brute'</code>。</li>
+<li><strong>对结果的影响</strong>：只影响速度与内存，不影响数学结果。<code class="inline-code">kd_tree</code> 适合低维稠密数据，<code class="inline-code">ball_tree</code> 适合维度稍高或非均匀数据，<code class="inline-code">brute</code> 是暴力搜索；稀疏输入会强制使用 <code class="inline-code">brute</code>。</li>
+<li><strong>推荐设置</strong>：默认 <code class="inline-code">'auto'</code>；低维大数据用 <code class="inline-code">'kd_tree'</code>；高维（几十维以上）直接用 <code class="inline-code">'brute'</code>，因为树结构会退化。</li>
+</ul>
+
+<p><strong>参数 12：<code class="inline-code">leaf_size</code></strong></p>
+
+<ul>
+<li><strong>含义</strong>：传给 <code class="inline-code">BallTree</code> 或 <code class="inline-code">KDTree</code> 的叶节点大小。</li>
+<li><strong>类型</strong>：<code class="inline-code">int</code>。</li>
+<li><strong>默认值</strong>：30。</li>
+<li><strong>取值范围</strong>：一般 10 到 100。</li>
+<li><strong>对结果的影响</strong>：影响树构建与查询的速度和内存；叶节点太小会让树更深、查询分支更多，太大则叶内线性扫描变慢。</li>
+<li><strong>推荐设置</strong>：30 到 50；数据量大时可适当增大以减少内存。</li>
+</ul>
+
+<p><strong>参数 13：<code class="inline-code">memory</code></strong></p>
+
+<ul>
+<li><strong>含义</strong>：缓存树计算结果的路径或 <code class="inline-code">joblib.Memory</code> 对象。</li>
+<li><strong>类型</strong>：<code class="inline-code">str</code> 或具有 <code class="inline-code">joblib.Memory</code> 接口的对象。</li>
+<li><strong>默认值</strong>：<code class="inline-code">None</code>，不缓存。</li>
+<li><strong>取值范围</strong>：可写的目录路径。</li>
+<li><strong>对结果的影响</strong>：只影响重复计算的速度，不影响结果；缓存会占用磁盘。</li>
+<li><strong>推荐设置</strong>：调参阶段设置缓存目录；生产环境若数据只跑一次可不设。</li>
+</ul>
+
+<p><strong>参数 14：<code class="inline-code">n_jobs</code></strong></p>
+
+<ul>
+<li><strong>含义</strong>：并行执行邻域搜索的进程数。</li>
+<li><strong>类型</strong>：<code class="inline-code">int</code> 或 <code class="inline-code">None</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">None</code>，表示 1。</li>
+<li><strong>取值范围</strong>：正整数；<code class="inline-code">-1</code> 表示使用所有处理器。</li>
+<li><strong>对结果的影响</strong>：只影响速度，不影响结果；进程数过多会增加内存开销。</li>
+<li><strong>推荐设置</strong>：离线批处理用 <code class="inline-code">-1</code>；内存受限时设为物理核数的一半。</li>
+</ul>
+
+<p><strong>主要属性</strong></p>
+
+<div class="table-wrapper"><table class="algo-table"><thead><tr><th>属性</th><th>形状</th><th>含义</th></tr></thead><tbody><tr><td><code class="inline-code">labels_</code></td><td><code class="inline-code">(n_samples,)</code></td><td>每个样本的簇标签，噪声为 -1</td></tr><tr><td><code class="inline-code">reachability_</code></td><td><code class="inline-code">(n_samples,)</code></td><td>按原始下标存储的可达距离</td></tr><tr><td><code class="inline-code">ordering_</code></td><td><code class="inline-code">(n_samples,)</code></td><td>按 OPTICS 顺序排列的样本下标</td></tr><tr><td><code class="inline-code">core_distances_</code></td><td><code class="inline-code">(n_samples,)</code></td><td>每个样本的核心距离，永远不能成为核心点为 inf</td></tr><tr><td><code class="inline-code">predecessor_</code></td><td><code class="inline-code">(n_samples,)</code></td><td>每个样本的前驱，种子点为 -1</td></tr><tr><td><code class="inline-code">cluster_hierarchy_</code></td><td><code class="inline-code">(n_clusters, 2)</code></td><td>仅 xi 方法可用，簇在 ordering 中的起止下标</td></tr></tbody></table></div>
+
+<h4>代码示例</h4>
+
+<p>下面的代码构造两个密度不同的簇并加入均匀噪声，先标准化，再运行 OPTICS，最后把可达距离图与聚类结果画在一起。每一行都加了注释。</p>
+
+<p><pre class="code-block"><code class="language-python">import numpy as np                                  # 数值计算与数组拼接
+import matplotlib.pyplot as plt                     # 绘图
+from sklearn.cluster import OPTICS, DBSCAN          # 对比两种密度聚类
+from sklearn.datasets import make_blobs             # 生成合成簇
+from sklearn.preprocessing import StandardScaler    # 标准化，避免量纲影响距离
+
+rng = np.random.RandomState(42)                     # 固定随机种子，保证结果可复现
+
+X_dense, _ = make_blobs(                            # 生成高密度簇
+    n_samples=400,                                  # 400 个样本
+    centers=[[0.0, 0.0]],                           # 簇心在原点
+    cluster_std=0.35,                               # 标准差小，密度高
+    random_state=1                                  # 固定种子
+)
+
+X_sparse, _ = make_blobs(                           # 生成低密度簇
+    n_samples=120,                                  # 120 个样本
+    centers=[[4.0, 4.0]],                           # 簇心在 (4, 4)
+    cluster_std=1.10,                               # 标准差大，密度低
+    random_state=2                                  # 固定种子
+)
+
+noise = rng.uniform(low=-2.0, high=6.0, size=(30, 2))  # 在较大范围内撒 30 个均匀噪声点
+X = np.vstack([X_dense, X_sparse, noise])           # 按行拼接成完整数据集
+X = StandardScaler().fit_transform(X)               # 标准化到零均值、单位方差
+
+optics = OPTICS(                                    # 初始化 OPTICS
+    min_samples=10,                                 # 邻域至少 10 个点（含自身）才算核心点
+    max_eps=np.inf,                                 # 不限制最大半径，保留所有尺度
+    metric=&quot;euclidean&quot;,                             # 标准化后用欧氏距离
+    cluster_method=&quot;xi&quot;,                            # 用 xi 自动提取簇
+    xi=0.1,                                         # 最小陡峭度 10%，更保守，避免把密度波动切成碎片
+    min_cluster_size=0.03,                          # 簇至少占样本的 3%
+    algorithm=&quot;auto&quot;,                               # 自动选择最近邻算法
+    n_jobs=-1                                       # 使用全部 CPU 核
+)
+
+labels = optics.fit_predict(X)                      # 拟合并直接返回簇标签，噪声为 -1
+n_clusters = len(set(labels)) - (1 if -1 in labels else 0)  # 统计簇数，排除噪声标签
+
+print(f&quot;簇数量: {n_clusters}&quot;)                       # 输出发现的簇数
+print(f&quot;噪声点: {(labels == -1).sum()}&quot;)             # 输出噪声点数量
+
+space = np.arange(len(X))                           # x 轴：样本在 ordering 中的位置
+reachability = optics.reachability_[optics.ordering_]  # 按 ordering 重排可达距离
+core_dist = optics.core_distances_[optics.ordering_]   # 按 ordering 重排核心距离
+
+fig, axes = plt.subplots(2, 2, figsize=(12, 8))     # 2x2 画布：可达图、OPTICS、DBSCAN、核心距离
+ax = axes[0, 0]                                     # 第一个子图：可达距离图
+ax.plot(space, reachability, color=&quot;#6366f1&quot;, linewidth=1.0)  # 绘制可达距离曲线
+ax.set_xlabel(&quot;Sample index in ordering_&quot;)          # x 轴标签
+ax.set_ylabel(&quot;Reachability distance&quot;)              # y 轴标签
+ax.set_title(&quot;OPTICS reachability plot&quot;)            # 子图标题
+
+ax = axes[0, 1]                                     # 第二个子图：OPTICS 聚类结果
+unique_labels = sorted(set(labels))                 # 取出所有标签并排序
+colors = plt.cm.tab10(np.linspace(0, 1, 10))        # 准备 10 种颜色
+for idx, label in enumerate(unique_labels):         # 遍历每个标签
+    mask = labels == label                          # 当前标签的布尔掩码
+    if label == -1:                                 # 噪声单独用黑色叉号表示
+        ax.scatter(X[mask, 0], X[mask, 1], s=14, c=&quot;k&quot;, marker=&quot;x&quot;, label=&quot;noise&quot;)
+    else:                                           # 普通簇用彩色圆点表示
+        ax.scatter(X[mask, 0], X[mask, 1], s=14, color=colors[idx % 10], label=f&quot;cluster {label}&quot;)
+ax.set_title(&quot;OPTICS labels (xi method)&quot;)           # 子图标题
+ax.legend(fontsize=8, loc=&quot;best&quot;)                   # 显示图例
+
+dbscan = DBSCAN(eps=0.25, min_samples=10)           # 用固定 eps 的 DBSCAN 作为对照
+db_labels = dbscan.fit_predict(X)                   # 拟合 DBSCAN
+ax = axes[1, 0]                                     # 第三个子图：DBSCAN 结果
+for idx, label in enumerate(sorted(set(db_labels))):  # 遍历 DBSCAN 的标签
+    mask = db_labels == label                       # 当前标签的掩码
+    if label == -1:                                 # 噪声用黑色叉号
+        ax.scatter(X[mask, 0], X[mask, 1], s=14, c=&quot;k&quot;, marker=&quot;x&quot;, label=&quot;noise&quot;)
+    else:                                           # 普通簇用彩色圆点
+        ax.scatter(X[mask, 0], X[mask, 1], s=14, color=colors[idx % 10], label=f&quot;cluster {label}&quot;)
+ax.set_title(&quot;DBSCAN labels (eps=0.25)&quot;)            # 子图标题
+ax.legend(fontsize=8, loc=&quot;best&quot;)                   # 显示图例
+
+ax = axes[1, 1]                                     # 第四个子图：核心距离曲线
+ax.plot(space, core_dist, color=&quot;#22c55e&quot;, linewidth=1.0)  # 绘制核心距离
+ax.set_xlabel(&quot;Sample index in ordering_&quot;)          # x 轴标签
+ax.set_ylabel(&quot;Core distance&quot;)                      # y 轴标签
+ax.set_title(&quot;Core distance along ordering&quot;)        # 子图标题
+
+plt.tight_layout()                                  # 自动调整子图间距，避免标签重叠
+plt.savefig(&quot;optics_demo.png&quot;, dpi=150)             # 保存图片到当前目录
+plt.show()                                          # 在交互环境中显示图片</code></pre></p>
+
+<p>运行这段代码会得到四个子图：左上角的可达距离曲线会出现两个明显深浅不同的山谷，分别对应高密度簇与低密度簇；右上角是 <code class="inline-code">xi</code> 方法提取的簇；左下角是固定 <code class="inline-code">eps=0.25</code> 的 DBSCAN 结果，通常会丢掉低密度簇或把它大量判为噪声；右下角是核心距离曲线，可以用来辅助选择 <code class="inline-code">min_samples</code> 和 <code class="inline-code">eps</code>。</p>
+
+<h4>复杂度分析</h4>
+
+<p><strong>时间复杂度</strong></p>
+
+<ul>
+<li><strong>原始论文</strong>：使用空间索引（如 R 树）时，邻域查询的平均代价为 $ O(\log n) $，总时间约为 $ O(n \log n) $；不使用索引时退化为 $ O(n^2) $。</li>
+<li><strong>sklearn 实现</strong>：官方文档明确指出，它先对每个点做 k 近邻搜索以确定核心距离，然后在构造簇序时只对未处理点计算可达距离；由于<strong>没有使用堆</strong>管理候选点，时间复杂度为 $ O(n^2) $。</li>
+<li><strong>参数影响</strong>：减小 <code class="inline-code">max_eps</code> 会缩小邻域搜索范围，实际运行时间下降；增大 <code class="inline-code">min_samples</code> 会让每次 k 近邻查询变重；<code class="inline-code">n_jobs</code> 可以并行化邻域搜索，但不改变渐进复杂度。</li>
+<li><strong>高维退化</strong>：基于树的方法在高维空间失效，最近邻查询退化为暴力扫描，实际时间接近 $ O(n^2 d) $，$ d $ 为维度。</li>
+</ul>
+
+<p><strong>空间复杂度</strong></p>
+
+<ul>
+<li><code class="inline-code">kneighbors</code> 需要为每个点保存 <code class="inline-code">min_samples</code> 个邻居的下标与距离，空间为 $ O(n \cdot \text{min\_samples}) $。</li>
+<li><code class="inline-code">ordering_</code>、<code class="inline-code">reachability_</code>、<code class="inline-code">core_distances_</code>、<code class="inline-code">predecessor_</code> 各占 $ O(n) $。</li>
+<li>若使用 <code class="inline-code">brute</code> 且一次性物化距离矩阵，最坏可达到 $ O(n^2) $；通常实现会分块计算，不会完整存储。</li>
+<li><code class="inline-code">cluster_hierarchy_</code> 在最坏情况下可包含 $ O(n) $ 个区间。</li>
+</ul>
+
+<p><strong>与 DBSCAN、HDBSCAN 的对比</strong></p>
+
+<div class="table-wrapper"><table class="algo-table"><thead><tr><th>维度</th><th>DBSCAN</th><th>OPTICS</th><th>HDBSCAN</th></tr></thead><tbody><tr><td>核心参数</td><td><code class="inline-code">eps</code> + <code class="inline-code">min_samples</code></td><td><code class="inline-code">min_samples</code> + <code class="inline-code">max_eps</code> + <code class="inline-code">xi</code></td><td><code class="inline-code">min_cluster_size</code> + <code class="inline-code">min_samples</code></td></tr><tr><td>密度假设</td><td>单一全局密度</td><td>可变密度</td><td>可变密度，自动层次</td></tr><tr><td>主要输出</td><td>扁平簇标签</td><td>可达距离图 + 扁平簇</td><td>层次结构 + 簇概率</td></tr><tr><td>典型复杂度</td><td>$ O(n \log n) $</td><td>sklearn 为 $ O(n^2) $</td><td>约 $ O(n \log n) $</td></tr><tr><td>适合场景</td><td>密度均匀、阈值明确</td><td>密度差异大、探索性分析</td><td>生产环境自动聚类</td></tr></tbody></table></div>
+
+<h4>应用场景</h4>
+
+<ul>
+<li><strong>地理空间热点识别</strong>：把基站、订单地址、POI 的经纬度作为特征，用 haversine 距离聚类；城市中心密度高、郊区密度低，OPTICS 能同时识别而不必为每个区域调 <code class="inline-code">eps</code>。</li>
+<li><strong>异常检测</strong>：可达距离很大、且不属于任何山谷的点就是低密度异常点；与孤立森林、LOF 相比，OPTICS 还能给出异常点所在的密度尺度。</li>
+<li><strong>客户分群</strong>：消费频次、金额、活跃度等特征标准化后聚类；高价值客户群与长尾客户群密度不同，单一 <code class="inline-code">eps</code> 的 DBSCAN 容易把长尾群判为噪声。</li>
+<li><strong>图像颜色量化</strong>：把像素的 RGB 或 Lab 值作为三维样本，用 OPTICS 找出主要颜色簇；不同图片的颜色分布密度差异很大，自适应密度更稳。</li>
+<li><strong>轨迹与传感器数据分析</strong>：对停留点、速度、方向等特征聚类，识别不同密度的行为模式。</li>
+<li><strong>天文与生物信息学</strong>：星体分布、细胞群体、基因表达数据中常出现密度差异极大的子群，OPTICS 的可达距离图便于人工判读。</li>
+<li><strong>作为 HDBSCAN 的前置探索</strong>：先用 OPTICS 的可达图观察密度结构，再用 HDBSCAN 做生产级自动聚类，二者思想一脉相承。</li>
+</ul>
+
+<h4>参考文档</h4>
+
+<ul>
+<li><a href="https://scikit-learn.org/stable/modules/generated/sklearn.cluster.OPTICS.html" target="_blank" class="ref-link">scikit-learn 官方文档：sklearn.cluster.OPTICS</a></li>
+<li><a href="https://scikit-learn.org/stable/modules/clustering.html#optics" target="_blank" class="ref-link">scikit-learn 用户指南：密度聚类</a></li>
+<li><a href="https://dl.acm.org/doi/10.1145/304181.304187" target="_blank" class="ref-link">Ankerst, M., Breunig, M. M., Kriegel, H.-P., Sander, J. (1999). OPTICS: Ordering Points To Identify the Clustering Structure. SIGMOD</a></li>
+<li><a href="https://en.wikipedia.org/wiki/OPTICS_algorithm" target="_blank" class="ref-link">Wikipedia: OPTICS algorithm</a></li>
+<li><a href="https://hdbscan.readthedocs.io/en/latest/" target="_blank" class="ref-link">HDBSCAN 官方文档</a></li>
+<li><a href="https://scikit-learn.org/stable/auto_examples/cluster/plot_optics.html" target="_blank" class="ref-link">scikit-learn 示例：OPTICS 聚类</a></li>
+</ul>
+
+<hr>
+
+<blockquote>
+<p>AI生成</p>
+</blockquote>
+
+<h3>DPO 直接偏好优化（Direct Preference Optimization）</h3>
+
+<p><strong>类别</strong>：大模型对齐 | <strong>难度</strong>：困难</p>
+
+<h4>算法简介</h4>
+
+<p>DPO（Direct Preference Optimization）由 Rafailov、Sharma、Mitchell 等人在 2023 年提出，论文标题是 <em>Direct Preference Optimization: Your Language Model is Secretly a Reward Model</em>，发表于 NeurIPS 2023。它要解决的是 RLHF（基于人类反馈的强化学习）流程过重的问题：传统 RLHF 需要先训练一个奖励模型（Reward Model），再用 PPO 在线采样、估计优势、裁剪策略，工程链路长、超参数多、训练不稳定。DPO 的核心洞察是：在"最大化奖励减去 KL 正则"的目标下，最优策略与奖励函数之间存在<strong>闭式对应关系</strong>，因此可以把奖励函数用策略与参考模型的概率比表示出来，直接把它代入 Bradley-Terry 偏好模型，得到一个只依赖偏好对 $ (x, y_w, y_l) $ 的监督式损失。这样既不需要显式训练奖励模型，也不需要在线采样和 PPO，只需一次离线前向、一次反向，就能让模型提高"被选中回答"的相对概率、降低"被拒绝回答"的相对概率。DPO 因此成为大模型对齐中最常用的离线偏好优化方法之一。</p>
+
+<h4>原理示意图</h4>
+
+<p><div class="algo-image"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 900 500" font-family="sans-serif">
+  <defs>
+    <marker id="dpo-arrow" markerWidth="8" markerHeight="6" refX="4" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#6366f1"/>
+    </marker>
+    <marker id="dpo-arrow-orange" markerWidth="8" markerHeight="6" refX="4" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#f97316"/>
+    </marker>
+  </defs>
+  <rect width="900" height="500" fill="#1e293b" rx="12"/>
+  <text x="450" y="30" text-anchor="middle" fill="#818cf8" font-size="15" font-weight="600">DPO：用策略与参考模型的概率比，直接构造偏好损失</text>
+  <text x="450" y="52" text-anchor="middle" fill="#94a3b8" font-size="11">离线偏好数据 (x, y_w, y_l)，一次前向 + 一次反向，无需奖励模型与在线采样</text>
+
+  <rect x="28" y="78" width="112" height="44" rx="6" fill="#334155" stroke="#475569"/>
+  <text x="84" y="105" text-anchor="middle" fill="#e2e8f0" font-size="12">prompt x</text>
+
+  <rect x="176" y="78" width="156" height="44" rx="6" fill="#312e81" stroke="#6366f1"/>
+  <text x="254" y="105" text-anchor="middle" fill="#e0e7ff" font-size="12">策略 π_θ（训练中）</text>
+
+  <rect x="378" y="68" width="186" height="36" rx="6" fill="#1e1b4b" stroke="#818cf8"/>
+  <text x="471" y="92" text-anchor="middle" fill="#c7d2fe" font-size="11">log π_θ(y_w | x)</text>
+
+  <rect x="378" y="112" width="186" height="36" rx="6" fill="#1e1b4b" stroke="#818cf8"/>
+  <text x="471" y="136" text-anchor="middle" fill="#c7d2fe" font-size="11">log π_θ(y_l | x)</text>
+
+  <rect x="176" y="178" width="156" height="44" rx="6" fill="#0f172a" stroke="#64748b" stroke-dasharray="5 4"/>
+  <text x="254" y="205" text-anchor="middle" fill="#cbd5e1" font-size="12">参考 π_ref（冻结）</text>
+
+  <rect x="378" y="166" width="186" height="36" rx="6" fill="#0f172a" stroke="#475569"/>
+  <text x="471" y="189" text-anchor="middle" fill="#94a3b8" font-size="11">log π_ref(y_w | x)</text>
+
+  <rect x="378" y="214" width="186" height="36" rx="6" fill="#0f172a" stroke="#475569"/>
+  <text x="471" y="237" text-anchor="middle" fill="#94a3b8" font-size="11">log π_ref(y_l | x)</text>
+
+  <rect x="622" y="92" width="152" height="68" rx="6" fill="#431407" stroke="#f97316"/>
+  <text x="698" y="118" text-anchor="middle" fill="#fdba74" font-size="11">m = β · (Δ_w − Δ_l)</text>
+  <text x="698" y="140" text-anchor="middle" fill="#fdba74" font-size="10">Δ = log π_θ − log π_ref</text>
+
+  <rect x="622" y="200" width="152" height="52" rx="6" fill="#7c2d12" stroke="#f97316"/>
+  <text x="698" y="222" text-anchor="middle" fill="#fed7aa" font-size="12">L = −log σ(m)</text>
+  <text x="698" y="241" text-anchor="middle" fill="#fed7aa" font-size="10">逐对偏好交叉熵</text>
+
+  <rect x="622" y="292" width="152" height="44" rx="6" fill="#14532d" stroke="#22c55e"/>
+  <text x="698" y="319" text-anchor="middle" fill="#dcfce7" font-size="12">∇θ 更新策略</text>
+
+  <line x1="140" y1="100" x2="176" y2="100" stroke="#6366f1" stroke-width="2" marker-end="url(#dpo-arrow)"/>
+  <line x1="332" y1="92" x2="378" y2="86" stroke="#6366f1" stroke-width="2" marker-end="url(#dpo-arrow)"/>
+  <line x1="332" y1="108" x2="378" y2="130" stroke="#6366f1" stroke-width="2" marker-end="url(#dpo-arrow)"/>
+
+  <line x1="254" y1="122" x2="254" y2="178" stroke="#64748b" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#dpo-arrow)"/>
+  <text x="262" y="154" fill="#94a3b8" font-size="10">SFT 权重副本</text>
+
+  <line x1="332" y1="192" x2="378" y2="184" stroke="#64748b" stroke-width="1.5" marker-end="url(#dpo-arrow)"/>
+  <line x1="332" y1="208" x2="378" y2="230" stroke="#64748b" stroke-width="1.5" marker-end="url(#dpo-arrow)"/>
+
+  <polyline fill="none" stroke="#f97316" stroke-width="1.8" points="564,86 596,86 596,112 622,112" marker-end="url(#dpo-arrow-orange)"/>
+  <polyline fill="none" stroke="#f97316" stroke-width="1.8" points="564,184 596,184 596,132 622,132" marker-end="url(#dpo-arrow-orange)"/>
+  <polyline fill="none" stroke="#64748b" stroke-width="1.5" points="564,130 596,130 596,145 622,145" marker-end="url(#dpo-arrow)"/>
+  <polyline fill="none" stroke="#64748b" stroke-width="1.5" points="564,232 596,232 596,152 622,152" marker-end="url(#dpo-arrow)"/>
+
+  <text x="580" y="80" fill="#fdba74" font-size="9">+</text>
+  <text x="580" y="124" fill="#94a3b8" font-size="9">−</text>
+
+  <line x1="698" y1="160" x2="698" y2="200" stroke="#f97316" stroke-width="2" marker-end="url(#dpo-arrow-orange)"/>
+  <line x1="698" y1="252" x2="698" y2="292" stroke="#22c55e" stroke-width="2" marker-end="url(#dpo-arrow)"/>
+
+  <rect x="28" y="368" width="846" height="108" rx="8" fill="#0f172a" stroke="#334155"/>
+  <text x="44" y="394" fill="#e2e8f0" font-size="12">对比 RLHF：SFT → 奖励模型 → PPO 在线采样（三阶段，链路长、显存高、易不稳定）</text>
+  <text x="44" y="420" fill="#22c55e" font-size="12">DPO：SFT → 直接优化偏好对（两阶段，离线、无奖励模型、无 PPO、无价值网络）</text>
+  <text x="44" y="448" fill="#818cf8" font-size="12">Bradley-Terry：P(y_w ≻ y_l | x) = σ(r(x, y_w) − r(x, y_l))；隐式奖励 r = β·log(π_θ / π_ref)</text>
+  <text x="44" y="468" fill="#94a3b8" font-size="10">参考模型通常就是 SFT 模型，冻结不更新；它的作用是提供 KL 锚点，防止策略跑偏</text>
+</svg></div></p>
+
+<p>图中左侧是数据流：同一个 prompt 分别送入可训练策略 $ \pi_\theta $ 与冻结参考 $ \pi_{\mathrm{ref}} $，得到被选中回答 $ y_w $ 与被拒绝回答 $ y_l $ 的 log 概率。中间把四组 log 概率组合成"策略相对参考的概率比"之差 $ \Delta_w-\Delta_l $，再乘以温度系数 $ \beta $ 得到 margin $ m $。右侧用 sigmoid 把 margin 映射成"偏好被选中的概率"，取负对数就是 DPO 损失；梯度只回传到策略，参考模型始终冻结。底部对比了 RLHF 的三阶段链路与 DPO 的两阶段链路，并给出 Bradley-Terry 偏好模型与隐式奖励的定义。</p>
+
+<h4>数学公式</h4>
+
+<p><strong>1. Bradley-Terry 偏好模型</strong></p>
+
+<p><div class="math-block">$$ P(y_w \succ y_l \mid x) = \sigma\big(r(x,y_w) - r(x,y_l)\big) = \frac{1}{1 + \exp\big[-\big(r(x,y_w) - r(x,y_l)\big)\big]} $$</div></p>
+
+<p>变量解释：</p>
+<ul>
+<li>$ x $：输入 prompt。</li>
+<li>$ y_w $：被人类标注为更好的回答（winner / chosen）。</li>
+<li>$ y_l $：被标注为更差的回答（loser / rejected）。</li>
+<li>$ r(x,y) $：奖励函数，表示回答 $ y $ 在 prompt $ x $ 下的质量分数。</li>
+<li>$ \sigma(\cdot) $：sigmoid 函数，把任意实数压缩到 $ (0,1) $，作为"$ y_w $ 优于 $ y_l $"的概率。</li>
+<li>这个模型假设：两个回答的偏好概率只取决于它们奖励的差值，而不取决于奖励的绝对大小。</li>
+</ul>
+
+<p><strong>2. KL 正则化的 RLHF 目标</strong></p>
+
+<p><div class="math-block">$$ \max_{\pi_\theta}\ \mathbb{E}_{x\sim\mathcal{D},\,y\sim\pi_\theta(\cdot\mid x)}\big[r(x,y)\big] - \beta\,\mathbb{D}_{\mathrm{KL}}\big(\pi_\theta(\cdot\mid x)\,\|\,\pi_{\mathrm{ref}}(\cdot\mid x)\big) $$</div></p>
+
+<p>变量解释：</p>
+<ul>
+<li>$ \pi_\theta $：待优化的策略（语言模型），参数为 $ \theta $。</li>
+<li>$ \mathcal{D} $：prompt 分布。</li>
+<li>$ r(x,y) $：奖励函数。</li>
+<li>$ \beta $：KL 正则系数，控制"追求高奖励"与"不要偏离参考模型"之间的权衡。</li>
+<li>$ \pi_{\mathrm{ref}} $：参考策略，通常是 SFT 后的模型，冻结不更新。</li>
+<li>$ \mathbb{D}_{\mathrm{KL}} $：KL 散度，衡量策略与参考模型在同一 prompt 下输出分布的差异。</li>
+<li>目标含义：在获得高奖励的同时，不要离 SFT 模型太远，以保住语言能力与安全性。</li>
+</ul>
+
+<p><strong>3. 最优策略的闭式解</strong></p>
+
+<p><div class="math-block">$$ \pi^*(y\mid x) = \frac{1}{Z(x)}\,\pi_{\mathrm{ref}}(y\mid x)\,\exp\!\left(\frac{r(x,y)}{\beta}\right), \qquad Z(x) = \sum_{y}\pi_{\mathrm{ref}}(y\mid x)\exp\!\left(\frac{r(x,y)}{\beta}\right) $$</div></p>
+
+<p>变量解释：</p>
+<ul>
+<li>$ \pi^* $：上述 KL 正则目标的最优策略。</li>
+<li>$ Z(x) $：配分函数（partition function），对所有可能回答求和，保证概率归一化。</li>
+<li>$ \exp(r/\beta) $：用奖励对参考概率做指数加权；$ \beta $ 越小，奖励的影响越强，策略越激进。</li>
+<li>这个式子说明：最优策略就是把参考模型的分布按"奖励的指数"重新加权。</li>
+</ul>
+
+<p><strong>4. 隐式奖励（把奖励反解出来）</strong></p>
+
+<p><div class="math-block">$$ r(x,y) = \beta \log\frac{\pi^*(y\mid x)}{\pi_{\mathrm{ref}}(y\mid x)} + \beta \log Z(x) $$</div></p>
+
+<p>变量解释：</p>
+<ul>
+<li>$ \pi^*(y\mid x)/\pi_{\mathrm{ref}}(y\mid x) $：最优策略相对参考模型的概率比。</li>
+<li>$ \beta \log(\cdot) $：把 log 概率比缩放成奖励的量纲。</li>
+<li>$ \beta \log Z(x) $：只与 prompt 有关的常数；在比较同一 prompt 下的两个回答时会被抵消。</li>
+<li>关键洞察：奖励不需要单独训练一个网络，它<strong>隐含在策略的概率比里</strong>。</li>
+</ul>
+
+<p><strong>5. DPO 损失函数</strong></p>
+
+<p><div class="math-block">$$ \mathcal{L}_{\mathrm{DPO}}(\theta) = -\mathbb{E}_{(x,y_w,y_l)\sim\mathcal{D}}\left[\log\sigma\!\left(\beta\log\frac{\pi_\theta(y_w\mid x)}{\pi_{\mathrm{ref}}(y_w\mid x)} - \beta\log\frac{\pi_\theta(y_l\mid x)}{\pi_{\mathrm{ref}}(y_l\mid x)}\right)\right] $$</div></p>
+
+<p>变量解释：</p>
+<ul>
+<li>$ \pi_\theta(y\mid x) $：当前策略对回答 $ y $ 的（长度归一化或求和后的）log 概率。</li>
+<li>$ \pi_{\mathrm{ref}}(y\mid x) $：参考模型对同一回答的 log 概率。</li>
+<li>第一个括号：被选中回答的"策略相对参考的对数概率比"，乘以 $ \beta $ 后就是隐式奖励 $ r(x,y_w) $（差一个只与 $ x $ 有关的常数）。</li>
+<li>第二个括号：被拒绝回答的隐式奖励 $ r(x,y_l) $。</li>
+<li>两者相减得到 margin；外层 sigmoid + 负对数，就是"让 $ y_w $ 的隐式奖励高于 $ y_l $"的交叉熵损失。</li>
+<li>整个损失只依赖策略与参考模型在四个位置上的 log 概率，不需要奖励模型，也不需要在线采样。</li>
+</ul>
+
+<p><strong>6. 对策略参数的梯度</strong></p>
+
+<p><div class="math-block">$$ \nabla_\theta \mathcal{L}_{\mathrm{DPO}} = -\beta\,\sigma(-m)\Big[\nabla_\theta \log\pi_\theta(y_w\mid x) - \nabla_\theta \log\pi_\theta(y_l\mid x)\Big] $$</div></p>
+
+<p>变量解释：</p>
+<ul>
+<li>$ m = \beta\big[(\log\pi_\theta(y_w)-\log\pi_{\mathrm{ref}}(y_w)) - (\log\pi_\theta(y_l)-\log\pi_{\mathrm{ref}}(y_l))\big] $：当前 margin。</li>
+<li>$ \sigma(-m) = 1-\sigma(m) $：模型"判错"的程度；margin 越负，权重越大。</li>
+<li>$ \nabla_\theta \log\pi_\theta(y_w\mid x) $：提高被选中回答对数概率的方向。</li>
+<li>$ \nabla_\theta \log\pi_\theta(y_l\mid x) $：提高被拒绝回答对数概率的方向；前面带负号，表示要压低它。</li>
+<li>梯度含义：<strong>提高 $ y_w $ 的概率、降低 $ y_l $ 的概率</strong>，权重由模型当前有多"意外"决定；已经分得很开的偏好对权重接近 0，不再浪费梯度。</li>
+</ul>
+
+<p><strong>7. 奖励准确率</strong></p>
+
+<p><div class="math-block">$$ \text{Reward Accuracy} = \frac{1}{N}\sum_{i=1}^{N}\mathbb{1}\big[m_i > 0\big] $$</div></p>
+
+<p>变量解释：</p>
+<ul>
+<li>$ N $：验证集偏好对数量。</li>
+<li>$ m_i $：第 $ i $ 对样本的 margin。</li>
+<li>$ \mathbb{1}[\cdot] $：指示函数，条件成立为 1，否则为 0。</li>
+<li>该指标衡量"模型认为被选中回答更好的比例"，是 DPO 训练中最常用的监控指标；但它只看排序，不看绝对质量，仍需人工或强模型评估。</li>
+</ul>
+
+<h4>核心要点</h4>
+
+<ul>
+<li><strong>把奖励模型"消掉"</strong>：DPO 不是不要奖励，而是用策略与参考模型的概率比<strong>解析地表示</strong>奖励，从而省掉奖励模型。</li>
+<li><strong>参考模型是锚点</strong>：$ \pi_{\mathrm{ref}} $ 通常就是 SFT 模型，冻结不训练；它通过 KL 正则约束策略不要跑偏，去掉它容易退化。</li>
+<li><strong>离线、监督式训练</strong>：只需要 $ (x, y_w, y_l) $ 三元组，不需要在线 rollout，也不需要 PPO 的裁剪、优势估计和价值网络。</li>
+<li><strong>β 控制"敢不敢偏离"</strong>：β 小 → 更激进地追求偏好，容易过拟合、冗长、语言退化；β 大 → 更保守，接近 SFT，但学习信号弱。</li>
+<li><strong>梯度只抬相对概率</strong>：它提高 $ y_w $ 相对 $ y_l $ 的概率，不保证 $ y_w $ 的绝对概率上升；训练中 chosen 的 logprob 也可能下降。</li>
+<li><strong>长度偏差是天然缺陷</strong>：log 概率是逐 token 求和，长回答天然更负；虽然参考模型会抵消一部分，但仍可能导致"越长越容易被选中"。</li>
+<li><strong>数据质量决定上限</strong>：偏好对若有标注噪声、位置偏差、长度偏差，DPO 会忠实地把它们学进去；数据清洗比调参更重要。</li>
+<li><strong>不是 RLHF 的完全替代</strong>：DPO 适合离线偏好数据充足、追求工程简洁的场景；需要在线探索、过程奖励或复杂推理时，PPO/GRPO 仍有优势。</li>
+</ul>
+
+<h4>技术细节与参数详解</h4>
+
+<blockquote>
+<p>下面以 Hugging Face TRL 的 <code class="inline-code">DPOConfig</code> 与 <code class="inline-code">DPOTrainer</code> 为主线。TRL 版本迭代较快，具体默认值以所安装版本的官方文档为准；这里给出的是 0.9 到 0.12 系列广泛使用的默认值与工程推荐。</p>
+</blockquote>
+
+<p><strong>参数 1：<code class="inline-code">beta</code>（β，KL 正则强度）</strong></p>
+
+<ul>
+<li><strong>含义</strong>：控制策略允许偏离参考模型的程度，同时是隐式奖励的缩放系数。</li>
+<li><strong>类型</strong>：<code class="inline-code">float</code>。</li>
+<li><strong>默认值</strong>：0.1。</li>
+<li><strong>取值范围</strong>：大于 0；常用 0.01 到 0.5。</li>
+<li><strong>对结果的影响</strong>：β 越小，奖励项相对 KL 项越强，策略越敢偏离 SFT，学习信号大但容易过拟合、产生冗长或重复输出；β 越大，策略越保守，接近 SFT，偏好区分学得慢。β 还会缩放 margin，β 过大时 sigmoid 很快饱和，简单样本的梯度接近 0。</li>
+<li><strong>推荐设置</strong>：从 0.1 起；数据质量高且与 SFT 分布接近可用 0.05；安全对齐、防止语言退化用 0.2 到 0.5；同时监控 reward accuracy 与相对参考模型的 KL。</li>
+</ul>
+
+<p><strong>参数 2：<code class="inline-code">loss_type</code>（偏好损失形式）</strong></p>
+
+<ul>
+<li><strong>含义</strong>：选择 DPO 及其变体的具体损失函数。</li>
+<li><strong>类型</strong>：<code class="inline-code">str</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">'sigmoid'</code>。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">'sigmoid'</code>、<code class="inline-code">'hinge'</code>、<code class="inline-code">'ipo'</code>、<code class="inline-code">'exo'</code>、<code class="inline-code">'bpo'</code>、<code class="inline-code">'orpo'</code>、<code class="inline-code">'robust'</code>（不同 TRL 版本略有差异）。</li>
+<li><strong>对结果的影响</strong>：<code class="inline-code">sigmoid</code> 是标准 DPO；<code class="inline-code">hinge</code> 对超过 margin 的样本不再惩罚，抗噪但可能欠拟合；<code class="inline-code">ipo</code> 用平方损失，强约束策略不要偏离参考，适合小数据防过拟合；<code class="inline-code">bpo</code> 针对长度偏差做修正；<code class="inline-code">orpo</code> 不需要参考模型；<code class="inline-code">robust</code> 对噪声标签更稳。</li>
+<li><strong>推荐设置</strong>：默认 <code class="inline-code">sigmoid</code>；数据少、易过拟合用 <code class="inline-code">ipo</code>；标注噪声大用 <code class="inline-code">robust</code> 或 <code class="inline-code">hinge</code>；显存不足以加载参考模型时考虑 <code class="inline-code">orpo</code>。</li>
+</ul>
+
+<p><strong>参数 3：<code class="inline-code">label_smoothing</code>（标签平滑）</strong></p>
+
+<ul>
+<li><strong>含义</strong>：把"被选中"的硬标签 1 平滑为 $ 1-\varepsilon $，避免模型对偏好对过度自信。</li>
+<li><strong>类型</strong>：<code class="inline-code">float</code>。</li>
+<li><strong>默认值</strong>：0.0。</li>
+<li><strong>取值范围</strong>：$ [0, 0.5) $。</li>
+<li><strong>对结果的影响</strong>：适度平滑能缓解过拟合与标注噪声；过大会削弱 chosen 与 rejected 的区分度，导致学不动。</li>
+<li><strong>推荐设置</strong>：0 到 0.1；标注一致性较差时用 0.05 到 0.1。</li>
+</ul>
+
+<p><strong>参数 4：<code class="inline-code">reference_free</code>（无参考模型）</strong></p>
+
+<ul>
+<li><strong>含义</strong>：是否完全去掉参考模型，直接把策略的 log 概率比当作隐式奖励。</li>
+<li><strong>类型</strong>：<code class="inline-code">bool</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">False</code>。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">True</code> 或 <code class="inline-code">False</code>。</li>
+<li><strong>对结果的影响</strong>：开启后省掉参考模型的前向与显存，但失去 KL 锚点，策略容易退化、长度失控、语言能力下降；它改变的是目标函数，不只是工程优化。</li>
+<li><strong>推荐设置</strong>：仅在显存极度受限时尝试；生产环境建议保留参考模型，或改用 ORPO、SimPO 等专门的无参考方法。</li>
+</ul>
+
+<p><strong>参数 5：<code class="inline-code">rpo_alpha</code>（RPO 的 SFT 正则系数）</strong></p>
+
+<ul>
+<li><strong>含义</strong>：在 DPO 损失中加入 chosen 回答的负对数似然（NLL）项，系数为 <code class="inline-code">rpo_alpha</code>，用于缓解 DPO 训练中 chosen 概率下降的问题。</li>
+<li><strong>类型</strong>：<code class="inline-code">float</code> 或 <code class="inline-code">None</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">None</code>，表示关闭。</li>
+<li><strong>取值范围</strong>：大于等于 0；常用 0.1 到 1.0。</li>
+<li><strong>对结果的影响</strong>：增大它会让模型更愿意保持 chosen 的绝对似然，训练更稳，但可能削弱偏好区分；太小则起不到正则作用。</li>
+<li><strong>推荐设置</strong>：观察到 chosen logprob 明显下降或输出退化时设 0.1 到 0.5。</li>
+</ul>
+
+<p><strong>参数 6：<code class="inline-code">sync_ref_model</code>（同步参考模型）</strong></p>
+
+<ul>
+<li><strong>含义</strong>：是否在训练过程中周期性把当前策略复制为新的参考模型。</li>
+<li><strong>类型</strong>：<code class="inline-code">bool</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">False</code>。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">True</code> 或 <code class="inline-code">False</code>。</li>
+<li><strong>对结果的影响</strong>：开启后参考模型会跟着策略走，KL 锚点动态更新，适合长训练或多轮迭代；但它破坏了"固定参考"的理论假设，可能让策略漂移更快。</li>
+<li><strong>推荐设置</strong>：大数据、多 epoch 或迭代式偏好训练可开启；单轮小数据保持关闭。</li>
+</ul>
+
+<p><strong>参数 7：<code class="inline-code">ref_model_mixup_alpha</code>（参考模型插值系数）</strong></p>
+
+<ul>
+<li><strong>含义</strong>：同步参考模型时，新旧参考模型的指数滑动平均系数。</li>
+<li><strong>类型</strong>：<code class="inline-code">float</code>。</li>
+<li><strong>默认值</strong>：0.6。</li>
+<li><strong>取值范围</strong>：$ [0,1] $。</li>
+<li><strong>对结果的影响</strong>：越大越偏向旧参考，锚点更稳；越小越快跟上当前策略，约束更弱。</li>
+<li><strong>推荐设置</strong>：0.6 起步；希望更稳可调到 0.8。</li>
+</ul>
+
+<p><strong>参数 8：<code class="inline-code">ref_model_sync_steps</code>（参考模型同步步数）</strong></p>
+
+<ul>
+<li><strong>含义</strong>：每隔多少优化步同步一次参考模型。</li>
+<li><strong>类型</strong>：<code class="inline-code">int</code>。</li>
+<li><strong>默认值</strong>：512。</li>
+<li><strong>取值范围</strong>：大于等于 1。</li>
+<li><strong>对结果的影响</strong>：越小参考越新、约束越弱、训练越激进；越大参考越旧、越稳定但可能过时。</li>
+<li><strong>推荐设置</strong>：512 到 1024；数据量大时可适当减小。</li>
+</ul>
+
+<p><strong>参数 9：<code class="inline-code">max_length</code>（最大总长度）</strong></p>
+
+<ul>
+<li><strong>含义</strong>：prompt 与 completion 拼接后的最大 token 数，超出部分按 <code class="inline-code">truncation_mode</code> 截断。</li>
+<li><strong>类型</strong>：<code class="inline-code">int</code>。</li>
+<li><strong>默认值</strong>：1024。</li>
+<li><strong>取值范围</strong>：不超过模型上下文窗口；常见 512 到 4096。</li>
+<li><strong>对结果的影响</strong>：截断会破坏偏好对的完整性，尤其是长回答被截掉后半段后，chosen 与 rejected 的差异可能消失，标签变得噪声化；长度越大显存占用越高。</li>
+<li><strong>推荐设置</strong>：覆盖数据长度的 95 分位；推理链、代码、长文摘要用 2048 到 4096；不要为了省显存把长样本拦腰截断。</li>
+</ul>
+
+<p><strong>参数 10：<code class="inline-code">max_prompt_length</code>（最大 prompt 长度）</strong></p>
+
+<ul>
+<li><strong>含义</strong>：prompt 部分允许的最大 token 数。</li>
+<li><strong>类型</strong>：<code class="inline-code">int</code>。</li>
+<li><strong>默认值</strong>：512。</li>
+<li><strong>取值范围</strong>：小于 <code class="inline-code">max_length</code>。</li>
+<li><strong>对结果的影响</strong>：prompt 被截断可能丢失关键指令或系统提示；同时会挤压 completion 的可用长度。</li>
+<li><strong>推荐设置</strong>：覆盖 prompt 的 95 分位；确保 <code class="inline-code">max_length - max_prompt_length</code> 足够容纳完整回答；长系统提示场景建议预处理时保留系统段。</li>
+</ul>
+
+<p><strong>参数 11：<code class="inline-code">truncation_mode</code>（截断方向）</strong></p>
+
+<ul>
+<li><strong>含义</strong>：超长时保留开头还是结尾。</li>
+<li><strong>类型</strong>：<code class="inline-code">str</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">'keep_end'</code>。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">'keep_end'</code> 或 <code class="inline-code">'keep_start'</code>。</li>
+<li><strong>对结果的影响</strong>：<code class="inline-code">keep_end</code> 保留最近的对话内容，适合多轮对话；<code class="inline-code">keep_start</code> 保留系统提示与开头指令，适合长文档问答。选错会丢掉最关键的信息。</li>
+<li><strong>推荐设置</strong>：对话与指令跟随用 <code class="inline-code">keep_end</code>；系统提示很长且必须保留时用 <code class="inline-code">keep_start</code>，或在数据预处理阶段单独处理。</li>
+</ul>
+
+<p><strong>参数 12：<code class="inline-code">precompute_ref_log_probs</code>（预计算参考 log 概率）</strong></p>
+
+<ul>
+<li><strong>含义</strong>：是否在训练前一次性算好参考模型对所有偏好对的 log 概率，训练时不再前向参考模型。</li>
+<li><strong>类型</strong>：<code class="inline-code">bool</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">False</code>。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">True</code> 或 <code class="inline-code">False</code>。</li>
+<li><strong>对结果的影响</strong>：开启后显著降低训练显存与时间（省掉参考模型前向），但需要额外的内存/磁盘存储，且参考模型或数据变化后必须重算；如果数据集很大，预处理本身也很耗时。</li>
+<li><strong>推荐设置</strong>：单卡显存紧张、数据量中等时开启；数据频繁变动或使用 <code class="inline-code">sync_ref_model</code> 时必须关闭。</li>
+</ul>
+
+<p><strong>参数 13：<code class="inline-code">use_weighting</code>（样本加权）</strong></p>
+
+<ul>
+<li><strong>含义</strong>：是否使用数据集中提供的样本权重对损失加权。</li>
+<li><strong>类型</strong>：<code class="inline-code">bool</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">False</code>。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">True</code> 或 <code class="inline-code">False</code>。</li>
+<li><strong>对结果的影响</strong>：开启后高质量偏好对可以占更大权重，低质量或争议样本降权；权重设计不当会放大偏差。</li>
+<li><strong>推荐设置</strong>：有可靠的标注置信度、难度或来源权重时开启；否则保持关闭。</li>
+</ul>
+
+<p><strong>参数 14：<code class="inline-code">disable_dropout</code>（关闭 dropout）</strong></p>
+
+<ul>
+<li><strong>含义</strong>：训练时是否把模型中的 dropout 置零。</li>
+<li><strong>类型</strong>：<code class="inline-code">bool</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">False</code>。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">True</code> 或 <code class="inline-code">False</code>。</li>
+<li><strong>对结果的影响</strong>：关闭 dropout 能让策略与参考模型的对比更稳定，减少随机噪声；但可能略微降低泛化，尤其在数据很少时。</li>
+<li><strong>推荐设置</strong>：DPO 常用 <code class="inline-code">True</code>，尤其是小数据、短训练；大数据可保持默认。</li>
+</ul>
+
+<p><strong>参数 15：<code class="inline-code">learning_rate</code>（学习率）</strong></p>
+
+<ul>
+<li><strong>含义</strong>：优化器步长。</li>
+<li><strong>类型</strong>：<code class="inline-code">float</code>。</li>
+<li><strong>默认值</strong>：由 <code class="inline-code">TrainingArguments</code> 决定（常见 5e-5），但 DPO 通常需要更小的学习率。</li>
+<li><strong>取值范围</strong>：全参数微调常用 5e-7 到 5e-6；LoRA 常用 1e-5 到 1e-4。</li>
+<li><strong>对结果的影响</strong>：过大容易导致策略崩溃、重复输出、语言能力下降；过小学得慢，可能欠拟合。</li>
+<li><strong>推荐设置</strong>：全参数 5e-7 到 5e-6；LoRA 1e-5 到 1e-4；配合 5% 到 10% 的 warmup 与梯度裁剪。</li>
+</ul>
+
+<p><strong>参数 16：<code class="inline-code">per_device_train_batch_size</code> 与 <code class="inline-code">gradient_accumulation_steps</code></strong></p>
+
+<ul>
+<li><strong>含义</strong>：单卡 batch 大小与梯度累积步数，二者相乘再乘以卡数得到有效 batch。</li>
+<li><strong>类型</strong>：<code class="inline-code">int</code>。</li>
+<li><strong>默认值</strong>：batch 通常 1 到 8；累积步数通常 1。</li>
+<li><strong>取值范围</strong>：受显存限制；有效 batch 常见 32 到 128。</li>
+<li><strong>对结果的影响</strong>：有效 batch 太小，梯度噪声大、训练不稳定；太大则每组偏好对的多样性下降，且显存压力大。</li>
+<li><strong>推荐设置</strong>：有效 batch 32 到 128；显存不足时用梯度累积，不要盲目减小到 1。</li>
+</ul>
+
+<p><strong>参数 17：<code class="inline-code">num_train_epochs</code>（训练轮数）</strong></p>
+
+<ul>
+<li><strong>含义</strong>：完整遍历偏好数据集的次数。</li>
+<li><strong>类型</strong>：<code class="inline-code">int</code> 或 <code class="inline-code">float</code>。</li>
+<li><strong>默认值</strong>：常见 1 到 3。</li>
+<li><strong>取值范围</strong>：1 到 5；DPO 通常 1 到 2。</li>
+<li><strong>对结果的影响</strong>：轮数过多会过拟合偏好数据，reward accuracy 上升但真实胜率下降，出现"训练集刷分"；轮数过少则学不动。</li>
+<li><strong>推荐设置</strong>：1 epoch 起步，配合验证集胜率/奖励准确率早停；数据量小用 1 到 2 epoch。</li>
+</ul>
+
+<p><strong>参数 18：<code class="inline-code">bf16</code>、<code class="inline-code">gradient_checkpointing</code>、<code class="inline-code">activation_offloading</code>（显存相关）</strong></p>
+
+<ul>
+<li><strong>含义</strong>：<code class="inline-code">bf16</code> 使用 bfloat16 混合精度；<code class="inline-code">gradient_checkpointing</code> 用重算换显存；<code class="inline-code">activation_offloading</code> 把激活卸载到 CPU。</li>
+<li><strong>类型</strong>：<code class="inline-code">bool</code>。</li>
+<li><strong>默认值</strong>：通常 <code class="inline-code">False</code>。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">True</code> 或 <code class="inline-code">False</code>。</li>
+<li><strong>对结果的影响</strong>：<code class="inline-code">bf16</code> 几乎不影响效果，能显著省显存；梯度检查点降低激活显存但训练慢 20% 到 30%；激活卸载进一步省显存但更慢，且依赖硬件带宽。</li>
+<li><strong>推荐设置</strong>：支持 bf16 的显卡一律开；长序列训练开梯度检查点；显存极度紧张再开激活卸载。</li>
+</ul>
+
+<p><strong>参数 19：LoRA 的 <code class="inline-code">r</code>、<code class="inline-code">lora_alpha</code>、<code class="inline-code">lora_dropout</code>、<code class="inline-code">target_modules</code></strong></p>
+
+<ul>
+<li><strong>含义</strong>：低秩适配的秩、缩放系数、dropout 与作用模块。</li>
+<li><strong>类型</strong>：<code class="inline-code">int</code>、<code class="inline-code">int</code>、<code class="inline-code">float</code>、<code class="inline-code">list[str]</code>。</li>
+<li><strong>默认值</strong>：TRL 不设默认，需在 <code class="inline-code">LoraConfig</code> 中指定；常见 <code class="inline-code">r=16</code>、<code class="inline-code">lora_alpha=32</code>、<code class="inline-code">lora_dropout=0.05</code>。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">r</code> 常见 8 到 64；<code class="inline-code">lora_alpha</code> 常取 <code class="inline-code">2r</code>；<code class="inline-code">lora_dropout</code> 0 到 0.1；<code class="inline-code">target_modules</code> 至少覆盖注意力投影，通常加上 MLP 的 <code class="inline-code">gate_proj</code>、<code class="inline-code">up_proj</code>、<code class="inline-code">down_proj</code>。</li>
+<li><strong>对结果的影响</strong>：<code class="inline-code">r</code> 越大容量越强但显存与过拟合风险上升；只调 <code class="inline-code">q_proj</code>、<code class="inline-code">v_proj</code> 容量有限，全线性层效果更好；<code class="inline-code">lora_alpha/r</code> 的比例影响更新幅度。</li>
+<li><strong>推荐设置</strong>：<code class="inline-code">r=16</code>、<code class="inline-code">alpha=32</code>、<code class="inline-code">dropout=0.05</code>，覆盖全部线性层；数据量小降到 <code class="inline-code">r=8</code>。</li>
+</ul>
+
+<p><strong>参数 20：<code class="inline-code">dataset_num_proc</code>（数据预处理并行度）</strong></p>
+
+<ul>
+<li><strong>含义</strong>：数据集 map、tokenize 的并行进程数。</li>
+<li><strong>类型</strong>：<code class="inline-code">int</code> 或 <code class="inline-code">None</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">None</code>。</li>
+<li><strong>取值范围</strong>：正整数。</li>
+<li><strong>对结果的影响</strong>：只影响预处理速度，不影响训练结果；进程过多可能爆内存。</li>
+<li><strong>推荐设置</strong>：设为 CPU 核数的一半到全部，视内存而定。</li>
+</ul>
+
+<h4>代码示例</h4>
+
+<p>先给出一个<strong>从零实现 DPO 损失</strong>的版本，帮助理解四个 log 概率如何组合；每一行都加了注释，末尾带一个可运行的小例子。</p>
+
+<p><pre class="code-block"><code class="language-python">import torch                                       # 张量计算
+import torch.nn.functional as F                    # 提供 logsigmoid 等函数
+
+
+def dpo_loss(
+    policy_chosen_logps: torch.Tensor,              # 策略对 chosen 回答的 log 概率，形状 (B,)
+    policy_rejected_logps: torch.Tensor,            # 策略对 rejected 回答的 log 概率，形状 (B,)
+    ref_chosen_logps: torch.Tensor,                 # 参考模型对 chosen 的 log 概率，形状 (B,)
+    ref_rejected_logps: torch.Tensor,               # 参考模型对 rejected 的 log 概率，形状 (B,)
+    beta: float = 0.1,                              # KL 正则强度 / 隐式奖励温度
+    label_smoothing: float = 0.0,                   # 标签平滑系数，0 表示不平滑
+):
+    &quot;&quot;&quot;返回 (平均损失, chosen 奖励, rejected 奖励, 奖励准确率)。&quot;&quot;&quot;
+    chosen_logratios = policy_chosen_logps - ref_chosen_logps      # chosen 的策略/参考对数概率比
+    rejected_logratios = policy_rejected_logps - ref_rejected_logps  # rejected 的策略/参考对数概率比
+    logits = chosen_logratios - rejected_logratios                  # margin 去掉 β 后的原始差值
+    losses = -F.logsigmoid(beta * logits)                           # 标准 DPO：-log σ(β·margin)
+    if label_smoothing &gt; 0:                                         # 若启用标签平滑
+        losses = (1 - label_smoothing) * losses + label_smoothing * (-F.logsigmoid(-beta * logits))  # 对反向标签也加一项
+    chosen_rewards = beta * chosen_logratios.detach()               # 隐式奖励 r_w = β·log(π/π_ref)，detach 只用于监控
+    rejected_rewards = beta * rejected_logratios.detach()           # 隐式奖励 r_l = β·log(π/π_ref)，detach 只用于监控
+    reward_accuracy = (chosen_rewards &gt; rejected_rewards).float().mean()  # 奖励准确率：有多大比例 chosen 奖励更高
+    return losses.mean(), chosen_rewards, rejected_rewards, reward_accuracy  # 返回损失与监控指标
+
+
+if __name__ == &quot;__main__&quot;:                          # 直接运行时做一个数值自检
+    torch.manual_seed(0)                            # 固定随机种子，保证输出可复现
+    pc = torch.tensor([-12.0, -20.0])               # 策略对两个 chosen 的 log 概率
+    pr = torch.tensor([-18.0, -19.0])               # 策略对两个 rejected 的 log 概率
+    rc = torch.tensor([-13.0, -18.0])               # 参考模型对 chosen 的 log 概率
+    rr = torch.tensor([-17.0, -18.5])               # 参考模型对 rejected 的 log 概率
+    loss, cr, rj, acc = dpo_loss(pc, pr, rc, rr, beta=0.1)  # 计算损失与指标
+    print(f&quot;loss={loss.item():.4f}, chosen_reward={cr.tolist()}, rejected_reward={rj.tolist()}, acc={acc.item():.2f}&quot;)  # 打印结果</code></pre></p>
+
+<p>再给出一个<strong>基于 TRL 的完整训练脚本</strong>。数据文件 <code class="inline-code">prefs.jsonl</code> 每行是一个 JSON 对象，至少包含 <code class="inline-code">prompt</code>、<code class="inline-code">chosen</code>、<code class="inline-code">rejected</code> 三个字段；每一行代码都加了注释。</p>
+
+<p><pre class="code-block"><code class="language-python">import torch                                       # 深度学习框架
+from datasets import load_dataset                  # 读取 jsonl 偏好数据
+from transformers import AutoModelForCausalLM, AutoTokenizer  # 加载基座模型与分词器
+from peft import LoraConfig                        # LoRA 低秩适配配置
+from trl import DPOConfig, DPOTrainer              # TRL 的 DPO 配置与训练器
+
+MODEL_NAME = &quot;Qwen/Qwen2.5-0.5B-Instruct&quot;          # 示例模型，可替换为任意因果语言模型
+
+tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)  # 加载分词器
+if tokenizer.pad_token is None:                    # 很多因果模型没有 pad token
+    tokenizer.pad_token = tokenizer.eos_token      # 用 eos 充当 pad，避免 padding 报错
+tokenizer.padding_side = &quot;right&quot;                   # 训练时右侧 padding，保证 causal mask 正确
+
+model = AutoModelForCausalLM.from_pretrained(      # 加载策略模型
+    MODEL_NAME,                                     # 模型名称或本地路径
+    torch_dtype=torch.bfloat16,                     # 用 bf16 省显存
+    device_map=&quot;auto&quot;,                              # 自动分配到可用 GPU
+)
+model.config.use_cache = False                     # 训练时关闭 KV cache，避免与梯度检查点冲突
+
+lora_config = LoraConfig(                           # 配置 LoRA
+    r=16,                                           # 低秩矩阵的秩
+    lora_alpha=32,                                  # 缩放系数，通常取 2r
+    lora_dropout=0.05,                              # LoRA 层的 dropout
+    bias=&quot;none&quot;,                                    # 不训练 bias
+    task_type=&quot;CAUSAL_LM&quot;,                          # 任务类型为因果语言模型
+    target_modules=[                                # 作用到所有线性层
+        &quot;q_proj&quot;, &quot;k_proj&quot;, &quot;v_proj&quot;, &quot;o_proj&quot;,     # 注意力投影
+        &quot;gate_proj&quot;, &quot;up_proj&quot;, &quot;down_proj&quot;,        # MLP 投影
+    ],
+)
+
+training_args = DPOConfig(                          # DPO 训练配置
+    output_dir=&quot;./dpo-qwen&quot;,                        # 输出目录
+    beta=0.1,                                       # KL 正则强度
+    loss_type=&quot;sigmoid&quot;,                            # 标准 DPO 损失
+    label_smoothing=0.0,                            # 不做标签平滑
+    max_length=1024,                                # prompt + completion 最大长度
+    max_prompt_length=512,                          # prompt 最大长度
+    truncation_mode=&quot;keep_end&quot;,                     # 超长时保留末尾
+    precompute_ref_log_probs=False,                 # 不预计算参考 log 概率
+    per_device_train_batch_size=2,                  # 单卡 batch
+    gradient_accumulation_steps=8,                  # 梯度累积，有效 batch = 2×8×卡数
+    learning_rate=5e-6,                             # DPO 通常用较小学习率
+    num_train_epochs=1,                             # 只训练 1 轮，防止过拟合
+    warmup_ratio=0.1,                               # 10% 步数用于 warmup
+    logging_steps=10,                               # 每 10 步记录一次日志
+    save_strategy=&quot;epoch&quot;,                          # 每个 epoch 保存一次
+    bf16=True,                                      # 混合精度
+    gradient_checkpointing=True,                    # 用重算换显存
+    disable_dropout=True,                           # 关闭 dropout，稳定 DPO 对比
+    report_to=&quot;none&quot;,                               # 不接入 wandb 等平台
+)
+
+dataset = load_dataset(                             # 读取偏好数据
+    &quot;json&quot;,                                         # 数据格式为 json lines
+    data_files=&quot;prefs.jsonl&quot;,                       # 文件路径
+    split=&quot;train&quot;,                                  # 取训练集
+)
+
+trainer = DPOTrainer(                               # 构造 DPO 训练器
+    model=model,                                    # 策略模型
+    ref_model=None,                                 # 传 None 时，若策略是 PeftModel，会用关闭 adapter 的基座作为参考
+    args=training_args,                             # 训练配置
+    train_dataset=dataset,                          # 偏好数据集
+    processing_class=tokenizer,                     # 新版 TRL 用 processing_class；旧版为 tokenizer
+    peft_config=lora_config,                        # 启用 LoRA
+)
+
+trainer.train()                                     # 开始训练
+trainer.save_model(&quot;./dpo-qwen/final&quot;)              # 保存最终模型（LoRA adapter）
+tokenizer.save_pretrained(&quot;./dpo-qwen/final&quot;)       # 保存分词器</code></pre></p>
+
+<p><code class="inline-code">prefs.jsonl</code> 的最小示例如下：</p>
+
+<p><pre class="code-block"><code class="language-json">{&quot;prompt&quot;: &quot;解释一下什么是快速选择&quot;, &quot;chosen&quot;: &quot;快速选择是……&quot;, &quot;rejected&quot;: &quot;快速选择就是排序……&quot;}</code></pre></p>
+
+<p>如果使用对话模型，<code class="inline-code">prompt</code>、<code class="inline-code">chosen</code>、<code class="inline-code">rejected</code> 也可以写成消息列表，TRL 会自动套用 chat template。需要注意：不同 TRL 版本的参数名有差异，旧版用 <code class="inline-code">tokenizer=</code>，新版用 <code class="inline-code">processing_class=</code>；<code class="inline-code">ref_model=None</code> 在 LoRA 场景下会复用基座模型并临时关闭 adapter，从而省掉一份参考模型权重。</p>
+
+<h4>复杂度分析</h4>
+
+<p><strong>时间复杂度</strong></p>
+
+<p>设模型参数量为 $ P $，每个样本的 token 数为 $ L $，batch 大小为 $ B $。Transformer 的一次前向约需 $ 2PL $ 次浮点运算，一次反向约需 $ 4PL $ 次。标准 DPO 的每个优化步包含：</p>
+
+<ul>
+<li>策略对 chosen 与 rejected 的前向：约 $ 2 \times 2PBL = 4PBL $。</li>
+<li>参考模型对 chosen 与 rejected 的前向：约 $ 4PBL $（若未预计算）。</li>
+<li>策略的反向传播：约 $ 4PBL $。</li>
+<li>合计约 $ 12PBL $ 次浮点运算，是同等 batch 下 SFT（前向 + 反向约 $ 6PBL $）的两倍左右。</li>
+</ul>
+
+<p>与 PPO 相比，DPO 省掉了<strong>在线 rollout 生成</strong>（通常占总开销的大头）、奖励模型前向、价值网络前向与反向，以及多轮 PPO epoch 的重复计算；因此同样的 GPU 预算下，DPO 通常比 PPO 快数倍，且不需要维护复杂的采样与优势估计管线。</p>
+
+<p><strong>空间复杂度</strong></p>
+
+<ul>
+<li>模型权重：策略与参考各一份。全参数微调 7B 模型，bf16 权重每份约 14 GB，两份约 28 GB；再加上 Adam 优化器状态（约 8 倍参数量字节），单卡很难放下。</li>
+<li>LoRA：只训练低秩适配器，优化器状态只针对 adapter；参考模型可以复用基座（关闭 adapter），显存大幅下降。</li>
+<li>激活：与 batch、序列长度、层数成正比；梯度检查点把激活显存从 $ O(BL \cdot d \cdot \text{layers}) $ 降到 $ O(BL \cdot d) $ 量级，代价是额外一次前向。</li>
+<li>预计算参考 log 概率：每个样本只存一个标量，空间 $ O(N) $，非常划算；但参考模型变化后需要重算。</li>
+</ul>
+
+<p><strong>训练稳定性</strong></p>
+
+<ul>
+<li>DPO 的损失是交叉熵形式，比 PPO 的裁剪目标更稳定，但仍对学习率、β、数据分布敏感。</li>
+<li>常见失败模式：β 过小导致策略退化、输出变长；学习率过大导致重复；参考模型与策略初始化不一致导致 margin 一开始就很大或很小。</li>
+<li>监控指标：loss、reward accuracy、chosen/rejected 的隐式奖励、相对参考模型的 KL、输出长度、重复率、人工胜率。</li>
+</ul>
+
+<h4>应用场景</h4>
+
+<ul>
+<li><strong>对话模型对齐</strong>：用人类偏好对提升有用性、无害性、指令遵循能力；这是 DPO 最主流的应用。</li>
+<li><strong>安全与拒答</strong>：构造"安全回答 vs 不安全回答"的偏好对，让模型学会拒绝危险请求，同时保持正常问题上的帮助性。</li>
+<li><strong>风格与语气控制</strong>：客服话术、品牌语气、正式/口语风格；偏好对比比 SFT 更能表达"哪种更好"。</li>
+<li><strong>摘要与翻译</strong>：同一原文的多个候选摘要/译文，由人工或强模型标注偏好，DPO 直接优化偏好排序。</li>
+<li><strong>代码生成</strong>：用单元测试通过率、代码评审意见构造偏好对，提升代码正确性与可读性。</li>
+<li><strong>RAG 与引用</strong>：偏好"有依据、引用准确"的回答，降低幻觉；比单纯 SFT 更能约束引用行为。</li>
+<li><strong>工具调用与 Agent 轨迹</strong>：对成功/失败轨迹做偏好学习，提升工具选择与参数填写质量。</li>
+<li><strong>RLAIF</strong>：用强模型代替人类做偏好标注，低成本扩大偏好数据规模；DPO 是其最常用的离线优化器。</li>
+<li><strong>奖励模型蒸馏</strong>：把已有奖励模型的排序结果转成偏好对，用 DPO 把奖励"蒸馏"进策略，省去在线 RL。</li>
+</ul>
+
+<h4>参考文档</h4>
+
+<ul>
+<li><a href="https://arxiv.org/abs/2305.18290" target="_blank" class="ref-link">Rafailov et al. (2023). Direct Preference Optimization: Your Language Model is Secretly a Reward Model. NeurIPS</a></li>
+<li><a href="https://huggingface.co/docs/trl/main/en/dpo_trainer" target="_blank" class="ref-link">Hugging Face TRL 文档：DPO Trainer</a></li>
+<li><a href="https://huggingface.co/blog/pref-tuning" target="_blank" class="ref-link">Hugging Face Blog：Preference Tuning LLMs with Direct Preference Optimization Methods</a></li>
+<li><a href="https://github.com/huggingface/trl/blob/main/trl/trainer/dpo_trainer.py" target="_blank" class="ref-link">TRL 源码：DPOConfig 与 dpo_loss</a></li>
+<li><a href="https://arxiv.org/abs/2310.12036" target="_blank" class="ref-link">IPO: A General Theoretical Paradigm to Understand Learning from Human Preferences</a></li>
+<li><a href="https://arxiv.org/abs/2403.07691" target="_blank" class="ref-link">ORPO: Monolithic Preference Optimization without Reference Model</a></li>
+<li><a href="https://arxiv.org/abs/2405.14734" target="_blank" class="ref-link">SimPO: Simple Preference Optimization with a Reference-Free Reward</a></li>
+<li><a href="https://arxiv.org/abs/2310.16944" target="_blank" class="ref-link">Zephyr: Direct Distillation of LM Alignment</a></li>
+</ul>
+
+<hr>
+
+<blockquote>
+<p>AI生成</p>
+</blockquote>
+
+  </div>
+  <div class="footer">
+    <p>由 TeleAgent · 每日算法推送 技能自动生成 | 2026-11-06 10:06</p>
+  </div>
+</div>
+</body>
+</html>
