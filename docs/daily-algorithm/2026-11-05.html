@@ -1,0 +1,2041 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>每日算法讲解 · 2026年11月05日</title>
+<!-- MathJax for LaTeX math formula rendering -->
+<script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\(', '\)']],
+      displayMath: [['$$', '$$'], ['\[', '\]']],
+      processEscapes: true
+    },
+    svg: { fontCache: 'global' }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" id="MathJax-script" async></script>
+<style>
+:root {
+  --primary: #6366f1;
+  --primary-dark: #4f46e5;
+  --bg: #0f172a;
+  --card-bg: #1e293b;
+  --text: #e2e8f0;
+  --text-dim: #94a3b8;
+  --accent: #818cf8;
+  --border: #334155;
+  --code-bg: #0d1117;
+  --code-text: #e6edf3;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans SC", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.8;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+.container { max-width: 1400px; margin: 0 auto; padding: 24px 32px; }
+.header {
+  text-align: center;
+  padding: 40px 0 30px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 32px;
+}
+.header h1 {
+  font-size: 28px;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.header h1 .date { color: var(--accent); }
+.header .subtitle { color: var(--text-dim); font-size: 15px; }
+.repo-link {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 6px 16px;
+  background: var(--primary);
+  color: #fff;
+  border-radius: 20px;
+  text-decoration: none;
+  font-size: 13px;
+  transition: background 0.2s;
+}
+.repo-link:hover { background: var(--primary-dark); }
+.history-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 32px;
+  padding: 16px;
+  background: var(--card-bg);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+.history-nav a {
+  padding: 4px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  color: var(--text-dim);
+  text-decoration: none;
+  background: rgba(99,102,241,0.08);
+  transition: all 0.2s;
+}
+.history-nav a:hover { color: var(--text); background: rgba(99,102,241,0.2); }
+.history-nav a.active { color: #fff; background: var(--primary); }
+.history-nav a.back-index { color: var(--accent); font-weight: 600; background: rgba(99,102,241,0.15); border: 1px solid rgba(99,102,241,0.3); }
+.history-nav a.back-index:hover { color: #fff; background: var(--primary); border-color: var(--primary); }
+.content { margin-bottom: 40px; max-width: 1100px; }
+.content h2 {
+  font-size: 24px;
+  color: var(--accent);
+  margin: 40px 0 16px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--primary);
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+.content h2:first-child { border-top: none; padding-top: 0; }
+.content h3 {
+  font-size: 18px;
+  color: var(--text);
+  margin: 24px 0 12px;
+}
+.content h4 {
+  font-size: 16px;
+  color: var(--accent);
+  margin: 20px 0 10px;
+}
+.content p { margin-bottom: 12px; color: var(--text); }
+.content ul { margin: 8px 0 16px 20px; }
+.content li { margin-bottom: 6px; }
+.content strong { color: var(--accent); }
+.content blockquote {
+  border-left: 4px solid var(--primary);
+  padding: 12px 16px;
+  margin: 16px 0;
+  background: rgba(99,102,241,0.08);
+  border-radius: 0 8px 8px 0;
+}
+.content blockquote p { color: var(--text-dim); margin: 4px 0; }
+.content hr {
+  border: none;
+  height: 1px;
+  background: var(--border);
+  margin: 32px 0;
+}
+.code-block {
+  background: var(--code-bg);
+  border-radius: 10px;
+  padding: 18px 24px;
+  overflow-x: auto;
+  margin: 16px 0;
+  border: 1px solid var(--border);
+  max-width: 100%;
+}
+.code-block code {
+  font-family: "JetBrains Mono", "Fira Code", "Consolas", monospace;
+  font-size: 14px;
+  color: var(--code-text);
+  line-height: 1.6;
+  white-space: pre;
+}
+.inline-code {
+  background: rgba(99,102,241,0.15);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: "Consolas", monospace;
+  font-size: 0.9em;
+  color: var(--accent);
+}
+/* Math formula block */
+.content .math-block {
+  background: rgba(99,102,241,0.06);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 24px;
+  margin: 16px 0;
+  overflow-x: auto;
+  max-width: 100%;
+}
+.content .math-label {
+  font-size: 13px; color: var(--text-dim); margin-bottom: 6px; }
+.content .math-vars {
+  margin: 8px 0 16px 20px; }
+.content .math-vars li { margin-bottom: 4px; color: var(--text-dim); }
+.footer {
+  text-align: center;
+  padding: 24px 0;
+  border-top: 1px solid var(--border);
+  color: var(--text-dim);
+  font-size: 13px;
+}
+.tag {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  background: rgba(99,102,241,0.15);
+  color: var(--accent);
+  margin-left: 8px;
+}
+.content .ref-link {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px dashed rgba(99,102,241,0.4);
+  transition: all 0.2s;
+  word-break: break-all;
+}
+.content .ref-link:hover {
+  color: #fff;
+  border-bottom-color: var(--primary);
+}
+.content li {
+  word-break: break-all;
+}
+/* Table */
+.table-wrapper {
+  overflow-x: auto;
+  margin: 16px 0;
+  max-width: 100%;
+}
+.algo-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  background: var(--card-bg);
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+.algo-table thead {
+  background: rgba(99,102,241,0.15);
+}
+.algo-table th {
+  padding: 10px 16px;
+  text-align: left;
+  color: var(--accent);
+  font-weight: 600;
+  border-bottom: 2px solid var(--primary);
+  white-space: nowrap;
+}
+.algo-table td {
+  padding: 8px 16px;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  word-break: break-all;
+}
+.algo-table tr:last-child td {
+  border-bottom: none;
+}
+.algo-table tr:hover td {
+  background: rgba(99,102,241,0.06);
+}
+/* Algorithm architecture image */
+.algo-image {
+  margin: 20px 0;
+  text-align: center;
+}
+.algo-image img {
+  max-width: 100%;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+.algo-image .image-caption {
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--text-dim);
+}
+.algo-image svg {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+/* ======== 移动端响应式适配 ======== */
+@media (max-width: 768px) {
+  .container { max-width: 100%; padding: 16px 14px; }
+  .header { padding: 24px 0 20px; margin-bottom: 20px; }
+  .header h1 { font-size: 20px; margin-bottom: 4px; }
+  .header .subtitle { font-size: 13px; }
+  .repo-link { margin-top: 10px; padding: 5px 14px; font-size: 12px; }
+  .history-nav { gap: 6px; padding: 10px 12px; margin-bottom: 20px; }
+  .history-nav a { padding: 3px 10px; font-size: 12px; }
+  .content { max-width: 100%; margin-bottom: 28px; }
+  .content h2 { font-size: 20px; margin: 28px 0 12px; }
+  .content h3 { font-size: 17px; margin: 20px 0 10px; }
+  .content h4 { font-size: 15px; margin: 16px 0 8px; }
+  .content p { font-size: 14px; margin-bottom: 10px; }
+  .content ul { margin: 6px 0 12px 16px; }
+  .content li { font-size: 14px; margin-bottom: 5px; }
+  .content blockquote { padding: 10px 12px; margin: 12px 0; }
+  .content blockquote p { font-size: 13px; }
+  .content .math-block { padding: 10px 14px; margin: 12px 0; }
+  .code-block { padding: 12px 14px; margin: 12px 0; }
+  .code-block code { font-size: 12px; line-height: 1.5; }
+  .inline-code { font-size: 0.88em; padding: 1px 5px; }
+  .algo-table { font-size: 12px; }
+  .algo-table th { padding: 6px 10px; }
+  .algo-table td { padding: 6px 10px; }
+  .algo-image { margin: 14px 0; }
+  .algo-image svg { max-width: 100%; height: auto; }
+  .footer { padding: 18px 0; font-size: 12px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>每日算法讲解 · <span class="date">2026年11月05日</span></h1>
+    <p class="subtitle">每天 1 个基础算法 + 2 个 AI/机器学习算法，持续精进</p>
+    <a href="https://syypretend.github.io/test/daily-algorithm" target="_blank" class="repo-link">GitHub 仓库</a>
+  </div>
+  <div class="history-nav"><a href="index.html" class="back-index">← 历史索引</a>
+<a href="2026-11-06.html">11月06日</a>
+<a href="2026-11-05.html" class="active">11月05日</a>
+<a href="2026-11-04.html">11月04日</a>
+<a href="2026-10-28.html">10月28日</a>
+<a href="2026-10-26.html">10月26日</a>
+<a href="2026-10-19.html">10月19日</a>
+<a href="2026-10-16.html">10月16日</a>
+<a href="2026-10-14.html">10月14日</a>
+<a href="2026-10-13.html">10月13日</a>
+<a href="2026-10-12.html">10月12日</a>
+<a href="2026-10-10.html">10月10日</a>
+<a href="2026-10-09.html">10月09日</a>
+<a href="2026-10-08.html">10月08日</a>
+<a href="2026-09-30.html">09月30日</a>
+<a href="2026-09-29.html">09月29日</a>
+<a href="2026-09-28.html">09月28日</a>
+<a href="2026-09-24.html">09月24日</a>
+<a href="2026-09-17.html">09月17日</a>
+<a href="2026-09-15.html">09月15日</a>
+<a href="2026-09-14.html">09月14日</a>
+<a href="2026-09-11.html">09月11日</a>
+<a href="2026-09-10.html">09月10日</a>
+<a href="2026-09-09.html">09月09日</a>
+<a href="2026-09-08.html">09月08日</a>
+<a href="2026-09-07.html">09月07日</a>
+</div>
+  <div class="content">
+  <h2>每日算法讲解 · 2026-11-05</h2>
+
+<blockquote>
+<p>今日内容：1 个基础算法 + 2 个 AI/机器学习算法 | 逐参数详解</p>
+</blockquote>
+
+<hr>
+
+<h3>二分查找（Binary Search）</h3>
+
+<p><strong>类别</strong>：查找算法 | <strong>难度</strong>：入门</p>
+
+<h4>算法简介</h4>
+
+<p>二分查找（Binary Search，又称折半查找）是在<strong>有序序列</strong>上把搜索区间反复对半收缩的查找算法。它每一轮取区间中点 $ mid $，把 $ a[mid] $ 与目标值 $ x $ 比较：若 $ a[mid] < x $，则目标只可能落在右半区间；若 $ a[mid] > x $，则只可能落在左半区间；相等则命中。由于每轮都把候选规模减半，$ n $ 个元素最多只需约 $ \lfloor \log_2 n \rfloor + 1 $ 次比较，$ 10^9 $ 个元素也只需 30 次比较，是线性查找无法企及的效率。</p>
+
+<p>二分查找真正的难点不在"折半"这个想法，而在<strong>边界语义</strong>：区间是闭区间 $ [lo, hi] $ 还是左闭右开 $ [lo, hi) $？循环条件是 $ lo \le hi $ 还是 $ lo < hi $？返回的是"任意一个相等位置"还是"第一个大于等于 $ x $ 的位置"？只要这三处有一处不匹配，就会写出死循环、漏查边界或重复元素定位错误。工程上更常用的是它的<strong>插入点变体</strong> <code class="inline-code">lower_bound</code> / <code class="inline-code">upper_bound</code>（Python 的 <code class="inline-code">bisect_left</code> / <code class="inline-code">bisect_right</code>），因为"第一个 $ \ge x $"和"第一个 $ > x $"可以统一表达查找、去重、计数、区间统计等一整套操作。</p>
+
+<p>更进一步，二分查找不只用于"在数组里找数"，还可用于<strong>在答案空间里找数</strong>：只要问题的判定条件具有单调性（$ P(x) $ 为真则 $ P(x+1) $ 也为真），就能对答案二分，把最优化问题转成 $ O(\log) $ 次判定，这就是"二分答案"。</p>
+
+<h4>原理示意图</h4>
+
+<p><div class="algo-image"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 900 480" font-family="sans-serif">
+  <rect width="900" height="480" fill="#1e293b" rx="12"/>
+  <text x="450" y="30" text-anchor="middle" fill="#818cf8" font-size="15" font-weight="600">二分查找：在有序数组中查找 target = 41（3 次比较命中）</text>
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="6" refX="4" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#6366f1"/>
+    </marker>
+  </defs>
+
+  <!-- 第一轮 -->
+  <text x="40" y="70" fill="#94a3b8" font-size="12">第 1 轮</text>
+  <text x="121" y="86" text-anchor="middle" fill="#22c55e" font-size="11">lo</text>
+  <text x="431" y="86" text-anchor="middle" fill="#c4b5fd" font-size="11">mid</text>
+  <text x="741" y="86" text-anchor="middle" fill="#f97316" font-size="11">hi</text>
+  <rect x="90" y="95" width="62" height="44" fill="#1f2937" stroke="#334155"/>
+  <text x="121" y="122" text-anchor="middle" fill="#64748b" font-size="13">3</text>
+  <rect x="152" y="95" width="62" height="44" fill="#1f2937" stroke="#334155"/>
+  <text x="183" y="122" text-anchor="middle" fill="#64748b" font-size="13">7</text>
+  <rect x="214" y="95" width="62" height="44" fill="#1f2937" stroke="#334155"/>
+  <text x="245" y="122" text-anchor="middle" fill="#64748b" font-size="13">11</text>
+  <rect x="276" y="95" width="62" height="44" fill="#1f2937" stroke="#334155"/>
+  <text x="307" y="122" text-anchor="middle" fill="#64748b" font-size="13">18</text>
+  <rect x="338" y="95" width="62" height="44" fill="#1f2937" stroke="#334155"/>
+  <text x="369" y="122" text-anchor="middle" fill="#64748b" font-size="13">25</text>
+  <rect x="400" y="95" width="62" height="44" fill="#4c1d95" stroke="#a78bfa" stroke-width="2"/>
+  <text x="431" y="122" text-anchor="middle" fill="#e2e8f0" font-size="13" font-weight="600">33</text>
+  <rect x="462" y="95" width="62" height="44" fill="#1e3a5f" stroke="#6366f1"/>
+  <text x="493" y="122" text-anchor="middle" fill="#e2e8f0" font-size="13">41</text>
+  <rect x="524" y="95" width="62" height="44" fill="#1e3a5f" stroke="#6366f1"/>
+  <text x="555" y="122" text-anchor="middle" fill="#e2e8f0" font-size="13">56</text>
+  <rect x="586" y="95" width="62" height="44" fill="#1e3a5f" stroke="#6366f1"/>
+  <text x="617" y="122" text-anchor="middle" fill="#e2e8f0" font-size="13">62</text>
+  <rect x="648" y="95" width="62" height="44" fill="#1e3a5f" stroke="#6366f1"/>
+  <text x="679" y="122" text-anchor="middle" fill="#e2e8f0" font-size="13">78</text>
+  <rect x="710" y="95" width="62" height="44" fill="#1e3a5f" stroke="#6366f1"/>
+  <text x="741" y="122" text-anchor="middle" fill="#e2e8f0" font-size="13">90</text>
+  <text x="450" y="165" text-anchor="middle" fill="#f97316" font-size="12">a[5] = 33 &lt; 41 → 丢弃左半（含 mid），lo = mid + 1 = 6</text>
+
+  <!-- 第二轮 -->
+  <text x="40" y="190" fill="#94a3b8" font-size="12">第 2 轮</text>
+  <text x="493" y="206" text-anchor="middle" fill="#22c55e" font-size="11">lo</text>
+  <text x="617" y="206" text-anchor="middle" fill="#c4b5fd" font-size="11">mid</text>
+  <text x="741" y="206" text-anchor="middle" fill="#f97316" font-size="11">hi</text>
+  <rect x="90" y="215" width="62" height="44" fill="#0f172a" stroke="#1e293b"/>
+  <text x="121" y="242" text-anchor="middle" fill="#475569" font-size="13">3</text>
+  <rect x="152" y="215" width="62" height="44" fill="#0f172a" stroke="#1e293b"/>
+  <text x="183" y="242" text-anchor="middle" fill="#475569" font-size="13">7</text>
+  <rect x="214" y="215" width="62" height="44" fill="#0f172a" stroke="#1e293b"/>
+  <text x="245" y="242" text-anchor="middle" fill="#475569" font-size="13">11</text>
+  <rect x="276" y="215" width="62" height="44" fill="#0f172a" stroke="#1e293b"/>
+  <text x="307" y="242" text-anchor="middle" fill="#475569" font-size="13">18</text>
+  <rect x="338" y="215" width="62" height="44" fill="#0f172a" stroke="#1e293b"/>
+  <text x="369" y="242" text-anchor="middle" fill="#475569" font-size="13">25</text>
+  <rect x="400" y="215" width="62" height="44" fill="#0f172a" stroke="#1e293b"/>
+  <text x="431" y="242" text-anchor="middle" fill="#475569" font-size="13">33</text>
+  <rect x="462" y="215" width="62" height="44" fill="#1e3a5f" stroke="#6366f1"/>
+  <text x="493" y="242" text-anchor="middle" fill="#e2e8f0" font-size="13">41</text>
+  <rect x="524" y="215" width="62" height="44" fill="#1e3a5f" stroke="#6366f1"/>
+  <text x="555" y="242" text-anchor="middle" fill="#e2e8f0" font-size="13">56</text>
+  <rect x="586" y="215" width="62" height="44" fill="#4c1d95" stroke="#a78bfa" stroke-width="2"/>
+  <text x="617" y="242" text-anchor="middle" fill="#e2e8f0" font-size="13" font-weight="600">62</text>
+  <rect x="648" y="215" width="62" height="44" fill="#1e3a5f" stroke="#6366f1"/>
+  <text x="679" y="242" text-anchor="middle" fill="#e2e8f0" font-size="13">78</text>
+  <rect x="710" y="215" width="62" height="44" fill="#1e3a5f" stroke="#6366f1"/>
+  <text x="741" y="242" text-anchor="middle" fill="#e2e8f0" font-size="13">90</text>
+  <text x="450" y="285" text-anchor="middle" fill="#f97316" font-size="12">a[8] = 62 &gt; 41 → 丢弃右半（含 mid），hi = mid - 1 = 7</text>
+
+  <!-- 第三轮 -->
+  <text x="40" y="310" fill="#94a3b8" font-size="12">第 3 轮</text>
+  <text x="493" y="326" text-anchor="middle" fill="#22c55e" font-size="11">lo / mid</text>
+  <text x="555" y="326" text-anchor="middle" fill="#f97316" font-size="11">hi</text>
+  <rect x="90" y="335" width="62" height="44" fill="#0f172a" stroke="#1e293b"/>
+  <text x="121" y="362" text-anchor="middle" fill="#475569" font-size="13">3</text>
+  <rect x="152" y="335" width="62" height="44" fill="#0f172a" stroke="#1e293b"/>
+  <text x="183" y="362" text-anchor="middle" fill="#475569" font-size="13">7</text>
+  <rect x="214" y="335" width="62" height="44" fill="#0f172a" stroke="#1e293b"/>
+  <text x="245" y="362" text-anchor="middle" fill="#475569" font-size="13">11</text>
+  <rect x="276" y="335" width="62" height="44" fill="#0f172a" stroke="#1e293b"/>
+  <text x="307" y="362" text-anchor="middle" fill="#475569" font-size="13">18</text>
+  <rect x="338" y="335" width="62" height="44" fill="#0f172a" stroke="#1e293b"/>
+  <text x="369" y="362" text-anchor="middle" fill="#475569" font-size="13">25</text>
+  <rect x="400" y="335" width="62" height="44" fill="#0f172a" stroke="#1e293b"/>
+  <text x="431" y="362" text-anchor="middle" fill="#475569" font-size="13">33</text>
+  <rect x="462" y="335" width="62" height="44" fill="#166534" stroke="#22c55e" stroke-width="2"/>
+  <text x="493" y="362" text-anchor="middle" fill="#e2e8f0" font-size="13" font-weight="600">41</text>
+  <rect x="524" y="335" width="62" height="44" fill="#0f172a" stroke="#1e293b"/>
+  <text x="555" y="362" text-anchor="middle" fill="#475569" font-size="13">56</text>
+  <rect x="586" y="335" width="62" height="44" fill="#0f172a" stroke="#1e293b"/>
+  <text x="617" y="362" text-anchor="middle" fill="#475569" font-size="13">62</text>
+  <rect x="648" y="335" width="62" height="44" fill="#0f172a" stroke="#1e293b"/>
+  <text x="679" y="362" text-anchor="middle" fill="#475569" font-size="13">78</text>
+  <rect x="710" y="335" width="62" height="44" fill="#0f172a" stroke="#1e293b"/>
+  <text x="741" y="362" text-anchor="middle" fill="#475569" font-size="13">90</text>
+  <text x="450" y="405" text-anchor="middle" fill="#22c55e" font-size="12">a[6] = 41 = target → 返回索引 6，查找结束</text>
+  <text x="450" y="438" text-anchor="middle" fill="#94a3b8" font-size="11">每轮候选区间长度减半：11 → 5 → 2 → 1，最多 ⌊log₂11⌋ + 1 = 4 次比较</text>
+  <text x="450" y="458" text-anchor="middle" fill="#6366f1" font-size="11">灰色 = 已被排除的元素；蓝色 = 当前候选区间；紫色 = 本轮 mid；绿色 = 命中</text>
+</svg></div></p>
+
+<h4>数学公式</h4>
+
+<p><strong>1. 递归式与时间复杂度</strong></p>
+
+<p>二分查找每比较一次就把问题规模缩小为原来的一半，其递归式为：</p>
+
+<p><div class="math-block">$$ T(n) = T\left(\left\lfloor \frac{n}{2} \right\rfloor\right) + O(1), \qquad T(1) = O(1) $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ n $：当前候选区间的元素个数</li>
+<li>$ T(n) $：在 $ n $ 个元素中完成一次查找所需的比较次数</li>
+<li>$ \lfloor \cdot \rfloor $：向下取整，因为元素个数只能是整数</li>
+<li>$ O(1) $：一次中点计算加一次比较，是常数开销</li>
+</ul>
+
+<p>展开递归式：$ T(n) = T(n/2) + c = T(n/4) + 2c = \cdots = T(1) + c\log_2 n $，因此 $ T(n) = O(\log_2 n) $，即<strong>对数时间复杂度</strong>。</p>
+
+<p><strong>2. 最多比较次数</strong></p>
+
+<p>对长度 $ n $ 的数组，二分查找的最坏比较次数为：</p>
+
+<p><div class="math-block">$$ k_{\max} = \left\lfloor \log_2 n \right\rfloor + 1 $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ k_{\max} $：最坏情况下执行的比较轮数</li>
+<li>$ \lfloor \log_2 n \rfloor $：把 $ n $ 连续除以 2 直到不大于 1 所需的次数</li>
+<li>$ +1 $：最后一次区间只剩 1 个元素时仍需比较一次</li>
+</ul>
+
+<p>例如 $ n = 10^9 $ 时 $ k_{\max} = 29 + 1 = 30 $；而线性查找最坏要 $ 10^9 $ 次，差距约 3300 万倍。</p>
+
+<p><strong>3. 中点公式与防溢出写法</strong></p>
+
+<p><div class="math-block">$$ mid = lo + \left\lfloor \frac{hi - lo}{2} \right\rfloor \quad \text{而不是} \quad mid = \left\lfloor \frac{lo + hi}{2} \right\rfloor $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ lo $：当前候选区间的左端点下标</li>
+<li>$ hi $：当前候选区间的右端点下标</li>
+<li>$ mid $：本轮参与比较的下标</li>
+<li>当 $ lo + hi $ 超过 32 位有符号整数上限（约 $ 2.15 \times 10^9 $）时，先加后除会溢出为负数，导致数组越界；先减后加则始终不超过 $ hi $，因此在 C/C++/Java 中必须使用左边这种写法（Python 整数无上限，但养成习惯仍有必要）。</li>
+</ul>
+
+<p><strong>4. 循环不变式（正确性的核心）</strong></p>
+
+<p>以 <code class="inline-code">lower_bound</code>（第一个 $ \ge x $ 的位置）为例，采用左闭右开区间 $ [lo, hi) $ 时，循环全程保持：</p>
+
+<p><div class="math-block">$$ a[lo] < x \quad \text{且} \quad a[hi] \ge x \quad (\text{越界视为哨兵}) $$</div></p>
+
+<p>每轮令 $ mid = lo + \lfloor (hi-lo)/2 \rfloor $：若 $ a[mid] < x $，说明 $ mid $ 及其左侧都不可能成为答案，令 $ lo = mid + 1 $；否则答案在 $ mid $ 或更左，令 $ hi = mid $。当 $ lo = hi $ 时循环结束，$ lo $ 即第一个 $ \ge x $ 的位置。<strong>不变式成立 ⇒ 终止时 $ lo $ 就是答案</strong>，这是比"背模板"更可靠的推导方式。</p>
+
+<p><strong>5. 二分答案的复杂度</strong></p>
+
+<p>设答案区间为 $ [L, R] $，单次判定代价为 $ C $，浮点精度要求为 $ \epsilon $，则：</p>
+
+<p><div class="math-block">$$ T = O\left(\log_2 \frac{R-L}{\epsilon} \times C\right) $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ L, R $：答案的上下界（必须保证最优解落在其中）</li>
+<li>$ \epsilon $：浮点二分允许的误差</li>
+<li>$ C $：一次 <code class="inline-code">check(x)</code> 判定的时间开销</li>
+<li>$ \log_2 \frac{R-L}{\epsilon} $：区间每轮减半，缩小到 $ \epsilon $ 所需轮数</li>
+</ul>
+
+<p>整数二分答案时 $ \epsilon = 1 $，轮数约为 $ \log_2(R-L+1) $。</p>
+
+<h4>核心要点</h4>
+<ul>
+<li><strong>前提是单调有序</strong>：数组必须按比较键升序（或降序）排列，否则"折半排除"的逻辑不成立。</li>
+<li><strong>区间语义必须唯一</strong>：闭区间 $ [lo, hi] $ 配 <code class="inline-code">while lo <= hi</code>；左闭右开 $ [lo, hi) $ 配 <code class="inline-code">while lo < hi</code>。两套模板不能混用。</li>
+<li><strong>收缩必须排除 mid</strong>：闭区间下 <code class="inline-code">lo = mid + 1</code> 或 <code class="inline-code">hi = mid - 1</code>；左闭右开下 <code class="inline-code">hi = mid</code>。写成 <code class="inline-code">lo = mid</code> 会死循环。</li>
+<li><strong>重复元素要选对变体</strong>：找任意一个用普通二分；找第一个用 <code class="inline-code">lower_bound</code>；找最后一个用 <code class="inline-code">upper_bound - 1</code>；统计出现次数用 <code class="inline-code">upper_bound - lower_bound</code>。</li>
+<li><strong>答案空间二分的关键是单调性</strong>：<code class="inline-code">check(x)</code> 必须满足"若 $ x $ 可行，则所有 $ \ge x $（或所有 $ \le x $）也可行"，否则二分不成立。</li>
+<li><strong>边界与空集</strong>：<code class="inline-code">lo = 0, hi = n</code> 时返回 $ n $ 表示"所有元素都小于 $ x $"，调用方必须判越界。</li>
+<li><strong>不要对链表、无序数据、频繁插入删除的结构用数组二分</strong>：前者无法 $ O(1) $ 随机访问，后者维护有序的成本高于收益。</li>
+</ul>
+
+<h4>技术细节与参数详解</h4>
+
+<blockquote>
+<p>二分查找没有"库函数式"的十几个超参数，它的"参数"是决定正确性与语义的一组结构性选择。下面把每个可调项按 API 参数的标准逐项拆开；最后再单列 Python <code class="inline-code">bisect</code> 的真实函数签名参数。</p>
+</blockquote>
+
+<p><strong>参数 1：搜索空间 <code class="inline-code">a</code>（有序数组）</strong></p>
+<ul>
+<li><strong>含义</strong>：被查找的序列，要求按比较键<strong>单调不减</strong>（允许重复）或单调不增。</li>
+<li><strong>类型</strong>：支持 $ O(1) $ 随机访问的序列，如 <code class="inline-code">list</code>、<code class="inline-code">array.array</code>、<code class="inline-code">numpy.ndarray</code>、C 数组；不能是 <code class="inline-code">list</code> 之外的链式结构。</li>
+<li><strong>默认值</strong>：无默认值，必须由调用方保证有序。</li>
+<li><strong>取值范围</strong>：长度 $ n \ge 0 $；元素类型必须支持 <code class="inline-code"><</code> 比较（或提供 <code class="inline-code">key</code> 函数）。</li>
+<li><strong>对结果的影响</strong>：若数组无序，二分可能返回错误下标且<strong>不会报错</strong>，是最隐蔽的 bug 来源；若有重复元素，"找到哪一个"取决于变体。</li>
+<li><strong>推荐设置</strong>：一次性排序后复用（排序 $ O(n\log n) $，之后每次查找 $ O(\log n) $）；若需要频繁插入，改用 <code class="inline-code">bisect.insort</code>（插入仍 $ O(n) $）或平衡树/跳表。</li>
+</ul>
+
+<p><strong>参数 2：目标值 <code class="inline-code">x</code>（target）</strong></p>
+<ul>
+<li><strong>含义</strong>：要查找的值，或要确定插入位置的值。</li>
+<li><strong>类型</strong>：与数组元素同类型且可比较；使用 <code class="inline-code">key</code> 时，<code class="inline-code">x</code> 是<strong>未经过 key 变换的原始值</strong>（Python 文档明确说明 key 不作用于 <code class="inline-code">x</code>）。</li>
+<li><strong>默认值</strong>：无。</li>
+<li><strong>取值范围</strong>：任意可比较值；可以小于最小值（返回 0）或大于最大值（返回 $ n $）。</li>
+<li><strong>对结果的影响</strong>：<code class="inline-code">x</code> 不存在时，普通二分返回 -1，<code class="inline-code">bisect</code> 返回插入点；两者语义不同。</li>
+<li><strong>推荐设置</strong>：查找"精确值"时优先用 <code class="inline-code">bisect_left</code> + 一次相等判断，避免自己处理边界。</li>
+</ul>
+
+<p><strong>参数 3：左边界 <code class="inline-code">lo</code></strong></p>
+<ul>
+<li><strong>含义</strong>：搜索区间的左端点，包含在候选范围内。</li>
+<li><strong>类型</strong>：整数下标。</li>
+<li><strong>默认值</strong>：<code class="inline-code">0</code>（Python <code class="inline-code">bisect</code> 的默认值）。</li>
+<li><strong>取值范围</strong>：$ 0 \le lo \le n $；允许 $ lo = n $（空区间）。</li>
+<li><strong>对结果的影响</strong>：把查找限制在子数组中；若 $ lo $ 大于真实答案位置，会漏掉答案；若 $ lo > hi $，返回 $ lo $ 且不查找。</li>
+<li><strong>推荐设置</strong>：分段查找（如按时间分片）时显式传入；普通全数组查找用默认值即可。</li>
+</ul>
+
+<p><strong>参数 4：右边界 <code class="inline-code">hi</code></strong></p>
+<ul>
+<li><strong>含义</strong>：搜索区间的右端点。<strong>注意语义随模板而变</strong>：闭区间模板中 <code class="inline-code">hi</code> 是"最后一个候选下标"（初始 $ n-1 $）；左闭右开模板中 <code class="inline-code">hi</code> 是"候选区间后一位"（初始 $ n $）。</li>
+<li><strong>类型</strong>：整数下标。</li>
+<li><strong>默认值</strong>：<code class="inline-code">len(a)</code>（Python <code class="inline-code">bisect</code> 采用左闭右开，默认 <code class="inline-code">hi = len(a)</code>）。</li>
+<li><strong>取值范围</strong>：$ 0 \le hi \le n $。</li>
+<li><strong>对结果的影响</strong>：<code class="inline-code">hi</code> 少 1 会漏掉最后一个元素；<code class="inline-code">hi</code> 多 1 在闭区间模板中会越界。</li>
+<li><strong>推荐设置</strong>：统一采用<strong>左闭右开</strong> <code class="inline-code">[lo, hi)</code>，可以直接用 <code class="inline-code">hi = len(a)</code>，天然支持空数组，且 <code class="inline-code">hi = mid</code> 的写法不易死循环。</li>
+</ul>
+
+<p><strong>参数 5：循环条件（<code class="inline-code">lo <= hi</code> 还是 <code class="inline-code">lo < hi</code>）</strong></p>
+<ul>
+<li><strong>含义</strong>：决定区间非空判定方式，必须与区间语义配对。</li>
+<li><strong>类型</strong>：布尔表达式。</li>
+<li><strong>默认值</strong>：无（模板的一部分）。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">lo <= hi</code>（闭区间）或 <code class="inline-code">lo < hi</code>（左闭右开）。</li>
+<li><strong>对结果的影响</strong>：闭区间配 <code class="inline-code">lo < hi</code> 会漏查最后一个元素；左闭右开配 <code class="inline-code">lo <= hi</code> 会在 $ lo = hi $ 时访问 <code class="inline-code">a[hi]</code> 越界。</li>
+<li><strong>推荐设置</strong>：初学阶段只掌握一套——<strong>左闭右开 + <code class="inline-code">while lo < hi</code> + <code class="inline-code">hi = mid</code></strong>，可同时覆盖查找、插入点、二分答案。</li>
+</ul>
+
+<p><strong>参数 6：中点计算 <code class="inline-code">mid</code></strong></p>
+<ul>
+<li><strong>含义</strong>：本轮参与比较的下标。</li>
+<li><strong>类型</strong>：整数。</li>
+<li><strong>默认值</strong>：无。</li>
+<li><strong>取值范围</strong>：$ lo \le mid < hi $（左闭右开）或 $ lo \le mid \le hi $（闭区间）。</li>
+<li><strong>对结果的影响</strong>：<code class="inline-code">(lo + hi) // 2</code> 在大数下可能溢出（C/Java）；取整方向影响重复元素的定位（向下取整配合 <code class="inline-code">hi = mid</code> 才能找到第一个）。</li>
+<li><strong>推荐设置</strong>：<code class="inline-code">mid = lo + (hi - lo) // 2</code>，既防溢出又保证向下取整。</li>
+</ul>
+
+<p><strong>参数 7：收缩规则（比较后的赋值）</strong></p>
+<ul>
+<li><strong>含义</strong>：根据 <code class="inline-code">a[mid]</code> 与 <code class="inline-code">x</code> 的大小关系丢弃不可能的一半。</li>
+<li><strong>类型</strong>：赋值语句。</li>
+<li><strong>默认值</strong>：无。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">lo = mid + 1</code> / <code class="inline-code">hi = mid - 1</code>（闭区间）或 <code class="inline-code">lo = mid + 1</code> / <code class="inline-code">hi = mid</code>（左闭右开）。</li>
+<li><strong>对结果的影响</strong>：收缩过少（如 <code class="inline-code">lo = mid</code>）会死循环；收缩过多（如 <code class="inline-code">hi = mid - 2</code>）会漏解。</li>
+<li><strong>推荐设置</strong>：牢记"<strong>mid 已经被比较过，必须被排除</strong>"；左闭右开时 <code class="inline-code">hi = mid</code> 是因为 <code class="inline-code">mid</code> 本身不在 <code class="inline-code">[lo, hi)</code> 内，等价于排除。</li>
+</ul>
+
+<p><strong>参数 8：返回值语义（命中下标 / 插入点 / 布尔）</strong></p>
+<ul>
+<li><strong>含义</strong>：函数返回什么，决定调用方如何处理"未找到"。</li>
+<li><strong>类型</strong>：整数下标或布尔值。</li>
+<li><strong>默认值</strong>：无。</li>
+<li><strong>取值范围</strong>：$ -1 $（未找到）、$ [0, n-1] $（命中）、$ [0, n] $（插入点）。</li>
+<li><strong>对结果的影响</strong>：返回 $ n $ 是合法的"插入到末尾"，调用方若直接 <code class="inline-code">a[ans]</code> 会越界；返回 -1 与返回 $ n $ 的区别常被混淆。</li>
+<li><strong>推荐设置</strong>：库函数风格统一用"插入点 + 越界检查"；业务代码可封装成 <code class="inline-code">index_of()</code> 返回 -1。</li>
+</ul>
+
+<p><strong>参数 9：<code class="inline-code">bisect_left</code> / <code class="inline-code">bisect_right</code> 的选择</strong></p>
+<ul>
+<li><strong>含义</strong>：<code class="inline-code">bisect_left(a, x)</code> 返回第一个 $ \ge x $ 的位置（左侧插入点）；<code class="inline-code">bisect_right(a, x)</code> 返回第一个 $ > x $ 的位置（右侧插入点）。</li>
+<li><strong>类型</strong>：枚举式选择。</li>
+<li><strong>默认值</strong>：无（两个独立函数）。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">left</code> 或 <code class="inline-code">right</code>。</li>
+<li><strong>对结果的影响</strong>：对重复元素，<code class="inline-code">left</code> 指向第一个，<code class="inline-code">right</code> 指向最后一个之后；两者之差即 $ x $ 的出现次数。</li>
+<li><strong>推荐设置</strong>：找下界用 <code class="inline-code">left</code>，找上界用 <code class="inline-code">right</code>；统计频次用 <code class="inline-code">right - left</code>。</li>
+</ul>
+
+<p><strong>参数 10：<code class="inline-code">key</code>（Python 3.10+ 的比较键函数）</strong></p>
+<ul>
+<li><strong>含义</strong>：从每个数组元素中提取用于比较的键，类似于 <code class="inline-code">list.sort(key=...)</code>。</li>
+<li><strong>类型</strong>：可调用对象 <code class="inline-code">Callable[[T], K]</code> 或 <code class="inline-code">None</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">None</code>（直接比较元素本身）。</li>
+<li><strong>取值范围</strong>：任意单参数函数；<strong>不会作用于待查找的 <code class="inline-code">x</code></strong>。</li>
+<li><strong>对结果的影响</strong>：可以对字典、对象、元组按某个字段二分；若 key 开销大且循环调用，会重复计算同一元素的键，拖慢查找。</li>
+<li><strong>推荐设置</strong>：key 较贵时，预计算 <code class="inline-code">keys = [key(e) for e in a]</code> 并对 <code class="inline-code">keys</code> 二分，再用下标取原元素；或给 key 加 <code class="inline-code">functools.cache</code>。</li>
+</ul>
+
+<p><strong>参数 11：二分答案的判定函数 <code class="inline-code">check(x)</code></strong></p>
+<ul>
+<li><strong>含义</strong>：判断"答案取 $ x $ 时是否可行"的单调谓词。</li>
+<li><strong>类型</strong>：<code class="inline-code">Callable[[int|float], bool]</code>。</li>
+<li><strong>默认值</strong>：无。</li>
+<li><strong>取值范围</strong>：必须在答案区间上呈现 <code class="inline-code">False...False, True...True</code>（或相反）的单调形态。</li>
+<li><strong>对结果的影响</strong>：谓词不单调是二分答案最常见的错误，会得到看似合理但完全错误的结果；<code class="inline-code">check</code> 内部若修改全局状态，还会破坏多次判定的独立性。</li>
+<li><strong>推荐设置</strong>：先用小数据暴力验证 <code class="inline-code">check</code> 的单调性，再上二分；<code class="inline-code">check</code> 尽量写成无副作用的纯函数。</li>
+</ul>
+
+<p><strong>参数 12：浮点二分的终止条件（<code class="inline-code">eps</code> 或固定迭代次数）</strong></p>
+<ul>
+<li><strong>含义</strong>：决定何时停止对实数答案的逼近。</li>
+<li><strong>类型</strong>：浮点数 <code class="inline-code">eps</code> 或整数 <code class="inline-code">iterations</code>。</li>
+<li><strong>默认值</strong>：无；常见 <code class="inline-code">eps = 1e-7</code>，或固定迭代 60～100 次。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">eps > 0</code>；迭代次数 $ [1, 200] $。</li>
+<li><strong>对结果的影响</strong>：<code class="inline-code">eps</code> 过大会精度不足；过小会因浮点舍入陷入死循环（<code class="inline-code">lo</code> 与 <code class="inline-code">hi</code> 相邻但中点仍等于端点）。</li>
+<li><strong>推荐设置</strong>：<strong>固定迭代 80～100 次</strong>最稳（每轮区间减半，100 轮足以把任何 double 区间压到机器精度），不要依赖 <code class="inline-code">while hi - lo > eps</code>。</li>
+</ul>
+
+<h4>代码示例</h4>
+
+<p><strong>示例 1：标准闭区间二分（查找任意一个等于 target 的下标）</strong></p>
+
+<p><pre class="code-block"><code class="language-python">def binary_search(a, target):
+    lo, hi = 0, len(a) - 1          # 闭区间 [lo, hi]，hi 指向最后一个元素
+    while lo &lt;= hi:                 # 区间非空时继续（lo == hi 时还有一个元素）
+        mid = lo + (hi - lo) // 2   # 防溢出的中点写法，向下取整
+        if a[mid] == target:        # 命中目标
+            return mid              # 立即返回下标
+        elif a[mid] &lt; target:       # 中点值偏小，目标只可能在右半
+            lo = mid + 1            # 排除 mid 本身，区间变为 [mid+1, hi]
+        else:                       # 中点值偏大，目标只可能在左半
+            hi = mid - 1            # 排除 mid 本身，区间变为 [lo, mid-1]
+    return -1                       # 区间耗尽仍未命中，返回 -1</code></pre></p>
+
+<p><strong>示例 2：<code class="inline-code">lower_bound</code> / <code class="inline-code">upper_bound</code>（左闭右开，工程最常用）</strong></p>
+
+<p><pre class="code-block"><code class="language-python">def lower_bound(a, x):
+    lo, hi = 0, len(a)              # 左闭右开 [lo, hi)，hi 可以等于 n
+    while lo &lt; hi:                  # 区间非空（至少一个候选）
+        mid = lo + (hi - lo) // 2   # 向下取整，保证 mid &lt; hi
+        if a[mid] &lt; x:              # mid 及其左侧都 &lt; x，不可能是答案
+            lo = mid + 1            # 答案在右半
+        else:                       # a[mid] &gt;= x，mid 可能是第一个
+            hi = mid                # 保留 mid，区间缩为 [lo, mid]
+    return lo                       # 循环结束时 lo == hi，即第一个 &gt;= x 的位置
+
+
+def upper_bound(a, x):
+    lo, hi = 0, len(a)              # 同样使用左闭右开区间
+    while lo &lt; hi:                  # 区间非空
+        mid = lo + (hi - lo) // 2   # 取中点
+        if a[mid] &lt;= x:             # mid 及其左侧都 &lt;= x，可以安全丢弃
+            lo = mid + 1            # 答案在右半
+        else:                       # a[mid] &gt; x，mid 可能是第一个 &gt; x 的位置
+            hi = mid                # 保留 mid
+    return lo                       # 返回第一个 &gt; x 的位置（可能为 n）
+
+
+def count_equal(a, x):
+    return upper_bound(a, x) - lower_bound(a, x)   # 两者之差就是 x 的出现次数
+
+
+nums = [1, 3, 3, 3, 5, 7, 9]        # 有序数组，含重复元素 3
+print(lower_bound(nums, 3))         # 输出 1：第一个 3 的下标
+print(upper_bound(nums, 3))         # 输出 4：最后一个 3 的下标 + 1
+print(count_equal(nums, 3))         # 输出 3：3 一共出现 3 次
+print(lower_bound(nums, 4))         # 输出 4：4 应插入的位置（保持有序）
+print(upper_bound(nums, 100))       # 输出 7：等于 n，表示插入到末尾</code></pre></p>
+
+<p><strong>示例 3：使用 Python 标准库 <code class="inline-code">bisect</code>（含 <code class="inline-code">key</code> 与区间限制）</strong></p>
+
+<p><pre class="code-block"><code class="language-python">import bisect                       # 导入标准库的二分模块
+
+scores = [60, 70, 80, 90]           # 有序的分数分界点
+print(bisect.bisect(scores, 85))    # 输出 3：85 应插入到 90 之前
+print(bisect.bisect_left(scores, 80))   # 输出 2：第一个 &gt;= 80 的位置
+print(bisect.bisect_right(scores, 80))  # 输出 3：第一个 &gt; 80 的位置
+
+movies = [(&quot;Jaws&quot;, 1975), (&quot;Titanic&quot;, 1997), (&quot;Aliens&quot;, 1986)]  # 待排序的电影列表
+movies.sort(key=lambda m: m[1])    # 按上映年份升序排序
+years = [m[1] for m in movies]     # 预计算年份键，避免 key 在二分中被反复调用
+pos = bisect.bisect_left(years, 1990)   # 找第一个年份 &gt;= 1990 的位置
+print(movies[pos])                  # 输出 (&quot;Titanic&quot;, 1997)：1990 年之后的第一部
+
+sub = [10, 20, 30, 40, 50, 60]      # 演示 lo/hi 限定子区间
+print(bisect.bisect_left(sub, 30, 2, 5))   # 只在 [2,5) 中查找，输出 2</code></pre></p>
+
+<p><strong>示例 4：二分答案（LeetCode 875「爱吃香蕉的珂珂」）</strong></p>
+
+<p><pre class="code-block"><code class="language-python">def min_eating_speed(piles, h):
+    def check(k):
+        hours = 0                              # 累计吃完所有香蕉所需小时数
+        for p in piles:                        # 遍历每一堆
+            hours += (p + k - 1) // k          # 向上取整：吃完 p 根需要 ceil(p/k) 小时
+        return hours &lt;= h                      # 在 h 小时内吃完则速度 k 可行
+
+    lo, hi = 1, max(piles)                     # 答案下界 1，上界为最大堆（再快也只吃一堆）
+    while lo &lt; hi:                             # 左闭右开式二分找最小可行速度
+        mid = lo + (hi - lo) // 2              # 取中点速度
+        if check(mid):                         # 若 mid 可行
+            hi = mid                           # 尝试更小的速度，保留 mid
+        else:                                  # 若 mid 不可行
+            lo = mid + 1                       # 速度必须更大
+    return lo                                  # 循环结束时 lo 即最小可行速度
+
+
+print(min_eating_speed([3, 6, 7, 11], 8))      # 输出 4：速度 4 时 1+2+2+3=8 小时
+print(min_eating_speed([30, 11, 23, 4, 20], 5))  # 输出 30：必须一小时吃完最大堆
+print(min_eating_speed([30, 11, 23, 4, 20], 6))  # 输出 23</code></pre></p>
+
+<p><strong>示例 5：浮点二分（求平方根，固定迭代次数）</strong></p>
+
+<p><pre class="code-block"><code class="language-python">def sqrt_binary(x):
+    if x &lt; 0:                                  # 负数没有实数平方根
+        raise ValueError(&quot;x must be non-negative&quot;)   # 抛出异常而不是返回 NaN
+    lo, hi = 0.0, max(1.0, x)                  # 答案区间：[0, max(1, x)] 保证覆盖
+    for _ in range(100):                       # 固定迭代 100 次，避免浮点死循环
+        mid = (lo + hi) / 2                    # 取区间中点
+        if mid * mid &lt; x:                      # 中点的平方仍小于 x
+            lo = mid                           # 答案在右半，抬高下界
+        else:                                  # 中点的平方不小于 x
+            hi = mid                           # 答案在左半，压低上界
+    return (lo + hi) / 2                       # 返回区间中点作为近似值
+
+
+print(sqrt_binary(2))                          # 输出约 1.414213562373095
+print(sqrt_binary(1e-12))                      # 输出约 1e-06：小数值也能正确处理
+print(sqrt_binary(1e12))                       # 输出 1000000.0：大数值不溢出</code></pre></p>
+
+<h4>复杂度分析</h4>
+
+<p><strong>时间复杂度</strong></p>
+
+<p>设数组长度为 $ n $。每一轮循环把候选区间长度从 $ m $ 变为 $ \lfloor m/2 \rfloor $ 或 $ \lceil m/2 \rceil - 1 $，即规模至少减半。设经过 $ k $ 轮后区间长度降为 1，则：</p>
+
+<p><div class="math-block">$$ \frac{n}{2^k} \approx 1 \;\Rightarrow\; k \approx \log_2 n $$</div></p>
+
+<p>因此循环最多执行 $ \lfloor \log_2 n \rfloor + 1 $ 次，每次只做一次加法、一次除法和一次比较，均为 $ O(1) $，故：</p>
+
+<p><div class="math-block">$$ T(n) = O(\log n) $$</div></p>
+
+<ul>
+<li>最好情况：第一次就命中，$ O(1) $；</li>
+<li>最坏情况：查找到区间为空，$ O(\log n) $；</li>
+<li>平均情况：$ O(\log n) $。</li>
+</ul>
+
+<p><strong>空间复杂度</strong></p>
+
+<ul>
+<li>迭代版本只使用 <code class="inline-code">lo</code>、<code class="inline-code">hi</code>、<code class="inline-code">mid</code> 三个整数变量，$ S(n) = O(1) $；</li>
+<li>递归版本每层产生一个栈帧，深度为 $ \log_2 n $，$ S(n) = O(\log n) $，工程上应优先写迭代版。</li>
+</ul>
+
+<p><strong>二分答案的复杂度</strong></p>
+
+<p>若答案区间大小为 $ R-L $，单次 <code class="inline-code">check</code> 代价为 $ C $，则总时间：</p>
+
+<p><div class="math-block">$$ T = O(C \log(R-L)) $$</div></p>
+
+<p>以「珂珂吃香蕉」为例，$ C = O(n) $（遍历所有堆），答案区间为 $ [1, \max(piles)] $，故总复杂度 $ O(n \log \max(piles)) $，远优于动态规划或枚举。</p>
+
+<p><strong>工程常数</strong></p>
+
+<p>二分查找的比较次数虽少，但每次比较都可能触发<strong>缓存未命中</strong>。对 $ 10^8 $ 级别的数组，二分的随机访问模式会导致大量 cache miss，实际耗时可能比"数据局部性好"的线性扫描更差；数据库因此使用 B+ 树（一次读一个页、页内再用二分），而不是直接在裸数组上二分。</p>
+
+<h4>应用场景</h4>
+<ul>
+<li><strong>有序数组精确查找</strong>：配置表、字典、白名单的快速命中判断。</li>
+<li><strong>插入位置定位</strong>：<code class="inline-code">bisect.insort</code> 维护有序列表，如排行榜、时间序列、订单簿价格档位。</li>
+<li><strong>区间统计</strong>：<code class="inline-code">upper_bound - lower_bound</code> 统计某个值的出现次数；配合前缀和可做范围计数。</li>
+<li><strong>版本/提交定位</strong>：<code class="inline-code">git bisect</code> 用二分在提交历史中定位引入 bug 的那一次提交；发布系统用二分定位"从哪个版本开始出错"。</li>
+<li><strong>二分答案</strong>：最小化最大值（分割数组、装船问题）、最大化最小值（Aggressive Cows）、最小可行速度/容量/时间。</li>
+<li><strong>数值计算</strong>：单调函数求根、平方根/对数/三角函数反解、浮点方程求解。</li>
+<li><strong>数据库与存储引擎</strong>：B+ 树页内二分、LSM-Tree 的 SSTable 索引块查找、列式存储的字典页定位。</li>
+<li><strong>日志与监控</strong>：按时间戳有序的日志文件中二分定位时间窗口的起止行。</li>
+</ul>
+
+<h4>参考文档</h4>
+<ul>
+<li><a href="https://docs.python.org/3/library/bisect.html" target="_blank" class="ref-link">Python 官方文档：bisect — Array bisection algorithm</a></li>
+<li><a href="https://github.com/python/cpython/blob/main/Lib/bisect.py" target="_blank" class="ref-link">CPython 源码：Lib/bisect.py</a></li>
+<li><a href="https://cp-algorithms.com/num_methods/binary_search.html" target="_blank" class="ref-link">cp-algorithms：Binary Search</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Binary_search_algorithm" target="_blank" class="ref-link">Wikipedia：Binary search algorithm</a></li>
+<li><a href="https://leetcode.cn/problems/binary-search/" target="_blank" class="ref-link">LeetCode 704：Binary Search</a></li>
+<li><a href="https://leetcode.cn/problems/find-first-and-last-position-of-element-in-sorted-array/" target="_blank" class="ref-link">LeetCode 34：在排序数组中查找元素的第一个和最后一个位置</a></li>
+<li><a href="https://leetcode.cn/problems/koko-eating-bananas/" target="_blank" class="ref-link">LeetCode 875：爱吃香蕉的珂珂</a></li>
+</ul>
+
+<hr>
+
+<blockquote>
+<p>AI生成</p>
+</blockquote>
+
+<h3>高斯混合模型 GMM</h3>
+
+<p><strong>类别</strong>：无监督学习 | <strong>难度</strong>：中等</p>
+
+<h4>算法简介</h4>
+
+<p>高斯混合模型（Gaussian Mixture Model，GMM）用 <strong>$ K $ 个高斯分布的加权和</strong>来刻画数据的整体分布：</p>
+
+<p><div class="math-block">$$ p(x) = \sum_{k=1}^{K} \pi_k \, \mathcal{N}(x \mid \mu_k, \Sigma_k) $$</div></p>
+
+<p>它假设每个样本都由某个<strong>隐变量</strong> $ z \in \{1,\dots,K\} $ 生成：先按概率 $ \pi_k $ 选择第 $ k $ 个高斯分量，再从该分量中采样出 $ x $。因此 GMM 是一种<strong>生成式概率模型</strong>，既能做密度估计（给出任意点的概率密度），也能做<strong>软聚类</strong>（给出样本属于每个簇的后验概率，而不是像 K-Means 那样硬性分配）。</p>
+
+<p>GMM 的参数估计用 <strong>EM 算法</strong>（Expectation-Maximization）：E 步在给定当前参数下计算每个样本属于各分量的后验概率（责任度 $ \gamma_{ik} $）；M 步把这些责任度当作"软标签"，用加权最大似然重新估计 $ \pi_k $、$ \mu_k $、$ \Sigma_k $；两步交替，对数似然单调不降，直到收敛。相比 K-Means，GMM 允许簇具有不同的<strong>形状、方向和大小</strong>（由完整协方差矩阵描述），因此能拟合椭球状、倾斜、尺度差异很大的簇；代价是参数更多、对初始化更敏感、计算量更大（$ d $ 维下每次迭代含 $ d^3 $ 的矩阵分解）。</p>
+
+<h4>原理示意图</h4>
+
+<p><div class="algo-image"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 900 480" font-family="sans-serif">
+  <rect width="900" height="480" fill="#1e293b" rx="12"/>
+  <text x="450" y="28" text-anchor="middle" fill="#818cf8" font-size="15" font-weight="600">高斯混合模型：3 个高斯分量叠加成多峰分布，EM 交替估计参数</text>
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="6" refX="4" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#6366f1"/>
+    </marker>
+    <marker id="arrow2" markerWidth="8" markerHeight="6" refX="4" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#f97316"/>
+    </marker>
+  </defs>
+
+  <!-- 坐标轴 -->
+  <line x1="60" y1="300" x2="600" y2="300" stroke="#475569" stroke-width="1.5"/>
+  <line x1="60" y1="300" x2="60" y2="70" stroke="#475569" stroke-width="1.5"/>
+  <text x="596" y="318" text-anchor="end" fill="#94a3b8" font-size="11">x</text>
+  <text x="48" y="76" text-anchor="end" fill="#94a3b8" font-size="11">p(x)</text>
+
+  <!-- 三个高斯分量曲线 -->
+  <path d="M 65 300 C 110 300 155 130 200 120 C 245 130 290 300 335 300" fill="none" stroke="#6366f1" stroke-width="2.5"/>
+  <path d="M 155 300 C 220 300 265 185 320 175 C 375 185 420 300 485 300" fill="none" stroke="#22c55e" stroke-width="2.5"/>
+  <path d="M 331 300 C 380 300 415 205 445 195 C 475 205 510 300 559 300" fill="none" stroke="#f97316" stroke-width="2.5"/>
+
+  <!-- 均值虚线 -->
+  <line x1="200" y1="120" x2="200" y2="300" stroke="#6366f1" stroke-width="1.2" stroke-dasharray="5,4"/>
+  <line x1="320" y1="175" x2="320" y2="300" stroke="#22c55e" stroke-width="1.2" stroke-dasharray="5,4"/>
+  <line x1="445" y1="195" x2="445" y2="300" stroke="#f97316" stroke-width="1.2" stroke-dasharray="5,4"/>
+
+  <!-- 分量标注 -->
+  <text x="200" y="110" text-anchor="middle" fill="#818cf8" font-size="11">分量 1：π₁=0.50</text>
+  <text x="200" y="314" text-anchor="middle" fill="#94a3b8" font-size="11">μ₁</text>
+  <text x="320" y="165" text-anchor="middle" fill="#4ade80" font-size="11">分量 2：π₂=0.30</text>
+  <text x="320" y="314" text-anchor="middle" fill="#94a3b8" font-size="11">μ₂</text>
+  <text x="445" y="185" text-anchor="middle" fill="#fb923c" font-size="11">分量 3：π₃=0.20</text>
+  <text x="445" y="314" text-anchor="middle" fill="#94a3b8" font-size="11">μ₃</text>
+
+  <!-- 图例 -->
+  <text x="70" y="52" fill="#94a3b8" font-size="11">实线：各分量密度 πₖ·N(x | μₖ, Σₖ)</text>
+  <text x="330" y="52" fill="#94a3b8" font-size="11">虚线：分量均值 μₖ，权重之和 Σπₖ = 1</text>
+
+  <!-- EM 循环 -->
+  <text x="450" y="348" text-anchor="middle" fill="#c4b5fd" font-size="13" font-weight="600">EM 算法：E 步与 M 步交替，直到对数似然收敛</text>
+
+  <rect x="25" y="365" width="190" height="52" rx="8" fill="#334155" stroke="#6366f1"/>
+  <text x="120" y="386" text-anchor="middle" fill="#e2e8f0" font-size="12">① 初始化 π, μ, Σ</text>
+  <text x="120" y="405" text-anchor="middle" fill="#94a3b8" font-size="10">K-Means 或随机初始化</text>
+
+  <line x1="215" y1="391" x2="240" y2="391" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <rect x="245" y="365" width="190" height="52" rx="8" fill="#1e3a5f" stroke="#6366f1"/>
+  <text x="340" y="386" text-anchor="middle" fill="#e2e8f0" font-size="12">② E 步：算责任度 γᵢₖ</text>
+  <text x="340" y="405" text-anchor="middle" fill="#94a3b8" font-size="10">γᵢₖ ∝ πₖ·N(xᵢ | μₖ, Σₖ)</text>
+
+  <line x1="435" y1="391" x2="460" y2="391" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <rect x="465" y="365" width="190" height="52" rx="8" fill="#1e3a5f" stroke="#6366f1"/>
+  <text x="560" y="386" text-anchor="middle" fill="#e2e8f0" font-size="12">③ M 步：更新 π, μ, Σ</text>
+  <text x="560" y="405" text-anchor="middle" fill="#94a3b8" font-size="10">用 γᵢₖ 作软标签加权估计</text>
+
+  <line x1="655" y1="391" x2="680" y2="391" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <rect x="685" y="365" width="190" height="52" rx="8" fill="#166534" stroke="#22c55e"/>
+  <text x="780" y="386" text-anchor="middle" fill="#e2e8f0" font-size="12">④ 收敛判定</text>
+  <text x="780" y="405" text-anchor="middle" fill="#86efac" font-size="10">|L(θᵗ⁺¹) − L(θᵗ)| &lt; tol ?</text>
+
+  <!-- 未收敛回环 -->
+  <path d="M 780 417 L 780 448 L 340 448 L 340 419" fill="none" stroke="#f97316" stroke-width="1.8" stroke-dasharray="5,4" marker-end="url(#arrow2)"/>
+  <text x="560" y="465" text-anchor="middle" fill="#fb923c" font-size="11">未收敛：回到 E 步继续迭代（对数似然单调不减）</text>
+  <text x="875" y="465" text-anchor="end" fill="#86efac" font-size="11">收敛 → 输出参数</text>
+</svg></div></p>
+
+<h4>数学公式</h4>
+
+<p><strong>1. 混合模型的定义</strong></p>
+
+<p><div class="math-block">$$ p(x \mid \theta) = \sum_{k=1}^{K} \pi_k \, \mathcal{N}(x \mid \mu_k, \Sigma_k) $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ K $：高斯分量的个数，即"软簇"的数量，对应 <code class="inline-code">n_components</code></li>
+<li>$ \pi_k $：第 $ k $ 个分量的<strong>混合权重</strong>（先验概率），满足 $ \pi_k \ge 0 $ 且 $ \sum_{k=1}^{K}\pi_k = 1 $</li>
+<li>$ \mu_k \in \mathbb{R}^{d} $：第 $ k $ 个分量的均值向量（$ d $ 为特征维数）</li>
+<li>$ \Sigma_k \in \mathbb{R}^{d \times d} $：第 $ k $ 个分量的协方差矩阵，必须对称正定</li>
+<li>$ \mathcal{N}(x \mid \mu_k, \Sigma_k) $：多元高斯密度函数</li>
+<li>$ \theta = \{\pi_k, \mu_k, \Sigma_k\}_{k=1}^{K} $：全部待估参数</li>
+</ul>
+
+<p>多元高斯密度的展开式为：</p>
+
+<p><div class="math-block">$$ \mathcal{N}(x \mid \mu, \Sigma) = \frac{1}{(2\pi)^{d/2}|\Sigma|^{1/2}} \exp\left(-\frac{1}{2}(x-\mu)^{\top}\Sigma^{-1}(x-\mu)\right) $$</div></p>
+
+<p>其中 $ |\Sigma| $ 是协方差矩阵的行列式，$ \Sigma^{-1} $ 是逆矩阵，$ (x-\mu)^{\top}\Sigma^{-1}(x-\mu) $ 是<strong>马氏距离的平方</strong>（考虑了特征间的相关性与尺度）。</p>
+
+<p><strong>2. 对数似然与隐变量</strong></p>
+
+<p>对 $ N $ 个独立样本 $ X = \{x_1,\dots,x_N\} $，对数似然为：</p>
+
+<p><div class="math-block">$$ \ln p(X \mid \theta) = \sum_{i=1}^{N} \ln \left( \sum_{k=1}^{K} \pi_k \, \mathcal{N}(x_i \mid \mu_k, \Sigma_k) \right) $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ N $：样本总数</li>
+<li>$ x_i $：第 $ i $ 个样本（$ d $ 维向量）</li>
+<li>外层求和遍历样本，内层求和遍历分量</li>
+</ul>
+
+<p>由于对数内有求和号，直接求导无法得到闭式解，因此引入隐变量 $ z_i \in \{1,\dots,K\} $ 表示"第 $ i $ 个样本由哪个分量生成"，并用 EM 算法迭代求解。</p>
+
+<p><strong>3. E 步：责任度（后验概率）</strong></p>
+
+<p><div class="math-block">$$ \gamma_{ik} = \frac{\pi_k \, \mathcal{N}(x_i \mid \mu_k, \Sigma_k)}{\sum_{j=1}^{K} \pi_j \, \mathcal{N}(x_i \mid \mu_j, \Sigma_j)} $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ \gamma_{ik} $：第 $ i $ 个样本属于第 $ k $ 个分量的<strong>后验概率</strong>（责任度），满足 $ \sum_k \gamma_{ik} = 1 $</li>
+<li>分子：先验权重 × 该分量下的似然</li>
+<li>分母：所有分量的加权似然之和，即样本的边缘密度 $ p(x_i) $</li>
+</ul>
+
+<p>$ \gamma_{ik} $ 就是"软聚类"的归属度：$ \gamma_{ik} = 0.9 $ 表示该样本有 90% 的概率来自第 $ k $ 个分量。K-Means 可以看作 $ \gamma_{ik} $ 取 0/1 的硬分配极限。</p>
+
+<p><strong>4. M 步：参数更新</strong></p>
+
+<p><div class="math-block">$$ \pi_k = \frac{N_k}{N}, \qquad \mu_k = \frac{1}{N_k}\sum_{i=1}^{N}\gamma_{ik}x_i, \qquad \Sigma_k = \frac{1}{N_k}\sum_{i=1}^{N}\gamma_{ik}(x_i-\mu_k)(x_i-\mu_k)^{\top} $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ N_k = \sum_{i=1}^{N}\gamma_{ik} $：第 $ k $ 个分量的<strong>有效样本数</strong>（软计数）</li>
+<li>$ \pi_k $：该分量的权重，等于它"分到"的样本比例</li>
+<li>$ \mu_k $：以责任度为权重的样本均值</li>
+<li>$ \Sigma_k $：以责任度为权重的协方差，刻画该簇的形状、方向和尺度</li>
+</ul>
+
+<p>这三个公式就是"加权最大似然估计"：把每个样本按 $ \gamma_{ik} $ 拆分到各个分量，再分别计算均值与协方差。</p>
+
+<p><strong>5. 数值稳定的对数似然（log-sum-exp）</strong></p>
+
+<p>直接计算 $ \ln\sum_k \exp(\cdot) $ 时，若密度极小会下溢为 0，若极大则上溢为 <code class="inline-code">inf</code>。工程实现统一用：</p>
+
+<p><div class="math-block">$$ \ln p(x_i) = m_i + \ln \sum_{k=1}^{K}\exp\left(\ln \pi_k + \ln \mathcal{N}(x_i \mid \mu_k,\Sigma_k) - m_i\right), \quad m_i = \max_k\left(\ln \pi_k + \ln \mathcal{N}(x_i \mid \mu_k,\Sigma_k)\right) $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ m_i $：第 $ i $ 个样本在所有分量上的最大对数得分，用来把指数项平移到 $ \le 0 $ 的安全区间</li>
+<li>减去 $ m_i $ 再在外部加回，数学上恒等，数值上避免溢出</li>
+<li><code class="inline-code">sklearn</code> 内部同样使用对数域计算与 Cholesky 分解，而不是直接算概率密度</li>
+</ul>
+
+<p><strong>6. 模型选择：BIC / AIC</strong></p>
+
+<p><div class="math-block">$$ \mathrm{BIC} = -2\ln \hat{L} + p\ln N, \qquad \mathrm{AIC} = -2\ln \hat{L} + 2p $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ \hat{L} $：收敛后的最大似然值（<code class="inline-code">model.lower_bound_</code> 指数值）</li>
+<li>$ p $：模型自由参数个数（随 <code class="inline-code">covariance_type</code> 变化，见下表）</li>
+<li>$ N $：样本数</li>
+<li>BIC 对参数个数惩罚更重（$ \ln N > 2 $ 当 $ N > 7 $），更倾向简单模型；AIC 更倾向拟合优度</li>
+</ul>
+
+<p>参数个数 $ p $ 的计算（$ K $ 个分量、$ d $ 维特征）：</p>
+
+<div class="table-wrapper"><table class="algo-table"><thead><tr><th>covariance_type</th><th>每个分量的协方差参数</th><th>总参数个数 $ p $</th></tr></thead><tbody><tr><td><code class="inline-code">full</code></td><td>$ d(d+1)/2 $</td><td>$ K\cdot d(d+1)/2 + Kd + (K-1) $</td></tr><tr><td><code class="inline-code">tied</code></td><td>$ d(d+1)/2 $（共享）</td><td>$ d(d+1)/2 + Kd + (K-1) $</td></tr><tr><td><code class="inline-code">diag</code></td><td>$ d $</td><td>$ 2Kd + (K-1) $</td></tr><tr><td><code class="inline-code">spherical</code></td><td>$ 1 $</td><td>$ Kd + K + (K-1) $</td></tr></tbody></table></div>
+
+<h4>核心要点</h4>
+<ul>
+<li><strong>GMM 是生成模型，不是判别模型</strong>：它建模 $ p(x) $，因此可以采样新样本、计算任意点的密度、做异常检测。</li>
+<li><strong>软聚类</strong>：<code class="inline-code">predict_proba</code> 给出归属概率，比 K-Means 的硬标签包含更多信息；不确定性高的样本（最大概率接近 $ 1/K $）往往位于簇边界。</li>
+<li><strong>协方差类型决定模型容量</strong>：<code class="inline-code">full</code> 最灵活但参数最多、最易过拟合；<code class="inline-code">diag</code>/<code class="inline-code">spherical</code> 参数少、更稳，适合高维或小样本。</li>
+<li><strong>EM 只保证收敛到局部最优</strong>：结果依赖初始化，<code class="inline-code">n_init > 1</code> 多次重启取最优是必要实践。</li>
+<li><strong>协方差可能奇异</strong>：当某个分量只剩极少数样本、或特征高度共线时，$ \Sigma_k $ 接近奇异，似然会发散到无穷；<code class="inline-code">reg_covar</code> 在对角线加一个小常数是标准修复。</li>
+<li><strong>特征尺度必须统一</strong>：GMM 用马氏距离，理论上对线性缩放不变，但数值优化与正则项受尺度影响，实践上仍建议标准化。</li>
+<li><strong>标签不可识别</strong>：分量的编号是任意的，多次运行可能得到"交换了编号"的同一解，比较结果时要先对齐标签。</li>
+<li><strong>K 的选择没有唯一答案</strong>：优先用 BIC 扫一遍 $ K $，再结合业务可解释性与轮廓系数综合判断。</li>
+</ul>
+
+<h4>技术细节与参数详解</h4>
+
+<blockquote>
+<p>以下参数以 <code class="inline-code">sklearn.mixture.GaussianMixture</code> 为准（scikit-learn 1.9 文档），默认值与形状均按官方 API 说明。每个参数都给出含义、类型、默认值、取值范围、影响与推荐设置。</p>
+</blockquote>
+
+<p><strong>参数 1：<code class="inline-code">n_components</code>（分量个数 K）</strong></p>
+<ul>
+<li><strong>含义</strong>：混合模型中高斯分量的数量，等价于"软簇"的个数。</li>
+<li><strong>类型</strong>：<code class="inline-code">int</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">1</code>。</li>
+<li><strong>取值范围</strong>：$ 1 \le K \le N $；实际建议 $ 2 \le K \le 10 $ 起步，再按 BIC 扩展。</li>
+<li><strong>对结果的影响</strong>：$ K $ 太小欠拟合（多峰被压成单峰）；$ K $ 太大过拟合（每个分量退化到单个样本，似然趋于无穷），且训练时间线性增长。</li>
+<li><strong>推荐设置</strong>：用 BIC 在候选集合 $ \{1,2,\dots,10\} $ 上扫描；若无监督信息，选 BIC 最小且分量权重不出现大量接近 0 的模型。</li>
+</ul>
+
+<p><strong>参数 2：<code class="inline-code">covariance_type</code>（协方差类型）</strong></p>
+<ul>
+<li><strong>含义</strong>：约束各分量协方差矩阵的结构，控制模型容量与参数数量。</li>
+<li><strong>类型</strong>：<code class="inline-code">str</code>，枚举 <code class="inline-code">{'full', 'tied', 'diag', 'spherical'}</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">'full'</code>。</li>
+<li><strong>取值范围</strong>：四选一。</li>
+<li><strong>对结果的影响</strong>：</li>
+<li><code class="inline-code">full</code>：每个分量独立的完整协方差，可拟合任意方向的椭球，参数最多（$ O(Kd^2) $），小样本易过拟合；</li>
+<li><code class="inline-code">tied</code>：所有分量共享一个协方差，只学"整体形状"，适合各簇形状相似、样本量不均衡的场景；</li>
+<li><code class="inline-code">diag</code>：每个分量独立的对角协方差，椭圆轴与坐标轴平行，忽略特征相关性，参数量 $ O(Kd) $；</li>
+<li><code class="inline-code">spherical</code>：每个分量只有一个方差，簇为球体，容量最小、最稳。</li>
+<li><strong>推荐设置</strong>：样本充足（$ N \gg Kd^2 $）用 <code class="inline-code">full</code>；高维（$ d > 50 $）或样本少用 <code class="inline-code">diag</code>；各簇形状一致用 <code class="inline-code">tied</code>；做基线或超大数据用 <code class="inline-code">spherical</code>。</li>
+</ul>
+
+<p><strong>参数 3：<code class="inline-code">tol</code>（收敛阈值）</strong></p>
+<ul>
+<li><strong>含义</strong>：EM 迭代的停止条件——平均下界增益低于该值时停止。</li>
+<li><strong>类型</strong>：<code class="inline-code">float</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">1e-3</code>。</li>
+<li><strong>取值范围</strong>：$ (0, +\infty) $，常用 $ 10^{-3} \sim 10^{-6} $。</li>
+<li><strong>对结果的影响</strong>：越大越早停、速度快但参数未充分收敛；越小迭代越久、精度更高，但过小可能因浮点误差空转。</li>
+<li><strong>推荐设置</strong>：默认 <code class="inline-code">1e-3</code> 适合大多数场景；对参数精度要求高（如科学计算）用 <code class="inline-code">1e-6</code>，同时把 <code class="inline-code">max_iter</code> 提高到 300～500。</li>
+</ul>
+
+<p><strong>参数 4：<code class="inline-code">reg_covar</code>（协方差正则项）</strong></p>
+<ul>
+<li><strong>含义</strong>：加在协方差矩阵对角线上的非负常数，保证其正定、可逆。</li>
+<li><strong>类型</strong>：<code class="inline-code">float</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">1e-6</code>。</li>
+<li><strong>取值范围</strong>：$ [0, +\infty) $，常用 $ 10^{-6} \sim 10^{-3} $。</li>
+<li><strong>对结果的影响</strong>：太小无法阻止奇异（似然爆炸、<code class="inline-code">lower_bound_</code> 变成很大的正数）；太大会把所有簇"撑圆"，抹掉真实的形状差异。</li>
+<li><strong>推荐设置</strong>：特征已标准化时用 <code class="inline-code">1e-6</code>；特征量纲大或存在共线特征时用 <code class="inline-code">1e-4</code>～<code class="inline-code">1e-3</code>；出现 <code class="inline-code">ConvergenceWarning</code> 或似然异常时优先调大它。</li>
+</ul>
+
+<p><strong>参数 5：<code class="inline-code">max_iter</code>（最大迭代次数）</strong></p>
+<ul>
+<li><strong>含义</strong>：EM 允许执行的最大轮数，防止不收敛时无限循环。</li>
+<li><strong>类型</strong>：<code class="inline-code">int</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">100</code>。</li>
+<li><strong>取值范围</strong>：$ [1, +\infty) $，常用 100～1000。</li>
+<li><strong>对结果的影响</strong>：太小会未收敛就停止（<code class="inline-code">converged_ = False</code>）；太大只影响最坏情况耗时，不影响已收敛的结果。</li>
+<li><strong>推荐设置</strong>：默认 100 通常够用；若 <code class="inline-code">n_iter_</code> 接近 <code class="inline-code">max_iter</code>，说明未收敛，提高到 300～500 并检查 <code class="inline-code">tol</code>、<code class="inline-code">reg_covar</code> 与特征尺度。</li>
+</ul>
+
+<p><strong>参数 6：<code class="inline-code">n_init</code>（初始化次数）</strong></p>
+<ul>
+<li><strong>含义</strong>：独立运行 EM 的次数，保留下界（对数似然）最高的那次结果。</li>
+<li><strong>类型</strong>：<code class="inline-code">int</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">1</code>。</li>
+<li><strong>取值范围</strong>：$ [1, +\infty) $，常用 3～10。</li>
+<li><strong>对结果的影响</strong>：EM 对初值敏感，单次运行可能落入较差局部最优；多次初始化能显著提升解的质量，代价是时间线性增加。</li>
+<li><strong>推荐设置</strong>：生产环境用 <code class="inline-code">n_init=5</code>～<code class="inline-code">10</code>；调试阶段可先用 1 快速试跑。</li>
+</ul>
+
+<p><strong>参数 7：<code class="inline-code">init_params</code>（初始化方式）</strong></p>
+<ul>
+<li><strong>含义</strong>：指定权重、均值、精度的初始化策略。</li>
+<li><strong>类型</strong>：<code class="inline-code">str</code>，枚举 <code class="inline-code">{'kmeans', 'k-means++', 'random', 'random_from_data'}</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">'kmeans'</code>。</li>
+<li><strong>取值范围</strong>：四选一（<code class="inline-code">k-means++</code> 与 <code class="inline-code">random_from_data</code> 在 1.1 版本加入）。</li>
+<li><strong>对结果的影响</strong>：</li>
+<li><code class="inline-code">kmeans</code>：先跑 K-Means 用其簇标签初始化责任度，通常最稳、收敛最快；</li>
+<li><code class="inline-code">k-means++</code>：用 k-means++ 的分散策略选初始均值，兼顾稳定性与随机性；</li>
+<li><code class="inline-code">random</code>：随机初始化责任度，方差大、可能很慢；</li>
+<li><code class="inline-code">random_from_data</code>：从数据中随机选点作为初始均值，简单但可能选到离群点。</li>
+<li><strong>推荐设置</strong>：默认 <code class="inline-code">'kmeans'</code>；若 K-Means 因簇形状非球形而失效，试 <code class="inline-code">'k-means++'</code> 或 <code class="inline-code">'random_from_data'</code>。</li>
+</ul>
+
+<p><strong>参数 8：<code class="inline-code">weights_init</code>（初始权重）</strong></p>
+<ul>
+<li><strong>含义</strong>：用户直接指定的各分量初始混合权重。</li>
+<li><strong>类型</strong>：array-like，形状 <code class="inline-code">(n_components,)</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">None</code>（由 <code class="inline-code">init_params</code> 决定）。</li>
+<li><strong>取值范围</strong>：每个元素 $ \ge 0 $，总和为 1。</li>
+<li><strong>对结果的影响</strong>：给定后不再使用 <code class="inline-code">init_params</code> 初始化权重；不合理的权重（如某个分量接近 0）会让该分量永远得不到样本。</li>
+<li><strong>推荐设置</strong>：有先验业务比例时使用（如已知三类客户占比 5:3:2）；否则保持 <code class="inline-code">None</code>。</li>
+</ul>
+
+<p><strong>参数 9：<code class="inline-code">means_init</code>（初始均值）</strong></p>
+<ul>
+<li><strong>含义</strong>：用户直接指定的各分量初始均值。</li>
+<li><strong>类型</strong>：array-like，形状 <code class="inline-code">(n_components, n_features)</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">None</code>。</li>
+<li><strong>取值范围</strong>：任意实数矩阵，形状必须与数据维度一致。</li>
+<li><strong>对结果的影响</strong>：好的初值能让 EM 快速收敛到合理解；错误初值会导致分量"抢样本"或直接退化。</li>
+<li><strong>推荐设置</strong>：可用 K-Means 的 <code class="inline-code">cluster_centers_</code>、或业务上已知的典型样本作为初值；一般保持 <code class="inline-code">None</code>。</li>
+</ul>
+
+<p><strong>参数 10：<code class="inline-code">precisions_init</code>（初始精度矩阵）</strong></p>
+<ul>
+<li><strong>含义</strong>：用户直接指定的初始精度矩阵（协方差矩阵的逆）。</li>
+<li><strong>类型</strong>：array-like，形状随 <code class="inline-code">covariance_type</code> 变化。</li>
+<li><strong>默认值</strong>：<code class="inline-code">None</code>。</li>
+<li><strong>取值范围</strong>：形状必须为 <code class="inline-code">(K,)</code>（spherical）、<code class="inline-code">(d,d)</code>（tied）、<code class="inline-code">(K,d)</code>（diag）、<code class="inline-code">(K,d,d)</code>（full），且每个矩阵对称正定。</li>
+<li><strong>对结果的影响</strong>：直接决定初始簇形状；设置不当会导致奇异或收敛到退化解。</li>
+<li><strong>推荐设置</strong>：除非有强先验，否则保持 <code class="inline-code">None</code>；需要热启动时优先用 <code class="inline-code">warm_start</code>。</li>
+</ul>
+
+<p><strong>参数 11：<code class="inline-code">random_state</code>（随机种子）</strong></p>
+<ul>
+<li><strong>含义</strong>：控制初始化与 <code class="inline-code">sample()</code> 采样的随机数生成器。</li>
+<li><strong>类型</strong>：<code class="inline-code">int</code>、<code class="inline-code">RandomState</code> 实例或 <code class="inline-code">None</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">None</code>。</li>
+<li><strong>取值范围</strong>：任意整数；相同整数保证可复现。</li>
+<li><strong>对结果的影响</strong>：影响 <code class="inline-code">kmeans</code>/<code class="inline-code">random</code> 初始化的具体取值，进而影响最终局部最优；不影响算法本身。</li>
+<li><strong>推荐设置</strong>：实验与线上训练固定为某个整数（如 <code class="inline-code">42</code>），保证结果可复现、问题可追溯。</li>
+</ul>
+
+<p><strong>参数 12：<code class="inline-code">warm_start</code>（热启动）</strong></p>
+<ul>
+<li><strong>含义</strong>：为 <code class="inline-code">True</code> 时，用上一次 <code class="inline-code">fit()</code> 的结果作为下一次 <code class="inline-code">fit()</code> 的初值。</li>
+<li><strong>类型</strong>：<code class="inline-code">bool</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">False</code>。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">True</code> / <code class="inline-code">False</code>。</li>
+<li><strong>对结果的影响</strong>：在相似数据上重复拟合时可加速收敛；此时 <code class="inline-code">n_init</code> 被忽略，只在第一次调用时做一次初始化。</li>
+<li><strong>推荐设置</strong>：在线学习/增量更新场景设为 <code class="inline-code">True</code>；一次性批量训练保持 <code class="inline-code">False</code>，以免继承坏初值。</li>
+</ul>
+
+<p><strong>参数 13：<code class="inline-code">verbose</code> 与 <code class="inline-code">verbose_interval</code>（日志与打印间隔）</strong></p>
+<ul>
+<li><strong>含义</strong>：<code class="inline-code">verbose</code> 控制是否打印初始化与每轮迭代信息；<code class="inline-code">verbose_interval</code> 控制每隔多少轮打印一次。</li>
+<li><strong>类型</strong>：<code class="inline-code">int</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">verbose=0</code>，<code class="inline-code">verbose_interval=10</code>。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">verbose</code> 取 0/1/2（≥2 还会打印对数似然与耗时）；<code class="inline-code">verbose_interval >= 1</code>。</li>
+<li><strong>对结果的影响</strong>：只影响日志输出，不影响数值结果；高频打印会拖慢训练。</li>
+<li><strong>推荐设置</strong>：调试时 <code class="inline-code">verbose=1</code>，生产环境保持 0。</li>
+</ul>
+
+<p><strong>输出属性（模型的"返回值参数"）</strong></p>
+<ul>
+<li><strong><code class="inline-code">weights_</code></strong>：形状 <code class="inline-code">(K,)</code>，各分量权重，和为 1；可用于判断哪些分量是"死分量"（权重接近 0）。</li>
+<li><strong><code class="inline-code">means_</code></strong>：形状 <code class="inline-code">(K, d)</code>，各分量均值，即软簇中心。</li>
+<li><strong><code class="inline-code">covariances_</code></strong>：形状随类型变化（<code class="inline-code">(K,d,d)</code> / <code class="inline-code">(d,d)</code> / <code class="inline-code">(K,d)</code> / <code class="inline-code">(K,)</code>），描述每个簇的形状。</li>
+<li><strong><code class="inline-code">precisions_</code> / <code class="inline-code">precisions_cholesky_</code></strong>：协方差的逆及其 Cholesky 分解，预测时用于高效计算马氏距离。</li>
+<li><strong><code class="inline-code">converged_</code></strong>：布尔值，是否在 <code class="inline-code">max_iter</code> 内达到 <code class="inline-code">tol</code>；为 <code class="inline-code">False</code> 时应增大迭代次数或放宽阈值。</li>
+<li><strong><code class="inline-code">n_iter_</code></strong>：实际迭代轮数；接近 <code class="inline-code">max_iter</code> 是"未收敛"的信号。</li>
+<li><strong><code class="inline-code">lower_bound_</code></strong>：收敛解的对数似然下界（越大越好）；可用于比较不同初始化/不同 K。</li>
+<li><strong><code class="inline-code">lower_bounds_</code></strong>：每轮的下界序列，可画收敛曲线，正常应单调不减。</li>
+<li><strong><code class="inline-code">aic(X)</code> / <code class="inline-code">bic(X)</code></strong>：信息准则，越小越好；<code class="inline-code">bic</code> 对复杂模型惩罚更重。</li>
+<li><strong><code class="inline-code">predict(X)</code></strong>：返回硬标签（责任度最大的分量）。</li>
+<li><strong><code class="inline-code">predict_proba(X)</code></strong>：返回形状 <code class="inline-code">(N, K)</code> 的责任度矩阵，即软聚类结果。</li>
+<li><strong><code class="inline-code">score_samples(X)</code></strong>：返回每个样本的对数似然 $ \ln p(x_i) $，可直接用于异常检测。</li>
+<li><strong><code class="inline-code">score(X)</code></strong>：返回所有样本的平均对数似然。</li>
+<li><strong><code class="inline-code">sample(n_samples)</code></strong>：按拟合出的分布生成新样本，返回 <code class="inline-code">(X, y)</code>，<code class="inline-code">y</code> 为分量标签。</li>
+</ul>
+
+<h4>代码示例</h4>
+
+<p><strong>示例 1：从零实现 GMM 的 EM 算法（NumPy）</strong></p>
+
+<p><pre class="code-block"><code class="language-python">import numpy as np                                  # 导入数值计算库
+
+def log_gaussian(X, mean, cov, reg=1e-6):
+    d = X.shape[1]                                  # 特征维度 d
+    cov = cov + reg * np.eye(d)                     # 对角线加正则项，保证正定可逆
+    L = np.linalg.cholesky(cov)                     # Cholesky 分解：cov = L @ L.T
+    diff = X - mean                                 # 每个样本相对均值的偏差，形状 (N, d)
+    sol = np.linalg.solve(L, diff.T)                # 解 L @ z = diff.T，避免显式求逆
+    maha = np.sum(sol ** 2, axis=0)                 # 马氏距离平方 (x-μ)ᵀΣ⁻¹(x-μ)
+    logdet = 2.0 * np.sum(np.log(np.diag(L)))       # ln|Σ| = 2 * Σ ln(diag(L))
+    return -0.5 * (d * np.log(2 * np.pi) + logdet + maha)   # 多元高斯对数密度
+
+def gmm_em(X, K, max_iter=200, tol=1e-6, reg=1e-6, seed=0):
+    rng = np.random.default_rng(seed)               # 固定随机种子，保证可复现
+    N, d = X.shape                                  # 样本数与特征维度
+    idx = rng.choice(N, size=K, replace=False)      # 随机选 K 个样本作为初始均值
+    mu = X[idx].copy()                              # 初始均值，形状 (K, d)
+    sigma = np.array([np.cov(X.T) + reg * np.eye(d) for _ in range(K)])  # 每个分量用全局协方差初始化
+    pi = np.full(K, 1.0 / K)                        # 初始权重平均分配
+    prev_ll = -np.inf                               # 上一轮对数似然，初始为负无穷
+    for it in range(max_iter):                      # EM 主循环
+        log_prob = np.zeros((N, K))                 # 存放 ln(π_k) + ln N(x_i|μ_k,Σ_k)
+        for k in range(K):                          # 遍历每个分量
+            log_prob[:, k] = np.log(pi[k]) + log_gaussian(X, mu[k], sigma[k], reg)  # 对数域累加
+        m = log_prob.max(axis=1, keepdims=True)     # 每行最大值，用于 log-sum-exp 平移
+        log_norm = m + np.log(np.exp(log_prob - m).sum(axis=1, keepdims=True))  # ln p(x_i)
+        gamma = np.exp(log_prob - log_norm)         # E 步：责任度 γ_ik，形状 (N, K)
+        ll = float(log_norm.sum())                  # 当前模型的对数似然
+        if abs(ll - prev_ll) &lt; tol:                 # 增益小于阈值则判定收敛
+            break                                   # 提前结束迭代
+        prev_ll = ll                                # 更新上一轮似然
+        Nk = gamma.sum(axis=0) + 1e-12              # 每个分量的软计数 N_k（加小量防除零）
+        pi = Nk / N                                 # M 步：更新权重 π_k = N_k / N
+        mu = (gamma.T @ X) / Nk[:, None]            # M 步：更新均值 μ_k = Σγx / N_k
+        for k in range(K):                          # 逐个分量更新协方差
+            diff = X - mu[k]                        # 样本相对新均值的偏差
+            sigma[k] = (gamma[:, k, None] * diff).T @ diff / Nk[k] + reg * np.eye(d)  # 加权协方差 + 正则
+    return pi, mu, sigma, gamma, ll                  # 返回参数、责任度与最终对数似然
+
+def predict_proba(model, X):
+    pi, mu, sigma, _, _ = model                     # 解包模型参数
+    N, K = X.shape[0], len(pi)                      # 样本数与分量数
+    log_prob = np.zeros((N, K))                     # 预分配对数得分矩阵
+    for k in range(K):                              # 遍历分量
+        log_prob[:, k] = np.log(pi[k]) + log_gaussian(X, mu[k], sigma[k])  # 计算对数得分
+    m = log_prob.max(axis=1, keepdims=True)         # 行最大值
+    log_norm = m + np.log(np.exp(log_prob - m).sum(axis=1, keepdims=True))  # 对数归一化项
+    return np.exp(log_prob - log_norm)              # 归一化得到后验概率
+
+if __name__ == &quot;__main__&quot;:                          # 简单的自测入口
+    from sklearn.datasets import make_blobs         # 生成簇状数据用于验证
+    from sklearn.metrics import adjusted_rand_score # 调整兰德指数，对标签编号置换不变
+    X, y_true = make_blobs(n_samples=600, centers=3, cluster_std=1.2, random_state=7)  # 600 个样本、3 个簇
+    model = gmm_em(X, K=3, seed=42)                 # 运行自实现的 EM
+    proba = predict_proba(model, X)                 # 计算软聚类概率
+    pred = proba.argmax(axis=1)                     # 取概率最大的分量作为硬标签
+    print(&quot;权重:&quot;, np.round(model[0], 3))            # 打印学到的混合权重
+    print(&quot;均值:\n&quot;, np.round(model[1], 3))          # 打印学到的均值
+    print(&quot;前 5 个样本的归属概率:\n&quot;, np.round(proba[:5], 3))  # 查看软聚类结果
+    print(&quot;调整兰德指数 ARI:&quot;, round(adjusted_rand_score(y_true, pred), 3))  # 1.0 表示与真实划分完全一致</code></pre></p>
+
+<p><strong>示例 2：<code class="inline-code">sklearn</code> 实战——BIC 选 K、软聚类、异常检测与采样</strong></p>
+
+<p><pre class="code-block"><code class="language-python">import numpy as np                                          # 数值计算
+from sklearn.datasets import make_blobs                     # 造簇状数据
+from sklearn.mixture import GaussianMixture                 # sklearn 的 GMM 实现
+from sklearn.preprocessing import StandardScaler            # 特征标准化
+from sklearn.metrics import silhouette_score                # 轮廓系数，辅助评估聚类
+
+X, y_true = make_blobs(n_samples=1500, centers=4, cluster_std=[0.8, 1.5, 1.0, 2.0], random_state=42)  # 4 个尺度不同的簇
+X = StandardScaler().fit_transform(X)                       # 标准化，消除量纲影响
+
+best = None                                                 # 记录 BIC 最小的模型
+for cov in [&quot;full&quot;, &quot;tied&quot;, &quot;diag&quot;, &quot;spherical&quot;]:            # 遍历四种协方差结构
+    for k in range(1, 9):                                   # 候选分量数 1~8
+        gm = GaussianMixture(n_components=k, covariance_type=cov, n_init=5,
+                             reg_covar=1e-6, random_state=42)  # 每次 5 组初始化取最优
+        gm.fit(X)                                           # 执行 EM 训练
+        bic = gm.bic(X)                                     # 计算 BIC（越小越好）
+        if best is None or bic &lt; best[0]:                   # 更新最优记录
+            best = (bic, cov, k, gm)                        # 保存 BIC、协方差类型、K 与模型
+        print(f&quot;cov={cov:9s} K={k} BIC={bic:10.1f} converged={gm.converged_}&quot;)  # 打印搜索结果
+
+bic, cov, k, gm = best                                      # 解包最优模型
+print(f&quot;\n最佳模型: covariance_type={cov}, n_components={k}, BIC={bic:.1f}&quot;)  # 输出选择结果
+print(&quot;权重:&quot;, np.round(gm.weights_, 3))                     # 各分量占比
+print(&quot;均值:\n&quot;, np.round(gm.means_, 3))                     # 各分量中心
+print(&quot;迭代轮数:&quot;, gm.n_iter_, &quot;是否收敛:&quot;, gm.converged_)   # 检查收敛状态
+
+proba = gm.predict_proba(X)                                 # 软聚类：每个样本属于各簇的概率
+labels = gm.predict(X)                                      # 硬标签：概率最大的簇
+print(&quot;轮廓系数:&quot;, round(silhouette_score(X, labels), 3))    # 评估聚类分离度
+print(&quot;前 3 个样本的归属概率:\n&quot;, np.round(proba[:3], 3))    # 查看软分配结果
+
+scores = gm.score_samples(X)                                # 每个样本的对数似然（密度越高值越大）
+threshold = np.percentile(scores, 1)                        # 取最低 1% 作为异常阈值
+outliers = np.where(scores &lt; threshold)[0]                  # 定位低密度样本
+print(&quot;异常样本数:&quot;, len(outliers), &quot;示例下标:&quot;, outliers[:10])  # 输出异常检测结果
+
+X_new, y_new = gm.sample(5)                                 # 从拟合分布中生成 5 个新样本
+print(&quot;生成样本:\n&quot;, np.round(X_new, 3))                     # 查看生成结果
+print(&quot;来源分量:&quot;, y_new)                                    # 每个样本由哪个分量生成</code></pre></p>
+
+<p><strong>示例 3：用 AIC/BIC 曲线选择分量数（可直接出图）</strong></p>
+
+<p><pre class="code-block"><code class="language-python">import numpy as np                                          # 数值计算
+import matplotlib.pyplot as plt                             # 绘图库
+from sklearn.datasets import make_blobs                     # 生成簇状数据
+from sklearn.mixture import GaussianMixture                 # GMM 实现
+from sklearn.preprocessing import StandardScaler            # 标准化
+
+X, _ = make_blobs(n_samples=1500, centers=4, cluster_std=[0.8, 1.5, 1.0, 2.0], random_state=42)  # 4 个尺度不同的簇
+X = StandardScaler().fit_transform(X)                       # 标准化，消除量纲影响
+
+ks = range(1, 11)                                           # 候选 K 从 1 到 10
+bics, aics = [], []                                         # 分别保存 BIC 与 AIC
+for k in ks:                                                # 遍历每个 K
+    gm = GaussianMixture(n_components=k, covariance_type=&quot;full&quot;,
+                         n_init=5, random_state=0).fit(X)    # 训练 full 协方差模型
+    bics.append(gm.bic(X))                                  # 记录 BIC
+    aics.append(gm.aic(X))                                  # 记录 AIC
+plt.plot(list(ks), bics, &quot;o-&quot;, label=&quot;BIC&quot;)                  # 画 BIC 曲线
+plt.plot(list(ks), aics, &quot;s--&quot;, label=&quot;AIC&quot;)                 # 画 AIC 曲线
+plt.xlabel(&quot;n_components (K)&quot;)                              # 横轴：分量数
+plt.ylabel(&quot;Information Criterion&quot;)                         # 纵轴：信息准则
+plt.legend()                                                # 显示图例
+plt.title(&quot;GMM 模型选择：BIC / AIC&quot;)                          # 标题
+plt.show()                                                  # 展示图像（BIC 最低点即推荐 K）</code></pre></p>
+
+<h4>复杂度分析</h4>
+
+<p>设样本数 $ N $、特征维数 $ d $、分量数 $ K $、EM 迭代轮数 $ I $。</p>
+
+<p><strong>E 步</strong>：对每个样本、每个分量计算一次马氏距离。若协方差已预分解，单次计算为 $ O(d^2) $，总计：</p>
+
+<p><div class="math-block">$$ O(N K d^2) $$</div></p>
+
+<p><strong>M 步</strong>：每个分量的加权协方差需要计算 $ \sum_i \gamma_{ik}(x_i-\mu_k)(x_i-\mu_k)^{\top} $，单分量 $ O(N d^2) $，总计：</p>
+
+<p><div class="math-block">$$ O(N K d^2) $$</div></p>
+
+<p><strong>协方差分解</strong>：每轮对每个分量做 Cholesky 分解，代价 $ O(K d^3) $（<code class="inline-code">diag</code>/<code class="inline-code">spherical</code> 可降为 $ O(Kd) $）。</p>
+
+<p><strong>总时间复杂度</strong>：</p>
+
+<p><div class="math-block">$$ O\left(I \cdot (N K d^2 + K d^3)\right) $$</div></p>
+
+<p>当 $ N \gg d $ 时主导项是 $ O(I N K d^2) $；高维小样本时 $ K d^3 $ 不可忽略。</p>
+
+<p><strong>空间复杂度</strong>：</p>
+<ul>
+<li>责任度矩阵 $ \gamma $：$ O(NK) $（这是 GMM 比 K-Means 多出的主要内存开销）；</li>
+<li>参数：<code class="inline-code">full</code> 为 $ O(Kd^2) $，<code class="inline-code">diag</code> 为 $ O(Kd) $；</li>
+<li>预测阶段只需存储参数，单样本推断为 $ O(Kd^2) $。</li>
+</ul>
+
+<p><strong>与 K-Means 的对比</strong>：K-Means 每轮 $ O(NKd) $，GMM（full）每轮 $ O(NKd^2) $，高维下慢一个数量级；但 GMM 能表达椭球簇并输出概率，信息量更大。</p>
+
+<h4>应用场景</h4>
+<ul>
+<li><strong>客户分层/用户画像</strong>：按消费频次、客单价、活跃度等特征做软聚类，输出"高价值概率""流失风险概率"，比硬分群更适合精细化运营。</li>
+<li><strong>异常检测</strong>：用 <code class="inline-code">score_samples</code> 得到样本对数密度，低密度样本判为异常；广泛用于工业设备监测、网络入侵检测、金融反欺诈。</li>
+<li><strong>密度估计与非参数近似</strong>：作为任意连续分布的通用 approximator，用于生成采样、重要性采样、蒙特卡洛模拟。</li>
+<li><strong>语音与说话人识别</strong>：GMM-UBM 是经典的文本无关说话人确认方案；GMM-HMM 曾是语音识别的声学模型主力。</li>
+<li><strong>图像与视频处理</strong>：GMM 背景建模（每个像素的颜色分布用 GMM 拟合）用于运动目标检测；颜色分布建模用于图像分割。</li>
+<li><strong>缺失数据插补与半监督学习</strong>：用 GMM 的后验概率对缺失特征做期望填补，或把无标签数据纳入似然。</li>
+<li><strong>作为生成模型的基础组件</strong>：VAE 的先验、归一化流的分量、HMM 的发射分布等都以 GMM 为原型。</li>
+</ul>
+
+<h4>参考文档</h4>
+<ul>
+<li><a href="https://scikit-learn.org/stable/modules/generated/sklearn.mixture.GaussianMixture.html" target="_blank" class="ref-link">scikit-learn 官方文档：GaussianMixture</a></li>
+<li><a href="https://scikit-learn.org/stable/modules/mixture.html" target="_blank" class="ref-link">scikit-learn 用户指南：Gaussian mixture models</a></li>
+<li><a href="https://link.springer.com/book/10.1007/978-0-387-45528-0" target="_blank" class="ref-link">Bishop, Pattern Recognition and Machine Learning, Chapter 9: Mixture Models and EM</a></li>
+<li><a href="https://www.jstor.org/stable/2984875" target="_blank" class="ref-link">Dempster, Laird & Rubin (1977): Maximum Likelihood from Incomplete Data via the EM Algorithm</a></li>
+<li><a href="https://doi.org/10.1007/978-0-387-73003-5_196" target="_blank" class="ref-link">Reynolds (2009): Gaussian Mixture Models (GMM-UBM 综述)</a></li>
+<li><a href="https://cs229.stanford.edu/notes2022fall/main_notes.pdf" target="_blank" class="ref-link">CS229 Lecture Notes: The EM Algorithm</a></li>
+</ul>
+
+<hr>
+
+<blockquote>
+<p>AI生成</p>
+</blockquote>
+
+<h3>RLHF 人类反馈强化学习</h3>
+
+<p><strong>类别</strong>：大模型对齐 | <strong>难度</strong>：困难</p>
+
+<h4>算法简介</h4>
+
+<p>RLHF（Reinforcement Learning from Human Feedback，人类反馈强化学习）是把"人类偏好"转化为可优化奖励信号、再用强化学习调整语言模型的一整套对齐流程。它由三个阶段组成：<strong>① SFT</strong>（用人工示范数据做监督微调，让模型学会"像人一样回答"）；<strong>② 奖励建模</strong>（让人类对同一 prompt 的多个回答排序，用 Bradley-Terry 模型训练一个输出标量分数的奖励模型 $ r_\phi $）；<strong>③ PPO 强化学习</strong>（策略模型 $ \pi_\theta $ 生成回答，奖励模型打分，同时用 KL 惩罚约束策略不要偏离 SFT 参考模型 $ \pi_{\text{ref}} $ 太远，再用 PPO 的截断重要性采样目标稳定更新）。</p>
+
+<p>RLHF 解决的是"<strong>损失函数写不出来</strong>"的问题：翻译、摘要、对话的"好坏"很难用交叉熵表达，但人类比较两个回答谁更好却很容易。把比较数据蒸馏进奖励模型后，语言生成就变成了一个序列决策问题——每生成一个 token 是一个动作，回答结束拿到奖励。InstructGPT/ChatGPT 的成功让这套流程成为大模型对齐的标准范式；它的代价是训练不稳定、需要同时驻留策略/参考/奖励/价值四个模型、显存约为 DPO 的两倍，因此工程上出现了 DPO、GRPO、RLAIF 等大量简化与变体。</p>
+
+<h4>原理示意图</h4>
+
+<p><div class="algo-image"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 900 520" font-family="sans-serif">
+  <rect width="900" height="520" fill="#1e293b" rx="12"/>
+  <text x="450" y="28" text-anchor="middle" fill="#818cf8" font-size="15" font-weight="600">RLHF 三阶段流程与 PPO 内部循环</text>
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="6" refX="4" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#6366f1"/>
+    </marker>
+    <marker id="arrow2" markerWidth="8" markerHeight="6" refX="4" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#f97316"/>
+    </marker>
+  </defs>
+
+  <!-- 三阶段 -->
+  <rect x="25" y="55" width="265" height="110" rx="10" fill="#334155" stroke="#6366f1"/>
+  <text x="157" y="80" text-anchor="middle" fill="#e2e8f0" font-size="13" font-weight="600">① SFT 监督微调</text>
+  <text x="157" y="104" text-anchor="middle" fill="#94a3b8" font-size="11">人类示范数据 (x, y)</text>
+  <text x="157" y="124" text-anchor="middle" fill="#94a3b8" font-size="11">交叉熵损失训练 π_SFT</text>
+  <text x="157" y="148" text-anchor="middle" fill="#818cf8" font-size="11">产出：策略初值 + 参考模型</text>
+
+  <line x1="290" y1="110" x2="315" y2="110" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <rect x="318" y="55" width="265" height="110" rx="10" fill="#334155" stroke="#22c55e"/>
+  <text x="450" y="80" text-anchor="middle" fill="#e2e8f0" font-size="13" font-weight="600">② 奖励模型 RM</text>
+  <text x="450" y="104" text-anchor="middle" fill="#94a3b8" font-size="11">同一 prompt 的成对回答</text>
+  <text x="450" y="124" text-anchor="middle" fill="#94a3b8" font-size="11">人类排序 y_w ≻ y_l</text>
+  <text x="450" y="148" text-anchor="middle" fill="#4ade80" font-size="11">Bradley-Terry 训练 r_φ</text>
+
+  <line x1="583" y1="110" x2="608" y2="110" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <rect x="611" y="55" width="265" height="110" rx="10" fill="#334155" stroke="#f97316"/>
+  <text x="743" y="80" text-anchor="middle" fill="#e2e8f0" font-size="13" font-weight="600">③ PPO 强化学习</text>
+  <text x="743" y="104" text-anchor="middle" fill="#94a3b8" font-size="11">π_θ 生成回答 → r_φ 打分</text>
+  <text x="743" y="124" text-anchor="middle" fill="#94a3b8" font-size="11">减去 β·KL(π_θ ‖ π_ref)</text>
+  <text x="743" y="148" text-anchor="middle" fill="#fb923c" font-size="11">PPO 截断目标更新 π_θ</text>
+
+  <!-- PPO 循环 -->
+  <text x="450" y="205" text-anchor="middle" fill="#c4b5fd" font-size="13" font-weight="600">PPO 内部循环（每个 batch 重复）</text>
+
+  <rect x="30" y="225" width="190" height="62" rx="8" fill="#1e3a5f" stroke="#6366f1"/>
+  <text x="125" y="248" text-anchor="middle" fill="#e2e8f0" font-size="12">① Rollout</text>
+  <text x="125" y="268" text-anchor="middle" fill="#94a3b8" font-size="10">旧策略 π_old 采样回答</text>
+
+  <line x1="220" y1="256" x2="245" y2="256" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <rect x="248" y="225" width="190" height="62" rx="8" fill="#1e3a5f" stroke="#6366f1"/>
+  <text x="343" y="248" text-anchor="middle" fill="#e2e8f0" font-size="12">② 奖励 + KL 惩罚</text>
+  <text x="343" y="268" text-anchor="middle" fill="#94a3b8" font-size="10">R = r_φ − β·log(π_θ/π_ref)</text>
+
+  <line x1="438" y1="256" x2="463" y2="256" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <rect x="466" y="225" width="190" height="62" rx="8" fill="#1e3a5f" stroke="#6366f1"/>
+  <text x="561" y="248" text-anchor="middle" fill="#e2e8f0" font-size="12">③ 优势估计</text>
+  <text x="561" y="268" text-anchor="middle" fill="#94a3b8" font-size="10">GAE：A_t = Σ(γλ)ˡδₜ₊ₗ</text>
+
+  <line x1="656" y1="256" x2="681" y2="256" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <rect x="684" y="225" width="190" height="62" rx="8" fill="#166534" stroke="#22c55e"/>
+  <text x="779" y="248" text-anchor="middle" fill="#e2e8f0" font-size="12">④ Clip 更新</text>
+  <text x="779" y="268" text-anchor="middle" fill="#86efac" font-size="10">更新 π_θ 与价值网络 V_ψ</text>
+
+  <path d="M 779 287 L 779 318 L 125 318 L 125 289" fill="none" stroke="#f97316" stroke-width="1.8" stroke-dasharray="5,4" marker-end="url(#arrow2)"/>
+  <text x="450" y="336" text-anchor="middle" fill="#fb923c" font-size="11">重复 rollout → 打分 → 更新（通常 1 个 batch 内做 4 个 PPO epoch）</text>
+
+  <!-- 公式条 -->
+  <rect x="25" y="355" width="850" height="70" rx="8" fill="#0f172a" stroke="#334155"/>
+  <text x="45" y="380" fill="#c4b5fd" font-size="12">奖励模型：P(y_w ≻ y_l) = σ(r_φ(x, y_w) − r_φ(x, y_l))，损失 = −log σ(r_w − r_l)</text>
+  <text x="45" y="405" fill="#c4b5fd" font-size="12">PPO 目标：L_CLIP = E[ min( r_t·A_t , clip(r_t, 1−ε, 1+ε)·A_t ) ]，r_t = π_θ/π_old</text>
+
+  <text x="25" y="455" fill="#94a3b8" font-size="11">四个模型：策略 π_θ（训练）、参考 π_ref（冻结）、奖励 r_φ（冻结）、价值 V_ψ（训练）</text>
+  <text x="25" y="478" fill="#94a3b8" font-size="11">KL 的作用：防止策略为了骗高分而偏离 SFT 分布，导致语言能力崩坏（reward hacking）</text>
+  <text x="25" y="501" fill="#94a3b8" font-size="11">显存：bf16 下四个 7B 模型权重约 56 GB，加梯度与 Adam 状态后可达 200 GB 以上，需 ZeRO/FSDP 分片</text>
+</svg></div></p>
+
+<h4>数学公式</h4>
+
+<p><strong>1. Bradley-Terry 偏好模型与奖励模型损失</strong></p>
+
+<p>给定 prompt $ x $ 和两个回答 $ y_w $（win，被偏好）、$ y_l $（lose，被拒绝），奖励模型 $ r_\phi $ 给每个回答打一个标量分。Bradley-Terry 模型假设：</p>
+
+<p><div class="math-block">$$ P(y_w \succ y_l \mid x) = \sigma\left(r_\phi(x, y_w) - r_\phi(x, y_l)\right) = \frac{1}{1 + \exp\left(-\left(r_\phi(x,y_w) - r_\phi(x,y_l)\right)\right)} $$</div></p>
+
+<p>最大化该似然等价于最小化负对数似然：</p>
+
+<p><div class="math-block">$$ \mathcal{L}_{\text{RM}}(\phi) = -\mathbb{E}_{(x, y_w, y_l) \sim \mathcal{D}} \left[ \log \sigma\left(r_\phi(x,y_w) - r_\phi(x,y_l)\right) \right] $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ x $：输入的 prompt（问题/指令）</li>
+<li>$ y_w, y_l $：人类标注的"更好"和"更差"的回答</li>
+<li>$ r_\phi(x,y) $：奖励模型输出的标量分数，$ \phi $ 为奖励模型参数</li>
+<li>$ \sigma(z) = 1/(1+e^{-z}) $：Sigmoid 函数，把分数差映射到 $ (0,1) $ 的概率</li>
+<li>$ \mathcal{D} $：人类偏好数据集</li>
+<li>只看<strong>分数差</strong>，因此奖励的绝对尺度不可识别（可整体平移），训练时通常把输出归一化到零均值</li>
+</ul>
+
+<p>加入 margin $ m $ 的变体（要求 win 至少高出 $ m $ 分）：</p>
+
+<p><div class="math-block">$$ \mathcal{L}_{\text{RM}}^{\text{margin}} = -\mathbb{E}\left[\log \sigma\left(r_\phi(x,y_w) - r_\phi(x,y_l) - m\right)\right] $$</div></p>
+
+<p><strong>2. KL 正则化的奖励</strong></p>
+
+<p>语言模型每生成一个 token 就是一个动作。为了不让策略 $ \pi_\theta $ 为了高分而输出怪异文本，在每一步奖励中加入对参考模型 $ \pi_{\text{ref}} $ 的 KL 惩罚：</p>
+
+<p><div class="math-block">$$ R_t = \begin{cases} -\beta \, \log \dfrac{\pi_\theta(y_t \mid x, y_{<t})}{\pi_{\text{ref}}(y_t \mid x, y_{<t})}, & t < T \\[6pt] r_\phi(x, y) - \beta \, \log \dfrac{\pi_\theta(y_T \mid x, y_{<T})}{\pi_{\text{ref}}(y_T \mid x, y_{<T})}, & t = T \end{cases} $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ T $：回答的最后一个 token（EOS）</li>
+<li>$ y_t $：第 $ t $ 步生成的 token</li>
+<li>$ \pi_\theta(y_t \mid x, y_{<t}) $：当前策略在给定上下文下生成该 token 的概率</li>
+<li>$ \pi_{\text{ref}} $：SFT 模型（冻结），作为"不要偏离太远"的锚点</li>
+<li>$ \beta $：KL 惩罚系数，越大越保守</li>
+<li>$ r_\phi(x,y) $：回答结束时由奖励模型给出的整体分数</li>
+<li>终止步之后的 reward 为 0，价值函数从终止状态回传</li>
+</ul>
+
+<p>整条序列的 KL 为各 token KL 之和：</p>
+
+<p><div class="math-block">$$ \mathrm{KL}(\pi_\theta \,\|\, \pi_{\text{ref}}) = \sum_{t=1}^{T} \mathbb{E}_{y_t \sim \pi_\theta}\left[\log \frac{\pi_\theta(y_t \mid x, y_{<t})}{\pi_{\text{ref}}(y_t \mid x, y_{<t})}\right] $$</div></p>
+
+<p>工程上用 <strong>k3 估计器</strong>（单样本无偏、方差较小）：</p>
+
+<p><div class="math-block">$$ \widehat{\mathrm{KL}}_t = \log \frac{\pi_{\text{ref}}(y_t \mid x, y_{<t})}{\pi_\theta(y_t \mid x, y_{<t})} $$</div></p>
+
+<p><strong>3. PPO 的截断替代目标</strong></p>
+
+<p><div class="math-block">$$ \mathcal{L}^{\text{CLIP}}(\theta) = \mathbb{E}_{t}\left[\min\left(r_t(\theta)\,A_t,\; \mathrm{clip}\left(r_t(\theta), 1-\epsilon, 1+\epsilon\right)A_t\right)\right] $$</div></p>
+
+<p>其中重要性采样比：</p>
+
+<p><div class="math-block">$$ r_t(\theta) = \frac{\pi_\theta(a_t \mid s_t)}{\pi_{\theta_{\text{old}}}(a_t \mid s_t)} $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ s_t $：状态，即 prompt 加已生成的前缀 $ x, y_{<t} $</li>
+<li>$ a_t $：动作，即当前步生成的 token $ y_t $</li>
+<li>$ \pi_{\theta_{\text{old}}} $：更新前（采样时）的旧策略，训练中固定</li>
+<li>$ r_t(\theta) $：新旧策略对同一 token 的概率比；$ r_t = 1 $ 表示策略未变</li>
+<li>$ A_t $：优势函数，表示该动作比平均水平好多少</li>
+<li>$ \epsilon $：截断范围，典型 $ 0.2 $</li>
+<li>$ \min(\cdot,\cdot) $：取两者较小值，保证"悲观下界"——优势为正时不允许比率超过 $ 1+\epsilon $，优势为负时不允许低于 $ 1-\epsilon $</li>
+</ul>
+
+<p><strong>为什么需要 clip</strong>：重要性采样要求新旧策略接近，否则方差爆炸。clip 把比率限制在 $ [1-\epsilon, 1+\epsilon] $，避免一次更新把策略推得太远；这也是 PPO 相比原始策略梯度的核心改进。</p>
+
+<p><strong>4. GAE（广义优势估计）</strong></p>
+
+<p><div class="math-block">$$ \delta_t = R_t + \gamma V_\psi(s_{t+1}) - V_\psi(s_t) $$</div></p>
+
+<p><div class="math-block">$$ A_t = \sum_{l=0}^{T-t} (\gamma\lambda)^{l}\,\delta_{t+l} $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ \delta_t $：第 $ t $ 步的 TD 误差（实际奖励 + 下一状态价值 − 当前状态价值）</li>
+<li>$ R_t $：第 $ t $ 步的即时奖励（含 KL 惩罚）</li>
+<li>$ V_\psi(s_t) $：价值网络对状态 $ s_t $ 的估值</li>
+<li>$ \gamma $：折扣因子，LLM 中通常取 $ 1.0 $（回合在 EOS 终止，不需要折扣）</li>
+<li>$ \lambda $：GAE 的偏差-方差折中参数，$ \lambda=0 $ 退化为单步 TD（低方差高偏差），$ \lambda=1 $ 退化为蒙特卡洛回报（高方差低偏差），常用 $ 0.95 $</li>
+<li>$ T-t $：从当前步到回合结束的剩余步数</li>
+</ul>
+
+<p><strong>5. 价值损失与总损失</strong></p>
+
+<p><div class="math-block">$$ \mathcal{L}_V = \mathbb{E}\left[\max\left((V_\psi(s_t) - R_t^{\text{target}})^2,\; (\mathrm{clip}(V_\psi(s_t), V_{\text{old}}-\epsilon_v, V_{\text{old}}+\epsilon_v) - R_t^{\text{target}})^2\right)\right] $$</div></p>
+
+<p><div class="math-block">$$ \mathcal{L} = -\mathcal{L}^{\text{CLIP}} + c_v \mathcal{L}_V - c_e \mathcal{H}(\pi_\theta) $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ R_t^{\text{target}} = A_t + V_\psi(s_t) $：回报目标（优势 + 当前价值）</li>
+<li>$ \epsilon_v $：价值截断范围，典型 $ 0.2 $</li>
+<li>$ c_v $：价值损失权重 <code class="inline-code">vf_coef</code>，典型 $ 0.1 $</li>
+<li>$ c_e $：熵奖励系数 <code class="inline-code">ent_coef</code>，鼓励探索，典型 $ 0 \sim 0.01 $</li>
+<li>$ \mathcal{H}(\pi_\theta) $：策略熵，越大表示输出越多样</li>
+</ul>
+
+<p><strong>6. 与 DPO 的对比（理解 RLHF 代价的参照）</strong></p>
+
+<p>DPO 跳过奖励模型与在线采样，直接在偏好对上优化：</p>
+
+<p><div class="math-block">$$ \mathcal{L}_{\text{DPO}}(\theta) = -\mathbb{E}_{(x,y_w,y_l)}\left[\log \sigma\left(\beta \log \frac{\pi_\theta(y_w \mid x)}{\pi_{\text{ref}}(y_w \mid x)} - \beta \log \frac{\pi_\theta(y_l \mid x)}{\pi_{\text{ref}}(y_l \mid x)}\right)\right] $$</div></p>
+
+<p>它把 RLHF 的三阶段压缩成一个分类式损失，显存与训练稳定性都更好，但缺少在线探索，理论上限与奖励模型解耦能力不如 PPO。</p>
+
+<h4>核心要点</h4>
+<ul>
+<li><strong>RLHF 的本质是"用比较数据学奖励，再用 RL 优化奖励"</strong>：奖励模型是人类的代理，PPO 是在代理奖励上做策略优化。</li>
+<li><strong>KL 惩罚不可省略</strong>：没有 KL，策略会找到奖励模型的漏洞（reward hacking），输出重复、谄媚、超长或乱码文本。</li>
+<li><strong>四个模型各司其职</strong>：actor 训练、critic 训练、reference 冻结、reward 冻结；reference 与 actor 必须同 tokenizer、同初始权重。</li>
+<li><strong>PPO 是 on-policy 算法</strong>：采样数据只能用于少数几个 epoch（通常 4），不能像 SFT 那样反复训练多轮。</li>
+<li><strong>优势归一化很关键</strong>：同一 batch 内对 $ A_t $ 做 whitening（减均值除标准差）能显著稳定训练；奖励尺度失配会导致价值网络崩溃。</li>
+<li><strong>长度偏置普遍存在</strong>：奖励模型常偏好更长的回答，需用长度惩罚、长度归一化或配对长度匹配来缓解。</li>
+<li><strong>奖励模型本身会被"刷分"</strong>：RM 只在训练分布附近可靠，策略越偏离，RM 的打分越不可信，因此需要 KL 约束与定期人工评估。</li>
+<li><strong>显存是最大工程瓶颈</strong>：7B 模型四份权重加优化器状态超过 200 GB，必须用 ZeRO-3/FSDP、LoRA、QLoRA 或 vLLM 分离推理。</li>
+</ul>
+
+<h4>技术细节与参数详解</h4>
+
+<blockquote>
+<p>参数分为两类：<strong>流程级超参数</strong>（决定 RLHF 怎么搭）与 <strong>PPO 训练超参数</strong>（决定优化是否稳定）。默认值以 HuggingFace TRL 的 <code class="inline-code">PPOConfig</code> 经典默认值为参考，不同版本字段名与默认值可能略有差异，落地时以所装版本文档为准。</p>
+</blockquote>
+
+<p><strong>参数 1：<code class="inline-code">sft_model_path</code>（策略初始化 / SFT 模型）</strong></p>
+<ul>
+<li><strong>含义</strong>：PPO 训练的起点，通常加载第一阶段 SFT 后的模型权重。</li>
+<li><strong>类型</strong>：<code class="inline-code">str</code>（模型路径或 Hub ID）。</li>
+<li><strong>默认值</strong>：TRL 中为 <code class="inline-code">"lvwerra/gpt2-imdb"</code>（示例默认），实际项目必须替换。</li>
+<li><strong>取值范围</strong>：任意与 tokenizer 匹配的因果语言模型路径。</li>
+<li><strong>对结果的影响</strong>：SFT 质量决定上限；若 SFT 模型本身不会遵循指令，PPO 很难把它"训会"，只会放大已有能力。</li>
+<li><strong>推荐设置</strong>：使用与目标任务同分布、经过充分 SFT 的 checkpoint；不要直接从 base model 开始 PPO。</li>
+</ul>
+
+<p><strong>参数 2：<code class="inline-code">reward_model_path</code>（奖励模型）</strong></p>
+<ul>
+<li><strong>含义</strong>：为生成回答打分的奖励模型路径，通常是 SFT 模型加一个标量 value head 后做偏好学习得到。</li>
+<li><strong>类型</strong>：<code class="inline-code">str</code>。</li>
+<li><strong>默认值</strong>：TRL 示例为 <code class="inline-code">"lvwerra/gpt2-imdb-pos-v2"</code>。</li>
+<li><strong>取值范围</strong>：任意序列分类/回归式奖励模型路径，输出维度为 1。</li>
+<li><strong>对结果的影响</strong>：奖励模型的质量与偏见直接决定策略行为；RM 偏好长度，策略就会变长；RM 偏好谄媚，策略就会谄媚。</li>
+<li><strong>推荐设置</strong>：RM 与策略同规模或略小（InstructGPT 用 6B RM 配 175B 策略）；用与 PPO prompt 同分布的数据训练 RM；上线前做人工一致性评估。</li>
+</ul>
+
+<p><strong>参数 3：<code class="inline-code">beta</code> / <code class="inline-code">init_kl_coef</code>（KL 惩罚系数）</strong></p>
+<ul>
+<li><strong>含义</strong>：控制策略偏离参考模型的惩罚强度。TRL 中通过 <code class="inline-code">init_kl_coef</code> 设定初值，再由自适应控制器动态调整。</li>
+<li><strong>类型</strong>：<code class="inline-code">float</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">init_kl_coef = 0.2</code>（TRL 经典默认）。</li>
+<li><strong>取值范围</strong>：$ (0, +\infty) $，常用 $ 0.01 \sim 0.5 $。</li>
+<li><strong>对结果的影响</strong>：太小 → KL 迅速增大、策略崩坏、reward hacking；太大 → 策略几乎不更新，输出与 SFT 无差别，训练"白跑"。</li>
+<li><strong>推荐设置</strong>：全参数微调 7B 模型从 $ 0.02 \sim 0.05 $ 起；LoRA 微调可用 $ 0.1 \sim 0.2 $；观察训练中平均 KL 是否稳定在 5～15 nats 区间。</li>
+</ul>
+
+<p><strong>参数 4：<code class="inline-code">target</code> / <code class="inline-code">target_kl</code>（自适应 KL 目标）</strong></p>
+<ul>
+<li><strong>含义</strong>：自适应控制器希望维持的平均 KL 值；当实际 KL 低于目标时减小 $ \beta $，高于目标时增大 $ \beta $。</li>
+<li><strong>类型</strong>：<code class="inline-code">float</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">6.0</code>（TRL 经典默认）。</li>
+<li><strong>取值范围</strong>：$ [0, +\infty) $，常用 $ 4 \sim 10 $。</li>
+<li><strong>对结果的影响</strong>：目标越大允许策略跑得越远、学习信号越强但风险越高；越小越保守。</li>
+<li><strong>推荐设置</strong>：先用默认 6.0；若发现输出重复/退化，降到 3～4；若几乎不学习，升到 8～10。</li>
+</ul>
+
+<p><strong>参数 5：<code class="inline-code">horizon</code>（自适应控制的窗口）</strong></p>
+<ul>
+<li><strong>含义</strong>：自适应 KL 控制器在多少步内衡量平均 KL，用于平滑更新 $ \beta $。</li>
+<li><strong>类型</strong>：<code class="inline-code">int</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">10000</code>。</li>
+<li><strong>取值范围</strong>：$ [1, +\infty) $，常用 1000～10000。</li>
+<li><strong>对结果的影响</strong>：窗口太小 → $ \beta $ 抖动剧烈；太大 → 对 KL 漂移反应迟钝。</li>
+<li><strong>推荐设置</strong>：数据量在万级以内用 10000；大规模训练可降到 1000～5000 以加快响应。</li>
+</ul>
+
+<p><strong>参数 6：<code class="inline-code">adap_kl_ctrl</code>（是否自适应调整 KL 系数）</strong></p>
+<ul>
+<li><strong>含义</strong>：开启后 $ \beta $ 不再固定，而是按"实际 KL 与目标 KL 的比值"动态缩放。</li>
+<li><strong>类型</strong>：<code class="inline-code">bool</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">True</code>。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">True</code> / <code class="inline-code">False</code>。</li>
+<li><strong>对结果的影响</strong>：开启可自动平衡学习与稳定，是 RLHF 能跑通的关键；关闭则需手工调 $ \beta $，对超参极敏感。</li>
+<li><strong>推荐设置</strong>：始终开启；只有在做消融实验或已有充分调参经验时才关闭。</li>
+</ul>
+
+<p><strong>参数 7：<code class="inline-code">cliprange</code>（策略比率截断 ε）</strong></p>
+<ul>
+<li><strong>含义</strong>：PPO 目标中重要性采样比的截断范围 $ [1-\epsilon, 1+\epsilon] $。</li>
+<li><strong>类型</strong>：<code class="inline-code">float</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">0.2</code>。</li>
+<li><strong>取值范围</strong>：$ (0, 1) $，常用 $ 0.1 \sim 0.3 $。</li>
+<li><strong>对结果的影响</strong>：太小 → 每次更新幅度小、收敛慢、易早停；太大 → 策略更新过猛、训练不稳定甚至崩溃。</li>
+<li><strong>推荐设置</strong>：默认 0.2；小模型或数据噪声大时降到 0.1；训练稳定但学得慢时可试 0.25。</li>
+</ul>
+
+<p><strong>参数 8：<code class="inline-code">cliprange_value</code>（价值函数截断 ε_v）</strong></p>
+<ul>
+<li><strong>含义</strong>：价值网络更新的截断范围，防止价值估计一次跳变过大。</li>
+<li><strong>类型</strong>：<code class="inline-code">float</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">0.2</code>。</li>
+<li><strong>取值范围</strong>：$ (0, 1) $，常用 $ 0.1 \sim 0.3 $。</li>
+<li><strong>对结果的影响</strong>：太小 → 价值网络学得慢，优势估计不准；太大 → 价值损失震荡，进而污染优势与策略梯度。</li>
+<li><strong>推荐设置</strong>：与 <code class="inline-code">cliprange</code> 保持一致（0.2）；若价值损失剧烈震荡，先检查奖励尺度再调小。</li>
+</ul>
+
+<p><strong>参数 9：<code class="inline-code">gamma</code>（折扣因子 γ）</strong></p>
+<ul>
+<li><strong>含义</strong>：未来奖励的折扣率。</li>
+<li><strong>类型</strong>：<code class="inline-code">float</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">1.0</code>。</li>
+<li><strong>取值范围</strong>：$ [0, 1] $，LLM 场景常用 $ 1.0 $。</li>
+<li><strong>对结果的影响</strong>：小于 1 会让模型偏向短回答（早期 token 的奖励被折扣）；等于 1 表示整条回答的奖励等权回传。</li>
+<li><strong>推荐设置</strong>：语言生成固定为 1.0；若希望鼓励"尽早给出结论"，可试 0.99，但要同步调整 GAE。</li>
+</ul>
+
+<p><strong>参数 10：<code class="inline-code">lam</code>（GAE 的 λ）</strong></p>
+<ul>
+<li><strong>含义</strong>：GAE 中平衡偏差与方差的系数。</li>
+<li><strong>类型</strong>：<code class="inline-code">float</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">0.95</code>。</li>
+<li><strong>取值范围</strong>：$ [0, 1] $，常用 $ 0.9 \sim 1.0 $。</li>
+<li><strong>对结果的影响</strong>：越小 → 优势估计方差小但偏差大、学习信号短视；越大 → 更接近蒙特卡洛回报、方差大但更准确。</li>
+<li><strong>推荐设置</strong>：默认 0.95；长回答（>512 token）且训练不稳时降到 0.9；短回答可升到 0.98。</li>
+</ul>
+
+<p><strong>参数 11：<code class="inline-code">vf_coef</code>（价值损失权重 c_v）</strong></p>
+<ul>
+<li><strong>含义</strong>：总损失中价值回归项的权重。</li>
+<li><strong>类型</strong>：<code class="inline-code">float</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">0.1</code>。</li>
+<li><strong>取值范围</strong>：$ [0, 1] $，常用 $ 0.05 \sim 0.5 $。</li>
+<li><strong>对结果的影响</strong>：太小 → 价值网络欠拟合，优势估计噪声大；太大 → 价值损失主导，策略学习被削弱。</li>
+<li><strong>推荐设置</strong>：0.1 起步；若 <code class="inline-code">value_loss</code> 长期居高不下，先做奖励归一化，再考虑升到 0.2。</li>
+</ul>
+
+<p><strong>参数 12：<code class="inline-code">ent_coef</code>（熵奖励系数 c_e，可选）</strong></p>
+<ul>
+<li><strong>含义</strong>：鼓励策略输出多样性的系数，熵越高探索越强。</li>
+<li><strong>类型</strong>：<code class="inline-code">float</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">0.0</code>（多数 RLHF 实现默认关闭；TRL 经典 <code class="inline-code">PPOConfig</code> 不含该字段，需要在自定义损失里手动加入）。</li>
+<li><strong>取值范围</strong>：$ [0, 0.1] $，常用 $ 0 \sim 0.01 $。</li>
+<li><strong>对结果的影响</strong>：太大会让输出变得随机、偏离奖励目标；太小（0）则可能过早收敛到单一话术。</li>
+<li><strong>推荐设置</strong>：SFT 后策略已足够多样时保持 0；出现模式坍塌（同一回答反复出现）时可加 $ 0.001 \sim 0.01 $。</li>
+</ul>
+
+<p><strong>参数 13：<code class="inline-code">learning_rate</code>（学习率）</strong></p>
+<ul>
+<li><strong>含义</strong>：PPO 优化器的学习率，同时作用于策略与价值网络。</li>
+<li><strong>类型</strong>：<code class="inline-code">float</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">1e-5</code>。</li>
+<li><strong>取值范围</strong>：$ 10^{-7} \sim 10^{-4} $，常用 $ 10^{-6} \sim 10^{-5} $。</li>
+<li><strong>对结果的影响</strong>：太大 → KL 飙升、策略崩坏；太小 → 训练极慢、看起来"没效果"。</li>
+<li><strong>推荐设置</strong>：7B 全参微调 $ 1\times10^{-6} $；LoRA $ 1\times10^{-5} $；先用小学习率跑 50 步观察 KL 曲线。</li>
+</ul>
+
+<p><strong>参数 14：<code class="inline-code">batch_size</code>（rollout 批大小）</strong></p>
+<ul>
+<li><strong>含义</strong>：每次 PPO 迭代采样的 prompt 数量（全局批大小）。</li>
+<li><strong>类型</strong>：<code class="inline-code">int</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">256</code>。</li>
+<li><strong>取值范围</strong>：$ [1, +\infty) $，常用 64～1024，受显存限制。</li>
+<li><strong>对结果的影响</strong>：太小 → 梯度噪声大、训练不稳；太大 → 显存占用高、单位时间吞吐下降。</li>
+<li><strong>推荐设置</strong>：单卡 24GB 跑 7B LoRA 时 32～64；多卡 A100 可到 256～512；确保 <code class="inline-code">batch_size</code> 能被 <code class="inline-code">mini_batch_size × 梯度累积 × 卡数</code> 整除。</li>
+</ul>
+
+<p><strong>参数 15：<code class="inline-code">mini_batch_size</code>（小批大小）</strong></p>
+<ul>
+<li><strong>含义</strong>：一次前向/反向实际处理的样本数，决定梯度累积的切分方式。</li>
+<li><strong>类型</strong>：<code class="inline-code">int</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">1</code>（TRL 经典默认，按设备计）。</li>
+<li><strong>取值范围</strong>：$ [1, \text{batch\_size}] $。</li>
+<li><strong>对结果的影响</strong>：太小 → 梯度噪声大、GPU 利用率低；太大 → 显存不足。</li>
+<li><strong>推荐设置</strong>：让每个 mini-batch 至少占满显存的 60%～80%；7B 全参微调常用 1～4，LoRA 可用 8～16。</li>
+</ul>
+
+<p><strong>参数 16：<code class="inline-code">gradient_accumulation_steps</code>（梯度累积步数）</strong></p>
+<ul>
+<li><strong>含义</strong>：累积多少个 mini-batch 的梯度再更新一次参数。</li>
+<li><strong>类型</strong>：<code class="inline-code">int</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">1</code>。</li>
+<li><strong>取值范围</strong>：$ [1, +\infty) $，常用 1～32。</li>
+<li><strong>对结果的影响</strong>：增大等效于增大批大小，可在小显存上模拟大 batch；但会拉长单步耗时。</li>
+<li><strong>推荐设置</strong>：显存不足时优先加它而不是减小 <code class="inline-code">batch_size</code>；保证 <code class="inline-code">batch_size = mini_batch_size × grad_accum × num_gpus</code>。</li>
+</ul>
+
+<p><strong>参数 17：<code class="inline-code">ppo_epochs</code>（PPO 轮数）</strong></p>
+<ul>
+<li><strong>含义</strong>：同一批 rollout 数据被重复用于优化的次数。</li>
+<li><strong>类型</strong>：<code class="inline-code">int</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">4</code>。</li>
+<li><strong>取值范围</strong>：$ [1, 10] $，常用 2～4。</li>
+<li><strong>对结果的影响</strong>：越多 → 数据利用率高，但策略偏离旧策略越远，重要性采样比失真、训练不稳；越少 → 稳定但样本效率低。</li>
+<li><strong>推荐设置</strong>：默认 4；若 <code class="inline-code">ratio</code> 的均值远离 1 或 KL 飙升，降到 2；数据昂贵时可试 6，但必须配合更小的学习率。</li>
+</ul>
+
+<p><strong>参数 18：<code class="inline-code">max_grad_norm</code>（梯度裁剪阈值）</strong></p>
+<ul>
+<li><strong>含义</strong>：按全局范数裁剪梯度，防止梯度爆炸。</li>
+<li><strong>类型</strong>：<code class="inline-code">float</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">1.0</code>。</li>
+<li><strong>取值范围</strong>：$ (0, +\infty) $，常用 0.5～1.0。</li>
+<li><strong>对结果的影响</strong>：太小 → 梯度被过度压缩、学习变慢；太大 → 失去保护作用。</li>
+<li><strong>推荐设置</strong>：1.0；RLHF 中梯度爆炸常见，若频繁触发可降到 0.5 并检查奖励尺度。</li>
+</ul>
+
+<p><strong>参数 19：<code class="inline-code">max_new_tokens</code> / <code class="inline-code">response_length</code>（生成长度）</strong></p>
+<ul>
+<li><strong>含义</strong>：rollout 阶段每条回答允许生成的最大 token 数。</li>
+<li><strong>类型</strong>：<code class="inline-code">int</code>。</li>
+<li><strong>默认值</strong>：TRL 示例常用 <code class="inline-code">512</code>（<code class="inline-code">PPOConfig</code> 本身不含此项时由生成配置指定）。</li>
+<li><strong>取值范围</strong>：$ [16, 4096] $，视任务而定。</li>
+<li><strong>对结果的影响</strong>：太短 → 回答被截断、奖励模型无法完整评估；太长 → 显存与时间线性增长，且易触发长度偏置。</li>
+<li><strong>推荐设置</strong>：摘要 256～512；对话 512～1024；代码 1024～2048；与 RM 训练时的 <code class="inline-code">max_length</code> 保持一致。</li>
+</ul>
+
+<p><strong>参数 20：<code class="inline-code">temperature</code> / <code class="inline-code">top_p</code> / <code class="inline-code">top_k</code>（采样参数）</strong></p>
+<ul>
+<li><strong>含义</strong>：rollout 时的解码策略，控制探索程度。</li>
+<li><strong>类型</strong>：<code class="inline-code">float</code> / <code class="inline-code">float</code> / <code class="inline-code">int</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">temperature=1.0</code>、<code class="inline-code">top_p=1.0</code>、<code class="inline-code">top_k=0</code>（即纯采样）。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">temperature</code> $ (0, 2] $；<code class="inline-code">top_p</code> $ (0, 1] $；<code class="inline-code">top_k</code> $ [0, +\infty) $（0 表示关闭）。</li>
+<li><strong>对结果的影响</strong>：温度高 → 探索多、样本多样但质量下降；温度低 → 接近贪心、多样性不足，PPO 学不到新行为。</li>
+<li><strong>推荐设置</strong>：<code class="inline-code">temperature=0.7～1.0</code>、<code class="inline-code">top_p=0.9～1.0</code>；不要用 greedy，否则同一 prompt 永远生成同一回答，GAE 优势全为 0。</li>
+</ul>
+
+<p><strong>参数 21：<code class="inline-code">whiten_rewards</code>（奖励白化）</strong></p>
+<ul>
+<li><strong>含义</strong>：对每个 mini-batch 的奖励做减均值、除标准差（可选再裁剪）。</li>
+<li><strong>类型</strong>：<code class="inline-code">bool</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">False</code>。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">True</code> / <code class="inline-code">False</code>。</li>
+<li><strong>对结果的影响</strong>：开启可让不同 batch 的奖励尺度一致，稳定价值学习；关闭则依赖原始奖励尺度，容易出现价值损失爆炸。</li>
+<li><strong>推荐设置</strong>：<strong>强烈建议开启</strong>，尤其是 RM 分数范围未知时；若开启后学习信号过弱，检查是否把有用信号也归一化掉了。</li>
+</ul>
+
+<p><strong>参数 22：<code class="inline-code">score_clip</code>（奖励裁剪）</strong></p>
+<ul>
+<li><strong>含义</strong>：对奖励模型输出做截断，抑制极端分数。</li>
+<li><strong>类型</strong>：<code class="inline-code">float</code> 或 <code class="inline-code">None</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">None</code>（不裁剪）。</li>
+<li><strong>取值范围</strong>：任意正数，常用 5～10。</li>
+<li><strong>对结果的影响</strong>：能防止个别样本的超高奖励主导训练；裁剪过狠会丢失区分度。</li>
+<li><strong>推荐设置</strong>：先用 <code class="inline-code">None</code> 观察奖励分布，若出现长尾极端值再设为均值 ± 3σ 左右。</li>
+</ul>
+
+<p><strong>参数 23：<code class="inline-code">missing_eos_penalty</code>（缺失 EOS 惩罚）</strong></p>
+<ul>
+<li><strong>含义</strong>：当生成因达到 <code class="inline-code">max_new_tokens</code> 仍未输出 EOS 时，追加的负奖励。</li>
+<li><strong>类型</strong>：<code class="inline-code">float</code> 或 <code class="inline-code">None</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">None</code>。</li>
+<li><strong>取值范围</strong>：任意负数，常用 $ -1.0 $。</li>
+<li><strong>对结果的影响</strong>：不加惩罚时，模型可能学会"永远不结束"以拖延奖励；加了能鼓励完整回答。</li>
+<li><strong>推荐设置</strong>：生成常被截断时设为 $ -1.0 $；同时检查 <code class="inline-code">max_new_tokens</code> 是否过小。</li>
+</ul>
+
+<p><strong>参数 24：奖励模型的 <code class="inline-code">margin</code> 与 <code class="inline-code">loss_type</code></strong></p>
+<ul>
+<li><strong>含义</strong>：<code class="inline-code">margin</code> 要求 win 的分数至少比 lose 高出的最小间隔；<code class="inline-code">loss_type</code> 选择 pairwise logistic 或 margin ranking 损失。</li>
+<li><strong>类型</strong>：<code class="inline-code">float</code> / <code class="inline-code">str</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">margin=0.0</code>，<code class="inline-code">loss_type="pairwise"</code>（常用实现）。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">margin</code> $ [0, 10] $；<code class="inline-code">loss_type</code> 取 <code class="inline-code">pairwise</code> / <code class="inline-code">margin</code>。</li>
+<li><strong>对结果的影响</strong>：margin 太大会让模型只关注"明显更好"的样本，忽略细微偏好；太小则对噪声标注不鲁棒。</li>
+<li><strong>推荐设置</strong>：标注一致性高时用 0；标注噪声大时可加 0.1～0.5 的 margin，或改用 margin ranking loss。</li>
+</ul>
+
+<h4>代码示例</h4>
+
+<p><strong>示例 1：奖励模型的 Bradley-Terry 训练（PyTorch）</strong></p>
+
+<p><pre class="code-block"><code class="language-python">import torch                                              # 导入 PyTorch
+import torch.nn as nn                                     # 神经网络模块
+import torch.nn.functional as F                           # 函数式接口（logsigmoid 等）
+
+class RewardModel(nn.Module):                             # 奖励模型：骨干 + 标量头
+    def __init__(self, backbone, hidden_size):            # 构造函数
+        super().__init__()                                # 初始化父类
+        self.backbone = backbone                          # 预训练语言模型（如 Llama/Qwen）
+        self.value_head = nn.Linear(hidden_size, 1, bias=False)  # 把隐藏状态映射为 1 个分数
+
+    def forward(self, input_ids, attention_mask):         # 前向传播
+        out = self.backbone(                              # 调用骨干模型
+            input_ids=input_ids,                          # token id 序列
+            attention_mask=attention_mask,                # 注意力掩码，区分 padding
+            output_hidden_states=True,                    # 需要最后一层隐藏状态
+        )
+        last = out.hidden_states[-1]                      # 取最后一层，形状 (B, T, H)
+        lengths = attention_mask.sum(dim=1) - 1           # 每条序列最后一个有效 token 的下标
+        batch_idx = torch.arange(last.size(0), device=last.device)  # 批内下标 [0..B-1]
+        pooled = last[batch_idx, lengths]                 # 取每条序列的最后一个 token 表示
+        return self.value_head(pooled).squeeze(-1)        # 输出形状 (B,) 的标量奖励
+
+
+def reward_loss(r_win, r_lose, margin=0.0):               # Bradley-Terry 成对损失
+    diff = r_win - r_lose - margin                        # 偏好分数差（减去可选 margin）
+    return -F.logsigmoid(diff).mean()                     # -log σ(diff)，越小越好
+
+
+# 伪代码：一个训练 step
+# r_w = model(win_input_ids, win_mask)                    # 计算被偏好回答的分数
+# r_l = model(lose_input_ids, lose_mask)                  # 计算被拒绝回答的分数
+# loss = reward_loss(r_w, r_l, margin=0.0)                # 计算成对损失
+# loss.backward()                                         # 反向传播
+# optimizer.step()                                        # 更新奖励模型参数</code></pre></p>
+
+<p><strong>示例 2：GAE 优势估计与 PPO 截断损失（从零实现核心逻辑）</strong></p>
+
+<p><pre class="code-block"><code class="language-python">import torch                                              # 导入 PyTorch
+
+def compute_gae(rewards, values, mask, gamma=1.0, lam=0.95):   # 计算 GAE 优势
+    B, T = rewards.shape                                  # B 为批大小，T 为序列长度
+    advantages = torch.zeros_like(rewards)                # 预分配优势矩阵
+    last_adv = torch.zeros(B, device=rewards.device)      # 每个样本的&quot;下一步优势&quot;初值
+    for t in reversed(range(T)):                          # 从最后一个 token 往回递推
+        next_value = values[:, t + 1] if t + 1 &lt; T else torch.zeros(B, device=rewards.device)  # V(s_{t+1})
+        delta = rewards[:, t] + gamma * next_value - values[:, t]   # TD 误差 δ_t
+        last_adv = delta + gamma * lam * mask[:, t] * last_adv      # A_t = δ_t + γλA_{t+1}
+        advantages[:, t] = last_adv                       # 保存第 t 步优势
+    returns = advantages + values                         # 回报目标 R_t = A_t + V(s_t)
+    return advantages, returns                            # 返回优势与回报
+
+
+def ppo_loss(logp, logp_old, values, values_old, returns, advantages,
+             cliprange=0.2, cliprange_value=0.2, vf_coef=0.1, ent_coef=0.0, entropy=None):   # PPO 总损失
+    ratio = torch.exp(logp - logp_old)                    # 重要性采样比 r_t = π_θ / π_old
+    adv = (advantages - advantages.mean()) / (advantages.std() + 1e-8)   # 优势白化，稳定训练
+    surr1 = ratio * adv                                   # 未截断的替代目标
+    surr2 = torch.clamp(ratio, 1.0 - cliprange, 1.0 + cliprange) * adv   # 截断后的替代目标
+    policy_loss = -torch.min(surr1, surr2).mean()         # 取较小值再取负（最大化转最小化）
+
+    value_clipped = values_old + torch.clamp(values - values_old, -cliprange_value, cliprange_value)  # 价值截断
+    value_loss = torch.max((values - returns) ** 2, (value_clipped - returns) ** 2).mean()  # 悲观价值损失
+
+    loss = policy_loss + vf_coef * value_loss             # 策略损失 + 价值损失
+    if entropy is not None:                               # 若提供熵
+        loss = loss - ent_coef * entropy.mean()           # 减去熵奖励（鼓励探索）
+    return loss, policy_loss.detach(), value_loss.detach()  # 返回总损失与分项，便于日志</code></pre></p>
+
+<p><strong>示例 3：TRL 的 RLHF 训练骨架（经典 API）</strong></p>
+
+<p><pre class="code-block"><code class="language-python">import torch                                                           # 导入 PyTorch
+from trl import PPOConfig, PPOTrainer, AutoModelForCausalLMWithValueHead  # TRL 的 PPO 组件
+from transformers import AutoTokenizer, AutoModelForSequenceClassification  # 分词器与奖励模型
+
+config = PPOConfig(                                    # 构造 PPO 配置
+    learning_rate=1e-6,                                # 策略与价值网络的学习率
+    batch_size=128,                                    # 每次 rollout 的全局批大小
+    mini_batch_size=8,                                 # 每个 mini-batch 的样本数
+    gradient_accumulation_steps=1,                     # 梯度累积步数
+    ppo_epochs=4,                                      # 同一批数据重复优化 4 轮
+    init_kl_coef=0.05,                                 # KL 惩罚系数初值
+    target=6.0,                                        # 自适应 KL 的目标值
+    horizon=10000,                                     # 自适应控制的平滑窗口
+    cliprange=0.2,                                     # 策略比率截断 ε
+    cliprange_value=0.2,                               # 价值截断 ε_v
+    gamma=1.0,                                         # 折扣因子
+    lam=0.95,                                          # GAE 的 λ
+    vf_coef=0.1,                                       # 价值损失权重
+    whiten_rewards=True,                               # 奖励白化，稳定训练
+    log_with=&quot;wandb&quot;,                                  # 日志后端
+)
+
+tokenizer = AutoTokenizer.from_pretrained(&quot;your-sft-model&quot;)   # 加载与模型匹配的分词器
+tokenizer.pad_token = tokenizer.eos_token                       # 设置 padding token
+
+policy = AutoModelForCausalLMWithValueHead.from_pretrained(&quot;your-sft-model&quot;)   # 策略 + 价值头
+ref_policy = AutoModelForCausalLMWithValueHead.from_pretrained(&quot;your-sft-model&quot;)  # 冻结的参考模型
+reward_model = AutoModelForSequenceClassification.from_pretrained(&quot;your-rm&quot;, num_labels=1)  # 奖励模型，输出 1 维分数
+
+def score_response(query_ids, response_ids):           # 用奖励模型给一条回答打分
+    input_ids = torch.cat([query_ids, response_ids]).unsqueeze(0)   # 拼成一条完整序列并加 batch 维
+    attention_mask = torch.ones_like(input_ids)        # 全部 token 有效
+    with torch.no_grad():                              # 奖励模型只做推理，不需要梯度
+        logits = reward_model(input_ids=input_ids, attention_mask=attention_mask).logits   # 前向打分
+    return logits[0, 0]                                # 取唯一的标量分数
+
+trainer = PPOTrainer(                                  # 构造 PPO 训练器（经典签名）
+    config=config,                                     # 传入配置
+    model=policy,                                      # 待训练的策略模型
+    ref_model=ref_policy,                              # 参考模型（KL 锚点）
+    tokenizer=tokenizer,                               # 分词器
+    dataset=train_dataset,                             # prompt 数据集
+    data_collator=collator,                            # 批处理函数
+)
+
+for batch in trainer.dataloader:                       # 遍历 prompt 批次
+    query_tensors = batch[&quot;input_ids&quot;]                 # 取出 prompt 的 token
+    response_tensors = []                              # 存放生成结果
+    for q in query_tensors:                            # 逐条生成
+        out = trainer.generate(q, max_new_tokens=512, temperature=0.8, top_p=0.95)  # 采样回答
+        response_tensors.append(out)                   # 收集回答 token
+    rewards = [score_response(q, r) for q, r in zip(query_tensors, response_tensors)]  # RM 打分
+    stats = trainer.step(query_tensors, response_tensors, rewards)   # 执行一次 PPO 更新
+    trainer.log_stats(stats, batch, rewards)           # 记录 KL、奖励、损失等指标</code></pre></p>
+
+<blockquote>
+<p>说明：TRL 0.13 之后 <code class="inline-code">PPOTrainer</code> 的构造参数改为 <code class="inline-code">args</code>、<code class="inline-code">processing_class</code>、<code class="inline-code">policy</code>、<code class="inline-code">ref_policy</code>、<code class="inline-code">reward_model</code> 等，配置字段也有调整（如 <code class="inline-code">ppo_epochs</code> → <code class="inline-code">num_ppo_epochs</code>、<code class="inline-code">mini_batch_size</code> → <code class="inline-code">num_mini_batches</code>）；上面的骨架对应经典版本，迁移时以官方文档为准，核心超参数含义不变。</p>
+</blockquote>
+
+<h4>复杂度分析</h4>
+
+<p>设策略参数量为 $ P $、批大小为 $ B $、序列长度为 $ T $、模型隐藏维度为 $ d $、层数为 $ L $。</p>
+
+<p><strong>1. Rollout（采样）</strong></p>
+
+<p>自回归生成 $ T $ 个 token，每步都要对整条前缀做一次前向。注意力部分为 $ O(T^2 d) $、FFN 部分为 $ O(T d^2) $，合计：</p>
+
+<p><div class="math-block">$$ O\left(B \cdot L \cdot (T^2 d + T d^2)\right) $$</div></p>
+
+<p>使用 KV Cache 后，每步只需计算新 token，总生成代价降为 $ O(B \cdot L \cdot T d^2) $；但训练时的反向传播仍需完整序列，不能省。</p>
+
+<p><strong>2. PPO 更新</strong></p>
+
+<p>每个 PPO epoch 需要：策略前向 + 反向、价值前向 + 反向、参考模型前向（算 KL）、奖励模型前向（算分数）。粗略有：</p>
+
+<p><div class="math-block">$$ O\left(B \cdot T \cdot P \times (2 \sim 3)\right) \times \text{ppo\_epochs} $$</div></p>
+
+<p>参考模型与奖励模型只做前向（约为训练的 $ 1/3 $ 代价），但四个模型都要驻留显存。</p>
+
+<p><strong>3. 总时间</strong></p>
+
+<p><div class="math-block">$$ T_{\text{total}} = O\left(\text{steps} \times \left[T_{\text{rollout}} + \text{ppo\_epochs} \times T_{\text{update}}\right]\right) $$</div></p>
+
+<p>实际中 rollout 常占总时间的 50%～70%，因此工程上会用 vLLM/SGLang 做推理加速，并把生成与训练分离到不同 GPU。</p>
+
+<p><strong>4. 空间复杂度（显存）</strong></p>
+
+<p>以 bf16 存储、Adam 优化器为例，每个可训练参数约需：</p>
+<ul>
+<li>bf16 权重 2 B + fp32 master 权重 4 B + Adam 一阶/二阶矩 8 B = 14 B；</li>
+<li>两个可训练模型（actor + critic）≈ $ 28P $ B；</li>
+<li>两个冻结模型（ref + reward）bf16 ≈ $ 4P $ B；</li>
+<li>合计约 $ 32P $ B，加上激活值、KV Cache、临时缓冲区。</li>
+</ul>
+
+<p>对 $ P=7\text{B} $：$ 32 \times 7\times10^9 \approx 224 $ GB，单卡 80 GB 远不够，必须用 ZeRO-3/FSDP 切分参数与优化器状态，或用 LoRA 只训练低秩适配器（可训练参数降到 $ P $ 的 1% 以下）。</p>
+
+<p><strong>5. 与 DPO 的对比</strong></p>
+
+<p>DPO 只需策略与参考两个模型（约 $ 16P $ B），且无需在线 rollout，显存约为 PPO 的 $ 1/2 $、训练步数少一个数量级；代价是失去了在线探索与奖励模型的泛化能力。</p>
+
+<h4>应用场景</h4>
+<ul>
+<li><strong>对话助手对齐</strong>：InstructGPT/ChatGPT 的核心流程，让模型更有帮助、更诚实、更无害（HHH）。</li>
+<li><strong>摘要与写作</strong>：用人类偏好优化摘要的忠实度、覆盖度与可读性，典型如 OpenAI 的 summarization 实验。</li>
+<li><strong>代码生成</strong>：以单元测试通过率或人类评审作为奖励，优化代码正确性与可维护性。</li>
+<li><strong>安全与价值观对齐</strong>：降低有害、歧视、越狱回答的比例；配合红队数据做拒绝策略。</li>
+<li><strong>Agent 与工具调用</strong>：以任务完成率、工具调用正确性为奖励，训练多步决策能力。</li>
+<li><strong>RLAIF / Constitutional AI</strong>：用 AI 反馈替代部分人工标注，降低标注成本（Anthropic 的 Constitutional AI）。</li>
+<li><strong>个性化与风格控制</strong>：按用户偏好（简洁/详细、正式/口语）训练奖励模型，做风格对齐。</li>
+</ul>
+
+<h4>参考文档</h4>
+<ul>
+<li><a href="https://arxiv.org/abs/2203.02155" target="_blank" class="ref-link">Ouyang et al. (2022): Training language models to follow instructions with human feedback (InstructGPT)</a></li>
+<li><a href="https://arxiv.org/abs/1706.03741" target="_blank" class="ref-link">Christiano et al. (2017): Deep Reinforcement Learning from Human Preferences</a></li>
+<li><a href="https://arxiv.org/abs/1707.06347" target="_blank" class="ref-link">Schulman et al. (2017): Proximal Policy Optimization Algorithms</a></li>
+<li><a href="https://arxiv.org/abs/2305.18290" target="_blank" class="ref-link">Rafailov et al. (2023): Direct Preference Optimization: Your Language Model is Secretly a Reward Model</a></li>
+<li><a href="https://huggingface.co/blog/rlhf" target="_blank" class="ref-link">HuggingFace Blog: Illustrated RLHF</a></li>
+<li><a href="https://huggingface.co/docs/trl/main/en/ppo_trainer" target="_blank" class="ref-link">HuggingFace TRL 文档：PPO Trainer</a></li>
+<li><a href="https://arxiv.org/abs/2212.08073" target="_blank" class="ref-link">Bai et al. (2022): Constitutional AI: Harmlessness from AI Feedback</a></li>
+<li><a href="https://arxiv.org/abs/2402.03300" target="_blank" class="ref-link">Shao et al. (2024): DeepSeekMath / GRPO</a></li>
+</ul>
+
+<hr>
+
+<blockquote>
+<p>明日预告：继续按调度表推进，重点复习今日三个算法的边界条件与工程陷阱。</p>
+</blockquote>
+
+<blockquote>
+<p>AI生成</p>
+</blockquote>
+
+  </div>
+  <div class="footer">
+    <p>由 TeleAgent · 每日算法推送 技能自动生成 | 2026-11-05 09:51</p>
+  </div>
+</div>
+</body>
+</html>
