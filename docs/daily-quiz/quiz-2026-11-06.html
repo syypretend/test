@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>每日算法 AI 出题 · 2026-11-06</title>
+  <!-- KaTeX 数学公式渲染 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
+  <style>
+    :root {
+      --bg: #0d1117;
+      --card-bg: #161b22;
+      --border: #30363d;
+      --text: #e6edf3;
+      --text-dim: #8b949e;
+      --accent: #58a6ff;
+      --green: #3fb950;
+      --orange: #d29922;
+      --red: #f85149;
+      --purple: #a855f7;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", sans-serif;
+      line-height: 1.7;
+      padding: 16px;
+      max-width: 860px;
+      margin: 0 auto;
+    }
+    .header {
+      text-align: center;
+      padding: 24px 0 16px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 24px;
+    }
+    .header h1 {
+      font-size: 1.5em;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+    .header .subtitle {
+      color: var(--text-dim);
+      font-size: 0.9em;
+    }
+    .header .date-tag {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 2px 12px;
+      border-radius: 12px;
+      background: var(--border);
+      font-size: 0.8em;
+      color: var(--text-dim);
+    }
+
+    /* 题目卡片 */
+    .question-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .question-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+    .type-badge {
+      padding: 2px 10px;
+      border-radius: 10px;
+      font-size: 0.75em;
+      color: white;
+      font-weight: 600;
+    }
+    .difficulty { font-size: 0.85em; }
+    .qid-label { color: var(--text-dim); font-size: 0.8em; margin-left: auto; }
+    .question-title {
+      font-size: 1.25em;
+      margin-bottom: 12px;
+      color: var(--text);
+    }
+    .question-body { margin-bottom: 14px; }
+    .question-body code.inline-code {
+      background: var(--border);
+      padding: 1px 5px;
+      border-radius: 3px;
+      font-size: 0.9em;
+    }
+
+    /* 信息块 */
+    .info-block {
+      background: rgba(88,166,255,0.05);
+      border-left: 3px solid var(--accent);
+      padding: 10px 14px;
+      margin: 10px 0;
+      border-radius: 0 6px 6px 0;
+    }
+    .info-label {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.85em;
+      display: block;
+      margin-bottom: 4px;
+    }
+    .info-block pre {
+      white-space: pre-wrap;
+      font-family: "JetBrains Mono", "Fira Code", monospace;
+      font-size: 0.85em;
+      color: var(--text);
+    }
+
+    /* 示例 */
+    .example-block {
+      background: rgba(63,185,80,0.05);
+      border: 1px solid rgba(63,185,80,0.2);
+      border-radius: 8px;
+      padding: 12px;
+      margin: 10px 0;
+    }
+    .example-title {
+      color: var(--green);
+      font-weight: 600;
+      font-size: 0.85em;
+      margin-bottom: 6px;
+    }
+    .example-io {
+      font-family: monospace;
+      font-size: 0.85em;
+      white-space: pre-wrap;
+      margin: 2px 0;
+    }
+    .io-label { color: var(--text-dim); }
+    .example-explanation {
+      color: var(--text-dim);
+      font-size: 0.85em;
+      margin-top: 6px;
+      padding-top: 6px;
+      border-top: 1px dashed var(--border);
+    }
+
+    /* 选项 */
+    .options-container { margin: 12px 0; }
+    .option-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      padding: 10px 14px;
+      margin: 6px 0;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .option-item:hover { border-color: var(--accent); background: rgba(88,166,255,0.05); }
+    .option-item.correct { border-color: var(--green); background: rgba(63,185,80,0.1); }
+    .option-item.wrong { border-color: var(--red); background: rgba(248,81,73,0.1); }
+    .option-item input[type=radio] { accent-color: var(--accent); margin-top: 4px; }
+    .option-letter {
+      font-weight: 700;
+      color: var(--accent);
+      min-width: 20px;
+    }
+    .option-text { flex: 1; font-size: 0.9em; }
+    .option-feedback {
+      margin: 8px 0;
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-size: 0.85em;
+      display: none;
+    }
+    .option-feedback.show { display: block; }
+    .option-feedback.correct {
+      background: rgba(63,185,80,0.1);
+      color: var(--green);
+    }
+    .option-feedback.wrong { background: rgba(248,81,73,0.1); color: var(--red); }
+
+    /* 代码编辑器 */
+    .code-section {
+      margin: 16px 0;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .code-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 14px;
+      background: rgba(88,166,255,0.08);
+      border-bottom: 1px solid var(--border);
+      font-size: 0.85em;
+      color: var(--accent);
+    }
+    .editor-wrap {
+      position: relative;
+    }
+    .code-editor {
+      min-height: 180px;
+      max-height: 400px;
+      overflow: auto;
+      padding: 12px;
+      font-family: "JetBrains Mono", "Fira Code", "Cascadia Code", monospace;
+      font-size: 13px;
+      line-height: 1.5;
+      white-space: pre;
+      color: var(--text);
+      background: #0d1117;
+      outline: none;
+      tabs: 4;
+    }
+    .btn-run {
+      background: var(--green);
+      color: white;
+      border: none;
+      padding: 4px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.85em;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .btn-run:hover { opacity: 0.85; }
+    .btn-run:disabled { opacity: 0.5; cursor: not-allowed; }
+    .code-result {
+      padding: 12px;
+      background: #0d1117;
+      border-top: 1px solid var(--border);
+      font-family: monospace;
+      font-size: 0.85em;
+      white-space: pre-wrap;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+    .code-result .test-pass { color: var(--green); }
+    .code-result .test-fail { color: var(--red); }
+    .code-result .stderr { color: var(--orange); }
+
+    /* 显示解析按钮 */
+    .btn-reveal {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      margin-top: 16px;
+      background: transparent;
+      border: 2px dashed var(--border);
+      border-radius: 8px;
+      color: var(--text-dim);
+      font-size: 0.95em;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .btn-reveal:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(88,166,255,0.03);
+    }
+    .btn-reveal.loading {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    /* 解析区域 */
+    .solution-section {
+      margin-top: 16px;
+      animation: fadeIn 0.4s ease;
+    }
+    @keyframes fadeIn { from{opacity:0; transform:translateY(10px) } to{opacity:1; transform:translateY(0) } }
+    .solution-divider {
+      text-align: center;
+      color: var(--text-dim);
+      font-size: 0.8em;
+      margin: 16px 0;
+      letter-spacing: 1px;
+    }
+    .answer-highlight {
+      background: rgba(63,185,80,0.1);
+      border: 1px solid var(--green);
+      border-radius: 8px;
+      padding: 10px 16px;
+      margin: 10px 0;
+      font-size: 1.05em;
+      color: var(--green);
+      font-weight: 600;
+    }
+    .solution-block {
+      margin: 14px 0;
+      padding: 14px;
+      background: rgba(255,255,255,0.02);
+      border-radius: 8px;
+    }
+    .solution-block h4 {
+      color: var(--accent);
+      margin-bottom: 8px;
+      font-size: 0.95em;
+    }
+    .solution-block ul.answer-points {
+      padding-left: 20px;
+    }
+    .solution-block ul.answer-points li {
+      margin: 6px 0;
+      font-size: 0.9em;
+    }
+    .code-block {
+      background: #0d1117;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 12px;
+      font-family: "JetBrains Mono", "Fira Code", monospace;
+      font-size: 0.85em;
+      overflow-x: auto;
+      white-space: pre;
+      color: var(--text);
+    }
+    .complexity-tag {
+      display: inline-block;
+      padding: 2px 10px;
+      margin-right: 8px;
+      border-radius: 6px;
+      background: var(--border);
+      font-size: 0.85em;
+      font-family: monospace;
+    }
+    .derivation-content {
+      font-size: 0.9em;
+      line-height: 1.8;
+    }
+
+    /* 运行中加载动画 */
+    .spinner {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      border: 2px solid var(--text-dim);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* 底部 */
+    .footer {
+      text-align: center;
+      padding: 24px 0;
+      color: var(--text-dim);
+      font-size: 0.8em;
+      border-top: 1px solid var(--border);
+      margin-top: 24px;
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 8px; }
+      .question-card { padding: 14px; }
+      .question-title { font-size: 1.1em; }
+      .code-editor { font-size: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <h1>每日算法 AI 出题</h1>
+  <div class="subtitle">算法 2 道 + AI 2 道 · 第 28 期 · 树形 DP / 树状数组 / DDPM / MoE</div>
+  <div class="date-tag">📅 2026-11-06 ｜ 算法 2 道 · AI 2 道</div>
+</div>
+
+<div class="question-card" data-qid="1">
+
+    <div class="question-header">
+      <span class="type-badge" style="background:#3b82f6">算法编程</span>
+      <span class="difficulty">⭐⭐</span>
+      <span class="qid-label">第 1 题</span>
+    </div>
+<h2 class="question-title">打家劫舍 III：树形 DP 的两状态设计</h2>
+<div class="question-body">小区变成了一棵二叉树：每个节点代表一栋房子，节点值是该房子的现金。小偷不能同时偷<strong>直接相连</strong>的两栋房子（即父节点与子节点不能同时选），否则会触发报警。<br>
+<br>
+给定二叉树的层序数组（<code class="inline-code">null</code> 表示空节点），求一夜能偷到的最高金额。<br>
+<br>
+<strong>为什么是树形 DP</strong>：对任意节点 $u$，只需要知道「抢 $u$」和「不抢 $u$」两种状态下子树的最优值：<br>
+- 抢 $u$：两个孩子都不能抢，收益为 $u.val + skip(left) + skip(right)$；<br>
+- 不抢 $u$：两个孩子各自可以抢也可以不抢，收益为 $\max(take,skip)(left)+\max(take,skip)(right)$。<br>
+<br>
+两种状态互相依赖、自底向上合并，正是树形 DP 的标准形态。</div>
+<div class="info-block"><span class="info-label">输入</span><pre>一个层序数组，元素为整数或 null（Python 中为 None），按完全二叉树的层序排列，末尾的空节点可省略。</pre></div>
+<div class="info-block"><span class="info-label">输出</span><pre>一个整数，表示能偷到的最高金额。</pre></div>
+<div class="example-block">
+<div class="example-title">示例 1</div>
+<pre class="example-io"><span class="io-label">输入：</span>[3,2,3,null,3,null,1]</pre>
+<pre class="example-io"><span class="io-label">输出：</span>7</pre>
+<div class="example-explanation">偷第 1 层（3）和第 3 层的两个 3，再偷最右下的 1，总额 3+3+1=7；不能同时偷 3 和它的孩子 2、3。</div>
+</div>
+<div class="example-block">
+<div class="example-title">示例 2</div>
+<pre class="example-io"><span class="io-label">输入：</span>[3,4,5,1,3,null,1]</pre>
+<pre class="example-io"><span class="io-label">输出：</span>9</pre>
+<div class="example-explanation">偷 4 + 5 = 9，或 3+1+3=7，最优为 9。</div>
+</div>
+<div class="info-block"><span class="info-label">约束</span><div>节点数 $1\le n\le 10^4$；$0\le node.val\le 10^4$；树可能是一条链（深度可达 $n$），递归实现需注意栈深度。</div></div>
+
+    <div class="code-section">
+      <div class="code-header">
+        <span>🧑‍💻 在线代码编辑器</span>
+        <button class="btn-run" onclick="runCode(1)" id="run_btn_1">▶ 运行</button>
+      </div>
+      <div class="editor-wrap">
+        <div class="code-editor" id="editor_1" contenteditable="true" spellcheck="false">from collections import deque
+
+
+def rob(level_order):
+    root = _build(level_order)
+
+    # TODO: 后序遍历，返回 (抢当前节点, 不抢当前节点) 两个值
+    def dfs(node):
+        pass
+
+    return 0
+
+
+# ---------- 以下是建树辅助代码，已写好，可直接使用 ----------
+class TreeNode:
+    def __init__(self, val=0):
+        self.val = val
+        self.left = None
+        self.right = None
+
+
+def _build(level_order):
+    if not level_order or level_order[0] is None:
+        return None
+    root = TreeNode(level_order[0])
+    q = deque([root])
+    i = 1
+    while q and i &lt; len(level_order):
+        node = q.popleft()
+        if i &lt; len(level_order) and level_order[i] is not None:
+            node.left = TreeNode(level_order[i])
+            q.append(node.left)
+        i += 1
+        if i &lt; len(level_order) and level_order[i] is not None:
+            node.right = TreeNode(level_order[i])
+            q.append(node.right)
+        i += 1
+    return root
+</div>
+      </div>
+      <div class="code-result" id="result_1" style="display:none;"></div>
+      <input type="hidden" id="func_name_1" value="rob">
+      <input type="hidden" id="test_cases_1" value='[[[3, 2, 3, null, 3, null, 1]], [[3, 4, 5, 1, 3, null, 1]], [[1]], [[0]], [[2, 1, 3, null, 4]], [[4, 1, null, 2, null, 3]], [[5, 5, 5, 5, 5, 5, 5]], [[1, 2, 3, 4, 5, 6, 7]], [[10, 1, 1, 2, 2]], [[0, 0, 0]], [[1, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null]], [[41, null, 6, 68, 74, 64, 11, 8, 70, 72, 28, 74, null, 50, 28, 17, 18, 73, 87, 74, 24, 70, 72, 26, 68, 40, 58, 31, 89, 10, 67, 43, 36, 9, 53, 43, 62, 85, 71, 40, 44, 74, 8, 34, 85, 93, 82, 87, 36, 85, 59, 78, 7, 36, 31, 63, 57, 35, null, 70, 53, null, 48, null, 22, 84, 62, 23, 0, 68, 72, 16, 65, null, 94, 99, null, 71, 51, 61, 7, 26, 14, 6, 72, 12, null, 9, null, 19, 44, 60, 62, null, 61, 18, 43, 61, 20, 26, null, 18, 3, 38, null, null, 33, 21, 28, 99, 81, 100, null, null, 51, 29, 63, 3, null, 60, 88, 44, 92, null, null, 28, 60, 26, 78, 61, null, 82, 84, 49, 96, 22, 81, 92, 51, 10, 21, null, 75, null, 18, 76, null, 44, 70, 1, 92, 67, 17, 24, 27, 27, 30, 41, 53, 7, null, 58, 66, 64, 19, 2, null, 77, 19, 60, 15, 41, 67, 100, 71, 24, 98, 57, 97, null, 41, 64, 25, 57, 61, 31, 33, null, null, 57, 15, 40, 30, 27, 100, 99, 91, 46, 17, null, 12, 62, 85, 20, 65, 53, 40, 46, 70, 90, 42, 37, 8, 100, 13, 34, 99, 96, 54, 86, 33, 68, null, 89, 35, 88, 9, 2, 33, 28, 15, 43, null, 34, 5, 30, null, null, 23, 39, 67, 37, 86, 44, 32, 2, 70, null, 31, null, 83, 63, 50, null, 27, null, 90, 17, 44, null, 1, 94, null, 7, 48, null, 36, 88, 58, 34, 33, 42, null, 31, 39, 23, 48, 35, 25, 99, 33, 18, 5, 38, 29, 67, null, 91, 76, 41, 63, 92, 18, 91, null, 93, 64, 67, 72, 2, 74, 91, 88, 10, 17, 13, 57, 80, 68, 62, 58, 95, null, null, 67, 94, 9, 30, 26, 83, null, 48, 87, 5, 82, 76, 32, 88, 72, 61, 34, null, 27, 37, 36, 59, 70, 10, null, 58, 64, null, 34, 26, 11, 67, 46, 80, 14, 29, 62, 20, 62, 51, 18, 48, 42, 96, 50, 25, 94, 47, 49, null, 46, null, 6, 6, 36, 19, 34, 40, 47, 54, null, 80, 70, 92, 93, 78, 82, null, 70, 60, 36, 94, 83, 83, 61, 50, 82, 26, 63, 57, null, null, 17, 31, 43, 40, 33, 25, null, 52, 95, 48, 96, 35, 46, 64, 27, 31, 82, 39, 2, 54, 60, null, 9, 67, null, null, 13, 19, 87, 92, 97, null, 99, 100, 72, null, 38, null, 67, 89, 12, 67, null, 33, 76, 68, 58, 40, 31, 30, 3, null, 39, 24, 86, 10, 85, 47, 4, 91, 87, 0, 94, 8, 25, 24, 28]], [[81, 94, 28, 13, 69, 54, 11, 64, 71, 83, 53, 75, 0, 20, 43, 27, null, 11, 45, 77, 5, 68, 48, 37, 79, null, 24, 5, 98, 10, null, null, 58, 46, 45, 34, 87, 77, 68, 20, 34, null, 71, 41, 99, 4, 51, 27, null, 91, 83, 82, 33, 95, 33, 54, null, 28, null, 63, 6, null, 20, 54, 49, 59, 70, null, 92, 68, 98, 14, 20, 92, null, 64, 64, null, null, 81, 25, 97, 99, null, null, 62, 46, null, 39, 30, null, null, 62, 97, 16, 60, null, 67, null, 27, null, 88, 39, 85, 56, null, 31, 43, 70, 28, 90, 29, 4, null, 30, 62, 16, 73, 31, 52, 12, 45, 59, null, 83, null, 51, 13, 24, 17, 35, 9, 70, 83, null, 11, null, 21, 61, 51, null, 0, null, 100, 36, 93, null, 91, 24, 7, 69, 40, 74, 67, 65, 23, 8, 30, 72, 76, 10, 74, 40, null, 91, 33, 85, 58, 96, null, 79, null, null, 27, 16, null, null, null, 20, 69, 78, null, 67, 70, 84, 17, 13, 19, 77, 43, 81, null, 32, null, 11, 35, 42, 81, null, 56, 54, 14, 88, null, 47, 18, 5, 5, null, 31, 45, 52, null, 30, null, null, 52, 94, null, 52, 94, 34, 89, 4, null, 58, 29, 84, 42, 8, null, 82, 86, null, 3, 33, 33, 76, 93, 55, 65, 73, 5, 0, 68, 94, 25, 8, null, null, 84, 92, null, 85, 51, 70, 53, 48, 22, 38, 0, 26, 74, 41, 56, 65, 94, 10, 84, 42, 96, 39, 25, 5, 60, 98, 53, null, 91, 63, 18, 0, null, null, null, 28, 89, 6, 15, 59, 71, 96, null, 92, null, 70, 20, 60, 96, 81, 99, 80, 56, 36, 42, 69, 19, 88, 27, 52, 59, 26, 49, null, 89, 97, 61, 45, 49, null, null, 95, 77, null, 34, 3, 85, 51, 59, null, null, 50, 84, 82, 59, 33, 27, 43, 48, 53, 10, 95, 44, 8, 83, 3, null, 2, 30, 85, 27, 32, 21, 95, 99, 39, 3, null, 48, 91, 75, 80, 89, 87, 15, 72, 44, 84, 64, 1, 62, 46, 58, 55, 66, null, 68, 59, 93, 41, null, 11, 57, 59, 85, 3, 41, 27, 33, 76, 35, 66, null, 92, 71, 88, 91, 2, 28, 31, 74, 70, 54, null, 45, 34, 29, 24, 95, 97, 24, 61, 75, null, 36, null, 37, 22, 90, 35, 6, 89, null, 96, 1, 60, 43, 6, 61, 8, 9, 87, 19, 38, 31, 97, 76, 28, 48, 56, 75, null, 79, 94, 97, 27, 10, 22, 20, 57, 60, 29, 36, 58, 29, null, 80, 25, 69, 19, null, 9, 39, 72, null, 59, 89, 34, 63, 76, 55, 77, 11, 86, 73, 2, null, 34, 97]], [[15, 65, 13, null, null, 53, 70, 99, 96, 56, 78, 36, 57, 87, 40, 32, 45, 95, 9, 11, 37, 18, null, 73, 90, 59, 51, null, 14, 96, null, null, 67, 53, 61, 3, 98, 6, null, 85, 79, 18, 29, 15, 58, 91, null, null, 71, 39, 82, 61, 51, 37, 1, 83, null, null, 62, 25, 62, 98, 55, 4, 40, 12, 91, 65, 23, null, 61, null, 63, 24, 52, 1, 57, 10, 25, 79, 69, null, 81, 0, 74, 62, 17, 60, 76, null, 10, 20, null, 75, 52, 19, 25, 13, 9, 44, 98, null, 60, 38, 15, 59, 21, 66, 79, 76, 90, 51, 82, null, 69, null, 96, 61, 2, 67, 66, null, 84, 49, 68, 10, 23, 33, 99, 36, 41, 56, 67, 12, 29, 11, null, 52, 85, 3, 20, 87, 68, 79, 71, 93, 37, 85, 12, 12, null, 87, 45, 23, 13, 35, 8, 40, 32, 52, null, null, 1, 30, 15, 71, 44, 58, 83, 4, null, 27, 54, null, null, 64, 32, 45, 91, 3, 42, 98, 15, 53, 2, 43, 7, 14, 15, 16, 76, 83, 54, 45, 48, 53, 99, 69, 91, null, 50, null, 29, 35, 53, 40, 80, 22, 83, null, 33, 66, 40, 1, 31, 28, 19, null, null, 46, null, 35, 25, 58, 70, 100, 39, 80, 62, null, null, 66, 4, 10, 69, 17, 12, null, 27, 89, 73, 50, 66, 84, 65, 18, 42, 39, 75, 24, 37, 36, 49, 95, 77, 54, 98, null, null, null, 66, 40, 20, 14, 90, 0, 8, 27, 76, 16, 41, 93, 33, 82, 60, null, 66, 45, 58, null, 8, 11, 99, 96, 21, 64, 41, null, 63, 22, 59, 88, null, 44, 75, 19, 72, 16, 42, 40, 56, 69, 29, 18, 15, 73, 51, 70, 86, 12, 63, null, 85, 66, 45, 7, null, 1, 89, 42, 78, 99, 61, 4, 81, 34, 99, 58, 79, 10, 24, 1, null, 28, null, 86, 39, 53, 87, 17, 34, null, 70, 29, null, null, 43, 40, 32, 41, 4, 17, 46, 96, 47, 93, 27, 52, null, 82, 87, 38, null, 65, null, 62, 43, 9, null, null, 32, null, null, 49, 77, null, 30, 65, null, 27, 34, 91, 71, 41, 83, 78, 24, 70, 19, 16, 84, 85, null, 38, null, 34, null, 16, 23, 96, 19, 79, 69, null, 65, 69, 87, 19, null, 65, 0, 45, 90, 32, 3, 24, null, 84, 21, 84, null, 20, 54, 58, null, 39, 56, null, 61, 27, 14, 45, 79, 14, 82, 54, 18, 81, 36, 50, 66, 34, 62, null, 18, 45, 77, 6, null, 41, 87, 59, 67, 12, 37, 75, 67, null, 49, 73, null, 69, 40, 13, 21, 32, 5, 9, 66, 42, 39, null, 91]]]'>
+      <input type="hidden" id="expected_outputs_1" value='[7, 9, 1, 0, 7, 7, 25, 23, 14, 0, 1500, 13100, 13569, 12737]'>
+    </div>
+
+    <button class="btn-reveal" onclick="revealSolution(1)" id="reveal_btn_1">
+      📖 显示答案与解析
+    </button>
+<div class="solution-section" id="solution_1" style="display:none;">
+<div class="solution-divider">--- 以下为答案与解析 ---</div>
+<div class="solution-block"><h4>💡 解题思路</h4><div>对每个节点定义两个 DP 值：take[u] 表示抢 u 时子树最大收益，skip[u] 表示不抢 u 时子树最大收益。转移：take[u]=u.val+skip[left]+skip[right]；skip[u]=max(take,skip)[left]+max(take,skip)[right]。答案 max(take[root],skip[root])。因为孩子要先算完，采用后序遍历；链式树最深可达 10^4，Python 递归容易爆栈，参考代码用显式栈做迭代后序，把「访问标记」压栈两次实现。</div></div>
+<div class="solution-block"><h4>📝 参考代码（python）</h4><pre class="code-block">from collections import deque
+
+
+class TreeNode:
+    __slots__ = (&quot;val&quot;, &quot;left&quot;, &quot;right&quot;)
+
+    def __init__(self, val=0):
+        self.val = val
+        self.left = None
+        self.right = None
+
+
+def build_tree(level_order):
+    &quot;&quot;&quot;按层序数组建树，None 表示空节点。&quot;&quot;&quot;
+    if not level_order or level_order[0] is None:
+        return None
+    root = TreeNode(level_order[0])
+    q = deque([root])
+    i = 1
+    while q and i &lt; len(level_order):
+        node = q.popleft()
+        if i &lt; len(level_order) and level_order[i] is not None:
+            node.left = TreeNode(level_order[i])
+            q.append(node.left)
+        i += 1
+        if i &lt; len(level_order) and level_order[i] is not None:
+            node.right = TreeNode(level_order[i])
+            q.append(node.right)
+        i += 1
+    return root
+
+
+def rob(level_order):
+    root = build_tree(level_order)
+    if root is None:
+        return 0
+
+    # take[u] / skip[u]：以 u 为根的子树，在「抢 u」/「不抢 u」时的最大收益
+    take, skip = {}, {}
+    stack = [(root, False)]          # (节点, 是否已访问过孩子)
+    while stack:
+        node, visited = stack.pop()
+        if node is None:
+            continue
+        if visited:                  # 后序位置：孩子已经算完
+            lt = take.get(node.left, 0)
+            ls = skip.get(node.left, 0)
+            rt = take.get(node.right, 0)
+            rs = skip.get(node.right, 0)
+            take[node] = node.val + ls + rs
+            skip[node] = max(lt, ls) + max(rt, rs)
+        else:                        # 先序位置：先压自己，再压孩子
+            stack.append((node, True))
+            stack.append((node.left, False))
+            stack.append((node.right, False))
+
+    return max(take[root], skip[root])
+</pre></div>
+<div class="solution-block"><h4>⚡ 复杂度分析</h4><div>
+<span class="complexity-tag">时间 O(n)，每个节点进出栈各一次</span>
+<span class="complexity-tag">空间 O(n)，哈希表存两状态 + 显式栈（递归实现则为 O(h) 栈空间）</span>
+</div></div>
+<div class="solution-block"><h4>🎯 考点</h4><div>树形 DP 的状态设计（选/不选当前节点）、后序遍历的自底向上合并、父子互斥约束的转化、递归深度与迭代后序的工程取舍。</div></div>
+</div>
+</div>
+<div class="question-card" data-qid="2">
+
+    <div class="question-header">
+      <span class="type-badge" style="background:#10b981">算法概念</span>
+      <span class="difficulty">⭐⭐</span>
+      <span class="qid-label">第 2 题</span>
+    </div>
+<h2 class="question-title">树状数组（Fenwick Tree）：lowbit 与两种操作的方向</h2>
+<div class="question-body">昨天（11-05）的差分数组解决了「离线区间加、最后统一还原」，但一旦要求<strong>边改边查</strong>，就需要树状数组或线段树。关于树状数组，下列说法<strong>正确</strong>的是：</div>
+<div class="options-container">
+
+            <label class="option-item" data-letter="A">
+              <input type="radio" name="quiz_2" value="A" onchange="checkAnswer(2, 'A')">
+              <span class="option-letter">A</span>
+              <span class="option-text">A. 令 `lowbit(i) = i &amp; -i`，它取到 i 的最低位 1 所代表的幂；单点修改沿 `i += lowbit(i)` 向上更新，前缀和查询沿 `i -= lowbit(i)` 向下累加，两者均为 O(log n)。</span>
+            </label>
+
+            <label class="option-item" data-letter="B">
+              <input type="radio" name="quiz_2" value="B" onchange="checkAnswer(2, 'B')">
+              <span class="option-letter">B</span>
+              <span class="option-text">B. 树状数组的 `t[i]` 保存的是原数组 `a[1..i]` 的完整前缀和，所以查询前缀和直接返回 `t[i]` 即可。</span>
+            </label>
+
+            <label class="option-item" data-letter="C">
+              <input type="radio" name="quiz_2" value="C" onchange="checkAnswer(2, 'C')">
+              <span class="option-letter">C</span>
+              <span class="option-text">C. 建树必须执行 n 次单点修改，复杂度只能是 O(n log n)，不存在 O(n) 的建树方法。</span>
+            </label>
+
+            <label class="option-item" data-letter="D">
+              <input type="radio" name="quiz_2" value="D" onchange="checkAnswer(2, 'D')">
+              <span class="option-letter">D</span>
+              <span class="option-text">D. 树状数组只能支持「单点修改 + 区间查询」，无法通过再加一棵辅助树状数组来实现「区间加 + 区间求和」。</span>
+            </label>
+</div>
+<div class="option-feedback" id="feedback_2"></div>
+
+    <button class="btn-reveal" onclick="revealSolution(2)" id="reveal_btn_2">
+      📖 显示答案与解析
+    </button>
+<div class="solution-section" id="solution_2" style="display:none;">
+<div class="solution-divider">--- 以下为答案与解析 ---</div>
+<div class="answer-highlight">✅ 正确答案：A</div>
+<div class="solution-block"><h4>💡 解题思路</h4><div>树状数组的核心是二进制拆分：t[i] 管理的是区间 (i-lowbit(i), i] 这一段，查询前缀和时不断去掉最低位的 1，修改时不断进位到最低位的 1，路径长度都是 O(log n)。</div></div>
+<div class="solution-block"><h4>🎯 考点</h4><div>lowbit 的补码含义、t[i] 的管理区间、更新/查询方向、O(n) 建树、以及「区间加+区间求和」的双 BIT 扩展。</div></div>
+<div class="solution-block"><h4>🔍 逐项分析</h4><ul class="answer-points">
+<li>A 正确：<code class="inline-code">i &amp; -i</code> 利用补码取出最低位的 1；更新向上 <code class="inline-code">i += lowbit(i)</code>，查询向下 <code class="inline-code">i -= lowbit(i)</code>，两个方向都恰好经过 O(log n) 个节点。</li>
+<li>B 错误：t[i] 只管理 (i-lowbit(i), i] 这一段，不是 a[1..i] 的完整前缀和。例如 i=6 时 lowbit=2，t[6] 只管 a[5]+a[6]。</li>
+<li>C 错误：可以 O(n) 建树——先令 t[i]=a[i]，再对每个 i 把 t[i] 加到 t[i+lowbit(i)] 上，每个节点只被加一次，总复杂度 O(n)。</li>
+<li>D 错误：维护差分数组 D 的两棵 BIT（一棵存 D，一棵存 i·D）即可支持区间加、区间求和，查询时用前缀和公式组合，仍是 O(log n)。</li>
+</ul></div>
+</div>
+</div>
+<div class="question-card" data-qid="3">
+
+    <div class="question-header">
+      <span class="type-badge" style="background:#a855f7">AI公式推导</span>
+      <span class="difficulty">⭐⭐⭐</span>
+      <span class="qid-label">第 3 题</span>
+    </div>
+<h2 class="question-title">DDPM 扩散模型：从 ELBO 推导到「预测噪声」的 MSE</h2>
+<div class="question-body">上一期（11-04）用变分下界推导了 VAE 的 ELBO。扩散模型 DDPM 同样是最大化对数似然的下界，但它的前向过程被设计成高斯马尔可夫链，最终训练目标却简化为一个非常干净的噪声预测均方误差。<br>
+<br>
+请完成：<br>
+1. 推导前向过程的闭式边缘分布 $q(x_t\mid x_0)$；<br>
+2. 写出后验 $q(x_{t-1}\mid x_t,x_0)$ 的均值与方差；<br>
+3. 从 ELBO 出发，说明每一层 KL 如何化为 $\|\epsilon-\epsilon_\theta\|^2$，并得到 $L_{\text{simple}}$。</div>
+
+    <button class="btn-reveal" onclick="revealSolution(3)" id="reveal_btn_3">
+      📖 显示答案与解析
+    </button>
+<div class="solution-section" id="solution_3" style="display:none;">
+<div class="solution-divider">--- 以下为答案与解析 ---</div>
+<div class="solution-block"><h4>🎯 考点</h4><div>高斯马尔可夫链的闭式边缘分布（方差可加性）、贝叶斯后验的高斯配方、ELBO 的三项分解、固定方差下 KL 退化为均值匹配、噪声参数化与重参数化技巧。</div></div>
+<div class="solution-block"><h4>📐 推导过程</h4><div class="derivation-content"><strong>符号约定</strong>：$x_0$ 为真实数据，$x_1,\dots,x_T$ 为逐步加噪得到的隐变量；噪声日程 $\beta_t\in(0,1)$，记 $\alpha_t=1-\beta_t$，$\bar\alpha_t=\prod_{s=1}^{t}\alpha_s$，且 $\bar\alpha_T\approx 0$。<br>
+<br>
+<strong>第 1 步：前向过程是马尔可夫高斯链</strong><br>
+<br>
+$$q(x_t\mid x_{t-1})=\mathcal N\left(x_t;\sqrt{\alpha_t}\,x_{t-1},\ \beta_t I\right)$$<br>
+<br>
+等价的重参数化写法（$\epsilon_t\sim\mathcal N(0,I)$）：<br>
+<br>
+$$x_t=\sqrt{\alpha_t}\,x_{t-1}+\sqrt{\beta_t}\,\epsilon_t$$<br>
+<br>
+<strong>第 2 步：推导任意时刻的边缘分布 $q(x_t\mid x_0)$（闭式解）</strong><br>
+<br>
+展开两步：<br>
+<br>
+$$x_t=\sqrt{\alpha_t}\left(\sqrt{\alpha_{t-1}}x_{t-2}+\sqrt{\beta_{t-1}}\epsilon_{t-1}\right)+\sqrt{\beta_t}\epsilon_t$$<br>
+<br>
+设归纳假设 $x_{t-1}=\sqrt{\bar\alpha_{t-1}}x_0+\sqrt{1-\bar\alpha_{t-1}}\,\epsilon&#x27;$，代入得<br>
+<br>
+$$x_t=\sqrt{\alpha_t\bar\alpha_{t-1}}\,x_0+\sqrt{\alpha_t(1-\bar\alpha_{t-1})}\,\epsilon&#x27;+\sqrt{\beta_t}\,\epsilon_t$$<br>
+<br>
+两个独立零均值高斯相加，方差相加：<br>
+<br>
+$$\alpha_t(1-\bar\alpha_{t-1})+\beta_t=\alpha_t-\alpha_t\bar\alpha_{t-1}+1-\alpha_t=1-\bar\alpha_t$$<br>
+<br>
+因此<br>
+<br>
+$$x_t=\sqrt{\bar\alpha_t}\,x_0+\sqrt{1-\bar\alpha_t}\,\epsilon,\qquad \epsilon\sim\mathcal N(0,I)$$<br>
+<br>
+即 $q(x_t\mid x_0)=\mathcal N\left(\sqrt{\bar\alpha_t}x_0,(1-\bar\alpha_t)I\right)$。<strong>这是 DDPM 能在任意 $t$ 一步采样、无需逐步加噪的关键。</strong><br>
+<br>
+<strong>第 3 步：反向过程需要后验 $q(x_{t-1}\mid x_t,x_0)$</strong><br>
+<br>
+由贝叶斯公式，$q(x_{t-1}\mid x_t,x_0)\propto q(x_t\mid x_{t-1})\,q(x_{t-1}\mid x_0)$。两个高斯相乘仍是高斯，对指数部分配方。两个分布的精度（方差的倒数）相加：<br>
+<br>
+$$\frac{1}{\tilde\beta_t}=\frac{\alpha_t}{\beta_t}+\frac{1}{1-\bar\alpha_{t-1}}<br>
+=\frac{\alpha_t(1-\bar\alpha_{t-1})+\beta_t}{\beta_t(1-\bar\alpha_{t-1})}<br>
+=\frac{1-\bar\alpha_t}{\beta_t(1-\bar\alpha_{t-1})}$$<br>
+<br>
+$$\tilde\beta_t=\frac{\beta_t(1-\bar\alpha_{t-1})}{1-\bar\alpha_t}$$<br>
+<br>
+均值由两个均值按精度加权：<br>
+<br>
+$$\tilde\mu_t=\frac{\sqrt{\alpha_t}(1-\bar\alpha_{t-1})}{1-\bar\alpha_t}x_t<br>
++\frac{\sqrt{\bar\alpha_{t-1}}\,\beta_t}{1-\bar\alpha_t}x_0$$<br>
+<br>
+<strong>第 4 步：写出 ELBO 并分解</strong><br>
+<br>
+$$\log p_\theta(x_0)\ge \mathbb E_q\left[\log p_\theta(x_T)+\sum_{t=1}^{T}\log p_\theta(x_{t-1}\mid x_t)-\sum_{t=1}^{T}\log q(x_t\mid x_{t-1})\right]$$<br>
+<br>
+整理成三项：<br>
+<br>
+$$-L_T-\sum_{t=2}^{T}L_{t-1}-L_0$$<br>
+<br>
+其中 $L_T=\mathrm{KL}(q(x_T\mid x_0)\|p_\theta(x_T))$ 与参数无关（$\bar\alpha_T\approx0$ 时近似先验）；$L_0=-\log p_\theta(x_0\mid x_1)$；核心是<br>
+<br>
+$$L_{t-1}=\mathbb E_q\left[\mathrm{KL}\left(q(x_{t-1}\mid x_t,x_0)\,\|\,p_\theta(x_{t-1}\mid x_t)\right)\right]$$<br>
+<br>
+<strong>第 5 步：固定方差的高斯 KL 退化为均值匹配</strong><br>
+<br>
+取 $p_\theta(x_{t-1}\mid x_t)=\mathcal N(\mu_\theta(x_t,t),\sigma_t^2 I)$，$\sigma_t^2$ 固定。两个同方差高斯的 KL 为<br>
+<br>
+$$\mathrm{KL}=\frac{1}{2\sigma_t^2}\|\tilde\mu_t-\mu_\theta\|^2+\text{常数}$$<br>
+<br>
+所以训练目标等价于让网络预测的均值逼近后验均值 $\tilde\mu_t$。<br>
+<br>
+<strong>第 6 步：把均值预测改写为噪声预测</strong><br>
+<br>
+由第 2 步，$x_0=\dfrac{x_t-\sqrt{1-\bar\alpha_t}\,\epsilon}{\sqrt{\bar\alpha_t}}$。代入 $\tilde\mu_t$ 并化简：<br>
+<br>
+$$\tilde\mu_t=\frac{1}{\sqrt{\alpha_t}}\left(x_t-\frac{\beta_t}{\sqrt{1-\bar\alpha_t}}\,\epsilon\right)$$<br>
+<br>
+于是让网络输出 $\epsilon_\theta(x_t,t)$，并令<br>
+<br>
+$$\mu_\theta(x_t,t)=\frac{1}{\sqrt{\alpha_t}}\left(x_t-\frac{\beta_t}{\sqrt{1-\bar\alpha_t}}\,\epsilon_\theta(x_t,t)\right)$$<br>
+<br>
+两者相减：<br>
+<br>
+$$\tilde\mu_t-\mu_\theta=\frac{1}{\sqrt{\alpha_t}}\cdot\frac{\beta_t}{\sqrt{1-\bar\alpha_t}}\left(\epsilon_\theta-\epsilon\right)$$<br>
+<br>
+平方后得到<br>
+<br>
+$$L_{t-1}=\frac{\beta_t^2}{2\sigma_t^2\alpha_t(1-\bar\alpha_t)}<br>
+\mathbb E\left\|\epsilon-\epsilon_\theta\!\left(\sqrt{\bar\alpha_t}x_0+\sqrt{1-\bar\alpha_t}\epsilon,\ t\right)\right\|^2$$<br>
+<br>
+<strong>第 7 步：去掉权重得到简化损失</strong><br>
+<br>
+DDPM 发现把前面的系数丢掉、对 $t$ 均匀采样，训练更稳定且效果更好：<br>
+<br>
+$$L_{\text{simple}}=\mathbb E_{t,x_0,\epsilon}\left\|\epsilon-\epsilon_\theta\left(\sqrt{\bar\alpha_t}x_0+\sqrt{1-\bar\alpha_t}\epsilon,\ t\right)\right\|^2$$<br>
+<br>
+<strong>采样（反向生成）</strong>：从 $x_T\sim\mathcal N(0,I)$ 开始，对 $t=T,\dots,1$<br>
+<br>
+$$x_{t-1}=\frac{1}{\sqrt{\alpha_t}}\left(x_t-\frac{\beta_t}{\sqrt{1-\bar\alpha_t}}\epsilon_\theta(x_t,t)\right)+\sigma_t z,\qquad z\sim\mathcal N(0,I)$$<br>
+<br>
+（$t=1$ 时 $z=0$。）</div></div>
+<div class="solution-block"><h4>🧠 直觉解释</h4><div>前向过程把图像一步步&quot;溶解&quot;成标准高斯噪声，且任意时刻都能用 $\sqrt{\bar\alpha_t}x_0+\sqrt{1-\bar\alpha_t}\epsilon$ 一步到位；反向过程则训练一个网络在每一步&quot;猜出当时加进去的噪声&quot;，猜准了就能把它减掉，从而一步步还原图像。ELBO 的每一层 KL 在固定方差下都等价于&quot;预测噪声的均方误差&quot;，这就是 DDPM 损失如此简洁的根本原因。</div></div>
+</div>
+</div>
+<div class="question-card" data-qid="4">
+
+    <div class="question-header">
+      <span class="type-badge" style="background:#f59e0b">AI面试问答</span>
+      <span class="difficulty">⭐⭐</span>
+      <span class="qid-label">第 4 题</span>
+    </div>
+<h2 class="question-title">MoE 混合专家：为什么参数变多而计算量不涨？如何保证负载均衡？</h2>
+<div class="question-body">面试官问：「MoE（Mixture-of-Experts）为什么能在不显著增加计算量的情况下把模型参数量做大？训练时专家负载不均衡怎么办？MoE 推理一定更快吗？」请给出结构化回答。</div>
+
+    <button class="btn-reveal" onclick="revealSolution(4)" id="reveal_btn_4">
+      📖 显示答案与解析
+    </button>
+<div class="solution-section" id="solution_4" style="display:none;">
+<div class="solution-divider">--- 以下为答案与解析 ---</div>
+<div class="solution-block"><h4>📌 回答要点</h4><ul class="answer-points">
+<li><strong>结构替换</strong>：MoE 把 Transformer 的 FFN 层换成 $N$ 个并列专家 $E_1,\dots,E_N$ 加一个轻量路由网络。对每个 token，路由计算 $g=\mathrm{softmax}(W_g x)$，只取 Top-$k$（常见 $k=1$ 或 $2$）个专家加权求和：$y=\sum_{i\in\mathrm{TopK}} g_i E_i(x)$。</li>
+<li><strong>参数与计算解耦</strong>：总参数量随 $N$ 线性增长（知识容量变大），但每个 token 只经过 $k$ 个专家，前向 FLOPs 约等于稠密模型的 $k/N$ 倍。例如 Mixtral 8×7B 总参数约 46.7B、每 token 激活约 12.9B；DeepSeek-V3 总参数 671B、激活 37B。</li>
+<li><strong>为什么要负载均衡</strong>：路由是&quot;赢者通吃&quot;的，训练初期容易强者愈强，出现专家坍缩（少数专家吃掉大部分 token，其余专家几乎不更新）。Switch Transformer 的辅助损失为 $\mathcal L_{\text{aux}}=\alpha N\sum_{i=1}^{N} f_i P_i$，其中 $f_i$ 是实际分到专家 $i$ 的 token 比例，$P_i$ 是路由给专家 $i$ 的平均概率；两者都高才受罚，促使分配均匀。</li>
+<li><strong>工程约束</strong>：常用 capacity factor（专家容量 $=\text{capacity factor}\times\text{tokens}/N$）限制单专家负载，超出容量的 token 被丢弃（token dropping）或走残差；容量因子调大减少丢弃但增加显存与通信。专家并行（expert parallelism）把不同专家放到不同 GPU，需要 All-to-All 通信，因此对互联带宽敏感。</li>
+<li><strong>代价与取舍</strong>：所有专家都要驻留显存，显存占用不降；路由带来动态计算、负载抖动和训练不稳定；小 batch 或单序列解码时每 token 只算少数专家，算术强度低，权重加载和通信反而可能让推理不变快。</li>
+</ul></div>
+<div class="solution-block"><h4>⭐ 加分项</h4><ul class="answer-points">
+<li><strong>细粒度 + 共享专家</strong>：DeepSeekMoE 把专家切得更细（更多、更小的专家）提高组合灵活性，并设置始终激活的共享专家来承载通用知识，减少不同专家之间的知识冗余。</li>
+<li><strong>路由稳定性技巧</strong>：router z-loss 惩罚路由 logits 的幅值、对门控做 float32 计算、噪声注入（训练时给路由加高斯噪声）都能缓解专家坍缩和训练抖动。</li>
+<li><strong>Dense 到 MoE 的转换</strong>：MoE upcycling 把一个稠密模型的 FFN 复制成多个专家再继续预训练，比从零训练更省算力。</li>
+<li><strong>与稠密模型的公平比较</strong>：应同时报告总参数与激活参数、训练 token 数、推理硬件与 batch 条件；只比总参数会高估 MoE 的实际收益。</li>
+</ul></div>
+<div class="solution-block"><h4>🔮 追问预测</h4><ul class="answer-points">
+<li><strong>追问：Top-$k$ 的 $k$ 怎么选？</strong> 回答思路：$k$ 越大，单 token 用到的专家越多、质量通常越好，但 FLOPs 与通信线性上升；$k=1$ 最省算力但路由容错差，$k=2$ 是质量/效率的常用折中。还要结合专家总数 $N$、单专家容量和硬件互联带宽一起定。</li>
+<li><strong>追问：capacity factor 设小了会怎样？</strong> 回答思路：单专家能处理的 token 数受限，超出的 token 被丢弃（不经过该层或走残差），造成信息损失与训练/推理不一致；设大一些可减少丢弃，但会浪费显存并增加 All-to-All 通信量，通常按任务在 1.0～2.0 之间调。</li>
+<li><strong>追问：MoE 微调要注意什么？</strong> 回答思路：下游数据少时路由容易漂移、专家进一步失衡，可冻结路由或加负载均衡损失；学习率通常比稠密模型更小；要监控每个专家的 token 占比与梯度范数，防止部分专家&quot;死掉&quot;。</li>
+<li><strong>追问：MoE 推理一定更快吗？</strong> 回答思路：不一定。预填充阶段 batch 大、矩阵乘效率高时收益明显；单请求逐 token 解码时每步只激活少数专家，显存带宽和专家并行通信成为瓶颈，吞吐提升有限，需要靠大批量/专家本地化/量化来摊薄。</li>
+</ul></div>
+</div>
+</div>
+
+<div class="footer">
+  坚持每日练习，积少成多 💪<br>
+  Powered by TeleAgent · daily-algo-ai-quiz
+</div>
+
+<script>
+// ===== Pyodide 隔离执行测试运行器 =====
+const RUNNER_CODE = "\nimport json, traceback, io, contextlib\n\ndef run_tests(user_code, func_name, test_cases, expected):\n    ns = {}\n    user_stdout = io.StringIO()\n    user_error = None\n\n    try:\n        with contextlib.redirect_stdout(user_stdout):\n            exec(user_code, ns)\n    except Exception:\n        user_error = traceback.format_exc()\n\n    user_out = user_stdout.getvalue()\n\n    if user_error:\n        return {\"error\": user_error, \"stdout\": user_out}\n\n    func = ns.get(func_name)\n    if func is None:\n        return {\"error\": \"未找到函数 \" + str(func_name) + \"，请确保代码中定义了该函数\", \"stdout\": user_out}\n\n    test_results = []\n    for i, tc in enumerate(test_cases):\n        try:\n            actual = func(*tc)\n            exp = expected[i]\n            passed = actual == exp\n            test_results.append({\n                \"passed\": passed,\n                \"input\": str(tc),\n                \"expected\": str(exp),\n                \"actual\": str(actual)\n            })\n        except Exception as e:\n            exp = str(expected[i]) if i < len(expected) else \"N/A\"\n            test_results.append({\n                \"passed\": False,\n                \"input\": str(tc),\n                \"expected\": exp,\n                \"actual\": \"Error: \" + str(e)\n            })\n\n    return {\"stdout\": user_out, \"tests\": test_results}\n";
+
+// ===== 显示/隐藏解析 =====
+function revealSolution(qid) {
+  const sol = document.getElementById('solution_' + qid);
+  const btn = document.getElementById('reveal_btn_' + qid);
+  if (sol.style.display === 'none') {
+    sol.style.display = 'block';
+    btn.innerHTML = '📕 收起解析';
+    // 渲染该区域数学公式
+    if (typeof renderMathInElement !== 'undefined') {
+      renderMathInElement(sol, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false}
+        ]
+      });
+    }
+  } else {
+    sol.style.display = 'none';
+    btn.innerHTML = '📖 显示答案与解析';
+  }
+}
+
+// ===== 选择题作答反馈 =====
+function checkAnswer(qid, selected) {
+  const card = document.querySelector(`[data-qid="${qid}"]`);
+  if (!card) return;
+  const correctAnswer = card.getAttribute('data-correct') || '';
+  // 从全局 quizData 获取
+  const qData = window.__quizData__.questions.find(q => q.id == qid);
+  if (!qData || !qData.correct_answer) return;
+
+  const correct = qData.correct_answer;
+  const feedback = document.getElementById('feedback_' + qid);
+  const options = card.querySelectorAll('.option-item');
+
+  options.forEach(opt => {
+    const letter = opt.getAttribute('data-letter');
+    opt.classList.remove('correct', 'wrong');
+    if (letter === correct) {
+      opt.classList.add('correct');
+    } else if (letter === selected && selected !== correct) {
+      opt.classList.add('wrong');
+    }
+  });
+
+  if (feedback) {
+    feedback.className = 'option-feedback show ' + (selected === correct ? 'correct' : 'wrong');
+    feedback.textContent = selected === correct
+      ? '✅ 回答正确！'
+      : `❌ 正确答案是 ${correct}，再想想？`;
+    feedback.style.display = 'block';
+  }
+}
+
+// ===== Pyodide 代码执行 =====
+let pyodideReady = null;
+let pyodideLoading = false;
+
+function loadPyodideAsync() {
+  if (pyodideReady) return pyodideReady;
+  if (pyodideLoading) return pyodideReady;
+  pyodideLoading = true;
+
+  pyodideReady = new Promise((resolve, reject) => {
+    if (typeof loadPyodide !== 'undefined') {
+      loadPyodide({
+        indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.25.0/full/'
+      }).then(py => {
+        pyodideLoading = false;
+        resolve(py);
+      }).catch(reject);
+    } else {
+      // 动态加载 Pyodide
+      const script = document.createElement('script');
+      script.src = 'https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js';
+      script.onload = () => {
+        loadPyodide({
+          indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.25.0/full/'
+        }).then(py => {
+          pyodideLoading = false;
+          resolve(py);
+        }).catch(reject);
+      };
+      script.onerror = () => {
+        pyodideLoading = false;
+        reject(new Error('Pyodide 加载失败，请检查网络连接'));
+      };
+      document.head.appendChild(script);
+    }
+  });
+  return pyodideReady;
+}
+
+async function runCode(qid) {
+    const editor = document.getElementById('editor_' + qid);
+    const resultDiv = document.getElementById('result_' + qid);
+    const btn = document.getElementById('run_btn_' + qid);
+    const code = editor.innerText;
+    const funcNameInput = document.getElementById('func_name_' + qid);
+    const funcName = funcNameInput ? funcNameInput.value : 'solve';
+    const tcInput = document.getElementById('test_cases_' + qid);
+    const eoInput = document.getElementById('expected_outputs_' + qid);
+    let testCases = [];
+    let expectedOutputs = [];
+    try {
+        testCases = JSON.parse(tcInput.value || '[]');
+        expectedOutputs = JSON.parse(eoInput.value || '[]');
+    } catch(e) {}
+
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span> 运行中...';
+    resultDiv.style.display = 'block';
+    resultDiv.innerHTML = '<span style="color:var(--text-dim)">⏳ 正在加载 Python 运行环境...</span>';
+
+    try {
+        const pyodide = await loadPyodideAsync();
+        resultDiv.innerHTML = '<span style="color:var(--text-dim)">⏳ 正在执行代码...</span>';
+
+        // 确保 run_tests 函数只定义一次
+        if (!window.__runner_ready__) {
+            pyodide.runPython(RUNNER_CODE);
+            window.__runner_ready__ = true;
+        }
+
+        // 调用 run_tests 函数，通过返回值获取结果（不依赖 stdout，每次调用独立）
+        const runTests = pyodide.globals.get('run_tests');
+        const pyResult = runTests(code, funcName, testCases, expectedOutputs);
+        // pyResult 是 Python dict，转为 JS 对象
+        const result = pyResult.toJs({dict_converter: Object.fromEntries});
+
+        let resultHtml = '';
+
+        // 显示用户代码标准输出
+        if (result.stdout && result.stdout.trim()) {
+            resultHtml += '<div style="color:var(--text)">📝 标准输出：</div>';
+            resultHtml += '<pre style="color:var(--text);margin:4px 0;">' + escapeHtml(result.stdout) + '</pre>';
+        }
+
+        // 显示错误信息
+        if (result.error) {
+            resultHtml += '<div class="stderr">⚠️ 错误信息：</div>';
+            resultHtml += '<pre class="stderr" style="margin:4px 0;">' + escapeHtml(result.error) + '</pre>';
+        }
+
+        // 显示测试用例结果
+        if (result.tests && result.tests.length > 0) {
+            let allPassed = result.tests.every(t => t.passed);
+            resultHtml += '<div style="margin-top:8px;color:' + (allPassed ? 'var(--green)' : 'var(--accent)') + '">';
+            resultHtml += allPassed ? '🎉 全部通过！' : '🧪 测试用例结果：';
+            resultHtml += '</div>';
+
+            for (let i = 0; i < result.tests.length; i++) {
+                const t = result.tests[i];
+                if (t.passed) {
+                    resultHtml += '<div class="test-pass">✅ 用例 ' + (i+1) + ' 通过</div>';
+                } else {
+                    resultHtml += '<div class="test-fail">❌ 用例 ' + (i+1) + ' 未通过</div>';
+                    resultHtml += '<pre style="color:var(--text-dim);margin:2px 0;">  输入: ' + escapeHtml(t.input) + '\n  期望: ' + escapeHtml(t.expected) + '\n  实际: ' + escapeHtml(t.actual) + '</pre>';
+                }
+            }
+        }
+
+        if (!resultHtml) {
+            resultHtml = '<span style="color:var(--text-dim)">（代码执行完毕，无输出）</span>';
+        }
+
+        resultDiv.innerHTML = resultHtml;
+
+    } catch(e) {
+        resultDiv.innerHTML = '<div class="stderr">❌ ' + escapeHtml(e.message || String(e)) + '</div>';
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = '▶ 运行';
+    }
+}
+
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+// Ctrl+Enter 运行代码
+document.addEventListener('keydown', (e) => {
+  if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+    const focused = document.activeElement;
+    if (focused && focused.classList.contains('code-editor')) {
+      const qid = focused.id.replace('editor_', '');
+      runCode(qid);
+    }
+  }
+});
+
+// Tab 键在编辑器中插入空格
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Tab' && document.activeElement.classList.contains('code-editor')) {
+    e.preventDefault();
+    document.execCommand('insertText', false, '    ');
+  }
+});
+
+// 将 quiz 数据存入全局变量供选择题使用
+window.__quizData__ = {"date": "2026-11-06", "title": "每日算法 AI 出题", "subtitle": "算法 2 道 + AI 2 道 · 第 28 期 · 树形 DP / 树状数组 / DDPM / MoE", "questions": [{"id": 1, "type": "algorithm_code", "type_label": "算法编程", "difficulty": 2, "title": "打家劫舍 III：树形 DP 的两状态设计", "description": "小区变成了一棵二叉树：每个节点代表一栋房子，节点值是该房子的现金。小偷不能同时偷**直接相连**的两栋房子（即父节点与子节点不能同时选），否则会触发报警。\n\n给定二叉树的层序数组（`null` 表示空节点），求一夜能偷到的最高金额。\n\n**为什么是树形 DP**：对任意节点 $u$，只需要知道「抢 $u$」和「不抢 $u$」两种状态下子树的最优值：\n- 抢 $u$：两个孩子都不能抢，收益为 $u.val + skip(left) + skip(right)$；\n- 不抢 $u$：两个孩子各自可以抢也可以不抢，收益为 $\\max(take,skip)(left)+\\max(take,skip)(right)$。\n\n两种状态互相依赖、自底向上合并，正是树形 DP 的标准形态。", "input_format": "一个层序数组，元素为整数或 null（Python 中为 None），按完全二叉树的层序排列，末尾的空节点可省略。", "output_format": "一个整数，表示能偷到的最高金额。", "examples": [{"input": "[3,2,3,null,3,null,1]", "output": "7", "explanation": "偷第 1 层（3）和第 3 层的两个 3，再偷最右下的 1，总额 3+3+1=7；不能同时偷 3 和它的孩子 2、3。"}, {"input": "[3,4,5,1,3,null,1]", "output": "9", "explanation": "偷 4 + 5 = 9，或 3+1+3=7，最优为 9。"}], "constraints": "节点数 $1\\le n\\le 10^4$；$0\\le node.val\\le 10^4$；树可能是一条链（深度可达 $n$），递归实现需注意栈深度。", "solution": {"approach": "对每个节点定义两个 DP 值：take[u] 表示抢 u 时子树最大收益，skip[u] 表示不抢 u 时子树最大收益。转移：take[u]=u.val+skip[left]+skip[right]；skip[u]=max(take,skip)[left]+max(take,skip)[right]。答案 max(take[root],skip[root])。因为孩子要先算完，采用后序遍历；链式树最深可达 10^4，Python 递归容易爆栈，参考代码用显式栈做迭代后序，把「访问标记」压栈两次实现。", "code": "from collections import deque\n\n\nclass TreeNode:\n    __slots__ = (\"val\", \"left\", \"right\")\n\n    def __init__(self, val=0):\n        self.val = val\n        self.left = None\n        self.right = None\n\n\ndef build_tree(level_order):\n    \"\"\"按层序数组建树，None 表示空节点。\"\"\"\n    if not level_order or level_order[0] is None:\n        return None\n    root = TreeNode(level_order[0])\n    q = deque([root])\n    i = 1\n    while q and i < len(level_order):\n        node = q.popleft()\n        if i < len(level_order) and level_order[i] is not None:\n            node.left = TreeNode(level_order[i])\n            q.append(node.left)\n        i += 1\n        if i < len(level_order) and level_order[i] is not None:\n            node.right = TreeNode(level_order[i])\n            q.append(node.right)\n        i += 1\n    return root\n\n\ndef rob(level_order):\n    root = build_tree(level_order)\n    if root is None:\n        return 0\n\n    # take[u] / skip[u]：以 u 为根的子树，在「抢 u」/「不抢 u」时的最大收益\n    take, skip = {}, {}\n    stack = [(root, False)]          # (节点, 是否已访问过孩子)\n    while stack:\n        node, visited = stack.pop()\n        if node is None:\n            continue\n        if visited:                  # 后序位置：孩子已经算完\n            lt = take.get(node.left, 0)\n            ls = skip.get(node.left, 0)\n            rt = take.get(node.right, 0)\n            rs = skip.get(node.right, 0)\n            take[node] = node.val + ls + rs\n            skip[node] = max(lt, ls) + max(rt, rs)\n        else:                        # 先序位置：先压自己，再压孩子\n            stack.append((node, True))\n            stack.append((node.left, False))\n            stack.append((node.right, False))\n\n    return max(take[root], skip[root])\n", "starter_code": "from collections import deque\n\n\ndef rob(level_order):\n    root = _build(level_order)\n\n    # TODO: 后序遍历，返回 (抢当前节点, 不抢当前节点) 两个值\n    def dfs(node):\n        pass\n\n    return 0\n\n\n# ---------- 以下是建树辅助代码，已写好，可直接使用 ----------\nclass TreeNode:\n    def __init__(self, val=0):\n        self.val = val\n        self.left = None\n        self.right = None\n\n\ndef _build(level_order):\n    if not level_order or level_order[0] is None:\n        return None\n    root = TreeNode(level_order[0])\n    q = deque([root])\n    i = 1\n    while q and i < len(level_order):\n        node = q.popleft()\n        if i < len(level_order) and level_order[i] is not None:\n            node.left = TreeNode(level_order[i])\n            q.append(node.left)\n        i += 1\n        if i < len(level_order) and level_order[i] is not None:\n            node.right = TreeNode(level_order[i])\n            q.append(node.right)\n        i += 1\n    return root\n", "code_language": "python", "complexity_time": "O(n)，每个节点进出栈各一次", "complexity_space": "O(n)，哈希表存两状态 + 显式栈（递归实现则为 O(h) 栈空间）", "key_points": "树形 DP 的状态设计（选/不选当前节点）、后序遍历的自底向上合并、父子互斥约束的转化、递归深度与迭代后序的工程取舍。", "test_cases": [[[3, 2, 3, null, 3, null, 1]], [[3, 4, 5, 1, 3, null, 1]], [[1]], [[0]], [[2, 1, 3, null, 4]], [[4, 1, null, 2, null, 3]], [[5, 5, 5, 5, 5, 5, 5]], [[1, 2, 3, 4, 5, 6, 7]], [[10, 1, 1, 2, 2]], [[0, 0, 0]], [[1, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null, 1, null, 2, null]], [[41, null, 6, 68, 74, 64, 11, 8, 70, 72, 28, 74, null, 50, 28, 17, 18, 73, 87, 74, 24, 70, 72, 26, 68, 40, 58, 31, 89, 10, 67, 43, 36, 9, 53, 43, 62, 85, 71, 40, 44, 74, 8, 34, 85, 93, 82, 87, 36, 85, 59, 78, 7, 36, 31, 63, 57, 35, null, 70, 53, null, 48, null, 22, 84, 62, 23, 0, 68, 72, 16, 65, null, 94, 99, null, 71, 51, 61, 7, 26, 14, 6, 72, 12, null, 9, null, 19, 44, 60, 62, null, 61, 18, 43, 61, 20, 26, null, 18, 3, 38, null, null, 33, 21, 28, 99, 81, 100, null, null, 51, 29, 63, 3, null, 60, 88, 44, 92, null, null, 28, 60, 26, 78, 61, null, 82, 84, 49, 96, 22, 81, 92, 51, 10, 21, null, 75, null, 18, 76, null, 44, 70, 1, 92, 67, 17, 24, 27, 27, 30, 41, 53, 7, null, 58, 66, 64, 19, 2, null, 77, 19, 60, 15, 41, 67, 100, 71, 24, 98, 57, 97, null, 41, 64, 25, 57, 61, 31, 33, null, null, 57, 15, 40, 30, 27, 100, 99, 91, 46, 17, null, 12, 62, 85, 20, 65, 53, 40, 46, 70, 90, 42, 37, 8, 100, 13, 34, 99, 96, 54, 86, 33, 68, null, 89, 35, 88, 9, 2, 33, 28, 15, 43, null, 34, 5, 30, null, null, 23, 39, 67, 37, 86, 44, 32, 2, 70, null, 31, null, 83, 63, 50, null, 27, null, 90, 17, 44, null, 1, 94, null, 7, 48, null, 36, 88, 58, 34, 33, 42, null, 31, 39, 23, 48, 35, 25, 99, 33, 18, 5, 38, 29, 67, null, 91, 76, 41, 63, 92, 18, 91, null, 93, 64, 67, 72, 2, 74, 91, 88, 10, 17, 13, 57, 80, 68, 62, 58, 95, null, null, 67, 94, 9, 30, 26, 83, null, 48, 87, 5, 82, 76, 32, 88, 72, 61, 34, null, 27, 37, 36, 59, 70, 10, null, 58, 64, null, 34, 26, 11, 67, 46, 80, 14, 29, 62, 20, 62, 51, 18, 48, 42, 96, 50, 25, 94, 47, 49, null, 46, null, 6, 6, 36, 19, 34, 40, 47, 54, null, 80, 70, 92, 93, 78, 82, null, 70, 60, 36, 94, 83, 83, 61, 50, 82, 26, 63, 57, null, null, 17, 31, 43, 40, 33, 25, null, 52, 95, 48, 96, 35, 46, 64, 27, 31, 82, 39, 2, 54, 60, null, 9, 67, null, null, 13, 19, 87, 92, 97, null, 99, 100, 72, null, 38, null, 67, 89, 12, 67, null, 33, 76, 68, 58, 40, 31, 30, 3, null, 39, 24, 86, 10, 85, 47, 4, 91, 87, 0, 94, 8, 25, 24, 28]], [[81, 94, 28, 13, 69, 54, 11, 64, 71, 83, 53, 75, 0, 20, 43, 27, null, 11, 45, 77, 5, 68, 48, 37, 79, null, 24, 5, 98, 10, null, null, 58, 46, 45, 34, 87, 77, 68, 20, 34, null, 71, 41, 99, 4, 51, 27, null, 91, 83, 82, 33, 95, 33, 54, null, 28, null, 63, 6, null, 20, 54, 49, 59, 70, null, 92, 68, 98, 14, 20, 92, null, 64, 64, null, null, 81, 25, 97, 99, null, null, 62, 46, null, 39, 30, null, null, 62, 97, 16, 60, null, 67, null, 27, null, 88, 39, 85, 56, null, 31, 43, 70, 28, 90, 29, 4, null, 30, 62, 16, 73, 31, 52, 12, 45, 59, null, 83, null, 51, 13, 24, 17, 35, 9, 70, 83, null, 11, null, 21, 61, 51, null, 0, null, 100, 36, 93, null, 91, 24, 7, 69, 40, 74, 67, 65, 23, 8, 30, 72, 76, 10, 74, 40, null, 91, 33, 85, 58, 96, null, 79, null, null, 27, 16, null, null, null, 20, 69, 78, null, 67, 70, 84, 17, 13, 19, 77, 43, 81, null, 32, null, 11, 35, 42, 81, null, 56, 54, 14, 88, null, 47, 18, 5, 5, null, 31, 45, 52, null, 30, null, null, 52, 94, null, 52, 94, 34, 89, 4, null, 58, 29, 84, 42, 8, null, 82, 86, null, 3, 33, 33, 76, 93, 55, 65, 73, 5, 0, 68, 94, 25, 8, null, null, 84, 92, null, 85, 51, 70, 53, 48, 22, 38, 0, 26, 74, 41, 56, 65, 94, 10, 84, 42, 96, 39, 25, 5, 60, 98, 53, null, 91, 63, 18, 0, null, null, null, 28, 89, 6, 15, 59, 71, 96, null, 92, null, 70, 20, 60, 96, 81, 99, 80, 56, 36, 42, 69, 19, 88, 27, 52, 59, 26, 49, null, 89, 97, 61, 45, 49, null, null, 95, 77, null, 34, 3, 85, 51, 59, null, null, 50, 84, 82, 59, 33, 27, 43, 48, 53, 10, 95, 44, 8, 83, 3, null, 2, 30, 85, 27, 32, 21, 95, 99, 39, 3, null, 48, 91, 75, 80, 89, 87, 15, 72, 44, 84, 64, 1, 62, 46, 58, 55, 66, null, 68, 59, 93, 41, null, 11, 57, 59, 85, 3, 41, 27, 33, 76, 35, 66, null, 92, 71, 88, 91, 2, 28, 31, 74, 70, 54, null, 45, 34, 29, 24, 95, 97, 24, 61, 75, null, 36, null, 37, 22, 90, 35, 6, 89, null, 96, 1, 60, 43, 6, 61, 8, 9, 87, 19, 38, 31, 97, 76, 28, 48, 56, 75, null, 79, 94, 97, 27, 10, 22, 20, 57, 60, 29, 36, 58, 29, null, 80, 25, 69, 19, null, 9, 39, 72, null, 59, 89, 34, 63, 76, 55, 77, 11, 86, 73, 2, null, 34, 97]], [[15, 65, 13, null, null, 53, 70, 99, 96, 56, 78, 36, 57, 87, 40, 32, 45, 95, 9, 11, 37, 18, null, 73, 90, 59, 51, null, 14, 96, null, null, 67, 53, 61, 3, 98, 6, null, 85, 79, 18, 29, 15, 58, 91, null, null, 71, 39, 82, 61, 51, 37, 1, 83, null, null, 62, 25, 62, 98, 55, 4, 40, 12, 91, 65, 23, null, 61, null, 63, 24, 52, 1, 57, 10, 25, 79, 69, null, 81, 0, 74, 62, 17, 60, 76, null, 10, 20, null, 75, 52, 19, 25, 13, 9, 44, 98, null, 60, 38, 15, 59, 21, 66, 79, 76, 90, 51, 82, null, 69, null, 96, 61, 2, 67, 66, null, 84, 49, 68, 10, 23, 33, 99, 36, 41, 56, 67, 12, 29, 11, null, 52, 85, 3, 20, 87, 68, 79, 71, 93, 37, 85, 12, 12, null, 87, 45, 23, 13, 35, 8, 40, 32, 52, null, null, 1, 30, 15, 71, 44, 58, 83, 4, null, 27, 54, null, null, 64, 32, 45, 91, 3, 42, 98, 15, 53, 2, 43, 7, 14, 15, 16, 76, 83, 54, 45, 48, 53, 99, 69, 91, null, 50, null, 29, 35, 53, 40, 80, 22, 83, null, 33, 66, 40, 1, 31, 28, 19, null, null, 46, null, 35, 25, 58, 70, 100, 39, 80, 62, null, null, 66, 4, 10, 69, 17, 12, null, 27, 89, 73, 50, 66, 84, 65, 18, 42, 39, 75, 24, 37, 36, 49, 95, 77, 54, 98, null, null, null, 66, 40, 20, 14, 90, 0, 8, 27, 76, 16, 41, 93, 33, 82, 60, null, 66, 45, 58, null, 8, 11, 99, 96, 21, 64, 41, null, 63, 22, 59, 88, null, 44, 75, 19, 72, 16, 42, 40, 56, 69, 29, 18, 15, 73, 51, 70, 86, 12, 63, null, 85, 66, 45, 7, null, 1, 89, 42, 78, 99, 61, 4, 81, 34, 99, 58, 79, 10, 24, 1, null, 28, null, 86, 39, 53, 87, 17, 34, null, 70, 29, null, null, 43, 40, 32, 41, 4, 17, 46, 96, 47, 93, 27, 52, null, 82, 87, 38, null, 65, null, 62, 43, 9, null, null, 32, null, null, 49, 77, null, 30, 65, null, 27, 34, 91, 71, 41, 83, 78, 24, 70, 19, 16, 84, 85, null, 38, null, 34, null, 16, 23, 96, 19, 79, 69, null, 65, 69, 87, 19, null, 65, 0, 45, 90, 32, 3, 24, null, 84, 21, 84, null, 20, 54, 58, null, 39, 56, null, 61, 27, 14, 45, 79, 14, 82, 54, 18, 81, 36, 50, 66, 34, 62, null, 18, 45, 77, 6, null, 41, 87, 59, 67, 12, 37, 75, 67, null, 49, 73, null, 69, 40, 13, 21, 32, 5, 9, 66, 42, 39, null, 91]]], "expected_outputs": [7, 9, 1, 0, 7, 7, 25, 23, 14, 0, 1500, 13100, 13569, 12737]}}, {"id": 2, "type": "algorithm_concept", "type_label": "算法概念", "difficulty": 2, "title": "树状数组（Fenwick Tree）：lowbit 与两种操作的方向", "description": "昨天（11-05）的差分数组解决了「离线区间加、最后统一还原」，但一旦要求**边改边查**，就需要树状数组或线段树。关于树状数组，下列说法**正确**的是：", "options": ["A. 令 `lowbit(i) = i & -i`，它取到 i 的最低位 1 所代表的幂；单点修改沿 `i += lowbit(i)` 向上更新，前缀和查询沿 `i -= lowbit(i)` 向下累加，两者均为 O(log n)。", "B. 树状数组的 `t[i]` 保存的是原数组 `a[1..i]` 的完整前缀和，所以查询前缀和直接返回 `t[i]` 即可。", "C. 建树必须执行 n 次单点修改，复杂度只能是 O(n log n)，不存在 O(n) 的建树方法。", "D. 树状数组只能支持「单点修改 + 区间查询」，无法通过再加一棵辅助树状数组来实现「区间加 + 区间求和」。"], "correct_answer": "A", "solution": {"approach": "树状数组的核心是二进制拆分：t[i] 管理的是区间 (i-lowbit(i), i] 这一段，查询前缀和时不断去掉最低位的 1，修改时不断进位到最低位的 1，路径长度都是 O(log n)。", "option_analysis": ["A 正确：`i & -i` 利用补码取出最低位的 1；更新向上 `i += lowbit(i)`，查询向下 `i -= lowbit(i)`，两个方向都恰好经过 O(log n) 个节点。", "B 错误：t[i] 只管理 (i-lowbit(i), i] 这一段，不是 a[1..i] 的完整前缀和。例如 i=6 时 lowbit=2，t[6] 只管 a[5]+a[6]。", "C 错误：可以 O(n) 建树——先令 t[i]=a[i]，再对每个 i 把 t[i] 加到 t[i+lowbit(i)] 上，每个节点只被加一次，总复杂度 O(n)。", "D 错误：维护差分数组 D 的两棵 BIT（一棵存 D，一棵存 i·D）即可支持区间加、区间求和，查询时用前缀和公式组合，仍是 O(log n)。"], "key_points": "lowbit 的补码含义、t[i] 的管理区间、更新/查询方向、O(n) 建树、以及「区间加+区间求和」的双 BIT 扩展。"}}, {"id": 3, "type": "ai_derivation", "type_label": "AI公式推导", "difficulty": 3, "title": "DDPM 扩散模型：从 ELBO 推导到「预测噪声」的 MSE", "description": "上一期（11-04）用变分下界推导了 VAE 的 ELBO。扩散模型 DDPM 同样是最大化对数似然的下界，但它的前向过程被设计成高斯马尔可夫链，最终训练目标却简化为一个非常干净的噪声预测均方误差。\n\n请完成：\n1. 推导前向过程的闭式边缘分布 $q(x_t\\mid x_0)$；\n2. 写出后验 $q(x_{t-1}\\mid x_t,x_0)$ 的均值与方差；\n3. 从 ELBO 出发，说明每一层 KL 如何化为 $\\|\\epsilon-\\epsilon_\\theta\\|^2$，并得到 $L_{\\text{simple}}$。", "solution": {"derivation": "**符号约定**：$x_0$ 为真实数据，$x_1,\\dots,x_T$ 为逐步加噪得到的隐变量；噪声日程 $\\beta_t\\in(0,1)$，记 $\\alpha_t=1-\\beta_t$，$\\bar\\alpha_t=\\prod_{s=1}^{t}\\alpha_s$，且 $\\bar\\alpha_T\\approx 0$。\n\n**第 1 步：前向过程是马尔可夫高斯链**\n\n$$q(x_t\\mid x_{t-1})=\\mathcal N\\left(x_t;\\sqrt{\\alpha_t}\\,x_{t-1},\\ \\beta_t I\\right)$$\n\n等价的重参数化写法（$\\epsilon_t\\sim\\mathcal N(0,I)$）：\n\n$$x_t=\\sqrt{\\alpha_t}\\,x_{t-1}+\\sqrt{\\beta_t}\\,\\epsilon_t$$\n\n**第 2 步：推导任意时刻的边缘分布 $q(x_t\\mid x_0)$（闭式解）**\n\n展开两步：\n\n$$x_t=\\sqrt{\\alpha_t}\\left(\\sqrt{\\alpha_{t-1}}x_{t-2}+\\sqrt{\\beta_{t-1}}\\epsilon_{t-1}\\right)+\\sqrt{\\beta_t}\\epsilon_t$$\n\n设归纳假设 $x_{t-1}=\\sqrt{\\bar\\alpha_{t-1}}x_0+\\sqrt{1-\\bar\\alpha_{t-1}}\\,\\epsilon'$，代入得\n\n$$x_t=\\sqrt{\\alpha_t\\bar\\alpha_{t-1}}\\,x_0+\\sqrt{\\alpha_t(1-\\bar\\alpha_{t-1})}\\,\\epsilon'+\\sqrt{\\beta_t}\\,\\epsilon_t$$\n\n两个独立零均值高斯相加，方差相加：\n\n$$\\alpha_t(1-\\bar\\alpha_{t-1})+\\beta_t=\\alpha_t-\\alpha_t\\bar\\alpha_{t-1}+1-\\alpha_t=1-\\bar\\alpha_t$$\n\n因此\n\n$$x_t=\\sqrt{\\bar\\alpha_t}\\,x_0+\\sqrt{1-\\bar\\alpha_t}\\,\\epsilon,\\qquad \\epsilon\\sim\\mathcal N(0,I)$$\n\n即 $q(x_t\\mid x_0)=\\mathcal N\\left(\\sqrt{\\bar\\alpha_t}x_0,(1-\\bar\\alpha_t)I\\right)$。**这是 DDPM 能在任意 $t$ 一步采样、无需逐步加噪的关键。**\n\n**第 3 步：反向过程需要后验 $q(x_{t-1}\\mid x_t,x_0)$**\n\n由贝叶斯公式，$q(x_{t-1}\\mid x_t,x_0)\\propto q(x_t\\mid x_{t-1})\\,q(x_{t-1}\\mid x_0)$。两个高斯相乘仍是高斯，对指数部分配方。两个分布的精度（方差的倒数）相加：\n\n$$\\frac{1}{\\tilde\\beta_t}=\\frac{\\alpha_t}{\\beta_t}+\\frac{1}{1-\\bar\\alpha_{t-1}}\n=\\frac{\\alpha_t(1-\\bar\\alpha_{t-1})+\\beta_t}{\\beta_t(1-\\bar\\alpha_{t-1})}\n=\\frac{1-\\bar\\alpha_t}{\\beta_t(1-\\bar\\alpha_{t-1})}$$\n\n$$\\tilde\\beta_t=\\frac{\\beta_t(1-\\bar\\alpha_{t-1})}{1-\\bar\\alpha_t}$$\n\n均值由两个均值按精度加权：\n\n$$\\tilde\\mu_t=\\frac{\\sqrt{\\alpha_t}(1-\\bar\\alpha_{t-1})}{1-\\bar\\alpha_t}x_t\n+\\frac{\\sqrt{\\bar\\alpha_{t-1}}\\,\\beta_t}{1-\\bar\\alpha_t}x_0$$\n\n**第 4 步：写出 ELBO 并分解**\n\n$$\\log p_\\theta(x_0)\\ge \\mathbb E_q\\left[\\log p_\\theta(x_T)+\\sum_{t=1}^{T}\\log p_\\theta(x_{t-1}\\mid x_t)-\\sum_{t=1}^{T}\\log q(x_t\\mid x_{t-1})\\right]$$\n\n整理成三项：\n\n$$-L_T-\\sum_{t=2}^{T}L_{t-1}-L_0$$\n\n其中 $L_T=\\mathrm{KL}(q(x_T\\mid x_0)\\|p_\\theta(x_T))$ 与参数无关（$\\bar\\alpha_T\\approx0$ 时近似先验）；$L_0=-\\log p_\\theta(x_0\\mid x_1)$；核心是\n\n$$L_{t-1}=\\mathbb E_q\\left[\\mathrm{KL}\\left(q(x_{t-1}\\mid x_t,x_0)\\,\\|\\,p_\\theta(x_{t-1}\\mid x_t)\\right)\\right]$$\n\n**第 5 步：固定方差的高斯 KL 退化为均值匹配**\n\n取 $p_\\theta(x_{t-1}\\mid x_t)=\\mathcal N(\\mu_\\theta(x_t,t),\\sigma_t^2 I)$，$\\sigma_t^2$ 固定。两个同方差高斯的 KL 为\n\n$$\\mathrm{KL}=\\frac{1}{2\\sigma_t^2}\\|\\tilde\\mu_t-\\mu_\\theta\\|^2+\\text{常数}$$\n\n所以训练目标等价于让网络预测的均值逼近后验均值 $\\tilde\\mu_t$。\n\n**第 6 步：把均值预测改写为噪声预测**\n\n由第 2 步，$x_0=\\dfrac{x_t-\\sqrt{1-\\bar\\alpha_t}\\,\\epsilon}{\\sqrt{\\bar\\alpha_t}}$。代入 $\\tilde\\mu_t$ 并化简：\n\n$$\\tilde\\mu_t=\\frac{1}{\\sqrt{\\alpha_t}}\\left(x_t-\\frac{\\beta_t}{\\sqrt{1-\\bar\\alpha_t}}\\,\\epsilon\\right)$$\n\n于是让网络输出 $\\epsilon_\\theta(x_t,t)$，并令\n\n$$\\mu_\\theta(x_t,t)=\\frac{1}{\\sqrt{\\alpha_t}}\\left(x_t-\\frac{\\beta_t}{\\sqrt{1-\\bar\\alpha_t}}\\,\\epsilon_\\theta(x_t,t)\\right)$$\n\n两者相减：\n\n$$\\tilde\\mu_t-\\mu_\\theta=\\frac{1}{\\sqrt{\\alpha_t}}\\cdot\\frac{\\beta_t}{\\sqrt{1-\\bar\\alpha_t}}\\left(\\epsilon_\\theta-\\epsilon\\right)$$\n\n平方后得到\n\n$$L_{t-1}=\\frac{\\beta_t^2}{2\\sigma_t^2\\alpha_t(1-\\bar\\alpha_t)}\n\\mathbb E\\left\\|\\epsilon-\\epsilon_\\theta\\!\\left(\\sqrt{\\bar\\alpha_t}x_0+\\sqrt{1-\\bar\\alpha_t}\\epsilon,\\ t\\right)\\right\\|^2$$\n\n**第 7 步：去掉权重得到简化损失**\n\nDDPM 发现把前面的系数丢掉、对 $t$ 均匀采样，训练更稳定且效果更好：\n\n$$L_{\\text{simple}}=\\mathbb E_{t,x_0,\\epsilon}\\left\\|\\epsilon-\\epsilon_\\theta\\left(\\sqrt{\\bar\\alpha_t}x_0+\\sqrt{1-\\bar\\alpha_t}\\epsilon,\\ t\\right)\\right\\|^2$$\n\n**采样（反向生成）**：从 $x_T\\sim\\mathcal N(0,I)$ 开始，对 $t=T,\\dots,1$\n\n$$x_{t-1}=\\frac{1}{\\sqrt{\\alpha_t}}\\left(x_t-\\frac{\\beta_t}{\\sqrt{1-\\bar\\alpha_t}}\\epsilon_\\theta(x_t,t)\\right)+\\sigma_t z,\\qquad z\\sim\\mathcal N(0,I)$$\n\n（$t=1$ 时 $z=0$。）", "intuition": "前向过程把图像一步步\"溶解\"成标准高斯噪声，且任意时刻都能用 $\\sqrt{\\bar\\alpha_t}x_0+\\sqrt{1-\\bar\\alpha_t}\\epsilon$ 一步到位；反向过程则训练一个网络在每一步\"猜出当时加进去的噪声\"，猜准了就能把它减掉，从而一步步还原图像。ELBO 的每一层 KL 在固定方差下都等价于\"预测噪声的均方误差\"，这就是 DDPM 损失如此简洁的根本原因。", "key_points": "高斯马尔可夫链的闭式边缘分布（方差可加性）、贝叶斯后验的高斯配方、ELBO 的三项分解、固定方差下 KL 退化为均值匹配、噪声参数化与重参数化技巧。"}}, {"id": 4, "type": "ai_interview", "type_label": "AI面试问答", "difficulty": 2, "title": "MoE 混合专家：为什么参数变多而计算量不涨？如何保证负载均衡？", "description": "面试官问：「MoE（Mixture-of-Experts）为什么能在不显著增加计算量的情况下把模型参数量做大？训练时专家负载不均衡怎么办？MoE 推理一定更快吗？」请给出结构化回答。", "solution": {"answer_points": ["**结构替换**：MoE 把 Transformer 的 FFN 层换成 $N$ 个并列专家 $E_1,\\dots,E_N$ 加一个轻量路由网络。对每个 token，路由计算 $g=\\mathrm{softmax}(W_g x)$，只取 Top-$k$（常见 $k=1$ 或 $2$）个专家加权求和：$y=\\sum_{i\\in\\mathrm{TopK}} g_i E_i(x)$。", "**参数与计算解耦**：总参数量随 $N$ 线性增长（知识容量变大），但每个 token 只经过 $k$ 个专家，前向 FLOPs 约等于稠密模型的 $k/N$ 倍。例如 Mixtral 8×7B 总参数约 46.7B、每 token 激活约 12.9B；DeepSeek-V3 总参数 671B、激活 37B。", "**为什么要负载均衡**：路由是\"赢者通吃\"的，训练初期容易强者愈强，出现专家坍缩（少数专家吃掉大部分 token，其余专家几乎不更新）。Switch Transformer 的辅助损失为 $\\mathcal L_{\\text{aux}}=\\alpha N\\sum_{i=1}^{N} f_i P_i$，其中 $f_i$ 是实际分到专家 $i$ 的 token 比例，$P_i$ 是路由给专家 $i$ 的平均概率；两者都高才受罚，促使分配均匀。", "**工程约束**：常用 capacity factor（专家容量 $=\\text{capacity factor}\\times\\text{tokens}/N$）限制单专家负载，超出容量的 token 被丢弃（token dropping）或走残差；容量因子调大减少丢弃但增加显存与通信。专家并行（expert parallelism）把不同专家放到不同 GPU，需要 All-to-All 通信，因此对互联带宽敏感。", "**代价与取舍**：所有专家都要驻留显存，显存占用不降；路由带来动态计算、负载抖动和训练不稳定；小 batch 或单序列解码时每 token 只算少数专家，算术强度低，权重加载和通信反而可能让推理不变快。"], "bonus": ["**细粒度 + 共享专家**：DeepSeekMoE 把专家切得更细（更多、更小的专家）提高组合灵活性，并设置始终激活的共享专家来承载通用知识，减少不同专家之间的知识冗余。", "**路由稳定性技巧**：router z-loss 惩罚路由 logits 的幅值、对门控做 float32 计算、噪声注入（训练时给路由加高斯噪声）都能缓解专家坍缩和训练抖动。", "**Dense 到 MoE 的转换**：MoE upcycling 把一个稠密模型的 FFN 复制成多个专家再继续预训练，比从零训练更省算力。", "**与稠密模型的公平比较**：应同时报告总参数与激活参数、训练 token 数、推理硬件与 batch 条件；只比总参数会高估 MoE 的实际收益。"], "followup_predictions": ["**追问：Top-$k$ 的 $k$ 怎么选？** 回答思路：$k$ 越大，单 token 用到的专家越多、质量通常越好，但 FLOPs 与通信线性上升；$k=1$ 最省算力但路由容错差，$k=2$ 是质量/效率的常用折中。还要结合专家总数 $N$、单专家容量和硬件互联带宽一起定。", "**追问：capacity factor 设小了会怎样？** 回答思路：单专家能处理的 token 数受限，超出的 token 被丢弃（不经过该层或走残差），造成信息损失与训练/推理不一致；设大一些可减少丢弃，但会浪费显存并增加 All-to-All 通信量，通常按任务在 1.0～2.0 之间调。", "**追问：MoE 微调要注意什么？** 回答思路：下游数据少时路由容易漂移、专家进一步失衡，可冻结路由或加负载均衡损失；学习率通常比稠密模型更小；要监控每个专家的 token 占比与梯度范数，防止部分专家\"死掉\"。", "**追问：MoE 推理一定更快吗？** 回答思路：不一定。预填充阶段 batch 大、矩阵乘效率高时收益明显；单请求逐 token 解码时每步只激活少数专家，显存带宽和专家并行通信成为瓶颈，吞吐提升有限，需要靠大批量/专家本地化/量化来摊薄。"]}}]};
+</script>
+</body>
+</html>
