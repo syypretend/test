@@ -1,5 +1,42 @@
 [
   {
+    "date": "2026-11-09",
+    "filename": "quiz-2026-11-09.html",
+    "url": "https://syypretend.github.io/test/daily-quiz/quiz-2026-11-09.html",
+    "title": "每日算法 AI 出题 · 第 29 期",
+    "subtitle": "算法 2 道 + AI 2 道 | 树形DP进阶 · 拓扑排序 · Classifier-Free Guidance · 梯度累积",
+    "questions": [
+      {
+        "id": 1,
+        "type": "algorithm_code",
+        "type_label": "算法编程",
+        "title": "二叉树中的最大路径和：『返一条腿，搜一个∩』",
+        "difficulty": 3
+      },
+      {
+        "id": 2,
+        "type": "algorithm_concept",
+        "type_label": "算法概念",
+        "title": "拓扑排序：Kahn 算法的入度队列与环检测",
+        "difficulty": 2
+      },
+      {
+        "id": 3,
+        "type": "ai_derivation",
+        "type_label": "AI公式推导",
+        "title": "Classifier-Free Guidance：从分类器引导到噪声预测插值的完整推导",
+        "difficulty": 3
+      },
+      {
+        "id": 4,
+        "type": "ai_interview",
+        "type_label": "AI面试问答",
+        "title": "单卡放不下大 batch：梯度累积与真·大 batch 在数学上完全等价吗？",
+        "difficulty": 2
+      }
+    ]
+  },
+  {
     "date": "2026-11-06",
     "filename": "quiz-2026-11-06.html",
     "url": "https://syypretend.github.io/test/daily-quiz/quiz-2026-11-06.html",
