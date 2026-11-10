@@ -1,0 +1,1771 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>每日算法讲解 · 2026年11月10日</title>
+<!-- MathJax for LaTeX math formula rendering -->
+<script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\(', '\)']],
+      displayMath: [['$$', '$$'], ['\[', '\]']],
+      processEscapes: true
+    },
+    svg: { fontCache: 'global' }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" id="MathJax-script" async></script>
+<style>
+:root {
+  --primary: #6366f1;
+  --primary-dark: #4f46e5;
+  --bg: #0f172a;
+  --card-bg: #1e293b;
+  --text: #e2e8f0;
+  --text-dim: #94a3b8;
+  --accent: #818cf8;
+  --border: #334155;
+  --code-bg: #0d1117;
+  --code-text: #e6edf3;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans SC", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.8;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+.container { max-width: 1400px; margin: 0 auto; padding: 24px 32px; }
+.header {
+  text-align: center;
+  padding: 40px 0 30px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 32px;
+}
+.header h1 {
+  font-size: 28px;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.header h1 .date { color: var(--accent); }
+.header .subtitle { color: var(--text-dim); font-size: 15px; }
+.repo-link {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 6px 16px;
+  background: var(--primary);
+  color: #fff;
+  border-radius: 20px;
+  text-decoration: none;
+  font-size: 13px;
+  transition: background 0.2s;
+}
+.repo-link:hover { background: var(--primary-dark); }
+.history-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 32px;
+  padding: 16px;
+  background: var(--card-bg);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+.history-nav a {
+  padding: 4px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  color: var(--text-dim);
+  text-decoration: none;
+  background: rgba(99,102,241,0.08);
+  transition: all 0.2s;
+}
+.history-nav a:hover { color: var(--text); background: rgba(99,102,241,0.2); }
+.history-nav a.active { color: #fff; background: var(--primary); }
+.history-nav a.back-index { color: var(--accent); font-weight: 600; background: rgba(99,102,241,0.15); border: 1px solid rgba(99,102,241,0.3); }
+.history-nav a.back-index:hover { color: #fff; background: var(--primary); border-color: var(--primary); }
+.content { margin-bottom: 40px; max-width: 1100px; }
+.content h2 {
+  font-size: 24px;
+  color: var(--accent);
+  margin: 40px 0 16px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--primary);
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+.content h2:first-child { border-top: none; padding-top: 0; }
+.content h3 {
+  font-size: 18px;
+  color: var(--text);
+  margin: 24px 0 12px;
+}
+.content h4 {
+  font-size: 16px;
+  color: var(--accent);
+  margin: 20px 0 10px;
+}
+.content h5 {
+  font-size: 15px;
+  color: #a5b4fc;
+  font-weight: 600;
+  margin: 18px 0 8px;
+}
+.content p { margin-bottom: 12px; color: var(--text); }
+.content ul { margin: 8px 0 16px 20px; }
+.content li { margin-bottom: 6px; }
+.content strong { color: var(--accent); }
+.content blockquote {
+  border-left: 4px solid var(--primary);
+  padding: 12px 16px;
+  margin: 16px 0;
+  background: rgba(99,102,241,0.08);
+  border-radius: 0 8px 8px 0;
+}
+.content blockquote p { color: var(--text-dim); margin: 4px 0; }
+.content hr {
+  border: none;
+  height: 1px;
+  background: var(--border);
+  margin: 32px 0;
+}
+.code-block {
+  background: var(--code-bg);
+  border-radius: 10px;
+  padding: 18px 24px;
+  overflow-x: auto;
+  margin: 16px 0;
+  border: 1px solid var(--border);
+  max-width: 100%;
+}
+.code-block code {
+  font-family: "JetBrains Mono", "Fira Code", "Consolas", monospace;
+  font-size: 14px;
+  color: var(--code-text);
+  line-height: 1.6;
+  white-space: pre;
+}
+.inline-code {
+  background: rgba(99,102,241,0.15);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: "Consolas", monospace;
+  font-size: 0.9em;
+  color: var(--accent);
+}
+/* Math formula block */
+.content .math-block {
+  background: rgba(99,102,241,0.06);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 24px;
+  margin: 16px 0;
+  overflow-x: auto;
+  max-width: 100%;
+}
+.content .math-label {
+  font-size: 13px; color: var(--text-dim); margin-bottom: 6px; }
+.content .math-vars {
+  margin: 8px 0 16px 20px; }
+.content .math-vars li { margin-bottom: 4px; color: var(--text-dim); }
+.footer {
+  text-align: center;
+  padding: 24px 0;
+  border-top: 1px solid var(--border);
+  color: var(--text-dim);
+  font-size: 13px;
+}
+.tag {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  background: rgba(99,102,241,0.15);
+  color: var(--accent);
+  margin-left: 8px;
+}
+.content .ref-link {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px dashed rgba(99,102,241,0.4);
+  transition: all 0.2s;
+  word-break: break-all;
+}
+.content .ref-link:hover {
+  color: #fff;
+  border-bottom-color: var(--primary);
+}
+.content li {
+  word-break: break-all;
+}
+/* Table */
+.table-wrapper {
+  overflow-x: auto;
+  margin: 16px 0;
+  max-width: 100%;
+}
+.algo-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  background: var(--card-bg);
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+.algo-table thead {
+  background: rgba(99,102,241,0.15);
+}
+.algo-table th {
+  padding: 10px 16px;
+  text-align: left;
+  color: var(--accent);
+  font-weight: 600;
+  border-bottom: 2px solid var(--primary);
+  white-space: nowrap;
+}
+.algo-table td {
+  padding: 8px 16px;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  word-break: break-all;
+}
+.algo-table tr:last-child td {
+  border-bottom: none;
+}
+.algo-table tr:hover td {
+  background: rgba(99,102,241,0.06);
+}
+/* Algorithm architecture image */
+.algo-image {
+  margin: 20px 0;
+  text-align: center;
+}
+.algo-image img {
+  max-width: 100%;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+.algo-image .image-caption {
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--text-dim);
+}
+.algo-image svg {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+/* ======== 移动端响应式适配 ======== */
+@media (max-width: 768px) {
+  .container { max-width: 100%; padding: 16px 14px; }
+  .header { padding: 24px 0 20px; margin-bottom: 20px; }
+  .header h1 { font-size: 20px; margin-bottom: 4px; }
+  .header .subtitle { font-size: 13px; }
+  .repo-link { margin-top: 10px; padding: 5px 14px; font-size: 12px; }
+  .history-nav { gap: 6px; padding: 10px 12px; margin-bottom: 20px; }
+  .history-nav a { padding: 3px 10px; font-size: 12px; }
+  .content { max-width: 100%; margin-bottom: 28px; }
+  .content h2 { font-size: 20px; margin: 28px 0 12px; }
+  .content h3 { font-size: 17px; margin: 20px 0 10px; }
+  .content h4 { font-size: 15px; margin: 16px 0 8px; }
+  .content h5 { font-size: 14px; margin: 14px 0 6px; }
+  .content p { font-size: 14px; margin-bottom: 10px; }
+  .content ul { margin: 6px 0 12px 16px; }
+  .content li { font-size: 14px; margin-bottom: 5px; }
+  .content blockquote { padding: 10px 12px; margin: 12px 0; }
+  .content blockquote p { font-size: 13px; }
+  .content .math-block { padding: 10px 14px; margin: 12px 0; }
+  .code-block { padding: 12px 14px; margin: 12px 0; }
+  .code-block code { font-size: 12px; line-height: 1.5; }
+  .inline-code { font-size: 0.88em; padding: 1px 5px; }
+  .algo-table { font-size: 12px; }
+  .algo-table th { padding: 6px 10px; }
+  .algo-table td { padding: 6px 10px; }
+  .algo-image { margin: 14px 0; }
+  .algo-image svg { max-width: 100%; height: auto; }
+  .footer { padding: 18px 0; font-size: 12px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>每日算法讲解 · <span class="date">2026年11月10日</span></h1>
+    <p class="subtitle">每天 1 个基础算法 + 2 个 AI/机器学习算法，持续精进</p>
+    <a href="https://syypretend.github.io/test/daily-algorithm" target="_blank" class="repo-link">GitHub 仓库</a>
+  </div>
+  <div class="history-nav"><a href="index.html" class="back-index">← 历史索引</a>
+<a href="2026-11-10.html" class="active">11月10日</a>
+<a href="2026-11-09.html">11月09日</a>
+<a href="2026-11-06.html">11月06日</a>
+<a href="2026-11-05.html">11月05日</a>
+<a href="2026-11-04.html">11月04日</a>
+<a href="2026-10-28.html">10月28日</a>
+<a href="2026-10-26.html">10月26日</a>
+<a href="2026-10-19.html">10月19日</a>
+<a href="2026-10-16.html">10月16日</a>
+<a href="2026-10-14.html">10月14日</a>
+<a href="2026-10-13.html">10月13日</a>
+<a href="2026-10-12.html">10月12日</a>
+<a href="2026-10-10.html">10月10日</a>
+<a href="2026-10-09.html">10月09日</a>
+<a href="2026-10-08.html">10月08日</a>
+<a href="2026-09-30.html">09月30日</a>
+<a href="2026-09-29.html">09月29日</a>
+<a href="2026-09-28.html">09月28日</a>
+<a href="2026-09-24.html">09月24日</a>
+<a href="2026-09-17.html">09月17日</a>
+<a href="2026-09-15.html">09月15日</a>
+<a href="2026-09-14.html">09月14日</a>
+<a href="2026-09-11.html">09月11日</a>
+<a href="2026-09-10.html">09月10日</a>
+<a href="2026-09-09.html">09月09日</a>
+<a href="2026-09-08.html">09月08日</a>
+<a href="2026-09-07.html">09月07日</a>
+</div>
+  <div class="content">
+  <h2>每日算法讲解 · 2026-11-10</h2>
+
+<blockquote>
+<p>今日内容：1 个基础算法 + 2 个 AI/机器学习算法 | 逐参数详解</p>
+</blockquote>
+
+<hr>
+
+<h3>B+ 树</h3>
+
+<p><strong>类别</strong>：数据结构 | <strong>难度</strong>：中等</p>
+
+<h4>算法简介</h4>
+
+<p>B+ 树是一种面向磁盘页存储的多路平衡搜索树，是 B 树的变体。它把全部数据记录（或指向记录的指针）集中在叶子节点，内部节点只保存用于路由的键和孩子指针；所有叶子节点按关键字升序排列，并用 <code class="inline-code">next</code> 指针串成一条链表。这样一棵树同时具备两种能力：点查时从根逐层二分下降，最多访问树高个页面；范围查询时先定位起始叶子，再沿叶子链表顺序扫描，不需要反复回到根节点。</p>
+
+<p>B+ 树的核心价值在于“用极低的树高换取极少的随机 I/O”。一个 16KB 的 InnoDB 页，若主键是 8 字节的 BIGINT、子页指针按 6 字节估算，单页可容纳约 1170 个索引项，扇出接近 1200；三层结构就能索引上亿行记录，点查通常只需 3 到 4 次页面访问，而且根节点与上层内部节点往往常驻缓冲池，真实磁盘 I/O 更少。相比二叉树 O(log₂N) 的层数，B+ 树把“层数”换成了“扇出”，把磁盘寻道次数压缩了一个数量级。</p>
+
+<p>与 B 树相比，B+ 树有三个关键差异：其一，数据只出现在叶子层，内部节点不存数据，因此同样页大小下能容纳更多键，扇出更大、树更矮；其二，叶子节点之间有链表，范围扫描和 <code class="inline-code">ORDER BY</code> 是顺序 I/O，而 B 树需要中序遍历、频繁跨层跳转；其三，任何点查都必须走到叶子，路径长度稳定，性能可预测。正因如此，B+ 树成为 MySQL InnoDB、PostgreSQL B-tree、XFS/ReiserFS 文件系统、LMDB 等系统的主流索引结构。</p>
+
+<p>需要强调的是，B+ 树的“阶数”在教科书与工程实现中定义并不统一。本文采用如下约定：一棵 m 阶 B+ 树的内部节点最多有 m 个孩子、m−1 个键；非根节点至少有 ⌈m/2⌉ 个孩子；叶子节点最多存 m−1 条记录。数据库通常不暴露“阶数”，而是由页大小、键长、指针长度自动推导出实际扇出。</p>
+
+<h4>原理示意图</h4>
+
+<p><div class="algo-image"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 900 440" font-family="sans-serif">
+  <defs>
+    <marker id="arrow1" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto">
+      <path d="M0,0 L9,3.5 L0,7 Z" fill="#6366f1"/>
+    </marker>
+    <marker id="arrow1g" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto">
+      <path d="M0,0 L9,3.5 L0,7 Z" fill="#22c55e"/>
+    </marker>
+  </defs>
+  <rect width="900" height="440" fill="#1e293b" rx="12"/>
+  <text x="450" y="30" text-anchor="middle" fill="#818cf8" font-size="16" font-weight="600">B+ 树：内部节点只存路由键，叶子节点存数据并用 next 链表串联</text>
+  <text x="450" y="52" text-anchor="middle" fill="#94a3b8" font-size="11">根节点（内部节点，键 20 | 50）</text>
+  <rect x="350" y="60" width="200" height="42" rx="7" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="450" y="87" text-anchor="middle" fill="#e2e8f0" font-size="15" font-weight="600">20  |  50</text>
+  <line x1="400" y1="102" x2="160" y2="152" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow1)"/>
+  <line x1="450" y1="102" x2="450" y2="152" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow1)"/>
+  <line x1="500" y1="102" x2="740" y2="152" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow1)"/>
+  <rect x="80" y="155" width="160" height="42" rx="7" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="160" y="182" text-anchor="middle" fill="#e2e8f0" font-size="15" font-weight="600">10</text>
+  <rect x="370" y="155" width="160" height="42" rx="7" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="450" y="182" text-anchor="middle" fill="#e2e8f0" font-size="15" font-weight="600">30</text>
+  <rect x="660" y="155" width="160" height="42" rx="7" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="740" y="182" text-anchor="middle" fill="#e2e8f0" font-size="15" font-weight="600">60</text>
+  <line x1="160" y1="197" x2="90" y2="258" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow1)"/>
+  <line x1="160" y1="197" x2="230" y2="258" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow1)"/>
+  <line x1="450" y1="197" x2="370" y2="258" stroke="#22c55e" stroke-width="2.5" marker-end="url(#arrow1g)"/>
+  <line x1="450" y1="197" x2="510" y2="258" stroke="#22c55e" stroke-width="2.5" marker-end="url(#arrow1g)"/>
+  <line x1="740" y1="197" x2="650" y2="258" stroke="#22c55e" stroke-width="2.5" marker-end="url(#arrow1g)"/>
+  <line x1="740" y1="197" x2="790" y2="258" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow1)"/>
+  <rect x="30" y="260" width="120" height="54" rx="7" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="90" y="283" text-anchor="middle" fill="#e2e8f0" font-size="13">2, 5</text>
+  <text x="90" y="302" text-anchor="middle" fill="#94a3b8" font-size="10">数据行指针</text>
+  <rect x="170" y="260" width="120" height="54" rx="7" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="230" y="283" text-anchor="middle" fill="#e2e8f0" font-size="13">10, 12</text>
+  <text x="230" y="302" text-anchor="middle" fill="#94a3b8" font-size="10">数据行指针</text>
+  <rect x="310" y="260" width="120" height="54" rx="7" fill="#14352a" stroke="#22c55e" stroke-width="2.5"/>
+  <text x="370" y="283" text-anchor="middle" fill="#e2e8f0" font-size="13">20, 22</text>
+  <text x="370" y="302" text-anchor="middle" fill="#94a3b8" font-size="10">数据行指针</text>
+  <rect x="450" y="260" width="120" height="54" rx="7" fill="#14352a" stroke="#22c55e" stroke-width="2.5"/>
+  <text x="510" y="283" text-anchor="middle" fill="#e2e8f0" font-size="13">30, 32</text>
+  <text x="510" y="302" text-anchor="middle" fill="#94a3b8" font-size="10">数据行指针</text>
+  <rect x="590" y="260" width="120" height="54" rx="7" fill="#14352a" stroke="#22c55e" stroke-width="2.5"/>
+  <text x="650" y="283" text-anchor="middle" fill="#e2e8f0" font-size="13">50, 52</text>
+  <text x="650" y="302" text-anchor="middle" fill="#94a3b8" font-size="10">数据行指针</text>
+  <rect x="730" y="260" width="120" height="54" rx="7" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="790" y="283" text-anchor="middle" fill="#e2e8f0" font-size="13">60, 62</text>
+  <text x="790" y="302" text-anchor="middle" fill="#94a3b8" font-size="10">数据行指针</text>
+  <line x1="150" y1="335" x2="168" y2="335" stroke="#22c55e" stroke-width="2" marker-end="url(#arrow1g)"/>
+  <line x1="290" y1="335" x2="308" y2="335" stroke="#22c55e" stroke-width="2" marker-end="url(#arrow1g)"/>
+  <line x1="430" y1="335" x2="448" y2="335" stroke="#22c55e" stroke-width="2" marker-end="url(#arrow1g)"/>
+  <line x1="570" y1="335" x2="588" y2="335" stroke="#22c55e" stroke-width="2" marker-end="url(#arrow1g)"/>
+  <line x1="710" y1="335" x2="728" y2="335" stroke="#22c55e" stroke-width="2" marker-end="url(#arrow1g)"/>
+  <text x="450" y="372" text-anchor="middle" fill="#22c55e" font-size="12">绿色：范围查询 [20, 52] 命中 3 个叶子；先定位 20 所在叶子，再沿 next 顺序扫描，无需回到根</text>
+  <text x="450" y="398" text-anchor="middle" fill="#94a3b8" font-size="11">内部节点只做“往哪个孩子走”的路由；真正数据只在叶子层，因此扇出更大、树更矮</text>
+  <text x="450" y="422" text-anchor="middle" fill="#f97316" font-size="11">点查路径长度固定为树高 H；范围查询代价 = 定位起点 O(log_m N) + 顺序扫描 K 条记录</text>
+</svg></div></p>
+
+<p>读图要点：根节点保存两个分隔键 20 和 50，把键空间切成三个区间，分别交给三棵子树；每个内部节点再保存一个分隔键，把区间继续二分。查找 30 时，根节点判断 <code class="inline-code">20 ≤ 30 < 50</code> 走中间子树，内部节点判断 <code class="inline-code">30 ≥ 30</code> 走右孩子，最终在叶子 <code class="inline-code">[30, 32]</code> 中命中。若查询范围是 <code class="inline-code">[20, 52]</code>，定位到 20 所在叶子后，只需沿绿色 <code class="inline-code">next</code> 链依次扫描 <code class="inline-code">[20,22] → [30,32] → [50,52]</code>，这就是 B+ 树范围查询优于 B 树的关键。</p>
+
+<h4>数学公式</h4>
+
+<p><strong>公式 1：阶数与节点容量约束</strong></p>
+
+<p><div class="math-block">$$ m \ge 3,\qquad \left\lceil \frac{m}{2} \right\rceil \le \mathrm{children}(u) \le m,\qquad \left\lceil \frac{m}{2} \right\rceil - 1 \le \mathrm{keys}(u) \le m-1 $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ m $：B+ 树的阶数，即内部节点最多拥有的孩子指针数，$ m \ge 3 $。</li>
+<li>$ u $：树中的任意一个非根节点。</li>
+<li>$ \mathrm{children}(u) $：节点 $ u $ 的孩子指针数量；根节点例外，允许只有 2 个孩子。</li>
+<li>$ \mathrm{keys}(u) $：节点 $ u $ 中保存的路由键数量；叶子节点保存的是记录键。</li>
+<li>$ \lceil \cdot \rceil $：向上取整。该约束保证节点既不会太满（超过一页），也不会太空（低于半页），从而把树高控制在 $ O(\log_m N) $。</li>
+</ul>
+
+<p><strong>公式 2：树高与记录数的关系</strong></p>
+
+<p><div class="math-block">$$ N \le (m-1)\,m^{H-1} \quad\Longrightarrow\quad H \ge 1+\log_m\frac{N}{m-1} $$</div></p>
+
+<p><div class="math-block">$$ N \ge 2\left(\left\lceil \frac{m}{2}\right\rceil-1\right)\left\lceil \frac{m}{2}\right\rceil^{H-2} \quad\Longrightarrow\quad H \le 2+\log_{\lceil m/2\rceil}\frac{N}{2(\lceil m/2\rceil-1)} $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ N $：树中记录总数。</li>
+<li>$ H $：树的层数，根节点所在层为第 1 层，叶子层为第 $ H $ 层；点查需要访问 $ H $ 个页面。</li>
+<li>$ m-1 $：每个节点最多保存的键数（叶子节点最多记录数）。</li>
+<li>第一式是“所有节点全满”的最好情况，给出树高的下界；第二式是“所有节点只满足最小占用”的最坏情况，给出树高的上界。</li>
+<li>以 $ m=1170 $、$ N=10^8 $ 为例：下界 $ H \ge 1+\log_{1170}(10^8/1169)\approx 2.6 $，上界 $ H \le 2+\log_{585}(10^8/1168)\approx 3.8 $，所以实际树高为 3 到 4 层，点查最多 3 到 4 次页面访问。</li>
+</ul>
+
+<p><strong>公式 3：扇出估算</strong></p>
+
+<p><div class="math-block">$$ f \approx \left\lfloor \frac{P_{\text{page}}}{K + P_{\text{ptr}}} \right\rfloor + 1 $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ f $：单个内部节点的平均扇出（孩子数）。</li>
+<li>$ P_{\text{page}} $：一个页面/节点的字节容量，例如 InnoDB 默认 16384 字节。</li>
+<li>$ K $：单个索引键的平均字节数，例如 BIGINT 为 8 字节。</li>
+<li>$ P_{\text{ptr}} $：一个孩子页指针的字节数，InnoDB 页号 4 字节，连同记录头开销工程上常按 6 字节估算。</li>
+<li>$ +1 $：一个节点有 $ B $ 个键时对应 $ B+1 $ 个孩子。</li>
+<li>代入 $ P_{\text{page}}=16384 $、$ K=8 $、$ P_{\text{ptr}}=6 $，得到 $ f \approx \lfloor 16384/14 \rfloor + 1 = 1171 $，即常说的“单页千级扇出”。</li>
+</ul>
+
+<p><strong>公式 4：点查与范围查询的 I/O 次数</strong></p>
+
+<p><div class="math-block">$$ T_{\text{point}} = H,\qquad T_{\text{range}} = O\left(H + \frac{K_{\text{res}}}{B_{\text{leaf}}}\right) $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ T_{\text{point}} $：一次点查需要读取的页面数，最坏等于树高 $ H $。</li>
+<li>$ T_{\text{range}} $：一次范围查询的页面访问次数。</li>
+<li>$ K_{\text{res}} $：范围查询命中的记录条数。</li>
+<li>$ B_{\text{leaf}} $：单个叶子页能容纳的记录条数。</li>
+<li>第一项 $ H $ 用于从根定位到起始叶子；第二项 $ \lceil K_{\text{res}}/B_{\text{leaf}} \rceil $ 是沿叶子链表顺序读取的页数。由于是顺序 I/O，实际耗时会明显低于同等数量的随机 I/O。</li>
+</ul>
+
+<p><strong>公式 5：随机插入的稳态填充率</strong></p>
+
+<p><div class="math-block">$$ \mathbb{E}\left[\text{occupancy}\right] \approx \ln 2 \approx 69.3\% $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ \mathbb{E}[\text{occupancy}] $：随机插入大量键后，节点平均空间利用率。</li>
+<li>$ \ln 2 $：自然对数 2，约 0.693；这是 B 树/B+ 树在随机插入下的经典稳态结果。</li>
+<li>工程含义：即使页初始是空的，随机插入后节点平均只占约七成；若业务以随机键写入为主，应按 70% 左右的有效容量估算索引体积，而不是按 100% 估算。</li>
+</ul>
+
+<h4>核心要点</h4>
+
+<ul>
+<li>数据只在叶子层：内部节点只保存路由键，因此同页能放更多键，扇出远大于二叉树。</li>
+<li>所有叶子在同一层：B+ 树是严格平衡树，任何点查的路径长度都等于树高，性能稳定可预测。</li>
+<li>叶子链表是范围查询的关键：定位起点后顺序扫描，避免反复从根下降，把随机 I/O 变成顺序 I/O。</li>
+<li>扇出决定树高：树高约为 $ \log_f N $，把键缩短、页增大，往往比优化 CPU 比较更有效。</li>
+<li>分裂与合并维持平衡：插入溢出时分裂节点，删除不足时借位或合并；分裂比例影响写放大与空间利用率。</li>
+<li>聚簇索引与二级索引的代价不同：聚簇索引叶子存整行，二级索引叶子存主键，二级索引查询可能需要回表。</li>
+<li>联合索引遵循最左前缀：<code class="inline-code">(a,b,c)</code> 能服务 <code class="inline-code">a</code>、<code class="inline-code">a,b</code>、<code class="inline-code">a,b,c</code>，但不能直接服务 <code class="inline-code">b</code> 或 <code class="inline-code">c</code>。</li>
+<li>覆盖索引能避免回表：查询列都在索引中时，叶子层即可返回结果。</li>
+<li>写放大来自页分裂：随机主键会导致频繁分裂与页内搬移，自增主键通常更友好。</li>
+<li>缓存上层节点收益极高：根和内部节点常驻内存后，点查只剩一次叶子 I/O。</li>
+</ul>
+
+<h4>技术细节与参数详解</h4>
+
+<p>B+ 树的参数可以分成四类：结构参数（阶数、页大小、键长、指针长度、扇出）、维护参数（填充因子、分裂比例、合并阈值）、物理设计参数（叶子链表、聚簇方式、前缀长度）和运行时参数（缓冲池）。下表先给出速查，随后逐个展开。</p>
+
+<div class="table-wrapper"><table class="algo-table"><thead><tr><th>参数</th><th>类型</th><th>默认值</th><th>典型范围</th><th>核心作用</th></tr></thead><tbody><tr><td>order</td><td>int</td><td>4（教学实现）</td><td>3 ~ 上千</td><td>控制节点最大孩子数与树高</td></tr><tr><td>page_size</td><td>int（字节）</td><td>16KB（InnoDB）</td><td>4KB ~ 64KB</td><td>决定单次 I/O 粒度与节点容量</td></tr><tr><td>key_size</td><td>int（字节）</td><td>由列类型决定</td><td>4B ~ 3072B</td><td>键越短扇出越大</td></tr><tr><td>pointer_size</td><td>int（字节）</td><td>4B 页号 / 6B 估算</td><td>4B ~ 8B</td><td>孩子页地址开销</td></tr><tr><td>fanout</td><td>int（推导）</td><td>无</td><td>几十 ~ 上千</td><td>决定树高与 I/O 次数</td></tr><tr><td>fill_factor</td><td>float</td><td>100%</td><td>50% ~ 100%</td><td>预留空间，减少后续分裂</td></tr><tr><td>split_ratio</td><td>float</td><td>0.5</td><td>0.5 ~ 0.9</td><td>分裂时左右节点分配比例</td></tr><tr><td>merge_threshold</td><td>int / 比例</td><td>⌈m/2⌉−1</td><td>0 ~ 50%</td><td>删除后借位或合并的触发线</td></tr><tr><td>leaf_link</td><td>enum</td><td>双向</td><td>单向 / 双向</td><td>支持正向或双向范围扫描</td></tr><tr><td>clustered</td><td>bool / enum</td><td>主键聚簇</td><td>聚簇 / 非聚簇</td><td>决定是否需要回表</td></tr><tr><td>prefix_length</td><td>int</td><td>完整列</td><td>1 ~ 列长</td><td>长字符串索引的截断长度</td></tr><tr><td>buffer_pool_size</td><td>int（字节）</td><td>128MB（InnoDB）</td><td>物理内存 60% ~ 75%</td><td>缓存索引页，减少磁盘 I/O</td></tr></tbody></table></div>
+
+<h5>参数 1：order（阶数 m）</h5>
+
+<ul>
+<li><strong>含义</strong>：一个节点最多拥有的孩子指针数量，是 B+ 树最核心的结构参数；它同时决定 <code class="inline-code">max_keys = m - 1</code>、非根节点最小孩子数 <code class="inline-code">ceil(m/2)</code>、叶子最小记录数 <code class="inline-code">ceil(m/2) - 1</code>。</li>
+<li><strong>类型</strong>：int。</li>
+<li><strong>默认值</strong>：教学实现常取 4；数据库不直接暴露，由页大小、键长和指针长度推导。</li>
+<li><strong>取值范围</strong>：$ m \ge 3 $。$ m=3 $ 时退化为 2-3 树；上限受页容量限制，磁盘结构实际可达成百上千。</li>
+<li><strong>对结果的影响</strong>：$ m $ 越大，扇出越大、树高越低，点查 I/O 次数越少；但单节点内二分查找、键数组搬移、分裂时复制数据的 CPU 成本上升，页内碎片也更多。$ m $ 过小则树高上升，随机 I/O 放大。</li>
+<li><strong>推荐设置</strong>：内存索引 32 ~ 128；磁盘索引按 <code class="inline-code">page_size / (key_size + pointer_size)</code> 推导，目标让树高不超过 4 层。不要盲目追求大 $ m $，要让节点大小与页大小对齐。</li>
+</ul>
+
+<h5>参数 2：page_size（页大小）</h5>
+
+<ul>
+<li><strong>含义</strong>：磁盘与内存之间一次读写的基本单位，也是 B+ 树节点的容量载体；节点通常被设计为恰好占一个或几个页。</li>
+<li><strong>类型</strong>：int，单位字节。</li>
+<li><strong>默认值</strong>：InnoDB 16KB；PostgreSQL 8KB；SQLite 4KB；Linux 常见文件系统块 4KB。</li>
+<li><strong>取值范围</strong>：4KB、8KB、16KB、32KB、64KB。</li>
+<li><strong>对结果的影响</strong>：页越大，单页容纳的键越多、扇出越大、树越矮，范围扫描的预读更划算；但单次 I/O 延迟变大，页内碎片和写放大增加，缓冲池能缓存的页数减少，点查可能读入大量无关数据。</li>
+<li><strong>推荐设置</strong>：OLTP 主库 16KB；分析型/大范围扫描 32KB ~ 64KB；内存紧张的嵌入式环境 4KB。页大小应在建库时确定，后期修改需要重建实例或表空间。</li>
+</ul>
+
+<h5>参数 3：key_size（键长度）</h5>
+
+<ul>
+<li><strong>含义</strong>：每个索引键占用的平均字节数，直接进入扇出公式的分母。</li>
+<li><strong>类型</strong>：int，单位字节。</li>
+<li><strong>默认值</strong>：由列类型决定，例如 INT 4B、BIGINT 8B、DATE 3B、CHAR(36) 36B、VARCHAR 变长。</li>
+<li><strong>取值范围</strong>：1B 到数 KB；InnoDB 单列索引前缀上限通常为 3072B（DYNAMIC/COMPRESSED 行格式）。</li>
+<li><strong>对结果的影响</strong>：键越长，单页可放键数越少，扇出下降、树高上升；二级索引键过长还会放大索引体积、降低缓存命中率，并增加回表时的比较成本。</li>
+<li><strong>推荐设置</strong>：优先使用定长整数或有顺序的 8B 键；避免用 UUIDv4 这类随机长字符串做主键；长文本用前缀索引或哈希列替代。联合索引应把高选择性、短列放在左侧。</li>
+</ul>
+
+<h5>参数 4：pointer_size（指针大小）</h5>
+
+<ul>
+<li><strong>含义</strong>：内部节点中指向孩子页的地址/页号所占字节数。</li>
+<li><strong>类型</strong>：int，单位字节。</li>
+<li><strong>默认值</strong>：InnoDB 页号 4B，加上记录头与变长字段开销，工程上常按 6B 估算；64 位内存指针为 8B。</li>
+<li><strong>取值范围</strong>：4B、6B、8B。</li>
+<li><strong>对结果的影响</strong>：指针越大，单页能容纳的索引项越少，扇出越小；指针过小则寻址空间受限。6B 估算是 16KB 页下兼顾寻址能力与扇出的常见折中。</li>
+<li><strong>推荐设置</strong>：磁盘结构 4B ~ 8B，按存储引擎的页号宽度选择；内存结构按平台指针宽度。做容量规划时，用实际页头开销做保守估算，不要只看裸指针。</li>
+</ul>
+
+<h5>参数 5：fanout（扇出 f）</h5>
+
+<ul>
+<li><strong>含义</strong>：单个内部节点平均拥有的孩子数，等于单页可容纳索引项数，是决定树高的直接量。</li>
+<li><strong>类型</strong>：int，推导值，不是直接配置项。</li>
+<li><strong>默认值</strong>：无，由 <code class="inline-code">page_size / (key_size + pointer_size)</code> 推导。</li>
+<li><strong>取值范围</strong>：几十到上千；B+ 树常见 100 ~ 1200。</li>
+<li><strong>对结果的影响</strong>：树高 $ H \approx \log_f N $。扇出从 100 提升到 1000，1 亿条记录的树高可从 4 层降到 3 层，少一次随机 I/O；扇出过低会让 B+ 树退化成“多路二叉树”，失去磁盘索引优势。</li>
+<li><strong>推荐设置</strong>：以 $ H \le 4 $ 为目标反推所需扇出；通过缩短主键、增大页、使用整数键来提升扇出；上线前用真实数据估算索引高度和页数，不要只按行数估算。</li>
+</ul>
+
+<h5>参数 6：fill_factor（填充因子）</h5>
+
+<ul>
+<li><strong>含义</strong>：节点在分裂后或批量装载时预留的空间比例，控制节点的平均占用率；它决定“现在少用空间”还是“以后少分裂”。</li>
+<li><strong>类型</strong>：float（0 ~ 1）或百分比。</li>
+<li><strong>默认值</strong>：SQL Server 默认 100%；InnoDB 不暴露该参数，页写满时分裂，索引页合并阈值 <code class="inline-code">MERGE_THRESHOLD</code> 默认 50%。</li>
+<li><strong>取值范围</strong>：50% ~ 100%。</li>
+<li><strong>对结果的影响</strong>：填充因子低，预留空间多，后续插入不易分裂、写性能好，但索引体积变大、树更高、缓存命中率下降；填充因子高，空间省，但随机插入更容易触发分裂和页内搬移。</li>
+<li><strong>推荐设置</strong>：只读或顺序写入场景 90% ~ 100%；随机写入 OLTP 70% ~ 85%；批量导入后可用 <code class="inline-code">OPTIMIZE TABLE</code> 或重建索引整理碎片。不要把填充因子设得过低，否则范围扫描会读更多页。</li>
+</ul>
+
+<h5>参数 7：split_ratio（分裂比例）</h5>
+
+<ul>
+<li><strong>含义</strong>：节点溢出时，原节点的键被分配到左右两个新节点的比例。</li>
+<li><strong>类型</strong>：float，左节点占比。</li>
+<li><strong>默认值</strong>：0.5，即中间分裂，左右各半。</li>
+<li><strong>取值范围</strong>：(0, 1)，常见 0.5；单调递增写入可用 0.7 ~ 0.9。</li>
+<li><strong>对结果的影响</strong>：0.5 分裂空间利用率均衡，但顺序插入时会持续在半满页上分裂，写放大明显；右倾分裂适合自增主键，减少分裂次数，但左节点会偏空，范围扫描页数增加；极端比例会造成节点长期低占用。</li>
+<li><strong>推荐设置</strong>：随机键 0.5；单调递增键 0.8 ~ 0.9，并配合“右边界插入”优化；不要对随机键使用右倾分裂，否则树会严重失衡。</li>
+</ul>
+
+<h5>参数 8：merge_threshold（合并/借位阈值）</h5>
+
+<ul>
+<li><strong>含义</strong>：删除后节点键数低于该阈值时，触发向兄弟节点借位或与兄弟合并，以维持空间利用率。</li>
+<li><strong>类型</strong>：int 或比例。</li>
+<li><strong>默认值</strong>：教科书定义 <code class="inline-code">ceil(m/2) - 1</code>；InnoDB 采用惰性策略，索引页使用率低于 <code class="inline-code">MERGE_THRESHOLD</code>（默认 50%）时才会考虑合并。</li>
+<li><strong>取值范围</strong>：0 到 <code class="inline-code">ceil(m/2) - 1</code>。</li>
+<li><strong>对结果的影响</strong>：阈值高，合并积极，空间利用率高，但删除路径写放大、锁竞争增加，频繁合并/分裂会造成“抖动”；阈值低，删除快，但树中空洞多，范围扫描效率下降。</li>
+<li><strong>推荐设置</strong>：读多写少、删除批量化的场景可积极合并；高并发 OLTP 保持惰性合并，把整理工作交给后台任务；监控索引页使用率，避免长期低于 50%。</li>
+</ul>
+
+<h5>参数 9：leaf_link（叶子链表）</h5>
+
+<ul>
+<li><strong>含义</strong>：叶子节点之间的链表方向与数量。</li>
+<li><strong>类型</strong>：enum。</li>
+<li><strong>默认值</strong>：双向链表（InnoDB、多数数据库）。</li>
+<li><strong>取值范围</strong>：单向 <code class="inline-code">next</code>；双向 <code class="inline-code">next + prev</code>。</li>
+<li><strong>对结果的影响</strong>：单向链表每个叶子少存一个指针，空间略省，但只能正向扫描，无法高效支持 <code class="inline-code">ORDER BY ... DESC</code> 和区间回退；双向链表支持正向/反向范围扫描，代价是每页多一个指针和少量维护成本。</li>
+<li><strong>推荐设置</strong>：通用数据库使用双向链表；只做正向范围扫描的嵌入式索引可用单向链表省空间。无论单向还是双向，都要保证链表与树结构在分裂/合并时原子更新。</li>
+</ul>
+
+<h5>参数 10：clustered（聚簇/二级索引）</h5>
+
+<ul>
+<li><strong>含义</strong>：叶子节点存放整行数据（聚簇索引）还是只存放主键/行地址（二级索引）。</li>
+<li><strong>类型</strong>：bool 或 enum。</li>
+<li><strong>默认值</strong>：InnoDB 主键为聚簇索引，二级索引为非聚簇；MyISAM 全部为非聚簇。</li>
+<li><strong>取值范围</strong>：聚簇 / 非聚簇。</li>
+<li><strong>对结果的影响</strong>：聚簇索引点查一次到位，范围扫描局部性好；二级索引查询需要“回表”到聚簇索引取整行，产生额外随机 I/O；覆盖索引可以避免回表；聚簇索引更新主键代价高，可能引发行迁移。</li>
+<li><strong>推荐设置</strong>：热点查询尽量走聚簇索引或覆盖索引；二级索引把常用查询列包含进来；主键选择短小、单调、少更新的列，避免频繁更新聚簇键。</li>
+</ul>
+
+<h5>参数 11：prefix_length（前缀索引长度）</h5>
+
+<ul>
+<li><strong>含义</strong>：对长字符串列只索引前 N 个字符，而不是整列。</li>
+<li><strong>类型</strong>：int。</li>
+<li><strong>默认值</strong>：无，默认索引完整列。</li>
+<li><strong>取值范围</strong>：1 到列长度；InnoDB 索引前缀总长度受 3072B 限制。</li>
+<li><strong>对结果的影响</strong>：前缀越短，索引越小、扇出越高、缓存更友好，但选择性下降，可能扫描更多候选行并回表；前缀过长则索引膨胀，失去前缀索引的意义。</li>
+<li><strong>推荐设置</strong>：用 <code class="inline-code">COUNT(DISTINCT LEFT(col, N)) / COUNT(*)</code> 逼近完整列的选择性，选择性价比最高的 N；高区分度列不要用前缀；前缀索引无法用于覆盖索引返回完整列值。</li>
+</ul>
+
+<h5>参数 12：buffer_pool_size（缓冲池）</h5>
+
+<ul>
+<li><strong>含义</strong>：缓存 B+ 树页面的内存大小，决定多少层节点能常驻内存。</li>
+<li><strong>类型</strong>：int，单位字节。</li>
+<li><strong>默认值</strong>：InnoDB 128MB（MySQL 8.0）。</li>
+<li><strong>取值范围</strong>：128MB 到物理内存的 70% ~ 80%。</li>
+<li><strong>对结果的影响</strong>：缓冲池能覆盖根节点和全部内部节点时，点查只剩一次叶子 I/O；命中率低时，每次查询放大为 3 ~ 4 次随机 I/O。缓冲池过小还会导致范围扫描频繁淘汰页。</li>
+<li><strong>推荐设置</strong>：专用数据库服务器给到物理内存的 60% ~ 75%；监控 <code class="inline-code">Innodb_buffer_pool_reads</code>、命中率和 <code class="inline-code">Innodb_buffer_pool_wait_free</code>；不要与大量文件缓存、JVM 堆争抢内存。</li>
+</ul>
+
+<h4>代码示例</h4>
+
+<p>下面给出一个可运行的 B+ 树 Python 实现，支持插入、点查、范围查询，并在每行代码后附注释。实现采用“内部节点最多 m 个孩子、m−1 个键”的约定；叶子节点用 <code class="inline-code">next</code> 串成单向链表。示例末尾用 500 次随机插入与字典结果对拍，验证点查和范围查询的正确性。</p>
+
+<p><pre class="code-block"><code class="language-python">import bisect                                              # 导入二分查找模块，用于节点内定位键
+import random                                              # 导入随机模块，用于生成测试数据
+
+
+class BPlusTreeNode:                                       # 定义 B+ 树节点类
+    def __init__(self, leaf=False):                        # 构造函数，leaf 标记是否为叶子节点
+        self.leaf = leaf                                   # 保存叶子标记：True 表示叶子层
+        self.keys = []                                     # 保存升序排列的关键字列表
+        self.children = []                                 # 保存内部节点的孩子指针列表
+        self.values = []                                   # 保存叶子节点的数据值列表
+        self.next = None                                   # 保存叶子节点指向右兄弟的指针
+
+
+class BPlusTree:                                           # 定义 B+ 树主体类
+    def __init__(self, order=4):                           # 构造函数，order 为阶数 m
+        if order &lt; 3:                                      # 阶数必须至少为 3，否则不是多路树
+            raise ValueError(&quot;order 必须 &gt;= 3&quot;)            # 非法阶数直接抛出异常
+        self.order = order                                 # 保存阶数 m
+        self.max_keys = order - 1                          # 每个节点最多 m-1 个键
+        self.min_keys = (order + 1) // 2 - 1               # 非根节点最少 ceil(m/2)-1 个键
+        self.root = BPlusTreeNode(leaf=True)               # 初始只有空的叶子根节点
+
+    def _find_child(self, node, key):                      # 在内部节点中定位应下降的孩子下标
+        return bisect.bisect_right(node.keys, key)         # 等于分隔键时走右子树，保证范围语义正确
+
+    def search(self, key):                                 # 点查：返回键对应的值，找不到返回 None
+        node = self.root                                   # 从根节点开始
+        while not node.leaf:                               # 只要还没到叶子层就继续下降
+            node = node.children[self._find_child(node, key)]  # 按分隔键选择孩子
+        i = bisect.bisect_left(node.keys, key)             # 在叶子节点内二分查找键
+        if i &lt; len(node.keys) and node.keys[i] == key:     # 判断下标有效且键相等
+            return node.values[i]                          # 命中，返回对应值
+        return None                                        # 未命中，返回 None
+
+    def range_query(self, start, end):                     # 范围查询：返回 [start, end] 内的键值对
+        result = []                                        # 初始化结果列表
+        node = self.root                                   # 从根节点开始定位起始叶子
+        while not node.leaf:                               # 逐层下降
+            node = node.children[self._find_child(node, start)]  # 按 start 选择孩子
+        while node is not None:                            # 沿叶子链表一直向右扫描
+            for k, v in zip(node.keys, node.values):       # 遍历当前叶子的键值对
+                if k &gt; end:                                # 一旦超过上界
+                    return result                          # 立即返回，后面不可能再命中
+                if k &gt;= start:                             # 只收集不小于下界的键
+                    result.append((k, v))                  # 追加到结果列表
+            node = node.next                               # 移动到右兄弟叶子
+        return result                                      # 扫描完链表后返回结果
+
+    def height(self):                                      # 计算树高：从根沿最左孩子一直走到叶子
+        h, node = 1, self.root                             # 根节点记为第 1 层
+        while not node.leaf:                               # 只要当前节点不是叶子
+            h += 1                                         # 层数加一
+            node = node.children[0]                        # 沿最左孩子继续下降
+        return h                                           # 返回总层数
+
+    def insert(self, key, value):                          # 插入键值对；键已存在则更新值
+        promote = self._insert_rec(self.root, key, value)  # 递归插入，返回可选的提升键与新节点
+        if promote is not None:                            # 如果根节点发生了分裂
+            new_root = BPlusTreeNode(leaf=False)           # 创建新的内部根节点
+            new_root.keys = [promote[0]]                   # 新根保存提升上来的分隔键
+            new_root.children = [self.root, promote[1]]    # 新根的两个孩子：旧根与新兄弟
+            self.root = new_root                           # 更新根指针，树高加一
+
+    def _insert_rec(self, node, key, value):               # 递归插入的核心函数
+        if node.leaf:                                      # 情况一：当前节点是叶子
+            i = bisect.bisect_left(node.keys, key)         # 找到键应插入的位置
+            if i &lt; len(node.keys) and node.keys[i] == key: # 如果键已经存在
+                node.values[i] = value                     # 直接更新值，不新增记录
+                return None                                # 无需分裂，返回 None
+            node.keys.insert(i, key)                       # 在正确位置插入键
+            node.values.insert(i, value)                   # 在相同位置插入值
+            if len(node.keys) &lt;= self.max_keys:            # 如果未超过最大键数
+                return None                                # 插入完成，无需分裂
+            mid = len(node.keys) // 2                      # 计算分裂中点
+            right = BPlusTreeNode(leaf=True)               # 创建右半部分的新叶子
+            right.keys = node.keys[mid:]                   # 右叶子接收后半段键
+            right.values = node.values[mid:]               # 右叶子接收后半段值
+            node.keys = node.keys[:mid]                    # 左叶子保留前半段键
+            node.values = node.values[:mid]                # 左叶子保留前半段值
+            right.next = node.next                         # 新右叶子接上原链表后继
+            node.next = right                              # 左叶子指向新右叶子
+            return (right.keys[0], right)                  # 把右叶首键和新叶子上报父节点
+
+        i = self._find_child(node, key)                    # 情况二：内部节点，先选孩子
+        promote = self._insert_rec(node.children[i], key, value)  # 递归插入到选中的孩子
+        if promote is None:                                # 如果孩子没有分裂
+            return None                                    # 当前节点无需处理
+        node.keys.insert(i, promote[0])                    # 在孩子位置插入提升上来的分隔键
+        node.children.insert(i + 1, promote[1])            # 在紧邻位置插入新的孩子指针
+        if len(node.keys) &lt;= self.max_keys:                # 如果当前节点仍未溢出
+            return None                                    # 插入完成
+        mid = len(node.keys) // 2                          # 计算内部节点分裂中点
+        up_key = node.keys[mid]                            # 中间键将提升给父节点
+        right = BPlusTreeNode(leaf=False)                  # 创建右半部分的新内部节点
+        right.keys = node.keys[mid + 1:]                   # 右节点接收中点之后的键
+        right.children = node.children[mid + 1:]           # 右节点接收对应的孩子指针
+        node.keys = node.keys[:mid]                        # 左节点保留中点之前的键
+        node.children = node.children[:mid + 1]            # 左节点保留对应的孩子指针
+        return (up_key, right)                             # 返回提升键和新右节点
+
+
+if __name__ == &quot;__main__&quot;:                                 # 仅在直接运行脚本时执行测试
+    random.seed(0)                                         # 固定随机种子，保证结果可复现
+    tree = BPlusTree(order=4)                              # 创建 4 阶 B+ 树
+    data = {}                                              # 用字典保存期望结果，便于对拍
+    for i in range(500):                                   # 进行 500 次随机插入
+        k = random.randrange(10000)                        # 随机生成 0 到 9999 的键
+        tree.insert(k, i)                                  # 插入键值对
+        data[k] = i                                        # 同步更新字典中的期望值
+    for k in list(data)[:100]:                             # 抽查前 100 个键
+        assert tree.search(k) == data[k]                   # 断言点查结果与字典一致
+    assert tree.search(-1) is None                         # 断言不存在的键返回 None
+    for _ in range(20):                                    # 随机做 20 次范围查询对拍
+        a = random.randrange(10000)                        # 随机生成下界
+        b = a + random.randrange(500)                      # 随机生成上界
+        got = tree.range_query(a, b)                       # 用 B+ 树执行范围查询
+        expect = sorted((k, v) for k, v in data.items() if a &lt;= k &lt;= b)  # 用字典计算期望结果
+        assert got == expect, (a, b)                       # 断言两者完全一致
+    print(&quot;B+ tree OK, keys:&quot;, len(data), &quot;height:&quot;, tree.height())  # 输出通过信息与树高</code></pre></p>
+
+<p>运行结果（4 阶、500 次随机插入）：<code class="inline-code">B+ tree OK, keys: 484 height: 6</code>。由于随机键会覆盖重复值，最终有效键为 484 个；4 阶树的扇出很小，所以树高为 6，这正是“阶数决定树高”的直观体现。把 <code class="inline-code">order</code> 调到 64，同样数据量下树高会降到 2。</p>
+
+<h4>复杂度分析</h4>
+
+<p><strong>点查复杂度</strong>：每一层需要在节点内定位孩子。节点内用二分查找，比较次数为 $ O(\log m) $；从根到叶子共 $ H $ 层，因此 CPU 比较次数为 $ O(H \log m) $，页面访问次数为 $ O(H) $。由公式 2，$ H = O(\log_m N) $，所以点查的渐近复杂度为 $ O(\log_m N \cdot \log m) $，在 $ m $ 视为常数时就是 $ O(\log N) $。磁盘 I/O 是更关键的指标：最坏 $ H $ 次随机页读，工程上通常为 3 ~ 4 次。</p>
+
+<p><strong>插入复杂度</strong>：先沿树下降 $ H $ 层，定位叶子；叶子内插入需要搬移最多 $ m-1 $ 个键，代价 $ O(m) $；若溢出则分裂，复制 $ O(m) $ 个键值，并向父节点插入提升键；父节点可能继续分裂，最坏一路分裂到根，总代价 $ O(H \cdot m) $。均摊到每次插入，分裂并不频繁，复杂度为 $ O(H \log m + m) $，I/O 为 $ O(H) $ 次读加常数次写。顺序插入时，若每次都在最右侧分裂，写放大最小；随机插入则分裂更频繁。</p>
+
+<p><strong>范围查询复杂度</strong>：定位起始叶子需要 $ O(H \log m) $ 次比较和 $ H $ 次页读；随后沿叶子链表扫描，命中 $ K_{\text{res}} $ 条记录需要读取 $ \lceil K_{\text{res}}/B_{\text{leaf}} \rceil $ 个叶子页。因此总代价为 $ O(H \log m + K_{\text{res}}) $ 次比较、$ O(H + K_{\text{res}}/B_{\text{leaf}}) $ 次页面访问。由于叶子页是顺序读取，实际吞吐远高于同等数量的随机点查。</p>
+
+<p><strong>空间复杂度</strong>：每条记录在叶子层占一份数据（聚簇索引）或一个主键指针（二级索引）；内部节点约占 $ N/(m-1) $ 个键，相对叶子层可以忽略。若节点平均填充率为 $ \rho $，索引实际占用约为理论最小空间的 $ 1/\rho $ 倍；随机插入下 $ \rho \approx 69.3\% $，所以容量规划应按约 1.44 倍放大。以 $ m=1170 $、$ N=10^8 $、每条记录 100B 估算：叶子数据约 10GB，叶子页按 70% 填充约 14.3GB，内部节点约 0.1GB，总索引约 14.4GB。</p>
+
+<p><strong>数值例子</strong>：设 $ m=1170 $、$ N=10^8 $、叶子页每条记录 100B（每页约 160 条）。树高约 3 层，点查 3 次页读；范围查询命中 1000 条记录，需要 $ 1000/160 \approx 7 $ 个叶子页，加上定位的 2 次内部页读，共约 9 次页访问，其中 7 次是顺序 I/O。若换成二叉树，1 亿条记录需要约 27 层，最坏 27 次随机 I/O，差距接近一个数量级。</p>
+
+<h4>应用场景</h4>
+
+<ul>
+<li><strong>MySQL InnoDB 索引</strong>：主键聚簇索引、二级索引、联合索引、覆盖索引都建立在 B+ 树上；最左前缀、回表、索引下推等优化都围绕 B+ 树展开。</li>
+<li><strong>PostgreSQL B-tree</strong>：Lehman-Yao 高并发 B-tree 变体，支持兄弟指针、并发分裂与范围扫描，是默认索引类型。</li>
+<li><strong>文件系统元数据</strong>：XFS 的分配组、扩展映射和目录索引，ReiserFS 的文件索引，NTFS 的目录索引，都使用 B+ 树或类似的多路平衡树。</li>
+<li><strong>嵌入式键值存储</strong>：LMDB 使用 B+ 树作为主索引，支持有序遍历和事务；Tokyo Cabinet 等也提供 B+ 树存储。</li>
+<li><strong>范围查询与排序</strong>：时间区间、价格区间、用户 ID 区间、日志时间戳检索；<code class="inline-code">BETWEEN</code>、<code class="inline-code">></code>、<code class="inline-code"><</code>、<code class="inline-code">ORDER BY</code> 都能受益于叶子链表。</li>
+<li><strong>联合索引与最左前缀</strong>：<code class="inline-code">(tenant_id, created_at)</code> 既服务租户内的时间范围查询，也能按时间排序；把短、高选择性的列放左侧。</li>
+<li><strong>覆盖索引</strong>：查询列全部在索引中时，叶子层即可返回，避免回表；例如 <code class="inline-code">(user_id, status, amount)</code> 覆盖“某用户某状态的金额汇总”。</li>
+<li><strong>电信业务索引</strong>：号码段路由表、话单时间区间检索、资源清单按地市/专业/状态组合查询，都适合用 B+ 树组织；号码、时间戳等有序短键能获得很高扇出。</li>
+<li><strong>不适合的场景</strong>：纯等值查询且数据全在内存时，哈希表更合适；全文检索用倒排索引；多维空间范围查询用 R 树、KD 树或网格索引；超长文本、图片特征用向量索引。</li>
+</ul>
+
+<h4>参考文档</h4>
+
+<ul>
+<li><a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-indexes.html" target="_blank" class="ref-link">MySQL 8.0 Reference Manual: InnoDB Indexes</a></li>
+<li><a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-index-types.html" target="_blank" class="ref-link">MySQL 8.0 Reference Manual: Clustered and Secondary Indexes</a></li>
+<li><a href="https://en.wikipedia.org/wiki/B%2B_tree" target="_blank" class="ref-link">Wikipedia: B+ tree</a></li>
+<li><a href="https://cloud.baidu.com/article/4118009" target="_blank" class="ref-link">百度智能云：数据库 B+ 树深度解析</a></li>
+<li><a href="https://blog.csdn.net/weixin_42522953/article/details/170254912" target="_blank" class="ref-link">CSDN：B+ 树原理与索引调优——扇出、页分裂与覆盖索引实战</a></li>
+<li><a href="https://www.csdn.net/detail/webblog_88627592/89136" target="_blank" class="ref-link">CSDN：B+ 树详解——从数据结构到 MySQL 索引底层原理</a></li>
+<li>Silberschatz, Korth, Sudarshan.《Database System Concepts》第 6 版，第 11 章 B+ 树索引。</li>
+</ul>
+
+<hr>
+
+<h3>独立成分分析 ICA</h3>
+
+<p><strong>类别</strong>：降维与盲源分离 | <strong>难度</strong>：中等</p>
+
+<h4>算法简介</h4>
+
+<p>独立成分分析（Independent Component Analysis，ICA）要解决的是“鸡尾酒会问题”：房间里有几个人同时说话，多个麦克风录到的是这些声音经过不同延迟和衰减后的线性叠加；我们只能看到混合信号，却希望把每个人的声音单独分离出来。ICA 假设观测数据由若干统计独立的源信号经过一个未知的线性混合矩阵叠加而成，目标是估计一个解混矩阵，把观测还原成尽可能独立的成分。</p>
+
+<p>与 PCA 只利用二阶统计量（均值、协方差）做去相关不同，ICA 利用高阶统计量刻画“非高斯性”。PCA 能把数据旋转到方差最大的方向，但它无法区分“独立”与“仅仅不相关”：对高斯数据，不相关就等价于独立，PCA 已经足够；而对非高斯数据，存在无穷多个去相关但不独立的旋转方向，ICA 要从中挑出使成分最不高斯、从而最独立的那个。这也是 ICA 要求“源信号中至多有一个高斯分布”的根本原因。</p>
+
+<p>FastICA 是目前最常用的求解算法。它先用白化把数据的协方差变成单位矩阵，把问题从“任意线性变换”降为“正交旋转”；再以负熵的近似作为目标函数，用定点迭代（fixed-point iteration）寻找使每个成分非高斯性最大的投影方向。相比基于梯度的 ICA，FastICA 收敛更快，接近解时具有超线性收敛速度，且不需要学习率等训练参数。</p>
+
+<p>ICA 的解存在三个固有模糊性：置换模糊（成分顺序不确定）、缩放模糊（每个成分的幅值不确定）、符号模糊（成分可以整体取反）。因此评估 ICA 结果时不能直接比较 <code class="inline-code">S_hat</code> 与真实 <code class="inline-code">S</code> 的逐元素误差，而应看成分与真实源之间的最大绝对相关系数，或在下游任务中评估分离效果。理解这一点，比记住公式更重要。</p>
+
+<h4>原理示意图</h4>
+
+<p><div class="algo-image"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 900 460" font-family="sans-serif">
+  <defs>
+    <marker id="arrow2" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto">
+      <path d="M0,0 L9,3.5 L0,7 Z" fill="#6366f1"/>
+    </marker>
+    <marker id="arrow2g" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto">
+      <path d="M0,0 L9,3.5 L0,7 Z" fill="#22c55e"/>
+    </marker>
+  </defs>
+  <rect width="900" height="460" fill="#1e293b" rx="12"/>
+  <text x="450" y="30" text-anchor="middle" fill="#818cf8" font-size="16" font-weight="600">ICA 盲源分离：源信号 S 与混合矩阵 A 都未知，只能观测到 X = A S</text>
+  <text x="450" y="52" text-anchor="middle" fill="#94a3b8" font-size="11">目标：估计解混矩阵 W，使 Y = W X 的各分量尽可能统计独立</text>
+  <rect x="30" y="85" width="110" height="44" rx="7" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="85" y="112" text-anchor="middle" fill="#e2e8f0" font-size="13">源 s1（未知）</text>
+  <rect x="30" y="175" width="110" height="44" rx="7" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="85" y="202" text-anchor="middle" fill="#e2e8f0" font-size="13">源 s2（未知）</text>
+  <line x1="140" y1="107" x2="186" y2="107" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow2)"/>
+  <line x1="140" y1="197" x2="186" y2="197" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow2)"/>
+  <rect x="190" y="95" width="120" height="115" rx="8" fill="#312e81" stroke="#818cf8" stroke-width="2"/>
+  <text x="250" y="140" text-anchor="middle" fill="#e2e8f0" font-size="13">线性混合</text>
+  <text x="250" y="166" text-anchor="middle" fill="#c7d2fe" font-size="14" font-weight="600">x = A s</text>
+  <text x="250" y="232" text-anchor="middle" fill="#f97316" font-size="11">A 未知，不可直接求逆</text>
+  <line x1="310" y1="107" x2="356" y2="107" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow2)"/>
+  <line x1="310" y1="197" x2="356" y2="197" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow2)"/>
+  <rect x="360" y="85" width="110" height="44" rx="7" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="415" y="112" text-anchor="middle" fill="#e2e8f0" font-size="13">观测 x1</text>
+  <rect x="360" y="175" width="110" height="44" rx="7" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="415" y="202" text-anchor="middle" fill="#e2e8f0" font-size="13">观测 x2</text>
+  <text x="415" y="245" text-anchor="middle" fill="#94a3b8" font-size="11">唯一可见的数据</text>
+  <line x1="470" y1="107" x2="516" y2="107" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow2)"/>
+  <line x1="470" y1="197" x2="516" y2="197" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow2)"/>
+  <rect x="520" y="95" width="120" height="115" rx="8" fill="#14352a" stroke="#22c55e" stroke-width="2"/>
+  <text x="580" y="140" text-anchor="middle" fill="#e2e8f0" font-size="13">解混</text>
+  <text x="580" y="166" text-anchor="middle" fill="#bbf7d0" font-size="14" font-weight="600">y = W x</text>
+  <text x="580" y="232" text-anchor="middle" fill="#22c55e" font-size="11">W 由非高斯性最大化估计</text>
+  <line x1="640" y1="107" x2="686" y2="107" stroke="#22c55e" stroke-width="2" marker-end="url(#arrow2g)"/>
+  <line x1="640" y1="197" x2="686" y2="197" stroke="#22c55e" stroke-width="2" marker-end="url(#arrow2g)"/>
+  <rect x="690" y="85" width="120" height="44" rx="7" fill="#14352a" stroke="#22c55e" stroke-width="2"/>
+  <text x="750" y="112" text-anchor="middle" fill="#e2e8f0" font-size="13">恢复 y1</text>
+  <rect x="690" y="175" width="120" height="44" rx="7" fill="#14352a" stroke="#22c55e" stroke-width="2"/>
+  <text x="750" y="202" text-anchor="middle" fill="#e2e8f0" font-size="13">恢复 y2</text>
+  <line x1="40" y1="265" x2="860" y2="265" stroke="#334155" stroke-width="1"/>
+  <text x="230" y="288" text-anchor="middle" fill="#f97316" font-size="12" font-weight="600">混合后：独立结构被旋转成斜菱形</text>
+  <line x1="70" y1="415" x2="395" y2="415" stroke="#64748b" stroke-width="1.5"/>
+  <line x1="70" y1="415" x2="70" y2="300" stroke="#64748b" stroke-width="1.5"/>
+  <text x="398" y="420" fill="#94a3b8" font-size="11">x1</text>
+  <text x="56" y="302" fill="#94a3b8" font-size="11">x2</text>
+  <polygon points="230,305 330,360 230,415 130,360" fill="#312e81" opacity="0.55" stroke="#6366f1" stroke-width="1.5"/>
+  <circle cx="230" cy="330" r="3" fill="#818cf8"/>
+  <circle cx="255" cy="340" r="3" fill="#818cf8"/>
+  <circle cx="280" cy="350" r="3" fill="#818cf8"/>
+  <circle cx="305" cy="360" r="3" fill="#818cf8"/>
+  <circle cx="280" cy="370" r="3" fill="#818cf8"/>
+  <circle cx="255" cy="380" r="3" fill="#818cf8"/>
+  <circle cx="230" cy="390" r="3" fill="#818cf8"/>
+  <circle cx="205" cy="380" r="3" fill="#818cf8"/>
+  <circle cx="180" cy="370" r="3" fill="#818cf8"/>
+  <circle cx="155" cy="360" r="3" fill="#818cf8"/>
+  <circle cx="180" cy="350" r="3" fill="#818cf8"/>
+  <circle cx="205" cy="340" r="3" fill="#818cf8"/>
+  <text x="670" y="288" text-anchor="middle" fill="#22c55e" font-size="12" font-weight="600">ICA 恢复：联合分布对齐坐标轴</text>
+  <line x1="510" y1="415" x2="835" y2="415" stroke="#64748b" stroke-width="1.5"/>
+  <line x1="510" y1="415" x2="510" y2="300" stroke="#64748b" stroke-width="1.5"/>
+  <text x="838" y="420" fill="#94a3b8" font-size="11">y1</text>
+  <text x="496" y="302" fill="#94a3b8" font-size="11">y2</text>
+  <rect x="550" y="315" width="160" height="90" fill="#14352a" opacity="0.6" stroke="#22c55e" stroke-width="1.5"/>
+  <circle cx="575" cy="335" r="3" fill="#4ade80"/>
+  <circle cx="600" cy="335" r="3" fill="#4ade80"/>
+  <circle cx="625" cy="335" r="3" fill="#4ade80"/>
+  <circle cx="650" cy="335" r="3" fill="#4ade80"/>
+  <circle cx="675" cy="335" r="3" fill="#4ade80"/>
+  <circle cx="575" cy="360" r="3" fill="#4ade80"/>
+  <circle cx="600" cy="360" r="3" fill="#4ade80"/>
+  <circle cx="625" cy="360" r="3" fill="#4ade80"/>
+  <circle cx="650" cy="360" r="3" fill="#4ade80"/>
+  <circle cx="675" cy="360" r="3" fill="#4ade80"/>
+  <circle cx="575" cy="385" r="3" fill="#4ade80"/>
+  <circle cx="600" cy="385" r="3" fill="#4ade80"/>
+  <circle cx="625" cy="385" r="3" fill="#4ade80"/>
+  <circle cx="650" cy="385" r="3" fill="#4ade80"/>
+  <circle cx="675" cy="385" r="3" fill="#4ade80"/>
+  <text x="450" y="445" text-anchor="middle" fill="#94a3b8" font-size="11">白化先把协方差变成单位阵（只保留旋转）；FastICA 再旋转到非高斯性最大的方向，得到独立成分</text>
+</svg></div></p>
+
+<p>图中上半部分是生成过程：真实的源 <code class="inline-code">s1</code>、<code class="inline-code">s2</code> 不可见，经过未知矩阵 <code class="inline-code">A</code> 混合成观测 <code class="inline-code">x1</code>、<code class="inline-code">x2</code>；算法只能从观测出发，估计 <code class="inline-code">W</code> 使输出 <code class="inline-code">y</code> 尽量独立。下半部分用散点联合分布说明几何直觉：混合后，原本与坐标轴对齐的独立结构被旋转成斜菱形；白化只能把菱形“摆正到某个旋转角度”，无法确定应该转多少度；ICA 利用非高斯性（菱形尖角比高斯团更“非高斯”）找到正确的旋转角，使联合分布重新对齐坐标轴。</p>
+
+<h4>数学公式</h4>
+
+<p><strong>公式 1：线性混合模型</strong></p>
+
+<p><div class="math-block">$$ \mathbf{x} = A\mathbf{s} = \sum_{j=1}^{d} \mathbf{a}_j s_j $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ \mathbf{x} \in \mathbb{R}^{d} $：观测向量，$ d $ 为传感器/特征维度，每个样本一个向量。</li>
+<li>$ \mathbf{s} \in \mathbb{R}^{d} $：未知的源向量，其各分量 $ s_j $ 相互统计独立，且至多一个服从高斯分布。</li>
+<li>$ A \in \mathbb{R}^{d \times d} $：未知的混合矩阵，第 $ j $ 列 $ \mathbf{a}_j $ 表示第 $ j $ 个源在观测空间中的方向与衰减。</li>
+<li>该模型假设混合是瞬时、线性的，没有时间延迟和卷积；若存在延迟或回声，需要扩展到卷积 ICA 或频域 ICA。</li>
+</ul>
+
+<p><strong>公式 2：解混与独立目标</strong></p>
+
+<p><div class="math-block">$$ \mathbf{y} = W\mathbf{x}, \qquad W \approx A^{-1}, \qquad p(\mathbf{y}) = \prod_{j=1}^{d} p_j(y_j) $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ \mathbf{y} \in \mathbb{R}^{d} $：估计的独立成分（恢复的源）。</li>
+<li>$ W \in \mathbb{R}^{d \times d} $：待估计的解混矩阵；当 $ A $ 可逆时，理想解满足 $ W = A^{-1} $。</li>
+<li>$ p(\mathbf{y}) $：输出向量的联合概率密度；$ p_j(y_j) $ 是第 $ j $ 个成分的边缘密度。</li>
+<li>联合密度等于边缘密度乘积，是“统计独立”的定义；ICA 的目标就是让估计出的 $ \mathbf{y} $ 尽量满足这一分解。</li>
+</ul>
+
+<p><strong>公式 3：白化（whitening）</strong></p>
+
+<p><div class="math-block">$$ \mathbb{E}[\mathbf{x}\mathbf{x}^{\top}] = U D U^{\top}, \qquad V = D^{-1/2}U^{\top}, \qquad \mathbf{z} = V\mathbf{x}, \qquad \mathbb{E}[\mathbf{z}\mathbf{z}^{\top}] = I $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ \mathbb{E}[\mathbf{x}\mathbf{x}^{\top}] $：中心化后观测的协方差矩阵（假设均值为 0）。</li>
+<li>$ U $：协方差矩阵的特征向量矩阵，列向量为正交基。</li>
+<li>$ D $：特征值对角矩阵，对角线元素为各方向方差。</li>
+<li>$ D^{-1/2} $：对特征值开平方后取倒数，把每个方向的方差缩放到 1。</li>
+<li>$ V $：白化矩阵；$ \mathbf{z} $ 为白化后的数据，其协方差为单位矩阵 $ I $。</li>
+<li>白化后，任意解混矩阵都可以写成正交矩阵与缩放矩阵的乘积；忽略缩放模糊后，问题从“求一般矩阵”降为“求正交旋转”，大幅减少待估参数。</li>
+</ul>
+
+<p><strong>公式 4：负熵与非高斯性</strong></p>
+
+<p><div class="math-block">$$ J(y) \approx \left[\mathbb{E}\{G(y)\} - \mathbb{E}\{G(\nu)\}\right]^2 $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ J(y) $：负熵，衡量 $ y $ 与高斯分布的距离；高斯分布的负熵为 0，非高斯性越强负熵越大。</li>
+<li>$ G(\cdot) $：非二次对比函数，常用 $ \log\cosh $、指数型或四次型。</li>
+<li>$ \nu $：与 $ y $ 同方差的标准高斯随机变量，$ \mathbb{E}\{G(\nu)\} $ 是常数基准项。</li>
+<li>$ \mathbb{E}\{\cdot\} $：对样本求平均。该近似把“最大化负熵”转化为“最大化 $ \mathbb{E}\{G(y)\} $”，因为第二项与 $ W $ 无关。</li>
+</ul>
+
+<p><strong>公式 5：FastICA 定点迭代</strong></p>
+
+<p><div class="math-block">$$ \mathbf{w}^{+} = \mathbb{E}\left\{\mathbf{z}\,g(\mathbf{w}^{\top}\mathbf{z})\right\} - \mathbb{E}\left\{g'(\mathbf{w}^{\top}\mathbf{z})\right\}\mathbf{w}, \qquad \mathbf{w} \leftarrow \frac{\mathbf{w}^{+}}{\|\mathbf{w}^{+}\|} $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ \mathbf{w} \in \mathbb{R}^{d} $：一个解混方向（$ W $ 的某一行），满足单位范数约束 $ \|\mathbf{w}\| = 1 $。</li>
+<li>$ \mathbf{z} $：白化后的样本。</li>
+<li>$ g(\cdot) = G'(\cdot) $：对比函数的一阶导数，例如 $ \log\cosh $ 下 $ g(u)=\tanh(\alpha u) $。</li>
+<li>$ g'(\cdot) $：对比函数的二阶导数，例如 $ \log\cosh $ 下 $ g'(u)=\alpha(1-\tanh^2(\alpha u)) $。</li>
+<li>$ \mathbf{w}^{+} $：未归一化的更新方向；第二项来自拉格朗日乘子与牛顿近似，用来抵消范数增长。</li>
+<li>$ \mathbf{w} \leftarrow \mathbf{w}^{+}/\|\mathbf{w}^{+}\| $：归一化，保证解混方向只表示方向、不表示幅值。</li>
+<li>迭代直到相邻两次的 $ \mathbf{w} $ 方向几乎不变，即 $ |\,\langle \mathbf{w}_{\text{new}}, \mathbf{w}_{\text{old}} \rangle\,| \to 1 $。</li>
+</ul>
+
+<p><strong>公式 6：多成分去相关</strong></p>
+
+<p><div class="math-block">$$ W \leftarrow \left(W W^{\top}\right)^{-1/2} W \qquad \text{（并行对称去相关）} $$</div></p>
+
+<p><div class="math-block">$$ \mathbf{w}_p \leftarrow \mathbf{w}_p - \sum_{j=1}^{p-1}\left(\mathbf{w}_p^{\top}\mathbf{w}_j\right)\mathbf{w}_j \qquad \text{（逐步 Gram-Schmidt）} $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ W $：由 $ k $ 个解混方向堆叠而成的 $ k \times d $ 矩阵。</li>
+<li>$ (W W^{\top})^{-1/2} $：矩阵逆平方根，把 $ W $ 的行变成相互正交、单位范数。</li>
+<li>并行模式同时更新所有成分，再做对称去相关，数值更稳定，不会让先更新的成分“抢占”方向。</li>
+<li>逐步模式每算出一个 $ \mathbf{w}_p $，就减去它在已求方向上的投影，保证成分两两正交；实现简单，但误差会逐个累积。</li>
+</ul>
+
+<p><strong>公式 7：对比函数对照</strong></p>
+
+<div class="table-wrapper"><table class="algo-table"><thead><tr><th>fun</th><th>$ G(u) $</th><th>$ g(u)=G'(u) $</th><th>$ g'(u) $</th><th>适用场景</th></tr></thead><tbody><tr><td>logcosh</td><td>$ \frac{1}{\alpha}\ln\cosh(\alpha u) $</td><td>$ \tanh(\alpha u) $</td><td>$ \alpha\left(1-\tanh^2(\alpha u)\right) $</td><td>通用，超高斯/次高斯都可用</td></tr><tr><td>exp</td><td>$ -\exp\left(-\frac{u^2}{2}\right) $</td><td>$ u\exp\left(-\frac{u^2}{2}\right) $</td><td>$ (1-u^2)\exp\left(-\frac{u^2}{2}\right) $</td><td>超高斯（稀疏、尖峰）源</td></tr><tr><td>cube</td><td>$ \frac{u^4}{4} $</td><td>$ u^3 $</td><td>$ 3u^2 $</td><td>收敛快，但对异常值敏感</td></tr></tbody></table></div>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ u $：对比函数的自变量，实际计算时取 $ u = \mathbf{w}^{\top}\mathbf{z} $。</li>
+<li>$ \alpha $：logcosh 的形状参数，默认 1.0；$ \alpha $ 越大，$ \tanh $ 越早饱和，对大值更不敏感。</li>
+<li>超高斯（super-Gaussian）：分布比高斯更尖峰、更重尾，例如拉普拉斯分布、语音信号。</li>
+<li>次高斯（sub-Gaussian）：分布比高斯更平坦、更轻尾，例如均匀分布、部分调制信号。</li>
+</ul>
+
+<h4>核心要点</h4>
+
+<ul>
+<li>ICA 的目标是“独立”，不是“不相关”：不相关只约束二阶矩，独立要求联合分布可分解。</li>
+<li>非高斯性是可辨识的关键：若源信号全是高斯，任意正交旋转都得到高斯且不相关，无法确定真实方向。</li>
+<li>白化是加速手段：把协方差单位化后，只需估计正交旋转，参数从 $ d^2 $ 降到 $ d(d-1)/2 $。</li>
+<li>FastICA 用定点迭代而非梯度下降：没有学习率，收敛快，接近解时超线性收敛。</li>
+<li>三个模糊性无法消除：置换、缩放、符号；评估时要按最大相关系数匹配，而不是逐元素比较。</li>
+<li>中心化是硬要求：ICA 模型假设零均值，sklearn 在白化时会自动减去均值。</li>
+<li>标准化是可选的：若各特征量纲差异大，先标准化；但缩放会被混合矩阵吸收，不影响独立性。</li>
+<li>高斯源至多一个：两个以上高斯源时，ICA 不可辨识，只能退化为 PCA。</li>
+<li>成分顺序没有意义：<code class="inline-code">components_</code> 的行序不代表重要性，不能按方差解释率排序。</li>
+<li>样本量要充足：一般要求 $ n_{\text{samples}} \gg d $，EEG 场景常用数千到数万个采样点。</li>
+<li>评估看独立性：可用成分间的互信息、峰度、负熵近似，或下游任务指标；不要只看重构误差。</li>
+<li>常见误区：把 ICA 当降维工具、认为幅值可恢复、对高斯数据强行分离、过度滤波破坏独立性。</li>
+</ul>
+
+<h4>技术细节与参数详解</h4>
+
+<p>以下参数以 scikit-learn 的 <code class="inline-code">sklearn.decomposition.FastICA</code> 为准（1.5 版本 API）。除估计器参数外，ICA 对数据预处理和样本量非常敏感，因此把“数据级参数”也一并列出。先看速查表：</p>
+
+<div class="table-wrapper"><table class="algo-table"><thead><tr><th>参数</th><th>类型</th><th>默认值</th><th>典型范围</th><th>核心作用</th></tr></thead><tbody><tr><td>n_components</td><td>int / None</td><td>None（全部）</td><td>1 ~ n_features</td><td>估计多少个独立成分</td></tr><tr><td>algorithm</td><td>str</td><td>'parallel'</td><td>'parallel' / 'deflation'</td><td>并行或逐步求解</td></tr><tr><td>whiten</td><td>str / bool</td><td>'unit-variance'</td><td>'unit-variance' / 'arbitrary-variance' / False</td><td>白化策略与输出尺度</td></tr><tr><td>fun</td><td>str / callable</td><td>'logcosh'</td><td>'logcosh' / 'exp' / 'cube'</td><td>非高斯性对比函数</td></tr><tr><td>fun_args</td><td>dict / None</td><td>None → {'alpha':1.0}</td><td>alpha 0.5 ~ 2.0</td><td>对比函数形状参数</td></tr><tr><td>max_iter</td><td>int</td><td>200</td><td>200 ~ 1000</td><td>最大迭代次数</td></tr><tr><td>tol</td><td>float</td><td>1e-4</td><td>1e-6 ~ 1e-3</td><td>收敛阈值</td></tr><tr><td>w_init</td><td>array / None</td><td>None（随机正态）</td><td>形状 (k, k)</td><td>解混矩阵初值</td></tr><tr><td>whiten_solver</td><td>str</td><td>'svd'</td><td>'svd' / 'eigh'</td><td>白化矩阵求解器</td></tr><tr><td>random_state</td><td>int / RandomState / None</td><td>None</td><td>0 / 42</td><td>随机种子，保证可复现</td></tr><tr><td>n_samples</td><td>int（数据）</td><td>无</td><td>≥ 10d，最好 1000+</td><td>样本量，影响估计稳定性</td></tr><tr><td>centering</td><td>bool（数据）</td><td>必须中心化</td><td>True</td><td>去掉均值，满足模型假设</td></tr><tr><td>scaling</td><td>bool（数据）</td><td>可选</td><td>True / False</td><td>统一量纲，避免大方差特征主导</td></tr></tbody></table></div>
+
+<h5>参数 1：n_components</h5>
+
+<ul>
+<li><strong>含义</strong>：要估计的独立成分数量，也就是解混矩阵 $ W $ 的行数、输出 <code class="inline-code">S_hat</code> 的列数。</li>
+<li><strong>类型</strong>：int 或 None。</li>
+<li><strong>默认值</strong>：None，表示使用全部特征，即 <code class="inline-code">n_components = n_features</code>。</li>
+<li><strong>取值范围</strong>：1 到 <code class="inline-code">n_features</code>（通常还应不超过 <code class="inline-code">n_samples</code>）。</li>
+<li><strong>对结果的影响</strong>：设得太小会丢弃有效源，把多个源压进同一个成分；设得太大，多出的成分往往拟合噪声，独立性评估变差，计算量也上升。若真实源数未知，成分数是最需要实验的参数。</li>
+<li><strong>推荐设置</strong>：有先验时直接设为源数（如 EEG 去伪迹常取 20 ~ 40 个成分）；无先验时先用 PCA 看解释方差拐点，再在拐点附近试 2 ~ 3 个值，用成分间互信息或下游任务选择。做二维可视化时取 2。</li>
+</ul>
+
+<h5>参数 2：algorithm</h5>
+
+<ul>
+<li><strong>含义</strong>：FastICA 的求解模式。<code class="inline-code">parallel</code> 同时更新所有成分，再做对称去相关；<code class="inline-code">deflation</code> 逐个提取成分，每提取一个就从数据中投影掉。</li>
+<li><strong>类型</strong>：str。</li>
+<li><strong>默认值</strong>：<code class="inline-code">'parallel'</code>。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">{'parallel', 'deflation'}</code>。</li>
+<li><strong>对结果的影响</strong>：<code class="inline-code">parallel</code> 数值稳定，成分之间没有先后偏置，适合一次求多个成分；<code class="inline-code">deflation</code> 实现简单，只关心少数几个成分时更快，但先提取的成分会占用自由度，误差逐步累积，成分顺序也不稳定。</li>
+<li><strong>推荐设置</strong>：默认用 <code class="inline-code">parallel</code>；只需要 1 ~ 2 个成分、或需要“逐个剥离”的在线场景可用 <code class="inline-code">deflation</code>。</li>
+</ul>
+
+<h5>参数 3：whiten</h5>
+
+<ul>
+<li><strong>含义</strong>：白化策略。<code class="inline-code">unit-variance</code> 把恢复成分缩放到单位方差；<code class="inline-code">arbitrary-variance</code> 保留白化矩阵的原始尺度；<code class="inline-code">False</code> 表示输入已经是白化数据，跳过白化。</li>
+<li><strong>类型</strong>：str 或 bool。</li>
+<li><strong>默认值</strong>：<code class="inline-code">'unit-variance'</code>（scikit-learn 1.3 起改为默认）。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">{'unit-variance', 'arbitrary-variance', False}</code>。</li>
+<li><strong>对结果的影响</strong>：<code class="inline-code">unit-variance</code> 让不同成分的幅值可比，便于后续阈值化、可视化；<code class="inline-code">arbitrary-variance</code> 保留数据的原始能量尺度，但成分幅值受白化矩阵影响；<code class="inline-code">False</code> 要求调用者自己完成白化，否则协方差不为单位阵，FastICA 的正交假设被破坏，结果不可靠。</li>
+<li><strong>推荐设置</strong>：绝大多数场景用 <code class="inline-code">'unit-variance'</code>；若下游需要还原真实幅值，用 <code class="inline-code">mixing_</code> 反变换，而不是依赖 <code class="inline-code">whiten</code> 的尺度。除非你明确知道输入已白化，否则不要设为 False。</li>
+</ul>
+
+<h5>参数 4：fun</h5>
+
+<ul>
+<li><strong>含义</strong>：近似负熵时使用的对比函数 $ G $，决定优化的是哪一种非高斯性。</li>
+<li><strong>类型</strong>：str 或 callable。</li>
+<li><strong>默认值</strong>：<code class="inline-code">'logcosh'</code>。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">{'logcosh', 'exp', 'cube'}</code>，或自定义函数。</li>
+<li><strong>对结果的影响</strong>：<code class="inline-code">logcosh</code> 通用、稳健，对超高斯和次高斯都表现不错；<code class="inline-code">exp</code> 更适合稀疏、尖峰的超高斯源，但对初值和异常值更敏感；<code class="inline-code">cube</code> 收敛快，等价于最大化四阶矩，对异常值非常敏感，容易发散。自定义函数必须返回 <code class="inline-code">(g, g')</code>，且 <code class="inline-code">g'</code> 沿最后一个维度取平均。</li>
+<li><strong>推荐设置</strong>：先用 <code class="inline-code">logcosh</code>；若源明显是稀疏尖峰（语音、EOG 伪迹），试 <code class="inline-code">exp</code>；只有在数据干净、追求速度时用 <code class="inline-code">cube</code>。不要用 <code class="inline-code">cube</code> 处理重尾噪声。</li>
+</ul>
+
+<h5>参数 5：fun_args</h5>
+
+<ul>
+<li><strong>含义</strong>：传给对比函数的参数字典；对 <code class="inline-code">logcosh</code> 来说主要是形状参数 <code class="inline-code">alpha</code>。</li>
+<li><strong>类型</strong>：dict 或 None。</li>
+<li><strong>默认值</strong>：None；当 <code class="inline-code">fun='logcosh'</code> 时自动取 <code class="inline-code">{'alpha': 1.0}</code>。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">alpha</code> 通常取 0.5 ~ 2.0；<code class="inline-code">exp</code>、<code class="inline-code">cube</code> 不需要参数。</li>
+<li><strong>对结果的影响</strong>：<code class="inline-code">alpha</code> 越大，$ \tanh(\alpha u) $ 越早饱和，对大值更不敏感，稳健性提高但可能丢失信息；<code class="inline-code">alpha</code> 越小，函数更接近线性，对异常值更敏感。<code class="inline-code">alpha</code> 还会影响收敛速度和最终成分的“稀疏程度”。</li>
+<li><strong>推荐设置</strong>：默认 1.0；数据有明显重尾/尖峰时可试 1.5 ~ 2.0；数据接近均匀分布时可试 0.5 ~ 0.8。每次只改一个值，并用相关系数或互信息复核。</li>
+</ul>
+
+<h5>参数 6：max_iter</h5>
+
+<ul>
+<li><strong>含义</strong>：单次 <code class="inline-code">fit</code> 允许的最大迭代次数。</li>
+<li><strong>类型</strong>：int。</li>
+<li><strong>默认值</strong>：200。</li>
+<li><strong>取值范围</strong>：1 到 10000，常用 200 ~ 1000。</li>
+<li><strong>对结果的影响</strong>：太小会导致未收敛，成分不稳定，<code class="inline-code">n_iter_</code> 接近上限并出现 <code class="inline-code">ConvergenceWarning</code>；太大只是浪费时间，不会改变已经收敛的结果。注意 <code class="inline-code">deflation</code> 模式下 <code class="inline-code">n_iter_</code> 是所有成分中的最大迭代次数。</li>
+<li><strong>推荐设置</strong>：默认 200 通常足够；若出现收敛警告，先增大到 500 ~ 1000，再检查数据是否已白化、是否存在常量列、<code class="inline-code">tol</code> 是否过严。</li>
+</ul>
+
+<h5>参数 7：tol</h5>
+
+<ul>
+<li><strong>含义</strong>：收敛阈值，衡量相邻两次迭代的解混矩阵方向变化；当最大方向偏差小于 <code class="inline-code">tol</code> 时停止。</li>
+<li><strong>类型</strong>：float。</li>
+<li><strong>默认值</strong>：1e-4。</li>
+<li><strong>取值范围</strong>：1e-8 到 1e-2，常用 1e-4。</li>
+<li><strong>对结果的影响</strong>：<code class="inline-code">tol</code> 越小，迭代越久，结果越精确，但收益递减；<code class="inline-code">tol</code> 越大，收敛快但成分可能不稳定，尤其在高维、少样本时。<code class="inline-code">tol</code> 与 <code class="inline-code">max_iter</code> 要配合：阈值严但迭代上限低，会永远报未收敛。</li>
+<li><strong>推荐设置</strong>：常规分析 1e-4；科研复现或需要高精度时 1e-6；探索性分析 1e-3 也可接受。不要为了“更准”盲目设 1e-8，数值噪声可能让迭代无法满足。</li>
+</ul>
+
+<h5>参数 8：w_init</h5>
+
+<ul>
+<li><strong>含义</strong>：解混矩阵的初始值，形状为 <code class="inline-code">(n_components, n_components)</code>；它定义在白化后的 $ k $ 维空间中。</li>
+<li><strong>类型</strong>：array-like 或 None。</li>
+<li><strong>默认值</strong>：None，使用标准正态随机初始化。</li>
+<li><strong>取值范围</strong>：任意形状正确的浮点数组；通常取随机正交矩阵或上一次拟合的 <code class="inline-code">components_</code>。</li>
+<li><strong>对结果的影响</strong>：FastICA 对初值有一定敏感性，不同初值可能收敛到不同的局部解，导致成分顺序、符号甚至分离质量不同；好的初值可以加速收敛、复现实验。<code class="inline-code">w_init</code> 不会改变数据的白化结果，只影响旋转搜索的起点。</li>
+<li><strong>推荐设置</strong>：默认 None，并固定 <code class="inline-code">random_state</code>；需要热启动时，把上一次的 <code class="inline-code">components_</code>（在 <code class="inline-code">whiten=True</code> 时）或 <code class="inline-code">components_</code> 的对应部分传入；不要手工构造病态初值。</li>
+</ul>
+
+<h5>参数 9：whiten_solver</h5>
+
+<ul>
+<li><strong>含义</strong>：求解白化矩阵时使用的线性代数方法，<code class="inline-code">svd</code> 用奇异值分解，<code class="inline-code">eigh</code> 用对称协方差矩阵的特征分解。</li>
+<li><strong>类型</strong>：str。</li>
+<li><strong>默认值</strong>：<code class="inline-code">'svd'</code>。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">{'svd', 'eigh'}</code>。</li>
+<li><strong>对结果的影响</strong>：<code class="inline-code">svd</code> 在问题退化（特征值接近 0、共线特征）时数值更稳定，且当 <code class="inline-code">n_samples <= n_features</code> 时通常更快；<code class="inline-code">eigh</code> 在 <code class="inline-code">n_samples >= n_features</code> 时更省内存，当 <code class="inline-code">n_samples >= 50 * n_features</code> 时通常更快。两者数学上等价，差异主要在数值稳定性和性能。</li>
+<li><strong>推荐设置</strong>：默认 <code class="inline-code">svd</code>，尤其是特征维度高、样本相对少、存在共线性的场景；样本量远大于特征数（如 > 50 倍）时用 <code class="inline-code">eigh</code> 提升速度。</li>
+</ul>
+
+<h5>参数 10：random_state</h5>
+
+<ul>
+<li><strong>含义</strong>：随机数种子，用于初始化 <code class="inline-code">w_init</code>（当未显式给出时）。</li>
+<li><strong>类型</strong>：int、RandomState 实例或 None。</li>
+<li><strong>默认值</strong>：None，每次调用使用不同的随机初值。</li>
+<li><strong>取值范围</strong>：任意整数；常用 0、42、2026。</li>
+<li><strong>对结果的影响</strong>：固定种子可以复现实验，但不同种子可能得到不同的局部解；不固定种子时，多次运行的成分顺序和符号会变化，甚至分离质量波动。它不影响白化，只影响旋转搜索。</li>
+<li><strong>推荐设置</strong>：实验和线上管线都固定一个整数；做稳健性评估时，用 5 ~ 10 个不同种子重复，观察成分与真实源的相关性是否稳定。</li>
+</ul>
+
+<h5>参数 11：n_samples（数据级）</h5>
+
+<ul>
+<li><strong>含义</strong>：用于拟合的样本数量，即观测矩阵的行数；ICA 是统计方法，样本量直接决定高阶统计量估计的可靠性。</li>
+<li><strong>类型</strong>：int（由数据决定）。</li>
+<li><strong>默认值</strong>：无。</li>
+<li><strong>取值范围</strong>：至少几十，工程上建议 $ \ge 10d $，理想情况 1000 以上。</li>
+<li><strong>对结果的影响</strong>：样本太少时，协方差和高阶矩估计噪声大，白化不稳定，FastICA 容易收敛到虚假成分；样本过多则计算量上升，但对精度通常是好事。若样本有时间相关性（EEG、音频），有效样本量还受采样率和自相关影响。</li>
+<li><strong>推荐设置</strong>：离线分析尽量用全部可用样本；在线场景用滑动窗口，窗口长度至少覆盖几十个独立周期；若样本不足，先降维（PCA 到 10 ~ 30 维）再跑 ICA。</li>
+</ul>
+
+<h5>参数 12：centering（数据级）</h5>
+
+<ul>
+<li><strong>含义</strong>：是否对每个特征减去均值，使数据零均值；ICA 的线性模型默认源和观测均值为 0。</li>
+<li><strong>类型</strong>：bool（预处理步骤）。</li>
+<li><strong>默认值</strong>：必须做；scikit-learn 在白化时会自动中心化，<code class="inline-code">mean_</code> 只在 <code class="inline-code">whiten=True</code> 时记录。</li>
+<li><strong>取值范围</strong>：True / False。</li>
+<li><strong>对结果的影响</strong>：不中心化会在数据中引入一个常数偏移，破坏“零均值独立源”的假设，白化矩阵和成分都会被偏移污染；中心化后，混合矩阵的截距被吸收，模型才成立。</li>
+<li><strong>推荐设置</strong>：始终中心化。若手工实现，先 <code class="inline-code">X = X - X.mean(axis=0)</code>；若用 sklearn，保持 <code class="inline-code">whiten</code> 开启即可，不要重复中心化。</li>
+</ul>
+
+<h5>参数 13：scaling（数据级）</h5>
+
+<ul>
+<li><strong>含义</strong>：是否对特征做标准化（减均值、除标准差）或统一量纲。</li>
+<li><strong>类型</strong>：bool（预处理步骤）。</li>
+<li><strong>默认值</strong>：无强制要求；ICA 本身不要求单位方差，白化会处理协方差。</li>
+<li><strong>取值范围</strong>：True / False。</li>
+<li><strong>对结果的影响</strong>：若各特征量纲差异极大（例如一个特征以伏特计、另一个以微伏计），不标准化会让大方差特征主导白化，数值条件变差；标准化可以改善数值稳定性，但缩放会被混合矩阵吸收，不改变理论上的独立成分，只改变估计算法的路径和数值误差。</li>
+<li><strong>推荐设置</strong>：量纲差异大时先标准化；同一物理量、同一量纲的多通道数据（如 EEG 各导联）可不标准化，避免破坏通道间的真实幅值关系。标准化后再用 <code class="inline-code">mixing_</code> 还原时，要同步反变换。</li>
+</ul>
+
+<h4>代码示例</h4>
+
+<p>下面用三类典型源信号验证 FastICA：正弦波（次高斯）、方波（超高斯/双峰）、拉普拉斯噪声（超高斯、尖峰）。三者经过一个 3×3 混合矩阵叠加，FastICA 在不知道混合矩阵的情况下恢复源信号。代码逐行注释，最后用“最大绝对相关系数”评估分离效果，并说明置换与符号模糊性。</p>
+
+<p><pre class="code-block"><code class="language-python">import numpy as np                                        # 导入数值计算库
+from sklearn.decomposition import FastICA                 # 导入 scikit-learn 的 FastICA 实现
+
+rng = np.random.RandomState(0)                            # 固定随机种子，保证实验可复现
+n_samples = 3000                                          # 设置采样点数，样本量远大于源数 3
+t = np.linspace(0, 8, n_samples)                          # 生成 0 到 8 的等间隔时间轴
+
+s1 = np.sin(2 * t)                                        # 源 1：正弦波，次高斯、平滑
+s2 = np.sign(np.sin(3 * t))                               # 源 2：方波，双峰、超高斯
+s3 = rng.laplace(size=n_samples)                          # 源 3：拉普拉斯噪声，尖峰、重尾
+S = np.c_[s1, s2, s3]                                     # 按列拼成 3000×3 的源矩阵
+S /= S.std(axis=0)                                        # 每个源缩放到单位标准差，便于比较
+
+A = np.array([[1.0, 1.0, 1.0],                            # 未知混合矩阵第 1 行
+              [0.5, 2.0, 1.0],                            # 未知混合矩阵第 2 行
+              [1.5, 1.0, 2.0]])                           # 未知混合矩阵第 3 行
+X = S @ A.T                                               # 生成观测：每行是 3 个源的线性组合
+
+ica = FastICA(n_components=3,                             # 估计 3 个独立成分
+              algorithm=&#x27;parallel&#x27;,                       # 使用并行对称去相关
+              whiten=&#x27;unit-variance&#x27;,                     # 白化并把输出缩放到单位方差
+              fun=&#x27;logcosh&#x27;,                              # 使用通用 logcosh 对比函数
+              fun_args={&#x27;alpha&#x27;: 1.0},                    # logcosh 形状参数取 1.0
+              max_iter=500,                               # 最多迭代 500 次
+              tol=1e-4,                                   # 收敛阈值 1e-4
+              random_state=0,                             # 固定随机初值
+              whiten_solver=&#x27;svd&#x27;)                        # 用 SVD 求白化矩阵，数值更稳
+S_hat = ica.fit_transform(X)                              # 拟合并直接输出恢复的源矩阵
+
+corr = np.abs(np.corrcoef(S.T, S_hat.T)[:3, 3:])          # 计算真实源与恢复成分的相关系数矩阵
+print(&quot;n_iter_:&quot;, ica.n_iter_)                            # 打印实际迭代次数，观察收敛速度
+print(&quot;max corr per recovered component:&quot;, corr.max(axis=0).round(4))  # 每个恢复成分的最大相关系数
+print(&quot;corr matrix:\n&quot;, corr.round(3))                    # 打印完整相关矩阵，观察置换结构
+print(&quot;components_ shape:&quot;, ica.components_.shape)        # 解混矩阵形状应为 3×3
+print(&quot;mixing_ shape:&quot;, ica.mixing_.shape)                # 混合矩阵形状应为 3×3
+print(&quot;whitening_ shape:&quot;, ica.whitening_.shape)          # 白化矩阵形状应为 3×3
+
+assert corr.max(axis=0).min() &gt; 0.95                      # 断言每个恢复成分都找到高度相关的真实源
+print(&quot;ICA OK&quot;)                                           # 输出通过信息</code></pre></p>
+
+<p>运行结果（固定种子 0）：<code class="inline-code">n_iter_: 3</code>，三个恢复成分与真实源的最大绝对相关系数分别为 <code class="inline-code">0.9978</code>、<code class="inline-code">1.0000</code>、<code class="inline-code">0.9995</code>，相关矩阵呈明显的“每行/每列只有一个接近 1”的置换结构。这说明 FastICA 只用了 3 次迭代就恢复了源信号；但恢复成分的顺序与真实源不一定一致，符号也可能相反，这正是置换与符号模糊性。实际评估时应按“每个恢复成分取最大相关系数”匹配，而不是直接比较 <code class="inline-code">S_hat[:, 0]</code> 与 <code class="inline-code">S[:, 0]</code>。</p>
+
+<p>若把 <code class="inline-code">fun</code> 换成 <code class="inline-code">'cube'</code>，在干净数据上通常也能分离，但对拉普拉斯噪声中的极端值更敏感；若把 <code class="inline-code">whiten</code> 设为 <code class="inline-code">False</code> 而不做预处理，协方差不为单位阵，FastICA 的正交假设被破坏，结果会明显变差。这两个实验可以帮助理解参数的实际影响。</p>
+
+<h4>复杂度分析</h4>
+
+<p><strong>白化阶段</strong>：中心化需要遍历 $ n \times d $ 个元素，$ O(nd) $；计算协方差矩阵 $ X^{\top}X $ 需要 $ O(nd^2) $；对 $ d \times d $ 协方差矩阵做特征分解或 SVD 需要 $ O(d^3) $；用白化矩阵变换数据需要 $ O(nd^2) $。因此白化总复杂度为 $ O(nd^2 + d^3) $，当 $ n \gg d $ 时由 $ O(nd^2) $ 主导，当 $ d $ 很大时 $ O(d^3) $ 不可忽略。</p>
+
+<p><strong>迭代阶段</strong>：设估计 $ k $ 个成分、迭代 $ I $ 次。每次迭代对每个成分计算 $ \mathbf{w}^{\top}\mathbf{z} $（$ n $ 个样本，每个 $ d $ 维点积）需要 $ O(nd) $；计算 $ g $、$ g' $ 需要 $ O(n) $；累加 $ \mathbf{z}g(\cdot) $ 需要 $ O(nd) $。并行模式下所有成分同时更新，每次迭代 $ O(ndk) $；去相关 $ O(k^2d) $ 相对较小。总迭代复杂度为 $ O(I\,n\,d\,k) $。<code class="inline-code">deflation</code> 模式逐个成分求解，总量同阶，但常数更大，且后求成分的可用数据被投影，实际迭代次数可能增加。</p>
+
+<p><strong>总复杂度</strong>：$ O(nd^2 + d^3 + I n d k) $。以 $ n=10000 $、$ d=64 $、$ k=10 $、$ I=20 $ 为例：白化约 $ 10000 \times 4096 \approx 4.1\times 10^7 $ 次乘加，迭代约 $ 20 \times 10000 \times 64 \times 10 = 1.28\times 10^8 $ 次乘加；在现代 CPU 上都是秒级以内。若 $ d=1000 $、$ n=10^6 $，白化的 $ O(nd^2)=10^{12} $ 会成为瓶颈，此时应先 PCA 降维到几十维，再跑 ICA。</p>
+
+<p><strong>空间复杂度</strong>：需要保存原始数据 $ O(nd) $、白化数据 $ O(nd) $、协方差/特征向量 $ O(d^2) $、解混矩阵 $ O(kd) $。若原地白化，可把峰值控制在 $ O(nd + d^2) $。<code class="inline-code">components_</code>、<code class="inline-code">mixing_</code>、<code class="inline-code">whitening_</code> 各占 $ O(kd) $、$ O(dk) $、$ O(kd) $，相对数据矩阵很小。</p>
+
+<p><strong>收敛性</strong>：FastICA 的定点迭代是牛顿型方法，接近解时收敛很快，通常 5 ~ 20 次迭代；本文示例 3 次即收敛。若出现 <code class="inline-code">ConvergenceWarning</code>，优先检查：数据是否中心化/白化、是否存在常量列或共线列、<code class="inline-code">tol</code> 是否过严、<code class="inline-code">max_iter</code> 是否过小、源中是否有多个高斯成分。</p>
+
+<h4>应用场景</h4>
+
+<ul>
+<li><strong>EEG/MEG 去伪迹</strong>：眨眼（EOG）、心电（ECG）、肌电（EMG）在头皮电极上形成独立于脑电的源；ICA 分离后识别伪迹成分并将其置零，再反变换回电极空间，是脑电预处理的标准步骤。</li>
+<li><strong>语音分离与鸡尾酒会</strong>：多麦克风录音中分离不同说话人；瞬时线性混合下 FastICA 可直接使用，存在混响时需转到频域逐频点做 ICA，并解决频点间的置换对齐问题。</li>
+<li><strong>fMRI 静息态分析</strong>：把体素时间序列分解为空间独立成分，识别默认模式网络、视觉网络等；空间 ICA 是静息态 fMRI 的常用工具。</li>
+<li><strong>通信信号分离</strong>：MIMO、盲源分离、干扰抑制；在多天线接收中分离独立发射源，或从混合信号中提取特定干扰源。电信场景中可用于射频指纹、频谱监测和异常信号分离。</li>
+<li><strong>金融因子分解</strong>：把多个资产收益率分解为相互独立的潜在因子，用于风险建模和组合优化；但金融数据重尾、时变，需谨慎解释。</li>
+<li><strong>图像盲解卷积</strong>：分离图像中的独立纹理层、去雨/去雾、显微图像去噪；自然图像统计具有稀疏性，适合非高斯假设。</li>
+<li><strong>特征提取与异常检测</strong>：把多变量遥测数据分解为独立成分，残差或异常成分可用于设备故障检测；在电信网络指标（时延、丢包、抖动、流量）中识别独立故障源。</li>
+<li><strong>不适合的场景</strong>：源信号接近高斯（如多路高斯噪声），ICA 不可辨识；非线性混合需要核 ICA 或非线性 ICA；欠定场景（源多于传感器）需要稀疏 ICA；混合矩阵时变时需要在线/自适应 ICA。</li>
+</ul>
+
+<h4>参考文档</h4>
+
+<ul>
+<li><a href="https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.FastICA.html" target="_blank" class="ref-link">scikit-learn: sklearn.decomposition.FastICA</a></li>
+<li><a href="https://scikit-learn.org/stable/modules/decomposition.html#ica" target="_blank" class="ref-link">scikit-learn User Guide: Independent component analysis (ICA)</a></li>
+<li><a href="https://scikit-learn.org.cn/view/604.html" target="_blank" class="ref-link">scikit-learn 中文文档：FastICA</a></li>
+<li>A. Hyvärinen, E. Oja. Independent Component Analysis: Algorithms and Applications. <em>Neural Networks</em>, 13(4-5):411-430, 2000.</li>
+<li>A. Hyvärinen. Fast and Robust Fixed-Point Algorithms for Independent Component Analysis. <em>IEEE Transactions on Neural Networks</em>, 10(3):626-634, 1999.</li>
+<li><a href="https://en.wikipedia.org/wiki/Independent_component_analysis" target="_blank" class="ref-link">Wikipedia: Independent component analysis</a></li>
+</ul>
+
+<hr>
+
+<h3>混合专家 MoE</h3>
+
+<p><strong>类别</strong>：大模型架构与稀疏化 | <strong>难度</strong>：困难</p>
+
+<h4>算法简介</h4>
+
+<p>混合专家（Mixture of Experts，MoE）是一种“条件计算”架构：把 Transformer 中原本稠密的前馈网络（FFN）拆成 $ N $ 个结构相同、参数独立的专家子网络，再增加一个路由器（Router / Gating Network）。每个 token 进入 MoE 层时，路由器先计算它在各个专家上的得分，只选出得分最高的 $ k $ 个专家参与计算，最后按门控权重把几个专家的输出加权求和。这样做的结果是：模型的总参数量可以随专家数 $ N $ 线性增长，但单个 token 的实际计算量只与 $ k $ 有关，通常 $ k \ll N $。</p>
+
+<p>MoE 的思想最早可追溯到 1991 年 Jacobs 与 Jordan 等人提出的“局部专家自适应混合”，但真正进入大模型主流是在 2017 年 Shazeer 等人的稀疏门控 MoE 之后。GShard 把 MoE 扩展到 600B 参数、top-2 路由；Switch Transformer 用 top-1 路由把参数量推到万亿级；Mixtral 8x7B 用 8 个专家、top-2 路由证明了开源 MoE 的实用性；DeepSeek-V3 则用 256 个路由专家 + 1 个共享专家、top-8 路由和“无辅助损失”的负载均衡，把总参数推到 671B、激活参数约 37B。2026 年的主流大模型中，MoE 已经成为在“参数规模”和“推理成本”之间做平衡的默认选择之一。</p>
+
+<p>MoE 的收益来自“参数与计算解耦”：总参数 $ P_{\text{total}} $ 决定模型的记忆容量和表达能力，激活参数 $ P_{\text{act}} $ 决定每个 token 的 FLOPs。以 $ d=4096 $、稠密 FFN 中间维 $ d_{ff}=14336 $、$ N=64 $、$ k=2 $、每个专家中间维 $ d_{ff}^{(e)}=2048 $ 为例：稠密 FFN 每个 token 约 2.35 亿 FLOPs、1.17 亿参数；MoE 每个 token 约 0.68 亿 FLOPs（约为稠密的 28.8%），但每层参数约 10.7 亿（约为稠密的 9.1 倍）。这就是“用更大的参数池换更低的单 token 计算”。</p>
+
+<p>但 MoE 不是免费的午餐。它带来四个新问题：路由负载不均导致专家饿死或过载；容量限制导致 token 被丢弃或填充浪费；专家并行引入 all-to-all 通信；路由器数值不稳定导致训练崩溃。下面会围绕这些工程问题逐一展开。</p>
+
+<h4>原理示意图</h4>
+
+<p><div class="algo-image"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 900 460" font-family="sans-serif">
+  <defs>
+    <marker id="arrow3" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto">
+      <path d="M0,0 L9,3.5 L0,7 Z" fill="#6366f1"/>
+    </marker>
+    <marker id="arrow3g" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto">
+      <path d="M0,0 L9,3.5 L0,7 Z" fill="#22c55e"/>
+    </marker>
+    <marker id="arrow3o" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto">
+      <path d="M0,0 L9,3.5 L0,7 Z" fill="#f97316"/>
+    </marker>
+  </defs>
+  <rect width="900" height="460" fill="#1e293b" rx="12"/>
+  <text x="450" y="30" text-anchor="middle" fill="#818cf8" font-size="16" font-weight="600">MoE：每个 token 只激活 top-k 个专家，参数总量大、单 token 计算量小</text>
+  <text x="405" y="52" text-anchor="middle" fill="#94a3b8" font-size="11">路由器为每个 token 选 top-2 个专家，再按门控权重加权求和</text>
+  <rect x="20" y="90" width="88" height="34" rx="6" fill="#334155" stroke="#6366f1" stroke-width="1.5"/>
+  <text x="64" y="112" text-anchor="middle" fill="#e2e8f0" font-size="12">token x1</text>
+  <rect x="20" y="140" width="88" height="34" rx="6" fill="#334155" stroke="#6366f1" stroke-width="1.5"/>
+  <text x="64" y="162" text-anchor="middle" fill="#e2e8f0" font-size="12">token x2</text>
+  <rect x="20" y="190" width="88" height="34" rx="6" fill="#334155" stroke="#6366f1" stroke-width="1.5"/>
+  <text x="64" y="212" text-anchor="middle" fill="#e2e8f0" font-size="12">token x3</text>
+  <rect x="20" y="240" width="88" height="34" rx="6" fill="#334155" stroke="#6366f1" stroke-width="1.5"/>
+  <text x="64" y="262" text-anchor="middle" fill="#e2e8f0" font-size="12">token x4</text>
+  <line x1="108" y1="107" x2="148" y2="145" stroke="#6366f1" stroke-width="1.5" marker-end="url(#arrow3)"/>
+  <line x1="108" y1="157" x2="148" y2="165" stroke="#6366f1" stroke-width="1.5" marker-end="url(#arrow3)"/>
+  <line x1="108" y1="207" x2="148" y2="185" stroke="#6366f1" stroke-width="1.5" marker-end="url(#arrow3)"/>
+  <line x1="108" y1="257" x2="148" y2="205" stroke="#6366f1" stroke-width="1.5" marker-end="url(#arrow3)"/>
+  <rect x="150" y="135" width="130" height="110" rx="8" fill="#312e81" stroke="#818cf8" stroke-width="2"/>
+  <text x="215" y="170" text-anchor="middle" fill="#e2e8f0" font-size="13" font-weight="600">Router 门控</text>
+  <text x="215" y="196" text-anchor="middle" fill="#c7d2fe" font-size="12">softmax(Wr x)</text>
+  <text x="215" y="220" text-anchor="middle" fill="#94a3b8" font-size="10">输出 N 个专家得分</text>
+  <line x1="280" y1="150" x2="328" y2="87" stroke="#22c55e" stroke-width="2.5" marker-end="url(#arrow3g)"/>
+  <line x1="280" y1="170" x2="328" y2="147" stroke="#22c55e" stroke-width="2.5" marker-end="url(#arrow3g)"/>
+  <line x1="280" y1="190" x2="328" y2="207" stroke="#64748b" stroke-width="1.5" stroke-dasharray="5,4" marker-end="url(#arrow3)"/>
+  <line x1="280" y1="210" x2="328" y2="267" stroke="#64748b" stroke-width="1.5" stroke-dasharray="5,4" marker-end="url(#arrow3)"/>
+  <rect x="330" y="65" width="150" height="44" rx="7" fill="#14352a" stroke="#22c55e" stroke-width="2.5"/>
+  <text x="405" y="92" text-anchor="middle" fill="#e2e8f0" font-size="12">专家 E1（FFN）</text>
+  <rect x="330" y="125" width="150" height="44" rx="7" fill="#14352a" stroke="#22c55e" stroke-width="2.5"/>
+  <text x="405" y="152" text-anchor="middle" fill="#e2e8f0" font-size="12">专家 E2（FFN）</text>
+  <rect x="330" y="185" width="150" height="44" rx="7" fill="#334155" stroke="#64748b" stroke-width="1.5" stroke-dasharray="5,4"/>
+  <text x="405" y="212" text-anchor="middle" fill="#94a3b8" font-size="12">专家 E3（未选中）</text>
+  <rect x="330" y="245" width="150" height="44" rx="7" fill="#334155" stroke="#64748b" stroke-width="1.5" stroke-dasharray="5,4"/>
+  <text x="405" y="272" text-anchor="middle" fill="#94a3b8" font-size="12">专家 E4（未选中）</text>
+  <line x1="480" y1="87" x2="558" y2="180" stroke="#22c55e" stroke-width="2.5" marker-end="url(#arrow3g)"/>
+  <line x1="480" y1="147" x2="558" y2="190" stroke="#22c55e" stroke-width="2.5" marker-end="url(#arrow3g)"/>
+  <line x1="480" y1="207" x2="558" y2="205" stroke="#64748b" stroke-width="1.2" stroke-dasharray="5,4"/>
+  <line x1="480" y1="267" x2="558" y2="215" stroke="#64748b" stroke-width="1.2" stroke-dasharray="5,4"/>
+  <rect x="560" y="145" width="160" height="95" rx="8" fill="#14352a" stroke="#22c55e" stroke-width="2"/>
+  <text x="640" y="180" text-anchor="middle" fill="#e2e8f0" font-size="13" font-weight="600">加权求和</text>
+  <text x="640" y="206" text-anchor="middle" fill="#bbf7d0" font-size="13">Σ gi · Ei(x)</text>
+  <text x="640" y="228" text-anchor="middle" fill="#94a3b8" font-size="10">只累加被选中的专家</text>
+  <line x1="720" y1="192" x2="758" y2="192" stroke="#22c55e" stroke-width="2.5" marker-end="url(#arrow3g)"/>
+  <rect x="760" y="167" width="110" height="50" rx="7" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="815" y="198" text-anchor="middle" fill="#e2e8f0" font-size="13">输出 y_t</text>
+  <rect x="60" y="320" width="780" height="16" rx="4" fill="#334155"/>
+  <rect x="60" y="320" width="624" height="16" rx="4" fill="#22c55e" opacity="0.75"/>
+  <text x="450" y="312" text-anchor="middle" fill="#94a3b8" font-size="11">每个专家的容量 C = ceil(T · k / N · capacity_factor)；c = 1.25 时理论利用率上限约 80%</text>
+  <text x="450" y="360" text-anchor="middle" fill="#f97316" font-size="11">超出容量的 token 会被丢弃（Switch 中经残差直通）或填充到固定形状，容量因子就是“缓冲垫”</text>
+  <text x="450" y="388" text-anchor="middle" fill="#22c55e" font-size="11">绿色实线：被 router 选中的专家；灰色虚线：未选中，该 token 不会经过它</text>
+  <text x="450" y="414" text-anchor="middle" fill="#94a3b8" font-size="11">所有 token 共享同一组专家参数；专家并行时通过 all-to-all 把 token 发到专家所在 GPU</text>
+  <text x="450" y="440" text-anchor="middle" fill="#f97316" font-size="11">可选：共享专家 E0 始终激活，负责承载所有 token 的公共知识，减少路由专家的冗余</text>
+</svg></div></p>
+
+<p>看图时抓住三条主线：第一，token 只沿绿色实线进入 E1、E2，E3、E4 对该 token 完全不参与计算，所以单 token FLOPs 只与 top-k 有关；第二，路由器输出的是 $ N $ 个得分，top-k 之后还要归一化，保证加权求和的权重和为 1；第三，底部容量条说明每个专家能接收的 token 数有上限，容量因子越小越省显存，但负载稍有不均就会丢 token，容量因子越大越稳，但填充浪费越多。</p>
+
+<h4>数学公式</h4>
+
+<p><strong>公式 1：路由器与门控得分</strong></p>
+
+<p><div class="math-block">$$ \mathbf{z}_t = W_r \mathbf{x}_t, \qquad h_{t,i} = \frac{\exp(z_{t,i})}{\sum_{j=1}^{N}\exp(z_{t,j})}, \qquad \sum_{i=1}^{N} h_{t,i} = 1 $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ \mathbf{x}_t \in \mathbb{R}^{d} $：第 $ t $ 个 token 在 MoE 层前的隐藏状态，$ d $ 为模型维度。</li>
+<li>$ W_r \in \mathbb{R}^{N \times d} $：路由器权重矩阵，$ N $ 为专家总数。</li>
+<li>$ \mathbf{z}_t \in \mathbb{R}^{N} $：路由 logits，表示该 token 对每个专家的原始得分。</li>
+<li>$ h_{t,i} $：第 $ t $ 个 token 在第 $ i $ 个专家上的门控概率，所有专家之和为 1。</li>
+<li>softmax 保证得分非负且可解释为“分配比例”；当 $ N $ 很大时，softmax 容易饱和，部分实现改用 sigmoid 并对 top-k 重新归一化。</li>
+</ul>
+
+<p><strong>公式 2：Top-k 选择与加权输出</strong></p>
+
+<p><div class="math-block">$$ \mathcal{T}_t = \operatorname{TopK}\left(\mathbf{h}_t, k\right), \qquad \tilde{g}_{t,i} = \frac{h_{t,i}}{\sum_{j \in \mathcal{T}_t} h_{t,j}}, \qquad \mathbf{y}_t = \sum_{i \in \mathcal{T}_t} \tilde{g}_{t,i}\, E_i(\mathbf{x}_t) $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ \mathcal{T}_t $：第 $ t $ 个 token 选中的专家下标集合，大小固定为 $ k $。</li>
+<li>$ \operatorname{TopK}(\cdot,k) $：取得分最高的 $ k $ 个下标；$ k=1 $ 时退化为 Switch Transformer 的硬路由。</li>
+<li>$ \tilde{g}_{t,i} $：归一化后的门控权重，保证被选中专家的权重之和为 1；若不归一化，不同 token 的输出尺度会随 top-k 得分波动。</li>
+<li>$ E_i(\mathbf{x}_t) $：第 $ i $ 个专家对 token $ \mathbf{x}_t $ 的输出。</li>
+<li>$ \mathbf{y}_t $：MoE 层输出，维度与 $ \mathbf{x}_t $ 相同，可直接接残差和 LayerNorm。</li>
+<li>未被选中的专家不参与计算，因此单 token 的专家计算量是稠密 FFN 的约 $ k \cdot d_{ff}^{(e)} / d_{ff} $。</li>
+</ul>
+
+<p><strong>公式 3：单个专家的前馈网络</strong></p>
+
+<p><div class="math-block">$$ E_i(\mathbf{x}) = W_2^{(i)}\,\sigma\left(W_1^{(i)}\mathbf{x}\right) $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ W_1^{(i)} \in \mathbb{R}^{d_{ff}^{(e)} \times d} $：第 $ i $ 个专家的升维矩阵。</li>
+<li>$ W_2^{(i)} \in \mathbb{R}^{d \times d_{ff}^{(e)}} $：第 $ i $ 个专家的降维矩阵。</li>
+<li>$ \sigma(\cdot) $：激活函数，常见 SiLU/SwiGLU、GELU 或 ReLU。</li>
+<li>$ d_{ff}^{(e)} $：单个专家的中间维度；总专家参数约为 $ N \cdot 2 d d_{ff}^{(e)} $（不含偏置）。</li>
+<li>所有专家结构相同、参数独立；训练时不同专家会逐渐分工，但并非严格的“语义专家”，可解释性有限。</li>
+</ul>
+
+<p><strong>公式 4：专家容量与 token 丢弃</strong></p>
+
+<p><div class="math-block">$$ C = \left\lceil \frac{T \cdot k}{N} \cdot c \right\rceil, \qquad \text{dropped}_i = \max\left(0,\ \text{assigned}_i - C\right) $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ T $：一个批次（或一个 micro-batch）中的 token 总数。</li>
+<li>$ k $：每个 token 激活的专家数。</li>
+<li>$ N $：专家总数。</li>
+<li>$ c $：容量因子（capacity factor），通常 1.0 ~ 2.0；$ c=1 $ 表示不预留缓冲，$ c>1 $ 表示给负载不均留余量。</li>
+<li>$ C $：每个专家最多接收的 token 数；向上取整保证容量是整数。</li>
+<li>$ \text{assigned}_i $：实际路由到专家 $ i $ 的 token 数；$ \text{dropped}_i $：超出容量被丢弃的 token 数。</li>
+<li>被丢弃的 token 并不是“消失”：在 Switch Transformer 中，它通过残差连接直通到下一层，相当于该 token 跳过 MoE 层；这会影响模型质量，因此容量因子和负载均衡非常关键。</li>
+</ul>
+
+<p><strong>公式 5：负载均衡辅助损失</strong></p>
+
+<p><div class="math-block">$$ L_{\text{aux}} = \alpha N \sum_{i=1}^{N} f_i P_i, \qquad f_i = \frac{1}{Tk}\sum_{t=1}^{T}\mathbb{1}\left[i \in \mathcal{T}_t\right], \qquad P_i = \frac{1}{T}\sum_{t=1}^{T} h_{t,i} $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ L_{\text{aux}} $：辅助负载均衡损失，加到总损失上，只用于训练，不参与推理。</li>
+<li>$ \alpha $：辅助损失系数，Switch Transformer 取 0.01；太大会压制专家分工，太小则负载不均。</li>
+<li>$ N $：专家数，乘 $ N $ 是为了让损失在均匀分配时归一化到 $ \alpha $。</li>
+<li>$ f_i $：专家 $ i $ 实际接收的 token 比例；$ Tk $ 是总路由次数，$ \mathbb{1}[\cdot] $ 是指示函数。</li>
+<li>$ P_i $：专家 $ i $ 的平均门控概率，代表路由器“想分配给它的概率质量”。</li>
+<li>当所有专家完全均匀时，$ f_i = P_i = 1/N $，于是 $ L_{\text{aux}} = \alpha N \cdot N \cdot (1/N^2) = \alpha $；这是该损失的下界，也是“均匀分配”的基准值。</li>
+<li>该损失同时惩罚“实际分配不均”和“路由器概率集中”，是 Switch/GShard 时代最常用的均衡手段；DeepSeek-V3 则采用“无辅助损失”的偏置更新法，避免辅助损失干扰主任务。</li>
+</ul>
+
+<p><strong>公式 6：路由器 z-loss</strong></p>
+
+<p><div class="math-block">$$ L_z = \beta \left(\log \sum_{i=1}^{N} e^{z_{t,i}}\right)^2 $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ z_{t,i} $：第 $ t $ 个 token 在第 $ i $ 个专家上的路由 logit。</li>
+<li>$ \log\sum_i e^{z_{t,i}} $：log-sum-exp，衡量 logits 的整体幅度；logits 越大，softmax 越尖锐、越容易饱和。</li>
+<li>$ \beta $：z-loss 系数，ST-MoE 取 0.001；太大会压制路由器的表达能力。</li>
+<li>该损失把 logits 的幅度拉回合理范围，减少数值溢出和“路由置信度过高”导致的训练不稳定；它与负载均衡损失互补，一个管分配比例，一个管数值尺度。</li>
+</ul>
+
+<p><strong>公式 7：总参数、激活参数与 FLOPs</strong></p>
+
+<p><div class="math-block">$$ P_{\text{total}} = P_{\text{shared}} + N \cdot P_{\text{expert}}, \qquad P_{\text{act}} = P_{\text{shared}} + k \cdot P_{\text{expert}} $$</div></p>
+
+<p><div class="math-block">$$ \text{FLOPs}_{\text{dense}} \approx 4 d d_{ff}, \qquad \text{FLOPs}_{\text{MoE}} \approx 4 d d_{ff}^{(e)} k + 2 d N $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ P_{\text{shared}} $：所有 token 共享的参数（注意力层、嵌入、共享专家、归一化等）。</li>
+<li>$ P_{\text{expert}} = 2 d d_{ff}^{(e)} $：单个专家 FFN 的参数（升维 + 降维，忽略偏置）。</li>
+<li>$ P_{\text{total}} $：模型总参数量，决定显存占用和“知识容量”。</li>
+<li>$ P_{\text{act}} $：单个 token 实际激活的参数量，决定推理 FLOPs 和吞吐。</li>
+<li>稠密 FFN 每个 token 的 FLOPs 约为 $ 2d d_{ff} $（升维）+ $ 2 d_{ff} d $（降维）= $ 4 d d_{ff} $。</li>
+<li>MoE 的专家 FLOPs 约为 $ 4 d d_{ff}^{(e)} k $，路由器额外 $ 2 d N $；当 $ N $ 很大时路由器项不可忽略，但通常远小于专家项。</li>
+<li>以 $ d=4096 $、$ d_{ff}=14336 $、$ N=64 $、$ k=2 $、$ d_{ff}^{(e)}=2048 $ 为例：稠密约 $ 2.35\times 10^8 $ FLOPs/token、$ 1.17\times 10^8 $ 参数；MoE 约 $ 6.76\times 10^7 $ FLOPs/token、$ 1.07\times 10^9 $ 参数。计算量约为稠密的 28.8%，参数量约为 9.1 倍。</li>
+</ul>
+
+<h4>核心要点</h4>
+
+<ul>
+<li>参数与计算解耦：总参数随 $ N $ 增长，单 token 计算只随 $ k $ 增长，这是 MoE 的核心杠杆。</li>
+<li>路由是学习出来的：路由器与专家端到端联合训练，没有人工指定“哪个专家处理哪类 token”。</li>
+<li>负载均衡是训练成败的关键：不均衡会导致少数专家过载、多数专家饿死，最终退化为“小模型 + 大显存”。</li>
+<li>容量因子是显存与质量的权衡：$ c $ 小省显存但丢 token，$ c $ 大稳但填充浪费；训练早期可适当放大。</li>
+<li>专家并行带来 all-to-all：token 要发送到专家所在 GPU，通信量约为 $ O(T d k) $，跨节点带宽是瓶颈。</li>
+<li>共享专家承载公共知识：DeepSeekMoE 用 1 个共享专家 + 多个路由专家，减少每个路由专家都要重复学习的公共特征。</li>
+<li>细粒度专家更省：把一个大专家拆成多个小专家，在相同激活参数下增加组合数，提高专家利用率。</li>
+<li>路由数值要稳：logits 用 fp32 计算、加 z-loss、限制 logits 幅度，能显著降低训练崩溃概率。</li>
+<li>训练与推理不同：训练需要容量限制和 token 丢弃；推理通常不限制容量，但要把所有专家常驻显存或做 offload。</li>
+<li>评估要区分总参数与激活参数：宣传“671B”通常指总参数，实际每 token 只用 37B 左右，不能直接与稠密 671B 比较。</li>
+<li>MoE 不是专家集成：专家之间共享注意力层，只在 FFN 层分工，且路由是硬选择，不是对所有专家求平均。</li>
+<li>小模型、低延迟、单 token 场景不适合 MoE：专家并行通信和显存占用可能得不偿失。</li>
+</ul>
+
+<h4>技术细节与参数详解</h4>
+
+<p>MoE 的参数可以分成四层：路由参数（专家数、top-k、打分函数、噪声、归一化）、容量参数（容量因子、丢弃策略）、均衡参数（辅助损失、z-loss、分组路由）、并行与部署参数（专家并行度、层放置、共享专家、路由精度）。下表先给出速查，随后逐个展开。</p>
+
+<div class="table-wrapper"><table class="algo-table"><thead><tr><th>参数</th><th>类型</th><th>默认值</th><th>典型范围</th><th>核心作用</th></tr></thead><tbody><tr><td>num_experts</td><td>int</td><td>无</td><td>8 ~ 256</td><td>专家总数，决定总参数与组合数</td></tr><tr><td>top_k</td><td>int</td><td>2</td><td>1 ~ 8</td><td>每个 token 激活的专家数</td></tr><tr><td>expert_intermediate_size</td><td>int</td><td>无</td><td>256 ~ 8192</td><td>单个专家的 FFN 中间维</td></tr><tr><td>capacity_factor</td><td>float / None</td><td>1.0 ~ 1.25</td><td>1.0 ~ 2.0</td><td>每专家容量缓冲比例</td></tr><tr><td>aux_loss_coef</td><td>float</td><td>0.01</td><td>1e-4 ~ 0.1</td><td>负载均衡损失权重</td></tr><tr><td>z_loss_coef</td><td>float</td><td>0.001</td><td>0 ~ 0.01</td><td>路由 logits 幅度惩罚</td></tr><tr><td>router_jitter</td><td>float</td><td>0.0</td><td>0 ~ 0.1</td><td>路由噪声，促进探索</td></tr><tr><td>router_score_function</td><td>str</td><td>softmax</td><td>softmax / sigmoid</td><td>门控打分方式</td></tr><tr><td>norm_topk_prob</td><td>bool</td><td>False</td><td>True / False</td><td>top-k 权重是否重新归一化</td></tr><tr><td>n_group / topk_group</td><td>int</td><td>1 / 1</td><td>8 / 4（DeepSeek）</td><td>分组受限路由，减少跨节点通信</td></tr><tr><td>expert_parallel_size</td><td>int</td><td>1</td><td>1 ~ N</td><td>专家切分到多少张 GPU</td></tr><tr><td>token_drop_policy</td><td>str</td><td>drop</td><td>drop / drop_and_pad / pad</td><td>超容量 token 的处理方式</td></tr><tr><td>moe_layer_freq</td><td>int</td><td>1</td><td>1 ~ 2</td><td>每隔几层放一个 MoE 层</td></tr><tr><td>first_k_dense_replace</td><td>int</td><td>0</td><td>0 ~ 3</td><td>前几层保持稠密 FFN</td></tr><tr><td>shared_expert_count</td><td>int</td><td>0</td><td>0 ~ 4</td><td>始终激活的共享专家数</td></tr><tr><td>router_dtype</td><td>str</td><td>bf16</td><td>fp32 / bf16</td><td>路由 logits 的计算精度</td></tr></tbody></table></div>
+
+<h5>参数 1：num_experts（专家总数 N）</h5>
+
+<ul>
+<li><strong>含义</strong>：MoE 层中独立专家的数量，决定总参数规模、路由组合空间和专家并行的切分粒度。</li>
+<li><strong>类型</strong>：int。</li>
+<li><strong>默认值</strong>：无，必须显式指定；常见实现要求 $ N \ge 2 $。</li>
+<li><strong>取值范围</strong>：8 到 256 常见；研究/超大模型可到 512 甚至更多；Switch Transformer 曾用到 2048 个专家。</li>
+<li><strong>对结果的影响</strong>：$ N $ 越大，总参数和模型容量越大，同一 token 可选择的专家组合越多，理论表达能力越强；但路由计算、all-to-all 通信、专家并行调度和显存开销都随 $ N $ 增长，负载均衡也更难。$ N $ 太小则 MoE 退化为“多分支 FFN”，收益有限；$ N $ 太大而数据/算力不足，专家难以充分训练。</li>
+<li><strong>推荐设置</strong>：中小规模（< 10B 激活参数）用 8 ~ 64；大规模预训练用 64 ~ 256；如果专家并行跨多机，优先让 $ N $ 能被 GPU 数整除。不要只看总参数，按“激活参数目标 + 每专家容量”反推 $ N $。</li>
+</ul>
+
+<h5>参数 2：top_k（每 token 激活专家数 k）</h5>
+
+<ul>
+<li><strong>含义</strong>：每个 token 选择得分最高的 $ k $ 个专家参与计算，是控制单 token FLOPs 的直接参数。</li>
+<li><strong>类型</strong>：int。</li>
+<li><strong>默认值</strong>：2（GShard、Mixtral 等常用）；Switch Transformer 用 1。</li>
+<li><strong>取值范围</strong>：1 到 $ N $，常见 1、2、4、8。</li>
+<li><strong>对结果的影响</strong>：$ k $ 越大，单 token 计算量、通信量和显存访问线性增加，但模型能组合更多专家，表达能力和训练稳定性通常更好；$ k=1 $ 最省算力，但路由一旦选错就没有补救，训练更脆弱；$ k $ 太大则失去稀疏性，接近稠密模型。</li>
+<li><strong>推荐设置</strong>：通用大模型 $ k=2 $；追求极致吞吐/推理成本用 $ k=1 $；细粒度专家（如 256 个小专家）用 $ k=8 $；$ k $ 应远小于 $ N $，通常 $ k/N \le 1/8 $。若训练不稳定，先把 $ k $ 提到 2 再调路由。</li>
+</ul>
+
+<h5>参数 3：expert_intermediate_size（单专家中间维）</h5>
+
+<ul>
+<li><strong>含义</strong>：每个专家 FFN 的隐藏层宽度 $ d_{ff}^{(e)} $，决定单个专家的参数量与计算量。</li>
+<li><strong>类型</strong>：int。</li>
+<li><strong>默认值</strong>：无；常见做法是取稠密 FFN 中间维的 $ 1/N $ 到 $ 1/4 $，再按总参数预算调整。</li>
+<li><strong>取值范围</strong>：256 到 8192；小专家可到 128，大专家可到 16384。</li>
+<li><strong>对结果的影响</strong>：$ d_{ff}^{(e)} $ 越大，单专家容量越强、总参数越大，但每 token 激活 FLOPs 也越大；太小则专家欠拟合，路由再准也无法提升效果。总专家参数约为 $ N \cdot 2 d d_{ff}^{(e)} $，要和显存预算一起算。</li>
+<li><strong>推荐设置</strong>：先定“总参数 / 稠密参数”的目标倍数 $ r $（常见 2 ~ 8），再令 $ d_{ff}^{(e)} \approx r \cdot d_{ff} / N $；例如 $ d_{ff}=14336 $、$ N=64 $、$ r=8 $，则 $ d_{ff}^{(e)} \approx 1792 $，取 2048。不要只照搬别人的 $ N $ 和 $ k $，要按自己的 $ d $ 和显存反推。</li>
+</ul>
+
+<h5>参数 4：capacity_factor（容量因子 c）</h5>
+
+<ul>
+<li><strong>含义</strong>：每个专家容量相对于“平均分配”的放大倍数；$ c=1 $ 表示不预留缓冲，$ c>1 $ 表示给负载不均留余量。</li>
+<li><strong>类型</strong>：float 或 None。</li>
+<li><strong>默认值</strong>：DeepSpeed 常见 1.0；Megatron 可设为 None（不限制容量）；很多教程用 1.25。</li>
+<li><strong>取值范围</strong>：1.0 到 2.0，训练早期可到 2.0 ~ 4.0。</li>
+<li><strong>对结果的影响</strong>：$ c $ 小，显存和计算省，但负载稍有不均就丢 token，模型质量下降；$ c $ 大，token 不易被丢，但每个专家要按容量分配固定大小的缓冲区，填充浪费增加，显存和 all-to-all 数据量上升。容量利用率上限约为 $ 1/c $：$ c=1.25 $ 时最多 80%。</li>
+<li><strong>推荐设置</strong>：训练稳定期 1.0 ~ 1.25；训练早期或数据分布差异大时 1.5 ~ 2.0；推理阶段通常不设容量限制，或设很大值避免丢 token。上线前统计每个专家的实际 token 数分布，按 P99 负载反推 $ c $。</li>
+</ul>
+
+<h5>参数 5：aux_loss_coef（负载均衡损失系数 α）</h5>
+
+<ul>
+<li><strong>含义</strong>：负载均衡辅助损失在总损失中的权重，用来惩罚“token 都挤到少数专家”的情况。</li>
+<li><strong>类型</strong>：float。</li>
+<li><strong>默认值</strong>：0.01（Switch Transformer）。</li>
+<li><strong>取值范围</strong>：1e-4 到 0.1，常用 0.001 ~ 0.01。</li>
+<li><strong>对结果的影响</strong>：$ \alpha $ 太小，均衡约束弱，容易出现专家坍缩（少数专家吃掉大部分 token，其余专家几乎不更新）；$ \alpha $ 太大，路由器被迫均匀分配，专家无法按内容分工，模型效果下降。辅助损失还会与主任务损失竞争梯度，过大时训练不稳定。</li>
+<li><strong>推荐设置</strong>：从 0.01 起步；观察专家负载直方图，若明显偏斜再提高到 0.02 ~ 0.05；若验证集效果变差，降到 0.001。使用 DeepSeek-V3 式“无辅助损失”偏置更新时，该项可设为 0，改用 bias 调整负载。</li>
+</ul>
+
+<h5>参数 6：z_loss_coef（路由 z-loss 系数 β）</h5>
+
+<ul>
+<li><strong>含义</strong>：对路由 logits 的 log-sum-exp 幅度施加惩罚，防止 softmax 过度尖锐、logits 数值爆炸。</li>
+<li><strong>类型</strong>：float。</li>
+<li><strong>默认值</strong>：0.001（ST-MoE）。</li>
+<li><strong>取值范围</strong>：0 到 0.01，常用 0.0001 ~ 0.001。</li>
+<li><strong>对结果的影响</strong>：$ \beta $ 太小，路由 logits 可能越来越大，softmax 饱和为 one-hot，梯度消失，训练不稳定；$ \beta $ 太大，logits 被压得过小，路由区分度不足，专家分工变弱。z-loss 与 aux loss 互补：前者管数值尺度，后者管分配比例。</li>
+<li><strong>推荐设置</strong>：默认 0.001；若训练出现 loss spike、路由熵骤降、logits 范数暴涨，先加到 0.001 ~ 0.005；若模型欠拟合、专家区分度低，降到 0.0001 或关闭。</li>
+</ul>
+
+<h5>参数 7：router_jitter（路由噪声 ε）</h5>
+
+<ul>
+<li><strong>含义</strong>：在路由 logits 或输入上加高斯噪声，增加探索、缓解早期路由固化。</li>
+<li><strong>类型</strong>：float（噪声标准差）。</li>
+<li><strong>默认值</strong>：0.0；GShard 使用 0.01。</li>
+<li><strong>取值范围</strong>：0 到 0.1，常用 0.01。</li>
+<li><strong>对结果的影响</strong>：适度噪声让 token 在训练早期尝试不同专家，避免路由器过早锁定到少数专家；噪声太大则路由随机化，专家难以形成分工，训练变慢。噪声通常只在训练时加，推理时关闭。</li>
+<li><strong>推荐设置</strong>：训练前 10% ~ 20% 步数用 0.01，之后退火到 0；若数据量很大、路由自然均衡，可以全程 0。不要把噪声当作负载不均的唯一解药，优先调 aux loss 和容量。</li>
+</ul>
+
+<h5>参数 8：router_score_function（路由打分函数）</h5>
+
+<ul>
+<li><strong>含义</strong>：把路由 logits 转成专家得分的函数，常见 softmax 或 sigmoid。</li>
+<li><strong>类型</strong>：str。</li>
+<li><strong>默认值</strong>：softmax。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">{'softmax', 'sigmoid'}</code>。</li>
+<li><strong>对结果的影响</strong>：softmax 让所有专家得分和为 1，适合 $ N $ 较小、需要“竞争”分配的场景；当 $ N $ 很大时，softmax 容易饱和，且一个专家得分高会压制其他专家。sigmoid 对每个专家独立打分，不强制总和为 1，更适合大规模 $ N $ 和 top-k 路由（DeepSeek-V3 使用 sigmoid），但需要额外归一化 top-k 权重。</li>
+<li><strong>推荐设置</strong>：$ N \le 32 $ 用 softmax；$ N \ge 64 $ 优先 sigmoid + top-k 归一化；若使用 sigmoid，务必配合 <code class="inline-code">norm_topk_prob=True</code> 和负载均衡。</li>
+</ul>
+
+<h5>参数 9：norm_topk_prob（top-k 权重归一化）</h5>
+
+<ul>
+<li><strong>含义</strong>：是否对选中的 $ k $ 个专家的门控权重重新归一化，使其和为 1。</li>
+<li><strong>类型</strong>：bool。</li>
+<li><strong>默认值</strong>：False（部分实现默认关闭）。</li>
+<li><strong>取值范围</strong>：True / False。</li>
+<li><strong>对结果的影响</strong>：不归一化时，不同 token 的输出尺度会随 top-k 得分波动，深层网络容易出现尺度漂移；归一化后每个 token 的 MoE 输出是选中专家的凸组合，尺度稳定，训练更平滑。但归一化会削弱“置信度”信息，路由器无法通过整体权重高低表达“这个 token 很难路由”。</li>
+<li><strong>推荐设置</strong>：$ k \ge 2 $ 时建议 True；$ k=1 $ 时归一化退化为 1，无影响；若使用 sigmoid 路由，几乎必须归一化。可以对比归一化前后的验证集损失和路由熵。</li>
+</ul>
+
+<h5>参数 10：n_group / topk_group（分组受限路由）</h5>
+
+<ul>
+<li><strong>含义</strong>：先把 $ N $ 个专家分成 <code class="inline-code">n_group</code> 组，每个 token 只从得分最高的 <code class="inline-code">topk_group</code> 个组中选专家，减少跨节点 all-to-all。</li>
+<li><strong>类型</strong>：int / int。</li>
+<li><strong>默认值</strong>：1 / 1（不分组）。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">n_group</code> 常见 8，<code class="inline-code">topk_group</code> 常见 4；需满足 <code class="inline-code">topk_group <= n_group</code>。</li>
+<li><strong>对结果的影响</strong>：分组后，token 只会在少数组内路由，跨 GPU 通信范围变小，all-to-all 更快；但专家选择受限，可能错过更合适的专家，模型效果略降。分组越粗（<code class="inline-code">topk_group/n_group</code> 越小），通信越省、效果损失越大。</li>
+<li><strong>推荐设置</strong>：单机 NVLink 内可不分组；多机专家并行时用 8 组选 4 组（DeepSeek-V3 配置），并把同组专家放在同一节点；上线前对比分组前后的验证集指标和 all-to-all 时间。</li>
+</ul>
+
+<h5>参数 11：expert_parallel_size（专家并行度 EP）</h5>
+
+<ul>
+<li><strong>含义</strong>：把 $ N $ 个专家切分到多少张 GPU 上，每张 GPU 负责一部分专家；token 通过 all-to-all 发送到专家所在设备。</li>
+<li><strong>类型</strong>：int。</li>
+<li><strong>默认值</strong>：1（不切分，所有专家在同一设备）。</li>
+<li><strong>取值范围</strong>：1 到 $ N $，通常取 GPU 数的约数。</li>
+<li><strong>对结果的影响</strong>：EP 越大，单卡显存压力越小，可容纳的总专家参数越多；但 all-to-all 通信量、跨节点延迟和负载不均的影响也越大。EP 过小则单卡放不下专家，EP 过大则通信成为瓶颈。EP 与数据并行（DP）、张量并行（TP）一起构成 3D 并行，需要统一规划。</li>
+<li><strong>推荐设置</strong>：优先让一组专家落在同一节点/NVLink 域内，EP 取节点内 GPU 数（如 8）；跨节点 EP 需要高速 InfiniBand/RoCE，并配合分组路由；用小规模 profiling 测 all-to-all 占比，再决定 EP。</li>
+</ul>
+
+<h5>参数 12：token_drop_policy（超容量 token 策略）</h5>
+
+<ul>
+<li><strong>含义</strong>：当某个专家收到的 token 超过容量 $ C $ 时，多出来的 token 如何处理。</li>
+<li><strong>类型</strong>：str。</li>
+<li><strong>默认值</strong>：<code class="inline-code">drop</code>（丢弃，Switch 中经残差直通）。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">{'drop', 'drop_and_pad', 'pad'}</code>。</li>
+<li><strong>对结果的影响</strong>：<code class="inline-code">drop</code> 实现简单、计算省，但会损失部分 token 的信息，负载越不均损失越大；<code class="inline-code">drop_and_pad</code> 丢弃超容量 token 并把每个专家填充到固定长度，保证张量形状稳定，适合 GPU 训练；<code class="inline-code">pad</code> 不丢弃，把超出的 token 填充到容量内（实际是扩容/重排），质量更稳但显存和计算增加。</li>
+<li><strong>推荐设置</strong>：训练用 <code class="inline-code">drop_and_pad</code>，兼顾稳定与效率；推理不设容量或容量很大，避免丢 token；若发现丢弃率 > 5%，先提高容量因子或加强负载均衡，而不是直接换策略。</li>
+</ul>
+
+<h5>参数 13：moe_layer_freq / first_k_dense_replace（MoE 层放置）</h5>
+
+<ul>
+<li><strong>含义</strong>：控制 Transformer 中哪些层使用 MoE。<code class="inline-code">moe_layer_freq=1</code> 表示每层都放，<code class="inline-code">2</code> 表示隔层放；<code class="inline-code">first_k_dense_replace</code> 表示前 $ k $ 层保持稠密 FFN。</li>
+<li><strong>类型</strong>：int / int。</li>
+<li><strong>默认值</strong>：<code class="inline-code">moe_layer_freq=1</code>，<code class="inline-code">first_k_dense_replace=0</code>。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">moe_layer_freq</code> 1 ~ 2；<code class="inline-code">first_k_dense_replace</code> 0 ~ 3。</li>
+<li><strong>对结果的影响</strong>：MoE 层越多，总参数和容量越大，但通信和显存开销也越大；隔层放置可以在效果与成本之间折中。前几层通常处理低-level 特征、对路由稳定性敏感，保持稠密可以提升训练稳定性（DeepSeek-V3 前 3 层为稠密）。</li>
+<li><strong>推荐设置</strong>：中小模型每层 MoE；大模型可隔层；前 1 ~ 3 层保持稠密；若训练早期路由抖动严重，增加 <code class="inline-code">first_k_dense_replace</code>。</li>
+</ul>
+
+<h5>参数 14：shared_expert_count（共享专家数）</h5>
+
+<ul>
+<li><strong>含义</strong>：始终对所有 token 激活、不参与路由的专家数量；它们承载公共知识，减少路由专家重复学习。</li>
+<li><strong>类型</strong>：int。</li>
+<li><strong>默认值</strong>：0。</li>
+<li><strong>取值范围</strong>：0 到 4，常见 1。</li>
+<li><strong>对结果的影响</strong>：共享专家让所有 token 都经过同一组 FFN，提供稳定的公共变换，降低路由专家的冗余；但共享专家参数量不计入稀疏激活，会增加每 token 的固定计算量。共享专家太多会削弱 MoE 的稀疏性，太少则公共知识仍由路由专家重复承担。</li>
+<li><strong>推荐设置</strong>：大规模 MoE 用 1 个共享专家（DeepSeek-V3 配置）；中小模型可不用；若发现不同专家学到的特征高度相似，增加 1 个共享专家并观察专家差异化指标。</li>
+</ul>
+
+<h5>参数 15：router_dtype（路由计算精度）</h5>
+
+<ul>
+<li><strong>含义</strong>：路由器 logits 和 softmax 的计算精度，常见 fp32 或 bf16。</li>
+<li><strong>类型</strong>：str。</li>
+<li><strong>默认值</strong>：bf16（多数混合精度训练框架）。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">{'fp32', 'bf16'}</code>。</li>
+<li><strong>对结果的影响</strong>：bf16 动态范围窄、尾数少，路由 logits 在 softmax 前后容易溢出或下溢，导致路由突然塌缩；fp32 数值稳定，但增加少量显存和计算。路由是“离散选择”，对数值误差非常敏感，精度不足的代价可能比预期大。</li>
+<li><strong>推荐设置</strong>：路由器始终用 fp32（至少 logits 和 softmax 用 fp32），专家计算可用 bf16；若框架不支持混合精度路由，把 router 单独 cast 到 fp32；这是大模型训练稳定的常见工程实践。</li>
+</ul>
+
+<h4>代码示例</h4>
+
+<p>下面用 NumPy 实现一个可运行的 top-k MoE 层，包含路由、容量限制、专家计算、负载均衡损失和 z-loss。代码不依赖深度学习框架，便于看清每一步的张量形状；末尾用随机 token 验证输出形状、容量丢弃和辅助损失，并给出一个参数量/FLOPs 的估算例子。每一行都附注释。</p>
+
+<p><pre class="code-block"><code class="language-python">import numpy as np                                        # 导入数值计算库
+
+
+class TopKMoE:                                            # 定义 top-k 混合专家层
+    def __init__(self, d_model=64, d_ff=128, num_experts=8, top_k=2,  # 构造函数：模型维度、专家中间维、专家数、top-k
+                 capacity_factor=1.25, aux_coef=0.01, z_coef=0.001, seed=0):  # 容量因子、均衡损失系数、z-loss 系数、随机种子
+        self.d_model = d_model                            # 保存模型维度 d
+        self.d_ff = d_ff                                  # 保存单专家中间维 d_ff_e
+        self.num_experts = num_experts                    # 保存专家总数 N
+        self.top_k = top_k                                # 保存每个 token 激活的专家数 k
+        self.capacity_factor = capacity_factor            # 保存容量因子 c
+        self.aux_coef = aux_coef                          # 保存负载均衡损失系数 alpha
+        self.z_coef = z_coef                              # 保存 z-loss 系数 beta
+        rng = np.random.RandomState(seed)                 # 固定随机种子，保证可复现
+        self.W1 = rng.normal(0, 0.02, (num_experts, d_model, d_ff))  # 每个专家的升维矩阵，形状 N×d×d_ff
+        self.W2 = rng.normal(0, 0.02, (num_experts, d_ff, d_model))  # 每个专家的降维矩阵，形状 N×d_ff×d
+        self.Wr = rng.normal(0, 0.02, (d_model, num_experts))        # 路由器权重，形状 d×N
+
+    def forward(self, x):                                 # 前向传播：x 形状为 T×d
+        T = x.shape[0]                                    # T 为当前批次的 token 数
+        logits = x @ self.Wr                              # 计算路由 logits，形状 T×N
+        logits_max = logits.max(axis=1, keepdims=True)    # 每行最大值，用于数值稳定的 softmax
+        exp_logits = np.exp(logits - logits_max)          # 减去最大值后取指数，避免溢出
+        probs = exp_logits / exp_logits.sum(axis=1, keepdims=True)  # softmax 归一化，得到门控概率 T×N
+
+        topk_idx = np.argsort(-probs, axis=1)[:, :self.top_k]  # 按概率降序取前 k 个专家下标，T×k
+        topk_prob = np.take_along_axis(probs, topk_idx, axis=1)  # 取出对应的门控概率，T×k
+        topk_prob = topk_prob / topk_prob.sum(axis=1, keepdims=True)  # 对 top-k 权重重新归一化，使其和为 1
+
+        capacity = int(np.ceil(T * self.top_k / self.num_experts * self.capacity_factor))  # 每个专家的容量 C
+        buckets = [[] for _ in range(self.num_experts)]   # 为每个专家建立接收队列
+        for t in range(T):                                # 遍历每个 token
+            for j in range(self.top_k):                   # 遍历该 token 选中的每个专家
+                e = int(topk_idx[t, j])                   # 取出专家下标
+                if len(buckets[e]) &lt; capacity:            # 如果该专家还没满
+                    buckets[e].append((t, topk_prob[t, j]))  # 把 token 下标和门控权重放入队列
+
+        out = np.zeros_like(x)                            # 初始化输出，形状与输入相同
+        for e in range(self.num_experts):                 # 逐个专家计算
+            if not buckets[e]:                            # 如果该专家没有收到 token
+                continue                                  # 跳过，节省计算
+            idx = np.array([b[0] for b in buckets[e]])    # 取出该专家负责的 token 下标
+            gate = np.array([b[1] for b in buckets[e]])[:, None]  # 取出对应门控权重，变成列向量
+            h = np.maximum(x[idx] @ self.W1[e], 0)        # 升维并做 ReLU 激活，形状 n_e×d_ff
+            out[idx] += gate * (h @ self.W2[e])           # 降维后按门控权重累加到输出
+
+        tokens_per_expert = np.bincount(topk_idx.ravel(), minlength=self.num_experts)  # 统计每个专家被选次数
+        f = tokens_per_expert / (T * self.top_k)          # 实际分配比例 f_i
+        P = probs.mean(axis=0)                            # 平均门控概率 P_i，形状 N
+        aux_loss = self.aux_coef * self.num_experts * np.sum(f * P)  # 负载均衡损失 alpha·N·Σ f_i P_i
+
+        logsumexp = logits_max[:, 0] + np.log(exp_logits.sum(axis=1))  # 逐 token 计算 log-sum-exp
+        z_loss = self.z_coef * np.mean(logsumexp ** 2)    # z-loss：beta·mean(logsumexp^2)
+
+        dropped = T * self.top_k - sum(len(b) for b in buckets)  # 统计因容量不足被丢弃的路由次数
+        return out, aux_loss, z_loss, f, P, dropped, capacity  # 返回输出、两个损失、负载统计、丢弃数和容量
+
+
+if __name__ == &quot;__main__&quot;:                                # 仅在直接运行脚本时执行测试
+    rng = np.random.RandomState(1)                        # 固定数据随机种子
+    moe = TopKMoE(d_model=64, d_ff=128, num_experts=8, top_k=2,  # 创建 8 专家、top-2 的 MoE 层
+                  capacity_factor=1.25, aux_coef=0.01, seed=0)  # 容量因子 1.25，均衡系数 0.01
+    x = rng.normal(size=(256, 64))                        # 生成 256 个 64 维 token
+    y, aux, z, f, P, dropped, cap = moe.forward(x)        # 执行前向传播
+    print(&quot;output:&quot;, y.shape, &quot;capacity:&quot;, cap, &quot;dropped:&quot;, dropped)  # 打印输出形状、容量和丢弃数
+    print(&quot;aux:&quot;, round(float(aux), 5), &quot;z:&quot;, round(float(z), 5))     # 打印两个辅助损失
+    print(&quot;f:&quot;, f.round(3))                               # 打印每个专家的实际分配比例
+    print(&quot;P:&quot;, P.round(3))                               # 打印每个专家的平均门控概率
+    assert y.shape == x.shape                             # 断言输出形状与输入一致
+    assert dropped &gt;= 0                                   # 断言丢弃数非负
+    assert 0.005 &lt; aux &lt; 0.05                             # 断言均衡损失在合理范围
+
+    d_model, d_ff_dense = 4096, 14336                     # 设定稠密模型的维度和 FFN 中间维
+    num_experts, top_k, d_ff_expert = 64, 2, 2048         # 设定 MoE 的专家数、top-k 和单专家中间维
+    dense_flops = 4 * d_model * d_ff_dense                # 稠密 FFN 每 token 的近似 FLOPs
+    moe_flops = 4 * d_model * d_ff_expert * top_k + 2 * d_model * num_experts  # MoE 每 token 的近似 FLOPs
+    dense_params = 2 * d_model * d_ff_dense               # 稠密 FFN 的参数量
+    moe_params = num_experts * 2 * d_model * d_ff_expert  # MoE 全部专家的参数量
+    print(&quot;dense FLOPs/token:&quot;, dense_flops, &quot;MoE FLOPs/token:&quot;, moe_flops)  # 打印两者 FLOPs
+    print(&quot;FLOPs ratio:&quot;, round(moe_flops / dense_flops, 3))                 # 打印计算量比例
+    print(&quot;dense params:&quot;, dense_params, &quot;MoE params:&quot;, moe_params)          # 打印两者参数量
+    print(&quot;params ratio:&quot;, round(moe_params / dense_params, 2))              # 打印参数倍数</code></pre></p>
+
+<p>运行结果：<code class="inline-code">output: (256, 64) capacity: 80 dropped: 0</code>，<code class="inline-code">aux: 0.01001</code>，<code class="inline-code">z: 0.00439</code>；负载比例 <code class="inline-code">f</code> 在 0.10 ~ 0.15 之间，平均门控概率 <code class="inline-code">P</code> 约为 0.125，说明随机初始化的路由器接近均匀分配，辅助损失接近下界 $ \alpha=0.01 $。参数量/FLOPs 估算输出：稠密约 <code class="inline-code">234881024</code> FLOPs/token、<code class="inline-code">117440512</code> 参数；MoE 约 <code class="inline-code">67633152</code> FLOPs/token、<code class="inline-code">1073741824</code> 参数；计算量比约 <code class="inline-code">0.288</code>，参数比约 <code class="inline-code">9.14</code>。这与前文的例子一致。</p>
+
+<p>实际训练时，还需要把专家计算改成批量矩阵乘、把 token 重排成“按专家分组”的连续张量，并用 all-to-all 在专家并行组之间收发 token；上面的逐 token 循环只是为了展示逻辑，不能直接用于生产。</p>
+
+<h4>复杂度分析</h4>
+
+<p><strong>路由复杂度</strong>：每个 token 计算 $ N $ 个 logits，需要 $ d \times N $ 次乘加，$ T $ 个 token 为 $ O(T d N) $；softmax 为 $ O(TN) $；top-k 选择可以用部分排序或堆，复杂度 $ O(TN\log k) $ 或 $ O(TN) $（$ k $ 很小时）。当 $ N=256 $、$ d=4096 $、$ T=4096 $ 时，路由约 $ 4.3\times 10^9 $ 次乘加，相对专家计算仍然较小，但在 $ N $ 很大时不可忽略。</p>
+
+<p><strong>专家计算复杂度</strong>：每个 token 经过 $ k $ 个专家，每个专家两次矩阵乘：$ d \to d_{ff}^{(e)} $ 和 $ d_{ff}^{(e)} \to d $，每个 token 约 $ 4 d d_{ff}^{(e)} k $ FLOPs；$ T $ 个 token 为 $ O(T k d d_{ff}^{(e)}) $。稠密 FFN 为 $ O(T d d_{ff}) $。因此计算量比约为 $ k d_{ff}^{(e)} / d_{ff} $。以 $ k=2 $、$ d_{ff}^{(e)}=2048 $、$ d_{ff}=14336 $ 为例，比值约 $ 0.286 $，与前面的 28.8% 一致。</p>
+
+<p><strong>参数与显存复杂度</strong>：总专家参数为 $ O(N d d_{ff}^{(e)}) $，是稠密 FFN 的 $ N d_{ff}^{(e)}/d_{ff} $ 倍；激活参数为 $ O(k d d_{ff}^{(e)}) $，与稠密 FFN 的比值为 $ k d_{ff}^{(e)}/d_{ff} $。推理时所有专家都要驻留显存（或 offload 到 CPU/SSD），所以显存按总参数算，算力按激活参数算；这两个账必须分开。</p>
+
+<p><strong>通信复杂度</strong>：专家并行下，每个 MoE 层需要两次 all-to-all：dispatch 把 token 发到专家所在 GPU，combine 把专家输出收回。每个 token 的通信量约为 $ 2 \times d \times k $ 个元素（bf16 下每个元素 2 字节），一个批次约 $ O(T d k) $ 元素。以 $ T=4096 $、$ d=4096 $、$ k=2 $、bf16 为例，单层 dispatch 约 $ 4096 \times 4096 \times 2 \times 2 \text{ B} = 64\text{ MB} $，两层（dispatch+combine）约 128 MB；跨节点 InfiniBand 带宽有限时，这会成为主要瓶颈。</p>
+
+<p><strong>容量与填充复杂度</strong>：每个专家分配容量 $ C $ 的缓冲区，总计算槽位为 $ N \cdot C \approx T k c $。即使实际 token 只有 $ Tk $ 个，GPU 也要按 $ Tkc $ 的形状做计算，因此有效利用率约为 $ 1/c $。$ c=1.25 $ 时最多 80%，再加上负载不均和丢弃，实际利用率通常更低。容量因子是“显存/算力”与“token 质量”的直接权衡。</p>
+
+<p><strong>训练 vs 推理</strong>：训练时前向、反向都要经过专家和 all-to-all，反向通信量约为前向的两倍；推理时通常只做前向，且可以按请求动态路由，但所有专家仍需驻留显存。MoE 的训练 MFU 往往低于稠密模型，原因不是 FLOPs 多，而是通信、填充和负载不均带来的额外开销。</p>
+
+<h4>应用场景</h4>
+
+<ul>
+<li><strong>大语言模型预训练</strong>：Switch Transformer、GShard、Mixtral 8x7B、DeepSeek-V3、Qwen 系列、混元 Hy4 等均采用 MoE；在相同激活算力下，MoE 通常能获得更好的损失/效果。</li>
+<li><strong>多语言建模</strong>：不同专家可能自发 specialization 到不同语种或文字系统；配合负载均衡，可以在不增加单 token 计算的情况下扩大语言容量。</li>
+<li><strong>多任务学习与推荐系统</strong>：MMoE、PLE 等用多个专家 + 门控处理不同任务，门控根据样本选择专家组合，缓解任务冲突；YouTube 推荐系统是典型落地案例。</li>
+<li><strong>多模态模型</strong>：为文本、图像、音频、视频配置不同专家，路由根据模态/token 类型选择；专家并行也便于按模态分卡部署。</li>
+<li><strong>高吞吐推理服务</strong>：MoE 的总参数大、激活参数小，适合大 batch 推理；配合专家 offload、专家缓存和 continuous batching，可以在有限 GPU 上服务更大的模型。</li>
+<li><strong>电信网络智能运维</strong>：把不同专业（无线、传输、核心网、接入）或不同故障模式的样本交给不同专家，门控根据告警特征路由；适合多场景、多分布的异常检测与根因分析，但要注意样本不均衡和专家坍缩。</li>
+<li><strong>不适合的场景</strong>：参数量很小（< 1B）的模型，MoE 的通信和调度开销得不偿失；单 token、低延迟场景，专家并行 all-to-all 会增加尾延迟；显存极度受限的边缘设备，所有专家无法常驻；数据量不足时，专家难以充分训练，容易退化。</li>
+</ul>
+
+<h4>参考文档</h4>
+
+<ul>
+<li><a href="https://arxiv.org/abs/2101.03961" target="_blank" class="ref-link">Switch Transformers: Scaling to Trillion Parameter Models with Simple and Efficient Sparsity</a></li>
+<li><a href="https://arxiv.org/abs/2006.16668" target="_blank" class="ref-link">GShard: Scaling Giant Models with Conditional Computation and Automatic Sharding</a></li>
+<li><a href="https://arxiv.org/abs/2401.04088" target="_blank" class="ref-link">Mixtral of Experts</a></li>
+<li><a href="https://arxiv.org/abs/2412.19437" target="_blank" class="ref-link">DeepSeek-V3 Technical Report</a></li>
+<li><a href="https://www.microsoft.com/en-us/research/blog/deepspeed-advancing-moe-inference-and-training-to-power-next-generation-ai-scale/" target="_blank" class="ref-link">DeepSpeed: Advancing MoE inference and training to power next-generation AI scale</a></li>
+<li><a href="https://github.com/NVIDIA/Megatron-LM" target="_blank" class="ref-link">NVIDIA Megatron-LM</a></li>
+<li><a href="https://huggingface.co/blog/moe" target="_blank" class="ref-link">Hugging Face Blog: Mixture of Experts Explained</a></li>
+<li><a href="https://blog.csdn.net/weixin_32377497/article/details/170155057" target="_blank" class="ref-link">CSDN：MoE 混合专家模型——稀疏激活原理、路由机制与工程实践</a></li>
+<li><a href="https://cloud.tencent.com/developer/article/2630190" target="_blank" class="ref-link">腾讯云：一文读懂 MoE——大模型如何用“专家分工”实现降本增效</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/681692152" target="_blank" class="ref-link">知乎：图解大模型训练之 DeepSpeed-Megatron MoE 并行训练</a></li>
+</ul>
+
+<hr>
+
+<blockquote>
+<p>今日三个算法从“磁盘索引”到“盲源分离”再到“大模型稀疏架构”，分别对应了存储、信号处理、模型结构三个方向。B+ 树的关键是扇出与叶子链表，ICA 的关键是白化与非高斯性，MoE 的关键是路由与负载均衡。建议按“先跑通代码、再调参数、最后看工程权衡”的顺序复习。</p>
+</blockquote>
+
+<blockquote>
+<p>AI生成</p>
+</blockquote>
+
+  </div>
+  <div class="footer">
+    <p>由 TeleAgent · 每日算法推送 技能自动生成 | 2026-11-10 10:20</p>
+  </div>
+</div>
+</body>
+</html>
