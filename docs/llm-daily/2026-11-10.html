@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<title>大模型技术速递 — 2026年11月10日</title>
+<style>
+:root{
+  --bg:#0b0e14; --card:#141926; --card2:#1a2133;
+  --text:#e8ecf5; --dim:#96a0b5; --accent:#5b8cff; --accent2:#8b5cf6;
+  --green:#2dd4a7; --star:#ffb84d; --border:rgba(255,255,255,.07);
+  --radius:14px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  background:linear-gradient(170deg,#0a0d14 0%,#0d1424 45%,#0b111d 100%);
+  color:var(--text);line-height:1.8;font-size:15px;
+  -webkit-font-smoothing:antialiased;min-height:100vh;
+}
+.wrap{max-width:760px;margin:0 auto;padding:0 14px 48px}
+
+/* 头部 */
+header.hero{
+  text-align:center;padding:36px 16px 26px;
+  background:radial-gradient(120% 140% at 50% 0%,rgba(91,140,255,.18) 0%,rgba(124,92,246,.08) 45%,transparent 75%);
+  border-bottom:1px solid var(--border);
+}
+.badge{display:inline-flex;align-items:center;gap:6px;background:rgba(91,140,255,.14);
+  border:1px solid rgba(91,140,255,.32);padding:5px 14px;border-radius:999px;
+  font-size:12px;font-weight:600;letter-spacing:1px;color:#9dc2ff;margin-bottom:16px}
+h1.title{font-size:clamp(20px,5vw,27px);font-weight:800;letter-spacing:.5px;
+  background:linear-gradient(120deg,#fff,#a8c8ff);-webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;margin-bottom:6px}
+.date{color:#96a9c0;font-size:14px;margin-bottom:20px}
+.stats{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.stat{flex:1;max-width:130px;background:rgba(255,255,255,.04);border:1px solid var(--border);
+  border-radius:12px;padding:10px 6px;text-align:center}
+.stat b{display:block;font-size:22px;font-weight:800;color:var(--accent)}
+.stat.imp b{color:var(--star)} .stat.nor b{color:var(--green)}
+.stat span{font-size:11px;color:var(--dim)}
+
+/* 正文 */
+.content{padding:20px 6px 0}
+.update-intro{background:linear-gradient(135deg,rgba(91,140,255,.1),rgba(124,92,246,.07));
+  border:1px solid rgba(91,140,255,.22);border-left:3px solid var(--accent);
+  border-radius:10px;padding:10px 14px;font-size:13px;color:var(--dim);margin-bottom:24px}
+.update-intro p{margin:0}
+
+/* 章节标题 */
+.section-title{display:flex;align-items:center;gap:8px;font-size:19px;font-weight:800;
+  margin:34px 0 16px;padding-bottom:9px;border-bottom:2px solid rgba(91,140,255,.28)}
+.sec-icon{font-size:17px}
+
+/* 重要动态条目 */
+.imp-item{background:var(--card2);border:1px solid var(--border);
+  border-radius:var(--radius);padding:16px 16px 14px;margin-bottom:16px;
+  box-shadow:0 4px 18px rgba(0,0,0,.25)}
+.imp-item h3{font-size:15.5px;font-weight:700;line-height:1.5;margin-bottom:8px;color:#f0f4ff}
+.imp-item p{color:var(--text);font-size:14px;margin:7px 0}
+.imp-item strong{color:#cfe0ff;font-weight:600}
+.imp-item ul,.imp-item ol{padding-left:20px;margin:6px 0}
+.imp-item li{margin:4px 0;font-size:13.8px;color:var(--text)}
+.imp-item li::marker{color:var(--accent)}
+
+/* 常规动态卡片 */
+.cat-title{font-size:14.5px;font-weight:700;color:#b9c8e8;margin:22px 0 10px;
+  padding-left:10px;border-left:3px solid var(--accent2)}
+.norm-item{background:var(--card);border:1px solid var(--border);border-radius:12px;
+  padding:11px 13px;margin-bottom:9px;font-size:13.8px;color:var(--dim);
+  transition:transform .15s,border-color .15s}
+.norm-item:hover{transform:translateX(3px);border-color:rgba(91,140,255,.4)}
+.norm-item strong{color:var(--text);font-weight:600}
+.norm-item a{color:var(--accent);text-decoration:none;font-size:12.8px;word-break:break-all}
+.norm-item a:hover{text-decoration:underline}
+.norm-item p{margin:0}
+
+/* 表格 */
+.data-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px;border-radius:10px;overflow:hidden}
+.data-table th{background:rgba(91,140,255,.16);padding:9px 10px;text-align:left;font-weight:600;color:#d3e2ff}
+.data-table td{padding:8px 10px;border-top:1px solid var(--border);background:rgba(255,255,255,.03)}
+.data-table tr:hover td{background:rgba(91,140,255,.06)}
+
+/* 引用/链接块 */
+.toc{border-left:3px solid var(--accent2);border-radius:0 10px 10px 0;
+  padding:10px 14px;margin:12px 0;background:rgba(255,255,255,.03);color:var(--dim);font-size:13.5px}
+.toc p{margin:0}
+.toc a{color:var(--accent);word-break:break-all}
+
+/* 代码 */
+pre{background:#0d1119;border:1px solid var(--border);border-radius:10px;padding:13px;overflow-x:auto;font-size:12.5px;margin:10px 0}
+code{font-family:"SF Mono",Consolas,"Courier New",monospace;font-size:12.5px}
+h4{font-size:14px;margin:14px 0 6px;color:#cfdbef}
+p{margin:8px 0}
+hr{border:none;border-top:1px solid var(--border);margin:24px 0}
+strong{color:#dbe6ff}
+ul,ol{padding-left:20px;margin:6px 0}
+
+/* 页脚 */
+footer{text-align:center;margin-top:36px;padding:22px 10px 6px;border-top:1px solid var(--border);
+  color:var(--dim);font-size:12.5px}
+footer p{margin:3px 0}
+
+@media(max-width:480px){
+  body{font-size:14px}
+  header.hero{padding:26px 14px 20px}
+  .stats{gap:8px}
+  .stat{max-width:110px}
+  .section-title{font-size:17px}
+  .imp-item{padding:13px 12px 11px}
+  .data-table{font-size:12px}
+  .data-table th,.data-table td{padding:7px 8px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+    <header class="hero">
+      <div class="badge">🤖 LLM TECH DAILY</div>
+      <h1 class="title">大模型技术速递</h1>
+      <p class="date">2026年11月10日</p>
+      <div class="stats">
+        <div class="stat"><b>24</b><span>收录动态</span></div>
+        <div class="stat imp"><b>5</b><span>★ 重要</span></div>
+        <div class="stat nor"><b>19</b><span>· 常规</span></div>
+      </div>
+    </header>
+    
+<div class="content">
+<h1>🤖 大模型技术速递 — 2026年11月10日</h1>
+<div class="update-intro">
+<p>今日共收录 24 条动态，其中 ★重要 5 条，·常规 19 条。本周（11-03 至 11-10）的主线是"<strong>能力向长程任务迁移</strong>"：Anthropic 一次性发布 Fable 5.2 / Mythos 5.2，用"1000 个 Agent 连续跑 8 天造出操作系统""30 小时完成费马大定理形式化"把评测对象从"一问一答"换成"连续数天的真实工程"；OpenAI 的 GPT-6 Cyber 则把模型能力直接接到成本账上——10 天、120 万美元，换来 Linux 内核 948 个可复现提权漏洞。开放权重侧同时刷新纪录：Kimi K3.1 Pro（2.8T）、美团 LongCat-2.5（1.6T，全程国产算力）、Mistral Large 4 接连放出，MIT 协议与"专用许可"的分野成为新的竞争面。研究侧出现两个值得警惕的信号：基准会像软件一样"腐烂"（Terminal-Bench 三成任务有缺陷），以及推理本身可以被"缓存成 CPU 程序"复用（NVIDIA CPU-ARC，调用成本降到 1/16–1/291）。</p>
+</div>
+<div class="section-title"><span class="sec-icon">★</span> 重要动态</div>
+
+<div class="imp-item">
+<h3>1. Claude Fable 5.2 / Mythos 5.2 发布：1000 个 Agent 连跑 8 天造出操作系统，30 小时完成费马大定理形式化</h3>
+<p><strong>一句话概要：</strong> 当地时间 11 月 9 日，Anthropic 发布新一代旗舰模型 Claude Fable 5.2 与 Claude Mythos 5.2，二者共用同一底层模型，区别在安全限制与访问权限；官方给出的成绩单不再是单项跑分，而是三个"长周期任务"：1000 多个 Agent 协作 8 天从零写出可在笔记本上开机的操作系统、30 小时完成费马大定理的形式化证明、解决两个黑洞物理难题。</p>
+<p><strong>技术要点：</strong> 这次升级的重点在"agentic 长程执行的稳定性"，而非单纯的知识量。官方披露的改进方向包括复杂编程、科研推理、图表理解与机器人控制，输出速度最高提升 30%，标准输入与输出价格均下调 20%。Fable 面向更广泛用户，Mythos 走更严格的安全限制与准入（可理解为"高风险能力沙盒版"）。值得注意的是，Anthropic 明确表示在训练阶段主动锁死了新模型的 RSI（递归自我改进）能力——即不让模型自己改写训练流程/自身权重更新链路，把"能力提升"和"自我进化"在工程上解耦。</p>
+<p><strong>实验结果：</strong> 三项长周期任务的具体口径：其一，"8 天造 OS"是从一个空文件夹开始，由 1000+ Agent 昼夜不停分工完成内核、磁盘与网卡驱动、文件系统、窗口界面乃至安装程序，最终在笔记本上跑通开机，过程中没有人类写代码；其二，费马大定理形式化由多个 Agent 协作在 30 小时内完成（形式化证明可机器验证，因此这一项的信噪比高于普通 benchmark）；其三，官方称模型在智能编码、科学研究、网络安全、计算机使用等维度"基本全面超过 Opus 5.5"。</p>
+<p><strong>影响分析：</strong> 对一线团队最实用的信号不是"又强了 30%"，而是<strong>评测与交付的颗粒度正在换代</strong>。当模型能连续工作 8 天，评价标准必须从"单轮准确率"转向"任务完成率 × 人工介入次数 × 每小时成本"，否则无法回答"这套 Agent 值不值得上线"。其次是 RSI 被主动锁死这件事本身：它说明头部实验室已经把"模型自主改进自身"当成需要管控的风险项，而不是纯能力项——这与国内做 Agent 平台时"是否允许 Agent 修改自身提示词/工具清单"的治理问题同构，建议在平台侧默认关闭自改权限、只开放人工审批后的版本升级。第三，价格下调 20% 叠加 30% 提速，意味着同等预算下的"有效 token 吞吐"提升约一倍，长程任务的成本模型需要重算。</p>
+<p><strong>来源：</strong> <a href="https://tech.ifeng.com/c/8xugZ5rMQG2" target="_blank" rel="noopener">凤凰网科技：Fable 5.2 登顶世界第一</a> ｜ <a href="https://baijiahao.baidu.com/s?id=1881413915103189254" target="_blank" rel="noopener">八天搓出操作系统、价格降 20%</a> ｜ <a href="http://baijiahao.baidu.com/s?id=1881418946343465804" target="_blank" rel="noopener">Anthropic 冲刺 IPO 时间点解读</a></p>
+</div>
+<div class="imp-item">
+<h3>2. OpenAI GPT-6 Cyber：10 天 120 万美元，在 Linux 内核复现 948 个提权漏洞并自动出补丁</h3>
+<p><strong>一句话概要：</strong> 11 月 5 日，OpenAI 发布网络安全专用模型 GPT-6 Cyber，同时公开代号"少一千条通往 root 的路"的自动化审计研究：一个由该模型驱动的六阶段流水线，用 10 天扫描了 27% 的 Linux 内核（5034 个审计目标、280 万行代码），在 2308 个候选问题中动态复现 1724 个漏洞，最终形成 948 个可运行的本地提权利用，并向维护者提交了 304 项关键补丁建议。</p>
+<p><strong>技术要点：</strong> 流水线拆成六个阶段：SCOUT（侦察定位可疑代码）→ ANALYST（人工/模型混合分析成因）→ TRIAGE（去重与优先级）→ SCREEN（可触发性筛选）→ EXPLOITDEV（编写并验证利用代码）→ PATCH（生成补丁）。模型本身在 OpenAI《能力准备度框架》中被评为最高档 Critical，仅通过背景审核的 Daybreak Red 项目客户可调用，并已接入 Codex。研究侧的关键设计是**"利用代码即验证器"**：漏洞是否真实存在，不由模型自述决定，而由"能否在测试环境里把低权限用户提升到 root"来判定，这让整条流水线的误报率可以被工程化地压住。</p>
+<p><strong>实验结果：</strong> 官方与媒体交叉披露的数据：ExploitGym 基准上 GPT-6 Cyber 得分 48.5%，上一代 GPT-5.6 Cyber 为 32.1%（相对提升约 51%）；Firefox 中发现 81 个此前未知的高危漏洞；同一套工具用 GPT-5.6 Sol 时只能做出 166 个有效利用，本次为 948 个；系统共创建 1169 个有效 root shell，按 Pwn2Own 定价口径，这批利用的价值区间为 1890 万–6630 万美元，而 API 成本约 120 万美元。人类安全专家一年在 Linux 内核只能发现约 20 个本地提权漏洞，即单周产出相当于"数十年人力"。</p>
+<p><strong>影响分析：</strong> 这是本周最值得企业安全团队认真对待的一条，因为它同时改写了攻防两侧的成本曲线。防守侧：把"AI 审计"纳入 SDL/上线前流程已经具备经济性——按上述口径，120 万美元能覆盖 280 万行代码的系统性审计，对小团队则以"关键子模块 + 可复现验证"的方式降级使用；同时必须配套"利用代码不外流"的流程（沙箱、离网、人工复核）。进攻侧：能力被 Critical 级管控本身就说明门槛在降低，攻击者用开源权重 + 自建流水线复现只是时间问题，因此**"补丁时效"比"漏洞数量"更值得投入**。对我们的实际启示是：变更与上线评审应增加"AI 可挖掘面"检查项（提权路径、默认凭据、越权接口），并把"自动化验证"而非"人工阅读代码"作为准入判据。</p>
+<p><strong>来源：</strong> <a href="https://www.tmtpost.com/agent/ai-article?id=22256" target="_blank" rel="noopener">钛媒体：Firefox 81 个高危 + Linux 948 条提权路径</a> ｜ <a href="https://www.163.com/dy/article/LBBHDCUN05561FZW.html" target="_blank" rel="noopener">网易：10 天 120 万美元的流水线账本</a> ｜ <a href="http://baijiahao.baidu.com/s?id=1880970381763255466" target="_blank" rel="noopener">IT之家：2308 候选 / 1724 复现 / 948 利用</a></p>
+</div>
+<div class="imp-item">
+<h3>3. Kimi K3.1 Pro 完整权重开放：2.8 万亿总参、1040 亿激活、百万上下文，登顶开放权重榜首</h3>
+<p><strong>一句话概要：</strong> 11 月 5 日，月之暗面按 10 月 24 日发布时的承诺，在 Hugging Face 开放 Kimi K3.1 Pro 完整权重，总参数约 2.8 万亿、单次推理激活约 1040 亿、支持约 100 万 token 上下文，成为当前参数规模最大的开源 MoE 模型。</p>
+<p><strong>技术要点：</strong> 架构上是稀疏 MoE + 稀疏注意力，原生多模态，权重采用 MXFP4/MXFP8 量化方案，总体积约 1.56 TB、分 96 个分片——这组数字直接决定了部署门槛：单机放不下，必须多机 + 高带宽互联（官方推荐 vLLM、SGLang）。许可证主体接近 MIT，但对"年营收超过一定规模的托管/API 服务商"设有限制条款，属于"开放权重 + 商业护栏"的折中路线，与 DeepSeek 的纯 MIT 形成对照。阿里云灵骏真武 M890 超节点已完成 Day0 适配并在 vLLM/SGLang 双框架完成全链路验证，说明国产超节点在"超大 MoE 权重加载 + 长上下文推理"上已能跟上首发节奏。</p>
+<p><strong>实验结果：</strong> 第三方口径：Artificial Analysis 智能指数 55，位列全球第 4、开放权重模型第 1（早前发布时为 46.5 分，刷新当时开源纪录）；Arena 运营的 Agent Arena 中位列开放权重模型第一、全部参评模型第 13，净改进率 +5.1%（较前代提升 4.2 个百分点），Bash 可靠性、用户表扬率与可控性为长项；Office QA Pro v2 等办公类基准表现突出。</p>
+<p><strong>影响分析：</strong> 2.8T 开源意味着"旗舰能力不再靠 API 独享"，但<strong>不等于"人人可自托管"</strong>：1.56 TB 权重 + 千亿级激活，实际落地形态会是"区域云 + 超节点 + 少量大客户私有化"，而不是单机部署。对国内团队的现实价值有两点：一是它给了"数据不出域"场景一个真正可用的旗舰选项（前提是算力与运维能力匹配）；二是许可证的营收门槛提醒我们，选开源模型时要同时评估"许可证合规成本"，尤其是做对外 SaaS 时。运维层面，MXFP4 量化是这轮超大 MoE 的关键工程手段——它把权重压到能在有限显存/带宽下加载，代价是精度需要在下游任务上单独验证，别默认"量化无损"。</p>
+<p><strong>来源：</strong> <a href="https://www.163.com/dy/article/LBA5SRA305561FZP.html" target="_blank" rel="noopener">网易：2.8 万亿参数、激活 1040 亿、MXFP4/MXFP8</a> ｜ <a href="https://baijiahao.baidu.com/s?id=1880974306417730636" target="_blank" rel="noopener">IT之家：Agent Arena 开放权重第一</a> ｜ <a href="https://baijiahao.baidu.com/s?id=1880997838921724307" target="_blank" rel="noopener">阿里云灵骏 Day0 适配</a></p>
+</div>
+<div class="imp-item">
+<h3>4. 美团 LongCat-2.5 正式开源：1.6 万亿参数、全程国产算力训练、MIT 协议可商用</h3>
+<p><strong>一句话概要：</strong> 11 月 9 日，美团宣布 LongCat-2.5 正式开源，采用 MIT 协议、允许商用推理部署与二次训练且无需额外授权；模型总参数 1.6 万亿、每 token 激活约 480 亿、支持 100 万 token 上下文，定位是"面向长程智能体任务的原生多模态模型"，训练全程基于国产算力完成，是当前国产算力上规模最大的训练任务之一。</p>
+<p><strong>技术要点：</strong> 与"拼接式多模态"不同，LongCat-2.5 采取原生多模态路线：把视觉信号转成离散 token 与文本统一建模，从而在同一套自回归目标下学习图文联合分布，这也是它能直接在"Visual Coding"（看设计稿写前端）这类任务上发力的原因。工程侧针对国产芯片显存与带宽受限的特点，在架构、算子与部署三个层面做了适配，并在复杂代码库开发、完整项目构建、专业办公等场景做了定向强化。相比上一代 LongCat-2.0（2026 年 6 月，同为 1.6T，首次在国产算力上完成万亿参数全流程训练），这一代补的是"视觉理解 + 智能体编程"两块短板。</p>
+<p><strong>实验结果：</strong> 官方口径称其在复杂代码库开发、完整项目构建、Visual Coding 与专业办公场景达到"端到端可用"水平（未给出与海外旗舰的逐项横评分数，需谨慎看待）。更硬的指标是训练侧：万亿级参数 + 百万上下文，全程跑在国产算力上——这验证的不只是模型，而是"国芯 + 国模 + 国产框架"整条链路的可行性。</p>
+<p><strong>影响分析：</strong> 这条的意义超过模型本身。对电信、金融这类<strong>强合规行业</strong>，"全程国产算力训练 + MIT 协议 + 可私有化部署"三件套，基本解决了"能不能用"的前置问题：不再依赖境外 API，也不受许可证营收条款约束。但同时要清醒：1.6T 的权重下载与推理仍需可观资源，省级节点落地至少是"多机集群"级别；MIT 协议虽宽松，模型卡中的使用限制与国产芯片算子成熟度仍需逐一核验。实践建议是先做"小场景试点"（如工单摘要、看设计稿生成页面、内部知识问答），用真实业务集测"有效准确率 + 单次成本"，再决定是否进入生产。</p>
+<p><strong>来源：</strong> <a href="https://tech.ifeng.com/c/8xv9MVjw4I8" target="_blank" rel="noopener">凤凰网：龙猫开源 LongCat-2.5</a> ｜ <a href="https://cj.sina.com.cn/articles/view/1654203637/629924f50200182j0" target="_blank" rel="noopener">新浪：深度适配国产算力</a> ｜ <a href="https://www.tmtpost.com/nictation/8191809.html" target="_blank" rel="noopener">钛媒体：1.6T 原生多模态、国产算力最大训练任务</a></p>
+</div>
+<div class="imp-item">
+<h3>5. NVIDIA CPU-ARC：把"推理过程"缓存成可执行的 CPU 程序，调用成本降到 1/16–1/291</h3>
+<p><strong>一句话概要：</strong> NVIDIA 研究团队 11 月 6 日在 arXiv 公开技术报告《CPU-ARC: Agentic Reasoning Caching for on-CPU Reasoning Reuse》（28 页、9 图、11 表）。核心主张是：大模型总在"重新发明轮子"，把"解题"与"执行解法"混在一起，导致每个问题都从头推一遍；而一旦某类任务已经被推通过，把解法应用到新实例上其实可以几乎不依赖模型——他们把这套东西做成"可执行在 CPU 上的推理缓存"（ARC）。</p>
+<p><strong>技术要点：</strong> 方法链路可以概括为三步：其一，从 LLM 的推理轨迹（reasoning trace）里抽取<strong>可复用的步骤序列</strong>，而不是缓存最终答案；其二，把步骤序列编译成可在 CPU 上执行的 agentic 程序（含分支、校验与兜底），使"确定性部分"脱离 GPU 推理；其三，对确实需要语义判断的输入片段，调用小模型处理，从而把大模型从"每次都跑"变成"只在建缓存时跑一次"。论文强调 ARC 的四个属性：完全可解释（每一步都能读出）、可持续训练（可随新轨迹增量更新）、对输入扰动鲁棒、以及与源模型相比调用成本低 16–291 倍。作者：Peter Belcak、Greg Heinrich、Saurav Muralidharan、Shizhe Diao、Pavlo Molchanov（均为 NVIDIA 研究）。</p>
+<p><strong>实验结果：</strong> 论文摘要明确给出"在一系列困难数学与科学任务上，ARC 与前沿 LLM 表现相当（on-par）"。成本侧，按论文的 API 费率估算，8 项测试中原模型单次调用费用约为缓存的 16–291 倍；把"建缓存"的一次性开销计入后，回本所需的复用次数为：AIME 约 13 次、GSM8K 约 90 次。这两个数字很关键——它说明"缓存推理"并非万能：题目类型分散、复用率低的场景，建缓存反而亏。</p>
+<p><strong>影响分析：</strong> 这是本周技术上最"可迁移"的一条。我们平时做客服、装维、稽核这类业务，本质上都是<strong>同一类问题被反复问</strong>（同款故障、同类工单、同一套校验规则），天然具备高复用率——正是 AIME 那种"13 次回本"的甜点区。落地思路可以很具体：把 Agent 在历史工单上跑出的成功轨迹沉淀为"步骤模板 + 校验脚本"，高频问题走 CPU 执行的确定性路径（快、可解释、成本近乎为零），低频/新问题再回落到大模型；同时保留"模板失效检测"，一旦命中率下降就触发重训。风险点也很清楚：缓存的是"某类问题的解法"，一旦业务规则变化（资费、口径、系统界面），旧缓存会静默给出错误结果，因此必须给每条 ARC 绑定版本号与生效时间，并做定期回放验证。</p>
+<p><strong>来源：</strong> <a href="https://arxiv.org/abs/2611.09891" target="_blank" rel="noopener">arXiv:2611.09891 原文摘要</a> ｜ <a href="https://www.163.com/dy/article/LBB92AMQ0556D2EH.html" target="_blank" rel="noopener">中文解读：16–291 倍成本差、AIME 13 次回本</a></p>
+</div><div class="section-title"><span class="sec-icon">📋</span> 常规动态</div>
+<div class="cat-title">模型发布</div>
+<div class="norm-item"><strong>GPT-6.1 Terra 上线：主打"电脑操作"与半价</strong> — OpenAI 新版本把卖点放在 GUI 级操作（点击、跨应用流程）与价格下探，定位是"能替你动手"的通用 Agent 底座，与 GPT-6 Cyber 的垂直高价路线形成高低搭配。 <a href="https://m.thepaper.cn/newsDetail_forward_34417472" target="_blank" rel="noopener">来源</a></div>
+<div class="norm-item"><strong>谷歌 Genie 4：原生音频的实时世界模型；Gemini 4 Carbon 主攻网络安全与长时程任务</strong> — Genie 4 把"实时可交互世界模型"推进到带原生音频，Gemini 4 Carbon 则被定位为迄今最强的网络安全与长周期工程模型，两条线分别对应"生成环境"与"执行任务"。 <a href="https://weibo.com/2/detail/5361183435522910" target="_blank" rel="noopener">来源</a></div>
+<div class="norm-item"><strong>Mistral Large 4（Le Chonk）开放权重：欧洲最强开源、万亿参数级多模态</strong> — 巴黎 Mistral 在预览数周后放出开放权重，公司同时披露已监测预览版在真实流量中的安全相关使用，并承认"虽拒绝配合针对真实目标的黑盒攻击，但仍存在被用于实施真实攻击的潜在可能"，正在调整防护策略。 <a href="https://baijiahao.baidu.com/s?id=1881390740350103109" target="_blank" rel="noopener">来源</a></div>
+<div class="norm-item"><strong>Ripple-65B Preview 开放权重，编程评测居美国开源模型首位</strong> — 又一个中等规模、可私有化的编程向开放权重模型，与 Kimi K3.1 Pro、LongCat-2.5 一起把"开放权重"从口号变成每周常态。 <a href="http://mp.weixin.qq.com/s?__biz=Mzk2NDU5ODU2NA==&amp;mid=2247496374&amp;idx=1&amp;sn=b7143c28562a75591a969f359836f2a1" target="_blank" rel="noopener">来源</a></div>
+<div class="norm-item"><strong>Qwen4 Flash 测试版曝光，发布进入倒计时</strong> — 社区测试显示 Flash 版本已在部分榜单超越 Opus 5.5（属早期测试口径，需以正式发布为准），若延续 Qwen 系列的开源节奏，将成为下一轮开放权重竞赛的关键变量。 <a href="https://www.163.com/dy/article/LBB2L4U10556KHRQ.html" target="_blank" rel="noopener">来源</a></div>
+<div class="cat-title">学术论文</div>
+<div class="norm-item"><strong>Terminal-Bench 2.1：基准也会"腐烂"，三成任务有缺陷，修复后 19 个智能体集体涨超 10 分</strong> — 斯坦福 Ré 组提出"基准维护债务"概念，用"智能体审计 + 人工把关"的持续验证流程给 Terminal-Bench 2.0 做体检，发现约 30% 任务带缺陷；2.1 修复后 19 个智能体整体准确率上涨超 10 个百分点，个别模型榜位移动 3 名。结论很扎心：我们看到的"Agent 能力差距"，有相当一部分其实是评测本身的噪声。 <a href="https://modelscope.cn/posts/438044" target="_blank" rel="noopener">来源</a></div>
+<div class="norm-item"><strong>NeurIPS'26：只干预 10 个维度，给终端 Agent 穿上"安全机甲"，准确率超 97%</strong> — 针对 Agent 能读文件、写脚本、跑命令后"一次错误决策就改坏真实系统"的问题，论文提出在长程任务的多轮执行中介入少量关键维度（10 个）做风险判定，在保持任务完成率的同时把危险动作拦截准确率做到 97% 以上，为"执行现场"的防护提供了轻量方案。 <a href="http://finance.sina.com.cn/wm/2026-11-08/doc-inixzpaw7195489.shtml" target="_blank" rel="noopener">来源</a></div>
+<div class="norm-item"><strong>ReTerm：让 Code Agent 从自己的错误中进化（失败驱动的 RSI）</strong> — 论文指出终端纠错的难点在于"环境已被前面的错误操作改变"，标准 GRPO 训练的模型在"包已安装但 import 仍报错"这类场景会卡死；ReTerm 用失败轨迹驱动自我改进，把"从错误中学习"做成可训练信号而非事后提示。 <a href="https://baijiahao.baidu.com/s?id=1880899000833914730" target="_blank" rel="noopener">来源</a></div>
+<div class="cat-title">技术突破</div>
+<div class="norm-item"><strong>谷歌推出两款新 TPU</strong> — 面向推理与训练的第七代产品线继续扩容，配套的托管与互联方案同步更新；在"算力成本剪刀差"成为行业主题的当下，自研芯片的边际意义主要在压低单位 token 成本，而非单纯堆峰值算力。 <a href="https://www.163.com/dy/article/LBC0P2RV051481US.html" target="_blank" rel="noopener">来源</a></div>
+<div class="norm-item"><strong>百度 Apollo World：智能体驱动的全模态世界模型，端到端全无人运营超百万公里</strong> — 官方提出世界模型"2+3"判断标准，模型已用于萝卜快跑全球化测试，把"世界模型"从演示视频落到"能跑里程"的工程指标上，这也是国内世界模型少见的规模化验证口径。 <a href="https://k.sina.com.cn/article_7857201856_1d45362c001908tmpi.html" target="_blank" rel="noopener">来源</a></div>
+<div class="norm-item"><strong>英伟达开源 Nemotron 3.5 Transcribe 语音模型</strong> — 面向转写场景的开放权重语音模型，与 Cosmos 3 世界模型、CPU-ARC 研究一起，构成 NVIDIA"用开源生态绑定硬件"的完整拼图：上层模型开源、下层算力收费。 <a href="https://m.thepaper.cn/newsDetail_forward_34417472" target="_blank" rel="noopener">来源</a></div>
+<div class="cat-title">行业新闻</div>
+<div class="norm-item"><strong>银行大模型进入"百亿 Token"时代：招行日均消耗超 800 亿，累计落地 1500+ 场景</strong> — 招商银行在业绩会上披露，截至 9 月末大模型应用场景超 1500 个、日均 Token 规模超 800 亿；多家商业银行日均消耗迈入百亿量级，标志大模型从"场景试水"进入"全行常态化运行"，也把治理重点推向成本核算与效果归因。 <a href="https://www.financialnews.com.cn/2026-11/10/content_460547.html" target="_blank" rel="noopener">来源</a></div>
+<div class="norm-item"><strong>算力服务企业被机构密集调研：协创数据一月内接待 313 家</strong> — 四季度以来，训练与推理需求集中释放让"算力服务"的商业模式逐渐清晰，机构调研密度反映资本市场正在从"看叙事"转向"看机柜数与上架率"。 <a href="https://www.stcn.com/article/detail/4329536.html" target="_blank" rel="noopener">来源</a></div>
+<div class="norm-item"><strong>DeepSeek Harness 商业化数据披露：日均 92 万亿 Token，月经常性收入测算或超 1.92 亿元</strong> — 官方披露 11 月 4 日日活 154 万、月活约 548 万，按官方 API 口径日均消耗约 92 万亿 Token（≈每秒 11 亿 Token）；同期多家媒体报道其完成新一轮千亿元级融资并计划在乌兰察布建设约 1GW 数据中心（融资与选址口径以官方披露为准）。 <a href="https://www.163.com/dy/article/LBB672M50519DDOA.html" target="_blank" rel="noopener">来源</a></div>
+<div class="norm-item"><strong>乌镇《携手构建全球开放人工智能行动倡议》落地：把"宽松许可、免费商用、自由微调"写进行动方向</strong> — 与口号型文件不同，倡议明确鼓励以宽松许可开放模型权重；可对照的既有样本是千问团队三年多开源 470+ 模型、全球下载超 40 亿次，说明"开放权重 + 生态分成"已是可跑通的路线。 <a href="https://cj.sina.com.cn/articles/view/9082276182/21d58895607201iks6" target="_blank" rel="noopener">来源</a></div>
+<div class="norm-item"><strong>"星云星座计划"发布：遥感、通信与算力卫星接入统一调度，构建天地协同国产算力网</strong> — 由中科院空天信息创新研究院与企业联合研发，覆盖国产算力芯片、服务器整机、卫星制造与应用，太空节点可直接完成部分数据处理，面向自然资源、防灾应急与低空经济。 <a href="https://www.163.com/dy/article/LBBUJ1K605118O92.html" target="_blank" rel="noopener">来源</a></div>
+<div class="cat-title">开源项目</div>
+<div class="norm-item"><strong>vercel-labs/agent-desktop（Rust，13.3k★，单日 +3791）</strong> — 给 Agent 装"操作系统级手"：通过可访问性树（accessibility tree）读取控件而非依赖截图，点击、输入、切窗口的稳定性显著优于纯视觉方案，是"Agent 操作电脑"从演示走向可用的关键一层。 <a href="https://github.com/vercel-labs/agent-desktop" target="_blank" rel="noopener">GitHub</a></div>
+<div class="norm-item"><strong>morluto/rea（TypeScript）</strong> — 以 MCP 统一框架做二进制与应用逆向分析，可插拔 agent 模块帮助从"高层功能"追到"底层实现"，在 Hopper 等工具内直接使用；与 GPT-6 Cyber 的漏洞研究热形成呼应——逆向正在被 Agent 化。 <a href="https://github.com/morluto/rea" target="_blank" rel="noopener">GitHub</a></div>
+<div class="norm-item"><strong>DeepSeek 3FS（C++，10.4k★）+ llama-modchip：基础设施与端侧两端同时开源</strong> — 3FS 是针对 AI 训练/推理负载设计的高性能分布式文件系统；llama-modchip 则演示了"64GB 内存、无 GPU 跑 284B 模型"的极限路线，一个解决集群吞吐，一个解决本地可用性。 <a href="https://www.laojinchuhai.com/zh/insights/frontier-daily-2026-11-09" target="_blank" rel="noopener">GitHub</a></div>
+<hr>
+<div class="section-title"><span class="sec-icon">📊</span> 本日趋势小结</div>
+<p>本周四条线索指向同一个转折：<strong>"模型能力"正在被"长程任务的完成度"重新定义</strong>。其一，评测对象换代：Anthropic 用"8 天造 OS""30 小时形式化费马大定理"替代跑分，GPT-6 Cyber 用"948 个可复现提权"替代榜单——两者的共同点是<strong>结果可机器验证</strong>，这正是长程任务能成为可信指标的前提。其二，成本开始被逐项记账：GPT-6 Cyber 的 120 万美元 vs 1890 万–6630 万美元利用价值、CPU-ARC 的"13 次回本"、DeepSeek 的"每秒 11 亿 Token"，说明行业的计价单位已从"卡时"变成"每百万 token + 每次任务"。其三，开放权重常态化但门槛分层：Kimi（2.8T，专用许可 + 1.56TB）与 LongCat（1.6T，MIT + 国产算力）代表两条不同路线——前者拼能力上限，后者拼合规与自主可控，选择时应先看"许可证 + 算力 + 运维"三项约束，而不是只看分数。其四，评测与安全的方法论在补课：Terminal-Bench 暴露"三成任务有缺陷"，提醒我们<strong>基准会腐烂</strong>；NeurIPS 的"10 维干预"和 Mistral 对开放权重攻击风险的自我披露，则说明安全正在从"对齐口头承诺"走向"可测量的拦截率"。对一线工作的直接建议是：给 Agent 上线增加三道闸——任务级成本预算、执行现场的权限白名单与拦截审计、以及"基准/缓存"的定期回放验证。</p>
+<hr>
+<p><em>本速递由星辰超级智能体自动生成 | 数据截至 2026-11-10 09:30</em>
+<em>信息来源：arXiv、OpenAI／Anthropic／NVIDIA 官方、钛媒体、凤凰网科技、IT之家、新浪科技、澎湃、证券时报、中国金融新闻网、ModelScope、GitHub Trending 等</em></p>
+<blockquote class="toc">
+<p>AI生成</p>
+</blockquote>
+</div>
+
+    <footer>
+      <p>本速递由星辰超级智能体自动生成</p>
+      <p>数据截至 2026-11-10 09:30</p>
+      <p>信息来源：arXiv · 机器之心 · 量子位 · IT之家 · 36Kr 等</p>
+    </footer>
+    
+</div>
+</body>
+</html>
