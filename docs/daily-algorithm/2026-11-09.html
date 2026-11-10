@@ -1,0 +1,2231 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>每日算法讲解 · 2026年11月09日</title>
+<!-- MathJax for LaTeX math formula rendering -->
+<script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\(', '\)']],
+      displayMath: [['$$', '$$'], ['\[', '\]']],
+      processEscapes: true
+    },
+    svg: { fontCache: 'global' }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" id="MathJax-script" async></script>
+<style>
+:root {
+  --primary: #6366f1;
+  --primary-dark: #4f46e5;
+  --bg: #0f172a;
+  --card-bg: #1e293b;
+  --text: #e2e8f0;
+  --text-dim: #94a3b8;
+  --accent: #818cf8;
+  --border: #334155;
+  --code-bg: #0d1117;
+  --code-text: #e6edf3;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans SC", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.8;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+.container { max-width: 1400px; margin: 0 auto; padding: 24px 32px; }
+.header {
+  text-align: center;
+  padding: 40px 0 30px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 32px;
+}
+.header h1 {
+  font-size: 28px;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.header h1 .date { color: var(--accent); }
+.header .subtitle { color: var(--text-dim); font-size: 15px; }
+.repo-link {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 6px 16px;
+  background: var(--primary);
+  color: #fff;
+  border-radius: 20px;
+  text-decoration: none;
+  font-size: 13px;
+  transition: background 0.2s;
+}
+.repo-link:hover { background: var(--primary-dark); }
+.history-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 32px;
+  padding: 16px;
+  background: var(--card-bg);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+.history-nav a {
+  padding: 4px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  color: var(--text-dim);
+  text-decoration: none;
+  background: rgba(99,102,241,0.08);
+  transition: all 0.2s;
+}
+.history-nav a:hover { color: var(--text); background: rgba(99,102,241,0.2); }
+.history-nav a.active { color: #fff; background: var(--primary); }
+.history-nav a.back-index { color: var(--accent); font-weight: 600; background: rgba(99,102,241,0.15); border: 1px solid rgba(99,102,241,0.3); }
+.history-nav a.back-index:hover { color: #fff; background: var(--primary); border-color: var(--primary); }
+.content { margin-bottom: 40px; max-width: 1100px; }
+.content h2 {
+  font-size: 24px;
+  color: var(--accent);
+  margin: 40px 0 16px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--primary);
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+.content h2:first-child { border-top: none; padding-top: 0; }
+.content h3 {
+  font-size: 18px;
+  color: var(--text);
+  margin: 24px 0 12px;
+}
+.content h4 {
+  font-size: 16px;
+  color: var(--accent);
+  margin: 20px 0 10px;
+}
+.content h5 {
+  font-size: 15px;
+  color: #a5b4fc;
+  font-weight: 600;
+  margin: 18px 0 8px;
+}
+.content p { margin-bottom: 12px; color: var(--text); }
+.content ul { margin: 8px 0 16px 20px; }
+.content li { margin-bottom: 6px; }
+.content strong { color: var(--accent); }
+.content blockquote {
+  border-left: 4px solid var(--primary);
+  padding: 12px 16px;
+  margin: 16px 0;
+  background: rgba(99,102,241,0.08);
+  border-radius: 0 8px 8px 0;
+}
+.content blockquote p { color: var(--text-dim); margin: 4px 0; }
+.content hr {
+  border: none;
+  height: 1px;
+  background: var(--border);
+  margin: 32px 0;
+}
+.code-block {
+  background: var(--code-bg);
+  border-radius: 10px;
+  padding: 18px 24px;
+  overflow-x: auto;
+  margin: 16px 0;
+  border: 1px solid var(--border);
+  max-width: 100%;
+}
+.code-block code {
+  font-family: "JetBrains Mono", "Fira Code", "Consolas", monospace;
+  font-size: 14px;
+  color: var(--code-text);
+  line-height: 1.6;
+  white-space: pre;
+}
+.inline-code {
+  background: rgba(99,102,241,0.15);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: "Consolas", monospace;
+  font-size: 0.9em;
+  color: var(--accent);
+}
+/* Math formula block */
+.content .math-block {
+  background: rgba(99,102,241,0.06);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 24px;
+  margin: 16px 0;
+  overflow-x: auto;
+  max-width: 100%;
+}
+.content .math-label {
+  font-size: 13px; color: var(--text-dim); margin-bottom: 6px; }
+.content .math-vars {
+  margin: 8px 0 16px 20px; }
+.content .math-vars li { margin-bottom: 4px; color: var(--text-dim); }
+.footer {
+  text-align: center;
+  padding: 24px 0;
+  border-top: 1px solid var(--border);
+  color: var(--text-dim);
+  font-size: 13px;
+}
+.tag {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  background: rgba(99,102,241,0.15);
+  color: var(--accent);
+  margin-left: 8px;
+}
+.content .ref-link {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px dashed rgba(99,102,241,0.4);
+  transition: all 0.2s;
+  word-break: break-all;
+}
+.content .ref-link:hover {
+  color: #fff;
+  border-bottom-color: var(--primary);
+}
+.content li {
+  word-break: break-all;
+}
+/* Table */
+.table-wrapper {
+  overflow-x: auto;
+  margin: 16px 0;
+  max-width: 100%;
+}
+.algo-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  background: var(--card-bg);
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+.algo-table thead {
+  background: rgba(99,102,241,0.15);
+}
+.algo-table th {
+  padding: 10px 16px;
+  text-align: left;
+  color: var(--accent);
+  font-weight: 600;
+  border-bottom: 2px solid var(--primary);
+  white-space: nowrap;
+}
+.algo-table td {
+  padding: 8px 16px;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  word-break: break-all;
+}
+.algo-table tr:last-child td {
+  border-bottom: none;
+}
+.algo-table tr:hover td {
+  background: rgba(99,102,241,0.06);
+}
+/* Algorithm architecture image */
+.algo-image {
+  margin: 20px 0;
+  text-align: center;
+}
+.algo-image img {
+  max-width: 100%;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+.algo-image .image-caption {
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--text-dim);
+}
+.algo-image svg {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+/* ======== 移动端响应式适配 ======== */
+@media (max-width: 768px) {
+  .container { max-width: 100%; padding: 16px 14px; }
+  .header { padding: 24px 0 20px; margin-bottom: 20px; }
+  .header h1 { font-size: 20px; margin-bottom: 4px; }
+  .header .subtitle { font-size: 13px; }
+  .repo-link { margin-top: 10px; padding: 5px 14px; font-size: 12px; }
+  .history-nav { gap: 6px; padding: 10px 12px; margin-bottom: 20px; }
+  .history-nav a { padding: 3px 10px; font-size: 12px; }
+  .content { max-width: 100%; margin-bottom: 28px; }
+  .content h2 { font-size: 20px; margin: 28px 0 12px; }
+  .content h3 { font-size: 17px; margin: 20px 0 10px; }
+  .content h4 { font-size: 15px; margin: 16px 0 8px; }
+  .content h5 { font-size: 14px; margin: 14px 0 6px; }
+  .content p { font-size: 14px; margin-bottom: 10px; }
+  .content ul { margin: 6px 0 12px 16px; }
+  .content li { font-size: 14px; margin-bottom: 5px; }
+  .content blockquote { padding: 10px 12px; margin: 12px 0; }
+  .content blockquote p { font-size: 13px; }
+  .content .math-block { padding: 10px 14px; margin: 12px 0; }
+  .code-block { padding: 12px 14px; margin: 12px 0; }
+  .code-block code { font-size: 12px; line-height: 1.5; }
+  .inline-code { font-size: 0.88em; padding: 1px 5px; }
+  .algo-table { font-size: 12px; }
+  .algo-table th { padding: 6px 10px; }
+  .algo-table td { padding: 6px 10px; }
+  .algo-image { margin: 14px 0; }
+  .algo-image svg { max-width: 100%; height: auto; }
+  .footer { padding: 18px 0; font-size: 12px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>每日算法讲解 · <span class="date">2026年11月09日</span></h1>
+    <p class="subtitle">每天 1 个基础算法 + 2 个 AI/机器学习算法，持续精进</p>
+    <a href="https://syypretend.github.io/test/daily-algorithm" target="_blank" class="repo-link">GitHub 仓库</a>
+  </div>
+  <div class="history-nav"><a href="index.html" class="back-index">← 历史索引</a>
+<a href="2026-11-10.html">11月10日</a>
+<a href="2026-11-09.html" class="active">11月09日</a>
+<a href="2026-11-06.html">11月06日</a>
+<a href="2026-11-05.html">11月05日</a>
+<a href="2026-11-04.html">11月04日</a>
+<a href="2026-10-28.html">10月28日</a>
+<a href="2026-10-26.html">10月26日</a>
+<a href="2026-10-19.html">10月19日</a>
+<a href="2026-10-16.html">10月16日</a>
+<a href="2026-10-14.html">10月14日</a>
+<a href="2026-10-13.html">10月13日</a>
+<a href="2026-10-12.html">10月12日</a>
+<a href="2026-10-10.html">10月10日</a>
+<a href="2026-10-09.html">10月09日</a>
+<a href="2026-10-08.html">10月08日</a>
+<a href="2026-09-30.html">09月30日</a>
+<a href="2026-09-29.html">09月29日</a>
+<a href="2026-09-28.html">09月28日</a>
+<a href="2026-09-24.html">09月24日</a>
+<a href="2026-09-17.html">09月17日</a>
+<a href="2026-09-15.html">09月15日</a>
+<a href="2026-09-14.html">09月14日</a>
+<a href="2026-09-11.html">09月11日</a>
+<a href="2026-09-10.html">09月10日</a>
+<a href="2026-09-09.html">09月09日</a>
+<a href="2026-09-08.html">09月08日</a>
+<a href="2026-09-07.html">09月07日</a>
+</div>
+  <div class="content">
+  <h2>每日算法讲解 · 2026-11-09</h2>
+
+<blockquote>
+<p>今日内容：1 个基础算法 + 2 个 AI/机器学习算法 | 逐参数详解</p>
+</blockquote>
+
+<hr>
+
+<h3>AVL 树</h3>
+
+<p><strong>类别</strong>：数据结构 | <strong>难度</strong>：中等</p>
+
+<h4>算法简介</h4>
+
+<p>AVL 树由苏联数学家 Adelson-Velsky 与 Landis 于 1962 年提出，是最早被发明的自平衡二叉搜索树（Self-Balancing Binary Search Tree）。普通二叉搜索树（BST）的形态完全由插入顺序决定：若按 1,2,3,…,n 的升序插入，树会退化成一条单链，查找、插入、删除全部退化为 $ O(n) $。AVL 树通过给每个结点维护"高度"这一元数据，并在每次修改后检查左右子树高度差，一旦发现高度差超过 1 就立即用旋转（rotation）把子树"掰平"，从而把树高牢牢限制在 $ O(\log n) $ 量级。</p>
+
+<p>AVL 树的核心约束只有一句话：<strong>对任意结点，其左右子树的高度之差（平衡因子）的绝对值不超过 1</strong>。插入时，新结点只会让祖先链上的高度最多增加 1，因此第一个失衡结点（最低失衡祖先）的平衡因子只可能是 $ \pm 2 $；此时按"新结点落在失衡结点的哪一侧、以及落在该侧孩子的哪一侧"分成 LL、RR、LR、RL 四种形态，分别用右单旋、左单旋、先左后右双旋、先右后左双旋修复。一次插入最多只需 1 次单旋或 1 次双旋，且旋转后子树高度恢复到插入前的高度，更上层的祖先不会继续失衡，这就是 AVL 插入调整"一次搞定"的根本原因。</p>
+
+<p>删除则不同：删除会让子树高度<strong>减少</strong>，可能引发祖先链上连续多个结点失衡，因此删除后必须沿着回溯路径逐层检查并重平衡，最坏需要 $ O(\log n) $ 次旋转。这也是 AVL 树"查询快、更新稍慢"的技术根源：它的平衡条件比红黑树更严格（树高上界约 $ 1.44\log_2 n $，红黑树约 $ 2\log_2(n+1) $），换来的是查找路径更短，但插入/删除的旋转次数更多。</p>
+
+<p>工程上，AVL 树适合<strong>读多写少</strong>、且要求"最坏情况也有确定性 $ O(\log n) $ 查询"的场景，例如内存索引、路由表、符号表、区间树基座等；而写操作频繁的有序容器（如 C++ <code class="inline-code">std::map</code>、Java <code class="inline-code">TreeMap</code>）大多选择红黑树，因为红黑树用更宽松的平衡换取了更少的旋转与更好的插入删除常数。</p>
+
+<h4>原理示意图</h4>
+
+<p>下面这张图把四种失衡形态与对应旋转放在一起对照。黄色结点是<strong>最低失衡祖先</strong>（平衡因子绝对值刚刚变成 2），绿色结点是旋转后接管该子树的新根；注意旋转只改动 3 根指针，且中序遍历序列始终不变。</p>
+
+<p><div class="algo-image"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 900 640" font-family="system-ui, sans-serif">
+  <defs>
+    <marker id="avlArrow" markerWidth="10" markerHeight="8" refX="8" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#818cf8"/>
+    </marker>
+  </defs>
+  <rect width="900" height="640" fill="#1e293b" rx="12"/>
+  <text x="450" y="30" text-anchor="middle" fill="#818cf8" font-size="17" font-weight="700">AVL 树四种旋转：LL / RR / LR / RL</text>
+  <text x="450" y="52" text-anchor="middle" fill="#94a3b8" font-size="12">黄色 = 最低失衡祖先（BF = ±2）　绿色 = 旋转后新的子树根　旋转不改变中序序列</text>
+
+  <rect x="20" y="66" width="420" height="272" rx="10" fill="#0f172a" opacity="0.55" stroke="#334155"/>
+  <text x="230" y="90" text-anchor="middle" fill="#e2e8f0" font-size="14" font-weight="600">LL 型：左孩子的左子树过高 → 右单旋</text>
+  <text x="42" y="114" fill="#94a3b8" font-size="11">旋转前</text>
+  <text x="262" y="114" fill="#94a3b8" font-size="11">旋转后</text>
+  <line x1="140" y1="130" x2="95" y2="188" stroke="#6366f1" stroke-width="2"/>
+  <line x1="95" y1="188" x2="55" y2="246" stroke="#6366f1" stroke-width="2"/>
+  <circle cx="140" cy="130" r="16" fill="#f59e0b" stroke="#fbbf24" stroke-width="2"/>
+  <text x="140" y="135" text-anchor="middle" fill="#1e293b" font-size="12" font-weight="700">30</text>
+  <circle cx="95" cy="188" r="16" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="95" y="193" text-anchor="middle" fill="#e2e8f0" font-size="12">20</text>
+  <circle cx="55" cy="246" r="16" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="55" y="251" text-anchor="middle" fill="#e2e8f0" font-size="12">10</text>
+  <line x1="188" y1="170" x2="238" y2="170" stroke="#818cf8" stroke-width="2" marker-end="url(#avlArrow)"/>
+  <text x="213" y="190" text-anchor="middle" fill="#818cf8" font-size="11">右旋</text>
+  <line x1="340" y1="130" x2="295" y2="188" stroke="#6366f1" stroke-width="2"/>
+  <line x1="340" y1="130" x2="385" y2="188" stroke="#6366f1" stroke-width="2"/>
+  <circle cx="340" cy="130" r="16" fill="#22c55e" stroke="#4ade80" stroke-width="2"/>
+  <text x="340" y="135" text-anchor="middle" fill="#0f172a" font-size="12" font-weight="700">20</text>
+  <circle cx="295" cy="188" r="16" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="295" y="193" text-anchor="middle" fill="#e2e8f0" font-size="12">10</text>
+  <circle cx="385" cy="188" r="16" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="385" y="193" text-anchor="middle" fill="#e2e8f0" font-size="12">30</text>
+  <text x="230" y="300" text-anchor="middle" fill="#94a3b8" font-size="11">BF(30)=+2，BF(20)=+1 → 对 30 右旋一次</text>
+
+  <rect x="460" y="66" width="420" height="272" rx="10" fill="#0f172a" opacity="0.55" stroke="#334155"/>
+  <text x="670" y="90" text-anchor="middle" fill="#e2e8f0" font-size="14" font-weight="600">RR 型：右孩子的右子树过高 → 左单旋</text>
+  <text x="482" y="114" fill="#94a3b8" font-size="11">旋转前</text>
+  <text x="702" y="114" fill="#94a3b8" font-size="11">旋转后</text>
+  <line x1="580" y1="130" x2="625" y2="188" stroke="#6366f1" stroke-width="2"/>
+  <line x1="625" y1="188" x2="665" y2="246" stroke="#6366f1" stroke-width="2"/>
+  <circle cx="580" cy="130" r="16" fill="#f59e0b" stroke="#fbbf24" stroke-width="2"/>
+  <text x="580" y="135" text-anchor="middle" fill="#1e293b" font-size="12" font-weight="700">10</text>
+  <circle cx="625" cy="188" r="16" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="625" y="193" text-anchor="middle" fill="#e2e8f0" font-size="12">20</text>
+  <circle cx="665" cy="246" r="16" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="665" y="251" text-anchor="middle" fill="#e2e8f0" font-size="12">30</text>
+  <line x1="628" y1="170" x2="678" y2="170" stroke="#818cf8" stroke-width="2" marker-end="url(#avlArrow)"/>
+  <text x="653" y="190" text-anchor="middle" fill="#818cf8" font-size="11">左旋</text>
+  <line x1="780" y1="130" x2="735" y2="188" stroke="#6366f1" stroke-width="2"/>
+  <line x1="780" y1="130" x2="825" y2="188" stroke="#6366f1" stroke-width="2"/>
+  <circle cx="780" cy="130" r="16" fill="#22c55e" stroke="#4ade80" stroke-width="2"/>
+  <text x="780" y="135" text-anchor="middle" fill="#0f172a" font-size="12" font-weight="700">20</text>
+  <circle cx="735" cy="188" r="16" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="735" y="193" text-anchor="middle" fill="#e2e8f0" font-size="12">10</text>
+  <circle cx="825" cy="188" r="16" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="825" y="193" text-anchor="middle" fill="#e2e8f0" font-size="12">30</text>
+  <text x="670" y="300" text-anchor="middle" fill="#94a3b8" font-size="11">BF(10)=-2，BF(20)=-1 → 对 10 左旋一次</text>
+
+  <rect x="20" y="350" width="420" height="272" rx="10" fill="#0f172a" opacity="0.55" stroke="#334155"/>
+  <text x="230" y="374" text-anchor="middle" fill="#e2e8f0" font-size="14" font-weight="600">LR 型：左孩子的右子树过高 → 先左旋再右旋</text>
+  <text x="42" y="398" fill="#94a3b8" font-size="11">旋转前</text>
+  <text x="262" y="398" fill="#94a3b8" font-size="11">旋转后</text>
+  <line x1="140" y1="414" x2="95" y2="472" stroke="#6366f1" stroke-width="2"/>
+  <line x1="95" y1="472" x2="135" y2="530" stroke="#6366f1" stroke-width="2"/>
+  <circle cx="140" cy="414" r="16" fill="#f59e0b" stroke="#fbbf24" stroke-width="2"/>
+  <text x="140" y="419" text-anchor="middle" fill="#1e293b" font-size="12" font-weight="700">30</text>
+  <circle cx="95" cy="472" r="16" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="95" y="477" text-anchor="middle" fill="#e2e8f0" font-size="12">10</text>
+  <circle cx="135" cy="530" r="16" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="135" y="535" text-anchor="middle" fill="#e2e8f0" font-size="12">20</text>
+  <line x1="188" y1="454" x2="238" y2="454" stroke="#818cf8" stroke-width="2" marker-end="url(#avlArrow)"/>
+  <text x="213" y="442" text-anchor="middle" fill="#818cf8" font-size="11">双旋</text>
+  <line x1="340" y1="414" x2="295" y2="472" stroke="#6366f1" stroke-width="2"/>
+  <line x1="340" y1="414" x2="385" y2="472" stroke="#6366f1" stroke-width="2"/>
+  <circle cx="340" cy="414" r="16" fill="#22c55e" stroke="#4ade80" stroke-width="2"/>
+  <text x="340" y="419" text-anchor="middle" fill="#0f172a" font-size="12" font-weight="700">20</text>
+  <circle cx="295" cy="472" r="16" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="295" y="477" text-anchor="middle" fill="#e2e8f0" font-size="12">10</text>
+  <circle cx="385" cy="472" r="16" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="385" y="477" text-anchor="middle" fill="#e2e8f0" font-size="12">30</text>
+  <text x="230" y="584" text-anchor="middle" fill="#94a3b8" font-size="11">BF(30)=+2 且 BF(10)=-1 → 先对 10 左旋，再对 30 右旋</text>
+
+  <rect x="460" y="350" width="420" height="272" rx="10" fill="#0f172a" opacity="0.55" stroke="#334155"/>
+  <text x="670" y="374" text-anchor="middle" fill="#e2e8f0" font-size="14" font-weight="600">RL 型：右孩子的左子树过高 → 先右旋再左旋</text>
+  <text x="482" y="398" fill="#94a3b8" font-size="11">旋转前</text>
+  <text x="702" y="398" fill="#94a3b8" font-size="11">旋转后</text>
+  <line x1="580" y1="414" x2="625" y2="472" stroke="#6366f1" stroke-width="2"/>
+  <line x1="625" y1="472" x2="585" y2="530" stroke="#6366f1" stroke-width="2"/>
+  <circle cx="580" cy="414" r="16" fill="#f59e0b" stroke="#fbbf24" stroke-width="2"/>
+  <text x="580" y="419" text-anchor="middle" fill="#1e293b" font-size="12" font-weight="700">10</text>
+  <circle cx="625" cy="472" r="16" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="625" y="477" text-anchor="middle" fill="#e2e8f0" font-size="12">30</text>
+  <circle cx="585" cy="530" r="16" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="585" y="535" text-anchor="middle" fill="#e2e8f0" font-size="12">20</text>
+  <line x1="628" y1="454" x2="678" y2="454" stroke="#818cf8" stroke-width="2" marker-end="url(#avlArrow)"/>
+  <text x="653" y="442" text-anchor="middle" fill="#818cf8" font-size="11">双旋</text>
+  <line x1="780" y1="414" x2="735" y2="472" stroke="#6366f1" stroke-width="2"/>
+  <line x1="780" y1="414" x2="825" y2="472" stroke="#6366f1" stroke-width="2"/>
+  <circle cx="780" cy="414" r="16" fill="#22c55e" stroke="#4ade80" stroke-width="2"/>
+  <text x="780" y="419" text-anchor="middle" fill="#0f172a" font-size="12" font-weight="700">20</text>
+  <circle cx="735" cy="472" r="16" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="735" y="477" text-anchor="middle" fill="#e2e8f0" font-size="12">10</text>
+  <circle cx="825" cy="472" r="16" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="825" y="477" text-anchor="middle" fill="#e2e8f0" font-size="12">30</text>
+  <text x="670" y="584" text-anchor="middle" fill="#94a3b8" font-size="11">BF(10)=-2 且 BF(30)=+1 → 先对 30 右旋，再对 10 左旋</text>
+</svg></div></p>
+
+<h4>数学公式</h4>
+
+<p><strong>1. 平衡因子（Balance Factor）</strong></p>
+
+<p><div class="math-block">$$ \mathrm{BF}(v) = h(v.\text{left}) - h(v.\text{right}) $$</div></p>
+
+<ul>
+<li>$ \mathrm{BF}(v) $：结点 $ v $ 的平衡因子，有符号整数；</li>
+<li>$ h(\cdot) $：子树高度函数；</li>
+<li>$ v.\text{left} $、$ v.\text{right} $：结点 $ v $ 的左、右孩子（可能为空）。</li>
+</ul>
+
+<p>若采用"右减左"的定义，所有符号整体取反，旋转判断方向也随之镜像，但结论等价。</p>
+
+<p><strong>2. 高度的递归定义</strong></p>
+
+<p><div class="math-block">$$ h(v) = \begin{cases} -1, & v = \varnothing \\ 1 + \max\bigl(h(v.\text{left}),\, h(v.\text{right})\bigr), & v \ne \varnothing \end{cases} $$</div></p>
+
+<ul>
+<li>$ \varnothing $：空树；把空树高度定义为 $ -1 $，叶子结点高度自然为 $ 0 $；</li>
+<li>这样定义的好处是：叶子 $ h=0 $、单结点子树高度为 $ 0 $，与"边数"口径一致，旋转后高度更新公式最简洁。</li>
+</ul>
+
+<p><strong>3. AVL 平衡条件</strong></p>
+
+<p><div class="math-block">$$ \forall v \in T:\quad |\mathrm{BF}(v)| \le 1 \quad\Longleftrightarrow\quad \mathrm{BF}(v) \in \{-1,\,0,\,+1\} $$</div></p>
+
+<ul>
+<li>$ T $：整棵 AVL 树；</li>
+<li>$ \forall $：对树中每一个结点都成立，而不是只对根成立。</li>
+</ul>
+
+<p><strong>4. 高度为 $ h $ 的 AVL 树最少结点数</strong></p>
+
+<p><div class="math-block">$$ N(h) = N(h-1) + N(h-2) + 1,\qquad N(0)=1,\; N(1)=2 $$</div></p>
+
+<ul>
+<li>$ N(h) $：高度恰为 $ h $ 的 AVL 树所能容纳的最少结点数；</li>
+<li>构造思路：让左右子树高度分别为 $ h-1 $ 与 $ h-2 $（高度差恰为 1，刚好不违反平衡条件），再加 1 个根；</li>
+<li>$ N(0)=1 $（单结点），$ N(1)=2 $（根加一个孩子），这是递推的两个边界。</li>
+</ul>
+
+<p><strong>5. 最少结点数的斐波那契闭式</strong></p>
+
+<p><div class="math-block">$$ N(h) = F_{h+3} - 1,\qquad F_1 = F_2 = 1,\; F_k = F_{k-1} + F_{k-2} $$</div></p>
+
+<ul>
+<li>$ F_k $：第 $ k $ 个斐波那契数；</li>
+<li>代入验证：$ N(0)=F_3-1=2-1=1 $，$ N(1)=F_4-1=3-1=2 $，$ N(2)=F_5-1=5-1=4 $，与递推一致；</li>
+<li>由 Binet 公式 $ F_k=\dfrac{\varphi^k-\psi^k}{\sqrt5} $（$ \varphi=\frac{1+\sqrt5}{2}\approx1.618 $，$ \psi=\frac{1-\sqrt5}{2}\approx-0.618 $）可反解高度上界。</li>
+</ul>
+
+<p><strong>6. AVL 树高度上界</strong></p>
+
+<p><div class="math-block">$$ h \le \log_{\varphi}\frac{n+1}{\sqrt5} \approx 1.4405\,\log_2(n+2) - 0.3277 $$</div></p>
+
+<ul>
+<li>$ n $：结点总数；</li>
+<li>含义：$ n $ 个结点的 AVL 树，树高被严格限制在 $ 1.44\log_2 n $ 量级；</li>
+<li>对比红黑树的上界 $ 2\log_2(n+1) $，AVL 的最坏查找路径约短 28%，这正是"AVL 查询更快"的数学依据。</li>
+</ul>
+
+<p><strong>7. 旋转后子树高度复原</strong></p>
+
+<p><div class="math-block">$$ h_{\text{after}}(v) = h_{\text{before}}(v) $$</div></p>
+
+<ul>
+<li>对插入场景，单旋/双旋后，新子树根的高度与<strong>插入前</strong>该位置子树的高度相同；</li>
+<li>推论：插入路径上更上层的祖先平衡因子不变，因此一次插入最多只需一次（单或双）旋转，调整可以立即终止。</li>
+</ul>
+
+<h4>核心要点</h4>
+
+<ul>
+<li>AVL 树 = 二叉搜索树 + 每个结点维护高度 + 平衡因子绝对值不超过 1。</li>
+<li>判定失衡只需看"最低失衡祖先"：插入后 $ |\mathrm{BF}| $ 首次变成 2 的结点。</li>
+<li>四型失衡对应四种修法：LL→右单旋，RR→左单旋，LR→先左后右，RL→先右后左。</li>
+<li>旋转是"三根指针的改写 + 两个结点高度更新"，时间复杂度 $ O(1) $，且不改变中序序列。</li>
+<li>插入最多 1 次旋转；删除最坏 $ O(\log n) $ 次旋转，必须沿路径回溯。</li>
+<li>高度存"结点高度"比存"平衡因子"更易调试；存 BF 可省一个整数但删除时更难维护。</li>
+<li>删除双孩子结点时，用中序前驱或后继替换，再递归删除替身结点，转化为删除至多一个孩子的场景。</li>
+<li>与红黑树相比：AVL 更矮、查询更快、更新旋转更多；红黑树更新更稳、工程实现更常见。</li>
+</ul>
+
+<h4>技术细节与参数详解</h4>
+
+<p>AVL 树不是调库算法，它的"参数"体现为<strong>设计决策与实现约定</strong>。下面 12 个参数每一项都会直接影响正确性、性能或可维护性，逐项说明。</p>
+
+<h5>参数 1：平衡因子方向定义 <code class="inline-code">bf = h(left) - h(right)</code></h5>
+
+<ul>
+<li><strong>含义</strong>：规定平衡因子的正负号语义。取"左减右"时，正值代表左子树更高；取"右减左"时相反。</li>
+<li><strong>类型</strong>：有符号整数（实现上可用 <code class="inline-code">int8</code>）。</li>
+<li><strong>默认值</strong>：教材与主流实现默认"左减右"（Left minus Right）。</li>
+<li><strong>取值范围</strong>：平衡状态下为 $ \{-1,0,+1\} $，插入瞬间可能达到 $ \pm2 $。</li>
+<li><strong>对结果的影响</strong>：只影响判断分支的正负号；如果定义与旋转判断写反，会把 LL 当成 RR 修，导致越旋越歪，最终破坏 BST 有序性。</li>
+<li><strong>推荐设置</strong>：全项目统一"左减右"，并在代码注释中显式写明；旋转函数只负责指针改写，判定逻辑集中在 <code class="inline-code">rebalance()</code> 一处，避免散落。</li>
+</ul>
+
+<h5>参数 2：平衡阈值（容差）<code class="inline-code">balance_tolerance</code></h5>
+
+<ul>
+<li><strong>含义</strong>：允许的左右高度差上限，标准 AVL 取 1。</li>
+<li><strong>类型</strong>：整数常量。</li>
+<li><strong>默认值</strong>：<code class="inline-code">1</code>。</li>
+<li><strong>取值范围</strong>：理论上 $ \ge 0 $；取 0 会退化为"完全平衡"要求，插入代价剧增且很多规模无法满足；取 2 及以上不再是 AVL。</li>
+<li><strong>对结果的影响</strong>：阈值越大树越高、旋转越少；取 1 是"最坏树高 $ 1.44\log_2 n $"的保证来源；取 0 在结点数不是 $ 2^k-1 $ 时根本无法维持。</li>
+<li><strong>推荐设置</strong>：固定为 1，不要作为运行期参数暴露；若业务更看重写性能，应直接换红黑树或 B 树，而不是放宽 AVL 阈值。</li>
+</ul>
+
+<h5>参数 3：空树高度基准 <code class="inline-code">empty_height</code></h5>
+
+<ul>
+<li><strong>含义</strong>：空指针视为多高的子树。</li>
+<li><strong>类型</strong>：整数常量。</li>
+<li><strong>默认值</strong>：<code class="inline-code">-1</code>（边数口径）；另一种常见约定是 <code class="inline-code">0</code>（结点数口径）。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">-1</code> 或 <code class="inline-code">0</code>，二者不能混用。</li>
+<li><strong>对结果的影响</strong>：若用 <code class="inline-code">-1</code>，叶子高度为 0，<code class="inline-code">height = 1 + max(...)</code> 成立；若用 <code class="inline-code">0</code>，叶子高度为 1，公式要改成 <code class="inline-code">height = 1 + max(...)</code> 仍然成立，但平衡因子阈值与建树高度输出会整体相差 1，测试断言容易错。</li>
+<li><strong>推荐设置</strong>：统一用 <code class="inline-code">-1</code>。它让"叶子高度 = 0"和"单结点树高 = 0"自洽，也方便与图论中的"层数从 0 开始"对齐。</li>
+</ul>
+
+<h5>参数 4：结点元数据存储策略 <code class="inline-code">node_meta</code></h5>
+
+<ul>
+<li><strong>含义</strong>：每个结点额外存什么信息来支撑平衡维护，可选"只存高度""只存平衡因子""高度 + 父指针"。</li>
+<li><strong>类型</strong>：枚举/设计选择。</li>
+<li><strong>默认值</strong>：主流开源实现多为"只存高度"（<code class="inline-code">height</code> 字段）。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">HEIGHT</code> / <code class="inline-code">BALANCE_FACTOR</code> / <code class="inline-code">HEIGHT_AND_PARENT</code>。</li>
+<li><strong>对结果的影响</strong>：存高度：插入删除都容易写对，代价是每结点 4 字节；存平衡因子：省内存，但删除时需要根据"哪边变矮"推导 BF 变化，逻辑复杂、易错；带父指针：可迭代实现、便于求前驱后继，但每结点再多 8 字节且旋转时要维护父指针。</li>
+<li><strong>推荐设置</strong>：教学与业务代码用 <code class="inline-code">HEIGHT</code>；内存极度敏感且团队有把握时用 <code class="inline-code">BALANCE_FACTOR</code>；需要范围查询/迭代器且不想递归时用 <code class="inline-code">HEIGHT_AND_PARENT</code>。</li>
+</ul>
+
+<h5>参数 5：旋转类型判定规则 <code class="inline-code">rotation_policy</code></h5>
+
+<ul>
+<li><strong>含义</strong>：根据失衡结点与其较高孩子的平衡因子符号，选择单旋还是双旋。</li>
+<li><strong>类型</strong>：分支逻辑（4 种组合）。</li>
+<li><strong>默认值</strong>：<code class="inline-code">BF > 1 && BF(left) >= 0 → LL</code>；<code class="inline-code">BF > 1 && BF(left) < 0 → LR</code>；<code class="inline-code">BF < -1 && BF(right) <= 0 → RR</code>；<code class="inline-code">BF < -1 && BF(right) > 0 → RL</code>。</li>
+<li><strong>取值范围</strong>：上述 4 条规则全覆盖，注意 <code class="inline-code">>= 0</code> 与 <code class="inline-code"><= 0</code> 的等号归属。</li>
+<li><strong>对结果的影响</strong>：等号归属决定"孩子 BF 为 0"时走单旋还是双旋。删除场景中 <code class="inline-code">BF(child) == 0</code> 是合法且常见的，此时单旋即可恢复平衡；若误判为双旋，虽然多数情况下仍能得到合法 BST，但会多做一次旋转、改变树形并影响性能。</li>
+<li><strong>推荐设置</strong>：严格按上面的等号规则实现，并对"孩子 BF = 0"的删除场景补充单元测试。</li>
+</ul>
+
+<h5>参数 6：插入后的重平衡范围 <code class="inline-code">insert_rebalance_scope</code></h5>
+
+<ul>
+<li><strong>含义</strong>：插入回溯时，是"遇到第一个失衡结点调整后立即返回"，还是"一路回溯到根"。</li>
+<li><strong>类型</strong>：控制流策略。</li>
+<li><strong>默认值</strong>：遇到第一个失衡结点调整后即可返回（利用高度复原性质）。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">FIRST_UNBALANCED</code> / <code class="inline-code">ALL_THE_WAY_UP</code>。</li>
+<li><strong>对结果的影响</strong>：<code class="inline-code">FIRST_UNBALANCED</code> 均摊代价更低，是正确的 AVL 做法；<code class="inline-code">ALL_THE_WAY_UP</code> 结果同样正确，但会多走路、多做无用判断，常数变大。</li>
+<li><strong>推荐设置</strong>：<code class="inline-code">FIRST_UNBALANCED</code>。不过若实现采用"先递归到底、回溯时统一 <code class="inline-code">rebalance</code>"，即使不显式提前返回，只要 <code class="inline-code">rebalance</code> 对已平衡结点是空操作，复杂度仍为 $ O(\log n) $。</li>
+</ul>
+
+<h5>参数 7：删除时的替换策略 <code class="inline-code">deletion_replacement</code></h5>
+
+<ul>
+<li><strong>含义</strong>：删除有两个孩子的结点时，用中序前驱（左子树最大）还是中序后继（右子树最小）顶替。</li>
+<li><strong>类型</strong>：枚举。</li>
+<li><strong>默认值</strong>：主流实现默认"中序后继"。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">PREDECESSOR</code> / <code class="inline-code">SUCCESSOR</code>。</li>
+<li><strong>对结果的影响</strong>：两者都保持 BST 有序性；选后继会让删除偏向"消耗右子树高度"，长期随机操作下树形略有差异，但均摊复杂度不变。某些工程实现会交替使用两者以让树形更均衡。</li>
+<li><strong>推荐设置</strong>：固定用后继即可；若业务有明显"总是删除最小值"的模式，改用前驱可减少一侧的持续变矮。</li>
+</ul>
+
+<h5>参数 8：删除后的重平衡范围 <code class="inline-code">delete_rebalance_scope</code></h5>
+
+<ul>
+<li><strong>含义</strong>：删除导致子树变矮后，是否需要沿祖先链持续检查。</li>
+<li><strong>类型</strong>：控制流策略。</li>
+<li><strong>默认值</strong>：必须一路回溯到根（<code class="inline-code">ALL_THE_WAY_UP</code>）。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">ALL_THE_WAY_UP</code>（唯一正确选择）。</li>
+<li><strong>对结果的影响</strong>：删除可能让多个祖先依次失衡；若像插入那样"修一次就返回"，会留下 <code class="inline-code">BF = ±2</code> 的非法结点，后续查询仍可能正确，但树高保证失效，极端情况下退化为链表。</li>
+<li><strong>推荐设置</strong>：<code class="inline-code">ALL_THE_WAY_UP</code>，并在每次 <code class="inline-code">rebalance</code> 后更新高度再返回上一层。</li>
+</ul>
+
+<h5>参数 9：重复键策略 <code class="inline-code">duplicate_policy</code></h5>
+
+<ul>
+<li><strong>含义</strong>：插入已存在的 key 时如何处理。</li>
+<li><strong>类型</strong>：枚举。</li>
+<li><strong>默认值</strong>：覆盖旧值（Map 语义）。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">OVERWRITE</code> / <code class="inline-code">IGNORE</code> / <code class="inline-code">COUNT</code>（结点加计数器）/ <code class="inline-code">ALLOW</code>（右子树放等值）。</li>
+<li><strong>对结果的影响</strong>：<code class="inline-code">ALLOW</code> 会让等值结点堆积，平衡因子仍可维护，但查找需扫描等值段；<code class="inline-code">COUNT</code> 最适合"词频统计"类场景，删除时减计数直到 0 才真正删结点。</li>
+<li><strong>推荐设置</strong>：Map 场景用 <code class="inline-code">OVERWRITE</code>；统计场景用 <code class="inline-code">COUNT</code>；不要用 <code class="inline-code">ALLOW</code>，它会让"查找唯一值"退化为线性。</li>
+</ul>
+
+<h5>参数 10：实现方式 <code class="inline-code">implementation_style</code></h5>
+
+<ul>
+<li><strong>含义</strong>：递归实现还是迭代实现。</li>
+<li><strong>类型</strong>：枚举。</li>
+<li><strong>默认值</strong>：教学实现默认递归。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">RECURSIVE</code> / <code class="inline-code">ITERATIVE</code>。</li>
+<li><strong>对结果的影响</strong>：递归代码短、正确性易验证，但树高 $ O(\log n) $，递归深度安全；迭代实现需要显式栈或父指针，代码长但可避免函数调用开销，适合高频交易级场景。</li>
+<li><strong>推荐设置</strong>：业务代码优先递归（可读性优先）；对延迟极敏感且树规模巨大时改迭代 + 父指针，并用基准测试验证收益是否值得复杂度。</li>
+</ul>
+
+<h5>参数 11：比较函数 <code class="inline-code">comparator</code></h5>
+
+<ul>
+<li><strong>含义</strong>：决定 key 的序关系，必须满足严格弱序（反对称、传递、不可比传递）。</li>
+<li><strong>类型</strong>：函数对象/接口。</li>
+<li><strong>默认值</strong>：自然序（数值大小、字符串字典序）。</li>
+<li><strong>取值范围</strong>：任意满足严格弱序的比较器。</li>
+<li><strong>对结果的影响</strong>：比较器不满足严格弱序（例如浮点 NaN、大小写混排、时区未统一）会破坏 BST 不变式，表现为"查不到已插入的 key"或旋转后顺序错乱。</li>
+<li><strong>推荐设置</strong>：对浮点 key 先做归一化并处理 NaN；对字符串明确是否忽略大小写；把比较器作为模板参数而非运行期回调，便于内联优化。</li>
+</ul>
+
+<h5>参数 12：批量建树策略 <code class="inline-code">bulk_build</code></h5>
+
+<ul>
+<li><strong>含义</strong>：已有有序/无序数据时，是一次次插入，还是直接按中点递归建树。</li>
+<li><strong>类型</strong>：枚举。</li>
+<li><strong>默认值</strong>：逐个插入（$ O(n\log n) $）。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">INSERT_ONE_BY_ONE</code> / <code class="inline-code">BUILD_FROM_SORTED</code>（$ O(n) $）。</li>
+<li><strong>对结果的影响</strong>：对已排序数组取中点递归建树，可一次得到高度最小的 AVL 树，时间 $ O(n) $、空间 $ O(\log n) $（递归栈）；逐个插入虽然也是 $ O(n\log n) $，但会产生大量旋转与内存分配。</li>
+<li><strong>推荐设置</strong>：初始化静态数据集时用 <code class="inline-code">BUILD_FROM_SORTED</code>；在线增量场景才逐条插入。</li>
+</ul>
+
+<h4>代码示例</h4>
+
+<p>下面是一份<strong>完整可运行</strong>的 Python 实现，包含插入、删除、查找、校验与随机对拍测试。每一行都加了注释，重点看 <code class="inline-code">_rebalance()</code> 与 <code class="inline-code">delete()</code> 的回溯逻辑。</p>
+
+<p><pre class="code-block"><code class="language-python">from __future__ import annotations  # 启用 PEP 563，让类型注解延迟求值，避免前向引用问题
+from typing import Any, Optional  # 导入通用类型与 Optional，便于标注可空结点
+
+class AVLNode:  # 定义 AVL 结点
+    __slots__ = (&quot;key&quot;, &quot;value&quot;, &quot;left&quot;, &quot;right&quot;, &quot;height&quot;)  # 用 __slots__ 省内存并防止手滑加字段
+
+    def __init__(self, key: Any, value: Any = None) -&gt; None:  # 构造函数：key 为排序键，value 为卫星数据
+        self.key = key  # 存储排序键
+        self.value = value  # 存储与键关联的值
+        self.left: Optional[&quot;AVLNode&quot;] = None  # 左孩子初始为空
+        self.right: Optional[&quot;AVLNode&quot;] = None  # 右孩子初始为空
+        self.height = 0  # 叶子高度为 0（空树记为 -1）
+
+def height(node: Optional[AVLNode]) -&gt; int:  # 返回子树高度，空树返回 -1
+    return node.height if node is not None else -1  # 非空取缓存值，空树用哨兵值
+
+def update_height(node: AVLNode) -&gt; None:  # 依据两个孩子重算当前结点高度
+    node.height = 1 + max(height(node.left), height(node.right))  # 高度 = 1 + 较高的孩子高度
+
+def balance_factor(node: Optional[AVLNode]) -&gt; int:  # 计算平衡因子（左减右）
+    if node is None:  # 空树没有平衡因子
+        return 0  # 约定返回 0，方便上层统一处理
+    return height(node.left) - height(node.right)  # 左高减右高，正数表示左边更高
+
+def rotate_right(y: AVLNode) -&gt; AVLNode:  # 右单旋：把 y 的左孩子 x 提上来
+    x = y.left  # x 将成为新的子树根
+    assert x is not None  # 调用前必须保证左孩子存在，否则是逻辑错误
+    t2 = x.right  # 暂存 x 的右子树，它将被挂到 y 的左边
+    x.right = y  # x 的右孩子改为 y
+    y.left = t2  # y 的左孩子改为原来的 t2（满足 BST 区间关系）
+    update_height(y)  # 先更新下沉的 y 的高度
+    update_height(x)  # 再更新上升的 x 的高度（依赖 y 的新高度）
+    return x  # 返回新的子树根
+
+def rotate_left(x: AVLNode) -&gt; AVLNode:  # 左单旋：把 x 的右孩子 y 提上来
+    y = x.right  # y 将成为新的子树根
+    assert y is not None  # 调用前必须保证右孩子存在
+    t2 = y.left  # 暂存 y 的左子树，它将被挂到 x 的右边
+    y.left = x  # y 的左孩子改为 x
+    x.right = t2  # x 的右孩子改为原来的 t2（保持中序不变）
+    update_height(x)  # 先更新下沉的 x 的高度
+    update_height(y)  # 再更新上升的 y 的高度
+    return y  # 返回新的子树根
+
+def rebalance(node: AVLNode) -&gt; AVLNode:  # 对当前结点做一次平衡修复，返回新的子树根
+    update_height(node)  # 任何旋转前都先刷新高度，保证 BF 计算正确
+    bf = balance_factor(node)  # 读取当前平衡因子
+    if bf &gt; 1:  # 左边过高，属于 L 型
+        if balance_factor(node.left) &lt; 0:  # 左孩子的右子树更高 → LR 型
+            node.left = rotate_left(node.left)  # 先对左孩子左旋，把 LR 掰成 LL
+        return rotate_right(node)  # 再对当前结点右旋，完成修复
+    if bf &lt; -1:  # 右边过高，属于 R 型
+        if balance_factor(node.right) &gt; 0:  # 右孩子的左子树更高 → RL 型
+            node.right = rotate_right(node.right)  # 先对右孩子右旋，把 RL 掰成 RR
+        return rotate_left(node)  # 再对当前结点左旋，完成修复
+    return node  # 未失衡则原样返回
+
+def insert(root: Optional[AVLNode], key: Any, value: Any = None) -&gt; AVLNode:  # 插入并返回新的根
+    if root is None:  # 递归到空位，创建新结点
+        return AVLNode(key, value)  # 新结点高度为 0
+    if key &lt; root.key:  # 小于当前键，进入左子树
+        root.left = insert(root.left, key, value)  # 递归插入左子树并接回
+    elif key &gt; root.key:  # 大于当前键，进入右子树
+        root.right = insert(root.right, key, value)  # 递归插入右子树并接回
+    else:  # 键已存在，执行覆盖语义
+        root.value = value  # 更新卫星数据，不新增结点
+        return root  # 结构未变，直接返回
+    return rebalance(root)  # 回溯时修复可能出现的失衡
+
+def find_min(node: AVLNode) -&gt; AVLNode:  # 求子树最小结点（最左端）
+    current = node  # 从给定结点出发
+    while current.left is not None:  # 一路向左
+        current = current.left  # 移动到左孩子
+    return current  # 返回最左结点
+
+def delete(root: Optional[AVLNode], key: Any) -&gt; Optional[AVLNode]:  # 删除键并返回新的根
+    if root is None:  # 找不到目标键
+        raise KeyError(key)  # 显式抛错，避免静默失败
+    if key &lt; root.key:  # 目标在左子树
+        root.left = delete(root.left, key)  # 递归删除并接回
+    elif key &gt; root.key:  # 目标在右子树
+        root.right = delete(root.right, key)  # 递归删除并接回
+    else:  # 命中目标结点
+        if root.left is None:  # 只有右孩子或叶子
+            return root.right  # 直接用右孩子顶替（可能为 None）
+        if root.right is None:  # 只有左孩子
+            return root.left  # 直接用左孩子顶替
+        successor = find_min(root.right)  # 双子结点：取中序后继（右子树最小）
+        root.key, root.value = successor.key, successor.value  # 用后继的键值覆盖当前结点
+        root.right = delete(root.right, successor.key)  # 转而删除后继结点（它至多有一个孩子）
+    return rebalance(root)  # 回溯时逐层修复，删除可能需要多次旋转
+
+def contains(root: Optional[AVLNode], key: Any) -&gt; bool:  # 查找键是否存在
+    while root is not None:  # 迭代查找，避免递归开销
+        if key == root.key:  # 命中
+            return True  # 返回存在
+        root = root.left if key &lt; root.key else root.right  # 按 BST 性质选择分支
+    return False  # 走到空仍未命中
+
+def check_avl(node: Optional[AVLNode]) -&gt; int:  # 递归校验 AVL 性质，返回子树高度
+    if node is None:  # 空树高度为 -1
+        return -1  # 终止条件
+    left_h = check_avl(node.left)  # 递归校验左子树并取高度
+    right_h = check_avl(node.right)  # 递归校验右子树并取高度
+    assert node.height == 1 + max(left_h, right_h), &quot;高度字段不一致&quot;  # 校验缓存高度
+    assert abs(left_h - right_h) &lt;= 1, &quot;平衡因子越界&quot;  # 校验平衡条件
+    if node.left is not None:  # 若左孩子存在
+        assert node.left.key &lt; node.key, &quot;左子树键不满足 BST&quot;  # 校验左子树上界
+    if node.right is not None:  # 若右孩子存在
+        assert node.right.key &gt; node.key, &quot;右子树键不满足 BST&quot;  # 校验右子树下界
+    return node.height  # 返回本子树高度供上层使用
+
+def inorder(node: Optional[AVLNode]) -&gt; list:  # 中序遍历，用于确认有序性
+    if node is None:  # 空树返回空列表
+        return []  # 递归终止
+    return inorder(node.left) + [node.key] + inorder(node.right)  # 左-根-右
+
+if __name__ == &quot;__main__&quot;:  # 简单自测：随机插入删除并与有序列表对拍
+    import random  # 导入随机模块
+    random.seed(20261109)  # 固定随机种子，保证结果可复现
+    tree = None  # 初始为空树
+    reference = set()  # 用集合维护期望存在的键
+    for _ in range(2000):  # 做 2000 轮随机操作
+        key = random.randint(0, 500)  # 随机生成键
+        if random.random() &lt; 0.65:  # 65% 概率插入
+            tree = insert(tree, key, key * 10)  # 插入键值
+            reference.add(key)  # 同步期望集合
+        else:  # 35% 概率删除
+            if key in reference:  # 只删除确实存在的键
+                tree = delete(tree, key)  # 从 AVL 中删除
+                reference.remove(key)  # 同步移除
+        check_avl(tree)  # 每轮都校验结构与平衡
+    assert inorder(tree) == sorted(reference), &quot;中序序列与期望不一致&quot;  # 最终对拍
+    print(&quot;AVL 随机对拍通过，最终结点数:&quot;, len(reference))  # 输出成功信息</code></pre></p>
+
+<h4>复杂度分析</h4>
+
+<p><strong>查找</strong>：从根走到叶子，每层做一次比较，路径长度不超过树高 $ h $。由高度上界 $ h \le 1.4405\log_2(n+2)-0.3277 $，最坏比较次数为 $ O(\log n) $。空间上只用几个游标，额外空间 $ O(1) $。</p>
+
+<p><strong>插入</strong>：先沿路径下降找到插入位置，代价 $ O(h)=O(\log n) $；回溯时每层做一次高度更新与 BF 判断（$ O(1) $），但<strong>只有第一个失衡结点</strong>会真正旋转，单旋改 3 根指针、双旋改 6 根指针，均为 $ O(1) $。因此总时间 $ T_{\text{insert}}(n)=O(\log n)+O(1)=O(\log n) $，旋转次数上界为 1（双旋算两次基本旋转）。</p>
+
+<p><strong>删除</strong>：下降 $ O(\log n) $；回溯时每个祖先都可能失衡并触发旋转，最坏沿路径每层一次，单次旋转 $ O(1) $，故 $ T_{\text{delete}}(n)=O(\log n)+O(\log n)\cdot O(1)=O(\log n) $，旋转次数上界 $ O(\log n) $。</p>
+
+<p><strong>建树</strong>：逐个插入 $ O(n\log n) $；对有序数组取中点递归建树 $ T(n)=2T(n/2)+O(1)=O(n) $。</p>
+
+<p><strong>空间</strong>：每个结点存 key、value、两个指针、一个高度，共 $ O(1) $ 额外空间，总计 $ O(n) $；递归实现的栈深度等于树高 $ O(\log n) $。</p>
+
+<p><strong>与红黑树对比</strong>：</p>
+
+<div class="table-wrapper"><table class="algo-table"><thead><tr><th>维度</th><th>AVL 树</th><th>红黑树</th></tr></thead><tbody><tr><td>平衡强度</td><td>严格，$ \lvert BF\rvert\le1 $</td><td>宽松，黑高平衡</td></tr><tr><td>树高上界</td><td>$ \approx1.44\log_2 n $</td><td>$ \approx2\log_2(n+1) $</td></tr><tr><td>查找</td><td>更快（路径更短）</td><td>稍慢</td></tr><tr><td>插入旋转</td><td>至多 1 次（单/双）</td><td>至多 2 次</td></tr><tr><td>删除旋转</td><td>最坏 $ O(\log n) $ 次</td><td>至多 3 次</td></tr><tr><td>每结点额外信息</td><td>高度（4 字节）</td><td>颜色（1 比特）</td></tr><tr><td>典型用途</td><td>读多写少、内存索引</td><td>通用有序容器（map/set）</td></tr></tbody></table></div>
+
+<h4>应用场景</h4>
+
+<ul>
+<li><strong>内存索引与查找表</strong>：配置中心、路由表、白名单等"读多写少"场景，AVL 更矮的树形能减少 cache miss。</li>
+<li><strong>数据库与存储引擎的内存索引</strong>：在数据量可完全放入内存、且以点查为主时，AVL 的确定性 $ O(\log n) $ 很有价值；磁盘场景则应选 B+ 树。</li>
+<li><strong>区间树 / 线段树的平衡基座</strong>：以区间左端点为 key 建 AVL，再在结点上维护子树最大右端点，可做 $ O(\log n) $ 的区间重叠查询。</li>
+<li><strong>编译器与解释器符号表</strong>：作用域内符号按名字有序存放，需要稳定有序遍历与快速查找。</li>
+<li><strong>实时系统</strong>：要求"最坏情况"而非"均摊"性能的场景，AVL 的严格高度上界比伸展树更可预测。</li>
+<li><strong>教学与面试</strong>：AVL 是理解"平衡因子、旋转、回溯修复"的最佳载体，红黑树、Treap、Splay 都建立在这些概念之上。</li>
+</ul>
+
+<h4>参考文档</h4>
+
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/AVL_tree" target="_blank" class="ref-link">AVL tree — Wikipedia</a></li>
+<li><a href="https://www.cs.usfca.edu/~galles/visualization/AVLtree.html" target="_blank" class="ref-link">AVL Tree Visualization — University of San Francisco</a></li>
+<li><a href="https://www.geeksforgeeks.org/introduction-to-avl-tree/" target="_blank" class="ref-link">AVL Tree Data Structure — GeeksforGeeks</a></li>
+<li><a href="https://baike.baidu.com/item/AVL%E6%A0%91/10986648" target="_blank" class="ref-link">平衡二叉树（AVL 树）— 百度百科</a></li>
+<li>《算法导论（原书第 3 版）》第 13 章"红黑树"，机械工业出版社</li>
+<li>《数据结构与算法分析：C 语言描述》第 4 章"树"，Mark Allen Weiss</li>
+</ul>
+
+<hr>
+
+<blockquote>
+<p>AI生成</p>
+</blockquote>
+
+<h3>UMAP 降维</h3>
+
+<p><strong>类别</strong>：降维 | <strong>难度</strong>：中等</p>
+
+<h4>算法简介</h4>
+
+<p>UMAP（Uniform Manifold Approximation and Projection，均匀流形近似与投影）由 Leland McInnes、John Healy 与 James Melville 于 2018 年提出，是当前最主流的非线性降维与可视化算法之一。它的理论根基不是"保持两两距离"，而是<strong>拓扑学</strong>：假设高维数据采样自一个局部近似平坦的黎曼流形，且采样在流形上近似均匀分布；于是可以用"局部度量张量 + 模糊单纯集"把流形结构编码成一张加权图，再在低维空间中寻找一张尽量同构的图。</p>
+
+<p>UMAP 的流程可以概括为四步：① 用近似最近邻算法（NN-Descent）为每个点找 $ k $ 个邻居；② 为每个点拟合一个局部距离尺度 $ \sigma_i $，把"到邻居的距离"转换成 0 到 1 之间的隶属强度，得到局部模糊单纯集；③ 用模糊并集把所有局部结构粘成一张全局模糊图；④ 在低维空间构造参数化的相似度 $ q_{ij}=1/(1+a\|y_i-y_j\|^{2b}) $，通过最小化两张图之间的交叉熵来优化坐标，并用负采样加速。</p>
+
+<p>与 t-SNE 相比，UMAP 有三个显著差异：第一，它同时强调<strong>局部</strong>与<strong>全局</strong>结构，簇与簇之间的相对位置通常比 t-SNE 更有意义（但仍不能当作精确距离解读）；第二，它支持 <code class="inline-code">transform()</code> 把新样本投影到已有嵌入，也支持监督/半监督降维；第三，借助 NN-Descent 与负采样，它在百万级样本上仍能保持可接受的运行时间，而 t-SNE 的 $ O(n^2) $ 精确版本几乎不可行。</p>
+
+<p>需要特别提醒：UMAP 图是<strong>可视化工具</strong>，不是严格的低维距离表示。簇的大小、簇间距离、密度都不具备定量可比性；<code class="inline-code">n_neighbors</code> 越小越碎、越大越整体，<code class="inline-code">min_dist</code> 越小越挤、越大越舒展。任何"从 UMAP 图上量距离"的结论都应回到原始空间验证。</p>
+
+<h4>原理示意图</h4>
+
+<p>下面这张流程图给出 UMAP 的四步主干：高维点云 → 近似 kNN 图 → 局部模糊单纯集 → 全局模糊并集 → 低维初始化 → 交叉熵优化。底部两个公式分别控制"高维权重"与"低维相似度"，是全部调参的物理落点。</p>
+
+<p><div class="algo-image"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 900 380" font-family="system-ui, sans-serif">
+  <defs>
+    <marker id="umapArrow" markerWidth="10" markerHeight="8" refX="8" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#818cf8"/>
+    </marker>
+  </defs>
+  <rect width="900" height="380" fill="#1e293b" rx="12"/>
+  <text x="450" y="30" text-anchor="middle" fill="#818cf8" font-size="17" font-weight="700">UMAP 算法流程：从高维流形到低维嵌入</text>
+  <text x="450" y="52" text-anchor="middle" fill="#94a3b8" font-size="12">核心思想：用模糊单纯集近似流形的拓扑结构，再让低维图尽量"同构"于它</text>
+
+  <rect x="28" y="96" width="128" height="86" rx="8" fill="#334155" stroke="#6366f1"/>
+  <text x="92" y="126" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="600">高维数据 X</text>
+  <text x="92" y="148" text-anchor="middle" fill="#94a3b8" font-size="11">n 个样本 × d 维</text>
+  <text x="92" y="166" text-anchor="middle" fill="#94a3b8" font-size="11">（先做标准化/PCA）</text>
+
+  <rect x="182" y="96" width="128" height="86" rx="8" fill="#334155" stroke="#6366f1"/>
+  <text x="246" y="126" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="600">近似 kNN 图</text>
+  <text x="246" y="148" text-anchor="middle" fill="#94a3b8" font-size="11">NN-Descent</text>
+  <text x="246" y="166" text-anchor="middle" fill="#94a3b8" font-size="11">每点取 k 个邻居</text>
+
+  <rect x="336" y="96" width="128" height="86" rx="8" fill="#334155" stroke="#6366f1"/>
+  <text x="400" y="126" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="600">局部模糊集</text>
+  <text x="400" y="148" text-anchor="middle" fill="#94a3b8" font-size="11">拟合 rho 与 sigma</text>
+  <text x="400" y="166" text-anchor="middle" fill="#94a3b8" font-size="11">得到隶属强度 w</text>
+
+  <rect x="490" y="96" width="128" height="86" rx="8" fill="#334155" stroke="#6366f1"/>
+  <text x="554" y="126" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="600">全局模糊图</text>
+  <text x="554" y="148" text-anchor="middle" fill="#94a3b8" font-size="11">模糊并集 / 交集</text>
+  <text x="554" y="166" text-anchor="middle" fill="#94a3b8" font-size="11">对称化 w_ij</text>
+
+  <rect x="644" y="96" width="128" height="86" rx="8" fill="#334155" stroke="#6366f1"/>
+  <text x="708" y="126" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="600">低维初始化</text>
+  <text x="708" y="148" text-anchor="middle" fill="#94a3b8" font-size="11">谱嵌入 / PCA</text>
+  <text x="708" y="166" text-anchor="middle" fill="#94a3b8" font-size="11">得到初始 Y</text>
+
+  <rect x="798" y="96" width="74" height="86" rx="8" fill="#1e3a5f" stroke="#22c55e"/>
+  <text x="835" y="126" text-anchor="middle" fill="#86efac" font-size="12" font-weight="600">2D 嵌入</text>
+  <text x="835" y="148" text-anchor="middle" fill="#94a3b8" font-size="11">交叉熵</text>
+  <text x="835" y="166" text-anchor="middle" fill="#94a3b8" font-size="11">负采样优化</text>
+
+  <line x1="156" y1="139" x2="180" y2="139" stroke="#818cf8" stroke-width="2" marker-end="url(#umapArrow)"/>
+  <line x1="310" y1="139" x2="334" y2="139" stroke="#818cf8" stroke-width="2" marker-end="url(#umapArrow)"/>
+  <line x1="464" y1="139" x2="488" y2="139" stroke="#818cf8" stroke-width="2" marker-end="url(#umapArrow)"/>
+  <line x1="618" y1="139" x2="642" y2="139" stroke="#818cf8" stroke-width="2" marker-end="url(#umapArrow)"/>
+  <line x1="772" y1="139" x2="796" y2="139" stroke="#818cf8" stroke-width="2" marker-end="url(#umapArrow)"/>
+
+  <rect x="60" y="222" width="360" height="92" rx="10" fill="#0f172a" stroke="#334155"/>
+  <text x="240" y="248" text-anchor="middle" fill="#fbbf24" font-size="12" font-weight="600">高维隶属强度（局部度量）</text>
+  <text x="240" y="278" text-anchor="middle" fill="#e2e8f0" font-size="13">w(j|i) = exp( -max(0, d(xi,xj) - rho_i) / sigma_i )</text>
+  <text x="240" y="300" text-anchor="middle" fill="#94a3b8" font-size="11">sigma_i 由 sum_j w(j|i) = log2(k) 二分求得；rho_i 为最近邻距离</text>
+
+  <rect x="480" y="222" width="370" height="92" rx="10" fill="#0f172a" stroke="#334155"/>
+  <text x="665" y="248" text-anchor="middle" fill="#fbbf24" font-size="12" font-weight="600">低维相似度（可微曲线）</text>
+  <text x="665" y="278" text-anchor="middle" fill="#e2e8f0" font-size="14">q_ij = 1 / (1 + a * ||y_i - y_j||^(2b))</text>
+  <text x="665" y="300" text-anchor="middle" fill="#94a3b8" font-size="11">a、b 由 min_dist 与 spread 拟合；交叉熵对齐 w 与 q</text>
+
+  <text x="450" y="352" text-anchor="middle" fill="#94a3b8" font-size="12">调参直觉：n_neighbors 控制"看多远"，min_dist / spread 控制"挤多紧"</text>
+</svg></div></p>
+
+<p>官方参数实验图可以更直观地看到两个核心参数的作用。下图固定 <code class="inline-code">n_neighbors=20</code>、<code class="inline-code">min_dist=0.1</code>，展示较宽邻域下整体结构被保留的效果：</p>
+
+<p><div class="algo-image"><img src="https://umap-learn.readthedocs.io/en/latest/_images/parameters_13_4.png" alt="n_neighbors = 20 时的 UMAP 嵌入（官方参数实验）"><div class="image-caption">n_neighbors = 20 时的 UMAP 嵌入（官方参数实验）</div></div></p>
+
+<p>下图固定 <code class="inline-code">n_neighbors=15</code>、只把 <code class="inline-code">min_dist</code> 调到 <code class="inline-code">0.25</code>，可以看到点被"推开"、簇内更舒展、簇间留白更明显：</p>
+
+<p><div class="algo-image"><img src="https://umap-learn.readthedocs.io/en/latest/_images/parameters_16_3.png" alt="min_dist = 0.25 时的 UMAP 嵌入（官方参数实验）"><div class="image-caption">min_dist = 0.25 时的 UMAP 嵌入（官方参数实验）</div></div></p>
+
+<h4>数学公式</h4>
+
+<p><strong>1. 高维空间的距离</strong></p>
+
+<p><div class="math-block">$$ d(x_i, x_j) = \bigl\|x_i - x_j\bigr\|_p = \left(\sum_{l=1}^{d}\bigl|x_{i,l}-x_{j,l}\bigr|^p\right)^{1/p} $$</div></p>
+
+<ul>
+<li>$ x_i, x_j \in \mathbb{R}^d $：两个高维样本；</li>
+<li>$ d $：原始特征维数；</li>
+<li>$ p $：Minkowski 距离的阶数，$ p=2 $ 为欧氏距离，$ p=1 $ 为曼哈顿距离；</li>
+<li>UMAP 默认 <code class="inline-code">metric='euclidean'</code>，即 $ p=2 $；文本嵌入通常改用余弦距离。</li>
+</ul>
+
+<p><strong>2. 局部连通距离 $ \rho_i $</strong></p>
+
+<p><div class="math-block">$$ \rho_i = \min_{j \in \mathcal{N}_i} d(x_i, x_j) $$</div></p>
+
+<ul>
+<li>$ \mathcal{N}_i $：点 $ i $ 的 $ k $ 个最近邻集合，$ k $ 即 <code class="inline-code">n_neighbors</code>；</li>
+<li>$ \rho_i $：点 $ i $ 到最近邻的距离，作用是"把最近邻的隶属强度钉在 1"，保证每个点至少有一条强连接；</li>
+<li>当 <code class="inline-code">local_connectivity > 1</code> 时，$ \rho_i $ 取第 $ \lceil l \rceil $ 近邻的距离并按小数部分插值。</li>
+</ul>
+
+<p><strong>3. 局部尺度 $ \sigma_i $ 的校准方程</strong></p>
+
+<p><div class="math-block">$$ \sum_{j \in \mathcal{N}_i} \exp\!\left(-\frac{\max(0,\, d(x_i,x_j)-\rho_i)}{\sigma_i}\right) = \log_2 k $$</div></p>
+
+<ul>
+<li>$ \sigma_i $：点 $ i $ 的局部带宽，控制隶属强度随距离衰减的快慢；</li>
+<li>$ \log_2 k $：目标"有效邻居数"，由 <code class="inline-code">n_neighbors</code> 决定；</li>
+<li>该方程没有闭式解，UMAP 用二分搜索求 $ \sigma_i $：$ \sigma_i $ 越大，左边越大；越小，左边越接近 0；</li>
+<li>这一步实现了"每个点的邻域被自适应地归一化"，使稠密区与稀疏区都能得到合理的局部图。</li>
+</ul>
+
+<p><strong>4. 有向隶属强度</strong></p>
+
+<p><div class="math-block">$$ w_{j|i} = \exp\!\left(-\frac{\max(0,\, d(x_i,x_j)-\rho_i)}{\sigma_i}\right) $$</div></p>
+
+<ul>
+<li>$ w_{j|i} $：从 $ i $ 的角度看，$ j $ 属于 $ i $ 的局部邻域的强度，取值 $ (0,1] $；</li>
+<li>距离不超过 $ \rho_i $ 时指数为 0，强度恰为 1；</li>
+<li>距离越远强度越小，超过若干倍 $ \sigma_i $ 后迅速趋近 0（指数衰减）。</li>
+</ul>
+
+<p><strong>5. 全局模糊图的对称化（模糊并集）</strong></p>
+
+<p><div class="math-block">$$ w_{ij} = w_{j|i} + w_{i|j} - w_{j|i}\,w_{i|j} $$</div></p>
+
+<ul>
+<li>$ w_{ij} $：无向边 $ (i,j) $ 的最终权重；</li>
+<li>该式是模糊集合并集在乘积 t-范数下的标准形式，等价于 $ 1-(1-w_{j|i})(1-w_{i|j}) $；</li>
+<li>只要任一方向连接很强，并集权重就很强，避免有向图造成"单向可达"的碎片；</li>
+<li>若 <code class="inline-code">set_op_mix_ratio = ρ</code>，则最终权重为 $ \rho\cdot\text{union} + (1-\rho)\cdot\text{intersection} $，其中交集为 $ w_{j|i}\cdot w_{i|j} $。</li>
+</ul>
+
+<p><strong>6. 低维相似度</strong></p>
+
+<p><div class="math-block">$$ q_{ij} = \frac{1}{1 + a\,\lVert y_i - y_j\rVert^{2b}} $$</div></p>
+
+<ul>
+<li>$ y_i \in \mathbb{R}^{m} $：低维嵌入坐标，$ m $ 即 <code class="inline-code">n_components</code>；</li>
+<li>$ a>0 $：控制曲线在原点附近的"平台宽度"，$ a $ 越大，近距离点之间的相似度衰减越快；</li>
+<li>$ b>0 $：控制尾部厚度，$ b $ 越大，远距离点的相似度衰减越陡；</li>
+<li>$ a,b $ 不是人工指定，而是由 <code class="inline-code">min_dist</code> 与 <code class="inline-code">spread</code> 拟合得到：令目标曲线在 $ d<\text{min\_dist} $ 时取 1，在 $ d\ge\text{min\_dist} $ 时取 $ \exp(-(d-\text{min\_dist})/\text{spread}) $，再用最小二乘拟合 $ (a,b) $。</li>
+</ul>
+
+<p><strong>7. 交叉熵目标函数</strong></p>
+
+<p><div class="math-block">$$ CE = \sum_{i\ne j}\left[\, w_{ij}\log\frac{w_{ij}}{q_{ij}} + (1-w_{ij})\log\frac{1-w_{ij}}{1-q_{ij}} \,\right] $$</div></p>
+
+<ul>
+<li>第一项是"吸引项"：高维中相连的边（$ w_{ij} $ 大），在低维中也应靠近（$ q_{ij} $ 大）；</li>
+<li>第二项是"排斥项"：高维中不相连的边（$ w_{ij}\to0 $），在低维中也应远离（$ q_{ij}\to0 $）；</li>
+<li>交叉熵对 $ q_{ij} $ 的梯度可解析求出，UMAP 用负采样近似第二项：每条正边采样 <code class="inline-code">negative_sample_rate</code> 条负边，把 $ O(n^2) $ 的求和降为 $ O(nk\cdot r) $。</li>
+</ul>
+
+<p><strong>8. 负采样下的随机梯度（吸引项示例）</strong></p>
+
+<p><div class="math-block">$$ \frac{\partial CE}{\partial y_i}\bigg|_{\text{attract}} = -\frac{2ab\,\lVert y_i-y_j\rVert^{2b-2}}{1+a\lVert y_i-y_j\rVert^{2b}}\;w_{ij}\,(y_i-y_j) $$</div></p>
+
+<ul>
+<li>该梯度把相连的点沿连线方向拉近；</li>
+<li>分母 $ 1+a\lVert y_i-y_j\rVert^{2b} $ 让距离很近时梯度自动变小，避免数值爆炸；</li>
+<li>排斥项梯度形式类似但方向相反，并乘以 $ (1-w_{ij}) $ 与 <code class="inline-code">repulsion_strength</code>。</li>
+</ul>
+
+<h4>核心要点</h4>
+
+<ul>
+<li>UMAP 保的是<strong>拓扑结构</strong>（谁和谁相连），不是精确距离；簇间距离只有定性意义。</li>
+<li><code class="inline-code">n_neighbors</code> 是"局部/全局"的总开关：小则碎片化、大则整体化。</li>
+<li><code class="inline-code">min_dist</code> 与 <code class="inline-code">spread</code> 共同决定低维曲线的形状：小 <code class="inline-code">min_dist</code> 适合聚类，大 <code class="inline-code">min_dist</code> 适合看全局。</li>
+<li><code class="inline-code">metric</code> 必须与数据语义匹配：文本嵌入用 <code class="inline-code">cosine</code>，归一化数值用 <code class="inline-code">euclidean</code>，概率分布可用 <code class="inline-code">hellinger</code>。</li>
+<li>高维特征必须先标准化（或 L2 归一化），否则量纲大的特征会主导距离。</li>
+<li><code class="inline-code">fit_transform</code> 得到训练集嵌入；<code class="inline-code">transform</code> 用已训练的图给新样本定位，两者不是同一件事。</li>
+<li>固定 <code class="inline-code">random_state</code> 只能保证同一版本、同一参数下可复现；不同版本默认管线可能变化。</li>
+<li>评估降维质量不能只看图：用 <code class="inline-code">trustworthiness</code>、最近邻保持率、下游任务指标做定量校验。</li>
+<li>UMAP 不是聚类算法；要聚类应把嵌入降到 5~50 维后再跑 HDBSCAN/K-Means。</li>
+<li>大数据先用 PCA 降到 50 维左右再喂 UMAP，既降噪又显著加速，是工业界的常规做法。</li>
+</ul>
+
+<h4>技术细节与参数详解</h4>
+
+<p>以下参数全部对应 <code class="inline-code">umap.UMAP(...)</code> 构造函数（umap-learn 0.5.x / 0.6.x）。默认值以官方 API 文档为准；不同版本可能有细微差异，升级后应以 <code class="inline-code">UMAP().get_params()</code> 实际输出为准。</p>
+
+<h5>参数 1：<code class="inline-code">n_neighbors</code></h5>
+
+<ul>
+<li><strong>含义</strong>：构造 kNN 图时每个点考察的邻居数量，决定 UMAP "看多远"。</li>
+<li><strong>类型</strong>：<code class="inline-code">float</code>（实际按整数使用，官方类型标注为 float）。</li>
+<li><strong>默认值</strong>：<code class="inline-code">15</code>。</li>
+<li><strong>取值范围</strong>：官方建议 <code class="inline-code">2 ~ 100</code>；理论上不超过样本数减 1。</li>
+<li><strong>对结果的影响</strong>：值小 → 只关注极局部结构，图容易碎成许多小簇甚至孤点，全局形状丢失；值大 → 强调整体结构，簇边界变模糊，细粒度子群被合并。</li>
+<li><strong>推荐设置</strong>：通用可视化 <code class="inline-code">15</code>；想看清局部子结构 <code class="inline-code">5 ~ 10</code>；想看整体骨架 <code class="inline-code">50 ~ 100</code>；文本/单细胞常用 <code class="inline-code">10 ~ 30</code>；样本少于 1k 时降到 <code class="inline-code">5 ~ 10</code>。</li>
+</ul>
+
+<h5>参数 2：<code class="inline-code">n_components</code></h5>
+
+<ul>
+<li><strong>含义</strong>：嵌入空间的维数，即降维后的目标维度。</li>
+<li><strong>类型</strong>：<code class="inline-code">int</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">2</code>（便于可视化）。</li>
+<li><strong>取值范围</strong>：官方建议 <code class="inline-code">2 ~ 100</code>；一维也可用 <code class="inline-code">1</code>，但主要用于特殊展示。</li>
+<li><strong>对结果的影响</strong>：维度越高，低维空间越"宽松"，拓扑结构越容易保持，但无法直接画图；维度太低会强行把不可展平的结构压扁，产生"人为撕裂"。</li>
+<li><strong>推荐设置</strong>：可视化用 <code class="inline-code">2</code> 或 <code class="inline-code">3</code>；作为下游聚类/分类特征时用 <code class="inline-code">5 ~ 50</code>（常见 <code class="inline-code">10</code>、<code class="inline-code">20</code>、<code class="inline-code">50</code>）；不要用 UMAP 降到 2 维再算距离做业务决策。</li>
+</ul>
+
+<h5>参数 3：<code class="inline-code">metric</code></h5>
+
+<ul>
+<li><strong>含义</strong>：高维空间中衡量样本距离的度量方式。</li>
+<li><strong>类型</strong>：<code class="inline-code">str</code> 或可被 numba 编译的函数。</li>
+<li><strong>默认值</strong>：<code class="inline-code">'euclidean'</code>。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">euclidean</code>、<code class="inline-code">manhattan</code>、<code class="inline-code">chebyshev</code>、<code class="inline-code">minkowski</code>、<code class="inline-code">canberra</code>、<code class="inline-code">braycurtis</code>、<code class="inline-code">haversine</code>、<code class="inline-code">mahalanobis</code>、<code class="inline-code">seuclidean</code>、<code class="inline-code">cosine</code>、<code class="inline-code">correlation</code>、<code class="inline-code">hamming</code>、<code class="inline-code">jaccard</code>、<code class="inline-code">dice</code>、<code class="inline-code">russellrao</code>、<code class="inline-code">kulsinski</code>、<code class="inline-code">rogerstanimoto</code>、<code class="inline-code">sokalmichener</code>、<code class="inline-code">sokalsneath</code>、<code class="inline-code">yule</code>、<code class="inline-code">hellinger</code>、<code class="inline-code">ll_dirichlet</code>、<code class="inline-code">precomputed</code> 等。</li>
+<li><strong>对结果的影响</strong>：度量选错会让"相似"的定义整体偏移。例如文本 embedding 用欧氏距离会被向量模长主导，改用余弦距离才能反映语义方向；二进制特征用欧氏距离不如 Jaccard/Hamming 合理。</li>
+<li><strong>推荐设置</strong>：文本/句向量 <code class="inline-code">cosine</code>；已 L2 归一化的向量 <code class="inline-code">euclidean</code> 与 <code class="inline-code">cosine</code> 等价；稀疏计数 <code class="inline-code">jaccard</code> 或 <code class="inline-code">hellinger</code>；已有距离矩阵用 <code class="inline-code">precomputed</code>。</li>
+</ul>
+
+<h5>参数 4：<code class="inline-code">metric_kwds</code></h5>
+
+<ul>
+<li><strong>含义</strong>：传给 <code class="inline-code">metric</code> 的额外关键字参数。</li>
+<li><strong>类型</strong>：<code class="inline-code">dict</code> 或 <code class="inline-code">None</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">None</code>。</li>
+<li><strong>取值范围</strong>：取决于所选 metric，例如 Minkowski 的 <code class="inline-code">{'p': 3}</code>、Mahalanobis 的 <code class="inline-code">{'V': 协方差逆矩阵}</code>。</li>
+<li><strong>对结果的影响</strong>：不传则使用该度量的默认参数；传错键名会在编译期或运行期报错；参数顺序在旧版本中要求与内部签名一致。</li>
+<li><strong>推荐设置</strong>：只在确实需要非默认度量参数时使用；优先选无需额外参数的度量，减少版本兼容风险。</li>
+</ul>
+
+<h5>参数 5：<code class="inline-code">n_epochs</code></h5>
+
+<ul>
+<li><strong>含义</strong>：低维布局优化的迭代轮数。</li>
+<li><strong>类型</strong>：<code class="inline-code">int</code> 或 <code class="inline-code">None</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">None</code>，表示按样本量自动选择——小数据集 <code class="inline-code">500</code>，大数据集 <code class="inline-code">200</code>（官方文档口径）。</li>
+<li><strong>取值范围</strong>：常用 <code class="inline-code">100 ~ 1000</code>；过小欠拟合，过大收益递减且耗时线性增长。</li>
+<li><strong>对结果的影响</strong>：轮数不足时点云"没展开"，簇可能重叠；轮数足够后继续增加只会微调，不会改变拓扑结论。</li>
+<li><strong>推荐设置</strong>：样本少于 1 万用 <code class="inline-code">500</code>；十万级以上用 <code class="inline-code">200</code>；做最终出版级图可试 <code class="inline-code">1000</code> 并对比 <code class="inline-code">trustworthiness</code> 是否真的提升。</li>
+</ul>
+
+<h5>参数 6：<code class="inline-code">learning_rate</code></h5>
+
+<ul>
+<li><strong>含义</strong>：布局优化的初始学习率，控制每步坐标更新的幅度。</li>
+<li><strong>类型</strong>：<code class="inline-code">float</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">1.0</code>。</li>
+<li><strong>取值范围</strong>：常用 <code class="inline-code">0.1 ~ 4.0</code>；极端值会导致不收敛或数值溢出。</li>
+<li><strong>对结果的影响</strong>：过大 → 点被"甩飞"，出现放射状长条或 <code class="inline-code">NaN</code>；过小 → 收敛慢，<code class="inline-code">n_epochs</code> 内无法充分展开。</li>
+<li><strong>推荐设置</strong>：保持 <code class="inline-code">1.0</code>；若发现嵌入明显异常且排除了数据问题，可降到 <code class="inline-code">0.5</code> 或升到 <code class="inline-code">2.0</code> 做对照实验。</li>
+</ul>
+
+<h5>参数 7：<code class="inline-code">init</code></h5>
+
+<ul>
+<li><strong>含义</strong>：低维坐标的初始化方式。</li>
+<li><strong>类型</strong>：<code class="inline-code">str</code> 或 <code class="inline-code">np.ndarray</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">'auto'</code>。当前版本在兼容管线（<code class="inline-code">compatibility_layout=True</code>）下等价于 <code class="inline-code">'spectral'</code>，在新管线下等价于 <code class="inline-code">'recursive'</code>。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">'auto'</code>、<code class="inline-code">'spectral'</code>、<code class="inline-code">'tswspectral'</code>、<code class="inline-code">'pca'</code>、<code class="inline-code">'random'</code>、<code class="inline-code">'recursive'</code>，或形状为 <code class="inline-code">(n_samples, n_components)</code> 的数组。</li>
+<li><strong>对结果的影响</strong>：<code class="inline-code">spectral</code> 用模糊图的谱嵌入，质量好但大图慢；<code class="inline-code">pca</code> 取前若干主成分，快且稳定；<code class="inline-code">random</code> 最快但结果方差大；<code class="inline-code">recursive</code> 通过图粗化再逐层展开，适合超大图。</li>
+<li><strong>推荐设置</strong>：中小数据用 <code class="inline-code">'spectral'</code>；十万级以上用 <code class="inline-code">'pca'</code> 或 <code class="inline-code">'recursive'</code>；需要完全可复现时固定 <code class="inline-code">random_state</code> 并显式写 <code class="inline-code">init</code>。</li>
+</ul>
+
+<h5>参数 8：<code class="inline-code">min_dist</code></h5>
+
+<ul>
+<li><strong>含义</strong>：低维空间中点与点之间允许的最小距离，直接决定"挤多紧"。</li>
+<li><strong>类型</strong>：<code class="inline-code">float</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">0.1</code>。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">0.0 ~ 0.99</code>（实际常用 <code class="inline-code">0.0 ~ 0.8</code>）。</li>
+<li><strong>对结果的影响</strong>：接近 0 → 同簇点挤成一团，适合看聚类与子结构，但簇间可能粘连；增大 → 点被推开，整体结构舒展，但局部细节被抹平。</li>
+<li><strong>推荐设置</strong>：聚类前看结构 <code class="inline-code">0.0 ~ 0.05</code>；通用可视化 <code class="inline-code">0.1 ~ 0.3</code>；想让点均匀铺开、看全局骨架 <code class="inline-code">0.5 ~ 0.8</code>。</li>
+</ul>
+
+<h5>参数 9：<code class="inline-code">spread</code></h5>
+
+<ul>
+<li><strong>含义</strong>：低维嵌入的"有效尺度"，与 <code class="inline-code">min_dist</code> 一起拟合 $ a,b $。</li>
+<li><strong>类型</strong>：<code class="inline-code">float</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">1.0</code>。</li>
+<li><strong>取值范围</strong>：常用 <code class="inline-code">0.1 ~ 10.0</code>，必须为正。</li>
+<li><strong>对结果的影响</strong>：<code class="inline-code">spread</code> 越大，低维相似度曲线的尾部越平缓，点与点之间的"有效影响半径"越大，整体布局更松散；它与 <code class="inline-code">min_dist</code> 共同决定簇的紧凑度，单独调 <code class="inline-code">spread</code> 的效果通常不如调 <code class="inline-code">min_dist</code> 明显。</li>
+<li><strong>推荐设置</strong>：保持 <code class="inline-code">1.0</code>；只有当 <code class="inline-code">min_dist</code> 调到边界仍不满意时，才以 <code class="inline-code">0.5 ~ 2.0</code> 的范围联动微调。</li>
+</ul>
+
+<h5>参数 10：<code class="inline-code">low_memory</code></h5>
+
+<ul>
+<li><strong>含义</strong>：是否用更省内存的方式计算最近邻。</li>
+<li><strong>类型</strong>：<code class="inline-code">bool</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">True</code>。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">True</code> / <code class="inline-code">False</code>。</li>
+<li><strong>对结果的影响</strong>：<code class="inline-code">True</code> 分块计算，内存占用低但更慢；<code class="inline-code">False</code> 一次性计算，速度快但峰值内存高。新版管线（<code class="inline-code">compatibility_layout=False</code>）恒用低内存最近邻下降，此参数只影响兼容管线。</li>
+<li><strong>推荐设置</strong>：默认 <code class="inline-code">True</code>；数据能完整放进内存且追求速度时设 <code class="inline-code">False</code>，并用监控确认没有 OOM。</li>
+</ul>
+
+<h5>参数 11：<code class="inline-code">n_jobs</code></h5>
+
+<ul>
+<li><strong>含义</strong>：最近邻搜索使用的并行线程/进程数。</li>
+<li><strong>类型</strong>：<code class="inline-code">int</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">-1</code>（使用全部可用核心）。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">-1</code> 或 <code class="inline-code">1 ~ CPU 核数</code>。</li>
+<li><strong>对结果的影响</strong>：只影响速度，不影响数学结果（固定随机种子时）；在共享集群上设 <code class="inline-code">-1</code> 可能挤占其他任务。</li>
+<li><strong>推荐设置</strong>：本地开发 <code class="inline-code">-1</code>；生产批处理按容器 CPU limit 显式设置为可用核数（如 <code class="inline-code">4</code>），避免超卖。</li>
+</ul>
+
+<h5>参数 12：<code class="inline-code">set_op_mix_ratio</code></h5>
+
+<ul>
+<li><strong>含义</strong>：局部模糊集合并时，模糊并集与模糊交集的插值比例。</li>
+<li><strong>类型</strong>：<code class="inline-code">float</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">1.0</code>。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">0.0 ~ 1.0</code>。</li>
+<li><strong>对结果的影响</strong>：<code class="inline-code">1.0</code> 为纯并集，保留所有局部连接，全局连通性好；<code class="inline-code">0.0</code> 为纯交集，只保留"双向都认为近"的边，图更稀疏、簇更孤立；中间值在两者间折中。</li>
+<li><strong>推荐设置</strong>：默认 <code class="inline-code">1.0</code>；数据噪声大、想抑制虚假连接时可试 <code class="inline-code">0.5 ~ 0.9</code>；不建议长期用 <code class="inline-code">0.0</code>，容易产生大量孤点。</li>
+</ul>
+
+<h5>参数 13：<code class="inline-code">local_connectivity</code></h5>
+
+<ul>
+<li><strong>含义</strong>：假定每个点局部至少有多少个邻居是连通的。</li>
+<li><strong>类型</strong>：<code class="inline-code">int</code>（可为 float，内部按插值处理）。</li>
+<li><strong>默认值</strong>：<code class="inline-code">1</code>。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">1 ~ n_neighbors</code>，实际常用 <code class="inline-code">1 ~ 3</code>。</li>
+<li><strong>对结果的影响</strong>：值越大，$ \rho_i $ 越大，局部图越连通、越不容易出现孤立碎片；但过大会把"本该分离"的局部结构强行粘在一起。</li>
+<li><strong>推荐设置</strong>：默认 <code class="inline-code">1</code>；数据有明显噪声或重复点时用 <code class="inline-code">2</code>；不要超过局部内在维度，否则会过度平滑。</li>
+</ul>
+
+<h5>参数 14：<code class="inline-code">repulsion_strength</code></h5>
+
+<ul>
+<li><strong>含义</strong>：负样本（排斥力）的权重系数。</li>
+<li><strong>类型</strong>：<code class="inline-code">float</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">1.0</code>。</li>
+<li><strong>取值范围</strong>：常用 <code class="inline-code">0.1 ~ 4.0</code>。</li>
+<li><strong>对结果的影响</strong>：增大 → 不同簇被推得更开，簇间留白增加，但过大可能把本应相连的结构撕开；减小 → 簇更紧凑，但可能糊成一团。</li>
+<li><strong>推荐设置</strong>：默认 <code class="inline-code">1.0</code>；簇严重重叠时可试 <code class="inline-code">1.5 ~ 2.0</code>；若发现同一流形被切成多段，应回调到 <code class="inline-code">1.0</code> 或更低。</li>
+</ul>
+
+<h5>参数 15：<code class="inline-code">negative_sample_rate</code></h5>
+
+<ul>
+<li><strong>含义</strong>：每条正边采样多少条负边，用于近似交叉熵的排斥项。</li>
+<li><strong>类型</strong>：<code class="inline-code">int</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">5</code>。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">1 ~ 20</code>（越大越准也越慢）。</li>
+<li><strong>对结果的影响</strong>：增大 → 排斥项估计更准，簇间分离更清晰，但训练时间近似线性增加；过小 → 排斥不足，点云可能过度收缩。</li>
+<li><strong>推荐设置</strong>：默认 <code class="inline-code">5</code>；小数据（<1 万）追求质量可用 <code class="inline-code">10</code>；大数据保持 <code class="inline-code">5</code> 以控制时间。</li>
+</ul>
+
+<h5>参数 16：<code class="inline-code">transform_queue_size</code></h5>
+
+<ul>
+<li><strong>含义</strong>：<code class="inline-code">transform()</code> 为新样本搜索邻居时的候选队列倍数。</li>
+<li><strong>类型</strong>：<code class="inline-code">float</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">4.0</code>。</li>
+<li><strong>取值范围</strong>：常用 <code class="inline-code">1.0 ~ 16.0</code>。</li>
+<li><strong>对结果的影响</strong>：增大 → 新样本的邻居找得更准，投影位置更可靠，但速度更慢；减小 → 快但可能把新样本放到错误区域。</li>
+<li><strong>推荐设置</strong>：默认 <code class="inline-code">4.0</code>；对新样本精度要求高（如在线推断）可升到 <code class="inline-code">8.0</code>，并做延迟压测。</li>
+</ul>
+
+<h5>参数 17：<code class="inline-code">a</code></h5>
+
+<ul>
+<li><strong>含义</strong>：低维相似度函数 $ q_{ij}=1/(1+a d^{2b}) $ 的尺度参数。</li>
+<li><strong>类型</strong>：<code class="inline-code">float</code> 或 <code class="inline-code">None</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">None</code>，表示由 <code class="inline-code">min_dist</code> 与 <code class="inline-code">spread</code> 自动拟合。</li>
+<li><strong>取值范围</strong>：正实数；手动指定时需与 <code class="inline-code">b</code> 配套。</li>
+<li><strong>对结果的影响</strong>：$ a $ 越大，近距离点的相似度下降越快，低维中"近邻"的影响力更局部；手动改 $ a $ 会破坏 <code class="inline-code">min_dist</code>/<code class="inline-code">spread</code> 的语义，使调参失去直觉。</li>
+<li><strong>推荐设置</strong>：保持 <code class="inline-code">None</code>。只有复现论文特定曲线或做算法研究时才手动指定。</li>
+</ul>
+
+<h5>参数 18：<code class="inline-code">b</code></h5>
+
+<ul>
+<li><strong>含义</strong>：低维相似度函数的尾部指数。</li>
+<li><strong>类型</strong>：<code class="inline-code">float</code> 或 <code class="inline-code">None</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">None</code>，自动拟合。</li>
+<li><strong>取值范围</strong>：正实数，常见拟合结果在 <code class="inline-code">0.5 ~ 2.0</code>。</li>
+<li><strong>对结果的影响</strong>：$ b $ 越大，远距离点的相似度衰减越陡，排斥更"短程"；$ b $ 越小，尾部越厚，远距离点仍保留一定相似度。</li>
+<li><strong>推荐设置</strong>：保持 <code class="inline-code">None</code>；若手动调参，务必同时固定 <code class="inline-code">a</code> 并用小数据可视化验证，不要凭感觉设值。</li>
+</ul>
+
+<h5>参数 19：<code class="inline-code">random_state</code></h5>
+
+<ul>
+<li><strong>含义</strong>：随机数种子，控制近似最近邻、初始化与负采样中的随机性。</li>
+<li><strong>类型</strong>：<code class="inline-code">int</code>、<code class="inline-code">RandomState</code> 实例或 <code class="inline-code">None</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">None</code>（每次运行不同）。</li>
+<li><strong>取值范围</strong>：任意整数；常用 <code class="inline-code">42</code>、<code class="inline-code">0</code>、<code class="inline-code">2024</code>。</li>
+<li><strong>对结果的影响</strong>：固定种子可让同一版本、同一参数、同一数据的嵌入完全复现；不同种子会得到旋转/镜像/轻微形变后的等价布局，簇结构通常一致但坐标不同。</li>
+<li><strong>推荐设置</strong>：实验与生产固定为 <code class="inline-code">42</code>；做稳健性分析时跑 <code class="inline-code">5 ~ 10</code> 个种子，观察簇结构是否稳定，而不是只看一张图。</li>
+</ul>
+
+<h5>参数 20：<code class="inline-code">angular_rp_forest</code></h5>
+
+<ul>
+<li><strong>含义</strong>：是否用角度随机投影森林初始化近似最近邻搜索。</li>
+<li><strong>类型</strong>：<code class="inline-code">bool</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">False</code>。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">True</code> / <code class="inline-code">False</code>。</li>
+<li><strong>对结果的影响</strong>：对余弦、相关性等角度型度量，角度森林通常更快且召回更好；对欧氏距离帮助不大。使用角度型 metric 时，UMAP 会自动选择角度森林。</li>
+<li><strong>推荐设置</strong>：显式使用 <code class="inline-code">cosine</code>/<code class="inline-code">correlation</code> 且数据维度很高时可设 <code class="inline-code">True</code>；其余保持 <code class="inline-code">False</code>。</li>
+</ul>
+
+<h5>参数 21：<code class="inline-code">target_n_neighbors</code></h5>
+
+<ul>
+<li><strong>含义</strong>：监督/半监督降维时，构造"标签图"所用的邻居数。</li>
+<li><strong>类型</strong>：<code class="inline-code">int</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">-1</code>，表示复用 <code class="inline-code">n_neighbors</code>。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">-1</code> 或 <code class="inline-code">2 ~ n_samples-1</code>。</li>
+<li><strong>对结果的影响</strong>：只在使用 <code class="inline-code">fit(X, y)</code> 时生效；值越大，标签的平滑范围越广，类别边界越模糊；值越小，标签约束越局部。</li>
+<li><strong>推荐设置</strong>：保持 <code class="inline-code">-1</code>；当标签噪声大、希望更平滑时可设为 <code class="inline-code">n_neighbors</code> 的 <code class="inline-code">1.5 ~ 2</code> 倍。</li>
+</ul>
+
+<h5>参数 22：<code class="inline-code">target_metric</code></h5>
+
+<ul>
+<li><strong>含义</strong>：监督降维时衡量标签差异的度量。</li>
+<li><strong>类型</strong>：<code class="inline-code">str</code> 或可调用对象。</li>
+<li><strong>默认值</strong>：<code class="inline-code">'categorical'</code>。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">'categorical'</code>（分类标签）、<code class="inline-code">'l1'</code>/<code class="inline-code">'l2'</code>（连续目标）、或自定义函数。</li>
+<li><strong>对结果的影响</strong>：分类任务用 <code class="inline-code">categorical</code>，相同类别距离为 0、不同类别距离为 1；回归任务若误用 <code class="inline-code">categorical</code>，连续的 y 会被当成无数个类别，监督信号失效。</li>
+<li><strong>推荐设置</strong>：分类/半监督（<code class="inline-code">-1</code> 表示未标注）用 <code class="inline-code">'categorical'</code>；连续目标用 <code class="inline-code">'l1'</code> 或 <code class="inline-code">'l2'</code>。</li>
+</ul>
+
+<h5>参数 23：<code class="inline-code">target_weight</code></h5>
+
+<ul>
+<li><strong>含义</strong>：数据拓扑与标签拓扑之间的权重。</li>
+<li><strong>类型</strong>：<code class="inline-code">float</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">0.5</code>。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">0.0 ~ 1.0</code>。</li>
+<li><strong>对结果的影响</strong>：<code class="inline-code">0.0</code> 完全忽略标签（等价于无监督）；<code class="inline-code">1.0</code> 强烈按标签聚类，可能牺牲数据本身的流形结构；中间值折中。</li>
+<li><strong>推荐设置</strong>：默认 <code class="inline-code">0.5</code>；希望类别分得更开可用 <code class="inline-code">0.7 ~ 0.9</code>；只想"轻微引导"用 <code class="inline-code">0.2 ~ 0.4</code>。</li>
+</ul>
+
+<h5>参数 24：<code class="inline-code">unique</code></h5>
+
+<ul>
+<li><strong>含义</strong>：是否在嵌入前对数据行去重。</li>
+<li><strong>类型</strong>：<code class="inline-code">bool</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">False</code>。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">True</code> / <code class="inline-code">False</code>。</li>
+<li><strong>对结果的影响</strong>：若重复行数量超过 <code class="inline-code">n_neighbors</code>，这些完全相同的点可能被分到空间中不同区域，破坏"相同输入应得到相同输出"的直觉，也违反度量空间定义；开启后 UMAP 只对唯一行建图，再用 <code class="inline-code">_unique_inverse_</code> 映射回原索引。</li>
+<li><strong>推荐设置</strong>：数据存在大量重复样本（如用户画像的离散特征、日志聚合结果）时设 <code class="inline-code">True</code>；普通连续特征数据保持 <code class="inline-code">False</code>。</li>
+</ul>
+
+<h5>参数 25：<code class="inline-code">densmap</code></h5>
+
+<ul>
+<li><strong>含义</strong>：是否启用 densMAP 扩展，让低维局部密度与高维局部密度相关。</li>
+<li><strong>类型</strong>：<code class="inline-code">bool</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">False</code>。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">True</code> / <code class="inline-code">False</code>。</li>
+<li><strong>对结果的影响</strong>：开启后，原本"密集"的区域在低维也更密集、"稀疏"区域更稀疏，适合观察密度差异与异常点；代价是额外计算局部半径，运行时间增加约 30%~50%，且嵌入形态会与普通 UMAP 不同。</li>
+<li><strong>推荐设置</strong>：需要解释"密度/稀有性"时开启；只做普通聚类可视化时保持关闭，避免额外开销与误读。</li>
+</ul>
+
+<h5>参数 26：<code class="inline-code">dens_lambda</code></h5>
+
+<ul>
+<li><strong>含义</strong>：densMAP 中密度相关性正则项的权重。</li>
+<li><strong>类型</strong>：<code class="inline-code">float</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">2.0</code>。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">0.0 ~ 10.0</code>，<code class="inline-code">0.0</code> 等价于关闭 densMAP。</li>
+<li><strong>对结果的影响</strong>：值越大，越优先保持密度结构，可能牺牲部分拓扑细节；值越小，越接近普通 UMAP。</li>
+<li><strong>推荐设置</strong>：默认 <code class="inline-code">2.0</code>；若发现簇形状被密度项扭曲，降到 <code class="inline-code">1.0</code>；若密度差异仍看不清，升到 <code class="inline-code">4.0</code> 做对比。</li>
+</ul>
+
+<h5>参数 27：<code class="inline-code">transform_seed</code></h5>
+
+<ul>
+<li><strong>含义</strong>：<code class="inline-code">transform()</code> 为新样本搜索邻居与初始化位置时使用的随机种子。</li>
+<li><strong>类型</strong>：<code class="inline-code">int</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">42</code>。</li>
+<li><strong>取值范围</strong>：任意 32 位整数。</li>
+<li><strong>对结果的影响</strong>：只影响新样本投影的随机性，不影响训练集嵌入；固定后同一新样本重复投影结果一致，便于线上排障与回归测试。</li>
+<li><strong>推荐设置</strong>：保持 <code class="inline-code">42</code>，并与训练用的 <code class="inline-code">random_state</code> 分开记录，避免误以为两者必须相同。</li>
+</ul>
+
+<h5>参数 28：<code class="inline-code">dens_frac</code></h5>
+
+<ul>
+<li><strong>含义</strong>：densMAP 在训练的前多少比例 epoch 之后才引入密度相关项。</li>
+<li><strong>类型</strong>：<code class="inline-code">float</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">0.3</code>。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">0.0 ~ 1.0</code>。</li>
+<li><strong>对结果的影响</strong>：先让普通 UMAP 目标把拓扑骨架铺好，再加入密度约束，训练更稳定；值越大，密度项介入越晚、影响越弱；值为 1.0 等价于不使用密度项。</li>
+<li><strong>推荐设置</strong>：保持 <code class="inline-code">0.3</code>；数据密度差异极大、希望更强密度保真时可降到 <code class="inline-code">0.1 ~ 0.2</code>，但要观察是否出现局部塌缩。</li>
+</ul>
+
+<h5>参数 29：<code class="inline-code">dens_var_shift</code></h5>
+
+<ul>
+<li><strong>含义</strong>：计算密度相关性目标时，加到局部半径方差上的小常数。</li>
+<li><strong>类型</strong>：<code class="inline-code">float</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">0.1</code>。</li>
+<li><strong>取值范围</strong>：正实数，常用 <code class="inline-code">1e-3 ~ 1.0</code>。</li>
+<li><strong>对结果的影响</strong>：纯粹用于数值稳定，防止方差接近 0 时除零或梯度爆炸；值过大会削弱密度项的作用。</li>
+<li><strong>推荐设置</strong>：保持 <code class="inline-code">0.1</code>；只有在出现 <code class="inline-code">NaN</code>/<code class="inline-code">inf</code> 时才小幅上调，并优先检查数据是否存在大量重复点。</li>
+</ul>
+
+<h5>参数 30：<code class="inline-code">output_dens</code></h5>
+
+<ul>
+<li><strong>含义</strong>：是否在返回嵌入的同时，返回原始空间与嵌入空间的局部半径。</li>
+<li><strong>类型</strong>：<code class="inline-code">bool</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">False</code>。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">True</code> / <code class="inline-code">False</code>。</li>
+<li><strong>对结果的影响</strong>：开启后 <code class="inline-code">fit_transform</code> 返回三元组 <code class="inline-code">(embedding, r_orig, r_emb)</code>，可用于定量比较密度保持情况；不开启时只返回嵌入，接口更简单。</li>
+<li><strong>推荐设置</strong>：做 densMAP 评估或异常检测时需要密度信息时设 <code class="inline-code">True</code>；普通可视化保持 <code class="inline-code">False</code>，避免下游代码误把元组当数组。</li>
+</ul>
+
+<h5>参数 31：<code class="inline-code">disconnection_distance</code></h5>
+
+<ul>
+<li><strong>含义</strong>：在构造 kNN 图时，距离大于等于该阈值的边直接断开。</li>
+<li><strong>类型</strong>：<code class="inline-code">float</code> 或 <code class="inline-code">None</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">None</code>，表示取该度量的最大值（对有界度量即上界）。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">0 ~ +∞</code>，或不超过度量的最大可能值。</li>
+<li><strong>对结果的影响</strong>：UMAP 假设数据位于一个连通流形上；若存在"与所有人都极度不同"的点（如全零向量、越界传感器读数），默认会强行给它连一条边，污染整体结构。设置阈值可把这些点隔离成孤点。</li>
+<li><strong>推荐设置</strong>：使用余弦/杰卡德等有界度量且存在明显"不相似"样本时显式设置，例如余弦距离设 <code class="inline-code">0.9 ~ 1.0</code>；欧氏距离下通常保持 <code class="inline-code">None</code>。</li>
+</ul>
+
+<h5>参数 32：<code class="inline-code">precomputed_knn</code></h5>
+
+<ul>
+<li><strong>含义</strong>：传入预先计算好的 k 近邻索引与距离，跳过最近邻搜索阶段。</li>
+<li><strong>类型</strong>：<code class="inline-code">tuple</code>，形如 <code class="inline-code">(knn_indices, knn_dists, knn_search_index)</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">(None, None, None)</code>。</li>
+<li><strong>取值范围</strong>：两个形状为 <code class="inline-code">(n_samples, k)</code> 的数组，且 <code class="inline-code">k >= n_neighbors</code>；第三项可为 <code class="inline-code">None</code>。</li>
+<li><strong>对结果的影响</strong>：完全复用同一份 kNN 可让多次调参的运行时间大幅下降；但若数据或度量改变而 kNN 未重算，结果会 silently 错误；使用外部 kNN 时无法再 <code class="inline-code">transform</code> 新样本。</li>
+<li><strong>推荐设置</strong>：固定数据做 <code class="inline-code">n_epochs</code>/<code class="inline-code">min_dist</code>/<code class="inline-code">learning_rate</code> 网格搜索时使用；数据一变必须重算，不要跨数据集复用。</li>
+</ul>
+
+<h5>参数 33：<code class="inline-code">force_approximation_algorithm</code></h5>
+
+<ul>
+<li><strong>含义</strong>：对小于 4096 个样本的数据集也强制使用近似最近邻算法。</li>
+<li><strong>类型</strong>：<code class="inline-code">bool</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">False</code>。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">True</code> / <code class="inline-code">False</code>。</li>
+<li><strong>对结果的影响</strong>：小数据默认走精确 kNN，结果更准但复杂度 $ O(n^2) $；强制近似可让"小数据调试"和"大数据生产"走同一条代码路径，便于复现问题，但会引入近似误差。</li>
+<li><strong>推荐设置</strong>：排查"小数据正常、大数据异常"的管线差异时设 <code class="inline-code">True</code>；正式小数据实验保持 <code class="inline-code">False</code> 以获得精确结果。</li>
+</ul>
+
+<h5>参数 34：<code class="inline-code">verbose</code></h5>
+
+<ul>
+<li><strong>含义</strong>：是否输出进度条、诊断信息与警告。</li>
+<li><strong>类型</strong>：<code class="inline-code">bool</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">False</code>。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">True</code> / <code class="inline-code">False</code>。</li>
+<li><strong>对结果的影响</strong>：不影响数值结果，只影响可观测性；开启后会打印 NN-Descent 迭代、布局优化进度等，便于判断卡在哪一阶段。</li>
+<li><strong>推荐设置</strong>：调参与排障时设 <code class="inline-code">True</code>；批量生产任务设 <code class="inline-code">False</code>，改用日志与指标监控。</li>
+</ul>
+
+<h5>0.6 版本新管线参数（补充说明）</h5>
+
+<p>umap-learn 0.6 引入了新的布局管线（<code class="inline-code">compatibility_layout=False</code>），新增了一批实验性参数。它们默认值随版本演进较快，且只在新管线生效，普通使用保持默认即可；做深度调优时再参考官方 API。</p>
+
+<div class="table-wrapper"><table class="algo-table"><thead><tr><th>参数</th><th>默认值</th><th>作用</th></tr></thead><tbody><tr><td><code class="inline-code">compatibility_layout</code></td><td><code class="inline-code">None</code>（当前等价 <code class="inline-code">True</code>，未来将改为 <code class="inline-code">False</code>）</td><td>是否沿用 0.5.x 的最近邻/初始化/布局管线</td></tr><tr><td><code class="inline-code">optimizer</code></td><td><code class="inline-code">None</code>（新管线下为 <code class="inline-code">adam</code>）</td><td>布局优化器：<code class="inline-code">adam</code> / <code class="inline-code">momentum</code> / <code class="inline-code">compatibility</code></td></tr><tr><td><code class="inline-code">nearest_neighbor_backend</code></td><td><code class="inline-code">"auto"</code></td><td>最近邻后端：<code class="inline-code">auto</code> / <code class="inline-code">pynndescent</code> / <code class="inline-code">rinnd</code></td></tr><tr><td><code class="inline-code">init_rescale</code></td><td><code class="inline-code">"isotropic"</code></td><td>初始化后的重缩放方式：<code class="inline-code">isotropic</code> / <code class="inline-code">per_axis</code> / <code class="inline-code">graph_edge</code></td></tr><tr><td><code class="inline-code">init_scale_factor</code></td><td><code class="inline-code">1.0</code></td><td>重缩放的目标跨度倍数</td></tr><tr><td><code class="inline-code">recursive_coarsening_ratio</code></td><td><code class="inline-code">4</code></td><td><code class="inline-code">init="recursive"</code> 时每层图粗化比例（2/3/4）</td></tr><tr><td><code class="inline-code">coarse_layout_weights</code></td><td><code class="inline-code">"transition"</code></td><td>粗布局边权：<code class="inline-code">transition</code> / <code class="inline-code">fuzzy_union</code></td></tr><tr><td><code class="inline-code">coarsen_on_layout_weights</code></td><td><code class="inline-code">True</code></td><td>后续粗化层是否使用选定布局权重</td></tr><tr><td><code class="inline-code">negative_selection_range</code></td><td><code class="inline-code">200000</code></td><td>大数据下负样本候选窗口大小</td></tr><tr><td><code class="inline-code">negative_sample_scale</code></td><td><code class="inline-code">None</code></td><td>难负样本的排斥力倍数</td></tr><tr><td><code class="inline-code">exclude_graph_neighbors</code></td><td><code class="inline-code">False</code></td><td>是否跳过图邻居作为负样本</td></tr><tr><td><code class="inline-code">negative_sample_scale_adaptation_samples</code></td><td><code class="inline-code">128</code></td><td>负样本尺度自适应所用样本数</td></tr><tr><td><code class="inline-code">recursive_init_kwds</code></td><td><code class="inline-code">None</code></td><td>传给递归初始化的高级参数</td></tr></tbody></table></div>
+
+<h4>代码示例</h4>
+
+<p>下面的示例覆盖了 UMAP 的四种典型用法：基础降维、新样本投影、监督降维、densMAP 密度保持，并给出定量评估。每一行都加了注释。</p>
+
+<p><pre class="code-block"><code class="language-python">import numpy as np  # 数值计算基础库
+import umap  # UMAP 主库（pip install umap-learn）
+from sklearn.datasets import load_digits  # 内置手写数字数据集，1797×64，适合演示
+from sklearn.preprocessing import StandardScaler  # 标准化，消除量纲差异
+from sklearn.manifold import trustworthiness  # 降维保真度指标
+from sklearn.cluster import KMeans  # 用于演示&quot;先降维再聚类&quot;的流程
+from sklearn.metrics import adjusted_rand_score  # 聚类与真实标签的一致性
+
+digits = load_digits()  # 加载数据，返回 dict-like 对象
+X = digits.data  # 特征矩阵，形状 (1797, 64)，像素值 0~16
+y = digits.target  # 真实标签，0~9，仅用于评估与监督实验
+
+X_scaled = StandardScaler().fit_transform(X)  # 按列标准化到均值 0、方差 1
+
+reducer = umap.UMAP(  # 构造一个 UMAP 模型
+    n_neighbors=15,  # 邻域大小：15 是通用起点，兼顾局部与全局
+    n_components=2,  # 降到二维，便于散点图可视化
+    metric=&quot;euclidean&quot;,  # 标准化后的连续特征用欧氏距离
+    n_epochs=500,  # 小数据集用 500 轮，保证布局充分展开
+    learning_rate=1.0,  # 官方默认学习率，通常无需修改
+    init=&quot;spectral&quot;,  # 谱初始化，质量稳定，适合中小数据
+    min_dist=0.1,  # 点间最小距离，0.1 适合通用可视化
+    spread=1.0,  # 嵌入尺度，与 min_dist 联动
+    low_memory=True,  # 分块计算最近邻，控制内存峰值
+    n_jobs=-1,  # 使用全部可用核心加速
+    random_state=42,  # 固定随机种子，保证结果可复现
+    verbose=False,  # 关闭训练日志
+)
+
+embedding = reducer.fit_transform(X_scaled)  # 拟合并返回二维嵌入，形状 (1797, 2)
+print(&quot;嵌入形状:&quot;, embedding.shape)  # 预期输出 (1797, 2)
+
+score = trustworthiness(X_scaled, embedding, n_neighbors=15)  # 计算 15 邻域保真度，越接近 1 越好
+print(f&quot;trustworthiness = {score:.4f}&quot;)  # 手写数字集通常在 0.95 以上
+
+new_points = reducer.transform(X_scaled[:5])  # 把前 5 个已见样本重新投影，验证 transform 接口
+print(&quot;新样本投影形状:&quot;, new_points.shape)  # 预期输出 (5, 2)
+
+embedding_sup = umap.UMAP(  # 监督降维：把标签信息注入图结构
+    n_neighbors=15,  # 邻域大小与无监督实验保持一致，便于对比
+    n_components=2,  # 仍降到二维
+    target_metric=&quot;categorical&quot;,  # 分类标签用 categorical 距离
+    target_weight=0.5,  # 数据拓扑与标签拓扑各占一半
+    random_state=42,  # 固定种子
+).fit_transform(X_scaled, y)  # 传入标签 y，触发监督模式
+print(&quot;监督嵌入形状:&quot;, embedding_sup.shape)  # 预期输出 (1797, 2)
+
+embedding_dens = umap.UMAP(  # densMAP：同时保持局部密度
+    n_neighbors=30,  # densMAP 通常需要更大的邻域来稳定估计局部半径
+    min_dist=0.1,  # 与普通 UMAP 保持一致的紧凑度
+    densmap=True,  # 开启密度保持扩展
+    dens_lambda=2.0,  # 密度正则权重，默认 2.0
+    dens_frac=0.3,  # 后 70% 的 epoch 引入密度项
+    random_state=42,  # 固定种子
+).fit_transform(X_scaled)  # 返回二维嵌入
+print(&quot;densMAP 嵌入形状:&quot;, embedding_dens.shape)  # 预期输出 (1797, 2)
+
+kmeans = KMeans(n_clusters=10, random_state=42, n_init=&quot;auto&quot;)  # 在二维嵌入上做聚类演示
+labels = kmeans.fit_predict(embedding)  # 得到每个点的簇编号
+ari = adjusted_rand_score(y, labels)  # 用真实标签评估聚类一致性
+print(f&quot;UMAP + KMeans 的 ARI = {ari:.4f}&quot;)  # 仅作流程演示，实际应用应先用更高维嵌入
+
+np.save(&quot;umap_embedding.npy&quot;, embedding)  # 保存嵌入，供后续可视化或建模复用</code></pre></p>
+
+<h4>复杂度分析</h4>
+
+<p><strong>最近邻构图</strong>：精确 kNN 需要 $ O(n^2 d) $，不可接受；UMAP 默认用 NN-Descent 近似算法，其经验复杂度约为 $ O(n^{1.14}) $（随数据分布与维度波动），并可多线程并行。构图阶段还需为每个点二分求解 $ \sigma_i $，每条边 $ O(\log(1/\epsilon)) $ 次迭代，总计 $ O(nk\log(1/\epsilon)) $。</p>
+
+<p><strong>模糊图对称化</strong>：稀疏图有 $ O(nk) $ 条边，模糊并集/交集逐边计算，时间 $ O(nk) $，空间 $ O(nk) $。</p>
+
+<p><strong>布局优化</strong>：每个 epoch 遍历所有正边（$ O(nk) $），每条正边采样 $ r= $<code class="inline-code">negative_sample_rate</code> 条负边，单次坐标更新 $ O(m) $（$ m $ 为嵌入维度）。因此每轮 $ O(nk(1+r)m) $，总时间 $ O(nk(1+r)m\cdot\text{n\_epochs}) $。默认 $ k=15,r=5,m=2 $ 时，每轮约 $ 180n $ 次常数级更新。</p>
+
+<p><strong>初始化</strong>：谱初始化需要对 $ n\times n $ 的拉普拉斯矩阵做特征分解，朴素实现 $ O(n^3) $；UMAP 用稀疏特征求解器，实际接近 $ O(nk\cdot\text{iter}) $。<code class="inline-code">pca</code> 初始化只需 $ O(ndm) $，<code class="inline-code">random</code> 为 $ O(nm) $。</p>
+
+<p><strong>空间</strong>：kNN 索引 $ O(nk) $、稀疏图 $ O(nk) $、嵌入 $ O(nm) $，总计 $ O(nk+nm) $；<code class="inline-code">low_memory=True</code> 会把最近邻计算分块，降低峰值内存但增加时间。</p>
+
+<p><strong>与 t-SNE 对比</strong>：t-SNE 精确版为 $ O(n^2) $，Barnes-Hut 版约 $ O(n\log n) $ 每轮但常数大；UMAP 在百万级样本上通常快一个数量级，且支持增量 <code class="inline-code">transform</code>。</p>
+
+<h4>应用场景</h4>
+
+<ul>
+<li><strong>单细胞转录组分析</strong>：把数万个细胞的数千维基因表达降到二维，观察细胞类型与发育轨迹；常与 HDBSCAN/Leiden 聚类配合。</li>
+<li><strong>文本与句向量可视化</strong>：对 BERT/Sentence-Transformer 的 768 维 embedding 做 UMAP，观察主题簇、发现标注错误与离群样本。</li>
+<li><strong>主题建模前置降维</strong>：BERTopic 的标准流程是 embedding → UMAP（常用 <code class="inline-code">n_neighbors=15, n_components=5, min_dist=0.0</code>）→ HDBSCAN 聚类，再生成主题。</li>
+<li><strong>推荐系统用户/物品画像</strong>：把高维行为特征降到 10~50 维，作为召回或粗排模型的输入，降低噪声与计算量。</li>
+<li><strong>异常检测</strong>：正常样本在 UMAP 上形成紧密簇，远离所有簇的点可作为候选异常，再回到原始空间解释。</li>
+<li><strong>监督/半监督特征学习</strong>：利用少量标签通过 <code class="inline-code">target_weight</code> 引导布局，让同类样本聚集，便于主动学习与样本挑选。</li>
+<li><strong>科研数据探索</strong>：流式细胞术、质谱、遥感多光谱等高维数据的可视化与分层抽样。</li>
+</ul>
+
+<h4>参考文档</h4>
+
+<ul>
+<li><a href="https://arxiv.org/abs/1802.03426" target="_blank" class="ref-link">UMAP: Uniform Manifold Approximation and Projection for Dimension Reduction — arXiv:1802.03426</a></li>
+<li><a href="https://umap-learn.readthedocs.io/en/latest/" target="_blank" class="ref-link">UMAP 官方文档（含原理、示例与 API）</a></li>
+<li><a href="https://umap-learn.readthedocs.io/en/latest/parameters.html" target="_blank" class="ref-link">Basic UMAP Parameters：n_neighbors / min_dist / n_components / metric 官方实验</a></li>
+<li><a href="https://umap-learn.readthedocs.io/en/latest/api.html" target="_blank" class="ref-link">UMAP API Guide：完整参数签名与语义</a></li>
+<li><a href="https://pair-code.github.io/understanding-umap/" target="_blank" class="ref-link">Understanding UMAP — Google PAIR 交互式讲解</a></li>
+<li><a href="https://jmlr.org/papers/v22/20-1380.html" target="_blank" class="ref-link">densMAP: Density-Preserving UMAP — JMLR 2021</a></li>
+<li><a href="https://maartengr.github.io/BERTopic/" target="_blank" class="ref-link">BERTopic：UMAP + HDBSCAN 的典型工程管线</a></li>
+</ul>
+
+<hr>
+
+<blockquote>
+<p>AI生成</p>
+</blockquote>
+
+<h3>KTO：Kahneman-Tversky 优化</h3>
+
+<p><strong>类别</strong>：大模型对齐 | <strong>难度</strong>：困难</p>
+
+<h4>算法简介</h4>
+
+<p>KTO（Kahneman-Tversky Optimization）由 Ethayarajh、Xu、Muennighoff 等人于 2024 年提出（arXiv:2402.01306），是一种<strong>只需要二元反馈</strong>的大模型偏好对齐算法。DPO、IPO、ORPO 等方法的训练数据必须是"同一个 prompt 下的一条好回答 + 一条坏回答"组成的偏好对；而真实业务里更常见的是"这条回答被点赞/被采纳"或"这条回答被点踩/被投诉"这样的<strong>单条二值标签</strong>。KTO 的价值就在于：它把每条 <code class="inline-code">(prompt, response, label)</code> 样本直接用于训练，不再要求成对比较。</p>
+
+<p>KTO 的理论来源是行为经济学中的<strong>前景理论（Prospect Theory）</strong>。Kahneman 与 Tversky 发现，人对收益与损失的效用不是线性的：效用是<strong>参照点依赖</strong>的（同一笔钱，相对参照点是赚还是亏，感受完全不同），且<strong>损失厌恶</strong>（同样大小的损失带来的痛苦约是收益快乐的 2~2.5 倍），同时存在<strong>敏感性递减</strong>（收益侧凹、损失侧凸）。KTO 把这套心理模型搬进语言模型：以参考模型为"参照点"，用策略模型相对参考模型的对数概率比作为"效用"，再设计一条在参照点附近最陡、向两侧饱和的 S 形损失曲线——好的回答要被推到参照点之上，坏的回答要被压到参照点之下。</p>
+
+<p>具体地，KTO 用 $ \beta\log\frac{\pi_\theta(y|x)}{\pi_{\text{ref}}(y|x)} $ 衡量"当前策略比参考模型更愿意生成这条回答的程度"，并用一个批内估计的 KL 项 $ z_0 $ 作为参照点：<strong>期望上，一条普通回答的效用应当等于 KL</strong>。于是正例的损失是 $ 1-\sigma(\beta(r-z_0)) $，负例的损失是 $ 1-\sigma(\beta(z_0-r)) $。这个设计让正例只需要"超过平均参照"就能获得低损失，负例只需要"低于平均参照"，避免模型被少数极端样本拉着走。</p>
+
+<p>KTO 的实测结论是：在多种模型规模与基准上，KTO 能匹配甚至超过 DPO，而且对<strong>数据不平衡</strong>更稳健——当正负样本比例严重失衡时，只需调整 $ \lambda_D $、$ \lambda_U $ 两个权重即可，不必像 DPO 那样强行配对。代价是它多了一个 KL 估计步骤，且对标签噪声比 DPO 更敏感：错误标注的"好回答"会被持续推高概率。</p>
+
+<h4>原理示意图</h4>
+
+<p>下图左侧是 KTO 的数据流：单条回答 + 二值标签即可训练；右侧是两条非对称损失曲线。横轴是"效用 $ v=r-z_0 $"，纵轴是损失；正例沿蓝色曲线向左下降（效用越高损失越小），负例沿橙色曲线向右下降（效用越低损失越小），两条曲线在参照点 $ v=0 $ 附近最陡，梯度最大。</p>
+
+<p><div class="algo-image"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 900 420" font-family="system-ui, sans-serif">
+  <defs>
+    <marker id="ktoArrow" markerWidth="10" markerHeight="8" refX="8" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#818cf8"/>
+    </marker>
+  </defs>
+  <rect width="900" height="420" fill="#1e293b" rx="12"/>
+  <text x="450" y="30" text-anchor="middle" fill="#818cf8" font-size="17" font-weight="700">KTO：用二值反馈做前景理论式对齐</text>
+  <text x="450" y="52" text-anchor="middle" fill="#94a3b8" font-size="12">每条样本只需 prompt + response + 好/坏标签，不再需要偏好对</text>
+
+  <rect x="28" y="80" width="170" height="96" rx="8" fill="#334155" stroke="#6366f1"/>
+  <text x="113" y="108" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="600">训练样本</text>
+  <text x="113" y="130" text-anchor="middle" fill="#94a3b8" font-size="11">prompt x</text>
+  <text x="113" y="148" text-anchor="middle" fill="#94a3b8" font-size="11">response y</text>
+  <text x="113" y="166" text-anchor="middle" fill="#94a3b8" font-size="11">label ∈ {好, 坏}</text>
+
+  <rect x="232" y="80" width="180" height="96" rx="8" fill="#334155" stroke="#6366f1"/>
+  <text x="322" y="108" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="600">双模型打分</text>
+  <text x="322" y="130" text-anchor="middle" fill="#94a3b8" font-size="11">策略 πθ(y|x)</text>
+  <text x="322" y="148" text-anchor="middle" fill="#94a3b8" font-size="11">参考 πref(y|x)</text>
+  <text x="322" y="166" text-anchor="middle" fill="#94a3b8" font-size="11">对数概率比 r</text>
+
+  <rect x="446" y="80" width="180" height="96" rx="8" fill="#334155" stroke="#6366f1"/>
+  <text x="536" y="108" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="600">参照点</text>
+  <text x="536" y="130" text-anchor="middle" fill="#94a3b8" font-size="11">批内错配样本估计</text>
+  <text x="536" y="148" text-anchor="middle" fill="#94a3b8" font-size="11">KL(πθ ‖ πref)</text>
+  <text x="536" y="166" text-anchor="middle" fill="#94a3b8" font-size="11">z0 = max(0, KL)</text>
+
+  <rect x="660" y="80" width="212" height="96" rx="8" fill="#1e3a5f" stroke="#22c55e"/>
+  <text x="766" y="108" text-anchor="middle" fill="#86efac" font-size="12" font-weight="600">非对称损失</text>
+  <text x="766" y="130" text-anchor="middle" fill="#e2e8f0" font-size="11">好：1 - sigmoid(beta*(r - z0))</text>
+  <text x="766" y="148" text-anchor="middle" fill="#e2e8f0" font-size="11">坏：1 - sigmoid(beta*(z0 - r))</text>
+  <text x="766" y="166" text-anchor="middle" fill="#94a3b8" font-size="11">λ 控制两侧权重</text>
+
+  <line x1="198" y1="128" x2="230" y2="128" stroke="#818cf8" stroke-width="2" marker-end="url(#ktoArrow)"/>
+  <line x1="412" y1="128" x2="444" y2="128" stroke="#818cf8" stroke-width="2" marker-end="url(#ktoArrow)"/>
+  <line x1="626" y1="128" x2="658" y2="128" stroke="#818cf8" stroke-width="2" marker-end="url(#ktoArrow)"/>
+
+  <rect x="40" y="212" width="400" height="180" rx="10" fill="#0f172a" stroke="#334155"/>
+  <text x="240" y="238" text-anchor="middle" fill="#fbbf24" font-size="12" font-weight="600">前景理论：参照点 + 损失厌恶 + 敏感性递减</text>
+  <line x1="80" y1="350" x2="400" y2="350" stroke="#475569" stroke-width="1.5"/>
+  <line x1="240" y1="262" x2="240" y2="366" stroke="#475569" stroke-width="1.5" stroke-dasharray="4 4"/>
+  <path d="M80,350 Q160,340 240,300 Q320,262 400,258" fill="none" stroke="#22c55e" stroke-width="2.5"/>
+  <path d="M80,362 Q160,358 240,320 Q320,300 400,352" fill="none" stroke="#f97316" stroke-width="2.5"/>
+  <text x="326" y="276" fill="#22c55e" font-size="11">收益侧（凹）</text>
+  <text x="100" y="330" fill="#f97316" font-size="11">损失侧（凸，更陡）</text>
+  <text x="240" y="380" text-anchor="middle" fill="#94a3b8" font-size="10">参照点 z0</text>
+
+  <rect x="460" y="212" width="412" height="180" rx="10" fill="#0f172a" stroke="#334155"/>
+  <text x="666" y="238" text-anchor="middle" fill="#fbbf24" font-size="12" font-weight="600">KTO 的两条损失曲线</text>
+  <line x1="500" y1="350" x2="850" y2="350" stroke="#475569" stroke-width="1.5"/>
+  <line x1="500" y1="258" x2="500" y2="366" stroke="#475569" stroke-width="1.5"/>
+  <line x1="675" y1="258" x2="675" y2="366" stroke="#475569" stroke-width="1.5" stroke-dasharray="4 4"/>
+  <path d="M500,276 C550,280 610,300 675,318 C730,334 790,346 850,348" fill="none" stroke="#22c55e" stroke-width="2.5"/>
+  <path d="M500,348 C560,346 620,334 675,318 C740,300 800,280 850,276" fill="none" stroke="#f97316" stroke-width="2.5"/>
+  <text x="850" y="340" text-anchor="end" fill="#22c55e" font-size="11">好样本</text>
+  <text x="850" y="270" text-anchor="end" fill="#f97316" font-size="11">坏样本</text>
+  <text x="675" y="380" text-anchor="middle" fill="#94a3b8" font-size="10">v = r - z0</text>
+  <text x="520" y="272" fill="#94a3b8" font-size="10">损失高</text>
+  <text x="520" y="344" fill="#94a3b8" font-size="10">损失低</text>
+</svg></div></p>
+
+<h4>数学公式</h4>
+
+<p><strong>1. 隐式奖励（对数概率比）</strong></p>
+
+<p><div class="math-block">$$ r_\theta(x,y) = \beta \log\frac{\pi_\theta(y\mid x)}{\pi_{\text{ref}}(y\mid x)} $$</div></p>
+
+<ul>
+<li>$ x $：prompt（提示词/对话上下文）；</li>
+<li>$ y $：response（模型生成或人工采集的回答）；</li>
+<li>$ \pi_\theta(y\mid x) $：当前策略模型（待训练）生成回答 $ y $ 的条件概率；</li>
+<li>$ \pi_{\text{ref}}(y\mid x) $：参考模型（通常是 SFT 后的基座）生成同一回答的概率；</li>
+<li>$ \beta>0 $：温度/缩放系数，控制允许偏离参考模型的幅度；</li>
+<li>$ r_\theta $ 的物理意义：当前模型相对参考模型"更偏爱"这条回答多少个 nats（乘以 $ \beta $ 后）。</li>
+</ul>
+
+<p><strong>2. 参照点：批内 KL 估计</strong></p>
+
+<p><div class="math-block">$$ z_0 = \max\!\left(0,\;\frac{1}{m}\sum_{j=1}^{m}\left[\log\pi_\theta(y_j\mid x_{\sigma(j)})-\log\pi_{\text{ref}}(y_j\mid x_{\sigma(j)})\right]\right) $$</div></p>
+
+<ul>
+<li>$ m $：批大小；</li>
+<li>$ \sigma $：批内打乱配对，使 $ y_j $ 与 $ x_{\sigma(j)} $ 来自<strong>不同</strong>样本，从而近似"从边缘分布采样的普通回答"；</li>
+<li>方括号内是策略与参考模型在一个"错配样本"上的对数概率差；</li>
+<li>外层 $ \max(0,\cdot) $ 保证 KL 非负，避免数值噪声把参照点拉到负数；</li>
+<li>该项在训练中 <strong>detach</strong>（不回传梯度），只作为"基线"使用。</li>
+</ul>
+
+<p><strong>3. 好样本的损失</strong></p>
+
+<p><div class="math-block">$$ \mathcal{L}_D(x,y) = \lambda_D\left[1-\sigma\!\left(\beta\left(r_\theta(x,y)-z_0\right)\right)\right] $$</div></p>
+
+<ul>
+<li>$ \lambda_D>0 $：好样本权重（TRL 中为 <code class="inline-code">desirable_weight</code>）；</li>
+<li>$ \sigma(\cdot) $：Sigmoid 函数 $ \sigma(u)=\frac{1}{1+e^{-u}} $；</li>
+<li>$ r_\theta - z_0 $：好样本相对参照点的"超额效用"；</li>
+<li>当 $ r_\theta\gg z_0 $ 时，$ \sigma\to1 $，损失 $ \to0 $；当 $ r_\theta\ll z_0 $ 时，$ \sigma\to0 $，损失 $ \to\lambda_D $；</li>
+<li>曲线在 $ r_\theta=z_0 $ 附近最陡，梯度最大，远离后饱和，避免过度优化。</li>
+</ul>
+
+<p><strong>4. 坏样本的损失</strong></p>
+
+<p><div class="math-block">$$ \mathcal{L}_U(x,y) = \lambda_U\left[1-\sigma\!\left(\beta\left(z_0-r_\theta(x,y)\right)\right)\right] $$</div></p>
+
+<ul>
+<li>$ \lambda_U>0 $：坏样本权重（<code class="inline-code">undesirable_weight</code>）；</li>
+<li>$ z_0 - r_\theta $：坏样本"低于参照点"的幅度；</li>
+<li>当 $ r_\theta\ll z_0 $ 时，损失 $ \to0 $，说明模型已经足够不喜欢这条坏回答；</li>
+<li>当 $ r_\theta\gg z_0 $ 时，损失 $ \to\lambda_U $，梯度推动模型降低该回答的概率。</li>
+</ul>
+
+<p><strong>5. 总体目标</strong></p>
+
+<p><div class="math-block">$$ \mathcal{L}_{\text{KTO}} = \mathbb{E}_{(x,y)\sim\mathcal{D}}\left[\;\mathbb{1}[y\succ x]\cdot\mathcal{L}_D(x,y) + \mathbb{1}[y\prec x]\cdot\mathcal{L}_U(x,y)\;\right] $$</div></p>
+
+<ul>
+<li>$ \mathcal{D} $：训练集，每条样本带二值标签；</li>
+<li>$ \mathbb{1}[y\succ x] $：指示函数，样本被标为"好"时取 1；</li>
+<li>$ \mathbb{1}[y\prec x] $：样本被标为"坏"时取 1；</li>
+<li>期望对所有样本求平均，正负样本不需要成对出现。</li>
+</ul>
+
+<p><strong>6. 对策略参数的梯度（好样本）</strong></p>
+
+<p><div class="math-block">$$ \frac{\partial\mathcal{L}_D}{\partial\theta} = -\lambda_D\,\beta\,\sigma\!\left(\beta(r_\theta-z_0)\right)\sigma\!\left(-\beta(r_\theta-z_0)\right)\nabla_\theta\log\pi_\theta(y\mid x) $$</div></p>
+
+<ul>
+<li>负号表示梯度下降会<strong>提高</strong>好回答的对数概率；</li>
+<li>$ \sigma(u)\sigma(-u) $ 是 Sigmoid 的导数，在 $ u=0 $ 附近最大（约 0.25），向两侧迅速衰减；</li>
+<li>这解释了 KTO 的"温和"特性：已经远高于参照点的好样本几乎不再贡献梯度，训练精力集中在"边界样本"上；</li>
+<li>坏样本梯度方向相反，把 $ \log\pi_\theta(y\mid x) $ 往下压。</li>
+</ul>
+
+<p><strong>7. 前景理论的效用函数（KTO 的思想来源）</strong></p>
+
+<p><div class="math-block">$$ v(z)=\begin{cases}z^{\alpha}, & z\ge0\\-\lambda\,(-z)^{\beta}, & z<0\end{cases},\qquad \lambda\approx2.25,\;\alpha=\beta\approx0.88 $$</div></p>
+
+<ul>
+<li>$ z $：相对参照点的收益（正）或损失（负）；</li>
+<li>$ \alpha,\beta $：敏感性递减指数，取值小于 1，使曲线在两侧都是凹/凸的；</li>
+<li>$ \lambda $：损失厌恶系数，约 2.25，表示同样幅度的损失带来的负效用约为收益正效用的 2.25 倍；</li>
+<li>KTO 没有直接照搬这条幂函数，而是用 Sigmoid 构造了性质类似、处处可微且梯度有界的替代曲线。</li>
+</ul>
+
+<h4>核心要点</h4>
+
+<ul>
+<li>KTO 的核心优势：<strong>不需要偏好对</strong>，单条回答 + 好/坏标签即可训练。</li>
+<li>参照点不是 0，而是批内估计的 KL：普通回答的期望效用应当等于 KL。</li>
+<li>正负样本损失<strong>彼此独立</strong>，不做减法；这正是它能处理非配对数据的原因。</li>
+<li>$ \lambda_D $、$ \lambda_U $ 是数据不平衡的调节旋钮，不是"损失厌恶系数"本身。</li>
+<li>坏样本一侧的曲线更"陡"、权重通常更大，体现损失厌恶。</li>
+<li>KL 估计必须用<strong>错配样本</strong>，且要 <code class="inline-code">detach</code>，否则会把基线也一起优化，导致训练发散。</li>
+<li>标签噪声是 KTO 的最大敌人：错误的好标签会持续推高坏回答概率。</li>
+<li>KTO 仍需要参考模型，显存开销与 DPO 同级；可用 <code class="inline-code">precompute_ref_log_probs</code> 或 PEFT 共享基座降本。</li>
+<li>与 DPO 相比，KTO 更适合"有点踩/点赞日志、但没有成对比较"的生产环境。</li>
+<li>训练时监控 <code class="inline-code">rewards/chosen</code>、<code class="inline-code">rewards/rejected</code> 与 <code class="inline-code">kl</code> 三条曲线，比只看 loss 更能发现问题。</li>
+</ul>
+
+<h4>技术细节与参数详解</h4>
+
+<p>以下参数以 Hugging Face TRL 的 <code class="inline-code">KTOConfig</code> / <code class="inline-code">KTOTrainer</code> 为准（TRL 0.9+ 至 0.2x 版本命名基本一致）。默认值可能随版本调整，落地前用 <code class="inline-code">KTOConfig()</code> 打印确认。</p>
+
+<h5>参数 1：<code class="inline-code">beta</code></h5>
+
+<ul>
+<li><strong>含义</strong>：隐式奖励的缩放系数，等价于对“偏离参考模型”收取的价格。</li>
+<li><strong>类型</strong>：<code class="inline-code">float</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">0.1</code>（KTO 论文与 TRL 一致）。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">(0, 1]</code>，常用 <code class="inline-code">0.01 ~ 0.5</code>。</li>
+<li><strong>对结果的影响</strong>：$ \beta $ <strong>越大，允许的偏离越小</strong>，模型更贴近参考模型、行为更保守（TRL 文档原文：Higher β means less deviation from the reference model）；$ \beta $ 越小，允许策略更大胆地拉开好/坏回答的概率差，对齐更激进，但更容易过拟合、语言质量下降。注意 $ \beta $ 同时决定 Sigmoid 的陡峭程度：$ \beta $ 大时参照点附近梯度更大，但可训练区间更窄。</li>
+<li><strong>推荐设置</strong>：从 <code class="inline-code">0.1</code> 起步；对齐效果不足时先降 $ \beta $（如 <code class="inline-code">0.05</code>），而不是盲目加轮数；若训练早期出现重复、胡言乱语或 KL 爆炸，则提高 $ \beta $（如 <code class="inline-code">0.2</code>）把模型拉回参考分布附近。</li>
+</ul>
+
+<h5>参数 2：<code class="inline-code">desirable_weight</code>（$ \lambda_D $）</h5>
+
+<ul>
+<li><strong>含义</strong>：好样本损失的权重。</li>
+<li><strong>类型</strong>：<code class="inline-code">float</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">1.0</code>。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">(0, +∞)</code>，常用 <code class="inline-code">0.5 ~ 2.0</code>。</li>
+<li><strong>对结果的影响</strong>：增大 → 模型更积极提升好回答概率，但可能把坏回答也"顺带"推高（因为共享参数）；减小 → 好样本学习不足，模型变得只会"避免坏"而不会"主动好"。</li>
+<li><strong>推荐设置</strong>：正负样本大致均衡时保持 <code class="inline-code">1.0</code>；好样本稀少时不要盲目调大，优先保证标签质量。TRL 启动时会打印建议区间：$ \lambda_D\in[n_U\lambda_U/n_D,\;1.33\,n_U\lambda_U/n_D] $ 或 $ \lambda_U\in[n_D\lambda_D/(1.33\,n_U),\;n_D\lambda_D/n_U] $，<strong>只调其中一个</strong>，不要同时放大两侧。</li>
+</ul>
+
+<h5>参数 3：<code class="inline-code">undesirable_weight</code>（$ \lambda_U $）</h5>
+
+<ul>
+<li><strong>含义</strong>：坏样本损失的权重。</li>
+<li><strong>类型</strong>：<code class="inline-code">float</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">1.0</code>。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">(0, +∞)</code>，常用 <code class="inline-code">1.0 ~ 2.5</code>。</li>
+<li><strong>对结果的影响</strong>：增大 → 模型更强地压制坏回答，符合损失厌恶；过大 → 模型过度保守，回答变得模板化、拒答率上升。</li>
+<li><strong>推荐设置</strong>：安全/合规场景可设 <code class="inline-code">1.5 ~ 2.0</code> 强化压制；创意写作等需要探索的场景保持 <code class="inline-code">1.0</code>；论文默认 <code class="inline-code">λ_D=λ_U=1</code>，不要误以为必须设 2.25。</li>
+</ul>
+
+<h5>参数 4：<code class="inline-code">loss_type</code></h5>
+
+<ul>
+<li><strong>含义</strong>：选择 KTO 损失的具体变体。</li>
+<li><strong>类型</strong>：<code class="inline-code">str</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">"kto"</code>。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">"kto"</code>、<code class="inline-code">"apo_zero_unpaired"</code>（TRL 提供的非配对 APO 变体）。</li>
+<li><strong>对结果的影响</strong>：<code class="inline-code">"kto"</code> 使用本文介绍的 KL 参照点；<code class="inline-code">"apo_zero_unpaired"</code> 采用另一种非配对目标，行为与超参敏感度不同，不能直接套用 KTO 的调参经验。</li>
+<li><strong>推荐设置</strong>：除非论文复现或消融实验，固定 <code class="inline-code">"kto"</code>。</li>
+</ul>
+
+<h5>参数 5：<code class="inline-code">learning_rate</code></h5>
+
+<ul>
+<li><strong>含义</strong>：优化器学习率。</li>
+<li><strong>类型</strong>：<code class="inline-code">float</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">1e-6</code>（KTOConfig 代码默认值；其文档注释写作 <code class="inline-code">5e-7</code>，以实际 <code class="inline-code">KTOConfig()</code> 输出为准），远小于常规 SFT 的 <code class="inline-code">2e-5</code>。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">1e-7 ~ 5e-6</code>。</li>
+<li><strong>对结果的影响</strong>：过大 → 策略崩溃、重复生成、KL 爆炸；过小 → 多轮训练仍无明显对齐效果。</li>
+<li><strong>推荐设置</strong>：全参训练 <code class="inline-code">5e-7 ~ 1e-6</code>；LoRA 可放大到 <code class="inline-code">1e-5 ~ 2e-5</code>（因为只更新低秩矩阵）；先用 100 步小实验看 loss 与 KL 曲线再定。</li>
+</ul>
+
+<h5>参数 6：<code class="inline-code">num_train_epochs</code></h5>
+
+<ul>
+<li><strong>含义</strong>：训练轮数。</li>
+<li><strong>类型</strong>：<code class="inline-code">float</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">3.0</code>。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">1 ~ 5</code>，偏好对齐通常 1~3 轮足够。</li>
+<li><strong>对结果的影响</strong>：轮数过多 → 过拟合训练集的好/坏标签，模型输出多样性下降；轮数过少 → 欠拟合，好样本概率提升不明显。</li>
+<li><strong>推荐设置</strong>：数据量大于 1 万条时 <code class="inline-code">1 ~ 2</code> 轮；小数据（<2 千）可 <code class="inline-code">3</code> 轮并配合早停；以验证集胜率为准，不要只盯训练 loss。</li>
+</ul>
+
+<h5>参数 7：<code class="inline-code">per_device_train_batch_size</code></h5>
+
+<ul>
+<li><strong>含义</strong>：单卡单步的样本数。</li>
+<li><strong>类型</strong>：<code class="inline-code">int</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">8</code>（KTOConfig 默认，实际受显存限制）。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">1 ~ 64</code>，取决于模型规模、序列长度与是否用 LoRA。</li>
+<li><strong>对结果的影响</strong>：批量越大，KL 估计越稳定、梯度噪声越小，但显存占用线性上升；批量太小，KL 估计方差大，训练抖动。</li>
+<li><strong>推荐设置</strong>：7B 全参 + 1024 长度通常只能放 <code class="inline-code">1 ~ 2</code>，靠梯度累积补足；LoRA 可放到 <code class="inline-code">4 ~ 8</code>；KL 估计需要至少 2 条样本才有意义，尽量让<strong>全局批大小 ≥ 16</strong>。</li>
+</ul>
+
+<h5>参数 8：<code class="inline-code">gradient_accumulation_steps</code></h5>
+
+<ul>
+<li><strong>含义</strong>：梯度累积步数，用时间换显存。</li>
+<li><strong>类型</strong>：<code class="inline-code">int</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">1</code>。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">1 ~ 64</code>。</li>
+<li><strong>对结果的影响</strong>：只改变等效批大小，不改变单步显存；累积步数过大时，若学习率未相应调整，收敛会变慢。</li>
+<li><strong>推荐设置</strong>：目标全局批大小 <code class="inline-code">16 ~ 64</code>，用 <code class="inline-code">per_device_batch × 卡数 × 累积步数</code> 凑够；例如单卡 batch=2、累积=8，等效 16。</li>
+</ul>
+
+<h5>参数 9：<code class="inline-code">max_length</code></h5>
+
+<ul>
+<li><strong>含义</strong>：prompt + completion 的总最大长度，超出部分截断。</li>
+<li><strong>类型</strong>：<code class="inline-code">Optional[int]</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">None</code>。使用默认 data collator 时此项必须显式设置；若为 <code class="inline-code">None</code>，collator 会退回到 tokenizer 的 <code class="inline-code">model_max_length</code>（可能是模型上下文上限，极易撑爆显存）。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">128 ~ 8192</code>，不超过模型上下文窗口。</li>
+<li><strong>对结果的影响</strong>：过短会截掉关键回答，标签与内容不匹配；过长则显存与时间急剧上升（注意力是 $ O(L^2) $）。</li>
+<li><strong>推荐设置</strong>：按业务 95 分位长度显式设定；客服问答常用 <code class="inline-code">1024</code>，长文档摘要用 <code class="inline-code">2048 ~ 4096</code>；配合 <code class="inline-code">truncation_mode</code> 保证 completion 不被整段丢弃。</li>
+</ul>
+
+<h5>参数 10：<code class="inline-code">max_prompt_length</code></h5>
+
+<ul>
+<li><strong>含义</strong>：prompt 部分的最大长度。</li>
+<li><strong>类型</strong>：<code class="inline-code">Optional[int]</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">None</code>（使用默认 collator 时必须显式设置）。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">64 ~ 4096</code>，必须小于 <code class="inline-code">max_length</code>。</li>
+<li><strong>对结果的影响</strong>：prompt 被截断会丢失指令与上下文，导致模型学到"断头"的映射；过大则挤压 completion 的可用长度。</li>
+<li><strong>推荐设置</strong>：常规对话 <code class="inline-code">512</code>；RAG/多轮场景按实际上下文调到 <code class="inline-code">1024 ~ 2048</code>，并确认 completion 至少保留 <code class="inline-code">256</code> token。</li>
+</ul>
+
+<h5>参数 11：<code class="inline-code">max_completion_length</code></h5>
+
+<ul>
+<li><strong>含义</strong>：completion 部分的最大长度。</li>
+<li><strong>类型</strong>：<code class="inline-code">int</code> 或 <code class="inline-code">None</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">None</code>，表示 <code class="inline-code">max_length - max_prompt_length</code>。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">1 ~ max_length</code>。</li>
+<li><strong>对结果的影响</strong>：显式设置可精确控制回答长度预算；过小会把长回答截断，标签语义被破坏。</li>
+<li><strong>推荐设置</strong>：多数场景保持 <code class="inline-code">None</code>，让框架用 <code class="inline-code">max_length - max_prompt_length</code> 推导；若业务回答普遍很短（如分类标签），可显式设为 <code class="inline-code">128</code> 以节省显存。</li>
+</ul>
+
+<h5>参数 12：<code class="inline-code">precompute_ref_log_probs</code></h5>
+
+<ul>
+<li><strong>含义</strong>：是否预先算好参考模型的 logprob 并缓存。</li>
+<li><strong>类型</strong>：<code class="inline-code">bool</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">False</code>。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">True</code> / <code class="inline-code">False</code>。</li>
+<li><strong>对结果的影响</strong>：<code class="inline-code">True</code> 时训练阶段不再前向参考模型，显存与时间显著下降，但需要额外一次全量前向并占用磁盘；参考模型若在训练中变化（一般不会）则结果失效。</li>
+<li><strong>推荐设置</strong>：数据固定、显存紧张时设 <code class="inline-code">True</code>；做超参搜索时强烈推荐，可把每轮实验时间缩短近一半。</li>
+</ul>
+
+<h5>参数 13：<code class="inline-code">disable_dropout</code></h5>
+
+<ul>
+<li><strong>含义</strong>：是否在训练时关闭模型 dropout。</li>
+<li><strong>类型</strong>：<code class="inline-code">bool</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">True</code>。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">True</code> / <code class="inline-code">False</code>。</li>
+<li><strong>对结果的影响</strong>：偏好对齐的损失对 logprob 非常敏感，dropout 会引入随机噪声，使好/坏样本的概率估计不稳定；关闭后训练更确定，但可能轻微增加过拟合。</li>
+<li><strong>推荐设置</strong>：保持 <code class="inline-code">True</code>；若数据量很大且发现过拟合，再考虑开启并降低 dropout 率。</li>
+</ul>
+
+<h5>参数 14：<code class="inline-code">dataset_num_proc</code></h5>
+
+<ul>
+<li><strong>含义</strong>：数据预处理（分词、截断、构造 KL 错配样本）的并行进程数。</li>
+<li><strong>类型</strong>：<code class="inline-code">int</code> 或 <code class="inline-code">None</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">None</code>（单进程）。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">1 ~ CPU 核数</code>。</li>
+<li><strong>对结果的影响</strong>：只影响数据准备速度，不影响训练结果；进程过多在容器中可能因共享内存不足而报错。</li>
+<li><strong>推荐设置</strong>：本地 <code class="inline-code">4 ~ 8</code>；容器内先确认 <code class="inline-code">/dev/shm</code> 大小，报 <code class="inline-code">Bus error</code> 时降为 <code class="inline-code">1 ~ 2</code>。</li>
+</ul>
+
+<h5>参数 15：<code class="inline-code">padding_value</code></h5>
+
+<ul>
+<li><strong>含义</strong>：padding token 的填充值。</li>
+<li><strong>类型</strong>：<code class="inline-code">Optional[int]</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">None</code>，表示使用 tokenizer 的 <code class="inline-code">pad_token_id</code>。</li>
+<li><strong>取值范围</strong>：通常等于 tokenizer 的 <code class="inline-code">pad_token_id</code>。</li>
+<li><strong>对结果的影响</strong>：填充值错误会让模型把 padding 当成真实 token 计入 logprob，污染损失；某些模型（如 LLaMA 系列）没有原生 pad token，需要显式指定。</li>
+<li><strong>推荐设置</strong>：设为 tokenizer 的 <code class="inline-code">pad_token_id</code>；若无 pad token，用 <code class="inline-code">eos_token_id</code> 并同步设置 <code class="inline-code">tokenizer.pad_token</code>。</li>
+</ul>
+
+<h5>参数 16：<code class="inline-code">use_liger_kernel</code></h5>
+
+<ul>
+<li><strong>含义</strong>：是否启用 Liger Kernel 融合算子加速。</li>
+<li><strong>类型</strong>：<code class="inline-code">bool</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">False</code>。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">True</code> / <code class="inline-code">False</code>。</li>
+<li><strong>对结果的影响</strong>：可显著降低显存、提升吞吐（部分模型可省 30%~60% 显存），但依赖 <code class="inline-code">liger-kernel</code> 包与模型结构兼容性，不兼容时会直接报错。</li>
+<li><strong>推荐设置</strong>：支持的模型（Llama/Qwen/Mistral 等主流架构）可设 <code class="inline-code">True</code> 并做一次小规模数值对齐；不兼容时保持 <code class="inline-code">False</code>。</li>
+</ul>
+
+<h5>参数 17：<code class="inline-code">activation_offloading</code></h5>
+
+<ul>
+<li><strong>含义</strong>：是否把激活值卸载到 CPU，以降低显存峰值。</li>
+<li><strong>类型</strong>：<code class="inline-code">bool</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">False</code>。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">True</code> / <code class="inline-code">False</code>。</li>
+<li><strong>对结果的影响</strong>：显存下降但训练速度明显变慢（PCIe 往返）；与梯度检查点类似但粒度不同。</li>
+<li><strong>推荐设置</strong>：单卡显存不足且无法减小 batch 时开启；有充足显存时保持关闭。</li>
+</ul>
+
+<h5>参数 18：<code class="inline-code">generate_during_eval</code></h5>
+
+<ul>
+<li><strong>含义</strong>：评估时是否生成样本并记录到 wandb/comet 等平台。</li>
+<li><strong>类型</strong>：<code class="inline-code">bool</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">False</code>。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">True</code> / <code class="inline-code">False</code>。</li>
+<li><strong>对结果的影响</strong>：开启后可以看到模型实际输出，便于人工判断对齐质量，但评估会明显变慢、显存峰值上升。</li>
+<li><strong>推荐设置</strong>：调试与小规模评估时 <code class="inline-code">True</code>；大规模训练默认 <code class="inline-code">False</code>，另起离线评测脚本。</li>
+</ul>
+
+<h5>参数 19：<code class="inline-code">optim</code></h5>
+
+<ul>
+<li><strong>含义</strong>：优化器类型。</li>
+<li><strong>类型</strong>：<code class="inline-code">str</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">"adamw_torch"</code>。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">adamw_torch</code>、<code class="inline-code">adamw_8bit</code>、<code class="inline-code">paged_adamw_8bit</code>、<code class="inline-code">adafactor</code> 等。</li>
+<li><strong>对结果的影响</strong>：8-bit 优化器可省大量显存，但可能带来轻微数值差异；adafactor 更省但收敛行为不同。</li>
+<li><strong>推荐设置</strong>：显存充足用 <code class="inline-code">adamw_torch</code>；7B 以上全参训练用 <code class="inline-code">paged_adamw_8bit</code>；LoRA 用 <code class="inline-code">adamw_torch</code> 即可。</li>
+</ul>
+
+<h5>参数 20：<code class="inline-code">lr_scheduler_type</code></h5>
+
+<ul>
+<li><strong>含义</strong>：学习率调度器类型。</li>
+<li><strong>类型</strong>：<code class="inline-code">str</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">"linear"</code>。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">linear</code>、<code class="inline-code">cosine</code>、<code class="inline-code">constant</code>、<code class="inline-code">constant_with_warmup</code> 等。</li>
+<li><strong>对结果的影响</strong>：<code class="inline-code">linear</code> 先升后线性降，简单稳定；<code class="inline-code">cosine</code> 后期降得更平滑，通常略优但需要知道总步数。</li>
+<li><strong>推荐设置</strong>：默认 <code class="inline-code">linear</code>；数据量大、训练步数多时用 <code class="inline-code">cosine</code> 并配合 <code class="inline-code">warmup_ratio=0.1</code>。</li>
+</ul>
+
+<h5>参数 21：<code class="inline-code">warmup_ratio</code></h5>
+
+<ul>
+<li><strong>含义</strong>：预热步数占总步数的比例。</li>
+<li><strong>类型</strong>：<code class="inline-code">float</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">0.0</code>（KTOConfig 继承 <code class="inline-code">TrainingArguments</code> 的默认值）。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">0.0 ~ 0.2</code>。</li>
+<li><strong>对结果的影响</strong>：预热可避免训练初期大梯度破坏模型；比例过大会浪费训练预算，过小则早期不稳定。</li>
+<li><strong>推荐设置</strong>：偏好对齐建议显式设为 <code class="inline-code">0.03 ~ 0.1</code>；小数据微调可降到 <code class="inline-code">0.03</code>。</li>
+</ul>
+
+<h5>参数 22：<code class="inline-code">max_grad_norm</code></h5>
+
+<ul>
+<li><strong>含义</strong>：梯度裁剪的最大范数。</li>
+<li><strong>类型</strong>：<code class="inline-code">float</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">1.0</code>。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">0.1 ~ 5.0</code>。</li>
+<li><strong>对结果的影响</strong>：KTO 的梯度有界，但异常样本仍可能造成尖峰；裁剪过紧会拖慢收敛，过松则可能一步毁掉模型。</li>
+<li><strong>推荐设置</strong>：<code class="inline-code">1.0</code>；若观察到 loss 尖刺，先降到 <code class="inline-code">0.5</code> 并检查数据。</li>
+</ul>
+
+<h5>参数 23：<code class="inline-code">bf16</code></h5>
+
+<ul>
+<li><strong>含义</strong>：是否使用 bfloat16 混合精度训练。</li>
+<li><strong>类型</strong>：<code class="inline-code">bool</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">False</code>。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">True</code> / <code class="inline-code">False</code>。</li>
+<li><strong>对结果的影响</strong>：开启后显存占用约降一半、吞吐提升，但需要 GPU 支持 bf16（Ampere 及更新架构）；不支持时 PyTorch 会报错或自动回退，回退后可能变慢。</li>
+<li><strong>推荐设置</strong>：A100/H100/RTX 30 系及以上设 <code class="inline-code">True</code>；老卡改用 <code class="inline-code">fp16=True</code> 并配 <code class="inline-code">fp16_opt_level</code>，或保持全精度。</li>
+</ul>
+
+<h5>参数 24：<code class="inline-code">gradient_checkpointing</code></h5>
+
+<ul>
+<li><strong>含义</strong>：是否用梯度检查点（重算激活）换显存。</li>
+<li><strong>类型</strong>：<code class="inline-code">bool</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">False</code>。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">True</code> / <code class="inline-code">False</code>。</li>
+<li><strong>对结果的影响</strong>：显存可降 30%~50%，训练速度下降约 20%~30%；与 <code class="inline-code">use_cache</code> 冲突，TRL 会自动关闭模型 cache。</li>
+<li><strong>推荐设置</strong>：全参训练 7B 及以上、或长序列（>2048）时开启；LoRA 小模型通常不需要。</li>
+</ul>
+
+<h5>参数 25：<code class="inline-code">seed</code></h5>
+
+<ul>
+<li><strong>含义</strong>：全局随机种子。</li>
+<li><strong>类型</strong>：<code class="inline-code">int</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">42</code>。</li>
+<li><strong>取值范围</strong>：任意整数。</li>
+<li><strong>对结果的影响</strong>：影响数据打乱顺序、dropout、初始化等；固定种子便于复现实验，但不能保证跨硬件、跨版本的逐位一致。</li>
+<li><strong>推荐设置</strong>：固定 <code class="inline-code">42</code> 并在实验记录中注明；做稳健性评估时换 3~5 个种子观察方差。</li>
+</ul>
+
+<h5>参数 26：<code class="inline-code">logging_steps</code></h5>
+
+<ul>
+<li><strong>含义</strong>：每隔多少步打印一次训练日志。</li>
+<li><strong>类型</strong>：<code class="inline-code">int</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">500</code>（<code class="inline-code">TrainingArguments</code> 默认；许多示例会改成 <code class="inline-code">10</code>）。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">1 ~ 1000</code>。</li>
+<li><strong>对结果的影响</strong>：只影响可观测性与少量 I/O 开销；步数过大时难以及时发现 loss 尖刺或 KL 异常。</li>
+<li><strong>推荐设置</strong>：小数据 <code class="inline-code">1 ~ 5</code>，大数据 <code class="inline-code">10 ~ 50</code>；至少保证每个 epoch 能看到 5~10 个日志点。</li>
+</ul>
+
+<h5>参数 27：<code class="inline-code">save_strategy</code></h5>
+
+<ul>
+<li><strong>含义</strong>：checkpoint 保存策略。</li>
+<li><strong>类型</strong>：<code class="inline-code">str</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">"steps"</code>。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">"no"</code>、<code class="inline-code">"steps"</code>、<code class="inline-code">"epoch"</code>。</li>
+<li><strong>对结果的影响</strong>：决定磁盘占用与恢复粒度；<code class="inline-code">"steps"</code> 需配合 <code class="inline-code">save_steps</code>，保存过频会拖慢训练并占满磁盘。</li>
+<li><strong>推荐设置</strong>：小数据用 <code class="inline-code">"epoch"</code>；大数据用 <code class="inline-code">"steps"</code> 且 <code class="inline-code">save_steps</code> 设为 <code class="inline-code">500 ~ 1000</code>，并开启 <code class="inline-code">save_total_limit=2</code>。</li>
+</ul>
+
+<h5>参数 28：<code class="inline-code">eval_strategy</code></h5>
+
+<ul>
+<li><strong>含义</strong>：评估策略。</li>
+<li><strong>类型</strong>：<code class="inline-code">str</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">"no"</code>。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">"no"</code>、<code class="inline-code">"steps"</code>、<code class="inline-code">"epoch"</code>。</li>
+<li><strong>对结果的影响</strong>：开启后会在验证集上计算 KTO loss、reward 与 KL，帮助判断过拟合；但会额外占用时间与显存，且 KTO 的评估指标不如分类任务直观。</li>
+<li><strong>推荐设置</strong>：有高质量验证集时设 <code class="inline-code">"epoch"</code> 或 <code class="inline-code">"steps"</code>（配 <code class="inline-code">eval_steps</code>）；最终效果仍应以离线人工评测/胜率为准。</li>
+</ul>
+
+<h5>参数 29：<code class="inline-code">model_init_kwargs</code></h5>
+
+<ul>
+<li><strong>含义</strong>：以字符串形式传入模型名时，额外传给 <code class="inline-code">AutoModelForCausalLM.from_pretrained</code> 的参数。</li>
+<li><strong>类型</strong>：<code class="inline-code">dict</code> 或 <code class="inline-code">None</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">None</code>。</li>
+<li><strong>取值范围</strong>：任意合法的 <code class="inline-code">from_pretrained</code> 关键字参数，如 <code class="inline-code">torch_dtype</code>、<code class="inline-code">device_map</code>、<code class="inline-code">attn_implementation</code>。</li>
+<li><strong>对结果的影响</strong>：可控制精度、注意力实现、是否量化加载；设错（如同时指定 <code class="inline-code">device_map</code> 与分布式训练）会导致冲突。</li>
+<li><strong>推荐设置</strong>：需要 <code class="inline-code">attn_implementation="flash_attention_2"</code> 或 4bit 量化时使用；普通单卡训练保持 <code class="inline-code">None</code>。</li>
+</ul>
+
+<h5>参数 30：<code class="inline-code">ref_model</code></h5>
+
+<ul>
+<li><strong>含义</strong>：参考模型，用于计算 $ \log\pi_{\text{ref}} $ 与 KL 参照点。</li>
+<li><strong>类型</strong>：<code class="inline-code">PreTrainedModel</code>、<code class="inline-code">nn.Module</code>、<code class="inline-code">str</code> 或 <code class="inline-code">None</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">None</code>。</li>
+<li><strong>取值范围</strong>：任意与策略模型同词表/同结构的模型；<code class="inline-code">None</code> 时若使用 PEFT 则复用基座并关闭适配器，否则框架会复制一份策略模型作为参考。</li>
+<li><strong>对结果的影响</strong>：参考模型决定"参照点"的位置。参考模型太弱会让模型退化，太强会让策略难以超越；参考模型与策略不同词表时会直接报错。</li>
+<li><strong>推荐设置</strong>：PEFT 场景保持 <code class="inline-code">None</code> 以省显存；全参训练显式传入冻结的 SFT 模型副本，并确保 <code class="inline-code">eval()</code> 模式、关闭 dropout。</li>
+</ul>
+
+<h5>参数 31：<code class="inline-code">label_pad_token_id</code></h5>
+
+<ul>
+<li><strong>含义</strong>：标签中用于表示"忽略"的 padding id。</li>
+<li><strong>类型</strong>：<code class="inline-code">int</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">-100</code>。</li>
+<li><strong>取值范围</strong>：通常为 <code class="inline-code">-100</code>，或词表中不会出现的负数。</li>
+<li><strong>对结果的影响</strong>：交叉熵会忽略该位置；若设成合法 token id，padding 会被当成监督信号，严重污染损失。</li>
+<li><strong>推荐设置</strong>：保持 <code class="inline-code">-100</code>，不要与 tokenizer 的 <code class="inline-code">pad_token_id</code> 混用；后者用于输入 ids，前者用于 labels。</li>
+</ul>
+
+<h5>参数 32：<code class="inline-code">truncation_mode</code></h5>
+
+<ul>
+<li><strong>含义</strong>：prompt 过长时的截断方向。</li>
+<li><strong>类型</strong>：<code class="inline-code">str</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">"keep_end"</code>。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">"keep_end"</code>（保留末尾）、<code class="inline-code">"keep_start"</code>（保留开头）。</li>
+<li><strong>对结果的影响</strong>：<code class="inline-code">keep_end</code> 保留最近的对话轮次，适合多轮客服；<code class="inline-code">keep_start</code> 保留系统提示与任务定义，适合长文档/长指令；选错会丢掉关键约束，导致标签与输入不匹配。</li>
+<li><strong>推荐设置</strong>：多轮对话用 <code class="inline-code">keep_end</code>；RAG/长文摘要用 <code class="inline-code">keep_start</code>；无论哪种都要抽查截断后的样本，确认 completion 未被截空。</li>
+</ul>
+
+<h4>代码示例</h4>
+
+<p>下面给出两段代码：第一段是工业界最常用的 TRL <code class="inline-code">KTOTrainer</code> 训练脚本；第二段是从零实现 KTO 损失，帮助你核对公式与框架实现是否一致。两段代码每一行都有注释。</p>
+
+<p><pre class="code-block"><code class="language-python">import torch  # 深度学习框架
+from datasets import Dataset  # Hugging Face 数据集容器
+from transformers import AutoTokenizer, AutoModelForCausalLM  # 模型与分词器
+from trl import KTOConfig, KTOTrainer  # TRL 的 KTO 配置与训练器
+
+model_name = &quot;Qwen/Qwen2.5-0.5B-Instruct&quot;  # 以 0.5B 小模型为例，便于单卡复现
+tokenizer = AutoTokenizer.from_pretrained(model_name)  # 加载分词器
+if tokenizer.pad_token is None:  # 部分模型没有 pad token
+    tokenizer.pad_token = tokenizer.eos_token  # 用 eos 充当 pad，避免 padding 报错
+
+raw_data = [  # 构造最小训练集：每条只需 prompt、completion、label
+    {  # 第一条：好样本
+        &quot;prompt&quot;: [{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;宽带频繁掉线怎么排查？&quot;}],  # 对话式 prompt
+        &quot;completion&quot;: [{&quot;role&quot;: &quot;assistant&quot;, &quot;content&quot;: &quot;先检查光猫指示灯，再查看是否欠费，最后重启光猫并观察 10 分钟。&quot;}],  # 被认可的回答
+        &quot;label&quot;: True,  # True 表示 desirable（好样本）
+    },
+    {  # 第二条：坏样本
+        &quot;prompt&quot;: [{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;宽带频繁掉线怎么排查？&quot;}],  # 同一个问题的另一种回答
+        &quot;completion&quot;: [{&quot;role&quot;: &quot;assistant&quot;, &quot;content&quot;: &quot;不知道，你换个运营商吧。&quot;}],  # 被否定的回答
+        &quot;label&quot;: False,  # False 表示 undesirable（坏样本）
+    },
+]  # 实际训练应有数千到数万条，且覆盖多样场景
+
+dataset = Dataset.from_list(raw_data)  # 转为 HF Dataset，KTOTrainer 可直接消费
+
+training_args = KTOConfig(  # 构造 KTO 训练配置
+    output_dir=&quot;./kto-qwen05b&quot;,  # 输出目录
+    beta=0.1,  # 隐式奖励缩放系数，论文默认 0.1
+    desirable_weight=1.0,  # 好样本权重 λ_D
+    undesirable_weight=1.0,  # 坏样本权重 λ_U
+    learning_rate=1e-6,  # KTO 常用学习率，远小于 SFT
+    num_train_epochs=1,  # 小数据 1 轮即可，避免过拟合
+    per_device_train_batch_size=2,  # 单卡批量，按显存调整
+    gradient_accumulation_steps=8,  # 累积 8 步，等效批量 16，保证 KL 估计稳定
+    max_length=1024,  # prompt + completion 总长度上限
+    max_prompt_length=512,  # prompt 长度上限
+    precompute_ref_log_probs=True,  # 预计算参考模型 logprob，省显存与时间
+    disable_dropout=True,  # 关闭 dropout，降低 logprob 噪声
+    bf16=torch.cuda.is_available(),  # 有 GPU 时启用 bf16 混合精度
+    gradient_checkpointing=False,  # 0.5B 模型无需检查点；7B+ 建议开启
+    logging_steps=1,  # 小数据每步打印日志
+    save_strategy=&quot;epoch&quot;,  # 每轮保存一次
+    report_to=&quot;none&quot;,  # 不上报 wandb，避免额外依赖
+    seed=42,  # 固定随机种子
+)
+
+trainer = KTOTrainer(  # 构造 KTO 训练器
+    model=model_name,  # 可直接传模型名，TRL 内部加载
+    ref_model=None,  # PEFT 场景复用基座；全参训练请传入冻结的参考模型
+    args=training_args,  # 上述训练配置
+    train_dataset=dataset,  # 训练集
+    processing_class=tokenizer,  # 分词器，用于 padding 与 chat template
+)
+
+trainer.train()  # 开始训练
+trainer.save_model(&quot;./kto-qwen05b-final&quot;)  # 保存最终模型与配置
+tokenizer.save_pretrained(&quot;./kto-qwen05b-final&quot;)  # 保存分词器，便于推理端复现</code></pre></p>
+
+<p><pre class="code-block"><code class="language-python">import torch  # 仅用 torch 实现损失，便于逐行核对公式
+import torch.nn.functional as F  # 提供 sigmoid 等函数
+
+def kto_loss(  # 计算一个批次的 KTO 损失
+    policy_logps: torch.Tensor,  # 当前策略对&quot;真实配对&quot;的 log πθ(y|x)，形状 (B,)
+    ref_logps: torch.Tensor,  # 参考模型对&quot;真实配对&quot;的 log πref(y|x)，形状 (B,)
+    labels: torch.Tensor,  # 二值标签，True=好样本，False=坏样本，形状 (B,)
+    policy_kl_logps: torch.Tensor,  # 策略对&quot;错配样本&quot;的 log πθ(y&#x27;|x&#x27;)，形状 (B,)
+    ref_kl_logps: torch.Tensor,  # 参考模型对&quot;错配样本&quot;的 log πref(y&#x27;|x&#x27;)，形状 (B,)
+    beta: float = 0.1,  # 隐式奖励缩放系数
+    lambda_d: float = 1.0,  # 好样本权重 λ_D
+    lambda_u: float = 1.0,  # 坏样本权重 λ_U
+) -&gt; torch.Tensor:  # 返回标量损失
+    kl = (policy_kl_logps - ref_kl_logps).mean()  # 用批内错配样本估计 KL
+    kl = kl.clamp(min=0).detach()  # 参照点非负且不回传梯度
+    logratio = policy_logps - ref_logps  # 真实配对上的对数概率差
+    loss_d = lambda_d * (1 - F.sigmoid(beta * (logratio - kl)))  # 好样本损失
+    loss_u = lambda_u * (1 - F.sigmoid(beta * (kl - logratio)))  # 坏样本损失
+    per_sample = torch.where(labels.bool(), loss_d, loss_u)  # 按标签选择对应损失
+    return per_sample.mean()  # 对 batch 求平均
+
+if __name__ == &quot;__main__&quot;:  # 自测：构造一批数据验证数值行为
+    torch.manual_seed(0)  # 固定随机种子
+    policy = torch.tensor([-1.0, -3.0, -2.0, -4.0])  # 策略 logprob
+    ref = torch.tensor([-1.5, -2.5, -2.5, -2.0])  # 参考模型 logprob
+    policy_kl = torch.tensor([-6.0, -6.5, -5.5, -7.0])  # 错配样本的策略 logprob
+    ref_kl = torch.tensor([-6.2, -6.1, -6.0, -6.4])  # 错配样本的参考 logprob
+    labels = torch.tensor([True, False, True, False])  # 两条好、两条坏
+    value = kto_loss(policy, ref, labels, policy_kl, ref_kl)  # 计算损失
+    print(f&quot;KTO loss = {value.item():.4f}&quot;)  # 打印标量结果</code></pre></p>
+
+<h4>复杂度分析</h4>
+
+<p><strong>前向计算</strong>：每条样本需要一次策略模型前向与一次参考模型前向。Transformer 单层注意力对序列长度 $ L $ 的复杂度为 $ O(L^2 d) $，$ d $ 为隐藏维度；全模型 $ O(L^2 d \cdot n_{\text{layer}}) $。KTO 每条样本只处理<strong>一条</strong>回答，而 DPO 每个偏好对要处理 chosen + rejected <strong>两条</strong>回答，因此在相同标注量下 KTO 的前向 token 数约少一半。</p>
+
+<p><strong>KL 估计</strong>：复用同一批次的 logprob，仅做张量重排与减法，$ O(B) $，可忽略；但要求批内至少 2 条样本，且错配必须跨越样本边界。</p>
+
+<p><strong>反向传播</strong>：只对策略模型反传，参考模型冻结。显存主要来自策略模型参数、参考模型参数（或预计算的 logprob）、激活值与优化器状态。全参 7B + AdamW 约需 $ 4\times $ 参数量（fp32 主权重、梯度、两个动量）再加激活，通常需要 80GB 以上；LoRA 可降到 24GB 级别。</p>
+
+<p><strong>参数量与时间对比（同标注预算）</strong>：</p>
+
+<div class="table-wrapper"><table class="algo-table"><thead><tr><th>算法</th><th>每条样本前向次数</th><th>是否需要配对</th><th>参考模型</th><th>典型显存</th></tr></thead><tbody><tr><td>DPO</td><td>2（chosen + rejected）</td><td>是</td><td>需要</td><td>高</td></tr><tr><td>KTO</td><td>1（单条回答）</td><td>否</td><td>需要</td><td>中</td></tr><tr><td>ORPO</td><td>2（chosen + rejected）</td><td>是</td><td>不需要</td><td>中</td></tr><tr><td>PPO</td><td>4+（actor/critic/reward/ref）</td><td>否</td><td>需要</td><td>很高</td></tr></tbody></table></div>
+
+<p><strong>数据复杂度</strong>：KTO 的有效样本利用率更高（每条标注都能用），但标签噪声会线性放大；论文报告在同等效果下，KTO 所需标注量可显著少于 DPO，前提是标签质量可靠。</p>
+
+<h4>应用场景</h4>
+
+<ul>
+<li><strong>生产日志对齐</strong>：客服系统每天产生大量"点赞/点踩""采纳/未采纳"日志，天然是单条二值标签，无需人工构造成对数据。</li>
+<li><strong>内容安全与合规</strong>：把"违规回答"标为坏样本、"合规回答"标为好样本，用较大的 $ \lambda_U $ 强化压制。</li>
+<li><strong>客服话术优化</strong>：以"用户是否继续追问/是否转人工"作为弱标签，训练模型更倾向一次解决。</li>
+<li><strong>数据极度不平衡的场景</strong>：坏样本远多于好样本时，通过 $ \lambda_D:\lambda_U $ 调节，而不必像 DPO 那样为每个坏样本寻找配对好样本。</li>
+<li><strong>多轮对话中的单轮评估</strong>：对每条 assistant 回复单独标注，KTO 可直接消费，DPO 则需要把同一上下文的多条回复配对。</li>
+<li><strong>冷启动对齐</strong>：SFT 之后只有少量人工反馈时，KTO 比 DPO 更容易凑够训练数据。</li>
+<li><strong>不适用场景</strong>：需要精细区分"两个都不错但 A 略好于 B"的排序任务，KTO 的二值标签会丢失序信息，此时应使用 DPO/IPO 或奖励模型。</li>
+</ul>
+
+<h4>参考文档</h4>
+
+<ul>
+<li><a href="https://arxiv.org/abs/2402.01306" target="_blank" class="ref-link">KTO: Model Alignment as Prospect Theoretic Optimization — arXiv:2402.01306</a></li>
+<li><a href="https://huggingface.co/docs/trl/main/en/kto_trainer" target="_blank" class="ref-link">TRL KTOTrainer 官方文档（参数、数据格式、示例）</a></li>
+<li><a href="https://huggingface.co/docs/trl/main/en/kto_trainer#trl.KTOConfig" target="_blank" class="ref-link">TRL KTOConfig API 参考</a></li>
+<li><a href="https://github.com/ContextualAI/HALOs" target="_blank" class="ref-link">ContextualAI HALOs：KTO 原始实现</a></li>
+<li><a href="https://github.com/OpenRLHF/OpenRLHF/blob/main/openrlhf/models/loss.py" target="_blank" class="ref-link">OpenRLHF loss 实现（含 KTOLoss / VanillaKTOLoss）</a></li>
+<li><a href="https://www.jstor.org/stable/1914185" target="_blank" class="ref-link">Kahneman & Tversky, Prospect Theory: An Analysis of Decision under Risk (1979)</a></li>
+<li><a href="https://huggingface.co/blog/pref-tuning" target="_blank" class="ref-link">Hugging Face 博客：Preference Tuning 综述（DPO/IPO/KTO）</a></li>
+</ul>
+
+<hr>
+
+<blockquote>
+<p>AI生成</p>
+</blockquote>
+
+  </div>
+  <div class="footer">
+    <p>由 TeleAgent · 每日算法推送 技能自动生成 | 2026-11-09 09:51</p>
+  </div>
+</div>
+</body>
+</html>
