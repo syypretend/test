@@ -1,0 +1,1741 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>每日算法讲解 · 2026年11月11日</title>
+<!-- MathJax for LaTeX math formula rendering -->
+<script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\(', '\)']],
+      displayMath: [['$$', '$$'], ['\[', '\]']],
+      processEscapes: true
+    },
+    svg: { fontCache: 'global' }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" id="MathJax-script" async></script>
+<style>
+:root {
+  --primary: #6366f1;
+  --primary-dark: #4f46e5;
+  --bg: #0f172a;
+  --card-bg: #1e293b;
+  --text: #e2e8f0;
+  --text-dim: #94a3b8;
+  --accent: #818cf8;
+  --border: #334155;
+  --code-bg: #0d1117;
+  --code-text: #e6edf3;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans SC", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.8;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+.container { max-width: 1400px; margin: 0 auto; padding: 24px 32px; }
+.header {
+  text-align: center;
+  padding: 40px 0 30px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 32px;
+}
+.header h1 {
+  font-size: 28px;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.header h1 .date { color: var(--accent); }
+.header .subtitle { color: var(--text-dim); font-size: 15px; }
+.repo-link {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 6px 16px;
+  background: var(--primary);
+  color: #fff;
+  border-radius: 20px;
+  text-decoration: none;
+  font-size: 13px;
+  transition: background 0.2s;
+}
+.repo-link:hover { background: var(--primary-dark); }
+.history-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 32px;
+  padding: 16px;
+  background: var(--card-bg);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+.history-nav a {
+  padding: 4px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  color: var(--text-dim);
+  text-decoration: none;
+  background: rgba(99,102,241,0.08);
+  transition: all 0.2s;
+}
+.history-nav a:hover { color: var(--text); background: rgba(99,102,241,0.2); }
+.history-nav a.active { color: #fff; background: var(--primary); }
+.history-nav a.back-index { color: var(--accent); font-weight: 600; background: rgba(99,102,241,0.15); border: 1px solid rgba(99,102,241,0.3); }
+.history-nav a.back-index:hover { color: #fff; background: var(--primary); border-color: var(--primary); }
+.content { margin-bottom: 40px; max-width: 1100px; }
+.content h2 {
+  font-size: 24px;
+  color: var(--accent);
+  margin: 40px 0 16px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--primary);
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+.content h2:first-child { border-top: none; padding-top: 0; }
+.content h3 {
+  font-size: 18px;
+  color: var(--text);
+  margin: 24px 0 12px;
+}
+.content h4 {
+  font-size: 16px;
+  color: var(--accent);
+  margin: 20px 0 10px;
+}
+.content h5 {
+  font-size: 15px;
+  color: #a5b4fc;
+  font-weight: 600;
+  margin: 18px 0 8px;
+}
+.content p { margin-bottom: 12px; color: var(--text); }
+.content ul { margin: 8px 0 16px 20px; }
+.content li { margin-bottom: 6px; }
+.content strong { color: var(--accent); }
+.content blockquote {
+  border-left: 4px solid var(--primary);
+  padding: 12px 16px;
+  margin: 16px 0;
+  background: rgba(99,102,241,0.08);
+  border-radius: 0 8px 8px 0;
+}
+.content blockquote p { color: var(--text-dim); margin: 4px 0; }
+.content hr {
+  border: none;
+  height: 1px;
+  background: var(--border);
+  margin: 32px 0;
+}
+.code-block {
+  background: var(--code-bg);
+  border-radius: 10px;
+  padding: 18px 24px;
+  overflow-x: auto;
+  margin: 16px 0;
+  border: 1px solid var(--border);
+  max-width: 100%;
+}
+.code-block code {
+  font-family: "JetBrains Mono", "Fira Code", "Consolas", monospace;
+  font-size: 14px;
+  color: var(--code-text);
+  line-height: 1.6;
+  white-space: pre;
+}
+.inline-code {
+  background: rgba(99,102,241,0.15);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: "Consolas", monospace;
+  font-size: 0.9em;
+  color: var(--accent);
+}
+/* Math formula block */
+.content .math-block {
+  background: rgba(99,102,241,0.06);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 24px;
+  margin: 16px 0;
+  overflow-x: auto;
+  max-width: 100%;
+}
+.content .math-label {
+  font-size: 13px; color: var(--text-dim); margin-bottom: 6px; }
+.content .math-vars {
+  margin: 8px 0 16px 20px; }
+.content .math-vars li { margin-bottom: 4px; color: var(--text-dim); }
+.footer {
+  text-align: center;
+  padding: 24px 0;
+  border-top: 1px solid var(--border);
+  color: var(--text-dim);
+  font-size: 13px;
+}
+.tag {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  background: rgba(99,102,241,0.15);
+  color: var(--accent);
+  margin-left: 8px;
+}
+.content .ref-link {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px dashed rgba(99,102,241,0.4);
+  transition: all 0.2s;
+  word-break: break-all;
+}
+.content .ref-link:hover {
+  color: #fff;
+  border-bottom-color: var(--primary);
+}
+.content li {
+  word-break: break-all;
+}
+/* Table */
+.table-wrapper {
+  overflow-x: auto;
+  margin: 16px 0;
+  max-width: 100%;
+}
+.algo-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  background: var(--card-bg);
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+.algo-table thead {
+  background: rgba(99,102,241,0.15);
+}
+.algo-table th {
+  padding: 10px 16px;
+  text-align: left;
+  color: var(--accent);
+  font-weight: 600;
+  border-bottom: 2px solid var(--primary);
+  white-space: nowrap;
+}
+.algo-table td {
+  padding: 8px 16px;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  word-break: break-all;
+}
+.algo-table tr:last-child td {
+  border-bottom: none;
+}
+.algo-table tr:hover td {
+  background: rgba(99,102,241,0.06);
+}
+/* Algorithm architecture image */
+.algo-image {
+  margin: 20px 0;
+  text-align: center;
+}
+.algo-image img {
+  max-width: 100%;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+.algo-image .image-caption {
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--text-dim);
+}
+.algo-image svg {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+/* ======== 移动端响应式适配 ======== */
+@media (max-width: 768px) {
+  .container { max-width: 100%; padding: 16px 14px; }
+  .header { padding: 24px 0 20px; margin-bottom: 20px; }
+  .header h1 { font-size: 20px; margin-bottom: 4px; }
+  .header .subtitle { font-size: 13px; }
+  .repo-link { margin-top: 10px; padding: 5px 14px; font-size: 12px; }
+  .history-nav { gap: 6px; padding: 10px 12px; margin-bottom: 20px; }
+  .history-nav a { padding: 3px 10px; font-size: 12px; }
+  .content { max-width: 100%; margin-bottom: 28px; }
+  .content h2 { font-size: 20px; margin: 28px 0 12px; }
+  .content h3 { font-size: 17px; margin: 20px 0 10px; }
+  .content h4 { font-size: 15px; margin: 16px 0 8px; }
+  .content h5 { font-size: 14px; margin: 14px 0 6px; }
+  .content p { font-size: 14px; margin-bottom: 10px; }
+  .content ul { margin: 6px 0 12px 16px; }
+  .content li { font-size: 14px; margin-bottom: 5px; }
+  .content blockquote { padding: 10px 12px; margin: 12px 0; }
+  .content blockquote p { font-size: 13px; }
+  .content .math-block { padding: 10px 14px; margin: 12px 0; }
+  .code-block { padding: 12px 14px; margin: 12px 0; }
+  .code-block code { font-size: 12px; line-height: 1.5; }
+  .inline-code { font-size: 0.88em; padding: 1px 5px; }
+  .algo-table { font-size: 12px; }
+  .algo-table th { padding: 6px 10px; }
+  .algo-table td { padding: 6px 10px; }
+  .algo-image { margin: 14px 0; }
+  .algo-image svg { max-width: 100%; height: auto; }
+  .footer { padding: 18px 0; font-size: 12px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>每日算法讲解 · <span class="date">2026年11月11日</span></h1>
+    <p class="subtitle">每天 1 个基础算法 + 2 个 AI/机器学习算法，持续精进</p>
+    <a href="https://syypretend.github.io/test/daily-algorithm" target="_blank" class="repo-link">GitHub 仓库</a>
+  </div>
+  <div class="history-nav"><a href="index.html" class="back-index">← 历史索引</a>
+<a href="2026-11-11.html" class="active">11月11日</a>
+<a href="2026-11-10.html">11月10日</a>
+<a href="2026-11-09.html">11月09日</a>
+<a href="2026-11-06.html">11月06日</a>
+<a href="2026-11-05.html">11月05日</a>
+<a href="2026-11-04.html">11月04日</a>
+<a href="2026-10-28.html">10月28日</a>
+<a href="2026-10-26.html">10月26日</a>
+<a href="2026-10-19.html">10月19日</a>
+<a href="2026-10-16.html">10月16日</a>
+<a href="2026-10-14.html">10月14日</a>
+<a href="2026-10-13.html">10月13日</a>
+<a href="2026-10-12.html">10月12日</a>
+<a href="2026-10-10.html">10月10日</a>
+<a href="2026-10-09.html">10月09日</a>
+<a href="2026-10-08.html">10月08日</a>
+<a href="2026-09-30.html">09月30日</a>
+<a href="2026-09-29.html">09月29日</a>
+<a href="2026-09-28.html">09月28日</a>
+<a href="2026-09-24.html">09月24日</a>
+<a href="2026-09-17.html">09月17日</a>
+<a href="2026-09-15.html">09月15日</a>
+<a href="2026-09-14.html">09月14日</a>
+<a href="2026-09-11.html">09月11日</a>
+<a href="2026-09-10.html">09月10日</a>
+<a href="2026-09-09.html">09月09日</a>
+<a href="2026-09-08.html">09月08日</a>
+<a href="2026-09-07.html">09月07日</a>
+</div>
+  <div class="content">
+  <h2>每日算法讲解 · 2026-11-11</h2>
+
+<blockquote>
+<p>今日内容：1 个基础算法 + 2 个 AI/机器学习算法 | 逐参数详解</p>
+</blockquote>
+
+<hr>
+
+<h3>跳表</h3>
+
+<p><strong>类别</strong>：数据结构 | <strong>难度</strong>：中等</p>
+
+<h4>算法简介</h4>
+
+<p>跳表（Skip List）是 William Pugh 在 1990 年论文《Skip Lists: A Probabilistic Alternative to Balanced Trees》中提出的有序查找结构。它的骨架仍然是一条按关键字升序排列的单链表，但在链表之上叠加了若干层“快速通道”：第 1 层每隔若干节点抽一个节点做索引，第 2 层再从第 1 层里抽取更少的节点，依次向上收窄，形成一个金字塔。查找时从最高层出发，能往右就往右，遇到下一个节点的键大于目标就下降一层，于是大量节点被整段“跳过”，把 O(n) 的顺序扫描压缩成 O(log n) 的折线下降。</p>
+
+<p>跳表最关键的设计是“用随机性代替强制平衡”。插入一个新节点时，不需要像 AVL 树或红黑树那样旋转、变色、回溯修复，只需要掷骰子：以概率 p 再升一层，直到失败或达到层数上限。这个几何分布保证每一层的节点数按 p 的比例递减，从而以极高概率维持“上层稀疏、下层稠密”的理想形态。Pugh 证明了期望查找代价为 (1/p)·log_{1/p} n，与平衡树的渐进复杂度同阶，但常数与实现难度都更友好。</p>
+
+<p>与红黑树相比，跳表有三个工程优势。第一，实现简单：插入删除只需维护前驱数组，没有旋转分支，代码量通常只有红黑树的三分之一。第二，范围查询天然高效：定位到下界后沿着第 0 层链表顺序扫描即可，而树结构需要反复中序后继、跨层跳转。第三，并发友好：Java 的 <code class="inline-code">ConcurrentSkipListMap</code> 用 CAS 就能实现无锁插入，而并发红黑树的旋转会牵连大范围结构。代价是额外指针带来约 1.3～2 倍于元素数的内存开销，且最坏情况仍是 O(n)。</p>
+
+<p>正因如此，跳表成为许多基础设施的默认选择：Redis 的有序集合 ZSET、LevelDB 与 RocksDB 的 MemTable、Java 的 <code class="inline-code">ConcurrentSkipListMap</code>、Lucene 的倒排表跳表、Apache HBase 的 MemStore 都能看到它的身影。理解跳表，本质上是在理解“概率平衡”这一整套工程哲学：不必追求每时每刻严格平衡，只要让“坏形态”的概率低到可以忽略。</p>
+
+<h4>原理示意图</h4>
+
+<p><div class="algo-image"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 900 470" font-family="sans-serif">
+  <defs>
+    <marker id="slArrow" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto">
+      <path d="M0,0 L9,3.5 L0,7 Z" fill="#64748b"/>
+    </marker>
+    <marker id="slArrowHot" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto">
+      <path d="M0,0 L9,3.5 L0,7 Z" fill="#f97316"/>
+    </marker>
+  </defs>
+  <rect width="900" height="470" fill="#1e293b" rx="12"/>
+  <text x="450" y="28" text-anchor="middle" fill="#818cf8" font-size="16" font-weight="600">跳表：多层索引 + 概率晋升，查找 6 的路径（橙色）</text>
+
+  <text x="16" y="105" fill="#94a3b8" font-size="11">L3</text>
+  <text x="16" y="165" fill="#94a3b8" font-size="11">L2</text>
+  <text x="16" y="225" fill="#94a3b8" font-size="11">L1</text>
+  <text x="16" y="285" fill="#94a3b8" font-size="11">L0</text>
+
+  <rect x="36" y="85" width="46" height="30" rx="6" fill="#0f172a" stroke="#6366f1"/>
+  <text x="59" y="105" text-anchor="middle" fill="#c7d2fe" font-size="11">head</text>
+  <rect x="36" y="145" width="46" height="30" rx="6" fill="#0f172a" stroke="#6366f1"/>
+  <text x="59" y="165" text-anchor="middle" fill="#c7d2fe" font-size="11">head</text>
+  <rect x="36" y="205" width="46" height="30" rx="6" fill="#0f172a" stroke="#6366f1"/>
+  <text x="59" y="225" text-anchor="middle" fill="#c7d2fe" font-size="11">head</text>
+  <rect x="36" y="265" width="46" height="30" rx="6" fill="#0f172a" stroke="#6366f1"/>
+  <text x="59" y="285" text-anchor="middle" fill="#c7d2fe" font-size="11">head</text>
+
+  <line x1="82" y1="100" x2="569" y2="100" stroke="#64748b" stroke-width="1.5" marker-end="url(#slArrow)"/>
+  <line x1="82" y1="160" x2="101" y2="160" stroke="#64748b" stroke-width="1.5"/>
+  <line x1="137" y1="160" x2="335" y2="160" stroke="#64748b" stroke-width="1.5" marker-end="url(#slArrow)"/>
+  <line x1="371" y1="160" x2="569" y2="160" stroke="#64748b" stroke-width="1.5" marker-end="url(#slArrow)"/>
+  <line x1="82" y1="220" x2="101" y2="220" stroke="#64748b" stroke-width="1.5"/>
+  <line x1="137" y1="220" x2="257" y2="220" stroke="#64748b" stroke-width="1.5" marker-end="url(#slArrow)"/>
+  <line x1="293" y1="220" x2="335" y2="220" stroke="#64748b" stroke-width="1.5" marker-end="url(#slArrow)"/>
+  <line x1="371" y1="220" x2="413" y2="220" stroke="#64748b" stroke-width="1.5" marker-end="url(#slArrow)"/>
+  <line x1="449" y1="220" x2="569" y2="220" stroke="#64748b" stroke-width="1.5" marker-end="url(#slArrow)"/>
+  <line x1="605" y1="220" x2="725" y2="220" stroke="#64748b" stroke-width="1.5" marker-end="url(#slArrow)"/>
+  <line x1="82" y1="280" x2="725" y2="280" stroke="#334155" stroke-width="1.5"/>
+
+  <rect x="571" y="85" width="34" height="30" rx="6" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="588" y="105" text-anchor="middle" fill="#e2e8f0" font-size="13">7</text>
+
+  <rect x="103" y="145" width="34" height="30" rx="6" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="120" y="165" text-anchor="middle" fill="#e2e8f0" font-size="13">1</text>
+  <rect x="337" y="145" width="34" height="30" rx="6" fill="#1f2937" stroke="#f97316" stroke-width="2.4"/>
+  <text x="354" y="165" text-anchor="middle" fill="#e2e8f0" font-size="13">4</text>
+  <rect x="571" y="145" width="34" height="30" rx="6" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="588" y="165" text-anchor="middle" fill="#e2e8f0" font-size="13">7</text>
+
+  <rect x="103" y="205" width="34" height="30" rx="6" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="120" y="225" text-anchor="middle" fill="#e2e8f0" font-size="13">1</text>
+  <rect x="259" y="205" width="34" height="30" rx="6" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="276" y="225" text-anchor="middle" fill="#e2e8f0" font-size="13">3</text>
+  <rect x="337" y="205" width="34" height="30" rx="6" fill="#1f2937" stroke="#f97316" stroke-width="2.4"/>
+  <text x="354" y="225" text-anchor="middle" fill="#e2e8f0" font-size="13">4</text>
+  <rect x="415" y="205" width="34" height="30" rx="6" fill="#1f2937" stroke="#f97316" stroke-width="2.4"/>
+  <text x="432" y="225" text-anchor="middle" fill="#e2e8f0" font-size="13">5</text>
+  <rect x="571" y="205" width="34" height="30" rx="6" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="588" y="225" text-anchor="middle" fill="#e2e8f0" font-size="13">7</text>
+  <rect x="727" y="205" width="34" height="30" rx="6" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="744" y="225" text-anchor="middle" fill="#e2e8f0" font-size="13">9</text>
+
+  <rect x="103" y="265" width="34" height="30" rx="6" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="120" y="285" text-anchor="middle" fill="#e2e8f0" font-size="13">1</text>
+  <rect x="181" y="265" width="34" height="30" rx="6" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="198" y="285" text-anchor="middle" fill="#e2e8f0" font-size="13">2</text>
+  <rect x="259" y="265" width="34" height="30" rx="6" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="276" y="285" text-anchor="middle" fill="#e2e8f0" font-size="13">3</text>
+  <rect x="337" y="265" width="34" height="30" rx="6" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="354" y="285" text-anchor="middle" fill="#e2e8f0" font-size="13">4</text>
+  <rect x="415" y="265" width="34" height="30" rx="6" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="432" y="285" text-anchor="middle" fill="#e2e8f0" font-size="13">5</text>
+  <rect x="493" y="265" width="34" height="30" rx="6" fill="#166534" stroke="#22c55e" stroke-width="3"/>
+  <text x="510" y="285" text-anchor="middle" fill="#e2e8f0" font-size="13">6</text>
+  <rect x="571" y="265" width="34" height="30" rx="6" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="588" y="285" text-anchor="middle" fill="#e2e8f0" font-size="13">7</text>
+  <rect x="649" y="265" width="34" height="30" rx="6" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="666" y="285" text-anchor="middle" fill="#e2e8f0" font-size="13">8</text>
+  <rect x="727" y="265" width="34" height="30" rx="6" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="744" y="285" text-anchor="middle" fill="#e2e8f0" font-size="13">9</text>
+
+  <path d="M59 115 L59 143" stroke="#f97316" stroke-width="2.4" marker-end="url(#slArrowHot)"/>
+  <line x1="82" y1="160" x2="335" y2="160" stroke="#f97316" stroke-width="3"/>
+  <path d="M354 175 L354 203" stroke="#f97316" stroke-width="2.4" marker-end="url(#slArrowHot)"/>
+  <line x1="371" y1="220" x2="413" y2="220" stroke="#f97316" stroke-width="3"/>
+  <path d="M432 235 L432 263" stroke="#f97316" stroke-width="2.4" marker-end="url(#slArrowHot)"/>
+  <line x1="449" y1="280" x2="491" y2="280" stroke="#f97316" stroke-width="3" marker-end="url(#slArrowHot)"/>
+
+  <text x="450" y="330" text-anchor="middle" fill="#f97316" font-size="12">查找 6：L3 看 7 已过大 → 原地下降；L2 从 head 到 4，7 过大 → 下降；L1 从 4 到 5，7 过大 → 下降；L0 从 5 到 6 命中</text>
+  <text x="450" y="356" text-anchor="middle" fill="#94a3b8" font-size="11.5">每一层节点数按概率 p 递减：P(节点达到第 k 层) = p^(k-1)，期望层数 1/(1-p)</text>
+  <text x="450" y="380" text-anchor="middle" fill="#94a3b8" font-size="11.5">4 出现在 L2 就必须同时出现在 L1/L0；6 只随机到 1 层，所以只出现在 L0；7 随机到 4 层</text>
+  <text x="450" y="408" text-anchor="middle" fill="#22c55e" font-size="11.5">定位成本 ≈ 层数 × 每层横向步数 ≈ log_(1/p) n × (1/p)；定位后顺序扫描 K 个元素即可完成范围查询</text>
+  <text x="450" y="436" text-anchor="middle" fill="#94a3b8" font-size="11">无需旋转与再平衡：随机层数让结构以极高概率保持“上疏下密”，最坏情况才退化为链表</text>
+</svg></div></p>
+
+<h4>数学公式</h4>
+
+<p><strong>1. 节点层数的几何分布</strong></p>
+
+<p><div class="math-block">$$ P(L = k) = p^{k-1}(1-p),\quad k = 1,2,\dots,\text{MaxLevel}-1 $$</div></p>
+
+<p><div class="math-block">$$ P(L \ge k) = p^{k-1} $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ L $：一个节点被随机分配到的层数（至少为 1）</li>
+<li>$ k $：层号，从 1 开始计数</li>
+<li>$ p $：晋升概率，即“已经有第 k 层后再获得第 k+1 层”的条件概率</li>
+<li>$ 1-p $：停止晋升的概率</li>
+<li>$ \text{MaxLevel} $：层数上限，超过上限后截断</li>
+</ul>
+
+<p><strong>2. 期望层数与期望指针数</strong></p>
+
+<p><div class="math-block">$$ E[L] = \sum_{k=1}^{\infty} P(L \ge k) = \sum_{k=0}^{\infty} p^{k} = \frac{1}{1-p} $$</div></p>
+
+<p><div class="math-block">$$ E[\text{总指针数}] = n \cdot E[L] = \frac{n}{1-p} $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ E[L] $：单个节点的期望层数，p=0.5 时为 2，p=0.25 时约为 1.333</li>
+<li>$ n $：元素总数</li>
+<li>$ E[\text{总指针数}] $：整张表的期望指针数量，等价于空间开销</li>
+</ul>
+
+<p><strong>3. 期望查找代价</strong></p>
+
+<p><div class="math-block">$$ E[\text{比较次数}] \approx \frac{1}{p}\log_{1/p} n = \frac{\ln n}{p \ln(1/p)} $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ \log_{1/p} n $：期望层数，即索引金字塔的高度</li>
+<li>$ 1/p $：每一层上期望向右走过的步数（几何分布的期望）</li>
+<li>$ \ln n $：自然对数；该式说明 p 只改变常数因子，不改变 O(log n) 的量级</li>
+</ul>
+
+<p><strong>4. 高度超出上界的概率（尾界）</strong></p>
+
+<p><div class="math-block">$$ P(\text{height} > c\log_{1/p} n) \le n \cdot p^{\,c\log_{1/p} n} = n^{1-c} $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ \text{height} $：全表实际使用的最高层号</li>
+<li>$ c $：常数倍率，取 c=3 时上界为 $ n^{-2} $</li>
+<li>该式说明“跳表退化”的概率随 n 增大反而指数下降</li>
+</ul>
+
+<p><strong>5. 范围查询代价</strong></p>
+
+<p><div class="math-block">$$ T_{\text{range}}(K) = O(\log n) + O(K) $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ K $：范围内命中的元素个数</li>
+<li>$ O(\log n) $：定位区间下界的代价</li>
+<li>$ O(K) $：沿第 0 层链表顺序扫描的代价，不含额外跳转</li>
+</ul>
+
+<h4>核心要点</h4>
+
+<ul>
+<li><strong>概率平衡</strong>：层数由几何分布随机决定，无需旋转或变色，插入删除只改指针。</li>
+<li><strong>金字塔结构</strong>：上层节点是下层的稀疏抽样，查找时“能右则右，不能右则下”。</li>
+<li><strong>期望复杂度</strong>：查找/插入/删除均为 O(log n) 期望、O(n) 最坏；空间 O(n) 期望。</li>
+<li><strong>p 决定形状</strong>：p 越小越省内存，但每层横向步数变多；p=0.25 与 p=0.5 的渐进比较次数同阶。</li>
+<li><strong>范围查询友好</strong>：定位下界后沿底层链表顺序扫描，非常适合排行榜、分页、区间统计。</li>
+<li><strong>实现简单</strong>：核心只有 <code class="inline-code">search</code>、<code class="inline-code">insert</code>、<code class="inline-code">delete</code> 三个函数加一个随机层数生成器。</li>
+<li><strong>工程变体丰富</strong>：Redis 增加 span 支持排名，Java 版本用 CAS 实现无锁并发，LevelDB 用内存池与高度上限 12。</li>
+</ul>
+
+<h4>技术细节与参数详解</h4>
+
+<p>跳表并不是标准库统一暴露的接口，不同实现的“参数”分散在构造函数、常量与配置项中。下表先给出全局视图，随后逐个展开。</p>
+
+<div class="table-wrapper"><table class="algo-table"><thead><tr><th>参数</th><th>典型默认值</th><th>作用</th><th>调大后的影响</th></tr></thead><tbody><tr><td><code class="inline-code">p</code> / <code class="inline-code">ZSKIPLIST_P</code></td><td>0.5（教科书）、0.25（Redis/LevelDB）</td><td>晋升概率</td><td>层数变多、内存变大、每层步数变少</td></tr><tr><td><code class="inline-code">max_level</code></td><td>16～32（Redis 32、LevelDB 12）</td><td>层数上限</td><td>可支撑更大 n，但头节点占用变大</td></tr><tr><td><code class="inline-code">span</code></td><td>Redis 每个指针都有</td><td>记录跨越节点数</td><td>支持 O(log n) 排名，指针从 8 字节变 16 字节</td></tr><tr><td><code class="inline-code">backward</code></td><td>Redis 仅第 0 层</td><td>逆序遍历</td><td>支持 ZREVRANGE，删除时需回填</td></tr><tr><td><code class="inline-code">update[]</code></td><td>长度 = max_level</td><td>记录每层前驱</td><td>复用数组避免每次插入分配</td></tr><tr><td>比较器</td><td>按 key 全序</td><td>决定有序性</td><td>必须稳定、无歧义，否则查找会漏</td></tr><tr><td>随机源</td><td>线程本地 PRNG</td><td>生成层数</td><td>相关性会破坏平衡性</td></tr></tbody></table></div>
+
+<h5>参数1：<code class="inline-code">p</code>（晋升概率 / 分支因子）</h5>
+
+<ul>
+<li><strong>含义</strong>：一个已经拥有第 k 层的节点，继续获得第 k+1 层的条件概率。它同时决定了“每上升一层，节点数打几折”。</li>
+<li><strong>类型</strong>：浮点数（0 到 1 之间）。</li>
+<li><strong>默认值</strong>：教科书写 0.5；Redis 的 <code class="inline-code">ZSKIPLIST_P</code> 与 LevelDB 的 <code class="inline-code">kBranching</code> 都取 0.25。</li>
+<li><strong>取值范围</strong>：实用区间 0.125～0.5。小于 0.125 后内存收益递减，而横向步数继续上升。</li>
+<li><strong>对结果的影响</strong>：</li>
+<li>期望层数 $ 1/(1-p) $：p=0.5 → 2 层；p=0.25 → 1.33 层；p=0.125 → 1.14 层。</li>
+<li>期望指针数 $ n/(1-p) $：p=0.5 → 2n；p=0.25 → 1.33n；p=0.125 → 1.14n。</li>
+<li>每层期望横向步数 $ 1/p $：p=0.5 → 2 步；p=0.25 → 4 步；p=0.125 → 8 步。</li>
+<li>综合比较次数 $ \ln n/(p\ln(1/p)) $：p=0.5 与 p=0.25 的系数都约等于 $ 2\log_2 n $，p=0.125 约 $ 2.67\log_2 n $。</li>
+<li><strong>推荐设置</strong>：内存敏感场景（Redis、嵌入式 KV）取 0.25；追求缓存命中与实现简单取 0.5；不要小于 0.125。</li>
+</ul>
+
+<h5>参数2：<code class="inline-code">max_level</code>（最大层数）</h5>
+
+<ul>
+<li><strong>含义</strong>：允许分配的层数上限，同时也是头节点指针数组的长度。</li>
+<li><strong>类型</strong>：整数。</li>
+<li><strong>默认值</strong>：Redis 为 32；LevelDB 为 12；教学实现常用 16。</li>
+<li><strong>取值范围</strong>：1～64。超过 64 没有实际意义，因为 2^64 已超过任何单机元素规模。</li>
+<li><strong>对结果的影响</strong>：</li>
+<li>过小：高层索引不足以覆盖全部元素，查找会在顶层出现长距离扫描，实际复杂度向 O(n) 偏移。</li>
+<li>过大：头节点固定占用 <code class="inline-code">max_level</code> 个指针（Redis 头节点永远分配 32 层），且随机层数的截断点变高，浪费少量内存。</li>
+<li><strong>推荐设置</strong>：按 $  \lceil \log_{1/p} N_{\max} \rceil + 1  $ 估算。若 p=0.25、N=10^9，则 $ \log_4 10^9 \approx 15 $，取 16 足够；Redis 取 32 是为了覆盖 $ 4^{32}\approx1.8\times10^{19} $ 的极端规模。</li>
+</ul>
+
+<h5>参数3：<code class="inline-code">forward</code>（前进指针数组）</h5>
+
+<ul>
+<li><strong>含义</strong>：每个节点持有长度为“自身层数”的数组，第 i 个元素指向同层下一个节点。</li>
+<li><strong>类型</strong>：指针/引用数组，长度随节点层数动态变化。</li>
+<li><strong>默认值</strong>：无默认，创建节点时按随机层数分配。</li>
+<li><strong>取值范围</strong>：1～<code class="inline-code">max_level</code>。</li>
+<li><strong>对结果的影响</strong>：数组越长，节点占用越大（Redis 中每个指针 8 字节，另有 span 再占 8 字节）；连续访问同一层时缓存局部性较好，跨层下降会产生随机访存。</li>
+<li><strong>推荐设置</strong>：变长分配，不要给每个节点都分配 <code class="inline-code">max_level</code> 长度；批量插入时使用内存池提高局部性。</li>
+</ul>
+
+<h5>参数4：<code class="inline-code">span</code>（跨度）</h5>
+
+<ul>
+<li><strong>含义</strong>：Redis 在每个前进指针上额外记录“该指针跨越了多少个节点”，用于把排名查询从 O(n) 降为 O(log n)。</li>
+<li><strong>类型</strong>：整数（无符号）。</li>
+<li><strong>默认值</strong>：Redis 中每个 <code class="inline-code">zskiplistLevel</code> 都带 <code class="inline-code">span</code>，初始为 0。</li>
+<li><strong>取值范围</strong>：1～n。</li>
+<li><strong>对结果的影响</strong>：查找过程中，向右走时 <code class="inline-code">rank += span</code>，向下走时 <code class="inline-code">rank += 当前层 span</code>，最终得到 1-based 排名；不维护 span 则 <code class="inline-code">ZRANK</code> 必须顺序扫描。</li>
+<li><strong>推荐设置</strong>：需要排名、分页、<code class="inline-code">ZRANGE</code> 按索引访问时必开；只做点查与区间扫描可省略以省内存。</li>
+</ul>
+
+<h5>参数5：<code class="inline-code">backward</code>（后退指针）</h5>
+
+<ul>
+<li><strong>含义</strong>：指向第 0 层前一个节点的指针，支持从尾向头遍历。</li>
+<li><strong>类型</strong>：单指针。</li>
+<li><strong>默认值</strong>：仅第 0 层有；头节点的 <code class="inline-code">backward</code> 为 NULL。</li>
+<li><strong>取值范围</strong>：不适用。</li>
+<li><strong>对结果的影响</strong>：使 <code class="inline-code">ZREVRANGE</code>、逆序分页为 O(K)；删除时必须把后继的 <code class="inline-code">backward</code> 回填，否则链断裂。</li>
+<li><strong>推荐设置</strong>：需要逆序迭代就加；只做正向扫描可省 8 字节/节点。</li>
+</ul>
+
+<h5>参数6：<code class="inline-code">score</code> 与 <code class="inline-code">member</code> 双键排序</h5>
+
+<ul>
+<li><strong>含义</strong>：Redis ZSET 的排序键是 <code class="inline-code">(score, member)</code> 二元组：先按 score 升序，score 相同时按 member 的字典序。</li>
+<li><strong>类型</strong>：score 为 double，member 为字符串（SDS）。</li>
+<li><strong>默认值</strong>：无。</li>
+<li><strong>取值范围</strong>：score 为 IEEE-754 双精度；member 任意二进制安全字符串。</li>
+<li><strong>对结果的影响</strong>：相同 score 的 member 不会互相覆盖，而是按字典序并列；若只按 score 比较，会出现“相等即停止”导致漏元素。</li>
+<li><strong>推荐设置</strong>：比较函数必须实现严格全序；浮点 score 避免 NaN；member 用长度前缀比较以支持二进制。</li>
+</ul>
+
+<h5>参数7：比较器（Comparator）</h5>
+
+<ul>
+<li><strong>含义</strong>：定义“下一个节点是否已经大于目标”的判定规则。</li>
+<li><strong>类型</strong>：函数对象 / 接口实现。</li>
+<li><strong>默认值</strong>：自然序。</li>
+<li><strong>取值范围</strong>：任意严格弱序。</li>
+<li><strong>对结果的影响</strong>：比较器不一致会直接破坏跳表的有序前提，表现为查找不到已存在元素、范围查询漏数据。</li>
+<li><strong>推荐设置</strong>：与底层存储的排序规则保持一致（例如数据库 collation）；对字符串统一编码；比较开销大的键可缓存哈希前缀。</li>
+</ul>
+
+<h5>参数8：随机数发生器（PRNG）</h5>
+
+<ul>
+<li><strong>含义</strong>：生成 <code class="inline-code">[0,1)</code> 均匀随机数，用于几何分布的层数抽样。</li>
+<li><strong>类型</strong>：伪随机数生成器。</li>
+<li><strong>默认值</strong>：Redis 用 <code class="inline-code">random()</code> 的低 16 位与 <code class="inline-code">ZSKIPLIST_P * 0xFFFF</code> 比较；Java 用 <code class="inline-code">ThreadLocalRandom</code>。</li>
+<li><strong>取值范围</strong>：不适用。</li>
+<li><strong>对结果的影响</strong>：多个线程共享一个非线程安全的 PRNG 会产生数据竞争与相关性，导致层数分布偏移、树形不均；低质量 PRNG 的低位周期短，也会让高层节点聚集。</li>
+<li><strong>推荐设置</strong>：每线程独立 PRNG（xorshift128+、PCG、<code class="inline-code">ThreadLocalRandom</code>）；避免在热路径上取全局锁。</li>
+</ul>
+
+<h5>参数9：<code class="inline-code">update[]</code> 前驱数组</h5>
+
+<ul>
+<li><strong>含义</strong>：插入与删除时，记录每一层“新节点应插入位置的前驱”。</li>
+<li><strong>类型</strong>：节点指针数组，长度为 <code class="inline-code">max_level</code>。</li>
+<li><strong>默认值</strong>：初始化为头节点。</li>
+<li><strong>取值范围</strong>：不适用。</li>
+<li><strong>对结果的影响</strong>：没有它就无法在 O(log n) 内完成指针拼接；每次插入重新分配会带来额外 GC 压力。</li>
+<li><strong>推荐设置</strong>：在表对象上复用一块长度为 <code class="inline-code">max_level</code> 的数组，单线程下无需每次 new。</li>
+</ul>
+
+<h5>参数10：并发策略（锁 / CAS / 标记删除）</h5>
+
+<ul>
+<li><strong>含义</strong>：多线程同时读写时如何保证结构一致。</li>
+<li><strong>类型</strong>：枚举：全局锁、分段锁、无锁 CAS。</li>
+<li><strong>默认值</strong>：单线程实现无锁。</li>
+<li><strong>取值范围</strong>：不适用。</li>
+<li><strong>对结果的影响</strong>：全局锁实现最简单但写吞吐低；CAS 无锁读性能最好，但删除需要“逻辑删除 + 物理摘除”两阶段，且要处理 ABA 与内存回收（epoch / 引用计数）。</li>
+<li><strong>推荐设置</strong>：读多写少且要求高吞吐时用无锁（参考 <code class="inline-code">ConcurrentSkipListMap</code>）；写频繁但并发度不高时用分段锁更稳。</li>
+</ul>
+
+<h4>代码示例</h4>
+
+<p>下面是一份可直接运行的 Python 实现，包含查找、插入、删除、范围查询与排名，每一行都加了注释。</p>
+
+<p><pre class="code-block"><code class="language-python">import random  # 导入随机模块，用于生成节点的随机层数
+
+class Node:  # 定义跳表节点类
+    __slots__ = (&quot;key&quot;, &quot;value&quot;, &quot;forward&quot;)  # 用 __slots__ 减少每个节点的字典开销
+
+    def __init__(self, key, value, level):  # 构造函数：键、值、层数
+        self.key = key  # 保存排序键
+        self.value = value  # 保存卫星数据
+        self.forward = [None] * level  # 创建长度为 level 的前进指针数组，初始全为空
+
+class SkipList:  # 定义跳表类
+    def __init__(self, p=0.5, max_level=16):  # 默认晋升概率 0.5，最大层数 16
+        self.p = p  # 保存晋升概率
+        self.max_level = max_level  # 保存层数上限
+        self.level = 1  # 当前全表实际使用的最高层数，初始只有 1 层
+        self.header = Node(None, None, max_level)  # 头节点固定分配 max_level 层，键为空
+        self.size = 0  # 记录元素个数
+        self._rng = random.Random(20261111)  # 独立的随机源，固定种子便于复现实验
+
+    def _random_level(self):  # 生成新节点的层数
+        level = 1  # 任何节点至少在第 1 层
+        while self._rng.random() &lt; self.p and level &lt; self.max_level:  # 以概率 p 继续升层，且不超过上限
+            level += 1  # 升一层
+        return level  # 返回最终层数，服从截断几何分布
+
+    def search(self, key):  # 查找键对应的值，找不到返回 None
+        cur = self.header  # 从最高层的头节点开始
+        for i in range(self.level - 1, -1, -1):  # 从当前最高层逐层下降到第 0 层
+            while cur.forward[i] is not None and cur.forward[i].key &lt; key:  # 同层向右走，直到下一个键不小于目标
+                cur = cur.forward[i]  # 移动到同层的下一个节点
+        cur = cur.forward[0]  # 下降到第 0 层后，再向右看一个节点
+        if cur is not None and cur.key == key:  # 判断该节点是否正好等于目标键
+            return cur.value  # 命中则返回卫星数据
+        return None  # 未命中返回 None
+
+    def insert(self, key, value):  # 插入或更新一个键值对
+        update = [None] * self.max_level  # 准备前驱数组，记录每层插入位置的前一个节点
+        cur = self.header  # 从头节点开始查找插入位置
+        for i in range(self.level - 1, -1, -1):  # 自上而下逐层定位
+            while cur.forward[i] is not None and cur.forward[i].key &lt; key:  # 同层向右推进
+                cur = cur.forward[i]  # 移动到下一个节点
+            update[i] = cur  # 记录第 i 层的前驱节点
+        nxt = cur.forward[0]  # 取第 0 层的后继，用于判断键是否已存在
+        if nxt is not None and nxt.key == key:  # 键已存在
+            nxt.value = value  # 直接更新值，保持层数不变
+            return False  # 返回 False 表示这是一次更新而非新增
+        level = self._random_level()  # 为新节点随机生成层数
+        if level &gt; self.level:  # 如果新节点层数超过当前全表高度
+            for i in range(self.level, level):  # 补齐新增层的 recorded 前驱
+                update[i] = self.header  # 新增层的前驱只能是头节点
+            self.level = level  # 更新全表最高层号
+        node = Node(key, value, level)  # 创建新节点，只分配实际需要的层数
+        for i in range(level):  # 在每一层拼接指针
+            node.forward[i] = update[i].forward[i]  # 新节点指向原前驱的后继
+            update[i].forward[i] = node  # 原前驱改为指向新节点
+        self.size += 1  # 元素计数加一
+        return True  # 返回 True 表示新增成功
+
+    def delete(self, key):  # 删除指定键，成功返回 True
+        update = [None] * self.max_level  # 复用前驱数组
+        cur = self.header  # 从头节点开始
+        for i in range(self.level - 1, -1, -1):  # 自上而下定位
+            while cur.forward[i] is not None and cur.forward[i].key &lt; key:  # 同层向右推进
+                cur = cur.forward[i]  # 移动指针
+            update[i] = cur  # 记录第 i 层前驱
+        target = cur.forward[0]  # 目标只可能出现在第 0 层的下一个位置
+        if target is None or target.key != key:  # 若不存在
+            return False  # 删除失败
+        for i in range(len(target.forward)):  # 遍历目标节点的每一层
+            update[i].forward[i] = target.forward[i]  # 前驱跳过目标，接到目标的后继
+        while self.level &gt; 1 and self.header.forward[self.level - 1] is None:  # 若最高层已空
+            self.level -= 1  # 降低全表高度
+        self.size -= 1  # 元素计数减一
+        return True  # 删除成功
+
+    def range_query(self, lo, hi):  # 返回键落在 [lo, hi] 闭区间内的所有键值对
+        cur = self.header  # 从头节点开始
+        for i in range(self.level - 1, -1, -1):  # 自上而下
+            while cur.forward[i] is not None and cur.forward[i].key &lt; lo:  # 找到第一个不小于 lo 的位置
+                cur = cur.forward[i]  # 向右移动
+        cur = cur.forward[0]  # 落到第 0 层的首个候选节点
+        result = []  # 准备结果列表
+        while cur is not None and cur.key &lt;= hi:  # 沿底层链表顺序扫描，直到超过上界
+            result.append((cur.key, cur.value))  # 收集命中的键值对
+            cur = cur.forward[0]  # 移动到下一个节点
+        return result  # 返回区间结果
+
+    def rank(self, key):  # 返回键的排名（从 1 开始），不存在返回 0
+        cur = self.header  # 从头节点开始
+        rank = 0  # 累计排名
+        for i in range(self.level - 1, -1, -1):  # 自上而下
+            while cur.forward[i] is not None and cur.forward[i].key &lt;= key:  # 向右推进，允许等于目标
+                rank += 1  # 每跨过一个节点排名加一
+                cur = cur.forward[i]  # 移动指针
+        return rank if cur is not self.header and cur.key == key else 0  # 命中才返回排名
+
+if __name__ == &quot;__main__&quot;:  # 简单的自测入口
+    sl = SkipList(p=0.25, max_level=16)  # 用 Redis 风格参数创建跳表
+    for k in [3, 6, 7, 9, 12, 19, 21, 25]:  # 依次插入若干键
+        sl.insert(k, f&quot;v{k}&quot;)  # 值为字符串，便于观察
+    print(sl.search(7))  # 期望输出 v7
+    print(sl.range_query(6, 19))  # 期望输出 6、7、9、12、19 五个键
+    print(sl.rank(12))  # 期望输出 5
+    sl.delete(7)  # 删除键 7
+    print(sl.search(7))  # 期望输出 None</code></pre></p>
+
+<h4>复杂度分析</h4>
+
+<p><strong>查找</strong>：设全表高度为 $ h $，第 i 层向右走的步数为 $ X_i $。在每一层，向右走一步需要满足“下一个节点键小于目标”，该事件概率不超过 $ p $（因为上一层已经保证了目标区间内只剩约 $ 1/p $ 个节点），因此 $ X_i $ 服从参数不超过 $ p $ 的几何分布，$ E[X_i] \le 1/p $。总比较次数为 $ \sum_{i=1}^{h} E[X_i] \le h/p $。又因为高度 $ h \approx \log_{1/p} n $，所以</p>
+
+<p><div class="math-block">$$ E[T_{\text{search}}] \le \frac{1}{p}\log_{1/p} n = O(\log n) $$</div></p>
+
+<p>最坏情况下随机层数全部退化为 1，结构变成单链表，复杂度为 O(n)，但该事件概率为 $ p^{n-1} $ 级别，工程上可忽略。</p>
+
+<p><strong>插入</strong>：插入 = 一次查找定位（O(log n)）+ 随机层数生成（O(1) 期望）+ 逐层拼接指针（O(1) 期望，因为期望层数为 $ 1/(1-p) $）。总期望 O(log n)，且不需要任何旋转或回溯修复。</p>
+
+<p><strong>删除</strong>：同样先定位，再逐层摘链，期望 O(log n)。删除后若最高层为空需要降低 <code class="inline-code">level</code>，该操作摊还 O(1)。</p>
+
+<p><strong>空间</strong>：每个节点的指针数等于其层数，期望总指针数为 $ n/(1-p) $；p=0.5 时为 2n，p=0.25 时为 1.33n。加上键值存储，总体空间 O(n)。最坏情况（所有节点都被抽到最高层）为 O(n log n)，概率同样可忽略。</p>
+
+<p><strong>范围查询</strong>：定位下界 O(log n)，随后沿第 0 层顺序扫描 K 个元素，总代价 O(log n + K)。这比平衡树的中序遍历更简单，因为不需要维护栈或父指针。</p>
+
+<h4>应用场景</h4>
+
+<ul>
+<li><strong>Redis 有序集合 ZSET</strong>：排行榜、延时队列、时间窗口统计。跳表按 score 排序，配合 dict 实现 O(1) 按 member 取 score，配合 span 实现 O(log n) 排名。</li>
+<li><strong>LSM-Tree 的 MemTable</strong>：LevelDB / RocksDB 用跳表作为内存写入缓冲，因为插入无需旋转、写路径短，且能顺序遍历刷盘。</li>
+<li><strong>并发有序映射</strong>：Java <code class="inline-code">ConcurrentSkipListMap</code> 提供无锁读、CAS 写，适合高并发缓存索引、路由表。</li>
+<li><strong>搜索引擎倒排索引</strong>：Lucene 用跳表在多篇文档的倒排链上快速求交集与跳读（skip to）。</li>
+<li><strong>游戏排行榜 / 实时风控</strong>：需要频繁插入、按分数区间取 Top-K，跳表的范围扫描与排名能力正好匹配。</li>
+<li><strong>教学与面试</strong>：跳表是“概率数据结构”的入门样板，常用于解释随机化算法、期望分析、几何分布。</li>
+</ul>
+
+<h4>参考文档</h4>
+
+<ul>
+<li><a href="https://dl.acm.org/doi/10.1145/78973.78977" target="_blank" class="ref-link">Skip Lists: A Probabilistic Alternative to Balanced Trees（Pugh, 1990）</a></li>
+<li><a href="https://github.com/redis/redis/blob/unstable/src/t_zset.c" target="_blank" class="ref-link">Redis 源码：t_zset.c 中的 zslInsert / zslDelete</a></li>
+<li><a href="https://github.com/redis/redis/blob/unstable/src/server.h" target="_blank" class="ref-link">Redis 源码：server.h 中的 zskiplistNode / zskiplist 定义</a></li>
+<li><a href="https://github.com/google/leveldb/blob/main/db/skiplist.h" target="_blank" class="ref-link">LevelDB 源码：db/skiplist.h</a></li>
+<li><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/concurrent/ConcurrentSkipListMap.html" target="_blank" class="ref-link">Java 17 API：ConcurrentSkipListMap</a></li>
+<li><a href="https://cloud.tencent.com/developer/article/2617346" target="_blank" class="ref-link">腾讯云：从 Redis 底层到手写实现，跳表全解析</a></li>
+<li><a href="https://www.csdn.net/detail/webblog_17839634/6515" target="_blank" class="ref-link">跳表原理与工程实践：从 Redis ZSET 到 LSM-Tree</a></li>
+</ul>
+
+<h3>自编码器</h3>
+
+<p><strong>类别</strong>：深度学习 | <strong>难度</strong>：中等</p>
+
+<h4>算法简介</h4>
+
+<p>自编码器（Autoencoder, AE）是一类“把输入压缩再还原”的无监督神经网络。它由两部分组成：编码器 $ f_\theta $ 把高维输入 $ x $ 映射到低维潜在表示 $ z $，解码器 $ g_\phi $ 再把 $ z $ 还原成 $ \hat{x} $，训练目标是最小化重建误差。整个网络被一个比输入维度小得多的“瓶颈层”卡住，因此它无法把输入原样搬运，只能学到数据中最值得保留的结构：相关性、主成分、流形坐标、纹理基元。</p>
+
+<p>自编码器的价值不在“还原”本身，而在被迫形成的中间表示。当瓶颈足够窄时，线性自编码器的最优解张成与 PCA 相同的主子空间（Baldi & Hornik, 1989）；加入非线性激活后，它能刻画 PCA 无法表达的非线性流形。于是自编码器成为表征学习的基础组件：既可以直接拿 $ z $ 做聚类、可视化、检索，也可以把编码器权重迁移到下游任务做预训练。</p>
+
+<p>瓶颈并非越窄越好。若瓶颈比数据内在维度还小，模型会欠拟合，重建模糊；若瓶颈过宽，网络可能学成恒等映射，$ z $ 失去意义。为了解决这个矛盾，研究者发展出一整套正则化变体：欠完备自编码器靠维度约束，稀疏自编码器靠对隐层平均激活施加 KL 惩罚，去噪自编码器靠“破坏输入再还原”逼出鲁棒特征，收缩自编码器惩罚雅可比范数，变分自编码器则把 $ z $ 建模为分布并用 KL 约束其结构。</p>
+
+<p>在 2026 年的技术栈里，自编码器依然活跃在三个位置。其一是异常检测：用正常样本训练，异常样本重建误差显著更大，工业设备、网络流量、金融风控大量使用这一范式。其二是生成模型的“前端”：Stable Diffusion 系列的 VAE 把图像压到潜空间，扩散过程在潜空间进行。其三是科学计算：蛋白质、分子、单细胞数据的降维与去噪，仍常用去噪自编码器或其变体。</p>
+
+<h4>原理示意图</h4>
+
+<p><div class="algo-image"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 900 430" font-family="sans-serif">
+  <defs>
+    <marker id="aeArrow" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto">
+      <path d="M0,0 L9,3.5 L0,7 Z" fill="#6366f1"/>
+    </marker>
+    <marker id="aeArrowLoss" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto">
+      <path d="M0,0 L9,3.5 L0,7 Z" fill="#f97316"/>
+    </marker>
+  </defs>
+  <rect width="900" height="430" fill="#1e293b" rx="12"/>
+  <text x="450" y="28" text-anchor="middle" fill="#818cf8" font-size="16" font-weight="600">自编码器：编码器压缩到瓶颈 z，解码器还原，损失回传迫使 z 保留关键信息</text>
+
+  <rect x="40" y="160" width="100" height="180" rx="8" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="90" y="245" text-anchor="middle" fill="#e2e8f0" font-size="13">输入 x</text>
+  <text x="90" y="265" text-anchor="middle" fill="#94a3b8" font-size="11">784 维</text>
+
+  <rect x="180" y="190" width="100" height="120" rx="8" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="230" y="245" text-anchor="middle" fill="#e2e8f0" font-size="13">隐层 h1</text>
+  <text x="230" y="265" text-anchor="middle" fill="#94a3b8" font-size="11">256 维</text>
+
+  <rect x="320" y="215" width="80" height="70" rx="8" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="360" y="245" text-anchor="middle" fill="#e2e8f0" font-size="13">隐层 h2</text>
+  <text x="360" y="263" text-anchor="middle" fill="#94a3b8" font-size="11">64 维</text>
+
+  <rect x="440" y="232" width="70" height="36" rx="8" fill="#14532d" stroke="#22c55e" stroke-width="3"/>
+  <text x="475" y="255" text-anchor="middle" fill="#e2e8f0" font-size="12">z (16)</text>
+
+  <rect x="550" y="215" width="80" height="70" rx="8" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="590" y="245" text-anchor="middle" fill="#e2e8f0" font-size="13">隐层 h3</text>
+  <text x="590" y="263" text-anchor="middle" fill="#94a3b8" font-size="11">64 维</text>
+
+  <rect x="670" y="190" width="100" height="120" rx="8" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="720" y="245" text-anchor="middle" fill="#e2e8f0" font-size="13">隐层 h4</text>
+  <text x="720" y="265" text-anchor="middle" fill="#94a3b8" font-size="11">256 维</text>
+
+  <rect x="800" y="160" width="70" height="180" rx="8" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="835" y="240" text-anchor="middle" fill="#e2e8f0" font-size="13">x_hat</text>
+  <text x="835" y="260" text-anchor="middle" fill="#94a3b8" font-size="11">784 维</text>
+
+  <line x1="140" y1="250" x2="176" y2="250" stroke="#6366f1" stroke-width="2" marker-end="url(#aeArrow)"/>
+  <line x1="280" y1="250" x2="316" y2="250" stroke="#6366f1" stroke-width="2" marker-end="url(#aeArrow)"/>
+  <line x1="400" y1="250" x2="436" y2="250" stroke="#6366f1" stroke-width="2" marker-end="url(#aeArrow)"/>
+  <line x1="510" y1="250" x2="546" y2="250" stroke="#6366f1" stroke-width="2" marker-end="url(#aeArrow)"/>
+  <line x1="630" y1="250" x2="666" y2="250" stroke="#6366f1" stroke-width="2" marker-end="url(#aeArrow)"/>
+  <line x1="770" y1="250" x2="796" y2="250" stroke="#6366f1" stroke-width="2" marker-end="url(#aeArrow)"/>
+
+  <text x="250" y="132" text-anchor="middle" fill="#a5b4fc" font-size="12">编码器 fθ：逐层降维</text>
+  <text x="665" y="132" text-anchor="middle" fill="#a5b4fc" font-size="12">解码器 gφ：逐层升维</text>
+  <line x1="40" y1="142" x2="510" y2="142" stroke="#6366f1" stroke-width="1" stroke-dasharray="5 4"/>
+  <line x1="40" y1="136" x2="40" y2="148" stroke="#6366f1" stroke-width="1"/>
+  <line x1="510" y1="136" x2="510" y2="148" stroke="#6366f1" stroke-width="1"/>
+  <line x1="525" y1="142" x2="870" y2="142" stroke="#6366f1" stroke-width="1" stroke-dasharray="5 4"/>
+  <line x1="525" y1="136" x2="525" y2="148" stroke="#6366f1" stroke-width="1"/>
+  <line x1="870" y1="136" x2="870" y2="148" stroke="#6366f1" stroke-width="1"/>
+
+  <path d="M835 158 C 835 70, 90 70, 90 158" fill="none" stroke="#f97316" stroke-width="2.2" stroke-dasharray="6 4" marker-end="url(#aeArrowLoss)"/>
+  <text x="460" y="72" text-anchor="middle" fill="#f97316" font-size="13" font-weight="600">重构损失 L = (1/N) Σ || x_i - x_hat_i ||²</text>
+
+  <text x="450" y="356" text-anchor="middle" fill="#94a3b8" font-size="11.5">瓶颈 z 的维度远小于输入：网络无法原样复制，只能保留相关性最强的方向（线性情形等价于 PCA 主子空间）</text>
+  <text x="450" y="380" text-anchor="middle" fill="#22c55e" font-size="11.5">去噪变体：输入先加噪 x_noisy = x + ε，损失仍对齐干净目标 x，迫使编码器学到鲁棒结构而非恒等映射</text>
+  <text x="450" y="404" text-anchor="middle" fill="#94a3b8" font-size="11">过宽瓶颈 + 强容量会退化为恒等映射；常用稀疏、去噪、KL 约束或更窄的 z 来避免</text>
+</svg></div></p>
+
+<h4>数学公式</h4>
+
+<p><strong>1. 编码与解码</strong></p>
+
+<p><div class="math-block">$$ z = f_\theta(x) = \sigma(W_e x + b_e),\qquad \hat{x} = g_\phi(z) = \sigma'(W_d z + b_d) $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ x \in \mathbb{R}^{d} $：输入向量（如图像展平后的 784 维）</li>
+<li>$ z \in \mathbb{R}^{k} $：潜在表示，$ k \ll d $ 时为欠完备自编码器</li>
+<li>$ W_e \in \mathbb{R}^{k\times d} $、$ b_e \in \mathbb{R}^{k} $：编码器权重与偏置</li>
+<li>$ W_d \in \mathbb{R}^{d\times k} $、$ b_d \in \mathbb{R}^{d} $：解码器权重与偏置</li>
+<li>$ \sigma,\sigma' $：激活函数，常取 ReLU / GELU / Sigmoid</li>
+</ul>
+
+<p><strong>2. 均方误差重建损失</strong></p>
+
+<p><div class="math-block">$$ L_{\text{MSE}} = \frac{1}{N}\sum_{i=1}^{N}\lVert x_i - \hat{x}_i\rVert_2^2 = \frac{1}{N}\sum_{i=1}^{N}\sum_{j=1}^{d}(x_{ij}-\hat{x}_{ij})^2 $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ N $：批大小</li>
+<li>$ d $：输入维度</li>
+<li>$ x_{ij} $：第 i 个样本第 j 维的真实值</li>
+<li>$ \hat{x}_{ij} $：对应重建值</li>
+<li>该损失假设噪声为高斯分布，等价于最大化对数似然</li>
+</ul>
+
+<p><strong>3. 二元交叉熵重建损失</strong></p>
+
+<p><div class="math-block">$$ L_{\text{BCE}} = -\frac{1}{N}\sum_{i=1}^{N}\sum_{j=1}^{d}\left[x_{ij}\log\hat{x}_{ij} + (1-x_{ij})\log(1-\hat{x}_{ij})\right] $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>要求 $ x_{ij}\in[0,1] $ 且 $ \hat{x}_{ij}\in(0,1) $，因此输出层用 Sigmoid</li>
+<li>每个维度被当作独立的伯努利变量，适合二值图像、多热编码、概率型特征</li>
+<li>与 MSE 相比，BCE 对“接近 0 或 1 的饱和错误”惩罚更重</li>
+</ul>
+
+<p><strong>4. 稀疏惩罚（KL 散度）</strong></p>
+
+<p><div class="math-block">$$ L_{\text{sparse}} = L_{\text{rec}} + \beta\sum_{j=1}^{k}\left[\rho\log\frac{\rho}{\hat{\rho}_j} + (1-\rho)\log\frac{1-\rho}{1-\hat{\rho}_j}\right] $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ \hat{\rho}_j = \frac{1}{N}\sum_{i=1}^{N} a_j(x_i) $：第 j 个隐单元在批内的平均激活</li>
+<li>$ \rho $：目标稀疏度，常取 0.05</li>
+<li>$ \beta $：稀疏惩罚权重，控制“重建”与“稀疏”的权衡</li>
+<li>当 $ \hat{\rho}_j = \rho $ 时 KL 为 0；偏离越远惩罚越大，迫使大多数单元长期沉默</li>
+</ul>
+
+<p><strong>5. 去噪目标</strong></p>
+
+<p><div class="math-block">$$ L_{\text{DAE}} = \mathbb{E}_{x\sim\mathcal{D}}\,\mathbb{E}_{\tilde{x}\sim q(\tilde{x}\mid x)}\left\lVert x - g_\phi(f_\theta(\tilde{x}))\right\rVert_2^2 $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ \tilde{x} $：被损坏的输入（加高斯噪声、随机置零、掩码）</li>
+<li>$ q(\tilde{x}\mid x) $：损坏分布，例如 $ \tilde{x}=x+\epsilon,\ \epsilon\sim\mathcal{N}(0,\sigma^2 I) $</li>
+<li>期望对干净样本与随机损坏双重采样，迫使模型学习“去噪映射”而非恒等映射</li>
+</ul>
+
+<p><strong>6. 变分自编码器的 ELBO</strong></p>
+
+<p><div class="math-block">$$ \mathcal{L}_{\text{VAE}} = \mathbb{E}_{q_\phi(z\mid x)}\left[\log p_\theta(x\mid z)\right] - \beta\,D_{\mathrm{KL}}\left(q_\phi(z\mid x)\,\Vert\,p(z)\right) $$</div></p>
+
+<p><div class="math-block">$$ z = \mu_\phi(x) + \sigma_\phi(x)\odot\epsilon,\qquad \epsilon\sim\mathcal{N}(0,I) $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ q_\phi(z\mid x)=\mathcal{N}(\mu_\phi(x),\operatorname{diag}(\sigma_\phi^2(x))) $：编码器输出的近似后验</li>
+<li>$ p(z)=\mathcal{N}(0,I) $：先验</li>
+<li>第一项是重建似然，第二项把后验拉向先验，使潜空间连续、可采样</li>
+<li>$ \beta $：KL 权重，$ \beta>1 $ 增强解耦（β-VAE），但过大导致后验坍缩</li>
+<li>$ \odot $：逐元素乘；$ \epsilon $ 是重参数化噪声，使梯度可以穿过采样</li>
+</ul>
+
+<h4>核心要点</h4>
+
+<ul>
+<li><strong>瓶颈是灵魂</strong>：$ k<d $ 迫使网络丢弃噪声、保留结构；线性 + MSE 时最优解对应 PCA 主子空间。</li>
+<li><strong>损失要匹配数据</strong>：连续值用 MSE，$ [0,1] $ 概率值用 BCE，计数数据用 Poisson 似然。</li>
+<li><strong>过完备必须正则</strong>：$ k\ge d $ 时要用稀疏、去噪、收缩、VAE 等约束，否则退化为恒等映射。</li>
+<li><strong>重建误差即异常分数</strong>：正常样本训练后，异常样本重建误差显著偏高，可按验证集分位数设阈值。</li>
+<li><strong>训练技巧</strong>：输入归一化、输出层激活与损失匹配、Adam + 早停、学习率减半调度。</li>
+<li><strong>VAE 不是普通 AE</strong>：它优化的是似然下界，潜空间有概率结构，可生成新样本，但重建更模糊。</li>
+</ul>
+
+<h4>技术细节与参数详解</h4>
+
+<p>下表给出工程实现中最常调的参数，随后逐个展开。</p>
+
+<div class="table-wrapper"><table class="algo-table"><thead><tr><th>参数</th><th>典型默认值</th><th>作用</th><th>过大/过小的后果</th></tr></thead><tbody><tr><td><code class="inline-code">latent_dim</code></td><td>16～128</td><td>瓶颈宽度</td><td>过小欠拟合，过大退化为恒等</td></tr><tr><td><code class="inline-code">hidden_dims</code></td><td>[512, 256]</td><td>隐藏层容量</td><td>过深难训练，过浅表达不足</td></tr><tr><td><code class="inline-code">activation</code></td><td>ReLU / GELU</td><td>非线性</td><td>饱和激活导致梯度消失</td></tr><tr><td><code class="inline-code">output_activation</code></td><td>Sigmoid / None</td><td>输出范围</td><td>与损失不匹配会训练失败</td></tr><tr><td><code class="inline-code">reduction</code></td><td><code class="inline-code">mean</code></td><td>损失归约方式</td><td><code class="inline-code">sum</code> 使有效学习率放大 d 倍</td></tr><tr><td><code class="inline-code">lr</code></td><td>1e-3</td><td>学习率</td><td>过大震荡，过小收敛慢</td></tr><tr><td><code class="inline-code">batch_size</code></td><td>128</td><td>批大小</td><td>过小噪声大，过大泛化差</td></tr><tr><td><code class="inline-code">weight_decay</code></td><td>0～1e-4</td><td>L2 正则</td><td>过大压制表达</td></tr><tr><td><code class="inline-code">noise_factor</code></td><td>0.2～0.5</td><td>去噪强度</td><td>过强丢失信息</td></tr><tr><td><code class="inline-code">sparsity_target</code></td><td>0.05</td><td>目标激活率</td><td>过低导致单元死亡</td></tr><tr><td><code class="inline-code">sparsity_weight</code></td><td>1e-3～0.1</td><td>稀疏惩罚</td><td>过大重建崩坏</td></tr></tbody></table></div>
+
+<h5>参数1：<code class="inline-code">latent_dim</code>（瓶颈维度）</h5>
+
+<ul>
+<li><strong>含义</strong>：编码器最后一层输出的维度，也是解码器第一层的输入维度。</li>
+<li><strong>类型</strong>：整数。</li>
+<li><strong>默认值</strong>：无框架默认，工程上 MNIST 取 8～32，自然图像取 64～512，表格数据取 4～32。</li>
+<li><strong>取值范围</strong>：1 到输入维度；超过输入维度即“过完备”。</li>
+<li><strong>对结果的影响</strong>：维度越低，压缩越强、重建越模糊，但表示越抽象、越适合聚类；维度越高，重建越清晰，但可能学到恒等映射，$ z $ 不再有语义。可用“重建误差—下游任务精度”曲线选点，或用 PCA 解释方差 90% 的主成分数作为起点。</li>
+<li><strong>推荐设置</strong>：先按数据内在维度估计（如 PCA 95% 方差所需维数），再取其 0.5～2 倍做网格搜索；异常检测任务宁可稍大，避免正常样本也重建不佳。</li>
+</ul>
+
+<h5>参数2：<code class="inline-code">hidden_dims</code>（隐藏层宽度与深度）</h5>
+
+<ul>
+<li><strong>含义</strong>：编码器中除瓶颈外的各层维度，解码器通常镜像对称。</li>
+<li><strong>类型</strong>：整数列表。</li>
+<li><strong>默认值</strong>：<code class="inline-code">[512, 256]</code> 或 <code class="inline-code">[256, 128]</code>。</li>
+<li><strong>取值范围</strong>：每层 32～4096；层数 1～5。</li>
+<li><strong>对结果的影响</strong>：容量不足会欠拟合，重建误差高且 $ z $ 混淆；容量过大在小数据上过拟合，$ z $ 记住样本而非结构。深度增加能表达更复杂的流形，但训练更慢、梯度传播更难。</li>
+<li><strong>推荐设置</strong>：从 <code class="inline-code">[256, 128]</code> 起步；数据量小于 1 万时减少层宽；图像任务改用卷积自编码器而非全连接。</li>
+</ul>
+
+<h5>参数3：<code class="inline-code">activation</code>（隐藏层激活函数）</h5>
+
+<ul>
+<li><strong>含义</strong>：编码器/解码器中间层的非线性函数。</li>
+<li><strong>类型</strong>：字符串枚举：<code class="inline-code">relu</code>、<code class="inline-code">leaky_relu</code>、<code class="inline-code">gelu</code>、<code class="inline-code">tanh</code>、<code class="inline-code">sigmoid</code>。</li>
+<li><strong>默认值</strong>：PyTorch 中常用 <code class="inline-code">nn.ReLU()</code>；Transformer 风格用 GELU。</li>
+<li><strong>取值范围</strong>：不适用。</li>
+<li><strong>对结果的影响</strong>：ReLU 计算快但可能出现“死亡单元”（长期输出 0），导致有效容量下降；LeakyReLU（负斜率 0.01）缓解死亡；GELU 平滑、适合深层；Sigmoid/Tanh 在深层易饱和，梯度消失。</li>
+<li><strong>推荐设置</strong>：浅层 AE 用 ReLU 或 LeakyReLU；深层或需要平滑潜空间时用 GELU；瓶颈层通常不加激活（线性输出），便于下游使用。</li>
+</ul>
+
+<h5>参数4：<code class="inline-code">output_activation</code>（输出层激活）</h5>
+
+<ul>
+<li><strong>含义</strong>：解码器最后一层的激活，决定重建值的取值范围。</li>
+<li><strong>类型</strong>：字符串枚举：<code class="inline-code">sigmoid</code>、<code class="inline-code">tanh</code>、<code class="inline-code">none</code>。</li>
+<li><strong>默认值</strong>：无（线性输出）。</li>
+<li><strong>取值范围</strong>：不适用。</li>
+<li><strong>对结果的影响</strong>：数据归一化到 $ [0,1] $ 且用 BCE 时必须 Sigmoid；数据标准化到 $ [-1,1] $ 用 Tanh；数据为任意实数（如标准化后的连续特征）必须线性输出，否则被人为截断。</li>
+<li><strong>推荐设置</strong>：先确定数据范围与损失，再选激活：MSE + 标准化 → 线性；BCE + [0,1] → Sigmoid。</li>
+</ul>
+
+<h5>参数5：<code class="inline-code">reduction</code>（损失归约方式）</h5>
+
+<ul>
+<li><strong>含义</strong>：<code class="inline-code">nn.MSELoss</code> / <code class="inline-code">nn.BCELoss</code> 如何把逐元素损失聚合成标量。</li>
+<li><strong>类型</strong>：字符串枚举：<code class="inline-code">mean</code>、<code class="inline-code">sum</code>、<code class="inline-code">none</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">mean</code>。</li>
+<li><strong>取值范围</strong>：不适用。</li>
+<li><strong>对结果的影响</strong>：<code class="inline-code">mean</code> 对维度 d 归一化，学习率与输入尺寸解耦；<code class="inline-code">sum</code> 的梯度随 d 线性放大，相当于把学习率乘以 d，换数据集时极易发散；<code class="inline-code">none</code> 保留逐样本误差，可用于按样本加权或异常打分。</li>
+<li><strong>推荐设置</strong>：训练用 <code class="inline-code">mean</code>；异常检测推理时用 <code class="inline-code">none</code> 再对维度求均值，得到每个样本的异常分数。</li>
+</ul>
+
+<h5>参数6：<code class="inline-code">lr</code>（学习率）与优化器</h5>
+
+<ul>
+<li><strong>含义</strong>：梯度更新的步长。</li>
+<li><strong>类型</strong>：浮点数。</li>
+<li><strong>默认值</strong>：Adam 常用 1e-3；SGD 常用 1e-2。</li>
+<li><strong>取值范围</strong>：1e-5～1e-2（Adam）。</li>
+<li><strong>对结果的影响</strong>：过大导致损失震荡甚至 NaN；过小收敛慢、易停在平凡解。AE 的损失曲面在瓶颈附近较平，学习率过大时瓶颈容易塌缩。</li>
+<li><strong>推荐设置</strong>：Adam(lr=1e-3, betas=(0.9,0.999), eps=1e-8, weight_decay=0) 起步；10 个 epoch 无下降则减半；VAE 建议 1e-3 配合 KL warmup。</li>
+</ul>
+
+<h5>参数7：<code class="inline-code">batch_size</code>（批大小）</h5>
+
+<ul>
+<li><strong>含义</strong>：每次参数更新使用的样本数。</li>
+<li><strong>类型</strong>：整数。</li>
+<li><strong>默认值</strong>：128。</li>
+<li><strong>取值范围</strong>：16～1024，受显存限制。</li>
+<li><strong>对结果的影响</strong>：小批量噪声大，有正则效果，但稀疏惩罚的 $ \hat{\rho}_j $ 估计方差大；大批量梯度稳定，但泛化可能变差，且异常检测的阈值估计更偏。</li>
+<li><strong>推荐设置</strong>：表格数据 64～256；图像 128～512；使用 BatchNorm 时不要小于 32。</li>
+</ul>
+
+<h5>参数8：<code class="inline-code">weight_decay</code>（L2 正则系数）</h5>
+
+<ul>
+<li><strong>含义</strong>：在损失中加入 $ \lambda\lVert W\rVert^2 $，抑制权重过大。</li>
+<li><strong>类型</strong>：浮点数。</li>
+<li><strong>默认值</strong>：0（Adam 默认不加）。</li>
+<li><strong>取值范围</strong>：0～1e-3。</li>
+<li><strong>对结果的影响</strong>：适度增加可提升泛化、平滑潜空间；过大压制容量，重建变模糊；对瓶颈层过度正则会让 $ z $ 坍缩到常数。</li>
+<li><strong>推荐设置</strong>：1e-5～1e-4；若使用 VAE，优先用 KL 项做正则，weight_decay 可设为 0。</li>
+</ul>
+
+<h5>参数9：<code class="inline-code">dropout</code>（丢弃率）</h5>
+
+<ul>
+<li><strong>含义</strong>：训练时以概率 p 随机置零神经元。</li>
+<li><strong>类型</strong>：浮点数。</li>
+<li><strong>默认值</strong>：0（AE 常不用）。</li>
+<li><strong>取值范围</strong>：0～0.5。</li>
+<li><strong>对结果的影响</strong>：适度丢弃可防止过拟合、迫使表示冗余；过大导致信息丢失、重建变差；在瓶颈层使用 dropout 会让 $ z $ 不稳定。</li>
+<li><strong>推荐设置</strong>：数据量小且过拟合时在隐藏层加 0.1～0.3；瓶颈层不加。</li>
+</ul>
+
+<h5>参数10：<code class="inline-code">noise_factor</code>（去噪噪声强度）</h5>
+
+<ul>
+<li><strong>含义</strong>：去噪自编码器中高斯噪声的标准差，或掩码比例。</li>
+<li><strong>类型</strong>：浮点数。</li>
+<li><strong>默认值</strong>：0.2～0.5（高斯）；0.2～0.5（掩码比例）。</li>
+<li><strong>取值范围</strong>：0～1（若数据已归一化）。</li>
+<li><strong>对结果的影响</strong>：噪声太弱学不到鲁棒特征，等价于普通 AE；噪声太强则输入信息不足以还原，模型退化为均值预测，重建模糊。</li>
+<li><strong>推荐设置</strong>：从 0.2 起步，逐步加到验证集重建误差不再下降为止；图像任务常用“随机遮挡 30% 像素”效果优于高斯噪声。</li>
+</ul>
+
+<h5>参数11：<code class="inline-code">sparsity_target</code>（目标稀疏度 ρ）</h5>
+
+<ul>
+<li><strong>含义</strong>：希望每个隐单元的平均激活接近的目标值。</li>
+<li><strong>类型</strong>：浮点数。</li>
+<li><strong>默认值</strong>：0.05。</li>
+<li><strong>取值范围</strong>：0.01～0.2。</li>
+<li><strong>对结果的影响</strong>：ρ 越小，要求越多单元保持沉默，表示越稀疏、越可解释；过小会导致大量单元“死亡”，有效容量不足，重建崩坏。</li>
+<li><strong>推荐设置</strong>：0.05 起步；若发现活跃单元数远小于 k，说明 ρ 过小或 β 过大。</li>
+</ul>
+
+<h5>参数12：<code class="inline-code">sparsity_weight</code>（稀疏惩罚权重 β）</h5>
+
+<ul>
+<li><strong>含义</strong>：KL 稀疏项在总损失中的系数。</li>
+<li><strong>类型</strong>：浮点数。</li>
+<li><strong>默认值</strong>：1e-3～1e-2。</li>
+<li><strong>取值范围</strong>：1e-5～1。</li>
+<li><strong>对结果的影响</strong>：β 越大越稀疏，重建误差越高；β 太小则稀疏项不起作用。实践中应同时监控“重建损失”和“平均激活”两条曲线。</li>
+<li><strong>推荐设置</strong>：先用 β=0 训练到收敛，记录平均激活，再逐步加 β 直到平均激活接近 ρ 且重建误差可接受。</li>
+</ul>
+
+<h5>参数13：<code class="inline-code">beta</code>（VAE 的 KL 权重）</h5>
+
+<ul>
+<li><strong>含义</strong>：ELBO 中 KL 项的系数。</li>
+<li><strong>类型</strong>：浮点数。</li>
+<li><strong>默认值</strong>：1.0（标准 VAE）；β-VAE 常取 4～10。</li>
+<li><strong>取值范围</strong>：0.1～10。</li>
+<li><strong>对结果的影响</strong>：β 大 → 潜空间更规整、解耦更好，但重建更模糊，过大导致后验坍缩（$ q(z\mid x) $ 忽略 x）；β 小 → 重建清晰，但潜空间不连续，采样生成质量差。</li>
+<li><strong>推荐设置</strong>：从 β=1 开始；若重建模糊，降到 0.5；若潜空间不可采样，升到 2～4，并配合 KL warmup（前 10% 步数从 0 线性升到目标值）。</li>
+</ul>
+
+<h5>参数14：<code class="inline-code">threshold_percentile</code>（异常判定分位数）</h5>
+
+<ul>
+<li><strong>含义</strong>：在验证集正常样本的重建误差分布上取的分位数，作为异常阈值。</li>
+<li><strong>类型</strong>：浮点数。</li>
+<li><strong>默认值</strong>：99。</li>
+<li><strong>取值范围</strong>：90～99.9。</li>
+<li><strong>对结果的影响</strong>：分位数越高，误报越少但漏报越多；越低则相反。该参数直接决定异常检测的精确率/召回率平衡。</li>
+<li><strong>推荐设置</strong>：按业务代价选：误报代价高取 99.5，漏报代价高取 95；并用带标签的异常集校准。</li>
+</ul>
+
+<h4>代码示例</h4>
+
+<p>下面是一份完整的 PyTorch 实现，包含稀疏自编码器、训练循环与基于重建误差的异常检测，每行都有注释。</p>
+
+<p><pre class="code-block"><code class="language-python">import torch  # 导入 PyTorch 主库
+import torch.nn as nn  # 导入神经网络模块
+import torch.nn.functional as F  # 导入函数式接口，用于计算 KL 等
+from torch.utils.data import DataLoader, TensorDataset  # 导入数据加载工具
+
+class Autoencoder(nn.Module):  # 定义全连接自编码器
+    def __init__(self, input_dim=784, hidden_dims=(256, 64), latent_dim=16):  # 输入维度、隐藏层、瓶颈维度
+        super().__init__()  # 初始化父类
+        enc_dims = [input_dim, *hidden_dims, latent_dim]  # 编码器各层维度：784 → 256 → 64 → 16
+        enc_layers = []  # 准备编码器层列表
+        for i in range(len(enc_dims) - 1):  # 逐层构建
+            enc_layers.append(nn.Linear(enc_dims[i], enc_dims[i + 1]))  # 全连接层，默认 bias=True
+            if i &lt; len(enc_dims) - 2:  # 最后一层（瓶颈）不加激活，保持线性
+                enc_layers.append(nn.ReLU(inplace=True))  # 中间层使用 ReLU
+        self.encoder = nn.Sequential(*enc_layers)  # 组装编码器
+        dec_dims = [latent_dim, *reversed(hidden_dims), input_dim]  # 解码器维度镜像：16 → 64 → 256 → 784
+        dec_layers = []  # 准备解码器层列表
+        for i in range(len(dec_dims) - 1):  # 逐层构建
+            dec_layers.append(nn.Linear(dec_dims[i], dec_dims[i + 1]))  # 全连接层
+            if i &lt; len(dec_dims) - 2:  # 最后一层不加激活
+                dec_layers.append(nn.ReLU(inplace=True))  # 中间层 ReLU
+        self.decoder = nn.Sequential(*dec_layers)  # 组装解码器
+
+    def forward(self, x):  # 前向传播
+        z = self.encoder(x)  # 编码到瓶颈表示
+        x_hat = self.decoder(z)  # 解码重建
+        return x_hat, z  # 同时返回重建与潜在表示
+
+def sparse_kl(activations, rho=0.05):  # 计算稀疏 KL 惩罚
+    rho_hat = activations.mean(dim=0)  # 每个隐单元在当前批上的平均激活
+    rho_hat = rho_hat.clamp(1e-6, 1 - 1e-6)  # 截断避免 log(0)
+    kl = rho * torch.log(rho / rho_hat) + (1 - rho) * torch.log((1 - rho) / (1 - rho_hat))  # KL(ρ||ρ̂) 逐单元
+    return kl.sum()  # 对所有隐单元求和
+
+def train(model, loader, epochs=50, lr=1e-3, sparsity_weight=0.0, device=&quot;cpu&quot;):  # 训练函数
+    model.to(device)  # 把模型放到目标设备
+    opt = torch.optim.Adam(model.parameters(), lr=lr, weight_decay=1e-5)  # Adam 优化器
+    sched = torch.optim.lr_scheduler.ReduceLROnPlateau(opt, factor=0.5, patience=5)  # 平台期学习率减半
+    model.train()  # 切换到训练模式
+    for epoch in range(epochs):  # 逐轮训练
+        total, count = 0.0, 0  # 累计损失与样本数
+        for xb, _ in loader:  # 遍历小批量（标签不使用）
+            xb = xb.to(device)  # 数据搬到设备
+            x_hat, z = model(xb)  # 前向：重建与潜在表示
+            rec = F.mse_loss(x_hat, xb, reduction=&quot;mean&quot;)  # 重建损失，按元素均值
+            loss = rec + sparsity_weight * sparse_kl(z)  # 总损失 = 重建 + 稀疏惩罚
+            opt.zero_grad(set_to_none=True)  # 清空上一轮梯度
+            loss.backward()  # 反向传播
+            torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)  # 梯度裁剪，防止爆炸
+            opt.step()  # 更新参数
+            total += loss.item() * xb.size(0)  # 按样本数加权累计
+            count += xb.size(0)  # 累计样本数
+        avg = total / count  # 本轮平均损失
+        sched.step(avg)  # 根据平均损失调整学习率
+        print(f&quot;epoch {epoch + 1:03d} loss={avg:.6f}&quot;)  # 打印进度
+    return model  # 返回训练好的模型
+
+@torch.no_grad()  # 推理阶段关闭梯度
+def reconstruction_scores(model, loader, device=&quot;cpu&quot;):  # 计算每个样本的重建误差
+    model.eval()  # 切换到评估模式
+    scores = []  # 存放每个样本的异常分数
+    for xb, _ in loader:  # 遍历数据
+        xb = xb.to(device)  # 搬到设备
+        x_hat, _ = model(xb)  # 只取重建结果
+        per_sample = ((x_hat - xb) ** 2).mean(dim=1)  # 对特征维求均值，得到每样本 MSE
+        scores.append(per_sample.cpu())  # 收集到 CPU
+    return torch.cat(scores)  # 拼接成完整向量
+
+if __name__ == &quot;__main__&quot;:  # 自测入口
+    torch.manual_seed(0)  # 固定随机种子
+    x_normal = torch.rand(2000, 784) * 0.3 + 0.1  # 模拟“正常”数据：低亮度小噪声
+    x_anomaly = torch.rand(50, 784) * 0.9  # 模拟“异常”数据：高亮度大范围
+    loader = DataLoader(TensorDataset(x_normal, torch.zeros(len(x_normal))), batch_size=128, shuffle=True)  # 训练集只含正常样本
+    model = Autoencoder(input_dim=784, hidden_dims=(256, 64), latent_dim=16)  # 实例化模型
+    train(model, loader, epochs=20, lr=1e-3, sparsity_weight=0.01)  # 训练 20 轮，带稀疏约束
+    normal_scores = reconstruction_scores(model, DataLoader(TensorDataset(x_normal, torch.zeros(len(x_normal))), batch_size=256))  # 正常样本分数
+    thresh = torch.quantile(normal_scores, 0.99)  # 取 99% 分位作为阈值
+    anomaly_scores = reconstruction_scores(model, DataLoader(TensorDataset(x_anomaly, torch.ones(len(x_anomaly))), batch_size=256))  # 异常样本分数
+    print(&quot;阈值:&quot;, thresh.item())  # 打印阈值
+    print(&quot;异常检出率:&quot;, (anomaly_scores &gt; thresh).float().mean().item())  # 打印异常样本中超过阈值的比例</code></pre></p>
+
+<h4>复杂度分析</h4>
+
+<p><strong>前向传播</strong>：对第 l 层，计算量为 $ 2 d_{l-1} d_l $ 次浮点运算（乘加各算一次）。总前向 FLOPs 为</p>
+
+<p><div class="math-block">$$ \text{FLOPs}_{\text{forward}} = 2\sum_{l=1}^{L} d_{l-1} d_l $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ d_0=d $：输入维度</li>
+<li>$ d_L=d $：输出维度</li>
+<li>$ L $：层数</li>
+<li>系数 2 来自“乘一次、加一次”</li>
+</ul>
+
+<p>以 784→256→64→16→64→256→784 为例，参数量约为 $ 784\times256 + 256\times64 + 64\times16 $ 的两倍镜像，约 45 万参数，单样本前向约 90 万 FLOPs。</p>
+
+<p><strong>反向传播</strong>：计算量约为前向的 2 倍（需计算对权重与对输入的梯度），因此单步训练约 $ 6\sum d_{l-1}d_l $ FLOPs。</p>
+
+<p><strong>训练总复杂度</strong>：$ O(E \cdot N \cdot P) $，其中 $ E $ 为 epoch 数、$ N $ 为样本数、$ P $ 为参数量。实际还受内存带宽限制，小批量下往往不是算力瓶颈而是访存瓶颈。</p>
+
+<p><strong>空间复杂度</strong>：参数 $ O(P) $，激活缓存 $ O(B\cdot \max_l d_l) $（B 为批大小），优化器状态（Adam）额外 2P。推理时只需 O(P)。</p>
+
+<p><strong>推理单样本</strong>：$ O(P) $ 时间、$ O(\max_l d_l) $ 空间；若只取 $ z $，可提前在瓶颈处截断，省去解码器计算。</p>
+
+<h4>应用场景</h4>
+
+<ul>
+<li><strong>异常检测</strong>：工业设备振动、网络入侵、信用卡欺诈、服务器指标。正常样本训练，重建误差高分位设阈值。</li>
+<li><strong>图像去噪与修复</strong>：去噪自编码器学习“噪声到干净”的映射，也可用于老照片修复、医学影像降噪。</li>
+<li><strong>降维与可视化</strong>：把高维数据压到 2～16 维，再接 t-SNE/UMAP 展示，或直接用于聚类。</li>
+<li><strong>特征预训练</strong>：用无标签数据训练编码器，再把权重迁移到分类/回归任务，小样本场景收益明显。</li>
+<li><strong>推荐系统</strong>：AutoRec 用“用户-物品评分向量”做输入，重建缺失评分，实现协同过滤。</li>
+<li><strong>生成模型的潜空间前端</strong>：VAE 把图像压到潜空间，扩散模型在潜空间去噪，显著降低计算量。</li>
+<li><strong>数据压缩</strong>：学习型图像/音频压缩，编码器输出量化后熵编码，解码器重建。</li>
+</ul>
+
+<h4>参考文档</h4>
+
+<ul>
+<li><a href="https://doi.org/10.1016/0893-6080(89" target="_blank" class="ref-link">Baldi & Hornik, 1989: Neural networks and principal component analysis</a>90050-3)</li>
+<li><a href="https://www.science.org/doi/10.1126/science.1127647" target="_blank" class="ref-link">Hinton & Salakhutdinov, 2006: Reducing the Dimensionality of Data with Neural Networks</a></li>
+<li><a href="https://arxiv.org/abs/1312.6114" target="_blank" class="ref-link">Kingma & Welling, 2013: Auto-Encoding Variational Bayes</a></li>
+<li><a href="https://dl.acm.org/doi/10.1145/1390156.1390294" target="_blank" class="ref-link">Vincent et al., 2008: Extracting and Composing Robust Features with Denoising Autoencoders</a></li>
+<li><a href="https://web.stanford.edu/class/cs294a/sparseAutoencoder.pdf" target="_blank" class="ref-link">Ng, 2011: Sparse Autoencoder（CS294A 讲义）</a></li>
+<li><a href="https://docs.pytorch.org/docs/stable/generated/torch.nn.Linear.html" target="_blank" class="ref-link">PyTorch 官方文档：torch.nn.Linear</a></li>
+<li><a href="https://docs.pytorch.org/docs/stable/generated/torch.nn.MSELoss.html" target="_blank" class="ref-link">PyTorch 官方文档：torch.nn.MSELoss</a></li>
+<li><a href="https://blog.csdn.net/weixin_29042035/article/details/170300965" target="_blank" class="ref-link">自编码器实战指南：从原理到调参</a></li>
+</ul>
+
+<h3>RoPE 旋转位置编码</h3>
+
+<p><strong>类别</strong>：深度学习 | <strong>难度</strong>：困难</p>
+
+<h4>算法简介</h4>
+
+<p>RoPE（Rotary Position Embedding，旋转位置编码）由苏剑林等人在 2021 年的论文《RoFormer: Enhanced Transformer with Rotary Position Embedding》中提出。Transformer 的自注意力本身对顺序不敏感：把 token 打乱，注意力权重只跟着内容走。因此必须额外注入位置信息。此前的方案分两派：绝对位置编码（把位置向量加到词向量上，如正弦编码、可学习 embedding）和相对位置编码（在注意力打分里加偏置，如 T5 bias、DeBERTa 的相对位置桶）。前者实现简单但外推性差，后者效果更好但要改注意力计算，且无法与线性注意力兼容。</p>
+
+<p>RoPE 的思路是把“位置”变成“旋转”。它不改变向量的模长，只按位置把 query 和 key 的每一对维度旋转一个角度：位置 m 的向量旋转 $ m\theta $，位置 n 的向量旋转 $ n\theta $。由于旋转矩阵的转置相乘满足 $ R_m^{\top}R_n = R_{n-m} $，两个向量做内积时，绝对角度相互抵消，只剩下与相对位移 $ n-m $ 有关的旋转。于是“绝对位置编码”的形式，自动获得了“相对位置编码”的性质，而且这个性质是在内积层面严格成立的，不依赖任何近似。</p>
+
+<p>RoPE 还有两个工程上极有价值的性质。第一，保范性：旋转是正交变换，$ \lVert R_m x\rVert=\lVert x\rVert $，不会像加法位置编码那样改变向量尺度，训练更稳定。第二，多频率：$ d $ 维被切成 $ d/2 $ 个二维子空间，每个子空间用不同的角速度 $ \theta_i=\text{base}^{-2i/d} $，高频维度编码局部顺序，低频维度编码长程距离，形成类似“时钟时针、分针、秒针”的多尺度表示。这种设计天然带来“长程衰减”：相对距离越大，内积的期望越小，符合语言中“距离远的词关联弱”的先验。</p>
+
+<p>RoPE 目前是主流大模型的事实标准：LLaMA 系列、Qwen 系列、GLM、Baichuan、DeepSeek、Mistral 全部采用。围绕它还发展出一整套长上下文扩展技术：线性插值（Position Interpolation）、NTK-aware 缩放、YaRN、Llama 3 的分频段缩放、LongRoPE 等。理解 RoPE 的公式与这些缩放参数，是理解“为什么模型能处理 128K 上下文”的关键。</p>
+
+<h4>原理示意图</h4>
+
+<p><div class="algo-image"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 900 450" font-family="sans-serif">
+  <defs>
+    <marker id="ropeArrowQ" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto">
+      <path d="M0,0 L9,3.5 L0,7 Z" fill="#22c55e"/>
+    </marker>
+    <marker id="ropeArrowK" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto">
+      <path d="M0,0 L9,3.5 L0,7 Z" fill="#f97316"/>
+    </marker>
+    <marker id="ropeArrowAxis" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#64748b"/>
+    </marker>
+  </defs>
+  <rect width="900" height="450" fill="#1e293b" rx="12"/>
+  <text x="450" y="28" text-anchor="middle" fill="#818cf8" font-size="16" font-weight="600">RoPE：把位置变成旋转，内积只保留相对角度 (n-m)θ</text>
+
+  <line x1="70" y1="300" x2="470" y2="300" stroke="#64748b" stroke-width="1.4" marker-end="url(#ropeArrowAxis)"/>
+  <line x1="280" y1="330" x2="280" y2="110" stroke="#64748b" stroke-width="1.4" marker-end="url(#ropeArrowAxis)"/>
+  <text x="462" y="322" fill="#94a3b8" font-size="11">实轴</text>
+  <text x="288" y="118" fill="#94a3b8" font-size="11">虚轴</text>
+
+  <line x1="280" y1="300" x2="439" y2="286" stroke="#475569" stroke-width="1.4" stroke-dasharray="4 3"/>
+  <text x="446" y="292" fill="#64748b" font-size="10.5">q (未旋转)</text>
+  <line x1="280" y1="300" x2="419" y2="220" stroke="#22c55e" stroke-width="2.6" marker-end="url(#ropeArrowQ)"/>
+  <text x="424" y="212" fill="#22c55e" font-size="12" font-weight="600">R(mθ)·q</text>
+
+  <line x1="280" y1="300" x2="372" y2="169" stroke="#475569" stroke-width="1.4" stroke-dasharray="4 3"/>
+  <text x="380" y="188" fill="#64748b" font-size="10.5">k (未旋转)</text>
+  <line x1="280" y1="300" x2="308" y2="142" stroke="#f97316" stroke-width="2.6" marker-end="url(#ropeArrowK)"/>
+  <text x="242" y="132" fill="#f97316" font-size="12" font-weight="600">R(nθ)·k</text>
+
+  <path d="M 419 220 A 160 160 0 0 0 308 142" fill="none" stroke="#818cf8" stroke-width="1.6" stroke-dasharray="3 3"/>
+
+  <text x="270" y="352" text-anchor="middle" fill="#94a3b8" font-size="11">q 转 mθ、k 转 nθ；两者夹角为 (n-m)θ，与绝对位置无关</text>
+
+  <text x="680" y="72" text-anchor="middle" fill="#a5b4fc" font-size="12.5" font-weight="600">d/2 个频率通道：θ_i = base^(-2i/d)</text>
+  <rect x="548" y="92" width="22" height="150" rx="3" fill="#6366f1"/>
+  <rect x="592" y="122" width="22" height="120" rx="3" fill="#6366f1" opacity="0.85"/>
+  <rect x="636" y="152" width="22" height="90" rx="3" fill="#6366f1" opacity="0.7"/>
+  <rect x="680" y="176" width="22" height="66" rx="3" fill="#6366f1" opacity="0.55"/>
+  <rect x="724" y="194" width="22" height="48" rx="3" fill="#6366f1" opacity="0.4"/>
+  <rect x="768" y="206" width="22" height="36" rx="3" fill="#6366f1" opacity="0.28"/>
+  <text x="559" y="262" text-anchor="middle" fill="#94a3b8" font-size="10">i=0</text>
+  <text x="603" y="262" text-anchor="middle" fill="#94a3b8" font-size="10">i=1</text>
+  <text x="647" y="262" text-anchor="middle" fill="#94a3b8" font-size="10">i=2</text>
+  <text x="691" y="262" text-anchor="middle" fill="#94a3b8" font-size="10">i=3</text>
+  <text x="735" y="262" text-anchor="middle" fill="#94a3b8" font-size="10">i=4</text>
+  <text x="779" y="262" text-anchor="middle" fill="#94a3b8" font-size="10">i=5</text>
+  <text x="670" y="288" text-anchor="middle" fill="#94a3b8" font-size="10.5">角速度（柱高）随维度指数衰减</text>
+  <text x="670" y="312" text-anchor="middle" fill="#94a3b8" font-size="10.5">波长 λ_i = 2π·base^(2i/d) 指数增长</text>
+  <text x="670" y="338" text-anchor="middle" fill="#22c55e" font-size="10.5">高频维度：编码局部顺序（短波长）</text>
+  <text x="670" y="360" text-anchor="middle" fill="#f97316" font-size="10.5">低频维度：编码长程距离（长波长）</text>
+
+  <text x="450" y="386" text-anchor="middle" fill="#22c55e" font-size="11.5">相对性质：R_m q 与 R_n k 的内积 = q 与 R_(n-m) k 的内积，绝对位置在点积中抵消，只剩相对位移</text>
+  <text x="450" y="410" text-anchor="middle" fill="#94a3b8" font-size="11.5">长上下文扩展：把 θ_i 按频率分档缩放（线性插值 / NTK-aware / YaRN），让没见过的长距离也落在训练分布内</text>
+  <text x="450" y="434" text-anchor="middle" fill="#f97316" font-size="11">注意：RoPE 不改变向量模长，也不引入额外参数；所有位置信息只存在于 cos/sin 的旋转角里</text>
+</svg></div></p>
+
+<h4>数学公式</h4>
+
+<p><strong>1. 相对位置编码的目标</strong></p>
+
+<p><div class="math-block">$$ \langle f_q(x_m, m),\, f_k(x_n, n)\rangle = g(x_m,\, x_n,\, n-m) $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ x_m, x_n \in \mathbb{R}^d $：位置 m、n 处的词向量（已过 $ W_q/W_k $ 投影前的输入）</li>
+<li>$ f_q, f_k $：给 query/key 注入位置信息的函数</li>
+<li>$ g $：只依赖两个词向量与相对距离 $ n-m $ 的函数</li>
+<li>该式是整个设计的出发点：内积中不允许出现单独的 m 或 n，只能出现差值</li>
+</ul>
+
+<p><strong>2. 二维情形：复数旋转</strong></p>
+
+<p><div class="math-block">$$ f_q(x_m,m) = (W_q x_m)\,e^{im\theta},\qquad f_k(x_n,n) = (W_k x_n)\,e^{in\theta} $$</div></p>
+
+<p><div class="math-block">$$ \langle f_q, f_k\rangle = \operatorname{Re}\!\left[(W_q x_m)(W_k x_n)^{*}\,e^{i(m-n)\theta}\right] = \lVert W_q x_m\rVert\,\lVert W_k x_n\rVert\cos\!\big((n-m)\theta + \varphi\big) $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ W_q, W_k \in \mathbb{R}^{2\times d} $：投影矩阵</li>
+<li>$ e^{i\varphi}=\cos\varphi + i\sin\varphi $：单位复数，等价于逆时针旋转 $ \varphi $</li>
+<li>$ (\cdot)^{*} $：复共轭</li>
+<li>$ \theta $：预设的非零角速度</li>
+<li>$ \operatorname{Re}[\cdot] $：取实部，对应二维实向量的点积</li>
+<li>$ \varphi $：两个复数的固有相位差，与位置无关，只由 $ W_q x_m $、$ W_k x_n $ 决定</li>
+<li>关键：两个旋转角相减，只剩 $ (n-m)\theta $；取实部后余弦为偶函数，故上式也可写成 $ e^{i(m-n)\theta} $</li>
+</ul>
+
+<p><strong>3. 多维情形：分块对角旋转矩阵</strong></p>
+
+<p><div class="math-block">$$ f_{\{q,k\}}(x_m,m) = R^d_{\Theta,m}\,W_{\{q,k\}}\,x_m $$</div></p>
+
+<p><div class="math-block">$$ R^d_{\Theta,m}=\operatorname{diag}\!\left(R(m\theta_1),\,R(m\theta_2),\,\dots,\,R(m\theta_{d/2})\right),\quad R(\alpha)=\begin{pmatrix}\cos\alpha & -\sin\alpha\\ \sin\alpha & \cos\alpha\end{pmatrix} $$</div></p>
+
+<p><div class="math-block">$$ \theta_i = \text{base}^{-2(i-1)/d},\qquad i=1,2,\dots,d/2 $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ d $：注意力头的维度，必须为偶数</li>
+<li>$ R^d_{\Theta,m} $：$ d\times d $ 的分块对角正交矩阵，共 $ d/2 $ 个 $ 2\times2 $ 旋转块</li>
+<li>$ \theta_i $：第 i 个二维子空间的角速度（每移动一个位置旋转的弧度）</li>
+<li>$ \text{base} $：频率基数，默认 10000；越大，低频波长越长</li>
+<li>$ i $ 越大，$ \theta_i $ 越小，旋转越慢，波长 $ \lambda_i=2\pi/\theta_i $ 越长</li>
+</ul>
+
+<p><strong>4. 相对位置性质</strong></p>
+
+<p><div class="math-block">$$ q_m^{\top}k_n = (R_{\Theta,m}W_q x_m)^{\top}(R_{\Theta,n}W_k x_n) = x_m^{\top}W_q^{\top}R_{\Theta,n-m}W_k x_n $$</div></p>
+
+<p><div class="math-block">$$ R_{\Theta,n-m} = R_{\Theta,m}^{\top}R_{\Theta,n} $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ R_{\Theta,m}^{\top}=R_{\Theta,-m} $：旋转矩阵的转置等于反向旋转</li>
+<li>$ R_{\Theta,n-m} $：只与相对位移有关的旋转矩阵</li>
+<li>该式说明：无论句子整体平移多少，只要相对距离不变，注意力打分就不变（平移不变性）</li>
+</ul>
+
+<p><strong>5. 工程实现形式（rotate_half）</strong></p>
+
+<p><div class="math-block">$$ \text{inv\_freq}_i = \frac{1}{\text{base}^{2i/d}},\qquad \phi_{m,i}=m\cdot\text{inv\_freq}_i $$</div></p>
+
+<p><div class="math-block">$$ q'_{m} = q_m\odot\cos\phi_m + \operatorname{rotate\_half}(q_m)\odot\sin\phi_m $$</div></p>
+
+<p><div class="math-block">$$ \operatorname{rotate\_half}([x_1,\dots,x_{d/2},x_{d/2+1},\dots,x_d]) = [-x_{d/2+1},\dots,-x_d,\,x_1,\dots,x_{d/2}] $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ \text{inv\_freq}_i $：第 i 个频率通道的角速度，等价于上面的 $ \theta_i $</li>
+<li>$ \phi_{m,i} $：位置 m 在第 i 通道上的旋转角</li>
+<li>$ \odot $：逐元素乘</li>
+<li>$ \operatorname{rotate\_half} $：把向量后半段取负后拼到前半段，正好实现 $ (-x_2, x_1) $ 的二维旋转</li>
+<li>该形式避免了构造稀疏大矩阵，只用逐元素乘加，GPU 上极快</li>
+</ul>
+
+<p><strong>6. 线性插值与 NTK-aware 缩放</strong></p>
+
+<p><div class="math-block">$$ \text{线性插值：}\ \phi'_{m,i} = \frac{m}{\text{factor}}\cdot\theta_i \quad\Longleftrightarrow\quad \theta_i' = \frac{\theta_i}{\text{factor}} $$</div></p>
+
+<p><div class="math-block">$$ \text{NTK-aware：}\ \text{base}' = \text{base}\cdot\text{factor}^{\frac{d}{d-2}} $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ \text{factor} $：目标长度 / 原始训练长度，例如 8192→32768 时 factor=4</li>
+<li>线性插值把所有位置“压密”，短距离分辨率下降</li>
+<li>NTK-aware 不改位置，改频率基数，使高频维度缩放少、低频维度缩放多，缓解分辨率损失</li>
+<li>$ d/(d-2) $：由 NTK 理论推出的维度修正指数</li>
+</ul>
+
+<p><strong>7. YaRN 的分频段缩放与温度补偿</strong></p>
+
+<p><div class="math-block">$$ r_i = \frac{L_{\text{train}}}{\lambda_i},\qquad \gamma_i = \operatorname{clamp}\!\left(\frac{r_i-\beta_{\text{slow}}}{\beta_{\text{fast}}-\beta_{\text{slow}}},\,0,\,1\right) $$</div></p>
+
+<p><div class="math-block">$$ \theta_i' = \theta_i\left(\gamma_i + \frac{1-\gamma_i}{\text{factor}}\right),\qquad \text{scale}_{\text{attn}} = 0.1\ln(\text{factor})+1 $$</div></p>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ L_{\text{train}} $：原始训练上下文长度（<code class="inline-code">original_max_position_embeddings</code>）</li>
+<li>$ \lambda_i=2\pi/\theta_i $：第 i 通道的波长</li>
+<li>$ r_i $：训练长度内该通道转过的圈数，越大代表频率越高</li>
+<li>$ \beta_{\text{fast}} $：高频边界，$ r_i>\beta_{\text{fast}} $ 时 $ \gamma_i=1 $，完全不缩放（保留局部分辨率）</li>
+<li>$ \beta_{\text{slow}} $：低频边界，$ r_i<\beta_{\text{slow}} $ 时 $ \gamma_i=0 $，完全按 factor 插值（扩展长程）</li>
+<li>中间区域线性过渡，避免频率断层</li>
+<li>$ \text{scale}_{\text{attn}} $：注意力温度补偿，抵消长度增加导致的注意力熵上升</li>
+</ul>
+
+<h4>核心要点</h4>
+
+<ul>
+<li><strong>旋转而非相加</strong>：位置信息通过正交旋转注入，模长不变，不引入额外参数。</li>
+<li><strong>绝对形式、相对本质</strong>：$ R_m^{\top}R_n=R_{n-m} $，点积只依赖相对距离，严格成立。</li>
+<li><strong>多尺度频率</strong>：$ \theta_i=\text{base}^{-2i/d} $ 指数衰减，高频管局部、低频管长程，形成长程衰减先验。</li>
+<li><strong>实现极简</strong>：预计算 cos/sin 表，逐元素乘加，额外计算量相对注意力可忽略。</li>
+<li><strong>外推需要缩放</strong>：直接把位置推到训练长度之外会崩，必须用线性插值、NTK-aware、YaRN 或 Llama 3 分频段缩放。</li>
+<li><strong>缩放是权衡</strong>：插值提升长程覆盖但损失短程分辨率；base 调大类似，需按任务长度分布选择。</li>
+<li><strong>与线性注意力兼容</strong>：旋转保范且可分配到 $ \phi(q),\varphi(k) $ 上，这是加法位置编码做不到的。</li>
+</ul>
+
+<h4>技术细节与参数详解</h4>
+
+<p>RoPE 本身只有两个数学参数（dim 与 base），但工程实现与长上下文扩展引入了一组配置项。下表先给出全局视图。</p>
+
+<div class="table-wrapper"><table class="algo-table"><thead><tr><th>参数</th><th>典型默认值</th><th>作用</th><th>调大后的影响</th></tr></thead><tbody><tr><td><code class="inline-code">dim</code> / <code class="inline-code">head_dim</code></td><td>64 / 128</td><td>参与旋转的维度</td><td>频率通道变多，短程分辨率提高</td></tr><tr><td><code class="inline-code">base</code> / <code class="inline-code">rope_theta</code></td><td>10000</td><td>频率基数</td><td>波长整体变长，长上下文更好、短程分辨率下降</td></tr><tr><td><code class="inline-code">max_position_embeddings</code></td><td>2048～131072</td><td>位置表/缓存上限</td><td>显存占用线性增加</td></tr><tr><td><code class="inline-code">rope_scaling.type</code></td><td>none / linear / yarn / llama3</td><td>长上下文缩放策略</td><td>决定外推方式与精度</td></tr><tr><td><code class="inline-code">factor</code></td><td>1.0～32</td><td>目标/原始长度比</td><td>越大扩得越远，短程分辨率损失越大</td></tr><tr><td><code class="inline-code">original_max_position_embeddings</code></td><td>= 训练长度</td><td>缩放基准</td><td>设错会让缩放整体偏移</td></tr><tr><td><code class="inline-code">attention_factor</code></td><td>0.1·ln(factor)+1</td><td>注意力温度补偿</td><td>过大会使注意力过尖</td></tr><tr><td><code class="inline-code">beta_fast</code> / <code class="inline-code">beta_slow</code></td><td>32 / 1</td><td>YaRN 分频段边界</td><td>改变插值/外推的维度分配</td></tr><tr><td><code class="inline-code">partial_rotary_factor</code></td><td>1.0</td><td>参与旋转的比例</td><td>小于 1 时部分维度不编码位置</td></tr></tbody></table></div>
+
+<h5>参数1：<code class="inline-code">dim</code> / <code class="inline-code">head_dim</code>（旋转维度）</h5>
+
+<ul>
+<li><strong>含义</strong>：每个注意力头做旋转的维度数，必须是偶数；实际参与旋转的维度为 <code class="inline-code">head_dim * partial_rotary_factor</code>。</li>
+<li><strong>类型</strong>：整数。</li>
+<li><strong>默认值</strong>：LLaMA-2-7B 为 128；GPT-NeoX 为 96；小模型常见 64。</li>
+<li><strong>取值范围</strong>：32～256，且必须为偶数；若 <code class="inline-code">partial_rotary_factor < 1</code>，乘积也必须是偶数。</li>
+<li><strong>对结果的影响</strong>：dim 越大，频率通道越多，可编码的位置尺度越丰富，短程分辨率越高；但 cos/sin 缓存与逐元素计算量线性增加。dim 太小（如 16）会导致不同位置的角度差过大、出现“位置混叠”，长文本性能明显下降。</li>
+<li><strong>推荐设置</strong>：与头维度保持一致（<code class="inline-code">head_dim</code>），不要单独缩小；若必须省算力，用 <code class="inline-code">partial_rotary_factor</code> 只旋转一部分维度，而不是截断频率表。</li>
+</ul>
+
+<h5>参数2：<code class="inline-code">base</code> / <code class="inline-code">rope_theta</code>（频率基数）</h5>
+
+<ul>
+<li><strong>含义</strong>：$ \theta_i=\text{base}^{-2i/d} $ 中的基数，决定最低频通道的波长。</li>
+<li><strong>类型</strong>：浮点数。</li>
+<li><strong>默认值</strong>：原始论文与 LLaMA-2 为 10000；LLaMA-3 为 500000；Qwen2 为 1000000；部分长上下文模型用到 1e7。</li>
+<li><strong>取值范围</strong>：1e4～1e7。</li>
+<li><strong>对结果的影响</strong>：base 越大，所有 $ \theta_i $ 越小，波长 $ \lambda_i=2\pi\text{base}^{2i/d} $ 越长。好处是长距离不易“转过多圈”导致混叠，长上下文更稳；代价是短距离的角度差变小，局部顺序分辨率下降，且与预训练权重不匹配时性能骤降。</li>
+<li><strong>推荐设置</strong>：从头训练按目标上下文选：4K 用 1e4，32K 用 5e5，128K 用 1e6；微调已发布模型时不要随意改 base，优先用 <code class="inline-code">rope_scaling</code>。</li>
+</ul>
+
+<h5>参数3：<code class="inline-code">max_position_embeddings</code>（最大位置数）</h5>
+
+<ul>
+<li><strong>含义</strong>：模型声明支持的最大序列长度，决定位置索引范围与 cos/sin 缓存大小。</li>
+<li><strong>类型</strong>：整数。</li>
+<li><strong>默认值</strong>：BERT 512；LLaMA-2 4096；LLaMA-3 8192；Qwen2.5 32768；长上下文模型 131072。</li>
+<li><strong>取值范围</strong>：512～1e6，受显存与注意力复杂度限制。</li>
+<li><strong>对结果的影响</strong>：设小了，超出部分的位置索引越界或被迫截断；设大了，缓存占用线性增长，且若训练时没见过长位置，实际效果仍会崩。</li>
+<li><strong>推荐设置</strong>：等于训练长度；推理扩长时保持原值，用 <code class="inline-code">rope_scaling</code> 扩展，避免误改位置表。</li>
+</ul>
+
+<h5>参数4：<code class="inline-code">position_ids</code>（位置索引）</h5>
+
+<ul>
+<li><strong>含义</strong>：每个 token 使用的位置编号，默认是 <code class="inline-code">0..L-1</code>。</li>
+<li><strong>类型</strong>：整型张量，形状 <code class="inline-code">[batch, seq_len]</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">torch.arange(seq_len)</code>，batch 内共享。</li>
+<li><strong>取值范围</strong>：0 到 <code class="inline-code">max_position_embeddings-1</code>（缩放后可更大）。</li>
+<li><strong>对结果的影响</strong>：packing 多段样本时若不重置位置，第二段会继承第一段的偏移，导致位置错乱；左 padding 时若不把 pad 位置设为 0 或屏蔽，会影响注意力；多模态中不同模态需要独立位置编排（如 Qwen2-VL 的 M-RoPE）。</li>
+<li><strong>推荐设置</strong>：packing 时每段从 0 重新计数；左 padding 用 <code class="inline-code">attention_mask</code> 屏蔽并给 pad 任意安全位置；需要绝对位置的任务显式传入。</li>
+</ul>
+
+<h5>参数5：<code class="inline-code">rope_scaling.type</code> / <code class="inline-code">rope_type</code>（缩放策略）</h5>
+
+<ul>
+<li><strong>含义</strong>：长上下文扩展方式，决定如何把训练时没见过的位置映射回分布内。</li>
+<li><strong>类型</strong>：字符串枚举：<code class="inline-code">linear</code>、<code class="inline-code">dynamic</code>、<code class="inline-code">yarn</code>、<code class="inline-code">longrope</code>、<code class="inline-code">llama3</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">None</code>（不缩放）。</li>
+<li><strong>取值范围</strong>：上述枚举。</li>
+<li><strong>对结果的影响</strong>：</li>
+<li><code class="inline-code">linear</code>：位置除以 factor，最简单，短程分辨率损失最大。</li>
+<li><code class="inline-code">dynamic</code>：只在序列超过原始长度时才启用线性插值，短文本不受影响。</li>
+<li><code class="inline-code">yarn</code>：分频段插值 + 温度补偿，长上下文效果最好，参数最多。</li>
+<li><code class="inline-code">llama3</code>：按波长分三段（不变 / 平滑过渡 / 除以 factor），专为 Llama 3 设计。</li>
+<li><code class="inline-code">longrope</code>：为每个维度学习/设定不同的缩放因子，适合极端长度。</li>
+<li><strong>推荐设置</strong>：微调扩长优先 <code class="inline-code">yarn</code> 或 <code class="inline-code">llama3</code>；只是偶尔超长且不想改权重，用 <code class="inline-code">dynamic</code>；不要同时改 base 与 scaling，二者效果叠加会过度压缩。</li>
+</ul>
+
+<h5>参数6：<code class="inline-code">factor</code>（缩放因子）</h5>
+
+<ul>
+<li><strong>含义</strong>：目标上下文长度与原始训练长度之比。</li>
+<li><strong>类型</strong>：浮点数。</li>
+<li><strong>默认值</strong>：1.0（不缩放）。</li>
+<li><strong>取值范围</strong>：1.0～32，实用常见 2、4、8、16。</li>
+<li><strong>对结果的影响</strong>：factor 越大，位置被压得越密，能覆盖的上下文越长；但相邻 token 的角度差变小，局部顺序分辨力下降，超过一定倍数后困惑度反而上升。经验上，零样本外推 factor 不超过 4～8，更大的扩展需要 continued pretraining。</li>
+<li><strong>推荐设置</strong>：factor = 目标长度 / 原始训练长度，向上取整到 2 的幂；配合 YaRN 时注意 <code class="inline-code">attention_factor</code> 同步调整。</li>
+</ul>
+
+<h5>参数7：<code class="inline-code">original_max_position_embeddings</code>（原始训练长度）</h5>
+
+<ul>
+<li><strong>含义</strong>：缩放策略的基准长度，即模型预训练时真正见过的最大位置。</li>
+<li><strong>类型</strong>：整数。</li>
+<li><strong>默认值</strong>：等于 <code class="inline-code">max_position_embeddings</code>。</li>
+<li><strong>取值范围</strong>：512～1e6。</li>
+<li><strong>对结果的影响</strong>：设大了，缩放不足，长位置仍在分布外；设小了，缩放过度，短文本也被压缩，性能下降。YaRN 与 Llama 3 的波长分档都以它为基准。</li>
+<li><strong>推荐设置</strong>：严格填预训练实际长度（查模型 config 或论文），不要想当然用当前 <code class="inline-code">max_position_embeddings</code>。</li>
+</ul>
+
+<h5>参数8：<code class="inline-code">attention_factor</code>（注意力温度补偿）</h5>
+
+<ul>
+<li><strong>含义</strong>：YaRN 引入的 softmax 温度系数，用来抵消上下文变长后注意力分布变平的问题。</li>
+<li><strong>类型</strong>：浮点数。</li>
+<li><strong>默认值</strong>：<code class="inline-code">0.1 * ln(factor) + 1</code>，factor=4 时约 1.139，factor=8 时约 1.208。</li>
+<li><strong>取值范围</strong>：1.0～1.5。</li>
+<li><strong>对结果的影响</strong>：大于 1 会让注意力更尖锐（熵降低），恢复长文本中的聚焦能力；过大会导致注意力过度集中、梯度不稳；小于 1 则更平滑，长文本容易“抓不住重点”。</li>
+<li><strong>推荐设置</strong>：按默认公式计算；若长文本出现重复、答非所问，可微调到 1.1～1.3；不要与温度参数 <code class="inline-code">temperature</code> 混淆，后者是采样参数。</li>
+</ul>
+
+<h5>参数9：<code class="inline-code">beta_fast</code>（高频边界）</h5>
+
+<ul>
+<li><strong>含义</strong>：YaRN 中判定“高频维度”的阈值，单位为“训练长度内旋转圈数”。</li>
+<li><strong>类型</strong>：浮点数。</li>
+<li><strong>默认值</strong>：32。</li>
+<li><strong>取值范围</strong>：4～64。</li>
+<li><strong>对结果的影响</strong>：$ r_i>\beta_{\text{fast}} $ 的维度完全不缩放，保留局部顺序分辨率。β_fast 越大，越多维度被视为高频而保持原样，短程更准但长程覆盖不足；越小则更多维度被插值，长程更好但局部模糊。</li>
+<li><strong>推荐设置</strong>：默认 32；长文本任务可降到 16～24 增强外推；短文本为主则保持 32 或更高。</li>
+</ul>
+
+<h5>参数10：<code class="inline-code">beta_slow</code>（低频边界）</h5>
+
+<ul>
+<li><strong>含义</strong>：YaRN 中判定“低频维度”的阈值。</li>
+<li><strong>类型</strong>：浮点数。</li>
+<li><strong>默认值</strong>：1。</li>
+<li><strong>取值范围</strong>：0.25～4。</li>
+<li><strong>对结果的影响</strong>：$ r_i<\beta_{\text{slow}} $ 的维度完全按 factor 插值，负责长程。β_slow 越大，越多维度被完全插值，长程更强但短程分辨率损失更大；越小则插值范围收窄。</li>
+<li><strong>推荐设置</strong>：默认 1；与 β_fast 保持 16～32 倍差距，避免过渡带过窄导致频率断层。</li>
+</ul>
+
+<h5>参数11：<code class="inline-code">low_freq_factor</code> / <code class="inline-code">high_freq_factor</code>（Llama 3 分频段阈值）</h5>
+
+<ul>
+<li><strong>含义</strong>：Llama 3 缩放策略中，按波长划分三段：短波长不变、长波长除以 factor、中间平滑过渡。</li>
+<li><strong>类型</strong>：浮点数。</li>
+<li><strong>默认值</strong>：<code class="inline-code">low_freq_factor=1.0</code>、<code class="inline-code">high_freq_factor=4.0</code>。</li>
+<li><strong>取值范围</strong>：0.5～8。</li>
+<li><strong>对结果的影响</strong>：<code class="inline-code">high_freq_factor</code> 越大，越多维度被归为“高频不变”，局部分辨率保留越多；<code class="inline-code">low_freq_factor</code> 越大，过渡带越宽，长程扩展越平缓。</li>
+<li><strong>推荐设置</strong>：沿用官方 Llama 3 配置（1.0 / 4.0），除非有大量长文本评测数据支撑再调。</li>
+</ul>
+
+<h5>参数12：<code class="inline-code">partial_rotary_factor</code>（部分旋转比例）</h5>
+
+<ul>
+<li><strong>含义</strong>：只对头维度的前一部分做旋转，剩余维度直接透传。</li>
+<li><strong>类型</strong>：浮点数。</li>
+<li><strong>默认值</strong>：1.0（全部旋转）。</li>
+<li><strong>取值范围</strong>：0.25～1.0，且 <code class="inline-code">head_dim * factor</code> 必须为偶数。</li>
+<li><strong>对结果的影响</strong>：小于 1 时减少计算与缓存，但未旋转维度不带位置信息，相当于把位置编码容量换成了算力；比例过低会导致位置分辨不足。GPT-NeoX、Phi 系列使用 0.25。</li>
+<li><strong>推荐设置</strong>：与预训练配置一致；从头训练时若算力紧张可用 0.5，但不要低于 0.25。</li>
+</ul>
+
+<h5>参数13：<code class="inline-code">interleaved</code>（交错/分段旋转）</h5>
+
+<ul>
+<li><strong>含义</strong>：二维子空间的配对方式。<code class="inline-code">False</code> 为 Llama 风格（前半段与后半段配对），<code class="inline-code">True</code> 为 GPT-J/NeoX 风格（相邻两维配对）。</li>
+<li><strong>类型</strong>：布尔值。</li>
+<li><strong>默认值</strong>：<code class="inline-code">False</code>（Llama 系）。</li>
+<li><strong>取值范围</strong>：True / False。</li>
+<li><strong>对结果的影响</strong>：两种方式在数学上只差一个固定的维度置换，但不能混用：用错会让旋转配错维度，模型输出乱码。</li>
+<li><strong>推荐设置</strong>：严格跟随预训练权重；加载 HuggingFace 模型时由 <code class="inline-code">config.rope_scaling</code> 与实现自动决定，不要手工改。</li>
+</ul>
+
+<h5>参数14：<code class="inline-code">dtype</code>（cos/sin 计算精度）</h5>
+
+<ul>
+<li><strong>含义</strong>：预计算旋转角与 cos/sin 表时使用的浮点精度。</li>
+<li><strong>类型</strong>：<code class="inline-code">torch.float32</code> / <code class="inline-code">torch.bfloat16</code> / <code class="inline-code">torch.float16</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">float32</code> 计算，再 cast 到模型 dtype。</li>
+<li><strong>取值范围</strong>：上述类型。</li>
+<li><strong>对结果的影响</strong>：用 bf16 直接算 <code class="inline-code">inv_freq</code> 会在长位置（如 100 万）处产生明显误差，角度偏移累积后注意力错位；fp16 在超过 65504 时溢出。</li>
+<li><strong>推荐设置</strong>：<code class="inline-code">inv_freq</code>、<code class="inline-code">freqs</code> 全程 float32，最后把 <code class="inline-code">cos/sin</code> cast 到 bf16/fp16 参与矩阵运算；这是 HF 实现的默认做法。</li>
+</ul>
+
+<h5>参数15：缓存策略（<code class="inline-code">cos/sin</code> 预计算）</h5>
+
+<ul>
+<li><strong>含义</strong>：把 <code class="inline-code">[max_seq, dim]</code> 的 cos/sin 表预先算好，避免每层重复计算。</li>
+<li><strong>类型</strong>：张量缓存。</li>
+<li><strong>默认值</strong>：按 <code class="inline-code">max_position_embeddings</code> 预分配。</li>
+<li><strong>取值范围</strong>：不适用。</li>
+<li><strong>对结果的影响</strong>：缓存大小 = $ 2\times L\times d\times\text{bytes} $。L=131072、d=128、fp32 时约 134MB；若每层都存一份会放大到数十 GB，必须全局共享。</li>
+<li><strong>推荐设置</strong>：全局一份、按需切片；动态长度场景用「按 batch 最大长度即时生成 + LRU 缓存」，避免为短请求分配整张长表。</li>
+</ul>
+
+<h4>代码示例</h4>
+
+<p>下面是一份可直接运行的 PyTorch 实现，包含基础 RoPE、YaRN 缩放与相对位置性质验证，每行都有注释。</p>
+
+<p><pre class="code-block"><code class="language-python">import math  # 导入数学库，用于计算 pi 与对数
+import torch  # 导入 PyTorch
+
+def rotate_half(x):  # 实现 rotate_half：把后半段取负拼到前半段
+    x1 = x[..., : x.shape[-1] // 2]  # 取最后一维的前半段
+    x2 = x[..., x.shape[-1] // 2 :]  # 取最后一维的后半段
+    return torch.cat((-x2, x1), dim=-1)  # 返回 [-x2, x1]，对应二维旋转的虚部
+
+def build_rope_cache(seq_len, dim, base=10000.0, device=&quot;cpu&quot;, dtype=torch.float32):  # 预计算 cos/sin 表
+    assert dim % 2 == 0, &quot;RoPE 维度必须为偶数&quot;  # 旋转需要成对的维度
+    inv_freq = 1.0 / (base ** (torch.arange(0, dim, 2, device=device, dtype=torch.float32) / dim))  # 每个通道的角速度 θ_i
+    t = torch.arange(seq_len, device=device, dtype=torch.float32)  # 位置序列 0..L-1
+    freqs = torch.outer(t, inv_freq)  # 外积得到 [L, dim/2] 的角度矩阵
+    emb = torch.cat((freqs, freqs), dim=-1)  # 复制一份拼成 [L, dim]，前后半段角度相同
+    return emb.cos().to(dtype), emb.sin().to(dtype)  # 返回 cos 与 sin 表
+
+def apply_rope(q, k, cos, sin, position_ids):  # 把旋转作用到 query 与 key 上
+    cos = cos[position_ids].unsqueeze(1)  # 按位置取表，并插入 head 维：[B, 1, L, D]
+    sin = sin[position_ids].unsqueeze(1)  # 同样处理 sin
+    q_embed = (q * cos) + (rotate_half(q) * sin)  # q 的旋转：实部乘 cos，虚部乘 sin
+    k_embed = (k * cos) + (rotate_half(k) * sin)  # k 做同样的旋转
+    return q_embed, k_embed  # 返回旋转后的 q、k
+
+def yarn_inv_freq(dim, base=10000.0, factor=8.0, original_max=8192, beta_fast=32.0, beta_slow=1.0):  # YaRN 分频段缩放
+    inv_freq = 1.0 / (base ** (torch.arange(0, dim, 2, dtype=torch.float32) / dim))  # 原始角速度
+    wavelen = 2 * math.pi / inv_freq  # 每个通道的波长 λ_i
+    r = original_max / wavelen  # 训练长度内该通道转过的圈数
+    gamma = ((r - beta_slow) / (beta_fast - beta_slow)).clamp(0.0, 1.0)  # 高频为 1、低频为 0 的过渡系数
+    inv_freq_scaled = inv_freq * (gamma + (1.0 - gamma) / factor)  # 高频不缩放，低频除以 factor
+    return inv_freq_scaled  # 返回缩放后的角速度
+
+def build_rope_cache_scaled(seq_len, dim, inv_freq, device=&quot;cpu&quot;):  # 用自定义角速度构建 cos/sin 表
+    t = torch.arange(seq_len, device=device, dtype=torch.float32)  # 位置序列
+    freqs = torch.outer(t, inv_freq.to(device))  # 位置 × 角速度
+    emb = torch.cat((freqs, freqs), dim=-1)  # 拼成完整维度
+    return emb.cos(), emb.sin()  # 返回 cos/sin
+
+if __name__ == &quot;__main__&quot;:  # 自测入口
+    torch.manual_seed(0)  # 固定随机种子
+    B, H, L, D = 1, 2, 8, 8  # 批大小、头数、序列长度、头维度
+    q = torch.randn(B, H, L, D)  # 随机生成 query
+    k = torch.randn(B, H, L, D)  # 随机生成 key
+    cos, sin = build_rope_cache(L, D, base=10000.0)  # 构建基础 RoPE 表
+    pos = torch.arange(L).unsqueeze(0).expand(B, -1)  # 位置编号 [B, L]
+    q_rot, k_rot = apply_rope(q, k, cos, sin, pos)  # 一次性旋转整段序列
+    scores = torch.einsum(&quot;bhld,bhld-&gt;bhl&quot;, q_rot, k_rot)  # 同位点积，仅作形状检查
+
+    a, b = 2, 5  # 取位置 a 的 query 与位置 b 的 key
+    qa = q[:, :, a:a + 1, :]  # 取出位置 a 的 query
+    kb = k[:, :, b:b + 1, :]  # 取出位置 b 的 key
+    cos_ab, sin_ab = build_rope_cache(b + 1, D)  # 构建足够长的旋转表
+    qa_rot, _ = apply_rope(qa, kb, cos_ab, sin_ab, torch.tensor([[a]]))  # 把 query 旋转 aθ
+    _, kb_rot = apply_rope(qa, kb, cos_ab, sin_ab, torch.tensor([[b]]))  # 把 key 旋转 bθ
+    lhs = (qa_rot * kb_rot).sum(-1)  # 内积：q_a 与 k_b 的注意力打分
+    q0_rot, _ = apply_rope(qa, kb, cos_ab, sin_ab, torch.tensor([[0]]))  # 同一 query 放到位置 0（不旋转）
+    _, kd_rot = apply_rope(qa, kb, cos_ab, sin_ab, torch.tensor([[b - a]]))  # 同一 key 放到相对位置 b-a
+    rhs = (q0_rot * kd_rot).sum(-1)  # 参考内积：只依赖相对位移 b-a
+    print(&quot;相对位置性质最大误差:&quot;, (lhs - rhs).abs().max().item())  # 应接近 0（浮点误差内）
+
+    inv_yarn = yarn_inv_freq(D, base=10000.0, factor=8.0, original_max=8)  # 计算 YaRN 角速度
+    cos_y, sin_y = build_rope_cache_scaled(32, D, inv_yarn)  # 用缩放后的角速度建表
+    print(&quot;YaRN cos 表形状:&quot;, cos_y.shape)  # 期望 [32, 8]</code></pre></p>
+
+<h4>复杂度分析</h4>
+
+<p><strong>预计算</strong>：构建长度为 $ L $、维度为 $ d $ 的 cos/sin 表，需要计算 $ L\times d/2 $ 个角度并做两次三角函数，时间复杂度 $ O(Ld) $，空间 $ O(Ld) $。这部分只在序列长度变化时做一次，可全局缓存。</p>
+
+<p><strong>逐层应用</strong>：每个注意力层对 q、k 各做一次「乘 cos + rotate_half 乘 sin」，每个元素 4 次乘加，复杂度 $ O(B\cdot H\cdot L\cdot d) $。与注意力的 $ O(B\cdot H\cdot L^2\cdot d) $ 相比，当 $ L\gg 1 $ 时可忽略（占比约 $ 1/L $）。</p>
+
+<p><strong>注意力本身</strong>：标准自注意力需要计算 $ L\times L $ 的打分矩阵，时间 $ O(BHL^2d) $、空间 $ O(BHL^2) $（FlashAttention 可把显存降到 $ O(BHL) $）。RoPE 不改变这一量级，只增加前述线性项。</p>
+
+<p><strong>参数与显存</strong>：RoPE 本身零参数；额外显存主要是 cos/sin 缓存 $ 2\times L\times d\times\text{bytes} $。以 L=131072、d=128、fp32 为例，约 134MB；若每层独立缓存，32 层会膨胀到 4GB 以上，因此必须共享。</p>
+
+<p><strong>外推的代价</strong>：线性插值、YaRN 等只改变角速度，不增加计算量；真正处理长上下文时，瓶颈仍是注意力的平方复杂度与 KV Cache 的线性显存（$ 2\times B\times H\times L\times d\times\text{bytes} $）。</p>
+
+<h4>应用场景</h4>
+
+<ul>
+<li><strong>大语言模型的位置编码</strong>：LLaMA、Qwen、GLM、DeepSeek、Mistral、Baichuan 等主流模型全部使用 RoPE，已成为事实标准。</li>
+<li><strong>长上下文扩展</strong>：通过 Position Interpolation、NTK-aware、YaRN、Llama 3 分频段缩放，把 4K 模型扩到 32K/128K/1M，用于长文档问答、代码仓库理解、多轮对话。</li>
+<li><strong>多模态位置编码</strong>：Qwen2-VL 的 M-RoPE 把位置拆成时间、高度、宽度三个分量，分别旋转，支持视频与任意分辨率图像。</li>
+<li><strong>线性注意力与高效 Transformer</strong>：RoPE 的保范性使其可以作用在 $ \phi(q),\varphi(k) $ 上，保持线性注意力的相对位置能力。</li>
+<li><strong>语音与时间序列</strong>：把帧序号当作位置，RoPE 用于长音频建模、传感器时序建模，避免绝对位置表超出训练长度。</li>
+<li><strong>检索增强与长文档重排</strong>：长上下文模型依赖 RoPE 缩放，把整篇文档放入上下文做 cross-encoder 重排。</li>
+</ul>
+
+<h4>参考文档</h4>
+
+<ul>
+<li><a href="https://arxiv.org/abs/2104.09864" target="_blank" class="ref-link">RoFormer: Enhanced Transformer with Rotary Position Embedding（arXiv:2104.09864）</a></li>
+<li><a href="https://arxiv.org/html/2104.09864v5" target="_blank" class="ref-link">RoFormer 论文 HTML 全文（含公式推导）</a></li>
+<li><a href="https://kexue.fm/archives/8265" target="_blank" class="ref-link">RoPE 作者博客：Transformer 升级之路——旋转位置编码 RoPE</a></li>
+<li><a href="https://arxiv.org/abs/2309.00071" target="_blank" class="ref-link">YaRN: Efficient Context Window Extension of Large Language Models（arXiv:2309.00071）</a></li>
+<li><a href="https://arxiv.org/abs/2407.21783" target="_blank" class="ref-link">Llama 3 论文：The Llama 3 Herd of Models（含分频段 RoPE 缩放）</a></li>
+<li><a href="https://huggingface.co/docs/transformers/model_doc/llama" target="_blank" class="ref-link">HuggingFace Transformers：LlamaConfig 的 rope_theta / rope_scaling 参数</a></li>
+<li><a href="https://cloud.tencent.com/developer/article/2327751" target="_blank" class="ref-link">腾讯云：十分钟读懂旋转编码 RoPE</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/2077165666352763169" target="_blank" class="ref-link">知乎：YaRN 到底做了什么——大模型长上下文扩展</a></li>
+</ul>
+
+  </div>
+  <div class="footer">
+    <p>由 TeleAgent · 每日算法推送 技能自动生成 | 2026-11-11 10:12</p>
+  </div>
+</div>
+</body>
+</html>
