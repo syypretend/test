@@ -456,9 +456,9 @@ body {
 
 <p><strong>1. 节点层数的几何分布</strong></p>
 
-<p><div class="math-block">$$ P(L = k) = p^{k-1}(1-p),\quad k = 1,2,\dots,\text{MaxLevel}-1 $$</div></p>
+<div class="math-block">$$ P(L = k) = p^{k-1}(1-p),\quad k = 1,2,\dots,\text{MaxLevel}-1 $$</div>
 
-<p><div class="math-block">$$ P(L \ge k) = p^{k-1} $$</div></p>
+<div class="math-block">$$ P(L \ge k) = p^{k-1} $$</div>
 
 <p><strong>变量解释</strong>：</p>
 <ul>
@@ -471,9 +471,9 @@ body {
 
 <p><strong>2. 期望层数与期望指针数</strong></p>
 
-<p><div class="math-block">$$ E[L] = \sum_{k=1}^{\infty} P(L \ge k) = \sum_{k=0}^{\infty} p^{k} = \frac{1}{1-p} $$</div></p>
+<div class="math-block">$$ E[L] = \sum_{k=1}^{\infty} P(L \ge k) = \sum_{k=0}^{\infty} p^{k} = \frac{1}{1-p} $$</div>
 
-<p><div class="math-block">$$ E[\text{总指针数}] = n \cdot E[L] = \frac{n}{1-p} $$</div></p>
+<div class="math-block">$$ E[\text{总指针数}] = n \cdot E[L] = \frac{n}{1-p} $$</div>
 
 <p><strong>变量解释</strong>：</p>
 <ul>
@@ -484,7 +484,7 @@ body {
 
 <p><strong>3. 期望查找代价</strong></p>
 
-<p><div class="math-block">$$ E[\text{比较次数}] \approx \frac{1}{p}\log_{1/p} n = \frac{\ln n}{p \ln(1/p)} $$</div></p>
+<div class="math-block">$$ E[\text{比较次数}] \approx \frac{1}{p}\log_{1/p} n = \frac{\ln n}{p \ln(1/p)} $$</div>
 
 <p><strong>变量解释</strong>：</p>
 <ul>
@@ -495,7 +495,7 @@ body {
 
 <p><strong>4. 高度超出上界的概率（尾界）</strong></p>
 
-<p><div class="math-block">$$ P(\text{height} > c\log_{1/p} n) \le n \cdot p^{\,c\log_{1/p} n} = n^{1-c} $$</div></p>
+<div class="math-block">$$ P(\text{height} > c\log_{1/p} n) \le n \cdot p^{\,c\log_{1/p} n} = n^{1-c} $$</div>
 
 <p><strong>变量解释</strong>：</p>
 <ul>
@@ -506,7 +506,7 @@ body {
 
 <p><strong>5. 范围查询代价</strong></p>
 
-<p><div class="math-block">$$ T_{\text{range}}(K) = O(\log n) + O(K) $$</div></p>
+<div class="math-block">$$ T_{\text{range}}(K) = O(\log n) + O(K) $$</div>
 
 <p><strong>变量解释</strong>：</p>
 <ul>
@@ -763,7 +763,7 @@ if __name__ == &quot;__main__&quot;:  # 简单的自测入口
 
 <p><strong>查找</strong>：设全表高度为 $ h $，第 i 层向右走的步数为 $ X_i $。在每一层，向右走一步需要满足“下一个节点键小于目标”，该事件概率不超过 $ p $（因为上一层已经保证了目标区间内只剩约 $ 1/p $ 个节点），因此 $ X_i $ 服从参数不超过 $ p $ 的几何分布，$ E[X_i] \le 1/p $。总比较次数为 $ \sum_{i=1}^{h} E[X_i] \le h/p $。又因为高度 $ h \approx \log_{1/p} n $，所以</p>
 
-<p><div class="math-block">$$ E[T_{\text{search}}] \le \frac{1}{p}\log_{1/p} n = O(\log n) $$</div></p>
+<div class="math-block">$$ E[T_{\text{search}}] \le \frac{1}{p}\log_{1/p} n = O(\log n) $$</div>
 
 <p>最坏情况下随机层数全部退化为 1，结构变成单链表，复杂度为 O(n)，但该事件概率为 $ p^{n-1} $ 级别，工程上可忽略。</p>
 
@@ -881,7 +881,7 @@ if __name__ == &quot;__main__&quot;:  # 简单的自测入口
 
 <p><strong>1. 编码与解码</strong></p>
 
-<p><div class="math-block">$$ z = f_\theta(x) = \sigma(W_e x + b_e),\qquad \hat{x} = g_\phi(z) = \sigma'(W_d z + b_d) $$</div></p>
+<div class="math-block">$$ z = f_\theta(x) = \sigma(W_e x + b_e),\qquad \hat{x} = g_\phi(z) = \sigma'(W_d z + b_d) $$</div>
 
 <p><strong>变量解释</strong>：</p>
 <ul>
@@ -894,7 +894,7 @@ if __name__ == &quot;__main__&quot;:  # 简单的自测入口
 
 <p><strong>2. 均方误差重建损失</strong></p>
 
-<p><div class="math-block">$$ L_{\text{MSE}} = \frac{1}{N}\sum_{i=1}^{N}\lVert x_i - \hat{x}_i\rVert_2^2 = \frac{1}{N}\sum_{i=1}^{N}\sum_{j=1}^{d}(x_{ij}-\hat{x}_{ij})^2 $$</div></p>
+<div class="math-block">$$ L_{\text{MSE}} = \frac{1}{N}\sum_{i=1}^{N}\lVert x_i - \hat{x}_i\rVert_2^2 = \frac{1}{N}\sum_{i=1}^{N}\sum_{j=1}^{d}(x_{ij}-\hat{x}_{ij})^2 $$</div>
 
 <p><strong>变量解释</strong>：</p>
 <ul>
@@ -907,7 +907,7 @@ if __name__ == &quot;__main__&quot;:  # 简单的自测入口
 
 <p><strong>3. 二元交叉熵重建损失</strong></p>
 
-<p><div class="math-block">$$ L_{\text{BCE}} = -\frac{1}{N}\sum_{i=1}^{N}\sum_{j=1}^{d}\left[x_{ij}\log\hat{x}_{ij} + (1-x_{ij})\log(1-\hat{x}_{ij})\right] $$</div></p>
+<div class="math-block">$$ L_{\text{BCE}} = -\frac{1}{N}\sum_{i=1}^{N}\sum_{j=1}^{d}\left[x_{ij}\log\hat{x}_{ij} + (1-x_{ij})\log(1-\hat{x}_{ij})\right] $$</div>
 
 <p><strong>变量解释</strong>：</p>
 <ul>
@@ -918,7 +918,7 @@ if __name__ == &quot;__main__&quot;:  # 简单的自测入口
 
 <p><strong>4. 稀疏惩罚（KL 散度）</strong></p>
 
-<p><div class="math-block">$$ L_{\text{sparse}} = L_{\text{rec}} + \beta\sum_{j=1}^{k}\left[\rho\log\frac{\rho}{\hat{\rho}_j} + (1-\rho)\log\frac{1-\rho}{1-\hat{\rho}_j}\right] $$</div></p>
+<div class="math-block">$$ L_{\text{sparse}} = L_{\text{rec}} + \beta\sum_{j=1}^{k}\left[\rho\log\frac{\rho}{\hat{\rho}_j} + (1-\rho)\log\frac{1-\rho}{1-\hat{\rho}_j}\right] $$</div>
 
 <p><strong>变量解释</strong>：</p>
 <ul>
@@ -930,7 +930,7 @@ if __name__ == &quot;__main__&quot;:  # 简单的自测入口
 
 <p><strong>5. 去噪目标</strong></p>
 
-<p><div class="math-block">$$ L_{\text{DAE}} = \mathbb{E}_{x\sim\mathcal{D}}\,\mathbb{E}_{\tilde{x}\sim q(\tilde{x}\mid x)}\left\lVert x - g_\phi(f_\theta(\tilde{x}))\right\rVert_2^2 $$</div></p>
+<div class="math-block">$$ L_{\text{DAE}} = \mathbb{E}_{x\sim\mathcal{D}}\,\mathbb{E}_{\tilde{x}\sim q(\tilde{x}\mid x)}\left\lVert x - g_\phi(f_\theta(\tilde{x}))\right\rVert_2^2 $$</div>
 
 <p><strong>变量解释</strong>：</p>
 <ul>
@@ -941,9 +941,9 @@ if __name__ == &quot;__main__&quot;:  # 简单的自测入口
 
 <p><strong>6. 变分自编码器的 ELBO</strong></p>
 
-<p><div class="math-block">$$ \mathcal{L}_{\text{VAE}} = \mathbb{E}_{q_\phi(z\mid x)}\left[\log p_\theta(x\mid z)\right] - \beta\,D_{\mathrm{KL}}\left(q_\phi(z\mid x)\,\Vert\,p(z)\right) $$</div></p>
+<div class="math-block">$$ \mathcal{L}_{\text{VAE}} = \mathbb{E}_{q_\phi(z\mid x)}\left[\log p_\theta(x\mid z)\right] - \beta\,D_{\mathrm{KL}}\left(q_\phi(z\mid x)\,\Vert\,p(z)\right) $$</div>
 
-<p><div class="math-block">$$ z = \mu_\phi(x) + \sigma_\phi(x)\odot\epsilon,\qquad \epsilon\sim\mathcal{N}(0,I) $$</div></p>
+<div class="math-block">$$ z = \mu_\phi(x) + \sigma_\phi(x)\odot\epsilon,\qquad \epsilon\sim\mathcal{N}(0,I) $$</div>
 
 <p><strong>变量解释</strong>：</p>
 <ul>
@@ -1214,7 +1214,7 @@ if __name__ == &quot;__main__&quot;:  # 自测入口
 
 <p><strong>前向传播</strong>：对第 l 层，计算量为 $ 2 d_{l-1} d_l $ 次浮点运算（乘加各算一次）。总前向 FLOPs 为</p>
 
-<p><div class="math-block">$$ \text{FLOPs}_{\text{forward}} = 2\sum_{l=1}^{L} d_{l-1} d_l $$</div></p>
+<div class="math-block">$$ \text{FLOPs}_{\text{forward}} = 2\sum_{l=1}^{L} d_{l-1} d_l $$</div>
 
 <p><strong>变量解释</strong>：</p>
 <ul>
@@ -1336,7 +1336,7 @@ if __name__ == &quot;__main__&quot;:  # 自测入口
 
 <p><strong>1. 相对位置编码的目标</strong></p>
 
-<p><div class="math-block">$$ \langle f_q(x_m, m),\, f_k(x_n, n)\rangle = g(x_m,\, x_n,\, n-m) $$</div></p>
+<div class="math-block">$$ \langle f_q(x_m, m),\, f_k(x_n, n)\rangle = g(x_m,\, x_n,\, n-m) $$</div>
 
 <p><strong>变量解释</strong>：</p>
 <ul>
@@ -1348,9 +1348,9 @@ if __name__ == &quot;__main__&quot;:  # 自测入口
 
 <p><strong>2. 二维情形：复数旋转</strong></p>
 
-<p><div class="math-block">$$ f_q(x_m,m) = (W_q x_m)\,e^{im\theta},\qquad f_k(x_n,n) = (W_k x_n)\,e^{in\theta} $$</div></p>
+<div class="math-block">$$ f_q(x_m,m) = (W_q x_m)\,e^{im\theta},\qquad f_k(x_n,n) = (W_k x_n)\,e^{in\theta} $$</div>
 
-<p><div class="math-block">$$ \langle f_q, f_k\rangle = \operatorname{Re}\!\left[(W_q x_m)(W_k x_n)^{*}\,e^{i(m-n)\theta}\right] = \lVert W_q x_m\rVert\,\lVert W_k x_n\rVert\cos\!\big((n-m)\theta + \varphi\big) $$</div></p>
+<div class="math-block">$$ \langle f_q, f_k\rangle = \operatorname{Re}\!\left[(W_q x_m)(W_k x_n)^{*}\,e^{i(m-n)\theta}\right] = \lVert W_q x_m\rVert\,\lVert W_k x_n\rVert\cos\!\big((n-m)\theta + \varphi\big) $$</div>
 
 <p><strong>变量解释</strong>：</p>
 <ul>
@@ -1365,11 +1365,11 @@ if __name__ == &quot;__main__&quot;:  # 自测入口
 
 <p><strong>3. 多维情形：分块对角旋转矩阵</strong></p>
 
-<p><div class="math-block">$$ f_{\{q,k\}}(x_m,m) = R^d_{\Theta,m}\,W_{\{q,k\}}\,x_m $$</div></p>
+<div class="math-block">$$ f_{\{q,k\}}(x_m,m) = R^d_{\Theta,m}\,W_{\{q,k\}}\,x_m $$</div>
 
-<p><div class="math-block">$$ R^d_{\Theta,m}=\operatorname{diag}\!\left(R(m\theta_1),\,R(m\theta_2),\,\dots,\,R(m\theta_{d/2})\right),\quad R(\alpha)=\begin{pmatrix}\cos\alpha & -\sin\alpha\\ \sin\alpha & \cos\alpha\end{pmatrix} $$</div></p>
+<div class="math-block">$$ R^d_{\Theta,m}=\operatorname{diag}\!\left(R(m\theta_1),\,R(m\theta_2),\,\dots,\,R(m\theta_{d/2})\right),\quad R(\alpha)=\begin{pmatrix}\cos\alpha & -\sin\alpha\\ \sin\alpha & \cos\alpha\end{pmatrix} $$</div>
 
-<p><div class="math-block">$$ \theta_i = \text{base}^{-2(i-1)/d},\qquad i=1,2,\dots,d/2 $$</div></p>
+<div class="math-block">$$ \theta_i = \text{base}^{-2(i-1)/d},\qquad i=1,2,\dots,d/2 $$</div>
 
 <p><strong>变量解释</strong>：</p>
 <ul>
@@ -1382,9 +1382,9 @@ if __name__ == &quot;__main__&quot;:  # 自测入口
 
 <p><strong>4. 相对位置性质</strong></p>
 
-<p><div class="math-block">$$ q_m^{\top}k_n = (R_{\Theta,m}W_q x_m)^{\top}(R_{\Theta,n}W_k x_n) = x_m^{\top}W_q^{\top}R_{\Theta,n-m}W_k x_n $$</div></p>
+<div class="math-block">$$ q_m^{\top}k_n = (R_{\Theta,m}W_q x_m)^{\top}(R_{\Theta,n}W_k x_n) = x_m^{\top}W_q^{\top}R_{\Theta,n-m}W_k x_n $$</div>
 
-<p><div class="math-block">$$ R_{\Theta,n-m} = R_{\Theta,m}^{\top}R_{\Theta,n} $$</div></p>
+<div class="math-block">$$ R_{\Theta,n-m} = R_{\Theta,m}^{\top}R_{\Theta,n} $$</div>
 
 <p><strong>变量解释</strong>：</p>
 <ul>
@@ -1395,11 +1395,11 @@ if __name__ == &quot;__main__&quot;:  # 自测入口
 
 <p><strong>5. 工程实现形式（rotate_half）</strong></p>
 
-<p><div class="math-block">$$ \text{inv\_freq}_i = \frac{1}{\text{base}^{2i/d}},\qquad \phi_{m,i}=m\cdot\text{inv\_freq}_i $$</div></p>
+<div class="math-block">$$ \text{inv\_freq}_i = \frac{1}{\text{base}^{2i/d}},\qquad \phi_{m,i}=m\cdot\text{inv\_freq}_i $$</div>
 
-<p><div class="math-block">$$ q'_{m} = q_m\odot\cos\phi_m + \operatorname{rotate\_half}(q_m)\odot\sin\phi_m $$</div></p>
+<div class="math-block">$$ q'_{m} = q_m\odot\cos\phi_m + \operatorname{rotate\_half}(q_m)\odot\sin\phi_m $$</div>
 
-<p><div class="math-block">$$ \operatorname{rotate\_half}([x_1,\dots,x_{d/2},x_{d/2+1},\dots,x_d]) = [-x_{d/2+1},\dots,-x_d,\,x_1,\dots,x_{d/2}] $$</div></p>
+<div class="math-block">$$ \operatorname{rotate\_half}([x_1,\dots,x_{d/2},x_{d/2+1},\dots,x_d]) = [-x_{d/2+1},\dots,-x_d,\,x_1,\dots,x_{d/2}] $$</div>
 
 <p><strong>变量解释</strong>：</p>
 <ul>
@@ -1412,9 +1412,9 @@ if __name__ == &quot;__main__&quot;:  # 自测入口
 
 <p><strong>6. 线性插值与 NTK-aware 缩放</strong></p>
 
-<p><div class="math-block">$$ \text{线性插值：}\ \phi'_{m,i} = \frac{m}{\text{factor}}\cdot\theta_i \quad\Longleftrightarrow\quad \theta_i' = \frac{\theta_i}{\text{factor}} $$</div></p>
+<div class="math-block">$$ \text{线性插值：}\ \phi'_{m,i} = \frac{m}{\text{factor}}\cdot\theta_i \quad\Longleftrightarrow\quad \theta_i' = \frac{\theta_i}{\text{factor}} $$</div>
 
-<p><div class="math-block">$$ \text{NTK-aware：}\ \text{base}' = \text{base}\cdot\text{factor}^{\frac{d}{d-2}} $$</div></p>
+<div class="math-block">$$ \text{NTK-aware：}\ \text{base}' = \text{base}\cdot\text{factor}^{\frac{d}{d-2}} $$</div>
 
 <p><strong>变量解释</strong>：</p>
 <ul>
@@ -1426,9 +1426,9 @@ if __name__ == &quot;__main__&quot;:  # 自测入口
 
 <p><strong>7. YaRN 的分频段缩放与温度补偿</strong></p>
 
-<p><div class="math-block">$$ r_i = \frac{L_{\text{train}}}{\lambda_i},\qquad \gamma_i = \operatorname{clamp}\!\left(\frac{r_i-\beta_{\text{slow}}}{\beta_{\text{fast}}-\beta_{\text{slow}}},\,0,\,1\right) $$</div></p>
+<div class="math-block">$$ r_i = \frac{L_{\text{train}}}{\lambda_i},\qquad \gamma_i = \operatorname{clamp}\!\left(\frac{r_i-\beta_{\text{slow}}}{\beta_{\text{fast}}-\beta_{\text{slow}}},\,0,\,1\right) $$</div>
 
-<p><div class="math-block">$$ \theta_i' = \theta_i\left(\gamma_i + \frac{1-\gamma_i}{\text{factor}}\right),\qquad \text{scale}_{\text{attn}} = 0.1\ln(\text{factor})+1 $$</div></p>
+<div class="math-block">$$ \theta_i' = \theta_i\left(\gamma_i + \frac{1-\gamma_i}{\text{factor}}\right),\qquad \text{scale}_{\text{attn}} = 0.1\ln(\text{factor})+1 $$</div>
 
 <p><strong>变量解释</strong>：</p>
 <ul>
@@ -1734,7 +1734,7 @@ if __name__ == &quot;__main__&quot;:  # 自测入口
 
   </div>
   <div class="footer">
-    <p>由 TeleAgent · 每日算法推送 技能自动生成 | 2026-11-11 10:25</p>
+    <p>由 TeleAgent · 每日算法推送 技能自动生成 | 2026-11-11 10:28</p>
   </div>
 </div>
 </body>
