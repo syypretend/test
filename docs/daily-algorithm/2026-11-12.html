@@ -1,0 +1,1869 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>每日算法讲解 · 2026年11月12日</title>
+<!-- MathJax for LaTeX math formula rendering -->
+<script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\(', '\)']],
+      displayMath: [['$$', '$$'], ['\[', '\]']],
+      processEscapes: true
+    },
+    svg: { fontCache: 'global' }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" id="MathJax-script" async></script>
+<style>
+:root {
+  --primary: #6366f1;
+  --primary-dark: #4f46e5;
+  --bg: #0f172a;
+  --card-bg: #1e293b;
+  --text: #e2e8f0;
+  --text-dim: #94a3b8;
+  --accent: #818cf8;
+  --border: #334155;
+  --code-bg: #0d1117;
+  --code-text: #e6edf3;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans SC", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.8;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+.container { max-width: 1400px; margin: 0 auto; padding: 24px 32px; }
+.header {
+  text-align: center;
+  padding: 40px 0 30px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 32px;
+}
+.header h1 {
+  font-size: 28px;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.header h1 .date { color: var(--accent); }
+.header .subtitle { color: var(--text-dim); font-size: 15px; }
+.repo-link {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 6px 16px;
+  background: var(--primary);
+  color: #fff;
+  border-radius: 20px;
+  text-decoration: none;
+  font-size: 13px;
+  transition: background 0.2s;
+}
+.repo-link:hover { background: var(--primary-dark); }
+.history-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 32px;
+  padding: 16px;
+  background: var(--card-bg);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+.history-nav a {
+  padding: 4px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  color: var(--text-dim);
+  text-decoration: none;
+  background: rgba(99,102,241,0.08);
+  transition: all 0.2s;
+}
+.history-nav a:hover { color: var(--text); background: rgba(99,102,241,0.2); }
+.history-nav a.active { color: #fff; background: var(--primary); }
+.history-nav a.back-index { color: var(--accent); font-weight: 600; background: rgba(99,102,241,0.15); border: 1px solid rgba(99,102,241,0.3); }
+.history-nav a.back-index:hover { color: #fff; background: var(--primary); border-color: var(--primary); }
+.content { margin-bottom: 40px; max-width: 1100px; }
+.content h2 {
+  font-size: 24px;
+  color: var(--accent);
+  margin: 40px 0 16px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--primary);
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+.content h2:first-child { border-top: none; padding-top: 0; }
+.content h3 {
+  font-size: 18px;
+  color: var(--text);
+  margin: 24px 0 12px;
+}
+.content h4 {
+  font-size: 16px;
+  color: var(--accent);
+  margin: 20px 0 10px;
+}
+.content h5 {
+  font-size: 15px;
+  color: #a5b4fc;
+  font-weight: 600;
+  margin: 18px 0 8px;
+}
+.content p { margin-bottom: 12px; color: var(--text); }
+.content ul { margin: 8px 0 16px 20px; }
+.content li { margin-bottom: 6px; }
+.content strong { color: var(--accent); }
+.content blockquote {
+  border-left: 4px solid var(--primary);
+  padding: 12px 16px;
+  margin: 16px 0;
+  background: rgba(99,102,241,0.08);
+  border-radius: 0 8px 8px 0;
+}
+.content blockquote p { color: var(--text-dim); margin: 4px 0; }
+.content hr {
+  border: none;
+  height: 1px;
+  background: var(--border);
+  margin: 32px 0;
+}
+.code-block {
+  background: var(--code-bg);
+  border-radius: 10px;
+  padding: 18px 24px;
+  overflow-x: auto;
+  margin: 16px 0;
+  border: 1px solid var(--border);
+  max-width: 100%;
+}
+.code-block code {
+  font-family: "JetBrains Mono", "Fira Code", "Consolas", monospace;
+  font-size: 14px;
+  color: var(--code-text);
+  line-height: 1.6;
+  white-space: pre;
+}
+.inline-code {
+  background: rgba(99,102,241,0.15);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: "Consolas", monospace;
+  font-size: 0.9em;
+  color: var(--accent);
+}
+/* Math formula block */
+.content .math-block {
+  background: rgba(99,102,241,0.06);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 24px;
+  margin: 16px 0;
+  overflow-x: auto;
+  max-width: 100%;
+}
+.content .math-label {
+  font-size: 13px; color: var(--text-dim); margin-bottom: 6px; }
+.content .math-vars {
+  margin: 8px 0 16px 20px; }
+.content .math-vars li { margin-bottom: 4px; color: var(--text-dim); }
+.footer {
+  text-align: center;
+  padding: 24px 0;
+  border-top: 1px solid var(--border);
+  color: var(--text-dim);
+  font-size: 13px;
+}
+.tag {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  background: rgba(99,102,241,0.15);
+  color: var(--accent);
+  margin-left: 8px;
+}
+.content .ref-link {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px dashed rgba(99,102,241,0.4);
+  transition: all 0.2s;
+  word-break: break-all;
+}
+.content .ref-link:hover {
+  color: #fff;
+  border-bottom-color: var(--primary);
+}
+.content li {
+  word-break: break-all;
+}
+/* Table */
+.table-wrapper {
+  overflow-x: auto;
+  margin: 16px 0;
+  max-width: 100%;
+}
+.algo-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  background: var(--card-bg);
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+.algo-table thead {
+  background: rgba(99,102,241,0.15);
+}
+.algo-table th {
+  padding: 10px 16px;
+  text-align: left;
+  color: var(--accent);
+  font-weight: 600;
+  border-bottom: 2px solid var(--primary);
+  white-space: nowrap;
+}
+.algo-table td {
+  padding: 8px 16px;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  word-break: break-all;
+}
+.algo-table tr:last-child td {
+  border-bottom: none;
+}
+.algo-table tr:hover td {
+  background: rgba(99,102,241,0.06);
+}
+/* Algorithm architecture image */
+.algo-image {
+  margin: 20px 0;
+  text-align: center;
+}
+.algo-image img {
+  max-width: 100%;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+.algo-image .image-caption {
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--text-dim);
+}
+.algo-image svg {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+/* ======== 移动端响应式适配 ======== */
+@media (max-width: 768px) {
+  .container { max-width: 100%; padding: 16px 14px; }
+  .header { padding: 24px 0 20px; margin-bottom: 20px; }
+  .header h1 { font-size: 20px; margin-bottom: 4px; }
+  .header .subtitle { font-size: 13px; }
+  .repo-link { margin-top: 10px; padding: 5px 14px; font-size: 12px; }
+  .history-nav { gap: 6px; padding: 10px 12px; margin-bottom: 20px; }
+  .history-nav a { padding: 3px 10px; font-size: 12px; }
+  .content { max-width: 100%; margin-bottom: 28px; }
+  .content h2 { font-size: 20px; margin: 28px 0 12px; }
+  .content h3 { font-size: 17px; margin: 20px 0 10px; }
+  .content h4 { font-size: 15px; margin: 16px 0 8px; }
+  .content h5 { font-size: 14px; margin: 14px 0 6px; }
+  .content p { font-size: 14px; margin-bottom: 10px; }
+  .content ul { margin: 6px 0 12px 16px; }
+  .content li { font-size: 14px; margin-bottom: 5px; }
+  .content blockquote { padding: 10px 12px; margin: 12px 0; }
+  .content blockquote p { font-size: 13px; }
+  .content .math-block { padding: 10px 14px; margin: 12px 0; }
+  .code-block { padding: 12px 14px; margin: 12px 0; }
+  .code-block code { font-size: 12px; line-height: 1.5; }
+  .inline-code { font-size: 0.88em; padding: 1px 5px; }
+  .algo-table { font-size: 12px; }
+  .algo-table th { padding: 6px 10px; }
+  .algo-table td { padding: 6px 10px; }
+  .algo-image { margin: 14px 0; }
+  .algo-image svg { max-width: 100%; height: auto; }
+  .footer { padding: 18px 0; font-size: 12px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>每日算法讲解 · <span class="date">2026年11月12日</span></h1>
+    <p class="subtitle">每天 1 个基础算法 + 2 个 AI/机器学习算法，持续精进</p>
+    <a href="https://syypretend.github.io/test/daily-algorithm" target="_blank" class="repo-link">GitHub 仓库</a>
+  </div>
+  <div class="history-nav"><a href="index.html" class="back-index">← 历史索引</a>
+<a href="2026-11-12.html" class="active">11月12日</a>
+<a href="2026-11-11.html">11月11日</a>
+<a href="2026-11-10.html">11月10日</a>
+<a href="2026-11-09.html">11月09日</a>
+<a href="2026-11-06.html">11月06日</a>
+<a href="2026-11-05.html">11月05日</a>
+<a href="2026-11-04.html">11月04日</a>
+<a href="2026-10-28.html">10月28日</a>
+<a href="2026-10-26.html">10月26日</a>
+<a href="2026-10-19.html">10月19日</a>
+<a href="2026-10-16.html">10月16日</a>
+<a href="2026-10-14.html">10月14日</a>
+<a href="2026-10-13.html">10月13日</a>
+<a href="2026-10-12.html">10月12日</a>
+<a href="2026-10-10.html">10月10日</a>
+<a href="2026-10-09.html">10月09日</a>
+<a href="2026-10-08.html">10月08日</a>
+<a href="2026-09-30.html">09月30日</a>
+<a href="2026-09-29.html">09月29日</a>
+<a href="2026-09-28.html">09月28日</a>
+<a href="2026-09-24.html">09月24日</a>
+<a href="2026-09-17.html">09月17日</a>
+<a href="2026-09-15.html">09月15日</a>
+<a href="2026-09-14.html">09月14日</a>
+<a href="2026-09-11.html">09月11日</a>
+<a href="2026-09-10.html">09月10日</a>
+<a href="2026-09-09.html">09月09日</a>
+<a href="2026-09-08.html">09月08日</a>
+<a href="2026-09-07.html">09月07日</a>
+</div>
+  <div class="content">
+  <h2>每日算法讲解 · 2026-11-12</h2>
+
+<blockquote>
+<p>今日内容：1 个基础算法 + 2 个 AI/机器学习算法 | 逐参数详解</p>
+</blockquote>
+
+<hr>
+
+<h3>布隆过滤器</h3>
+
+<p><strong>类别</strong>：数据结构 | <strong>难度</strong>：中等</p>
+
+<h4>算法简介</h4>
+
+<p>布隆过滤器（Bloom Filter）由 Howard Bloom 于 1970 年在论文《Space/Time Trade-offs in Hash Coding with Allowable Errors》中提出，是一种用极小空间换取"可能存在 / 一定不存在"两种确定结论的概率型数据结构。它不存储元素本身，而是维护一个长度为 $ m $ 的二进制位数组和 $ k $ 个相互独立的哈希函数：插入元素时，用 $ k $ 个哈希函数算出 $ k $ 个位置并全部置 1；查询元素时，只要发现其中任意一位为 0，就可以 100% 断定该元素从未被插入；若 $ k $ 位全为 1，则只能说"可能存在"，因为其他元素的哈希可能恰好把这些位都点亮了。</p>
+
+<p>这种"允许单向错误"的设计带来了两个极其重要的性质。其一是<strong>没有假阴性</strong>（false negative）：只要元素真的插入过，它对应的 $ k $ 个位必然为 1，绝不会被误判为不存在；其二是<strong>存在假阳性</strong>（false positive）：没插入过的元素有概率被误判为存在。工程上恰恰大量场景可以容忍假阳性、却不能容忍假阴性，例如"缓存穿透拦截"里误判为存在只会多查一次数据库，而漏判则会让恶意请求直接穿透到后端。</p>
+
+<p>与哈希表相比，布隆过滤器的空间优势是数量级的：存储 100 万个元素、误判率 1% 只需约 1.14 MiB，而 Python 的 <code class="inline-code">set</code> 存储同样数量的字符串通常要几十到上百 MiB。代价是三点：无法取出元素、无法安全删除元素（置 0 会连带影响其他元素）、误判率随插入量增长而上升。围绕"可删除"和"可扩容"，后续演化出计数布隆过滤器（Counting Bloom Filter）、分块布隆过滤器（Blocked Bloom Filter）、可扩展布隆过滤器（Scalable Bloom Filter）、Cuckoo Filter、Ribbon Filter 与 XOR Filter 等一整个家族。</p>
+
+<p>在真实系统里，布隆过滤器的典型位置是"最便宜的守门员"：Redis 用 <code class="inline-code">BF.*</code> 指令把它做成缓存穿透的第一道防线；RocksDB / LevelDB 用它判断某个 key 是否可能在某层 SSTable 中，避免无谓的磁盘寻道；Chrome 曾用它将恶意 URL 预置到本地；比特币 SPV 节点用它将钱包地址过滤进区块；爬虫用它做 URL 去重。理解布隆过滤器，本质上是在理解"用可控的错误率换取确定性的资源节省"这一工程权衡。</p>
+
+<h4>原理示意图</h4>
+
+<p><div class="algo-image"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 900 470" font-family="sans-serif">
+  <defs>
+    <marker id="bfArrowX" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto">
+      <path d="M0,0 L9,3.5 L0,7 Z" fill="#818cf8"/>
+    </marker>
+    <marker id="bfArrowY" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto">
+      <path d="M0,0 L9,3.5 L0,7 Z" fill="#22c55e"/>
+    </marker>
+    <marker id="bfArrowZ" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto">
+      <path d="M0,0 L9,3.5 L0,7 Z" fill="#f97316"/>
+    </marker>
+  </defs>
+  <rect width="900" height="470" fill="#1e293b" rx="12"/>
+  <text x="450" y="30" text-anchor="middle" fill="#818cf8" font-size="16" font-weight="600">布隆过滤器：k = 3 个哈希把元素映射到位数组，z 未插入却被误判为“可能存在”</text>
+
+  <rect x="40" y="68" width="120" height="46" rx="8" fill="#312e81" stroke="#818cf8"/>
+  <text x="100" y="88" text-anchor="middle" fill="#e0e7ff" font-size="14" font-weight="600">元素 x</text>
+  <text x="100" y="105" text-anchor="middle" fill="#a5b4fc" font-size="11">已插入</text>
+
+  <rect x="40" y="158" width="120" height="46" rx="8" fill="#14532d" stroke="#22c55e"/>
+  <text x="100" y="178" text-anchor="middle" fill="#dcfce7" font-size="14" font-weight="600">元素 y</text>
+  <text x="100" y="195" text-anchor="middle" fill="#86efac" font-size="11">已插入</text>
+
+  <rect x="40" y="248" width="120" height="46" rx="8" fill="#7c2d12" stroke="#f97316" stroke-dasharray="5 3"/>
+  <text x="100" y="268" text-anchor="middle" fill="#ffedd5" font-size="14" font-weight="600">元素 z</text>
+  <text x="100" y="285" text-anchor="middle" fill="#fdba74" font-size="11">从未插入</text>
+
+  <text x="182" y="84" fill="#a5b4fc" font-size="11">h1→2</text>
+  <text x="182" y="100" fill="#a5b4fc" font-size="11">h2→7</text>
+  <text x="182" y="116" fill="#a5b4fc" font-size="11">h3→13</text>
+  <text x="182" y="174" fill="#86efac" font-size="11">h1→5</text>
+  <text x="182" y="190" fill="#86efac" font-size="11">h2→7</text>
+  <text x="182" y="206" fill="#86efac" font-size="11">h3→16</text>
+  <text x="182" y="264" fill="#fdba74" font-size="11">h1→5</text>
+  <text x="182" y="280" fill="#fdba74" font-size="11">h2→13</text>
+  <text x="182" y="296" fill="#fdba74" font-size="11">h3→16</text>
+
+  <path d="M225 78 C 330 120, 300 300, 166 345" stroke="#818cf8" stroke-width="1.4" fill="none" opacity="0.75" marker-end="url(#bfArrowX)"/>
+  <path d="M228 88 C 420 140, 420 300, 356 345" stroke="#818cf8" stroke-width="1.4" fill="none" opacity="0.75" marker-end="url(#bfArrowX)"/>
+  <path d="M230 100 C 520 160, 520 300, 584 345" stroke="#818cf8" stroke-width="1.4" fill="none" opacity="0.75" marker-end="url(#bfArrowX)"/>
+  <path d="M225 168 C 300 220, 260 310, 280 345" stroke="#22c55e" stroke-width="1.4" fill="none" opacity="0.8" marker-end="url(#bfArrowY)"/>
+  <path d="M228 180 C 400 230, 400 310, 356 345" stroke="#22c55e" stroke-width="1.4" fill="none" opacity="0.8" marker-end="url(#bfArrowY)"/>
+  <path d="M230 194 C 560 240, 620 310, 698 345" stroke="#22c55e" stroke-width="1.4" fill="none" opacity="0.8" marker-end="url(#bfArrowY)"/>
+  <path d="M225 256 C 290 300, 270 325, 280 345" stroke="#f97316" stroke-width="1.6" stroke-dasharray="5 3" fill="none" opacity="0.95" marker-end="url(#bfArrowZ)"/>
+  <path d="M228 270 C 380 305, 400 320, 584 345" stroke="#f97316" stroke-width="1.6" stroke-dasharray="5 3" fill="none" opacity="0.95" marker-end="url(#bfArrowZ)"/>
+  <path d="M230 284 C 540 315, 620 325, 698 345" stroke="#f97316" stroke-width="1.6" stroke-dasharray="5 3" fill="none" opacity="0.95" marker-end="url(#bfArrowZ)"/>
+
+  <text x="40" y="330" fill="#94a3b8" font-size="12">位数组</text>
+  <text x="40" y="348" fill="#64748b" font-size="10">m = 18</text>
+
+  <g font-size="12">
+    <rect x="70" y="330" width="40" height="34" fill="#0f172a" stroke="#334155"/><text x="90" y="353" text-anchor="middle" fill="#64748b">0</text><text x="90" y="375" text-anchor="middle" fill="#475569" font-size="9">0</text>
+    <rect x="110" y="330" width="40" height="34" fill="#0f172a" stroke="#334155"/><text x="130" y="353" text-anchor="middle" fill="#64748b">0</text><text x="130" y="375" text-anchor="middle" fill="#475569" font-size="9">1</text>
+    <rect x="150" y="330" width="40" height="34" fill="#312e81" stroke="#6366f1"/><text x="170" y="353" text-anchor="middle" fill="#c7d2fe" font-weight="600">1</text><text x="170" y="375" text-anchor="middle" fill="#475569" font-size="9">2</text>
+    <rect x="190" y="330" width="40" height="34" fill="#0f172a" stroke="#334155"/><text x="210" y="353" text-anchor="middle" fill="#64748b">0</text><text x="210" y="375" text-anchor="middle" fill="#475569" font-size="9">3</text>
+    <rect x="230" y="330" width="40" height="34" fill="#0f172a" stroke="#334155"/><text x="250" y="353" text-anchor="middle" fill="#64748b">0</text><text x="250" y="375" text-anchor="middle" fill="#475569" font-size="9">4</text>
+    <rect x="270" y="330" width="40" height="34" fill="#312e81" stroke="#6366f1"/><text x="290" y="353" text-anchor="middle" fill="#c7d2fe" font-weight="600">1</text><text x="290" y="375" text-anchor="middle" fill="#475569" font-size="9">5</text>
+    <rect x="310" y="330" width="40" height="34" fill="#0f172a" stroke="#334155"/><text x="330" y="353" text-anchor="middle" fill="#64748b">0</text><text x="330" y="375" text-anchor="middle" fill="#475569" font-size="9">6</text>
+    <rect x="350" y="330" width="40" height="34" fill="#312e81" stroke="#6366f1"/><text x="370" y="353" text-anchor="middle" fill="#c7d2fe" font-weight="600">1</text><text x="370" y="375" text-anchor="middle" fill="#475569" font-size="9">7</text>
+    <rect x="390" y="330" width="40" height="34" fill="#0f172a" stroke="#334155"/><text x="410" y="353" text-anchor="middle" fill="#64748b">0</text><text x="410" y="375" text-anchor="middle" fill="#475569" font-size="9">8</text>
+    <rect x="430" y="330" width="40" height="34" fill="#0f172a" stroke="#334155"/><text x="450" y="353" text-anchor="middle" fill="#64748b">0</text><text x="450" y="375" text-anchor="middle" fill="#475569" font-size="9">9</text>
+    <rect x="470" y="330" width="40" height="34" fill="#0f172a" stroke="#334155"/><text x="490" y="353" text-anchor="middle" fill="#64748b">0</text><text x="490" y="375" text-anchor="middle" fill="#475569" font-size="9">10</text>
+    <rect x="510" y="330" width="40" height="34" fill="#0f172a" stroke="#334155"/><text x="530" y="353" text-anchor="middle" fill="#64748b">0</text><text x="530" y="375" text-anchor="middle" fill="#475569" font-size="9">11</text>
+    <rect x="550" y="330" width="40" height="34" fill="#0f172a" stroke="#334155"/><text x="570" y="353" text-anchor="middle" fill="#64748b">0</text><text x="570" y="375" text-anchor="middle" fill="#475569" font-size="9">12</text>
+    <rect x="590" y="330" width="40" height="34" fill="#312e81" stroke="#6366f1"/><text x="610" y="353" text-anchor="middle" fill="#c7d2fe" font-weight="600">1</text><text x="610" y="375" text-anchor="middle" fill="#475569" font-size="9">13</text>
+    <rect x="630" y="330" width="40" height="34" fill="#0f172a" stroke="#334155"/><text x="650" y="353" text-anchor="middle" fill="#64748b">0</text><text x="650" y="375" text-anchor="middle" fill="#475569" font-size="9">14</text>
+    <rect x="670" y="330" width="40" height="34" fill="#0f172a" stroke="#334155"/><text x="690" y="353" text-anchor="middle" fill="#64748b">0</text><text x="690" y="375" text-anchor="middle" fill="#475569" font-size="9">15</text>
+    <rect x="710" y="330" width="40" height="34" fill="#312e81" stroke="#6366f1"/><text x="730" y="353" text-anchor="middle" fill="#c7d2fe" font-weight="600">1</text><text x="730" y="375" text-anchor="middle" fill="#475569" font-size="9">16</text>
+    <rect x="750" y="330" width="40" height="34" fill="#0f172a" stroke="#334155"/><text x="770" y="353" text-anchor="middle" fill="#64748b">0</text><text x="770" y="375" text-anchor="middle" fill="#475569" font-size="9">17</text>
+  </g>
+
+  <rect x="40" y="400" width="820" height="46" rx="8" fill="#0f172a" stroke="#334155"/>
+  <text x="56" y="420" fill="#f97316" font-size="12" font-weight="600">查询 z：h1=5、h2=13、h3=16 全部为 1 → 判定“可能存在”；但 z 从未插入，这就是一次假阳性。</text>
+  <text x="56" y="438" fill="#94a3b8" font-size="11">若任一位置为 0（例如查询 w 命中 3），则可 100% 断定“一定不存在”——布隆过滤器不存在假阴性。</text>
+</svg></div></p>
+
+<p>图中插入 $ x $ 点亮了第 2、7、13 位，插入 $ y $ 点亮了第 5、7、16 位；查询从未插入的 $ z $ 时，它的三个哈希位置 5、13、16 恰好都被 $ x $ 与 $ y $ 点亮，于是被误判为"可能存在"。若把 $ m $ 调大或把 $ k $ 调小，位数组更稀疏，这种碰撞概率就会下降；但 $ k $ 太小又会降低区分度，因此存在一个最优的 $ k $，下面用公式严格推导。</p>
+
+<h4>数学公式</h4>
+
+<p><strong>公式 1：成员判定规则</strong></p>
+
+<p>对集合 $ S=\{x_1,x_2,\dots,x_n\} $，插入后的位数组为 $ B[0..m-1] $。查询元素 $ q $ 时：</p>
+
+<div class="math-block">$$ \text{query}(q)=
+\begin{cases}
+\text{可能存在}, & \forall i\in\{1,\dots,k\},\ B[h_i(q)]=1 \\
+\text{一定不存在}, & \exists i\in\{1,\dots,k\},\ B[h_i(q)]=0
+\end{cases} $$</div>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ m $：位数组的总位数，单位是 bit，决定内存占用与稀疏程度。</li>
+<li>$ k $：哈希函数的个数，也就是每次插入/查询要点亮或检查的位数。</li>
+<li>$ h_i(\cdot) $：第 $ i $ 个哈希函数，值域映射到 $ [0,m-1] $ 的整数。</li>
+<li>$ B[j] $：位数组第 $ j $ 位的取值，只能是 0 或 1。</li>
+<li>"可能存在"意味着有假阳性风险；"一定不存在"是确定性结论，永不出错。</li>
+</ul>
+
+<p><strong>公式 2：误判率（假阳性概率）</strong></p>
+
+<p>一次插入用 $ k $ 个哈希点亮 $ k $ 位；某一位在 $ n $ 个元素、共 $ kn $ 次哈希后仍为 0 的概率是 $ (1-1/m)^{kn} $，因此该位为 1 的概率为 $ 1-(1-1/m)^{kn} $。查询一个未插入元素时，$ k $ 个位置全为 1 才误判，故：</p>
+
+<div class="math-block">$$ p \approx \left(1-e^{-\frac{kn}{m}}\right)^{k} $$</div>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ p $：假阳性率（false positive rate），工程上常写成 $ 10^{-3} $、$ 1\% $ 这种形式。</li>
+<li>$ n $：实际插入的元素个数，注意是"实际值"而非"设计容量"。</li>
+<li>$ e $：自然常数 2.71828…，由 $ \lim_{m\to\infty}(1-1/m)^{m}=e^{-1} $ 得到近似。</li>
+<li>$ kn/m $：平均每个 bit 被哈希命中的次数，也叫位数组的"装载强度"。</li>
+<li>该式假设哈希函数完全随机且相互独立；真实哈希有相关性时，实测 $ p $ 会略高于理论值。</li>
+</ul>
+
+<p><strong>公式 3：最优哈希函数个数</strong></p>
+
+<p>把 $ p(k) $ 对 $ k $ 求导并令导数为 0，可得：</p>
+
+<div class="math-block">$$ k_{\text{opt}}=\frac{m}{n}\ln 2 \approx 0.6931\cdot\frac{m}{n} $$</div>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ \ln 2 $：2 的自然对数，约 0.693147，来自对 $ e^{-kn/m} $ 求极值。</li>
+<li>$ k_{\text{opt}} $：使误判率最小的哈希个数，实际实现取最接近的整数。</li>
+<li>当 $ k<k_{\text{opt}} $ 时，位数组点亮不足、区分度不够；当 $ k>k_{\text{opt}} $ 时，位数组过快饱和，$ p $ 反而回升。</li>
+<li>例如 $ m/n=9.585 $ 时 $ k_{\text{opt}}=6.64 $，取 $ k=7 $。</li>
+</ul>
+
+<p><strong>公式 4：由目标误判率反推位数组长度</strong></p>
+
+<p>将 $ k_{\text{opt}}=(m/n)\ln 2 $ 代回公式 2，得 $ p=2^{-k_{\text{opt}}} $，反解得：</p>
+
+<div class="math-block">$$ m=-\frac{n\ln p}{(\ln 2)^2}\approx -2.0814\,n\log_{2}p $$</div>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ p $：设计时允许的目标误判率，例如 0.01、0.001、$ 10^{-6} $。</li>
+<li>$ (\ln 2)^2 $：约 0.4805，来自两次自然对数变换。</li>
+<li>负号是因为 $ p<1 $ 时 $ \ln p<0 $，保证 $ m $ 为正。</li>
+<li>该式给出的是"理论最少位数"，工程上建议再乘 1.1～1.3 的安全系数，抵消哈希不均匀与容量超插。</li>
+</ul>
+
+<p><strong>公式 5：每个元素平均占用的位数</strong></p>
+
+<div class="math-block">$$ \frac{m}{n}=-\frac{\ln p}{(\ln 2)^2}=1.4427\log_{2}\frac{1}{p} $$</div>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ m/n $：bits per element，衡量空间效率的核心指标。</li>
+<li>$ 1.4427=1/\ln 2 $，是把自然对数换算为以 2 为底的对数。</li>
+<li>$ p=1\% $ 时约 9.59 bit/元素；$ p=0.1\% $ 时约 14.38 bit/元素；$ p=10^{-6} $ 时约 28.75 bit/元素。</li>
+<li>对比：存原始字符串通常要 100 bit/元素以上，哈希表还要额外指针与负载因子开销。</li>
+</ul>
+
+<p><strong>公式 6：双重哈希构造多个独立哈希</strong></p>
+
+<div class="math-block">$$ h_i(x)=\big(h_1(x)+i\cdot h_2(x)\big)\bmod m,\quad i=0,1,\dots,k-1 $$</div>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ h_1(x) $、$ h_2(x) $：由同一个 128 位摘要拆出的两个 64 位整数，只需计算一次摘要。</li>
+<li>$ i $：第几个哈希函数，从 0 开始。</li>
+<li>$ \bmod m $：把结果限制在位数组下标范围内。</li>
+<li>Kirsch 与 Mitzenmacher 证明：当 $ m $ 为素数或 $ h_2(x) $ 与 $ m $ 互素时，双重哈希的误判率与 $ k $ 个独立哈希几乎相同，而计算量从 $ k $ 次降为 1 次。</li>
+<li>工程陷阱：若 $ m $ 是 2 的幂且 $ h_2(x) $ 为偶数，则 $ h_i $ 只能落在偶数下标，实际只用一半空间，$ p $ 会翻倍，因此要把 $ h_2 $ 强制为奇数或取素数 $ m $。</li>
+</ul>
+
+<h4>核心要点</h4>
+
+<ul>
+<li><strong>只增不删</strong>：标准布隆过滤器不支持删除，因为一位可能被多个元素共享，置 0 会制造假阴性。</li>
+<li><strong>一票否决</strong>：查询时只要有一位是 0，就能确定元素不存在，这个结论永远正确。</li>
+<li><strong>误判率随实际插入量恶化</strong>：按 $ n=10^6 $ 设计的过滤器插入 $ 2\times10^6 $ 个元素，误判率会显著高于目标值。</li>
+<li><strong>空间与误判率呈对数关系</strong>：$ p $ 每降低一个数量级，每个元素约多花 4.8 bit。</li>
+<li><strong>哈希质量决定上限</strong>：哈希分布不均、双哈希线性相关，都会让实测误判率高于理论值。</li>
+<li><strong>可以级联扩容</strong>：Scalable Bloom Filter 通过多层子过滤器把总误判率控制在目标范围内。</li>
+<li><strong>适合做前置过滤</strong>：放在数据库、磁盘、RPC 之前，挡掉绝大部分无效请求。</li>
+</ul>
+
+<h4>技术细节与参数详解</h4>
+
+<h5>参数 1：预期元素数量 n</h5>
+<ul>
+<li><strong>含义</strong>：设计容量，即过滤器在目标误判率下计划容纳的元素个数，是计算 $ m $ 与 $ k $ 的基准。</li>
+<li><strong>类型</strong>：正整数（实现里通常是 <code class="inline-code">int</code> 或 <code class="inline-code">size_t</code>）。</li>
+<li><strong>默认值</strong>：无默认值，必须由调用方给出；Redis 的 <code class="inline-code">BF.RESERVE</code> 中 <code class="inline-code">capacity</code> 是必填参数，不存在默认值。</li>
+<li><strong>取值范围</strong>：$ 1 $ 到 $ 10^{12} $ 量级；受内存上限约束，$ n $ 越大 $ m $ 线性增长。</li>
+<li><strong>对结果的影响</strong>：$ n $ 估小会导致实际装载率超过设计值，误判率按指数上升；估大则浪费内存，但误判率优于目标值。</li>
+<li><strong>推荐设置</strong>：按"峰值元素数 × 1.2～1.5"预估；对只增不减的业务（如历史订单 ID），按一年总量估；对可重建的缓存场景，按当前热点规模估并预留扩容策略。</li>
+</ul>
+
+<h5>参数 2：位数组长度 m</h5>
+<ul>
+<li><strong>含义</strong>：底层二进制数组的总位数，决定内存占用与哈希空间大小。</li>
+<li><strong>类型</strong>：正整数，单位 bit；实现里常以字节数组 <code class="inline-code">bytearray((m+7)//8)</code> 承载。</li>
+<li><strong>默认值</strong>：无默认值，由 $ m=-n\ln p/(\ln 2)^2 $ 计算得到。</li>
+<li><strong>取值范围</strong>：几百 bit 到几十 Gbit；单机建议不超过可用内存的 10%。</li>
+<li><strong>对结果的影响</strong>：$ m $ 越大，位数组越稀疏，$ p $ 越低；$ m $ 减小一半，$ p $ 近似按平方关系恶化。</li>
+<li><strong>推荐设置</strong>：先用公式算理论值，再向上取整到 64 的倍数便于按字操作；若使用 Redis，交给 <code class="inline-code">capacity + error_rate</code> 自动推导，不要手写 $ m $。</li>
+</ul>
+
+<h5>参数 3：哈希函数个数 k</h5>
+<ul>
+<li><strong>含义</strong>：每个元素需要计算并置位的哈希个数，也是查询时需要检查的位数。</li>
+<li><strong>类型</strong>：正整数（<code class="inline-code">int</code>）。</li>
+<li><strong>默认值</strong>：无默认值，按 $ k=\mathrm{round}((m/n)\ln 2) $ 计算；常见实现取 4～10。</li>
+<li><strong>取值范围</strong>：1～30 较合理；理论上可更大，但收益递减且 CPU 开销线性增长。</li>
+<li><strong>对结果的影响</strong>：$ k $ 偏小则每个元素"指纹"太短，碰撞多；$ k $ 偏大则位数组迅速饱和，$ p $ 反弹；查询时间恒为 $ O(k) $。</li>
+<li><strong>推荐设置</strong>：严格按公式取整；若 $ m/n<3 $，$ k $ 只能取 2～3；若追求低延迟，可牺牲一点 $ p $ 把 $ k $ 限制在 7 以内。</li>
+</ul>
+
+<h5>参数 4：目标误判率 p（error_rate / fpp）</h5>
+<ul>
+<li><strong>含义</strong>：设计时允许的假阳性比例，是空间与准确率之间的调节旋钮。</li>
+<li><strong>类型</strong>：浮点数，取值 $ (0,1) $。</li>
+<li><strong>默认值</strong>：RedisBloom 的 <code class="inline-code">error_rate</code> 是必填参数（官方示例常用 <code class="inline-code">0.01</code>）；Guava <code class="inline-code">BloomFilter.create</code> 的 <code class="inline-code">fpp</code> 默认 <code class="inline-code">0.03</code>；pybloom 常见默认 <code class="inline-code">0.001</code>。</li>
+<li><strong>取值范围</strong>：工程常用 $ 10^{-2} $～$ 10^{-9} $；低于 $ 10^{-9} $ 后空间代价急剧上升，通常改用精确索引。</li>
+<li><strong>对结果的影响</strong>：$ p $ 每降低 10 倍，每元素多约 4.8 bit；$ p $ 从 1% 降到 0.1%，内存约增加 50%。</li>
+<li><strong>推荐设置</strong>：缓存穿透用 1%～0.1% 足够；安全黑名单、支付去重用 $ 10^{-4} $～$ 10^{-6} $；先算内存预算再定 $ p $，不要反过来。</li>
+</ul>
+
+<h5>参数 5：哈希函数族与种子 seed</h5>
+<ul>
+<li><strong>含义</strong>：决定元素如何映射到 $ [0,m-1] $ 的函数集合；<code class="inline-code">seed</code> 是哈希的随机化盐值。</li>
+<li><strong>类型</strong>：可调用对象 / 整数种子；常见用 MurmurHash3、xxHash、SHA-1、BLAKE2。</li>
+<li><strong>默认值</strong>：不同库不同；Guava 默认 <code class="inline-code">MURMUR128_MITZ_32</code>（元素多时自动切 <code class="inline-code">_64</code>），Redis 内部用 MurmurHash2 变体。</li>
+<li><strong>取值范围</strong>：任意 32/64 位整数种子；同一过滤器生命周期内必须固定，重启后要持久化。</li>
+<li><strong>对结果的影响</strong>：哈希雪崩性差会让大量元素聚集到少数位，实测 $ p $ 远高于理论值；换种子等于换一套映射，旧数据全部失效。</li>
+<li><strong>推荐设置</strong>：生产环境用 xxHash64 或 MurmurHash3 并固定种子；不要用 Python 内置 <code class="inline-code">hash()</code>（带进程随机化，重启后结果变化）；需要跨语言兼容时统一算法与字节序。</li>
+</ul>
+
+<h5>参数 6：扩容因子 expansion（RedisBloom）</h5>
+<ul>
+<li><strong>含义</strong>：当插入量超过 <code class="inline-code">capacity</code> 时，新建子过滤器的容量倍增系数。</li>
+<li><strong>类型</strong>：整数。</li>
+<li><strong>默认值</strong>：<code class="inline-code">2</code>。</li>
+<li><strong>取值范围</strong>：$ 1 $～$ 32768 $；<code class="inline-code">0</code> 表示不扩容（等价 <code class="inline-code">NONSCALING</code>）。</li>
+<li><strong>对结果的影响</strong>：因子越大，扩容次数越少但单次内存跳变更猛；因子为 1 时每次只增加固定容量，子过滤器数量会很多。</li>
+<li><strong>推荐设置</strong>：一般保持 2；内存敏感且插入量平滑增长时用 1.5 不可行（必须整数），可选 2 并配合容量预估。</li>
+</ul>
+
+<h5>参数 7：NONSCALING 标志</h5>
+<ul>
+<li><strong>含义</strong>：禁止自动扩容，插入超过 <code class="inline-code">capacity</code> 后直接报错或拒绝。</li>
+<li><strong>类型</strong>：布尔标志（命令选项）。</li>
+<li><strong>默认值</strong>：关闭（即默认允许扩容）。</li>
+<li><strong>取值范围</strong>：开 / 关。</li>
+<li><strong>对结果的影响</strong>：关闭扩容后误判率不会因超插恶化，但超容量写入会失败；开启扩容则内存持续增长，旧子过滤器仍保留。</li>
+<li><strong>推荐设置</strong>：容量可精确预估、且希望内存上限可控时开启；数据无界增长（如 URL 去重）时保持扩容。</li>
+</ul>
+
+<h5>参数 8：计数器位宽（Counting Bloom Filter）</h5>
+<ul>
+<li><strong>含义</strong>：把每个 bit 换成一个 $ c $ 位计数器，插入加 1、删除减 1，从而支持删除。</li>
+<li><strong>类型</strong>：整数，常见 4 bit 或 8 bit。</li>
+<li><strong>默认值</strong>：4 bit（半字节）。</li>
+<li><strong>取值范围</strong>：2～16 bit；4 bit 最大计数 15。</li>
+<li><strong>对结果的影响</strong>：位宽越大越不容易计数溢出，但内存是标准布隆过滤器的 $ c $ 倍；溢出回绕会产生假阴性。</li>
+<li><strong>推荐设置</strong>：元素重复率低时用 4 bit；热点元素可能被插入超过 15 次时用 8 bit，或在插入前做去重。</li>
+</ul>
+
+<h5>参数 9：并发分段数</h5>
+<ul>
+<li><strong>含义</strong>：把位数组切成若干段、每段一把锁，降低多线程插入/查询的锁竞争。</li>
+<li><strong>类型</strong>：整数。</li>
+<li><strong>默认值</strong>：实现相关，常见 16 或 64。</li>
+<li><strong>取值范围</strong>：1～1024；应为 2 的幂便于位运算取模。</li>
+<li><strong>对结果的影响</strong>：分段越多并发越高，但跨段操作（如统计总位数）更复杂；误判率不受影响。</li>
+<li><strong>推荐设置</strong>：按 CPU 核数的 2～4 倍设置；读多写少场景可用读写锁或原子位操作（<code class="inline-code">fetch_or</code>）替代互斥锁。</li>
+</ul>
+
+<h5>参数 10：持久化与重建策略</h5>
+<ul>
+<li><strong>含义</strong>：位数组是否需要落盘、重启后如何恢复。</li>
+<li><strong>类型</strong>：策略枚举（RDB/AOF、快照文件、启动预热）。</li>
+<li><strong>默认值</strong>：内存型实现不持久化；Redis 走 RDB/AOF。</li>
+<li><strong>取值范围</strong>：不持久化 / 周期快照 / 全量重建。</li>
+<li><strong>对结果的影响</strong>：不持久化则重启后过滤器为空，所有查询都返回"一定不存在"，缓存穿透防线瞬间失效；错误恢复会导致假阴性。</li>
+<li><strong>推荐设置</strong>：可从数据源重放的场景（如数据库全量 ID）启动时重建；无法快速重建的场景必须持久化，并校验位数组长度与哈希种子一致。</li>
+</ul>
+
+<h4>代码示例</h4>
+
+<p>下面是一份不依赖第三方库的完整实现，使用 <code class="inline-code">bytearray</code> 承载位数组、BLAKE2b 生成 128 位摘要、双重哈希派生 $ k $ 个位置。代码可直接运行，并在末尾用 2 万个元素实测误判率，验证其与理论值一致。</p>
+
+<p><pre class="code-block"><code class="language-python">import hashlib  # 提供 BLAKE2b 摘要，跨进程稳定，避免内置 hash() 的随机化
+import math  # 计算 ln、log2，用于推导 m 与 k
+from typing import Iterable  # 仅用于类型标注，说明 add_many 接受可迭代对象
+
+
+class BloomFilter:  # 定义标准布隆过滤器类
+    &quot;&quot;&quot;标准布隆过滤器：只支持添加与查询，不支持删除。&quot;&quot;&quot;  # 类文档：明确不支持删除
+
+    def __init__(self, n: int, p: float = 0.01, seed: int = 0):  # 构造函数：容量、误判率、哈希盐值
+        # n 是预期元素数量，p 是目标误判率，seed 是哈希盐值
+        if n &lt;= 0:  # 容量必须为正，否则公式无意义
+            raise ValueError(&quot;n 必须大于 0&quot;)  # 提前失败，避免后续除零
+        if not (0.0 &lt; p &lt; 1.0):  # 误判率必须落在开区间 (0,1)
+            raise ValueError(&quot;p 必须满足 0 &lt; p &lt; 1&quot;)  # 拒绝非法概率
+        self.n = n  # 保存设计容量，便于调试与扩容判断
+        self.p = p  # 保存目标误判率，便于监控实际值
+        self.seed = seed  # 保存种子，持久化时必须一并保存
+        # 公式：m = -n ln p / (ln 2)^2，向上取整保证不少于理论位数
+        self.m = max(1, math.ceil(-n * math.log(p) / (math.log(2) ** 2)))  # 代入公式计算位数 m，至少 1 位
+        # 公式：k = (m/n) ln 2，四舍五入到最近整数，且至少为 1
+        self.k = max(1, round((self.m / n) * math.log(2)))  # 代入公式计算哈希个数 k，至少 1 个
+        # 每个字节 8 bit，向上取整分配字节数组
+        self.bits = bytearray((self.m + 7) // 8)  # 按字节分配位数组，向上取整
+        self.count = 0  # 记录已插入元素个数，用于估算当前误判率
+
+    def _hashes(self, item: str):  # 内部方法：把元素映射为 k 个位下标
+        # 把元素统一编码为 UTF-8 字节，保证跨平台一致
+        data = item.encode(&quot;utf-8&quot;)  # 统一编码，保证跨平台字节一致
+        # 用 BLAKE2b 生成 16 字节（128 位）摘要，seed 参与盐值
+        digest = hashlib.blake2b(data, digest_size=16, key=self.seed.to_bytes(8, &quot;little&quot;)).digest()  # 生成 128 位摘要
+        # 前 8 字节拆成 h1，后 8 字节拆成 h2，均为无符号小端整数
+        h1 = int.from_bytes(digest[:8], &quot;little&quot;)  # 前 64 位作为 h1
+        h2 = int.from_bytes(digest[8:], &quot;little&quot;)  # 后 64 位作为 h2
+        h2 |= 1  # 强制 h2 为奇数，避免 m 为 2 的幂时只覆盖一半下标
+        # 双重哈希：h_i = (h1 + i*h2) mod m，一次摘要派生 k 个位置
+        return [(h1 + i * h2) % self.m for i in range(self.k)]  # 双重哈希派生 k 个位置
+
+    def add(self, item: str) -&gt; None:  # 插入一个元素：把 k 个位置全部置 1
+        # 逐个取出 k 个哈希位置
+        for idx in self._hashes(item):  # 逐个检查哈希位置  # 遍历该元素的 k 个哈希位置
+            # 定位到字节下标 idx // 8，位偏移 idx % 8
+            self.bits[idx &gt;&gt; 3] |= 1 &lt;&lt; (idx &amp; 7)  # 用位或把对应位置 1，幂等操作
+        self.count += 1  # 统计插入次数（重复插入也会累加，仅用于估算）
+
+    def add_many(self, items: Iterable[str]) -&gt; None:  # 批量插入：逐个调用 add
+        # 批量插入，减少 Python 层循环开销
+        for it in items:  # 遍历输入集合中的每个元素
+            self.add(it)  # 复用单元素插入逻辑
+
+    def __contains__(self, item: str) -&gt; bool:  # 支持 in 运算符的查询入口
+        # 任一位置为 0 即可立即返回 False（一定不存在）
+        for idx in self._hashes(item):  # 遍历该元素的 k 个哈希位置
+            # 检查第 idx 位是否为 0
+            if not (self.bits[idx &gt;&gt; 3] &gt;&gt; (idx &amp; 7)) &amp; 1:  # 该位为 0 则一定不存在
+                return False  # 一票否决，确定性结论
+        return True  # k 位全为 1，返回“可能存在”
+
+    def current_fpp(self) -&gt; float:  # 按当前插入量估算实际误判率
+        # 用实际插入量代替设计容量，估算当前假阳性率
+        exponent = -self.k * self.count / self.m  # 计算 -kn/m
+        return (1.0 - math.exp(exponent)) ** self.k  # 代入 p ≈ (1-e^{-kn/m})^k
+
+    def bit_usage(self) -&gt; float:  # 统计位数组的置 1 比例
+        # 统计置 1 的比例，用于观察位数组饱和程度
+        ones = sum(bin(b).count(&quot;1&quot;) for b in self.bits)  # 逐字节统计 1 的个数
+        return ones / self.m  # 返回 0～1 之间的填充率
+
+
+if __name__ == &quot;__main__&quot;:  # 直接运行本文件时执行自测
+    import random  # 仅用于构造测试数据
+    import string  # 仅用于生成随机字符串
+
+    random.seed(42)  # 固定随机种子，保证每次运行结果可复现
+    n, p = 20_000, 0.01  # 设计容量 2 万，目标误判率 1%
+    bf = BloomFilter(n, p)  # 构造布隆过滤器
+    print(f&quot;m={bf.m} bits ({bf.m/8/1024:.1f} KiB), k={bf.k}&quot;)  # 打印推导出的参数
+
+    inserted = set()  # 用集合保存真实插入元素，作为评测基准
+    while len(inserted) &lt; n:  # 循环直到凑满 n 个互不相同的元素
+        inserted.add(&quot;&quot;.join(random.choices(string.ascii_letters + string.digits, k=12)))  # 生成 12 位随机串
+    bf.add_many(inserted)  # 批量插入布隆过滤器
+
+    # 构造 2 万个从未插入的负样本，统计误判次数
+    false_positive = 0  # 计数器初始化为 0
+    trials = 20_000  # 负样本数量
+    for _ in range(trials):  # 逐个生成负样本
+        probe = &quot;&quot;.join(random.choices(string.ascii_letters + string.digits, k=12))  # 随机串
+        if probe in inserted:  # 极小概率与已插入元素重复
+            continue  # 跳过，保证负样本纯净
+        if probe in bf:  # 布隆过滤器返回 True 即为一次假阳性
+            false_positive += 1  # 累加误判次数
+    measured = false_positive / trials  # 实测误判率
+    print(f&quot;理论 p={p:.4f}, 估算当前 p={bf.current_fpp():.4f}, 实测 p={measured:.4f}&quot;)  # 三者对比
+    print(f&quot;位数组填充率={bf.bit_usage():.3f}&quot;)  # 打印 1 的占比，理想值约 50%
+    # 断言实测误判率不超过理论值的 2 倍，验证实现正确性
+    assert measured &lt; p * 2, &quot;误判率异常，检查哈希质量或 m/k 计算&quot;  # 实测值不应超过理论值 2 倍
+    # 断言所有已插入元素都能被判定为存在（无假阴性）
+    assert all(x in bf for x in inserted), &quot;出现假阴性，实现有 bug&quot;  # 所有插入元素必须判为存在
+    print(&quot;全部断言通过：无假阴性，误判率符合预期&quot;)  # 自测成功提示</code></pre></p>
+
+<p>运行结果示例（固定种子）：</p>
+
+<p><pre class="code-block"><code class="language-text">m=191702 bits (23.4 KiB), k=7
+理论 p=0.0100, 估算当前 p=0.0100, 实测 p=0.0097
+位数组填充率=0.517
+全部断言通过：无假阴性，误判率符合预期</code></pre></p>
+
+<p>可以看到位数组填充率稳定在 0.52 附近（理论最优约 0.5），这正是 $ k $ 取最优值时"一半 0、一半 1"的理论特征，也是误判率接近设计值的直接证据。</p>
+
+<h4>复杂度分析</h4>
+
+<p><strong>时间复杂度</strong>：</p>
+
+<ul>
+<li>插入：计算一次 128 位摘要需要 $ O(L) $ 时间（$ L $ 为元素字节长度，BLAKE2b 为常数量级），派生 $ k $ 个哈希并置位需要 $ O(k) $，因此总时间为 $ O(L+k) $，通常记作 $ O(k) $。</li>
+<li>查询：同样先算摘要再检查 $ k $ 位，时间 $ O(L+k) $，任一位置为 0 时提前返回，实际平均少于 $ k $ 次。</li>
+<li>批量插入 $ n $ 个元素：$ O(n(L+k)) $，与哈希表插入的 $ O(n) $ 同阶，但常数更小、无扩容搬迁。</li>
+<li>对比：哈希表查询期望 $ O(1) $，布隆过滤器 $ O(k) $ 稍慢，但空间小一个数量级，且能挡掉对后端存储的访问。</li>
+</ul>
+
+<p><strong>空间复杂度</strong>：</p>
+
+<ul>
+<li>位数组占用 $ m $ bit，即 $ m/8 $ 字节；由公式 4，$ m=O(n\log(1/p)) $，因此空间为 $ O(n\log(1/p)) $。</li>
+<li>额外开销仅有若干整数字段（$ m,n,k $、字节数组对象头），相对位数组可忽略。</li>
+<li>与精确集合对比：存 $ n $ 个 64 位整数需 $ 64n $ bit；$ p=1\% $ 时布隆过滤器只需 $ 9.59n $ bit，约为前者的 15%。</li>
+<li>Counting Bloom Filter 的空间为 $ c\cdot m $ bit，4 bit 计数器即 4 倍；Cuckoo Filter 每元素约 8～16 bit 但支持删除。</li>
+</ul>
+
+<p><strong>误判率推导要点</strong>：</p>
+
+<ul>
+<li>单次哈希未命中某位的概率为 $ 1-1/m $；</li>
+<li>$ n $ 个元素、$ k $ 个哈希共 $ kn $ 次独立命中后，该位仍为 0 的概率为 $ (1-1/m)^{kn}\approx e^{-kn/m} $；</li>
+<li>$ k $ 个位置全部为 1 的概率即 $ (1-e^{-kn/m})^k $；</li>
+<li>对 $ k $ 求导：$ \ln p=k\ln(1-e^{-kn/m}) $，令 $ \mathrm{d}\ln p/\mathrm{d}k=0 $ 得 $ e^{-kn/m}=1/2 $，即 $ k=(m/n)\ln 2 $，此时 $ p=2^{-k} $。</li>
+</ul>
+
+<h4>应用场景</h4>
+
+<ul>
+<li><strong>缓存穿透防护</strong>：把数据库中存在的 key 预加载进布隆过滤器，请求先过过滤器，未命中直接返回空，避免恶意 ID 打到 MySQL/Redis。通常与"空值缓存 + 互斥锁"组合使用。</li>
+<li><strong>存储引擎读放大优化</strong>：RocksDB、LevelDB、Cassandra 为每个 SSTable 维护一个布隆过滤器，点查时先判断 key 是否可能在该文件，减少磁盘 I/O；Cassandra 还允许按表配置 <code class="inline-code">bloom_filter_fp_chance</code>。</li>
+<li><strong>爬虫 URL 去重</strong>：URL 数量可达十亿级，用布隆过滤器判断是否已抓取，假阳性只会漏抓少量页面，可接受；配合布隆过滤器分片可水平扩展。</li>
+<li><strong>安全黑名单</strong>：恶意域名、垃圾邮件地址、被盗账号 ID 等黑名单预置到边缘节点，查询走本地内存，避免每次回源；误判为黑名单只会让正常请求多一次人工校验。</li>
+<li><strong>推荐与广告去重</strong>：判断用户是否已看过某内容，用布隆过滤器挡掉大部分重复曝光，降低后端去重服务压力。</li>
+<li><strong>区块链与 P2P 网络</strong>：比特币 SPV 钱包用布隆过滤器向全节点请求与自己相关的交易；IPFS 用其做区块存在性预判。</li>
+<li><strong>数据库 JOIN 预过滤</strong>：分布式查询中把小表的 key 广播成布隆过滤器，大表扫描时先过滤，减少网络传输（Bloom Join）。</li>
+</ul>
+
+<h4>参考文档</h4>
+
+<ul>
+<li><a href="https://dl.acm.org/doi/10.1145/362686.362692" target="_blank" class="ref-link">Bloom Filter 原始论文（1970）</a></li>
+<li><a href="https://redis.io/docs/latest/commands/bf.reserve/" target="_blank" class="ref-link">RedisBloom 官方文档：BF.RESERVE / BF.ADD / BF.EXISTS</a></li>
+<li><a href="https://github.com/google/guava/wiki/HashingExplained" target="_blank" class="ref-link">Guava BloomFilter 源码与默认 fpp</a></li>
+<li><a href="https://www.eecs.harvard.edu/~michaelm/postscripts/rsa2008.pdf" target="_blank" class="ref-link">Kirsch & Mitzenmacher：Less Hashing, Same Performance（双重哈希）</a></li>
+<li><a href="https://github.com/facebook/rocksdb/wiki/RocksDB-Bloom-Filter" target="_blank" class="ref-link">RocksDB Bloom Filter 实现说明</a></li>
+<li><a href="https://gsd.di.uminho.pt/members/cbm/ps/dbloom.pdf" target="_blank" class="ref-link">Almeida 等：Scalable Bloom Filters</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/666429408" target="_blank" class="ref-link">布隆过滤器误判率推导（中文）</a></li>
+<li><a href="https://blog.csdn.net/weixin_30522983/article/details/170105382" target="_blank" class="ref-link">Redis 缓存穿透与布隆过滤器实践</a></li>
+</ul>
+
+<hr>
+
+<blockquote>
+<p>AI生成</p>
+</blockquote>
+
+<h3>CNN 卷积神经网络</h3>
+
+<p><strong>类别</strong>：深度学习 | <strong>难度</strong>：中等</p>
+
+<h4>算法简介</h4>
+
+<p>卷积神经网络（Convolutional Neural Network，CNN）是一类专门为网格状数据（图像、语音频谱、时序信号）设计的深层网络。它用"卷积层"替代全连接层，把两个先验知识写进结构里：<strong>局部连接</strong>（一个输出神经元只看输入的一个小邻域）与<strong>权值共享</strong>（同一个卷积核在整张图上滑动，所有位置共用一套参数）。这两条约束把参数数量从"输入维度 × 输出维度"降到"核大小 × 通道数"，使高分辨率图像训练第一次变得可行。</p>
+
+<p>以 224×224×3 的彩色图为例，若直接接一个 1000 类的全连接层，权重矩阵有 $ 224\times224\times3\times1000\approx1.5\times10^8 $ 个参数；改用 64 个 3×3 卷积核，第一层只有 $ 3\times64\times3\times3+64=1792 $ 个参数，减少了近 8 万倍。更重要的是，权值共享带来了<strong>平移等变性</strong>：猫在左上角和在右下角，激活的是同一组卷积核，只是特征图上的位置不同。这让 CNN 不必为每个位置单独学习 detector。</p>
+
+<p>一个典型 CNN 由"卷积 → 归一化 → 激活 → 池化"的基本块堆叠而成。浅层学习边缘、角点、颜色斑块；中层组合成纹理、部件；深层形成物体级语义。池化或步长卷积逐级降低空间分辨率、增大感受野，最后用全局平均池化把特征图压成向量，接全连接层输出类别概率。ResNet 的残差连接、Inception 的多尺度分支、MobileNet 的深度可分离卷积、EfficientNet 的复合缩放，都是在这个骨架上做的工程改良。</p>
+
+<p>历史脉络清晰：Hubel 与 Wiesel 在 1962 年发现猫视觉皮层的感受野；Fukushima 于 1980 年提出 Neocognitron；LeCun 在 1989—1998 年用 LeNet-5 识别手写支票数字并引入反向传播训练；2012 年 AlexNet 在 ImageNet 上将 top-5 错误率从 26% 降到 15.3%，引爆深度学习；此后 VGG、GoogLeNet、ResNet、DenseNet 一路把深度推到上百层。今天 CNN 仍是视觉的主力骨干，同时被广泛用于语音识别、时序预测、推荐系统与蛋白质结构预测。</p>
+
+<h4>原理示意图</h4>
+
+<p><div class="algo-image"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 900 470" font-family="sans-serif">
+  <defs>
+    <marker id="cnnArrow" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto">
+      <path d="M0,0 L9,3.5 L0,7 Z" fill="#6366f1"/>
+    </marker>
+  </defs>
+  <rect width="900" height="470" fill="#1e293b" rx="12"/>
+  <text x="450" y="28" text-anchor="middle" fill="#818cf8" font-size="16" font-weight="600">CNN：3×3 卷积核在 6×6 输入上滑动得到 4×4 特征图（步长 1、无填充）</text>
+
+  <text x="60" y="58" fill="#94a3b8" font-size="12">输入特征图 6×6（单通道）</text>
+  <g font-size="12">
+    <rect x="60" y="68" width="34" height="34" fill="#0f172a" stroke="#334155"/><rect x="94" y="68" width="34" height="34" fill="#1e3a8a" stroke="#f97316" stroke-width="2"/><rect x="128" y="68" width="34" height="34" fill="#1e3a8a" stroke="#f97316" stroke-width="2"/><rect x="162" y="68" width="34" height="34" fill="#1e3a8a" stroke="#f97316" stroke-width="2"/><rect x="196" y="68" width="34" height="34" fill="#0f172a" stroke="#334155"/><rect x="230" y="68" width="34" height="34" fill="#0f172a" stroke="#334155"/>
+    <rect x="60" y="102" width="34" height="34" fill="#0f172a" stroke="#334155"/><rect x="94" y="102" width="34" height="34" fill="#1e3a8a" stroke="#f97316" stroke-width="2"/><rect x="128" y="102" width="34" height="34" fill="#1e3a8a" stroke="#f97316" stroke-width="2"/><rect x="162" y="102" width="34" height="34" fill="#1e3a8a" stroke="#f97316" stroke-width="2"/><rect x="196" y="102" width="34" height="34" fill="#0f172a" stroke="#334155"/><rect x="230" y="102" width="34" height="34" fill="#0f172a" stroke="#334155"/>
+    <rect x="60" y="136" width="34" height="34" fill="#0f172a" stroke="#334155"/><rect x="94" y="136" width="34" height="34" fill="#1e3a8a" stroke="#f97316" stroke-width="2"/><rect x="128" y="136" width="34" height="34" fill="#1e3a8a" stroke="#f97316" stroke-width="2"/><rect x="162" y="136" width="34" height="34" fill="#1e3a8a" stroke="#f97316" stroke-width="2"/><rect x="196" y="136" width="34" height="34" fill="#0f172a" stroke="#334155"/><rect x="230" y="136" width="34" height="34" fill="#0f172a" stroke="#334155"/>
+    <rect x="60" y="170" width="34" height="34" fill="#0f172a" stroke="#334155"/><rect x="94" y="170" width="34" height="34" fill="#0f172a" stroke="#334155"/><rect x="128" y="170" width="34" height="34" fill="#0f172a" stroke="#334155"/><rect x="162" y="170" width="34" height="34" fill="#0f172a" stroke="#334155"/><rect x="196" y="170" width="34" height="34" fill="#0f172a" stroke="#334155"/><rect x="230" y="170" width="34" height="34" fill="#0f172a" stroke="#334155"/>
+    <rect x="60" y="204" width="34" height="34" fill="#0f172a" stroke="#334155"/><rect x="94" y="204" width="34" height="34" fill="#0f172a" stroke="#334155"/><rect x="128" y="204" width="34" height="34" fill="#0f172a" stroke="#334155"/><rect x="162" y="204" width="34" height="34" fill="#0f172a" stroke="#334155"/><rect x="196" y="204" width="34" height="34" fill="#0f172a" stroke="#334155"/><rect x="230" y="204" width="34" height="34" fill="#0f172a" stroke="#334155"/>
+    <rect x="60" y="238" width="34" height="34" fill="#0f172a" stroke="#334155"/><rect x="94" y="238" width="34" height="34" fill="#0f172a" stroke="#334155"/><rect x="128" y="238" width="34" height="34" fill="#0f172a" stroke="#334155"/><rect x="162" y="238" width="34" height="34" fill="#0f172a" stroke="#334155"/><rect x="196" y="238" width="34" height="34" fill="#0f172a" stroke="#334155"/><rect x="230" y="238" width="34" height="34" fill="#0f172a" stroke="#334155"/>
+  </g>
+  <rect x="88" y="62" width="114" height="114" fill="none" stroke="#f97316" stroke-width="2.5" rx="3"/>
+  <text x="145" y="268" text-anchor="middle" fill="#fdba74" font-size="11">当前窗口：3×3 核覆盖 9 个像素</text>
+
+  <line x1="286" y1="172" x2="360" y2="172" stroke="#6366f1" stroke-width="2" marker-end="url(#cnnArrow)"/>
+  <text x="323" y="160" text-anchor="middle" fill="#a5b4fc" font-size="11">滑动 + 点积</text>
+  <text x="323" y="190" text-anchor="middle" fill="#64748b" font-size="10">共 16 个位置</text>
+
+  <text x="392" y="58" fill="#94a3b8" font-size="12">输出特征图 4×4（一个卷积核 → 一个通道）</text>
+  <g font-size="12">
+    <rect x="392" y="100" width="34" height="34" fill="#14532d" stroke="#22c55e"/><rect x="426" y="100" width="34" height="34" fill="#14532d" stroke="#22c55e"/><rect x="460" y="100" width="34" height="34" fill="#14532d" stroke="#22c55e"/><rect x="494" y="100" width="34" height="34" fill="#14532d" stroke="#22c55e"/>
+    <rect x="392" y="134" width="34" height="34" fill="#14532d" stroke="#22c55e"/><rect x="426" y="134" width="34" height="34" fill="#14532d" stroke="#22c55e"/><rect x="460" y="134" width="34" height="34" fill="#14532d" stroke="#22c55e"/><rect x="494" y="134" width="34" height="34" fill="#14532d" stroke="#22c55e"/>
+    <rect x="392" y="168" width="34" height="34" fill="#14532d" stroke="#22c55e"/><rect x="426" y="168" width="34" height="34" fill="#14532d" stroke="#22c55e"/><rect x="460" y="168" width="34" height="34" fill="#14532d" stroke="#22c55e"/><rect x="494" y="168" width="34" height="34" fill="#14532d" stroke="#22c55e"/>
+    <rect x="392" y="202" width="34" height="34" fill="#14532d" stroke="#22c55e"/><rect x="426" y="202" width="34" height="34" fill="#14532d" stroke="#22c55e"/><rect x="460" y="202" width="34" height="34" fill="#14532d" stroke="#22c55e"/><rect x="494" y="202" width="34" height="34" fill="#14532d" stroke="#22c55e"/>
+  </g>
+  <text x="392" y="262" fill="#86efac" font-size="11">H_out = (6 + 0 - 3)/1 + 1 = 4</text>
+
+  <rect x="560" y="76" width="310" height="196" rx="10" fill="#0f172a" stroke="#334155"/>
+  <text x="715" y="100" text-anchor="middle" fill="#c7d2fe" font-size="12" font-weight="600">多通道：每个输出通道一个 3×3×C_in 核</text>
+  <rect x="580" y="118" width="62" height="52" rx="5" fill="#1e3a8a" stroke="#6366f1"/><text x="611" y="149" text-anchor="middle" fill="#c7d2fe" font-size="11">核 1</text>
+  <rect x="652" y="118" width="62" height="52" rx="5" fill="#1e3a8a" stroke="#6366f1"/><text x="683" y="149" text-anchor="middle" fill="#c7d2fe" font-size="11">核 2</text>
+  <text x="735" y="149" fill="#64748b" font-size="14">…</text>
+  <rect x="762" y="118" width="62" height="52" rx="5" fill="#1e3a8a" stroke="#6366f1"/><text x="793" y="149" text-anchor="middle" fill="#c7d2fe" font-size="11">核 C_out</text>
+  <text x="715" y="196" text-anchor="middle" fill="#94a3b8" font-size="11">输出 C_out 张特征图，逐通道拼接</text>
+  <text x="715" y="216" text-anchor="middle" fill="#f97316" font-size="11">参数量 = C_out × (C_in/g) × K_h × K_w + C_out</text>
+  <text x="715" y="232" text-anchor="middle" fill="#64748b" font-size="10">g 为 groups 分组数，末项 C_out 为 bias</text>
+  <text x="715" y="252" text-anchor="middle" fill="#94a3b8" font-size="11">权值共享：同一核在 H×W 所有位置复用</text>
+
+  <text x="40" y="312" fill="#94a3b8" font-size="12">典型分类骨干：分辨率逐级减半、通道逐级翻倍</text>
+  <g font-size="11">
+    <rect x="40" y="328" width="88" height="52" rx="6" fill="#0f172a" stroke="#475569"/><text x="84" y="350" text-anchor="middle" fill="#e2e8f0">输入</text><text x="84" y="368" text-anchor="middle" fill="#64748b">224×224×3</text>
+    <rect x="140" y="328" width="88" height="52" rx="6" fill="#312e81" stroke="#6366f1"/><text x="184" y="350" text-anchor="middle" fill="#c7d2fe">Conv 3×3</text><text x="184" y="368" text-anchor="middle" fill="#a5b4fc">64 通道</text>
+    <rect x="240" y="328" width="88" height="52" rx="6" fill="#1e293b" stroke="#475569"/><text x="284" y="350" text-anchor="middle" fill="#e2e8f0">BN + ReLU</text><text x="284" y="368" text-anchor="middle" fill="#64748b">非线性</text>
+    <rect x="340" y="328" width="88" height="52" rx="6" fill="#7c2d12" stroke="#f97316"/><text x="384" y="350" text-anchor="middle" fill="#ffedd5">MaxPool</text><text x="384" y="368" text-anchor="middle" fill="#fdba74">112×112</text>
+    <rect x="440" y="328" width="88" height="52" rx="6" fill="#312e81" stroke="#6366f1"/><text x="484" y="350" text-anchor="middle" fill="#c7d2fe">Conv 3×3</text><text x="484" y="368" text-anchor="middle" fill="#a5b4fc">128 通道</text>
+    <rect x="540" y="328" width="88" height="52" rx="6" fill="#7c2d12" stroke="#f97316"/><text x="584" y="350" text-anchor="middle" fill="#ffedd5">MaxPool</text><text x="584" y="368" text-anchor="middle" fill="#fdba74">56×56</text>
+    <rect x="640" y="328" width="88" height="52" rx="6" fill="#14532d" stroke="#22c55e"/><text x="684" y="350" text-anchor="middle" fill="#dcfce7">GAP</text><text x="684" y="368" text-anchor="middle" fill="#86efac">1×1×128</text>
+    <rect x="740" y="328" width="112" height="52" rx="6" fill="#1e3a8a" stroke="#818cf8"/><text x="796" y="350" text-anchor="middle" fill="#e0e7ff">FC + Softmax</text><text x="796" y="368" text-anchor="middle" fill="#a5b4fc">1000 类</text>
+  </g>
+  <text x="40" y="412" fill="#64748b" font-size="11">感受野随层数增大：步长 1、无膨胀时，3×3 两层堆叠 = 5×5，三层 = 7×7，但参数更少、非线性更多。</text>
+</svg></div></p>
+
+<h4>数学公式</h4>
+
+<p><strong>公式 1：二维互相关（深度学习中的"卷积"）</strong></p>
+
+<p>设输入 $ X\in\mathbb{R}^{C_{in}\times H_{in}\times W_{in}} $，卷积核 $ W\in\mathbb{R}^{C_{out}\times (C_{in}/g)\times K_h\times K_w} $，则输出第 $ o $ 个通道在 $ (i,j) $ 处的值为：</p>
+
+<div class="math-block">$$ Y_{o,i,j}=b_o+\sum_{c=0}^{C_{in}/g-1}\sum_{u=0}^{K_h-1}\sum_{v=0}^{K_w-1}
+W_{o,c,u,v}\cdot X_{c,\;i s_h-p_h+u d_h,\;j s_w-p_w+v d_w} $$</div>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ Y_{o,i,j} $：第 $ o $ 个输出通道、空间位置 $ (i,j) $ 的响应值。</li>
+<li>$ b_o $：第 $ o $ 个输出通道的偏置，可学习标量；<code class="inline-code">bias=False</code> 时为 0。</li>
+<li>$ C_{in} $：输入通道数（RGB 图为 3）。</li>
+<li>$ g $：分组数 <code class="inline-code">groups</code>；每组只看 $ C_{in}/g $ 个输入通道。</li>
+<li>$ K_h,K_w $：卷积核的高与宽，通常相等。</li>
+<li>$ W_{o,c,u,v} $：第 $ o $ 个输出通道、组内第 $ c $ 个输入通道、核内偏移 $ (u,v) $ 的权重。</li>
+<li>$ s_h,s_w $：垂直与水平步长 <code class="inline-code">stride</code>。</li>
+<li>$ p_h,p_w $：四周填充的像素数 <code class="inline-code">padding</code>。</li>
+<li>$ d_h,d_w $：核元素间距 <code class="inline-code">dilation</code>；$ d=1 $ 为普通卷积，$ d>1 $ 为空洞卷积。</li>
+<li>严格来说深度学习框架计算的是互相关（不翻转核），与数学卷积只差一次核翻转，不影响表达能力。</li>
+</ul>
+
+<p><strong>公式 2：输出空间尺寸</strong></p>
+
+<div class="math-block">$$ H_{out}=\left\lfloor\frac{H_{in}+2p_h-d_h(K_h-1)-1}{s_h}+1\right\rfloor,\qquad
+W_{out}=\left\lfloor\frac{W_{in}+2p_w-d_w(K_w-1)-1}{s_w}+1\right\rfloor $$</div>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ H_{in},W_{in} $：输入特征图的高与宽。</li>
+<li>$ p_h,p_w $：上下、左右各填充的像素数（两侧都填，所以是 $ 2p $）。</li>
+<li>$ d_h(K_h-1) $：空洞卷积把核"撑开"后的有效核尺寸；$ d=1 $ 时退化为 $ K_h $。</li>
+<li>$ s_h $：步长，分母越大输出越小。</li>
+<li>$ \lfloor\cdot\rfloor $：向下取整，表示窗口无法完整覆盖的边界被丢弃；<code class="inline-code">ceil_mode=True</code> 时改为向上取整。</li>
+<li>保持尺寸不变的条件：$ s=1 $ 且 $ p=d(K-1)/2 $；3×3、$ d=1 $ 时 $ p=1 $，即 <code class="inline-code">padding=1</code>。</li>
+</ul>
+
+<p><strong>公式 3：参数量</strong></p>
+
+<div class="math-block">$$ \#\text{params}=C_{out}\cdot\frac{C_{in}}{g}\cdot K_h\cdot K_w+\underbrace{C_{out}}_{\text{bias}} $$</div>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>第一项是权重张量的元素个数，形状为 $ (C_{out},C_{in}/g,K_h,K_w) $。</li>
+<li>第二项是偏置个数，每个输出通道一个；<code class="inline-code">bias=False</code> 时去掉。</li>
+<li>参数量与输入分辨率 $ H_{in},W_{in} $ <strong>无关</strong>，这是 CNN 相对全连接层最核心的优势。</li>
+<li>深度可分离卷积把第一项拆成 $ C_{in}K_hK_w $（逐通道）与 $ C_{in}C_{out} $（1×1 逐点），总量约为普通卷积的 $ 1/C_{out}+1/K^2 $。</li>
+</ul>
+
+<p><strong>公式 4：计算量（乘加次数 FLOPs）</strong></p>
+
+<div class="math-block">$$ \text{FLOPs}\approx 2\cdot N\cdot H_{out}\cdot W_{out}\cdot C_{out}\cdot\frac{C_{in}}{g}\cdot K_h\cdot K_w $$</div>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ N $：batch size；推理时通常为 1。</li>
+<li>因子 2：一次乘加（MAC）计为 2 次浮点运算。</li>
+<li>$ H_{out}W_{out} $：输出图上的每个位置都要做一次完整的核内积。</li>
+<li>$ C_{out} $：每个位置要算 $ C_{out} $ 个输出通道。</li>
+<li>该式忽略偏置与激活，用于估算算力瓶颈；实际框架的 FLOPs 统计口径可能只计乘法。</li>
+<li>计算量与分辨率平方成正比：输入从 224 提到 448，FLOPs 约变为 4 倍。</li>
+</ul>
+
+<p><strong>公式 5：感受野递推</strong></p>
+
+<div class="math-block">$$ r_{l}=r_{l-1}+(K_l-1)\,d_l\,J_{l-1},\qquad J_l=J_{l-1}\cdot s_l $$</div>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ r_l $：第 $ l $ 层每个神经元的感受野边长（对应原图多少像素）。</li>
+<li>$ K_l,d_l,s_l $：第 $ l $ 层的核大小、空洞率、步长。</li>
+<li>$ J_{l-1} $：进入第 $ l $ 层前，特征图上一个像素对应原图的步距（jump）。</li>
+<li>初始 $ r_0=1,J_0=1 $；每加一层，感受野按"有效核大小 × 前级步距"扩张。</li>
+<li>例：两层 3×3、$ s=1 $ 堆叠，$ r=1+(3-1)+(3-1)=5 $，等价于一个 5×5 核，但参数为 $ 2\times9=18 $ 而非 25，且多了一次非线性。</li>
+</ul>
+
+<p><strong>公式 6：批归一化</strong></p>
+
+<div class="math-block">$$ \hat{x}=\frac{x-\mu_B}{\sqrt{\sigma_B^2+\epsilon}},\qquad y=\gamma\hat{x}+\beta $$</div>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ \mu_B,\sigma_B^2 $：当前 mini-batch 在某个通道上的均值与方差。</li>
+<li>$ \epsilon $：防止除零的小常数，<code class="inline-code">BatchNorm2d</code> 默认 $ 10^{-5} $。</li>
+<li>$ \gamma,\beta $：可学习的缩放与平移参数，每个通道一组；<code class="inline-code">affine=False</code> 时固定为 1 和 0。</li>
+<li>训练时用 batch 统计量并更新滑动平均；推理时用滑动平均的 <code class="inline-code">running_mean/running_var</code>。</li>
+<li>BN 让每层输入分布稳定，允许更大学习率，并自带轻微正则效果。</li>
+</ul>
+
+<h4>核心要点</h4>
+
+<ul>
+<li><strong>局部连接</strong>：每个输出只看 $ K\times K $ 的邻域，先学局部模式，再逐层组合成全局语义。</li>
+<li><strong>权值共享</strong>：同一卷积核在整张图上复用，参数量与分辨率解耦，并带来平移等变性。</li>
+<li><strong>通道即特征维度</strong>：$ C_{out} $ 决定"提取多少种特征"，$ C_{in} $ 决定"融合多少种输入特征"。</li>
+<li><strong>步长与池化负责降维</strong>：分辨率减半、通道翻倍是分类网络的标准节奏。</li>
+<li><strong>填充方式影响边界</strong>：<code class="inline-code">zeros</code> 会在边缘引入人工黑边，<code class="inline-code">reflect/replicate</code> 更平滑。</li>
+<li><strong>空洞卷积扩大感受野</strong>：不增加参数就能看得更远，适合语义分割，但过大 $ d $ 会产生网格伪影。</li>
+<li><strong>分组卷积压缩计算</strong>：<code class="inline-code">groups=C_in</code> 即深度卷积，是 MobileNet 系列轻量化的核心。</li>
+<li><strong>BN 与 bias 通常二选一</strong>：卷积后接 BN 时，<code class="inline-code">bias=False</code>，因为 BN 的 $ \beta $ 已承担平移。</li>
+</ul>
+
+<h4>技术细节与参数详解</h4>
+
+<h5>参数 1：in_channels（输入通道数）</h5>
+<ul>
+<li><strong>含义</strong>：输入特征图的通道数，必须与上一层输出或原始数据的通道维完全一致。</li>
+<li><strong>类型</strong>：<code class="inline-code">int</code>。</li>
+<li><strong>默认值</strong>：无默认值，必填。</li>
+<li><strong>取值范围</strong>：正整数；常见 1（灰度）、3（RGB）、4（RGBA）、64/128/256/512（中间层）。</li>
+<li><strong>对结果的影响</strong>：设错会在前向时报 shape 不匹配；它决定每个卷积核的"厚度"，直接影响参数量与计算量。</li>
+<li><strong>推荐设置</strong>：第一层按数据源设置（RGB 用 3）；后续层等于上一层的 <code class="inline-code">out_channels</code>；用 <code class="inline-code">torchinfo</code> 或 shape 断言校验。</li>
+</ul>
+
+<h5>参数 2：out_channels（输出通道数）</h5>
+<ul>
+<li><strong>含义</strong>：卷积核的个数，也就是输出特征图的通道数，每个核学习一种特征模式。</li>
+<li><strong>类型</strong>：<code class="inline-code">int</code>。</li>
+<li><strong>默认值</strong>：无默认值，必填。</li>
+<li><strong>取值范围</strong>：8～2048；常见 32、64、128、256、512。</li>
+<li><strong>对结果的影响</strong>：越大容量越强、能表达的纹理越多，但参数量与 FLOPs 线性增长，过大易过拟合。</li>
+<li><strong>推荐设置</strong>：浅层小（32/64）、深层大（256/512）；按 2 的幂递增；轻量模型用 16/32 起步并配合深度可分离卷积。</li>
+</ul>
+
+<h5>参数 3：kernel_size（卷积核尺寸）</h5>
+<ul>
+<li><strong>含义</strong>：滑动窗口的高与宽，决定单层能看到的局部范围。</li>
+<li><strong>类型</strong>：<code class="inline-code">int</code> 或 <code class="inline-code">tuple[int,int]</code>；单个整数表示高宽相同。</li>
+<li><strong>默认值</strong>：无默认值，必填；现代 CNN 绝大多数用 3。</li>
+<li><strong>取值范围</strong>：1、3、5、7、11 等奇数为主；偶数核需要非对称填充，较少使用。</li>
+<li><strong>对结果的影响</strong>：$ K $ 越大感受野越大、参数量按 $ K^2 $ 增长；1×1 核只做通道混合，不聚合空间信息。</li>
+<li><strong>推荐设置</strong>：默认 3×3；需要更大感受野时优先"两层 3×3 堆叠"而非 5×5/7×7（参数更少、非线性更强）；1×1 用于升降维与瓶颈结构。</li>
+</ul>
+
+<h5>参数 4：stride（步长）</h5>
+<ul>
+<li><strong>含义</strong>：卷积核每次滑动的像素数，控制下采样倍率。</li>
+<li><strong>类型</strong>：<code class="inline-code">int</code> 或 <code class="inline-code">tuple[int,int]</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">1</code>。</li>
+<li><strong>取值范围</strong>：$ \geq 1 $ 的整数，常用 1、2；很少超过 4。</li>
+<li><strong>对结果的影响</strong>：$ s=2 $ 使输出高宽约减半，FLOPs 降为约 1/4；步长过大易丢失小目标与细纹理，产生棋盘效应。</li>
+<li><strong>推荐设置</strong>：分类骨干用 1 为主、关键阶段用 2 下采样；分割任务尽量用 1 并靠池化/空洞卷积保分辨率。</li>
+</ul>
+
+<h5>参数 5：padding（填充）</h5>
+<ul>
+<li><strong>含义</strong>：在输入四周补零（或其他模式）的像素数，用于控制输出尺寸与边界信息。</li>
+<li><strong>类型</strong>：<code class="inline-code">int</code>、<code class="inline-code">tuple[int,int]</code> 或字符串 <code class="inline-code">'valid'</code> / <code class="inline-code">'same'</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">0</code>（即 <code class="inline-code">'valid'</code>）。</li>
+<li><strong>取值范围</strong>：$ 0\leq p < K $；<code class="inline-code">'same'</code> 要求 <code class="inline-code">stride=1</code>。</li>
+<li><strong>对结果的影响</strong>：$ p=0 $ 时输出每层缩小 $ K-1 $，边缘像素参与次数少；$ p=(K-1)/2 $ 可保持尺寸；填充过多会引入大量人工零，稀释边缘特征。</li>
+<li><strong>推荐设置</strong>：3×3 核配 <code class="inline-code">padding=1</code> 保持尺寸；<code class="inline-code">'same'</code> 适合 ResNet 式残差块；分类网络可在下采样阶段用 <code class="inline-code">padding=1</code> 配合 <code class="inline-code">stride=2</code>。</li>
+</ul>
+
+<h5>参数 6：dilation（空洞率）</h5>
+<ul>
+<li><strong>含义</strong>：卷积核元素之间的插入间隔，把 $ K\times K $ 核"撑大"而不增加参数。</li>
+<li><strong>类型</strong>：<code class="inline-code">int</code> 或 <code class="inline-code">tuple[int,int]</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">1</code>（普通卷积）。</li>
+<li><strong>取值范围</strong>：$ 1\sim 32 $；常用 2、4、8、16。</li>
+<li><strong>对结果的影响</strong>：有效核尺寸变为 $ d(K-1)+1 $，感受野线性扩大；$ d $ 过大且连续叠加会产生"网格效应"（gridding），相邻像素间出现未采样空洞。</li>
+<li><strong>推荐设置</strong>：DeepLab 系列用 2、4、8 的级联空洞卷积；遵循 HDC（hybrid dilated convolution）原则，让各层 $ d $ 互质或呈锯齿序列，避免网格伪影。</li>
+</ul>
+
+<h5>参数 7：groups（分组数）</h5>
+<ul>
+<li><strong>含义</strong>：把输入/输出通道分组，每组独立卷积，组间不交换信息。</li>
+<li><strong>类型</strong>：<code class="inline-code">int</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">1</code>（普通卷积）。</li>
+<li><strong>取值范围</strong>：必须同时整除 <code class="inline-code">in_channels</code> 与 <code class="inline-code">out_channels</code>；可取 1、2、4、8…直到 <code class="inline-code">in_channels</code>。</li>
+<li><strong>对结果的影响</strong>：参数量与 FLOPs 降为 $ 1/g $；$ g=C_{in} $ 时为深度卷积（depthwise），每个通道一个独立核；分组过多会削弱跨通道信息融合。</li>
+<li><strong>推荐设置</strong>：轻量模型 <code class="inline-code">groups=C_in</code> 做深度卷积，再接 1×1 逐点卷积；ResNeXt 用 32 组平衡容量与效率；普通 CNN 保持 1。</li>
+</ul>
+
+<h5>参数 8：bias（偏置开关）</h5>
+<ul>
+<li><strong>含义</strong>：是否为每个输出通道添加可学习的加性偏置 $ b_o $。</li>
+<li><strong>类型</strong>：<code class="inline-code">bool</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">True</code>。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">True</code> / <code class="inline-code">False</code>。</li>
+<li><strong>对结果的影响</strong>：开启增加 $ C_{out} $ 个参数，提升对非零均值数据的拟合；卷积后紧跟 BN 时，BN 的 $ \beta $ 会吸收偏置，bias 变成冗余参数。</li>
+<li><strong>推荐设置</strong>：卷积后接 BN → <code class="inline-code">bias=False</code>；纯卷积或最后一层 → <code class="inline-code">bias=True</code>；迁移学习加载预训练权重时保持与原模型一致。</li>
+</ul>
+
+<h5>参数 9：padding_mode（填充模式）</h5>
+<ul>
+<li><strong>含义</strong>：指定填充值的生成方式，决定边界像素如何被"补"出来。</li>
+<li><strong>类型</strong>：<code class="inline-code">str</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">'zeros'</code>。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">'zeros'</code>、<code class="inline-code">'reflect'</code>（镜像反射，不含边缘）、<code class="inline-code">'replicate'</code>（复制边缘）、<code class="inline-code">'circular'</code>（循环环绕）。</li>
+<li><strong>对结果的影响</strong>：零填充会在边缘形成突变，深层网络中边界响应偏弱；<code class="inline-code">reflect/replicate</code> 更接近自然图像统计，能改善边缘与分割精度；<code class="inline-code">circular</code> 适合周期性信号（如全景图、音频）。</li>
+<li><strong>推荐设置</strong>：分类任务默认 <code class="inline-code">zeros</code> 即可；分割、超分、图像生成建议 <code class="inline-code">reflect</code>；处理 wrap-around 数据用 <code class="inline-code">circular</code>。</li>
+</ul>
+
+<h5>参数 10：device 与 dtype</h5>
+<ul>
+<li><strong>含义</strong>：指定权重初始化的设备与数值精度。</li>
+<li><strong>类型</strong>：<code class="inline-code">torch.device</code> / <code class="inline-code">torch.dtype</code>，可为 <code class="inline-code">None</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">None</code>，跟随全局默认（通常是 CPU + float32）。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">cpu</code>、<code class="inline-code">cuda:0</code>…；<code class="inline-code">float32</code>、<code class="inline-code">float16</code>、<code class="inline-code">bfloat16</code>、<code class="inline-code">float64</code>。</li>
+<li><strong>对结果的影响</strong>：<code class="inline-code">float16</code> 显存减半、吞吐提升，但小梯度易下溢；<code class="inline-code">bfloat16</code> 动态范围大、精度低；dtype 不匹配会报 "expected scalar type" 错误。</li>
+<li><strong>推荐设置</strong>：训练用 <code class="inline-code">float32</code> 或 AMP（autocast + GradScaler）；推理用 <code class="inline-code">float16</code>/<code class="inline-code">bfloat16</code>；模型与输入必须同设备同 dtype。</li>
+</ul>
+
+<h5>参数 11：BatchNorm2d 的 num_features</h5>
+<ul>
+<li><strong>含义</strong>：需要归一化的通道数，必须等于上一层的 <code class="inline-code">out_channels</code>。</li>
+<li><strong>类型</strong>：<code class="inline-code">int</code>。</li>
+<li><strong>默认值</strong>：无默认值，必填。</li>
+<li><strong>取值范围</strong>：正整数，通常 16～2048。</li>
+<li><strong>对结果的影响</strong>：设错会在 running stats 更新时报 shape 错误；它决定 $ \gamma,\beta $ 以及 <code class="inline-code">running_mean/running_var</code> 的长度。</li>
+<li><strong>推荐设置</strong>：严格等于卷积输出通道数；用 <code class="inline-code">nn.Sequential</code> 封装 <code class="inline-code">Conv2d + BatchNorm2d + ReLU</code> 减少手误。</li>
+</ul>
+
+<h5>参数 12：BatchNorm2d 的 eps</h5>
+<ul>
+<li><strong>含义</strong>：方差归一化时加在分母上的小常数，防止除零与数值爆炸。</li>
+<li><strong>类型</strong>：<code class="inline-code">float</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">1e-5</code>。</li>
+<li><strong>取值范围</strong>：$ 10^{-8}\sim10^{-3} $。</li>
+<li><strong>对结果的影响</strong>：过小在方差接近 0 的通道上产生巨大激活；过大则归一化不充分，削弱 BN 效果。</li>
+<li><strong>推荐设置</strong>：默认 <code class="inline-code">1e-5</code>；混合精度训练可提到 <code class="inline-code">1e-3</code> 提升数值稳定性；不要随意改为 0。</li>
+</ul>
+
+<h5>参数 13：BatchNorm2d 的 momentum</h5>
+<ul>
+<li><strong>含义</strong>：推理时滑动平均统计量的更新权重。PyTorch 的定义是"新观测的权重"。</li>
+<li><strong>类型</strong>：<code class="inline-code">float</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">0.1</code>。</li>
+<li><strong>取值范围</strong>：$ 0\sim1 $；<code class="inline-code">None</code> 表示使用累积平均。</li>
+<li><strong>对结果的影响</strong>：越大越紧跟当前 batch，收敛快但统计量抖动；越小越平滑，但可能滞后于真实分布。</li>
+<li><strong>推荐设置</strong>：默认 0.1；batch 很小（如 2～8）时降到 0.01～0.05，或改用 GroupNorm/LayerNorm。</li>
+</ul>
+
+<h5>参数 14：BatchNorm2d 的 affine 与 track_running_stats</h5>
+<ul>
+<li><strong>含义</strong>：<code class="inline-code">affine</code> 控制是否学习 $ \gamma,\beta $；<code class="inline-code">track_running_stats</code> 控制是否维护推理用的滑动统计量。</li>
+<li><strong>类型</strong>：<code class="inline-code">bool</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">affine=True</code>，<code class="inline-code">track_running_stats=True</code>。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">True</code> / <code class="inline-code">False</code> 四种组合。</li>
+<li><strong>对结果的影响</strong>：<code class="inline-code">affine=False</code> 减少 $ 2C $ 个参数但表达能力下降；<code class="inline-code">track_running_stats=False</code> 时推理也使用当前 batch 统计量，batch 小则极不稳定。</li>
+<li><strong>推荐设置</strong>：常规训练保持默认；GAN 或小 batch 场景可关掉 <code class="inline-code">track_running_stats</code> 改用 InstanceNorm；冻结 BN 做微调时设 <code class="inline-code">affine=False</code> 并 <code class="inline-code">eval()</code>。</li>
+</ul>
+
+<h5>参数 15：MaxPool2d 的 kernel_size / stride</h5>
+<ul>
+<li><strong>含义</strong>：池化窗口大小与滑动步长，用于下采样并保留显著响应。</li>
+<li><strong>类型</strong>：<code class="inline-code">int</code> 或 <code class="inline-code">tuple</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">kernel_size</code> 必填；<code class="inline-code">stride=None</code> 时自动等于 <code class="inline-code">kernel_size</code>。</li>
+<li><strong>取值范围</strong>：常用 2、3；步长 1～3。</li>
+<li><strong>对结果的影响</strong>：2×2/2 使分辨率减半；窗口越大越抽象但定位精度下降；<code class="inline-code">stride < kernel_size</code> 为重叠池化，有轻微正则效果。</li>
+<li><strong>推荐设置</strong>：分类用 <code class="inline-code">MaxPool2d(2)</code>；检测/分割需要保留位置信息时改用步长卷积或空洞卷积；全局池化用 <code class="inline-code">AdaptiveAvgPool2d(1)</code>。</li>
+</ul>
+
+<h5>参数 16：MaxPool2d 的 padding / dilation / ceil_mode / return_indices</h5>
+<ul>
+<li><strong>含义</strong>：池化的填充、空洞、取整方式与是否返回最大值下标。</li>
+<li><strong>类型</strong>：<code class="inline-code">padding</code> 为 int/tuple，<code class="inline-code">dilation</code> 为 int/tuple，<code class="inline-code">ceil_mode</code> 与 <code class="inline-code">return_indices</code> 为 <code class="inline-code">bool</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">padding=0</code>、<code class="inline-code">dilation=1</code>、<code class="inline-code">ceil_mode=False</code>、<code class="inline-code">return_indices=False</code>。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">padding</code> 通常 0～1；<code class="inline-code">dilation</code> 1～4；两个布尔值任取。</li>
+<li><strong>对结果的影响</strong>：<code class="inline-code">ceil_mode=True</code> 会保留不足一个窗口的边界，输出可能多 1 个像素；<code class="inline-code">padding>0</code> 时框架用负无穷做隐式填充，不会把 0 选为最大值，但输出尺寸会变化；<code class="inline-code">return_indices=True</code> 反池化时用于还原位置。</li>
+<li><strong>推荐设置</strong>：分类默认全默认值；需要精确尺寸对齐时用 <code class="inline-code">ceil_mode=True</code>；<code class="inline-code">MaxUnpool2d</code> 配套时开启 <code class="inline-code">return_indices</code>。</li>
+</ul>
+
+<h5>参数 17：ReLU 的 inplace</h5>
+<ul>
+<li><strong>含义</strong>：是否直接在输入张量上原地修改，节省一份激活内存。</li>
+<li><strong>类型</strong>：<code class="inline-code">bool</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">False</code>。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">True</code> / <code class="inline-code">False</code>。</li>
+<li><strong>对结果的影响</strong>：<code class="inline-code">True</code> 可降低显存占用约一份特征图，但会破坏需要保留原值的计算图（如残差相加前），可能导致反传错误。</li>
+<li><strong>推荐设置</strong>：独立激活层可用 <code class="inline-code">inplace=True</code>；残差分支、需要多次引用的张量前用 <code class="inline-code">False</code>；不确定时保持默认。</li>
+</ul>
+
+<h5>参数 18：训练超参数（学习率、batch、权重衰减）</h5>
+<ul>
+<li><strong>含义</strong>：控制优化过程的全局设置，不属于层参数但直接决定 CNN 能否收敛。</li>
+<li><strong>类型</strong>：<code class="inline-code">float</code> / <code class="inline-code">int</code>。</li>
+<li><strong>默认值</strong>：无统一默认；Adam 常用 <code class="inline-code">lr=1e-3</code>，SGD 常用 <code class="inline-code">lr=0.1</code> 配 momentum 0.9。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">lr</code> 约 $ 10^{-5}\sim10^{-1} $；batch 8～1024；weight decay $ 0\sim10^{-2} $。</li>
+<li><strong>对结果的影响</strong>：学习率过大会震荡发散，过小则收敛慢；batch 太小学不到稳定 BN 统计量；weight decay 过强会欠拟合。</li>
+<li><strong>推荐设置</strong>：CNN 从零训练优先 SGD + momentum 0.9 + cosine 退火；微调用 AdamW、<code class="inline-code">lr=2e-4</code>～<code class="inline-code">5e-5</code>；batch 受显存限制时用梯度累积。</li>
+</ul>
+
+<h4>代码示例</h4>
+
+<p>下面用 PyTorch 构建一个小型 CNN，逐行验证输出尺寸公式、参数量公式、感受野递推，并实测一次前向的 FLOPs 量级。代码在 CPU 上即可运行。</p>
+
+<p><pre class="code-block"><code class="language-python">import torch  # PyTorch 主库，提供张量与自动求导
+import torch.nn as nn  # 神经网络模块，含 Conv2d、BatchNorm2d、MaxPool2d
+
+torch.manual_seed(0)  # 固定随机种子，保证初始化和输入可复现
+
+
+class SmallCNN(nn.Module):  # 定义小型 CNN，继承 nn.Module
+    &quot;&quot;&quot;一个小型分类 CNN：两组 Conv-BN-ReLU-Pool，再接 GAP 与全连接。&quot;&quot;&quot;  # 类文档
+
+    def __init__(self, num_classes: int = 10):  # 构造函数：类别数默认 10
+        super().__init__()  # 初始化 nn.Module 的基类，注册参数容器
+        # 第 1 个卷积块：3 通道输入 → 32 通道输出，3×3 核，padding=1 保持尺寸
+        self.conv1 = nn.Conv2d(3, 32, kernel_size=3, stride=1, padding=1, bias=False)  # 接 BN，故关闭 bias
+        self.bn1 = nn.BatchNorm2d(32)  # 对 32 个输出通道做批归一化
+        self.relu1 = nn.ReLU(inplace=True)  # 原地 ReLU，节省一份激活显存
+        self.pool1 = nn.MaxPool2d(kernel_size=2, stride=2)  # 2×2 最大池化，分辨率减半
+        # 第 2 个卷积块：32 → 64 通道，尺寸继续减半
+        self.conv2 = nn.Conv2d(32, 64, kernel_size=3, stride=1, padding=1, bias=False)  # 输入通道必须等于上层输出
+        self.bn2 = nn.BatchNorm2d(64)  # 通道数跟随 conv2 的输出
+        self.relu2 = nn.ReLU(inplace=True)  # 第二个非线性激活
+        self.pool2 = nn.MaxPool2d(kernel_size=2, stride=2)  # 再次减半，224 → 56
+        # 第 3 个卷积块：64 → 128 通道，用于演示通道翻倍
+        self.conv3 = nn.Conv2d(64, 128, kernel_size=3, stride=1, padding=1, bias=False)  # 3×3 核保持局部感受野
+        self.bn3 = nn.BatchNorm2d(128)  # 128 个通道各自的统计量
+        self.relu3 = nn.ReLU(inplace=True)  # 第三个 ReLU
+        # 全局平均池化：任意 H×W → 1×1，消除分辨率对全连接层的依赖
+        self.gap = nn.AdaptiveAvgPool2d(output_size=1)  # 输出形状固定为 (N,128,1,1)
+        self.fc = nn.Linear(128, num_classes)  # 128 维特征映射到类别 logits
+
+    def forward(self, x: torch.Tensor) -&gt; torch.Tensor:  # 定义前向传播的计算图
+        x = self.conv1(x)  # 第 1 次卷积：224×224×3 → 224×224×32
+        x = self.bn1(x)  # 批归一化，稳定分布
+        x = self.relu1(x)  # 非线性激活，负值置零
+        x = self.pool1(x)  # 池化：224×224 → 112×112
+        x = self.conv2(x)  # 第 2 次卷积：112×112×32 → 112×112×64
+        x = self.bn2(x)  # 第 2 次批归一化
+        x = self.relu2(x)  # 第 2 次激活
+        x = self.pool2(x)  # 池化：112×112 → 56×56
+        x = self.conv3(x)  # 第 3 次卷积：56×56×64 → 56×56×128
+        x = self.bn3(x)  # 第 3 次批归一化
+        x = self.relu3(x)  # 第 3 次激活
+        x = self.gap(x)  # 全局平均池化：56×56×128 → 1×1×128
+        x = torch.flatten(x, 1)  # 展平空间维：(N,128,1,1) → (N,128)
+        x = self.fc(x)  # 全连接：128 → num_classes
+        return x  # 返回未归一化的 logits
+
+
+def conv_out_size(size: int, k: int, s: int = 1, p: int = 0, d: int = 1) -&gt; int:  # 输出尺寸公式
+    &quot;&quot;&quot;按公式计算卷积/池化后的空间尺寸。&quot;&quot;&quot;  # 函数文档
+    return (size + 2 * p - d * (k - 1) - 1) // s + 1  # 整除即向下取整
+
+
+def conv_params(c_in: int, c_out: int, k: int, groups: int = 1, bias: bool = True) -&gt; int:  # 参数量公式
+    &quot;&quot;&quot;按公式计算 Conv2d 参数量。&quot;&quot;&quot;  # 函数文档
+    weight = c_out * (c_in // groups) * k * k  # 权重元素个数
+    return weight + (c_out if bias else 0)  # 加上每个输出通道一个偏置
+
+
+def conv_flops(n: int, c_in: int, c_out: int, h: int, w: int, k: int, groups: int = 1) -&gt; int:  # FLOPs 估算公式
+    &quot;&quot;&quot;估算一次卷积的乘加 FLOPs（含乘与加各计 1 次）。&quot;&quot;&quot;  # 函数文档
+    macs = n * c_out * h * w * (c_in // groups) * k * k  # 每个输出位置的乘加次数
+    return 2 * macs  # 一次乘加计 2 次浮点运算
+
+
+if __name__ == &quot;__main__&quot;:  # 直接运行时执行形状与公式校验
+    model = SmallCNN(num_classes=10)  # 实例化模型
+    x = torch.randn(2, 3, 224, 224)  # 构造 batch=2 的 RGB 输入
+    y = model(x)  # 前向传播
+    print(&quot;输出形状:&quot;, tuple(y.shape))  # 期望 (2,10)
+    assert y.shape == (2, 10), &quot;输出形状不符合预期&quot;  # 断言分类头维度正确
+
+    # 逐层核对空间尺寸公式
+    h = 224  # 初始高
+    h = conv_out_size(h, k=3, s=1, p=1)  # conv1 保持 224
+    h = conv_out_size(h, k=2, s=2)  # pool1 变 112
+    h = conv_out_size(h, k=3, s=1, p=1)  # conv2 保持 112
+    h = conv_out_size(h, k=2, s=2)  # pool2 变 56
+    h = conv_out_size(h, k=3, s=1, p=1)  # conv3 保持 56
+    print(&quot;逐层尺寸推导结果:&quot;, h)  # 期望 56
+    assert h == 56, &quot;尺寸推导与模型不一致&quot;  # 验证公式正确
+
+    # 核对第一个卷积层的参数量
+    manual = conv_params(3, 32, 3, bias=False)  # 手算：32*3*3*3 = 864
+    actual = sum(p.numel() for p in model.conv1.parameters())  # 框架统计
+    print(f&quot;conv1 参数量 手算={manual}, 实际={actual}&quot;)  # 两者应相等
+    assert manual == actual  # 断言公式无误
+
+    total = sum(p.numel() for p in model.parameters())  # 统计全模型参数量
+    print(f&quot;全模型参数量: {total:,}&quot;)  # 约 10 万级，远小于同规模全连接网络
+
+    # 估算 conv1 的 FLOPs（batch=1, 224×224）
+    flops = conv_flops(1, 3, 32, 224, 224, 3)  # 代入公式
+    print(f&quot;conv1 FLOPs: {flops/1e9:.3f} GFLOPs&quot;)  # 约 0.087 GFLOPs
+
+    # 感受野递推：conv1 → conv2 → pool2 → conv3
+    r, j = 1, 1  # 初始感受野与步距
+    for k, s, d in [(3, 1, 1), (3, 1, 1), (2, 2, 1), (3, 1, 1)]:  # 按网络顺序遍历层
+        r = r + (k - 1) * d * j  # 更新感受野
+        j = j * s  # 更新累计步距
+        print(f&quot;k={k}, s={s} → 感受野={r}, jump={j}&quot;)  # 打印每层结果
+
+    # 演示深度可分离卷积的参数量优势
+    normal = conv_params(64, 128, 3, bias=False)  # 普通 3×3：64*128*9
+    depthwise = conv_params(64, 64, 3, groups=64, bias=False)  # 深度卷积：64*1*9
+    pointwise = conv_params(64, 128, 1, bias=False)  # 逐点卷积：64*128*1
+    print(f&quot;普通卷积={normal:,}, 深度可分离={depthwise + pointwise:,}, 压缩比={normal/(depthwise+pointwise):.2f}x&quot;)  # 打印压缩比
+
+    loss = nn.CrossEntropyLoss()(y, torch.randint(0, 10, (2,)))  # 随机标签算一次损失
+    loss.backward()  # 反向传播，验证计算图完整
+    print(&quot;反向传播成功，loss =&quot;, loss.item())  # 用 item() 取出标量，避免破坏计算图</code></pre></p>
+
+<p>运行输出（关键行）：</p>
+
+<p><pre class="code-block"><code class="language-text">输出形状: (2, 10)
+逐层尺寸推导结果: 56
+conv1 参数量 手算=864, 实际=864
+全模型参数量: 94,762
+conv1 FLOPs: 0.087 GFLOPs
+k=3, s=1 → 感受野=3, jump=1
+k=3, s=1 → 感受野=5, jump=1
+k=2, s=2 → 感受野=6, jump=2
+k=3, s=1 → 感受野=10, jump=2
+普通卷积=73,728, 深度可分离=8,768, 压缩比=8.41x
+反向传播成功，loss = 2.306...</code></pre></p>
+
+<h4>复杂度分析</h4>
+
+<p><strong>时间复杂度</strong>：</p>
+
+<ul>
+<li>单层卷积的乘加次数为 $ H_{out}W_{out}C_{out}(C_{in}/g)K_hK_w $，因此时间复杂度为 $ O(NH_{out}W_{out}C_{out}C_{in}K^2/g) $。</li>
+<li>与全连接层对比：全连接为 $ O(N C_{in}H_{in}W_{in}C_{out}) $，当 $ K^2\ll H_{in}W_{in} $ 时卷积少一个 $ H_{in}W_{in}/K^2 $ 量级，这是 CNN 能处理高分辨率图像的根本原因。</li>
+<li>深度可分离卷积把复杂度降为 $ O(NHWC_{in}K^2)+O(NHWC_{in}C_{out}) $，约为普通卷积的 $ 1/C_{out}+1/K^2 $。</li>
+<li>整个网络的复杂度是各层之和；分辨率减半、通道翻倍的设计使各层 FLOPs 大致持平，避免某一层成为瓶颈。</li>
+<li>训练时反向传播的計算量约为前向的 2 倍（对权重与输入各求一次梯度）。</li>
+</ul>
+
+<p><strong>空间复杂度</strong>：</p>
+
+<ul>
+<li>参数量为 $ \sum_l C_{out}^{(l)}(C_{in}^{(l)}/g)K^2 $，与输入分辨率无关；一个 50 层 ResNet 约 2500 万参数，仅占 100 MB（float32）。</li>
+<li>激活内存为 $ O(N\sum_l H_lW_lC_l) $，是训练显存的主要占用；batch 翻倍、分辨率翻倍都会线性/平方级增加。</li>
+<li>推理时可用原地 ReLU、算子融合、<code class="inline-code">torch.inference_mode()</code> 降低峰值内存。</li>
+<li>卷积算法本身需要 workspace（如 im2col、Winograd、FFT），cuDNN 会自动选择；<code class="inline-code">torch.backends.cudnn.benchmark=True</code> 可换取更快的算法但增加首次运行开销。</li>
+</ul>
+
+<p><strong>参数量与计算量对比</strong>：</p>
+
+<div class="table-wrapper"><table class="algo-table"><thead><tr><th>结构</th><th>参数量</th><th>相对计算量</th><th>典型用途</th></tr></thead><tbody><tr><td>全连接 224×224×3 → 1000</td><td>1.5×10^8</td><td>1×</td><td>不现实，仅作对照</td></tr><tr><td>普通 3×3 卷积 3→64</td><td>1,792</td><td>1/83000</td><td>CNN 第一层</td></tr><tr><td>深度可分离 3×3 64→128</td><td>8,256</td><td>约 1/9</td><td>MobileNet</td></tr><tr><td>5×5 卷积替代两层 3×3</td><td>25 vs 18</td><td>更大</td><td>不推荐</td></tr><tr><td>1×1 瓶颈升降维</td><td>C_in×C_out</td><td>很小</td><td>ResNet/Inception</td></tr></tbody></table></div>
+
+<h4>应用场景</h4>
+
+<ul>
+<li><strong>图像分类</strong>：ResNet、EfficientNet、ConvNeXt 作为骨干，输出整图类别；是预训练权重最丰富的领域，常作为迁移学习起点。</li>
+<li><strong>目标检测</strong>：Faster R-CNN、YOLO、RetinaNet 用 CNN 提取多尺度特征金字塔，再回归框与类别。</li>
+<li><strong>语义/实例分割</strong>：U-Net、DeepLab 用编码器-解码器与空洞卷积保留空间细节，逐像素分类。</li>
+<li><strong>人脸与生物识别</strong>：人脸检测、关键点回归、活体检测、指纹/虹膜识别，CNN 是标准方案。</li>
+<li><strong>OCR 与文档分析</strong>：CRNN、DBNet 用 CNN 提取文字区域特征，再接序列解码。</li>
+<li><strong>语音与音频</strong>：把梅尔频谱当作图像输入，CNN 做关键词唤醒、语音识别前端、音乐分类。</li>
+<li><strong>时序与工业信号</strong>：一维卷积（<code class="inline-code">Conv1d</code>）用于心电图、振动信号、传感器异常检测，比 RNN 更易并行。</li>
+<li><strong>医学影像</strong>：肺结节检测、眼底分割、病理切片分类，3D CNN 处理 CT/MRI 体数据。</li>
+<li><strong>推荐与广告</strong>：用 CNN 提取商品图、封面图特征，做召回与排序。</li>
+<li><strong>生成模型</strong>：GAN 的判别器、扩散模型的 U-Net 骨干均由卷积块构成。</li>
+</ul>
+
+<h4>参考文档</h4>
+
+<ul>
+<li><a href="https://pytorch.org/docs/stable/generated/torch.nn.Conv2d.html" target="_blank" class="ref-link">PyTorch 官方文档：torch.nn.Conv2d</a></li>
+<li><a href="https://pytorch.org/docs/stable/generated/torch.nn.BatchNorm2d.html" target="_blank" class="ref-link">PyTorch 官方文档：torch.nn.BatchNorm2d</a></li>
+<li><a href="https://pytorch.org/docs/stable/generated/torch.nn.MaxPool2d.html" target="_blank" class="ref-link">PyTorch 官方文档：torch.nn.MaxPool2d</a></li>
+<li><a href="https://cs231n.github.io/convolutional-networks/" target="_blank" class="ref-link">CS231n：Convolutional Neural Networks for Visual Recognition</a></li>
+<li><a href="http://yann.lecun.com/exdb/publis/pdf/lecun-01a.pdf" target="_blank" class="ref-link">LeCun 等：Gradient-Based Learning Applied to Document Recognition（LeNet-5）</a></li>
+<li><a href="https://papers.nips.cc/paper/2012/hash/c399862d3b9d6b76c8436e924a68c45b-Abstract.html" target="_blank" class="ref-link">AlexNet 论文：ImageNet Classification with Deep CNNs</a></li>
+<li><a href="https://arxiv.org/abs/1512.03385" target="_blank" class="ref-link">ResNet 论文：Deep Residual Learning for Image Recognition</a></li>
+<li><a href="https://arxiv.org/abs/1801.04381" target="_blank" class="ref-link">MobileNetV2 论文：Inverted Residuals and Linear Bottlenecks</a></li>
+<li><a href="https://github.com/vdumoulin/conv_arithmetic" target="_blank" class="ref-link">卷积算术可视化：dilation/stride/padding 动图</a></li>
+<li><a href="https://blog.csdn.net/weixin_29237635/article/details/159527190" target="_blank" class="ref-link">PyTorch 卷积输出尺寸与计算量实战</a></li>
+</ul>
+
+<hr>
+
+<blockquote>
+<p>AI生成</p>
+</blockquote>
+
+<h3>ALiBi 注意力偏置</h3>
+
+<p><strong>类别</strong>：深度学习 | <strong>难度</strong>：中等</p>
+
+<h4>算法简介</h4>
+
+<p>ALiBi（Attention with Linear Biases，带线性偏置的注意力）是 Ofir Press、Noah Smith 与 Mike Lewis 在 2021 年论文《Train Short, Test Long: Attention with Linear Biases Enables Input Length Extrapolation》中提出的位置表示方法。它解决的是 Transformer 的一个根本痛点：模型在训练时只见过长度 1024 的序列，推理时遇到 2048 甚至更长的输入，性能会断崖式下跌。正弦位置编码、可学习绝对位置编码都依赖"位置编号"，训练时没见过的位置编号对应的向量从未被优化过，外推自然失效。</p>
+
+<p>ALiBi 的思路极其简洁：<strong>完全不在词嵌入上加位置向量</strong>，而是把位置信息以"惩罚"的形式直接加到注意力分数上。第 $ i $ 个 query 与第 $ j $ 个 key 的注意力 logit 会减去 $ m\cdot(i-j) $，其中 $ m $ 是该注意力头专属的斜率。距离越远，惩罚越大，softmax 后的注意力权重越小。换句话说，ALiBi 把"近处优先"这一归纳偏置硬编码进了注意力机制，而不要求模型从数据里学习位置。</p>
+
+<p>每个头使用不同的斜率，形成多尺度的距离衰减：斜率大的头（如 $ 1/2 $）视野很短，几乎只关注相邻 token，适合学习局部语法；斜率小的头（如 $ 1/256 $）衰减缓慢，能覆盖上千 token，适合捕捉长距离依赖。这种"一头一尺度"的设计，让模型同时拥有局部与全局的感受野，比所有头共用一套位置编码更灵活。</p>
+
+<p>论文的实验结果很有说服力：1.3B 参数模型在长度 1024 的序列上训练，推理时外推到 2048，困惑度与"直接在 2048 上训练的正弦位置编码模型"持平，而训练速度快 11%、显存少 11%。ALiBi 还被 BLOOM-176B、MPT-7B/30B 等开源大模型采用，成为与 RoPE 并列的主流位置方案之一。它的代价是对"精确绝对位置"不敏感，做复制、计数、按位置检索这类任务时不如 RoPE；超长外推也并非无限，超过训练长度数倍后困惑度仍会上升。</p>
+
+<h4>原理示意图</h4>
+
+<p><div class="algo-image"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 900 500" font-family="sans-serif">
+  <rect width="900" height="500" fill="#1e293b" rx="12"/>
+  <text x="450" y="28" text-anchor="middle" fill="#818cf8" font-size="16" font-weight="600">ALiBi：给注意力 logits 加上 −m·(i−j) 的线性惩罚，越远越弱</text>
+
+  <text x="70" y="62" fill="#94a3b8" font-size="12">偏置矩阵 B（6×6，单头，m 为斜率）</text>
+  <text x="70" y="84" fill="#64748b" font-size="10">行 = query 位置 i，列 = key 位置 j；上三角为因果掩码 −∞</text>
+
+  <g font-size="11">
+    <text x="106" y="108" text-anchor="middle" fill="#64748b">j=0</text>
+    <text x="148" y="108" text-anchor="middle" fill="#64748b">j=1</text>
+    <text x="190" y="108" text-anchor="middle" fill="#64748b">j=2</text>
+    <text x="232" y="108" text-anchor="middle" fill="#64748b">j=3</text>
+    <text x="274" y="108" text-anchor="middle" fill="#64748b">j=4</text>
+    <text x="316" y="108" text-anchor="middle" fill="#64748b">j=5</text>
+  </g>
+
+  <g font-size="12">
+    <text x="52" y="140" fill="#94a3b8">i=0</text>
+    <rect x="86" y="120" width="40" height="34" fill="#14532d" stroke="#22c55e"/><text x="106" y="142" text-anchor="middle" fill="#dcfce7">0</text>
+    <rect x="128" y="120" width="40" height="34" fill="#0f172a" stroke="#334155"/><text x="148" y="142" text-anchor="middle" fill="#475569">−∞</text>
+    <rect x="170" y="120" width="40" height="34" fill="#0f172a" stroke="#334155"/><text x="190" y="142" text-anchor="middle" fill="#475569">−∞</text>
+    <rect x="212" y="120" width="40" height="34" fill="#0f172a" stroke="#334155"/><text x="232" y="142" text-anchor="middle" fill="#475569">−∞</text>
+    <rect x="254" y="120" width="40" height="34" fill="#0f172a" stroke="#334155"/><text x="274" y="142" text-anchor="middle" fill="#475569">−∞</text>
+    <rect x="296" y="120" width="40" height="34" fill="#0f172a" stroke="#334155"/><text x="316" y="142" text-anchor="middle" fill="#475569">−∞</text>
+
+    <text x="52" y="176" fill="#94a3b8">i=1</text>
+    <rect x="86" y="156" width="40" height="34" fill="#312e81" stroke="#6366f1"/><text x="106" y="178" text-anchor="middle" fill="#c7d2fe">−m</text>
+    <rect x="128" y="156" width="40" height="34" fill="#14532d" stroke="#22c55e"/><text x="148" y="178" text-anchor="middle" fill="#dcfce7">0</text>
+    <rect x="170" y="156" width="40" height="34" fill="#0f172a" stroke="#334155"/><text x="190" y="178" text-anchor="middle" fill="#475569">−∞</text>
+    <rect x="212" y="156" width="40" height="34" fill="#0f172a" stroke="#334155"/><text x="232" y="178" text-anchor="middle" fill="#475569">−∞</text>
+    <rect x="254" y="156" width="40" height="34" fill="#0f172a" stroke="#334155"/><text x="274" y="178" text-anchor="middle" fill="#475569">−∞</text>
+    <rect x="296" y="156" width="40" height="34" fill="#0f172a" stroke="#334155"/><text x="316" y="178" text-anchor="middle" fill="#475569">−∞</text>
+
+    <text x="52" y="212" fill="#94a3b8">i=2</text>
+    <rect x="86" y="192" width="40" height="34" fill="#1e3a8a" stroke="#6366f1"/><text x="106" y="214" text-anchor="middle" fill="#c7d2fe">−2m</text>
+    <rect x="128" y="192" width="40" height="34" fill="#312e81" stroke="#6366f1"/><text x="148" y="214" text-anchor="middle" fill="#c7d2fe">−m</text>
+    <rect x="170" y="192" width="40" height="34" fill="#14532d" stroke="#22c55e"/><text x="190" y="214" text-anchor="middle" fill="#dcfce7">0</text>
+    <rect x="212" y="192" width="40" height="34" fill="#0f172a" stroke="#334155"/><text x="232" y="214" text-anchor="middle" fill="#475569">−∞</text>
+    <rect x="254" y="192" width="40" height="34" fill="#0f172a" stroke="#334155"/><text x="274" y="214" text-anchor="middle" fill="#475569">−∞</text>
+    <rect x="296" y="192" width="40" height="34" fill="#0f172a" stroke="#334155"/><text x="316" y="214" text-anchor="middle" fill="#475569">−∞</text>
+
+    <text x="52" y="248" fill="#94a3b8">i=3</text>
+    <rect x="86" y="228" width="40" height="34" fill="#172554" stroke="#6366f1"/><text x="106" y="250" text-anchor="middle" fill="#c7d2fe">−3m</text>
+    <rect x="128" y="228" width="40" height="34" fill="#1e3a8a" stroke="#6366f1"/><text x="148" y="250" text-anchor="middle" fill="#c7d2fe">−2m</text>
+    <rect x="170" y="228" width="40" height="34" fill="#312e81" stroke="#6366f1"/><text x="190" y="250" text-anchor="middle" fill="#c7d2fe">−m</text>
+    <rect x="212" y="228" width="40" height="34" fill="#14532d" stroke="#22c55e"/><text x="232" y="250" text-anchor="middle" fill="#dcfce7">0</text>
+    <rect x="254" y="228" width="40" height="34" fill="#0f172a" stroke="#334155"/><text x="274" y="250" text-anchor="middle" fill="#475569">−∞</text>
+    <rect x="296" y="228" width="40" height="34" fill="#0f172a" stroke="#334155"/><text x="316" y="250" text-anchor="middle" fill="#475569">−∞</text>
+
+    <text x="52" y="284" fill="#94a3b8">i=4</text>
+    <rect x="86" y="264" width="40" height="34" fill="#0f172a" stroke="#475569"/><text x="106" y="286" text-anchor="middle" fill="#a5b4fc">−4m</text>
+    <rect x="128" y="264" width="40" height="34" fill="#172554" stroke="#6366f1"/><text x="148" y="286" text-anchor="middle" fill="#c7d2fe">−3m</text>
+    <rect x="170" y="264" width="40" height="34" fill="#1e3a8a" stroke="#6366f1"/><text x="190" y="286" text-anchor="middle" fill="#c7d2fe">−2m</text>
+    <rect x="212" y="264" width="40" height="34" fill="#312e81" stroke="#6366f1"/><text x="232" y="286" text-anchor="middle" fill="#c7d2fe">−m</text>
+    <rect x="254" y="264" width="40" height="34" fill="#14532d" stroke="#22c55e"/><text x="274" y="286" text-anchor="middle" fill="#dcfce7">0</text>
+    <rect x="296" y="264" width="40" height="34" fill="#0f172a" stroke="#334155"/><text x="316" y="286" text-anchor="middle" fill="#475569">−∞</text>
+
+    <text x="52" y="320" fill="#94a3b8">i=5</text>
+    <rect x="86" y="300" width="40" height="34" fill="#020617" stroke="#475569"/><text x="106" y="322" text-anchor="middle" fill="#a5b4fc">−5m</text>
+    <rect x="128" y="300" width="40" height="34" fill="#0f172a" stroke="#475569"/><text x="148" y="322" text-anchor="middle" fill="#a5b4fc">−4m</text>
+    <rect x="170" y="300" width="40" height="34" fill="#172554" stroke="#6366f1"/><text x="190" y="322" text-anchor="middle" fill="#c7d2fe">−3m</text>
+    <rect x="212" y="300" width="40" height="34" fill="#1e3a8a" stroke="#6366f1"/><text x="232" y="322" text-anchor="middle" fill="#c7d2fe">−2m</text>
+    <rect x="254" y="300" width="40" height="34" fill="#312e81" stroke="#6366f1"/><text x="274" y="322" text-anchor="middle" fill="#c7d2fe">−m</text>
+    <rect x="296" y="300" width="40" height="34" fill="#14532d" stroke="#22c55e"/><text x="316" y="322" text-anchor="middle" fill="#dcfce7">0</text>
+  </g>
+
+
+  <rect x="430" y="62" width="440" height="150" rx="8" fill="#0f172a" stroke="#334155"/>
+  <text x="650" y="86" text-anchor="middle" fill="#c7d2fe" font-size="12" font-weight="600">8 个头的斜率 m（几何序列，越小的头看得越远）</text>
+  <g font-size="10">
+    <rect x="452" y="90" width="36" height="100" fill="#312e81" stroke="#6366f1"/><text x="470" y="180" text-anchor="middle" fill="#c7d2fe">1/2</text>
+    <rect x="500" y="100" width="36" height="90" fill="#312e81" stroke="#6366f1"/><text x="518" y="180" text-anchor="middle" fill="#c7d2fe">1/4</text>
+    <rect x="548" y="110" width="36" height="80" fill="#312e81" stroke="#6366f1"/><text x="566" y="180" text-anchor="middle" fill="#c7d2fe">1/8</text>
+    <rect x="596" y="120" width="36" height="70" fill="#1e3a8a" stroke="#6366f1"/><text x="614" y="180" text-anchor="middle" fill="#c7d2fe">1/16</text>
+    <rect x="644" y="130" width="36" height="60" fill="#1e3a8a" stroke="#6366f1"/><text x="662" y="180" text-anchor="middle" fill="#c7d2fe">1/32</text>
+    <rect x="692" y="140" width="36" height="50" fill="#172554" stroke="#6366f1"/><text x="710" y="180" text-anchor="middle" fill="#c7d2fe">1/64</text>
+    <rect x="740" y="150" width="36" height="40" fill="#172554" stroke="#6366f1"/><text x="758" y="180" text-anchor="middle" fill="#c7d2fe">1/128</text>
+    <rect x="788" y="160" width="36" height="30" fill="#0f172a" stroke="#6366f1"/><text x="806" y="180" text-anchor="middle" fill="#a5b4fc">1/256</text>
+  </g>
+  <text x="650" y="205" text-anchor="middle" fill="#64748b" font-size="10">柱高示意衰减强度：m 越大柱越高；实际 m 直接乘在距离上</text>
+
+  <rect x="430" y="232" width="440" height="102" rx="8" fill="#0f172a" stroke="#334155"/>
+  <text x="650" y="258" text-anchor="middle" fill="#c7d2fe" font-size="12" font-weight="600">注意力计算</text>
+  <text x="650" y="284" text-anchor="middle" fill="#e2e8f0" font-size="13">softmax( Q·K^T / √d  +  m·B ) · V</text>
+  <text x="650" y="308" text-anchor="middle" fill="#94a3b8" font-size="11">B[i,j] = −(i−j)（j ≤ i），未来位置由因果掩码置 −∞</text>
+  <text x="650" y="326" text-anchor="middle" fill="#f97316" font-size="11">没有位置嵌入，没有可学习的位置参数</text>
+
+  <text x="40" y="350" fill="#94a3b8" font-size="12">偏置只依赖相对距离 d = i − j：同一对角线数值相同，与绝对位置无关，这是外推能力的来源。</text>
+  <text x="40" y="376" fill="#94a3b8" font-size="12">训练长度 1024 → 推理长度 2048：偏置公式对任意距离都有定义，因此可以直接外推。</text>
+  <rect x="40" y="382" width="820" height="92" rx="8" fill="#0f172a" stroke="#334155"/>
+  <text x="60" y="406" fill="#86efac" font-size="12">优点：零位置参数、训练更快、显存更省、短训长测稳定；不同头覆盖不同距离尺度。</text>
+  <text x="60" y="430" fill="#fdba74" font-size="12">代价：对绝对位置不敏感，复制/计数类任务偏弱；超出训练长度数倍后困惑度仍会上升。</text>
+  <text x="60" y="454" fill="#94a3b8" font-size="11">工程注意：长序列下偏置数值可达 −m·L，bf16/fp16 直接计算会精度不足甚至溢出，需用 fp32 构造。</text>
+</svg></div></p>
+
+<h4>数学公式</h4>
+
+<p><strong>公式 1：带线性偏置的缩放点积注意力</strong></p>
+
+<div class="math-block">$$ \mathrm{Attn}(Q,K,V)=\mathrm{softmax}\!\left(\frac{QK^{\top}}{\sqrt{d_k}}+m\cdot B\right)V $$</div>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ Q\in\mathbb{R}^{L\times d_k} $、$ K\in\mathbb{R}^{L\times d_k} $、$ V\in\mathbb{R}^{L\times d_v} $：query、key、value 矩阵，$ L $ 为序列长度。</li>
+<li>$ d_k $：每个头的维度；$ \sqrt{d_k} $ 用于防止点积随维度增大而爆炸。</li>
+<li>$ m $：当前注意力头的斜率（标量），不同头取不同值。</li>
+<li>$ B\in\mathbb{R}^{L\times L} $：偏置矩阵，$ B_{ij}=-(i-j) $（$ j\leq i $），未来位置为 $ -\infty $。</li>
+<li>$ \mathrm{softmax} $ 按行归一化，得到每个 query 对所有 key 的注意力权重。</li>
+<li>与标准注意力的唯一区别就是加了 $ m\cdot B $，没有额外的位置嵌入向量。</li>
+</ul>
+
+<p><strong>公式 2：偏置矩阵的定义</strong></p>
+
+<div class="math-block">$$ B_{ij}=
+\begin{cases}
+-(i-j), & j\leq i \\
+-\infty, & j>i
+\end{cases}
+\qquad\Longrightarrow\qquad
+\text{score}_{ij}=\frac{q_i^{\top}k_j}{\sqrt{d_k}}-m\,(i-j) $$</div>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ i $：query 的位置下标，从 0 开始。</li>
+<li>$ j $：key 的位置下标；$ i-j $ 即二者的相对距离。</li>
+<li>$ -(i-j) $：距离越远惩罚越大，$ j=i $ 时为 0（自身不惩罚）。</li>
+<li>$ -\infty $：因果掩码，保证 token 不能看到未来；实现中用很大的负数（如 <code class="inline-code">-1e9</code>）替代，避免 NaN。</li>
+<li>该式说明 ALiBi 只依赖相对距离 $ i-j $，与绝对位置 $ i $、$ j $ 无关，这是外推能力的来源。</li>
+</ul>
+
+<p><strong>公式 3：每个头的斜率</strong></p>
+
+<p>对 $ H $ 个注意力头（$ H $ 为 2 的幂）：</p>
+
+<div class="math-block">$$ m_h=2^{-\frac{8}{H}h},\qquad h=1,2,\dots,H $$</div>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ m_h $：第 $ h $ 个头的斜率。</li>
+<li>$ H $：注意力头数，如 8、16、32。</li>
+<li>指数 $ -\frac{8}{H}h $：从 $ -8/H $ 线性递减到 $ -8 $，保证斜率呈几何序列。</li>
+<li>$ H=8 $ 时得到 $ 1/2,1/4,1/8,\dots,1/256 $；$ H=16 $ 时得到 $ 2^{-1/2},2^{-1},\dots,2^{-8} $。</li>
+<li>斜率越大，$ m(i-j) $ 增长越快，注意力越集中在近处；斜率越小，感受野越长。</li>
+<li>头数不是 2 的幂时（如 BLOOM 的 112 头），参考实现取不大于 $ H $ 的最大 2 的幂，再从 $ 2H' $ 的斜率序列中隔一个取一个补齐，序列不一定全局单调。</li>
+</ul>
+
+<p><strong>公式 4：注意力权重的距离衰减</strong></p>
+
+<p>对固定 query $ i $，忽略内容项差异时：</p>
+
+<div class="math-block">$$ \alpha_{ij}\propto \exp\!\left(\frac{q_i^{\top}k_j}{\sqrt{d_k}}\right)\cdot e^{-m(i-j)} $$</div>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ \alpha_{ij} $：softmax 后 query $ i $ 对 key $ j $ 的注意力权重。</li>
+<li>第一项是内容相似度决定的原始权重。</li>
+<li>第二项 $ e^{-m(i-j)} $ 是 ALiBi 引入的几何衰减因子，距离每增加 1，权重乘以 $ e^{-m} $。</li>
+<li>$ m=1/2 $ 时每远一个 token 权重衰减约 39%；$ m=1/256 $ 时衰减约 0.39%，可覆盖很长距离。</li>
+<li>这一分解解释了"recency bias"：即使内容完全无关，近处 token 也会获得更高的基础权重。</li>
+</ul>
+
+<p><strong>公式 5：计算复杂度</strong></p>
+
+<div class="math-block">$$ \text{Time}=O(H L^2 d_k),\qquad \text{Memory}=O(H L^2)\ \text{（标准注意力）} $$</div>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ H $：头数；$ L $：序列长度；$ d_k $：每头维度。</li>
+<li>$ L^2 $ 来自 $ QK^{\top} $ 与注意力矩阵，ALiBi 只增加一次逐元素加法，不改变渐进复杂度。</li>
+<li>偏置矩阵可现场计算（$ O(HL^2) $ 加法），也可预计算缓存（$ O(HL^2) $ 内存）。</li>
+<li>使用 FlashAttention 时，偏置以 <code class="inline-code">alibi_slopes</code> 形式传入，注意力矩阵不落盘，显存降为 $ O(L) $，时间仍为 $ O(HL^2d) $。</li>
+</ul>
+
+<h4>核心要点</h4>
+
+<ul>
+<li><strong>位置信息进 logits，不进 embedding</strong>：ALiBi 不改词向量，只在注意力分数上加线性惩罚。</li>
+<li><strong>相对距离而非绝对位置</strong>：同一对角线偏置相同，模型天然具备平移不变性。</li>
+<li><strong>多头多尺度</strong>：每个头一个斜率，形成从局部到全局的多分辨率注意力。</li>
+<li><strong>零位置参数</strong>：没有位置嵌入表、没有可学习的 slope，参数量与训练长度无关。</li>
+<li><strong>外推来自公式</strong>：任意 $ i-j $ 都能算出偏置，训练 1024 可直接推理 2048。</li>
+<li><strong>不是无限长外推</strong>：超过训练长度数倍后性能仍会退化，需配合长上下文微调。</li>
+<li><strong>数值精度敏感</strong>：长序列下偏置绝对值很大，低精度计算会出现精度碰撞或溢出。</li>
+</ul>
+
+<h4>技术细节与参数详解</h4>
+
+<h5>参数 1：n_heads（注意力头数 H）</h5>
+<ul>
+<li><strong>含义</strong>：注意力头的总数，决定斜率集合的大小与每个头的维度。</li>
+<li><strong>类型</strong>：<code class="inline-code">int</code>。</li>
+<li><strong>默认值</strong>：无默认值，由模型结构指定；常见 8、12、16、32、40、112。</li>
+<li><strong>取值范围</strong>：1～256；必须能整除隐藏维度（<code class="inline-code">d_model % n_heads == 0</code>）。</li>
+<li><strong>对结果的影响</strong>：头数越多，可覆盖的距离尺度越丰富，但每头维度 $ d_k=d_{model}/H $ 变小，单头表达能力下降；头数还影响显存与计算量。</li>
+<li><strong>推荐设置</strong>：与模型宽度匹配，保持 $ d_k=64 $ 或 128；使用 GQA/MQA 时，斜率按 query 头分配，key/value 头共享。</li>
+</ul>
+
+<h5>参数 2：slopes（每个头的斜率 m）</h5>
+<ul>
+<li><strong>含义</strong>：控制每个头注意力衰减速度的标量集合，是 ALiBi 唯一"超参数"。</li>
+<li><strong>类型</strong>：<code class="inline-code">list[float]</code> 或 <code class="inline-code">torch.Tensor</code>，形状 <code class="inline-code">[H]</code>。</li>
+<li><strong>默认值</strong>：按公式 3 自动生成，无需手工指定。</li>
+<li><strong>取值范围</strong>：$ (0,1) $；8 头时为 $ 0.5\sim0.00390625 $，112 头时约为 $ 0.917\sim0.0163 $。</li>
+<li><strong>对结果的影响</strong>：斜率整体偏大 → 模型过度局部化，长距离信息传不动；偏小 → 衰减不足，长序列注意力弥散、困惑度升高。</li>
+<li><strong>推荐设置</strong>：严格使用论文的几何序列；不要把所有头设成同一个值；若从头数不同的预训练模型迁移，需重新映射斜率而不是复用。</li>
+</ul>
+
+<h5>参数 3：bias 矩阵 B</h5>
+<ul>
+<li><strong>含义</strong>：加到注意力 logits 上的 $ L\times L $ 偏置矩阵，编码相对距离与因果掩码。</li>
+<li><strong>类型</strong>：<code class="inline-code">torch.Tensor</code>，形状 <code class="inline-code">[H,L,L]</code> 或 <code class="inline-code">[1,H,L,L]</code>（可广播）。</li>
+<li><strong>默认值</strong>：无，需按公式构造。</li>
+<li><strong>取值范围</strong>：元素为 $ 0,-m,-2m,\dots,-m(L-1) $ 或 $ -\infty $。</li>
+<li><strong>对结果的影响</strong>：构造错误（如方向反了、行列颠倒）会让模型"越远越关注"，训练直接不收敛；dtype 过低会在长序列上把不同距离舍入成同一个值。</li>
+<li><strong>推荐设置</strong>：用 <code class="inline-code">float32</code> 构造后再与 logits 相加；推理时按需切片，避免每次分配完整矩阵；缓存时注意设备与 dtype 一致。</li>
+</ul>
+
+<h5>参数 4：causal（因果掩码开关）</h5>
+<ul>
+<li><strong>含义</strong>：是否禁止 query 看到未来 key，决定 ALiBi 用于解码器还是编码器。</li>
+<li><strong>类型</strong>：<code class="inline-code">bool</code>。</li>
+<li><strong>默认值</strong>：自回归语言模型为 <code class="inline-code">True</code>；编码器可设 <code class="inline-code">False</code>。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">True</code> / <code class="inline-code">False</code>。</li>
+<li><strong>对结果的影响</strong>：解码器漏加因果掩码会造成训练-推理不一致、信息泄漏，loss 异常低但生成质量崩坏；编码器误加则每个 token 只能看左侧。</li>
+<li><strong>推荐设置</strong>：GPT 类因果语言模型必须 <code class="inline-code">True</code>；BERT 类双向编码器用 <code class="inline-code">False</code>，并改用对称偏置 $ -m|i-j| $。</li>
+</ul>
+
+<h5>参数 5：symmetric（对称偏置开关）</h5>
+<ul>
+<li><strong>含义</strong>：把偏置改为 $ -m|i-j| $，左右两侧同样衰减，适用于非因果任务。</li>
+<li><strong>类型</strong>：<code class="inline-code">bool</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">False</code>（使用 $ -m\max(i-j,0) $）。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">True</code> / <code class="inline-code">False</code>。</li>
+<li><strong>对结果的影响</strong>：对称模式让左右上下文权重对称，适合分类、检索、双向编码；因果模式只惩罚左侧历史，适合生成。</li>
+<li><strong>推荐设置</strong>：Encoder/扩散语言模型用 <code class="inline-code">True</code>；Decoder-only LLM 用 <code class="inline-code">False</code>。</li>
+</ul>
+
+<h5>参数 6：scale（缩放因子）</h5>
+<ul>
+<li><strong>含义</strong>：点积注意力的缩放系数，通常为 $ 1/\sqrt{d_k} $。</li>
+<li><strong>类型</strong>：<code class="inline-code">float</code>。</li>
+<li><strong>默认值</strong>：$ 1/\sqrt{d_k} $，由头维度自动决定。</li>
+<li><strong>取值范围</strong>：$ 10^{-2}\sim1 $；$ d_k=64 $ 时为 0.125，$ d_k=128 $ 时约 0.0884。</li>
+<li><strong>对结果的影响</strong>：缩放必须在加偏置之前完成；若先加偏置再缩放，等价于把斜率 $ m $ 也缩放，破坏论文设定的衰减尺度。</li>
+<li><strong>推荐设置</strong>：<code class="inline-code">scores = Q @ K.T <em> scale</code>，然后 <code class="inline-code">scores = scores + m </em> bias</code>；使用 QK-Norm 时按模型实现调整顺序。</li>
+</ul>
+
+<h5>参数 7：attention dropout</h5>
+<ul>
+<li><strong>含义</strong>：对 softmax 后的注意力权重做随机置零，起正则作用。</li>
+<li><strong>类型</strong>：<code class="inline-code">float</code>。</li>
+<li><strong>默认值</strong>：0.0～0.1，视模型而定；LLM 预训练常用 0.0。</li>
+<li><strong>取值范围</strong>：$ 0\sim0.5 $。</li>
+<li><strong>对结果的影响</strong>：过大破坏长距离依赖，训练不稳定；过小则正则不足，小数据集易过拟合。</li>
+<li><strong>推荐设置</strong>：大模型预训练 0.0；小数据集微调 0.05～0.1；ALiBi 本身已有强归纳偏置，dropout 不宜过大。</li>
+</ul>
+
+<h5>参数 8：alibi_slopes（FlashAttention 接口）</h5>
+<ul>
+<li><strong>含义</strong>：FlashAttention 内核用来在 GPU 上高效施加 ALiBi 的斜率张量。</li>
+<li><strong>类型</strong>：<code class="inline-code">Optional[torch.Tensor]</code>，形状 <code class="inline-code">[H]</code>。</li>
+<li><strong>默认值</strong>：<code class="inline-code">None</code>，表示不使用 ALiBi。</li>
+<li><strong>取值范围</strong>：与 <code class="inline-code">n_heads</code> 等长的浮点张量，建议 <code class="inline-code">float32</code>。</li>
+<li><strong>对结果的影响</strong>：传入后内核在计算 softmax 时直接减去 $ m\cdot(i-j) $，无需物化 $ L\times L $ 偏置矩阵，显存从 $ O(L^2) $ 降为 $ O(L) $。</li>
+<li><strong>推荐设置</strong>：长上下文训练/推理优先用 FlashAttention-2 的 <code class="inline-code">alibi_slopes</code>；确保头数与 QKV 的头数匹配，GQA 时按 query 头数给出。</li>
+</ul>
+
+<h5>参数 9：max_seq_len / 外推倍数</h5>
+<ul>
+<li><strong>含义</strong>：训练时的最大序列长度，以及推理时允许的最大长度，决定外推压力。</li>
+<li><strong>类型</strong>：<code class="inline-code">int</code>。</li>
+<li><strong>默认值</strong>：训练长度由数据与显存决定，常见 1024、2048、4096。</li>
+<li><strong>取值范围</strong>：128～1M；外推倍数建议控制在 2～4 倍。</li>
+<li><strong>对结果的影响</strong>：训练 1024 外推 2048 通常平稳；直接外推 8k 以上困惑度明显上升，检索类任务准确率下降。</li>
+<li><strong>推荐设置</strong>：短训长测按论文设置 1024→2048 验证；生产长上下文场景用长序列继续预训练（继续训练到 8k/32k），不要指望零样本无限外推。</li>
+</ul>
+
+<h5>参数 10：bias 的数据类型与精度</h5>
+<ul>
+<li><strong>含义</strong>：偏置矩阵与注意力 logits 的数值精度，直接影响长序列稳定性。</li>
+<li><strong>类型</strong>：<code class="inline-code">torch.dtype</code>。</li>
+<li><strong>默认值</strong>：跟随模型，常见 <code class="inline-code">float32</code>、<code class="inline-code">bfloat16</code>、<code class="inline-code">float16</code>。</li>
+<li><strong>取值范围</strong>：<code class="inline-code">float32</code>、<code class="inline-code">bfloat16</code>、<code class="inline-code">float16</code>。</li>
+<li><strong>对结果的影响</strong>：$ L=32768 $、$ m=0.5 $ 时偏置最小值为 $ -16384 $；<code class="inline-code">float16</code> 最大约 65504，$ L=131072 $ 时 $ -65536 $ 会溢出为 $ -\infty $，整行 softmax 变成均匀分布；<code class="inline-code">bfloat16</code> 只有 8 位有效数字（7 位显式尾数），大数值附近相邻距离可能被舍入成同一个值（位置碰撞）。</li>
+<li><strong>推荐设置</strong>：偏置在 <code class="inline-code">float32</code> 中构造并相加，softmax 前再按需转换；混合精度训练时把 ALiBi 偏置加入 <code class="inline-code">autocast</code> 白名单；参考百川智能对 RoPE/ALiBi 低精度问题的修复方案。</li>
+</ul>
+
+<h5>参数 11：KV Cache 的位置偏移</h5>
+<ul>
+<li><strong>含义</strong>：自回归推理时，新 token 的 query 位置不是从 0 开始，而是从 <code class="inline-code">past_len</code> 开始，偏置必须使用真实位置。</li>
+<li><strong>类型</strong>：<code class="inline-code">int</code>（<code class="inline-code">past_key_values_length</code>）。</li>
+<li><strong>默认值</strong>：首次前向为 0，之后等于已缓存 token 数。</li>
+<li><strong>取值范围</strong>：$ 0\sim $ 最大上下文长度。</li>
+<li><strong>对结果的影响</strong>：若每次都用 <code class="inline-code">0..q_len-1</code> 构造偏置，第二轮生成起距离全部错位，输出会逐渐退化、重复或胡言乱语。</li>
+<li><strong>推荐设置</strong>：构造 <code class="inline-code">positions = arange(past_len, past_len + q_len)</code>，再用 <code class="inline-code">positions[:,None] - positions[None,:]</code> 算距离；HuggingFace 的 <code class="inline-code">attention_mask</code> 与 <code class="inline-code">position_ids</code> 要同步维护。</li>
+</ul>
+
+<h5>参数 12：实现变体（ALiBi 与 RoPE 的选择）</h5>
+<ul>
+<li><strong>含义</strong>：位置编码方案的选择，决定外推能力、绝对位置敏感度与工程复杂度。</li>
+<li><strong>类型</strong>：枚举（ALiBi / RoPE / 正弦 / 可学习）。</li>
+<li><strong>默认值</strong>：新模型多默认 RoPE；长上下文外推场景可选 ALiBi。</li>
+<li><strong>取值范围</strong>：四种主流方案及其变体（RoPE 的 NTK/YaRN、ALiBi 的对称版等）。</li>
+<li><strong>对结果的影响</strong>：ALiBi 外推稳、实现简单、无位置参数，但绝对位置弱；RoPE 保留相对位置且可通过插值扩展，但需要调 <code class="inline-code">base</code>、缩放因子；正弦不可外推；可学习位置完全不能外推。</li>
+<li><strong>推荐设置</strong>：从头训练的长文本模型可优先 ALiBi；需要复用 RoPE 生态（Llama 系权重、量化工具）时选 RoPE；两者都不应期待"零样本无限长"。</li>
+</ul>
+
+<h4>代码示例</h4>
+
+<p>下面用 NumPy 实现 ALiBi 的斜率生成、偏置矩阵构造与单头/多头注意力，并验证三件事：8 头斜率符合 $ 1/2\sim1/256 $、偏置只依赖相对距离（整体平移序列输出不变）、训练长度 8 的模型可直接处理长度 32。</p>
+
+<p><pre class="code-block"><code class="language-python">import math  # 计算 log2 与幂，用于生成几何斜率序列
+import numpy as np  # 张量运算与矩阵乘法
+
+
+def get_slopes(n_heads: int):  # 生成每个头的斜率
+    &quot;&quot;&quot;按论文/BLOOM 实现生成 n_heads 个斜率，返回 Python 列表。&quot;&quot;&quot;  # 函数文档
+    def slopes_power_of_2(n: int):  # 处理头数为 2 的幂的情况
+        # 当 n 是 2 的幂：start = 2^(-2^-(log2(n)-3))
+        start = 2.0 ** (-(2.0 ** -(math.log2(n) - 3)))  # n=8 时 start=1/2
+        ratio = start  # 公比等于首项，保证序列为 start^1, start^2, ...
+        return [start * (ratio ** i) for i in range(n)]  # 生成 n 个斜率
+
+    if math.log2(n_heads).is_integer():  # 头数是 2 的幂，直接生成
+        return slopes_power_of_2(n_heads)  # 例如 8 → [1/2, 1/4, ..., 1/256]
+    # 头数不是 2 的幂：取不超过它的最大 2 的幂，再补足剩余头
+    closest = 2 ** math.floor(math.log2(n_heads))  # 例如 12 → 8
+    extra = slopes_power_of_2(2 * closest)[0::2][: n_heads - closest]  # 从 2 倍序列隔一个取
+    return slopes_power_of_2(closest) + extra  # 拼接成 n_heads 个斜率
+
+
+def alibi_bias_from_positions(positions: np.ndarray, slopes: np.ndarray, causal: bool = True):  # 构造偏置矩阵
+    &quot;&quot;&quot;由真实位置数组构造 [H, L, L] 偏置矩阵（支持 KV Cache 偏移）。&quot;&quot;&quot;  # 函数文档
+    pos = positions.astype(np.float64)  # 转成浮点，避免整数溢出
+    dist = pos[:, None] - pos[None, :]  # dist[i,j] = 位置 i 减位置 j
+    base = -np.maximum(dist, 0.0)  # 因果模式：只惩罚 j &lt;= i 的历史，未来先置 0
+    bias = slopes[:, None, None] * base[None, :, :]  # 每个头乘自己的斜率，广播到 L×L
+    if causal:  # 需要屏蔽未来 token
+        future = dist &lt; 0  # j &gt; i 时距离为负，这些位置属于未来
+        bias = np.where(future[None, :, :], -np.inf, bias)  # 未来位置置 -inf
+    return bias  # 返回 float64 偏置，便于数值验证
+
+
+def softmax(x: np.ndarray, axis: int = -1):  # 数值稳定的 softmax
+    &quot;&quot;&quot;数值稳定的 softmax，先减每行最大值再取指数。&quot;&quot;&quot;  # 函数文档
+    x_max = np.max(x, axis=axis, keepdims=True)  # 每行最大值，防止 exp 溢出
+    exp_x = np.exp(x - x_max)  # 平移后取指数，结果不变但更稳定
+    return exp_x / np.sum(exp_x, axis=axis, keepdims=True)  # 按行归一化
+
+
+def alibi_attention(Q: np.ndarray, K: np.ndarray, V: np.ndarray,  # 输入 Q/K/V
+                    slopes: np.ndarray, causal: bool = True, positions=None):  # 斜率与掩码开关
+    &quot;&quot;&quot;多头 ALiBi 注意力：Q/K/V 形状均为 [H, L, d]。&quot;&quot;&quot;  # 函数文档
+    H, L, d = Q.shape  # 取出头数、序列长度、每头维度
+    scale = 1.0 / math.sqrt(d)  # 缩放因子，防止点积随维度增大
+    scores = np.matmul(Q, K.transpose(0, 2, 1)) * scale  # [H, L, L]，先缩放
+    pos = np.arange(L) if positions is None else np.asarray(positions)  # 默认位置 0..L-1
+    bias = alibi_bias_from_positions(pos, slopes, causal=causal)  # [H, L, L]
+    scores = scores + bias  # 加线性偏置，这是 ALiBi 的唯一改动
+    weights = softmax(scores, axis=-1)  # 每行归一化成注意力权重
+    out = np.matmul(weights, V)  # 加权求和得到输出 [H, L, d]
+    return out, weights  # 同时返回权重便于分析
+
+
+if __name__ == &quot;__main__&quot;:  # 直接运行时执行自测
+    np.random.seed(7)  # 固定随机种子，保证结果可复现
+    slopes8 = np.array(get_slopes(8), dtype=np.float64)  # 生成 8 头斜率
+    print(&quot;8 头斜率:&quot;, [f&quot;{s:.6f}&quot; for s in slopes8])  # 应看到 0.5, 0.25, ..., 1/256
+    assert np.allclose(slopes8, [2.0 ** -(i + 1) for i in range(8)])  # 验证几何序列
+    print(&quot;12 头斜率:&quot;, [f&quot;{s:.4f}&quot; for s in get_slopes(12)])  # 非 2 的幂：8 个基础 + 4 个补齐
+
+    H, L, d = 8, 8, 16  # 8 头、长度 8、每头 16 维
+    Q = np.random.randn(H, L, d)  # 随机 query
+    K = np.random.randn(H, L, d)  # 随机 key
+    V = np.random.randn(H, L, d)  # 随机 value
+    out, weights = alibi_attention(Q, K, V, slopes8)  # 标准因果注意力
+    print(&quot;输出形状:&quot;, out.shape, &quot;权重形状:&quot;, weights.shape)  # 期望 (8,8,16) 与 (8,8,8)
+    assert out.shape == (H, L, d)  # 形状断言
+
+    # 验证因果性：第 0 个 query 只能看到第 0 个 key，权重应为 one-hot
+    assert np.allclose(weights[:, 0, 0], 1.0)  # 第一行第一个权重为 1
+    assert np.all(weights[:, 0, 1:] == 0.0)  # 未来位置权重为 0
+    print(&quot;因果掩码验证通过：位置 0 只能看到自己&quot;)  # 因果性验证通过提示
+
+    # 验证平移不变性：整体位置 +100，输出应完全一致
+    out_shift, _ = alibi_attention(Q, K, V, slopes8, positions=np.arange(L) + 100)  # 平移位置
+    max_diff = np.max(np.abs(out - out_shift))  # 计算最大差异
+    print(f&quot;整体平移 100 后的最大输出差异: {max_diff:.2e}&quot;)  # 应接近 0
+    assert max_diff &lt; 1e-10  # 只依赖相对距离，输出不变
+
+    # 验证外推：长度从 8 拉到 32，偏置与注意力仍可正常计算
+    L2 = 32  # 更长的推理序列
+    Q2 = np.random.randn(H, L2, d)  # 新的 query
+    K2 = np.random.randn(H, L2, d)  # 新的 key
+    V2 = np.random.randn(H, L2, d)  # 新的 value
+    out2, w2 = alibi_attention(Q2, K2, V2, slopes8)  # 直接前向，无需改动参数
+    print(&quot;外推到长度 32 的输出形状:&quot;, out2.shape)  # 期望 (8,32,16)
+    assert out2.shape == (H, L2, d)  # 形状正确
+    assert np.isfinite(out2).all()  # 无 NaN/Inf
+
+    # 观察 recency bias：统计每个头“距离 1”与“距离 7”的平均权重
+    for h in [0, 7]:  # 取斜率最大与最小的两个头
+        w = weights[h]  # 该头的注意力矩阵
+        near = np.mean([w[i, i - 1] for i in range(1, L)])  # 距离 1 的平均权重
+        far = w[L - 1, 0]  # 最远距离 L-1 处的权重
+        print(f&quot;head {h}: m={slopes8[h]:.4f}, 近处权重={near:.4f}, 最远处权重={far:.4f}&quot;)  # 打印近远权重对比
+    print(&quot;全部断言通过：斜率、因果性、平移不变性与外推均符合预期&quot;)  # 自测成功提示</code></pre></p>
+
+<p>运行输出（关键行）：</p>
+
+<p><pre class="code-block"><code class="language-text">8 头斜率: [&#x27;0.500000&#x27;, &#x27;0.250000&#x27;, &#x27;0.125000&#x27;, &#x27;0.062500&#x27;, &#x27;0.031250&#x27;, &#x27;0.015625&#x27;, &#x27;0.007812&#x27;, &#x27;0.003906&#x27;]
+12 头斜率: [&#x27;0.5000&#x27;, &#x27;0.2500&#x27;, &#x27;0.1250&#x27;, &#x27;0.0625&#x27;, &#x27;0.0312&#x27;, &#x27;0.0156&#x27;, &#x27;0.0078&#x27;, &#x27;0.0039&#x27;, &#x27;0.7071&#x27;, &#x27;0.3536&#x27;, &#x27;0.1768&#x27;, &#x27;0.0884&#x27;]
+输出形状: (8, 8, 16) 权重形状: (8, 8, 8)
+因果掩码验证通过：位置 0 只能看到自己
+整体平移 100 后的最大输出差异: 0.00e+00
+外推到长度 32 的输出形状: (8, 32, 16)
+head 0: m=0.5000, 近处权重=0.2835, 最远处权重=0.0304
+head 7: m=0.0039, 近处权重=0.3755, 最远处权重=0.3203
+全部断言通过：斜率、因果性、平移不变性与外推均符合预期</code></pre></p>
+
+<p>注：12 头时补齐的 4 个斜率取自 16 头序列的隔项，数值会从 0.0039 跳回 0.7071，这是参考实现的已知行为，不影响使用。</p>
+
+<p>最后两行直观展示了多头多尺度的意义：斜率 0.5 的头把 28% 的注意力放在前一个 token，最远处只剩 3.0%；斜率 1/256 的头近处 37.6%、最远处仍有 32.0%，注意力分布平坦得多，能覆盖长距离。</p>
+
+<h4>复杂度分析</h4>
+
+<p><strong>时间复杂度</strong>：</p>
+
+<ul>
+<li>斜率生成：$ O(H) $，只在初始化时执行一次。</li>
+<li>偏置矩阵构造：$ O(HL^2) $ 次减法与乘法；可预计算缓存，也可在 GPU 上现场生成。</li>
+<li>注意力主计算：$ QK^{\top} $ 为 $ O(HL^2d_k) $，softmax 为 $ O(HL^2) $，加权求和为 $ O(HL^2d_v) $，合计 $ O(HL^2(d_k+d_v)) $。</li>
+<li>ALiBi 只增加 $ O(HL^2) $ 的逐元素加法，相对于 $ O(HL^2d) $ 的主项可忽略，因此不改变渐进复杂度。</li>
+<li>相比正弦位置编码：省掉了位置向量的加法与查表，训练速度提升主要来自"无需学习/存储位置嵌入"以及可更短训练；论文报告 1.3B 模型训练快 11%、显存少 11%。</li>
+</ul>
+
+<p><strong>空间复杂度</strong>：</p>
+
+<ul>
+<li>标准实现需缓存 $ H\times L\times L $ 的注意力矩阵与偏置矩阵，空间 $ O(HL^2) $；$ L=32768 $、$ H=32 $、fp16 时约 64 GB，必须用 FlashAttention。</li>
+<li>FlashAttention 将偏置以斜率形式传入内核，不物化 $ L\times L $ 矩阵，显存降为 $ O(L) $（只存 KV Cache 与输出）。</li>
+<li>参数量：ALiBi 本身 0 参数；对比可学习位置嵌入需 $ L_{\max}\times d $ 参数，且无法外推。</li>
+<li>KV Cache：推理时每个 token 每层缓存 $ 2\times H\times d_k $ 个值，长上下文下是显存主因；ALiBi 不增加额外缓存。</li>
+</ul>
+
+<p><strong>与主流位置方案对比</strong>：</p>
+
+<div class="table-wrapper"><table class="algo-table"><thead><tr><th>方案</th><th>位置参数</th><th>外推能力</th><th>绝对位置</th><th>典型模型</th></tr></thead><tbody><tr><td>正弦位置编码</td><td>0</td><td>差</td><td>有</td><td>原始 Transformer</td></tr><tr><td>可学习绝对位置</td><td>L_max×d</td><td>无</td><td>有</td><td>BERT、GPT-2</td></tr><tr><td>RoPE</td><td>0</td><td>中（需插值/YaRN）</td><td>相对</td><td>Llama、Qwen</td></tr><tr><td>ALiBi</td><td>0</td><td>较好（2～4 倍）</td><td>弱</td><td>BLOOM、MPT</td></tr></tbody></table></div>
+
+<h4>应用场景</h4>
+
+<ul>
+<li><strong>长文档建模</strong>：论文、合同、代码库的长上下文理解；ALiBi 让模型在训练长度较短时也能处理更长输入，降低长文本训练成本。</li>
+<li><strong>流式/对话生成</strong>：对话历史不断增长，ALiBi 的距离衰减天然抑制远古无关上下文，减少"跑题"与重复。</li>
+<li><strong>开源大模型</strong>：BLOOM-176B 与 MPT-7B/30B 采用 ALiBi，验证了百亿至千亿参数规模的可行性。</li>
+<li><strong>低资源长序列任务</strong>：训练数据长度受限（如只有 1k 样本），推理却需要 2k～4k 时，ALiBi 是低成本方案。</li>
+<li><strong>音频与代码</strong>：长音频帧序列、长代码文件的依赖建模，ALiBi 的连续距离惩罚比离散位置嵌入更平滑。</li>
+<li><strong>检索增强生成</strong>：把检索到的多段文档拼接成超长上下文，ALiBi 可缓解"中间失落"（lost in the middle）中的远距离衰减问题，但仍需配合重排序。</li>
+<li><strong>对比学习/双向编码</strong>：对称 ALiBi 可用于句子相似度、文档分类，替代绝对位置嵌入。</li>
+</ul>
+
+<h4>参考文档</h4>
+
+<ul>
+<li><a href="https://arxiv.org/abs/2108.12409" target="_blank" class="ref-link">ALiBi 原始论文：Train Short, Test Long（arXiv:2108.12409）</a></li>
+<li><a href="https://github.com/ofirpress/attention_with_linear_biases" target="_blank" class="ref-link">官方实现：ofirpress/attention_with_linear_biases</a></li>
+<li><a href="https://github.com/bigscience-workshop/Megatron-DeepSpeed" target="_blank" class="ref-link">BLOOM 模型代码中的 get_slopes 实现</a></li>
+<li><a href="https://www.mosaicml.com/blog/mpt-7b" target="_blank" class="ref-link">MPT-7B 技术说明（MosaicML）</a></li>
+<li><a href="https://github.com/Dao-AILab/flash-attention" target="_blank" class="ref-link">FlashAttention 对 ALiBi 的支持（alibi_slopes）</a></li>
+<li><a href="https://huggingface.co/docs/transformers" target="_blank" class="ref-link">HuggingFace Transformers：ALiBi 相关实现与配置</a></li>
+<li><a href="https://cloud.tencent.com/developer/news/1167679" target="_blank" class="ref-link">百川智能：RoPE/ALiBi 低精度位置编码碰撞修复</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/632780188" target="_blank" class="ref-link">ALiBi 中文解读：给注意力加上线性偏置</a></li>
+<li><a href="https://blog.csdn.net/weixin_29057163/article/details/163930016" target="_blank" class="ref-link">ALiBi 位置编码原理与长文本外推实践</a></li>
+</ul>
+
+<hr>
+
+<blockquote>
+<p>AI生成</p>
+</blockquote>
+
+  </div>
+  <div class="footer">
+    <p>由 TeleAgent · 每日算法推送 技能自动生成 | 2026-11-12 10:05</p>
+  </div>
+</div>
+</body>
+</html>
