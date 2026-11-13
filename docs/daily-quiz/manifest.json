@@ -1,5 +1,42 @@
 [
   {
+    "date": "2026-11-13",
+    "filename": "quiz-2026-11-13.html",
+    "url": "https://syypretend.github.io/test/daily-quiz/quiz-2026-11-13.html",
+    "title": "每日算法 AI 出题",
+    "subtitle": "算法 2 道 + AI 2 道 · 二分答案 / 布隆过滤器 / 卷积反向传播 / ALiBi vs RoPE",
+    "questions": [
+      {
+        "id": 1,
+        "type": "algorithm_code",
+        "type_label": "算法编程",
+        "title": "分割数组的最大值（二分答案 + 贪心）",
+        "difficulty": 2
+      },
+      {
+        "id": 2,
+        "type": "algorithm_concept",
+        "type_label": "算法概念",
+        "title": "布隆过滤器：为什么没有假阴性、为什么不能删",
+        "difficulty": 2
+      },
+      {
+        "id": 3,
+        "type": "ai_derivation",
+        "type_label": "AI公式推导",
+        "title": "卷积层反向传播：为什么对输入是「翻转核的全卷积」",
+        "difficulty": 3
+      },
+      {
+        "id": 4,
+        "type": "ai_interview",
+        "type_label": "AI面试问答",
+        "title": "ALiBi 与 RoPE：都能表达相对位置，为什么主流大模型选 RoPE？",
+        "difficulty": 3
+      }
+    ]
+  },
+  {
     "date": "2026-11-11",
     "filename": "quiz-2026-11-11.html",
     "url": "https://syypretend.github.io/test/daily-quiz/quiz-2026-11-11.html",
