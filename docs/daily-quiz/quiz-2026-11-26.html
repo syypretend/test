@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>每日算法 AI 出题 · 2026-11-26</title>
+  <!-- KaTeX 数学公式渲染 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
+  <style>
+    :root {
+      --bg: #0d1117;
+      --card-bg: #161b22;
+      --border: #30363d;
+      --text: #e6edf3;
+      --text-dim: #8b949e;
+      --accent: #58a6ff;
+      --green: #3fb950;
+      --orange: #d29922;
+      --red: #f85149;
+      --purple: #a855f7;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", sans-serif;
+      line-height: 1.7;
+      padding: 16px;
+      max-width: 860px;
+      margin: 0 auto;
+    }
+    .header {
+      text-align: center;
+      padding: 24px 0 16px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 24px;
+    }
+    .header h1 {
+      font-size: 1.5em;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+    .header .subtitle {
+      color: var(--text-dim);
+      font-size: 0.9em;
+    }
+    .header .date-tag {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 2px 12px;
+      border-radius: 12px;
+      background: var(--border);
+      font-size: 0.8em;
+      color: var(--text-dim);
+    }
+
+    /* 题目卡片 */
+    .question-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .question-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+    .type-badge {
+      padding: 2px 10px;
+      border-radius: 10px;
+      font-size: 0.75em;
+      color: white;
+      font-weight: 600;
+    }
+    .difficulty { font-size: 0.85em; }
+    .qid-label { color: var(--text-dim); font-size: 0.8em; margin-left: auto; }
+    .question-title {
+      font-size: 1.25em;
+      margin-bottom: 12px;
+      color: var(--text);
+    }
+    .question-body { margin-bottom: 14px; }
+    .question-body code.inline-code {
+      background: var(--border);
+      padding: 1px 5px;
+      border-radius: 3px;
+      font-size: 0.9em;
+    }
+
+    /* 信息块 */
+    .info-block {
+      background: rgba(88,166,255,0.05);
+      border-left: 3px solid var(--accent);
+      padding: 10px 14px;
+      margin: 10px 0;
+      border-radius: 0 6px 6px 0;
+    }
+    .info-label {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.85em;
+      display: block;
+      margin-bottom: 4px;
+    }
+    .info-block pre {
+      white-space: pre-wrap;
+      font-family: "JetBrains Mono", "Fira Code", monospace;
+      font-size: 0.85em;
+      color: var(--text);
+    }
+
+    /* 示例 */
+    .example-block {
+      background: rgba(63,185,80,0.05);
+      border: 1px solid rgba(63,185,80,0.2);
+      border-radius: 8px;
+      padding: 12px;
+      margin: 10px 0;
+    }
+    .example-title {
+      color: var(--green);
+      font-weight: 600;
+      font-size: 0.85em;
+      margin-bottom: 6px;
+    }
+    .example-io {
+      font-family: monospace;
+      font-size: 0.85em;
+      white-space: pre-wrap;
+      margin: 2px 0;
+    }
+    .io-label { color: var(--text-dim); }
+    .example-explanation {
+      color: var(--text-dim);
+      font-size: 0.85em;
+      margin-top: 6px;
+      padding-top: 6px;
+      border-top: 1px dashed var(--border);
+    }
+
+    /* 选项 */
+    .options-container { margin: 12px 0; }
+    .option-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      padding: 10px 14px;
+      margin: 6px 0;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .option-item:hover { border-color: var(--accent); background: rgba(88,166,255,0.05); }
+    .option-item.correct { border-color: var(--green); background: rgba(63,185,80,0.1); }
+    .option-item.wrong { border-color: var(--red); background: rgba(248,81,73,0.1); }
+    .option-item input[type=radio] { accent-color: var(--accent); margin-top: 4px; }
+    .option-letter {
+      font-weight: 700;
+      color: var(--accent);
+      min-width: 20px;
+    }
+    .option-text { flex: 1; font-size: 0.9em; }
+    .option-feedback {
+      margin: 8px 0;
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-size: 0.85em;
+      display: none;
+    }
+    .option-feedback.show { display: block; }
+    .option-feedback.correct {
+      background: rgba(63,185,80,0.1);
+      color: var(--green);
+    }
+    .option-feedback.wrong { background: rgba(248,81,73,0.1); color: var(--red); }
+
+    /* 代码编辑器 */
+    .code-section {
+      margin: 16px 0;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .code-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 14px;
+      background: rgba(88,166,255,0.08);
+      border-bottom: 1px solid var(--border);
+      font-size: 0.85em;
+      color: var(--accent);
+    }
+    .editor-wrap {
+      position: relative;
+    }
+    .code-editor {
+      min-height: 180px;
+      max-height: 400px;
+      overflow: auto;
+      padding: 12px;
+      font-family: "JetBrains Mono", "Fira Code", "Cascadia Code", monospace;
+      font-size: 13px;
+      line-height: 1.5;
+      white-space: pre;
+      color: var(--text);
+      background: #0d1117;
+      outline: none;
+      tabs: 4;
+    }
+    .btn-run {
+      background: var(--green);
+      color: white;
+      border: none;
+      padding: 4px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.85em;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .btn-run:hover { opacity: 0.85; }
+    .btn-run:disabled { opacity: 0.5; cursor: not-allowed; }
+    .code-result {
+      padding: 12px;
+      background: #0d1117;
+      border-top: 1px solid var(--border);
+      font-family: monospace;
+      font-size: 0.85em;
+      white-space: pre-wrap;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+    .code-result .test-pass { color: var(--green); }
+    .code-result .test-fail { color: var(--red); }
+    .code-result .stderr { color: var(--orange); }
+
+    /* 显示解析按钮 */
+    .btn-reveal {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      margin-top: 16px;
+      background: transparent;
+      border: 2px dashed var(--border);
+      border-radius: 8px;
+      color: var(--text-dim);
+      font-size: 0.95em;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .btn-reveal:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(88,166,255,0.03);
+    }
+    .btn-reveal.loading {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    /* 解析区域 */
+    .solution-section {
+      margin-top: 16px;
+      animation: fadeIn 0.4s ease;
+    }
+    @keyframes fadeIn { from{opacity:0; transform:translateY(10px) } to{opacity:1; transform:translateY(0) } }
+    .solution-divider {
+      text-align: center;
+      color: var(--text-dim);
+      font-size: 0.8em;
+      margin: 16px 0;
+      letter-spacing: 1px;
+    }
+    .answer-highlight {
+      background: rgba(63,185,80,0.1);
+      border: 1px solid var(--green);
+      border-radius: 8px;
+      padding: 10px 16px;
+      margin: 10px 0;
+      font-size: 1.05em;
+      color: var(--green);
+      font-weight: 600;
+    }
+    .solution-block {
+      margin: 14px 0;
+      padding: 14px;
+      background: rgba(255,255,255,0.02);
+      border-radius: 8px;
+    }
+    .solution-block h4 {
+      color: var(--accent);
+      margin-bottom: 8px;
+      font-size: 0.95em;
+    }
+    .solution-block ul.answer-points {
+      padding-left: 20px;
+    }
+    .solution-block ul.answer-points li {
+      margin: 6px 0;
+      font-size: 0.9em;
+    }
+    .code-block {
+      background: #0d1117;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 12px;
+      font-family: "JetBrains Mono", "Fira Code", monospace;
+      font-size: 0.85em;
+      overflow-x: auto;
+      white-space: pre;
+      color: var(--text);
+    }
+    .complexity-tag {
+      display: inline-block;
+      padding: 2px 10px;
+      margin-right: 8px;
+      border-radius: 6px;
+      background: var(--border);
+      font-size: 0.85em;
+      font-family: monospace;
+    }
+    .derivation-content {
+      font-size: 0.9em;
+      line-height: 1.8;
+    }
+
+    /* 运行中加载动画 */
+    .spinner {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      border: 2px solid var(--text-dim);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* 底部 */
+    .footer {
+      text-align: center;
+      padding: 24px 0;
+      color: var(--text-dim);
+      font-size: 0.8em;
+      border-top: 1px solid var(--border);
+      margin-top: 24px;
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 8px; }
+      .question-card { padding: 14px; }
+      .question-title { font-size: 1.1em; }
+      .code-editor { font-size: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <h1>每日算法 AI 出题</h1>
+  <div class="subtitle">算法 2 道 + AI 2 道 · KMP / 状压 DP / FlashAttention / PagedAttention</div>
+  <div class="date-tag">📅 2026-11-26 ｜ 算法 2 道 · AI 2 道</div>
+</div>
+
+<div class="question-card" data-qid="1">
+
+    <div class="question-header">
+      <span class="type-badge" style="background:#3b82f6">算法编程</span>
+      <span class="difficulty">⭐⭐</span>
+      <span class="qid-label">第 1 题</span>
+    </div>
+<h2 class="question-title">实现 strStr()：KMP 字符串匹配</h2>
+<div class="question-body">给定两个字符串 <code class="inline-code">haystack</code> 与 <code class="inline-code">needle</code>，返回 <code class="inline-code">needle</code> 在 <code class="inline-code">haystack</code> 中第一次出现的起始下标；若不存在则返回 <code class="inline-code">-1</code>。若 <code class="inline-code">needle</code> 为空串，按约定返回 <code class="inline-code">0</code>。<br>
+<br>
+要求使用 <strong>KMP 算法</strong>，时间复杂度必须是 $O(n+m)$，不得调用语言内置的 <code class="inline-code">find</code> / <code class="inline-code">indexOf</code>。</div>
+<div class="info-block"><span class="info-label">输入</span><pre>两个参数：`haystack`（主串）与 `needle`（模式串），均为小写英文字母组成的字符串。</pre></div>
+<div class="info-block"><span class="info-label">输出</span><pre>返回一个整数：首次匹配的起始下标，未匹配返回 `-1`；`needle` 为空返回 `0`。</pre></div>
+<div class="example-block">
+<div class="example-title">示例 1</div>
+<pre class="example-io"><span class="io-label">输入：</span>haystack = &quot;sadbutsad&quot;, needle = &quot;sad&quot;</pre>
+<pre class="example-io"><span class="io-label">输出：</span>0</pre>
+<div class="example-explanation">下标 0 处出现 &quot;sad&quot;，因此返回 0。</div>
+</div>
+<div class="example-block">
+<div class="example-title">示例 2</div>
+<pre class="example-io"><span class="io-label">输入：</span>haystack = &quot;leetcode&quot;, needle = &quot;leeto&quot;</pre>
+<pre class="example-io"><span class="io-label">输出：</span>-1</pre>
+<div class="example-explanation">&quot;leeto&quot; 不是 &quot;leetcode&quot; 的子串，返回 -1。</div>
+</div>
+<div class="example-block">
+<div class="example-title">示例 3</div>
+<pre class="example-io"><span class="io-label">输入：</span>haystack = &quot;mississippi&quot;, needle = &quot;issip&quot;</pre>
+<pre class="example-io"><span class="io-label">输出：</span>4</pre>
+<div class="example-explanation">下标 4 开始为 &quot;issip&quot;。</div>
+</div>
+<div class="info-block"><span class="info-label">约束</span><div>$0 \le |haystack|, |needle| \le 10^5$；字符串仅含小写英文字母。</div></div>
+
+    <div class="code-section">
+      <div class="code-header">
+        <span>🧑‍💻 在线代码编辑器</span>
+        <button class="btn-run" onclick="runCode(1)" id="run_btn_1">▶ 运行</button>
+      </div>
+      <div class="editor-wrap">
+        <div class="code-editor" id="editor_1" contenteditable="true" spellcheck="false">def solve(haystack: str, needle: str) -&gt; int:
+    # 在这里实现 KMP，返回 needle 首次出现的下标，不存在返回 -1
+    # 提示：先构造 lps（最长相等真前后缀）数组，再线性扫描 haystack
+    pass
+</div>
+      </div>
+      <div class="code-result" id="result_1" style="display:none;"></div>
+      <input type="hidden" id="func_name_1" value="solve">
+      <input type="hidden" id="test_cases_1" value='[[&quot;sadbutsad&quot;, &quot;sad&quot;], [&quot;leetcode&quot;, &quot;leeto&quot;], [&quot;&quot;, &quot;&quot;], [&quot;abc&quot;, &quot;&quot;], [&quot;&quot;, &quot;a&quot;], [&quot;a&quot;, &quot;a&quot;], [&quot;a&quot;, &quot;b&quot;], [&quot;aaaaa&quot;, &quot;bba&quot;], [&quot;mississippi&quot;, &quot;issip&quot;], [&quot;abababca&quot;, &quot;ababca&quot;], [&quot;aaaaaaaaab&quot;, &quot;aaab&quot;], [&quot;abcabcabc&quot;, &quot;abcabc&quot;], [&quot;aabaabaaa&quot;, &quot;aabaaa&quot;], [&quot;hello&quot;, &quot;ll&quot;], [&quot;abacabad&quot;, &quot;abad&quot;], [&quot;abc&quot;, &quot;abcabc&quot;], [&quot;aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaab&quot;, &quot;aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaab&quot;], [&quot;ababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababc&quot;, &quot;abababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababc&quot;]]'>
+      <input type="hidden" id="expected_outputs_1" value='[0, -1, 0, 0, -1, 0, -1, -1, 4, 2, 6, 0, 3, 2, 4, -1, 500, 2002]'>
+    </div>
+
+    <button class="btn-reveal" onclick="revealSolution(1)" id="reveal_btn_1">
+      📖 显示答案与解析
+    </button>
+<div class="solution-section" id="solution_1" style="display:none;">
+<div class="solution-divider">--- 以下为答案与解析 ---</div>
+<div class="solution-block"><h4>💡 解题思路</h4><div>KMP 的核心是预处理模式串的 <code class="inline-code">lps</code>（longest proper prefix which is also suffix）数组：<code class="inline-code">lps[i]</code> 表示 <code class="inline-code">needle[0..i]</code> 的最长相等真前后缀长度。匹配时主串指针 <code class="inline-code">i</code> <strong>永不回退</strong>，失配时只把模式串指针 <code class="inline-code">j</code> 沿 <code class="inline-code">j = lps[j-1]</code> 回跳，跳过已经确认相等的部分。构造 lps 本身就是模式串自己匹配自己，同样用该回跳规则，因此总时间 $O(n+m)$。</div></div>
+<div class="solution-block"><h4>📝 参考代码（python）</h4><pre class="code-block">def build_lps(p):
+    &quot;&quot;&quot;构造 next / lps 数组：lps[i] = p[0..i] 的最长相等真前后缀长度&quot;&quot;&quot;
+    lps = [0] * len(p)
+    j = 0
+    for i in range(1, len(p)):
+        while j and p[i] != p[j]:
+            j = lps[j - 1]
+        if p[i] == p[j]:
+            j += 1
+        lps[i] = j
+    return lps
+
+
+def solve(haystack: str, needle: str) -&gt; int:
+    if needle == &quot;&quot;:
+        return 0
+    lps = build_lps(needle)
+    j = 0
+    for i, ch in enumerate(haystack):
+        while j and ch != needle[j]:
+            j = lps[j - 1]
+        if ch == needle[j]:
+            j += 1
+        if j == len(needle):
+            return i - j + 1
+    return -1
+</pre></div>
+<div class="solution-block"><h4>⚡ 复杂度分析</h4><div>
+<span class="complexity-tag">时间 O(n + m)：构造 lps 为 O(m)，匹配扫描为 O(n)，j 的回跳次数被此前的前进次数摊还</span>
+<span class="complexity-tag">空间 O(m)：lps 数组；若不计返回值则除 lps 外为 O(1)</span>
+</div></div>
+<div class="solution-block"><h4>🎯 考点</h4><div>① 理解 lps 的「最长相等真前后缀」语义；② 失配回跳 <code class="inline-code">j = lps[j-1]</code> 而不是从头再来；③ 空模式串约定返回 0；④ 与朴素 BF 的 O(nm) 对比，说明主串指针不回退是线性的根源。</div></div>
+</div>
+</div>
+<div class="question-card" data-qid="2">
+
+    <div class="question-header">
+      <span class="type-badge" style="background:#10b981">算法概念</span>
+      <span class="difficulty">⭐⭐</span>
+      <span class="qid-label">第 2 题</span>
+    </div>
+<h2 class="question-title">状态压缩 DP 求解 TSP：状态、转移与复杂度</h2>
+<div class="question-body">用状态压缩 DP 求解旅行商问题（TSP，$n \le 20$，城市间距离为 <code class="inline-code">dist[i][j]</code>）。令 <code class="inline-code">dp[mask][i]</code> 表示「已访问城市集合为 <code class="inline-code">mask</code>、当前停在城市 <code class="inline-code">i</code>」时的最小路径长度。下列关于该做法的说法<strong>正确</strong>的是：</div>
+<div class="options-container">
+
+            <label class="option-item" data-letter="A">
+              <input type="radio" name="quiz_2" value="A" onchange="checkAnswer(2, 'A')">
+              <span class="option-letter">A</span>
+              <span class="option-text">`mask` 用二进制位编码「已访问集合」，转移为 `dp[mask | (1&lt;&lt;j)][j] = min(dp[mask][i] + dist[i][j])`（$j \notin mask$），时间 $O(n^2 2^n)$、空间 $O(n 2^n)$</span>
+            </label>
+
+            <label class="option-item" data-letter="B">
+              <input type="radio" name="quiz_2" value="B" onchange="checkAnswer(2, 'B')">
+              <span class="option-letter">B</span>
+              <span class="option-text">状态压缩的本质是把集合编码成整数，因此 `dp` 第一维大小是 $n^2$，只适合 $n \le 20$ 的稠密图</span>
+            </label>
+
+            <label class="option-item" data-letter="C">
+              <input type="radio" name="quiz_2" value="C" onchange="checkAnswer(2, 'C')">
+              <span class="option-letter">C</span>
+              <span class="option-text">必须先固定起点为城市 0，否则不同起点会重复统计同一个环，导致无法求出最优解</span>
+            </label>
+
+            <label class="option-item" data-letter="D">
+              <input type="radio" name="quiz_2" value="D" onchange="checkAnswer(2, 'D')">
+              <span class="option-letter">D</span>
+              <span class="option-text">由于 `mask` 有 $2^n$ 个、每个还要枚举 $n$ 个终点，$n=20$ 时状态数约 $2 \times 10^7$，实际无法在 1 秒内完成，只能用贪心近似</span>
+            </label>
+</div>
+<div class="option-feedback" id="feedback_2"></div>
+
+    <button class="btn-reveal" onclick="revealSolution(2)" id="reveal_btn_2">
+      📖 显示答案与解析
+    </button>
+<div class="solution-section" id="solution_2" style="display:none;">
+<div class="solution-divider">--- 以下为答案与解析 ---</div>
+<div class="answer-highlight">✅ 正确答案：A</div>
+<div class="solution-block"><h4>💡 解题思路</h4><div>逐项核对状态定义、转移方程与复杂度。状压 DP 把「集合」压进整数的二进制位，第一维必然是 $2^n$ 而不是 $n^2$；固定起点只是消除环的旋转对称、方便输出路径，不固定同样能求最优；$2^{20}\times 20 \approx 2.1\times 10^7$ 个状态、每个状态 O(n) 转移约 $4\times 10^8$ 次简单加法比较，在编译型语言中配合滚动/稀疏枚举完全可在数秒内完成，并非只能贪心。</div></div>
+<div class="solution-block"><h4>🎯 考点</h4><div>状压 DP 三要素：① 状态用二进制位表示集合；② 转移只向「未选元素」扩展（<code class="inline-code">j not in mask</code>）；③ 复杂度 $O(2^n \cdot n^2)$，适合 $n \le 20$。常见变体还有「子集枚举」$O(3^n)$（如分成若干合法子集）。</div></div>
+<div class="solution-block"><h4>🔍 逐项分析</h4><ul class="answer-points">
+<li>A 正确：<code class="inline-code">mask</code> 的每一位表示对应城市是否已访问，转移「从 i 走到未访问的 j」并把 j 并入集合，共 $2^n \cdot n$ 个状态、每个状态枚举 $n$ 个后继，时间 $O(n^2 2^n)$，空间 $O(n 2^n)$（可压掉一维或按 mask 递增顺序原地更新）。</li>
+<li>B 错误：状压的第一维是集合编码，大小是 $2^n$ 而非 $n^2$；且状压 DP 与图是否稠密无关，稠密图只是转移常数更大。</li>
+<li>C 错误：固定起点 0 是为了去重（一个环有 n 种旋转写法），但不固定起点同样可以求最优——只要最终在所有「回到起点」的闭合状态里取最小即可；固定起点不是正确性的必要条件。</li>
+<li>D 错误：$n=20$ 时约 $2.1\times10^7$ 个状态，$O(n)$ 转移约 $4\times10^8$ 次运算，C++ 中通常 1~3 秒可完成，内存约 $20\times2^{20}\times4$ B ≈ 80 MB；用「只枚举 mask 中的 1 作为当前点」等技巧还能大幅减少实际状态数，绝非只能贪心。</li>
+</ul></div>
+</div>
+</div>
+<div class="question-card" data-qid="3">
+
+    <div class="question-header">
+      <span class="type-badge" style="background:#a855f7">AI公式推导</span>
+      <span class="difficulty">⭐⭐⭐</span>
+      <span class="qid-label">第 3 题</span>
+    </div>
+<h2 class="question-title">FlashAttention 的 online softmax 递推与 IO 复杂度</h2>
+<div class="question-body">标准注意力需要显式构造 $N\times N$ 的分数矩阵 $S=QK^\top$ 与概率矩阵 $P=\mathrm{softmax}(S)$，在长序列下 HBM 读写成为瓶颈。FlashAttention 通过<strong>分块 + online softmax</strong> 在不物化 $N\times N$ 矩阵的前提下得到<strong>精确</strong>结果。请完成两件事：<br>
+<br>
+1. 推导分块 online softmax 的递推公式（运行最大值 $m$、分母 $l$、累加器 $\mathrm{acc}$ 的更新），并证明其结果与一次性 softmax 完全一致；<br>
+2. 设 SRAM 容量为 $M$、每个 head 的维度为 $d$，推导 FlashAttention 的 HBM 访问量为何是 $O(N^2d^2/M)$，并与标准实现的 $O(N^2)$（忽略 $d$ 常数时）比较。</div>
+
+    <button class="btn-reveal" onclick="revealSolution(3)" id="reveal_btn_3">
+      📖 显示答案与解析
+    </button>
+<div class="solution-section" id="solution_3" style="display:none;">
+<div class="solution-divider">--- 以下为答案与解析 ---</div>
+<div class="solution-block"><h4>🎯 考点</h4><div>① online softmax 的核心恒等式 $e^{a-b}=e^{a-m}e^{m-b}$；② 证明的关键是「累加器始终等于真实和乘 $e^{-m}$」，因此 $\mathrm{acc}/l$ 与 $m$ 无关；③ IO 复杂度按「每个 Q 块搬运 2Nd 元素 × N/B_r 个块」估算，$B_r\approx M/d$；④ FlashAttention 是精确算法，省访存与激活显存，FLOPs 不变；⑤ 反向用重算（recomputation）换显存。</div></div>
+<div class="solution-block"><h4>📐 推导过程</h4><div class="derivation-content"><strong>一、标准注意力与瓶颈</strong><br>
+<br>
+对一行 query $q\in\mathbb{R}^d$，记 $s_j = q^\top k_j$，则<br>
+$$o=\sum_{j=1}^{N} p_j v_j,\qquad p_j=\frac{e^{s_j-m}}{\sum_{t=1}^{N}e^{s_t-m}},\quad m=\max_t s_t .$$<br>
+减去 $m$ 只是数值稳定技巧，不改变结果。标准实现把 $S,P\in\mathbb{R}^{N\times N}$ 写入 HBM 再读回，HBM 流量为 $\Theta(N^2)$（每元素至少一写一读），当 $N\gg d$ 时远大于计算量。<br>
+<br>
+<strong>二、online softmax 的三个不变量</strong><br>
+<br>
+处理到第 $t$ 个分块时，维护<br>
+$$m^{(t)}=\max_{j\le tN_c} s_j,\qquad l^{(t)}=\sum_{j\le tN_c} e^{s_j-m^{(t)}},\qquad \mathrm{acc}^{(t)}=\sum_{j\le tN_c} e^{s_j-m^{(t)}} v_j .$$<br>
+关键在于：$\mathrm{acc}^{(t)}/l^{(t)}$ <strong>不依赖</strong>当前最大值 $m^{(t)}$ 的具体取值——分子分母同乘 $e^{m^{(t)}}$ 即还原为未归一化的 $\sum e^{s_j}v_j$ 与 $\sum e^{s_j}$，比值恒等于真实输出。<br>
+<br>
+<strong>三、分块递推</strong><br>
+<br>
+设新分块的最大值为 $\tilde m=\max_{j\in\text{block}} s_j$，令 $m&#x27;=\max(m,\tilde m)$。旧累加器需要按新最大值重新缩放：<br>
+$$\mathrm{acc}&#x27; = e^{m-m&#x27;}\,\mathrm{acc} + \sum_{j\in\text{block}} e^{s_j-m&#x27;}\,v_j,$$<br>
+$$l&#x27; = e^{m-m&#x27;}l + \sum_{j\in\text{block}} e^{s_j-m&#x27;},$$<br>
+$$m \leftarrow m&#x27;.$$<br>
+<br>
+<strong>正确性证明</strong>：设旧部分真实未归一化和为 $A=\sum_{j\le tN_c}e^{s_j}v_j$，$L=\sum_{j\le tN_c}e^{s_j}$，则 $\mathrm{acc}=e^{-m}A$、$l=e^{-m}L$。更新后<br>
+$$\mathrm{acc}&#x27;=e^{m-m&#x27;}e^{-m}A+\sum_{\text{block}}e^{s_j-m&#x27;}v_j=e^{-m&#x27;}\Big(A+\sum_{\text{block}}e^{s_j}v_j\Big)=e^{-m&#x27;}A&#x27;,$$<br>
+同理 $l&#x27;=e^{-m&#x27;}L&#x27;$。因此每个分块处理后始终满足「累加器 = 真实和 × $e^{-m}$」，归纳可得最终 $o=\mathrm{acc}/l=\big(e^{-m}A\big)/\big(e^{-m}L\big)=A/L$，与一次性 softmax 逐元素相同。整个过程只用了恒等式 $e^{a-b}=e^{a-m}e^{m-b}$，<strong>没有近似</strong>。<br>
+<br>
+<strong>四、IO 复杂度推导</strong><br>
+<br>
+将 $Q$ 按行分成大小 $B_r$ 的块、$K,V$ 按行分成大小 $B_c$ 的块（$B_r,B_c$ 取 $\Theta(M/d)$，使一块 $B\times d$ 的矩阵能放进 SRAM）。对每个 $Q$ 块：<br>
+- 该块常驻 SRAM，遍历全部 $N/B_c$ 个 $K,V$ 块，每个块读入 $B_c d$ 个元素；<br>
+- 每处理一个 $K$ 块，同时更新该 $Q$ 块所有行的 $m,l,\mathrm{acc}$，$Q$ 块本身不重复写回 HBM。<br>
+<br>
+于是每个 $Q$ 块搬运 $\frac{N}{B_c}\cdot 2B_c d = 2Nd$ 个元素（K 与 V 各一份），共有 $N/B_r$ 个 $Q$ 块：<br>
+$$\text{HBM traffic}=O\!\left(\frac{N}{B_r}\cdot Nd\right)=O\!\left(\frac{N^2 d}{B_r}\right).$$<br>
+取 $B_r=\Theta(M/d)$ 得<br>
+$$\text{HBM traffic}=O\!\left(\frac{N^2d^2}{M}\right).$$<br>
+而 FLOPs 仍为 $O(N^2d)$，与标准注意力相同——FlashAttention 省的是<strong>访存</strong>不是计算。当 $d^2/M \ll 1$（如 $d=64$、SRAM 数十 KB 量级折算到片上）时，IO 比标准实现低一个量级以上；反向传播时用保存的 $m,l$ 重算 $S,P$，把激活显存从 $O(N^2)$ 降到 $O(N)$。</div></div>
+<div class="solution-block"><h4>🧠 直觉解释</h4><div>把 softmax 的「先求全局最大值再统一指数化」改成「边扫描边把旧结果按新最大值重新缩放」，就能一块一块地算完而不用保存整个 $N\times N$ 矩阵；分块让 $QK^\top$ 在片上 SRAM 内完成，HBM 只搬运 $O(Nd)$ 量级的 $Q,K,V$ 块，于是 IO 从 $N^2$ 级降到 $N^2d^2/M$ 级。</div></div>
+</div>
+</div>
+<div class="question-card" data-qid="4">
+
+    <div class="question-header">
+      <span class="type-badge" style="background:#f59e0b">AI面试问答</span>
+      <span class="difficulty">⭐⭐</span>
+      <span class="qid-label">第 4 题</span>
+    </div>
+<h2 class="question-title">PagedAttention 如何把 KV Cache 的显存浪费降到 4% 以下？</h2>
+<div class="question-body">面试官问：vLLM 的 PagedAttention 解决了什么问题？它为什么能显著提升大模型推理吞吐？请说明其核心机制、与操作系统虚拟内存的类比，以及工程上的取舍。</div>
+
+    <button class="btn-reveal" onclick="revealSolution(4)" id="reveal_btn_4">
+      📖 显示答案与解析
+    </button>
+<div class="solution-section" id="solution_4" style="display:none;">
+<div class="solution-divider">--- 以下为答案与解析 ---</div>
+<div class="solution-block"><h4>📌 回答要点</h4><ul class="answer-points">
+<li><strong>问题定位</strong>：自回归解码时每个请求都要缓存历史 token 的 K/V（KV Cache）。传统实现按「最大序列长度」为每个请求预分配一整块连续显存，实际生成长度远小于上限，造成大量<strong>内部碎片</strong>；请求间的分配释放又产生<strong>外部碎片</strong>。实测浪费可达 60%~80%（vLLM 论文数据），直接限制了可并发的 batch 大小，而 decode 阶段是 memory-bound，batch 越大吞吐越高。</li>
+<li><strong>核心机制</strong>：把 KV Cache 切成长度固定的小块（block，默认 16 个 token），逻辑上连续的 KV 由<strong>块表（block table）</strong>映射到物理上不必连续的块，按需分配、用完回收。这与操作系统「虚拟地址 → 页表 → 物理页」的虚拟内存/分页机制完全同构，因此得名 PagedAttention。注意力计算时按块表逐块 gather K/V，再做正常的 $QK^\top$ 与加权求和。</li>
+<li><strong>利用率为何能到 96% 以上</strong>：只有最后一个块可能因序列未填满而浪费，平均浪费不超过「块大小的一半 / 平均序列长度」，块小则浪费更小；块表让不同请求的物理块可以任意拼接，外部碎片几乎消失。省下的显存直接转化为更大的 batch，从而提升吞吐。</li>
+<li><strong>共享与写时复制</strong>：并行采样（一个 prompt 生成多个回复）、beam search、前缀相同的请求，可以让多个逻辑序列的块表指向<strong>同一批物理块</strong>，引用计数为 1 时直接复用；某序列要写入新 token 且该块被共享时，才复制出私有块（copy-on-write）。这让共享前缀的显存开销接近 1 份而不是 N 份。</li>
+<li><strong>调度配合</strong>：PagedAttention 与 continuous batching 天然契合——新请求可随时插入、结束的请求立即释放块；显存不足时可选择 swap（换出到 CPU）或 recompute（丢弃后重算）来抢占（preemption）；块表还便于实现 prefix caching，跨请求复用相同前缀的 KV。</li>
+</ul></div>
+<div class="solution-block"><h4>⭐ 加分项</h4><ul class="answer-points">
+<li><strong>它不是近似算法</strong>：分页只改变 KV 的存放位置与寻址方式，注意力数值结果与连续存放完全一致，精度无损。</li>
+<li><strong>块大小的权衡</strong>：块太小则块表项多、寻址与 kernel 开销大；块太大则最后一个块的内部浪费变大。16 是常见折中，实际需按模型维度与 GPU 显存对齐。</li>
+<li><strong>与 GQA/MLA、KV 量化正交</strong>：GQA/MQA 减少「头数」、MLA 压缩「表示维度」、量化减少「位宽」，PagedAttention 优化「分配与碎片」，四者可叠加使用。</li>
+<li><strong>边界与代价</strong>：非连续块导致 attention kernel 需要 gather，访存模式不如连续块规整；块表本身也占显存（序列数 × 块数 × 项大小）；prefix caching 的命中依赖精确前缀匹配与块哈希，长尾请求收益有限。</li>
+</ul></div>
+<div class="solution-block"><h4>🔮 追问预测</h4><ul class="answer-points">
+<li><strong>追问：PagedAttention 和 FlashAttention 有什么区别？</strong> 答题思路：FlashAttention 解决的是<strong>单次注意力计算的 IO 与显存</strong>（不物化 $N\times N$ 矩阵、分块 online softmax），作用于 prefill/训练；PagedAttention 解决的是<strong>多请求 KV Cache 的显存分配与共享</strong>，作用于 decode 服务调度。两者层次不同，可同时使用。</li>
+<li><strong>追问：为什么 decode 阶段 memory-bound，增大 batch 能提吞吐？</strong> 答题思路：每生成一个 token 要把全部权重和该请求的 KV Cache 从 HBM 读一遍，算术强度低；权重读取可由 batch 内请求共享，batch 越大每字节访存对应的计算越多，GPU 利用率越高，直到显存或带宽饱和。</li>
+<li><strong>追问：显存不够时 vLLM 怎么处理？</strong> 答题思路：先按调度策略抢占部分序列，选择 swap（把块换到 CPU 内存，之后换回）或 recompute（释放 KV，后续用已有 token 重新前向），两者在延迟与带宽之间权衡；也可降低 max_num_seqs、开启 KV 量化或缩短最大长度。</li>
+<li><strong>追问：prefix caching 怎么判断能否复用？</strong> 答题思路：对 token 前缀分块做哈希（通常结合块内 token 与父块哈希形成 Merkle 式链），哈希相同且模型/位置一致才复用，避免不同请求的随机前缀误命中。</li>
+</ul></div>
+</div>
+</div>
+
+<div class="footer">
+  坚持每日练习，积少成多 💪<br>
+  Powered by TeleAgent · daily-algo-ai-quiz
+</div>
+
+<script>
+// ===== Pyodide 隔离执行测试运行器 =====
+const RUNNER_CODE = "\nimport json, traceback, io, contextlib\n\ndef run_tests(user_code, func_name, test_cases, expected):\n    ns = {}\n    user_stdout = io.StringIO()\n    user_error = None\n\n    try:\n        with contextlib.redirect_stdout(user_stdout):\n            exec(user_code, ns)\n    except Exception:\n        user_error = traceback.format_exc()\n\n    user_out = user_stdout.getvalue()\n\n    if user_error:\n        return {\"error\": user_error, \"stdout\": user_out}\n\n    func = ns.get(func_name)\n    if func is None:\n        return {\"error\": \"未找到函数 \" + str(func_name) + \"，请确保代码中定义了该函数\", \"stdout\": user_out}\n\n    test_results = []\n    for i, tc in enumerate(test_cases):\n        try:\n            actual = func(*tc)\n            exp = expected[i]\n            passed = actual == exp\n            test_results.append({\n                \"passed\": passed,\n                \"input\": str(tc),\n                \"expected\": str(exp),\n                \"actual\": str(actual)\n            })\n        except Exception as e:\n            exp = str(expected[i]) if i < len(expected) else \"N/A\"\n            test_results.append({\n                \"passed\": False,\n                \"input\": str(tc),\n                \"expected\": exp,\n                \"actual\": \"Error: \" + str(e)\n            })\n\n    return {\"stdout\": user_out, \"tests\": test_results}\n";
+
+// ===== 显示/隐藏解析 =====
+function revealSolution(qid) {
+  const sol = document.getElementById('solution_' + qid);
+  const btn = document.getElementById('reveal_btn_' + qid);
+  if (sol.style.display === 'none') {
+    sol.style.display = 'block';
+    btn.innerHTML = '📕 收起解析';
+    // 渲染该区域数学公式
+    if (typeof renderMathInElement !== 'undefined') {
+      renderMathInElement(sol, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false}
+        ]
+      });
+    }
+  } else {
+    sol.style.display = 'none';
+    btn.innerHTML = '📖 显示答案与解析';
+  }
+}
+
+// ===== 选择题作答反馈 =====
+function checkAnswer(qid, selected) {
+  const card = document.querySelector(`[data-qid="${qid}"]`);
+  if (!card) return;
+  const correctAnswer = card.getAttribute('data-correct') || '';
+  // 从全局 quizData 获取
+  const qData = window.__quizData__.questions.find(q => q.id == qid);
+  if (!qData || !qData.correct_answer) return;
+
+  const correct = qData.correct_answer;
+  const feedback = document.getElementById('feedback_' + qid);
+  const options = card.querySelectorAll('.option-item');
+
+  options.forEach(opt => {
+    const letter = opt.getAttribute('data-letter');
+    opt.classList.remove('correct', 'wrong');
+    if (letter === correct) {
+      opt.classList.add('correct');
+    } else if (letter === selected && selected !== correct) {
+      opt.classList.add('wrong');
+    }
+  });
+
+  if (feedback) {
+    feedback.className = 'option-feedback show ' + (selected === correct ? 'correct' : 'wrong');
+    feedback.textContent = selected === correct
+      ? '✅ 回答正确！'
+      : `❌ 正确答案是 ${correct}，再想想？`;
+    feedback.style.display = 'block';
+  }
+}
+
+// ===== Pyodide 代码执行 =====
+let pyodideReady = null;
+let pyodideLoading = false;
+
+function loadPyodideAsync() {
+  if (pyodideReady) return pyodideReady;
+  if (pyodideLoading) return pyodideReady;
+  pyodideLoading = true;
+
+  pyodideReady = new Promise((resolve, reject) => {
+    if (typeof loadPyodide !== 'undefined') {
+      loadPyodide({
+        indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.25.0/full/'
+      }).then(py => {
+        pyodideLoading = false;
+        resolve(py);
+      }).catch(reject);
+    } else {
+      // 动态加载 Pyodide
+      const script = document.createElement('script');
+      script.src = 'https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js';
+      script.onload = () => {
+        loadPyodide({
+          indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.25.0/full/'
+        }).then(py => {
+          pyodideLoading = false;
+          resolve(py);
+        }).catch(reject);
+      };
+      script.onerror = () => {
+        pyodideLoading = false;
+        reject(new Error('Pyodide 加载失败，请检查网络连接'));
+      };
+      document.head.appendChild(script);
+    }
+  });
+  return pyodideReady;
+}
+
+async function runCode(qid) {
+    const editor = document.getElementById('editor_' + qid);
+    const resultDiv = document.getElementById('result_' + qid);
+    const btn = document.getElementById('run_btn_' + qid);
+    const code = editor.innerText;
+    const funcNameInput = document.getElementById('func_name_' + qid);
+    const funcName = funcNameInput ? funcNameInput.value : 'solve';
+    const tcInput = document.getElementById('test_cases_' + qid);
+    const eoInput = document.getElementById('expected_outputs_' + qid);
+    let testCases = [];
+    let expectedOutputs = [];
+    try {
+        testCases = JSON.parse(tcInput.value || '[]');
+        expectedOutputs = JSON.parse(eoInput.value || '[]');
+    } catch(e) {}
+
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span> 运行中...';
+    resultDiv.style.display = 'block';
+    resultDiv.innerHTML = '<span style="color:var(--text-dim)">⏳ 正在加载 Python 运行环境...</span>';
+
+    try {
+        const pyodide = await loadPyodideAsync();
+        resultDiv.innerHTML = '<span style="color:var(--text-dim)">⏳ 正在执行代码...</span>';
+
+        // 确保 run_tests 函数只定义一次
+        if (!window.__runner_ready__) {
+            pyodide.runPython(RUNNER_CODE);
+            window.__runner_ready__ = true;
+        }
+
+        // 调用 run_tests 函数，通过返回值获取结果（不依赖 stdout，每次调用独立）
+        const runTests = pyodide.globals.get('run_tests');
+        const pyResult = runTests(code, funcName, testCases, expectedOutputs);
+        // pyResult 是 Python dict，转为 JS 对象
+        const result = pyResult.toJs({dict_converter: Object.fromEntries});
+
+        let resultHtml = '';
+
+        // 显示用户代码标准输出
+        if (result.stdout && result.stdout.trim()) {
+            resultHtml += '<div style="color:var(--text)">📝 标准输出：</div>';
+            resultHtml += '<pre style="color:var(--text);margin:4px 0;">' + escapeHtml(result.stdout) + '</pre>';
+        }
+
+        // 显示错误信息
+        if (result.error) {
+            resultHtml += '<div class="stderr">⚠️ 错误信息：</div>';
+            resultHtml += '<pre class="stderr" style="margin:4px 0;">' + escapeHtml(result.error) + '</pre>';
+        }
+
+        // 显示测试用例结果
+        if (result.tests && result.tests.length > 0) {
+            let allPassed = result.tests.every(t => t.passed);
+            resultHtml += '<div style="margin-top:8px;color:' + (allPassed ? 'var(--green)' : 'var(--accent)') + '">';
+            resultHtml += allPassed ? '🎉 全部通过！' : '🧪 测试用例结果：';
+            resultHtml += '</div>';
+
+            for (let i = 0; i < result.tests.length; i++) {
+                const t = result.tests[i];
+                if (t.passed) {
+                    resultHtml += '<div class="test-pass">✅ 用例 ' + (i+1) + ' 通过</div>';
+                } else {
+                    resultHtml += '<div class="test-fail">❌ 用例 ' + (i+1) + ' 未通过</div>';
+                    resultHtml += '<pre style="color:var(--text-dim);margin:2px 0;">  输入: ' + escapeHtml(t.input) + '\n  期望: ' + escapeHtml(t.expected) + '\n  实际: ' + escapeHtml(t.actual) + '</pre>';
+                }
+            }
+        }
+
+        if (!resultHtml) {
+            resultHtml = '<span style="color:var(--text-dim)">（代码执行完毕，无输出）</span>';
+        }
+
+        resultDiv.innerHTML = resultHtml;
+
+    } catch(e) {
+        resultDiv.innerHTML = '<div class="stderr">❌ ' + escapeHtml(e.message || String(e)) + '</div>';
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = '▶ 运行';
+    }
+}
+
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+// Ctrl+Enter 运行代码
+document.addEventListener('keydown', (e) => {
+  if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+    const focused = document.activeElement;
+    if (focused && focused.classList.contains('code-editor')) {
+      const qid = focused.id.replace('editor_', '');
+      runCode(qid);
+    }
+  }
+});
+
+// Tab 键在编辑器中插入空格
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Tab' && document.activeElement.classList.contains('code-editor')) {
+    e.preventDefault();
+    document.execCommand('insertText', false, '    ');
+  }
+});
+
+// 将 quiz 数据存入全局变量供选择题使用
+window.__quizData__ = {"date": "2026-11-26", "title": "每日算法 AI 出题", "subtitle": "算法 2 道 + AI 2 道 · KMP / 状压 DP / FlashAttention / PagedAttention", "questions": [{"id": 1, "type": "algorithm_code", "type_label": "算法编程", "difficulty": 2, "title": "实现 strStr()：KMP 字符串匹配", "description": "给定两个字符串 `haystack` 与 `needle`，返回 `needle` 在 `haystack` 中第一次出现的起始下标；若不存在则返回 `-1`。若 `needle` 为空串，按约定返回 `0`。\n\n要求使用 **KMP 算法**，时间复杂度必须是 $O(n+m)$，不得调用语言内置的 `find` / `indexOf`。", "input_format": "两个参数：`haystack`（主串）与 `needle`（模式串），均为小写英文字母组成的字符串。", "output_format": "返回一个整数：首次匹配的起始下标，未匹配返回 `-1`；`needle` 为空返回 `0`。", "examples": [{"input": "haystack = \"sadbutsad\", needle = \"sad\"", "output": "0", "explanation": "下标 0 处出现 \"sad\"，因此返回 0。"}, {"input": "haystack = \"leetcode\", needle = \"leeto\"", "output": "-1", "explanation": "\"leeto\" 不是 \"leetcode\" 的子串，返回 -1。"}, {"input": "haystack = \"mississippi\", needle = \"issip\"", "output": "4", "explanation": "下标 4 开始为 \"issip\"。"}], "constraints": "$0 \\le |haystack|, |needle| \\le 10^5$；字符串仅含小写英文字母。", "solution": {"approach": "KMP 的核心是预处理模式串的 `lps`（longest proper prefix which is also suffix）数组：`lps[i]` 表示 `needle[0..i]` 的最长相等真前后缀长度。匹配时主串指针 `i` **永不回退**，失配时只把模式串指针 `j` 沿 `j = lps[j-1]` 回跳，跳过已经确认相等的部分。构造 lps 本身就是模式串自己匹配自己，同样用该回跳规则，因此总时间 $O(n+m)$。", "code": "def build_lps(p):\n    \"\"\"构造 next / lps 数组：lps[i] = p[0..i] 的最长相等真前后缀长度\"\"\"\n    lps = [0] * len(p)\n    j = 0\n    for i in range(1, len(p)):\n        while j and p[i] != p[j]:\n            j = lps[j - 1]\n        if p[i] == p[j]:\n            j += 1\n        lps[i] = j\n    return lps\n\n\ndef solve(haystack: str, needle: str) -> int:\n    if needle == \"\":\n        return 0\n    lps = build_lps(needle)\n    j = 0\n    for i, ch in enumerate(haystack):\n        while j and ch != needle[j]:\n            j = lps[j - 1]\n        if ch == needle[j]:\n            j += 1\n        if j == len(needle):\n            return i - j + 1\n    return -1\n", "starter_code": "def solve(haystack: str, needle: str) -> int:\n    # 在这里实现 KMP，返回 needle 首次出现的下标，不存在返回 -1\n    # 提示：先构造 lps（最长相等真前后缀）数组，再线性扫描 haystack\n    pass\n", "code_language": "python", "complexity_time": "O(n + m)：构造 lps 为 O(m)，匹配扫描为 O(n)，j 的回跳次数被此前的前进次数摊还", "complexity_space": "O(m)：lps 数组；若不计返回值则除 lps 外为 O(1)", "key_points": "① 理解 lps 的「最长相等真前后缀」语义；② 失配回跳 `j = lps[j-1]` 而不是从头再来；③ 空模式串约定返回 0；④ 与朴素 BF 的 O(nm) 对比，说明主串指针不回退是线性的根源。", "test_cases": [["sadbutsad", "sad"], ["leetcode", "leeto"], ["", ""], ["abc", ""], ["", "a"], ["a", "a"], ["a", "b"], ["aaaaa", "bba"], ["mississippi", "issip"], ["abababca", "ababca"], ["aaaaaaaaab", "aaab"], ["abcabcabc", "abcabc"], ["aabaabaaa", "aabaaa"], ["hello", "ll"], ["abacabad", "abad"], ["abc", "abcabc"], ["aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaab", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaab"], ["ababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababc", "abababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababc"]], "expected_outputs": [0, -1, 0, 0, -1, 0, -1, -1, 4, 2, 6, 0, 3, 2, 4, -1, 500, 2002]}}, {"id": 2, "type": "algorithm_concept", "type_label": "算法概念", "difficulty": 2, "title": "状态压缩 DP 求解 TSP：状态、转移与复杂度", "description": "用状态压缩 DP 求解旅行商问题（TSP，$n \\le 20$，城市间距离为 `dist[i][j]`）。令 `dp[mask][i]` 表示「已访问城市集合为 `mask`、当前停在城市 `i`」时的最小路径长度。下列关于该做法的说法**正确**的是：", "options": ["`mask` 用二进制位编码「已访问集合」，转移为 `dp[mask | (1<<j)][j] = min(dp[mask][i] + dist[i][j])`（$j \\notin mask$），时间 $O(n^2 2^n)$、空间 $O(n 2^n)$", "状态压缩的本质是把集合编码成整数，因此 `dp` 第一维大小是 $n^2$，只适合 $n \\le 20$ 的稠密图", "必须先固定起点为城市 0，否则不同起点会重复统计同一个环，导致无法求出最优解", "由于 `mask` 有 $2^n$ 个、每个还要枚举 $n$ 个终点，$n=20$ 时状态数约 $2 \\times 10^7$，实际无法在 1 秒内完成，只能用贪心近似"], "correct_answer": "A", "solution": {"approach": "逐项核对状态定义、转移方程与复杂度。状压 DP 把「集合」压进整数的二进制位，第一维必然是 $2^n$ 而不是 $n^2$；固定起点只是消除环的旋转对称、方便输出路径，不固定同样能求最优；$2^{20}\\times 20 \\approx 2.1\\times 10^7$ 个状态、每个状态 O(n) 转移约 $4\\times 10^8$ 次简单加法比较，在编译型语言中配合滚动/稀疏枚举完全可在数秒内完成，并非只能贪心。", "option_analysis": ["A 正确：`mask` 的每一位表示对应城市是否已访问，转移「从 i 走到未访问的 j」并把 j 并入集合，共 $2^n \\cdot n$ 个状态、每个状态枚举 $n$ 个后继，时间 $O(n^2 2^n)$，空间 $O(n 2^n)$（可压掉一维或按 mask 递增顺序原地更新）。", "B 错误：状压的第一维是集合编码，大小是 $2^n$ 而非 $n^2$；且状压 DP 与图是否稠密无关，稠密图只是转移常数更大。", "C 错误：固定起点 0 是为了去重（一个环有 n 种旋转写法），但不固定起点同样可以求最优——只要最终在所有「回到起点」的闭合状态里取最小即可；固定起点不是正确性的必要条件。", "D 错误：$n=20$ 时约 $2.1\\times10^7$ 个状态，$O(n)$ 转移约 $4\\times10^8$ 次运算，C++ 中通常 1~3 秒可完成，内存约 $20\\times2^{20}\\times4$ B ≈ 80 MB；用「只枚举 mask 中的 1 作为当前点」等技巧还能大幅减少实际状态数，绝非只能贪心。"], "key_points": "状压 DP 三要素：① 状态用二进制位表示集合；② 转移只向「未选元素」扩展（`j not in mask`）；③ 复杂度 $O(2^n \\cdot n^2)$，适合 $n \\le 20$。常见变体还有「子集枚举」$O(3^n)$（如分成若干合法子集）。"}}, {"id": 3, "type": "ai_derivation", "type_label": "AI公式推导", "difficulty": 3, "title": "FlashAttention 的 online softmax 递推与 IO 复杂度", "description": "标准注意力需要显式构造 $N\\times N$ 的分数矩阵 $S=QK^\\top$ 与概率矩阵 $P=\\mathrm{softmax}(S)$，在长序列下 HBM 读写成为瓶颈。FlashAttention 通过**分块 + online softmax** 在不物化 $N\\times N$ 矩阵的前提下得到**精确**结果。请完成两件事：\n\n1. 推导分块 online softmax 的递推公式（运行最大值 $m$、分母 $l$、累加器 $\\mathrm{acc}$ 的更新），并证明其结果与一次性 softmax 完全一致；\n2. 设 SRAM 容量为 $M$、每个 head 的维度为 $d$，推导 FlashAttention 的 HBM 访问量为何是 $O(N^2d^2/M)$，并与标准实现的 $O(N^2)$（忽略 $d$ 常数时）比较。", "solution": {"derivation": "**一、标准注意力与瓶颈**\n\n对一行 query $q\\in\\mathbb{R}^d$，记 $s_j = q^\\top k_j$，则\n$$o=\\sum_{j=1}^{N} p_j v_j,\\qquad p_j=\\frac{e^{s_j-m}}{\\sum_{t=1}^{N}e^{s_t-m}},\\quad m=\\max_t s_t .$$\n减去 $m$ 只是数值稳定技巧，不改变结果。标准实现把 $S,P\\in\\mathbb{R}^{N\\times N}$ 写入 HBM 再读回，HBM 流量为 $\\Theta(N^2)$（每元素至少一写一读），当 $N\\gg d$ 时远大于计算量。\n\n**二、online softmax 的三个不变量**\n\n处理到第 $t$ 个分块时，维护\n$$m^{(t)}=\\max_{j\\le tN_c} s_j,\\qquad l^{(t)}=\\sum_{j\\le tN_c} e^{s_j-m^{(t)}},\\qquad \\mathrm{acc}^{(t)}=\\sum_{j\\le tN_c} e^{s_j-m^{(t)}} v_j .$$\n关键在于：$\\mathrm{acc}^{(t)}/l^{(t)}$ **不依赖**当前最大值 $m^{(t)}$ 的具体取值——分子分母同乘 $e^{m^{(t)}}$ 即还原为未归一化的 $\\sum e^{s_j}v_j$ 与 $\\sum e^{s_j}$，比值恒等于真实输出。\n\n**三、分块递推**\n\n设新分块的最大值为 $\\tilde m=\\max_{j\\in\\text{block}} s_j$，令 $m'=\\max(m,\\tilde m)$。旧累加器需要按新最大值重新缩放：\n$$\\mathrm{acc}' = e^{m-m'}\\,\\mathrm{acc} + \\sum_{j\\in\\text{block}} e^{s_j-m'}\\,v_j,$$\n$$l' = e^{m-m'}l + \\sum_{j\\in\\text{block}} e^{s_j-m'},$$\n$$m \\leftarrow m'.$$\n\n**正确性证明**：设旧部分真实未归一化和为 $A=\\sum_{j\\le tN_c}e^{s_j}v_j$，$L=\\sum_{j\\le tN_c}e^{s_j}$，则 $\\mathrm{acc}=e^{-m}A$、$l=e^{-m}L$。更新后\n$$\\mathrm{acc}'=e^{m-m'}e^{-m}A+\\sum_{\\text{block}}e^{s_j-m'}v_j=e^{-m'}\\Big(A+\\sum_{\\text{block}}e^{s_j}v_j\\Big)=e^{-m'}A',$$\n同理 $l'=e^{-m'}L'$。因此每个分块处理后始终满足「累加器 = 真实和 × $e^{-m}$」，归纳可得最终 $o=\\mathrm{acc}/l=\\big(e^{-m}A\\big)/\\big(e^{-m}L\\big)=A/L$，与一次性 softmax 逐元素相同。整个过程只用了恒等式 $e^{a-b}=e^{a-m}e^{m-b}$，**没有近似**。\n\n**四、IO 复杂度推导**\n\n将 $Q$ 按行分成大小 $B_r$ 的块、$K,V$ 按行分成大小 $B_c$ 的块（$B_r,B_c$ 取 $\\Theta(M/d)$，使一块 $B\\times d$ 的矩阵能放进 SRAM）。对每个 $Q$ 块：\n- 该块常驻 SRAM，遍历全部 $N/B_c$ 个 $K,V$ 块，每个块读入 $B_c d$ 个元素；\n- 每处理一个 $K$ 块，同时更新该 $Q$ 块所有行的 $m,l,\\mathrm{acc}$，$Q$ 块本身不重复写回 HBM。\n\n于是每个 $Q$ 块搬运 $\\frac{N}{B_c}\\cdot 2B_c d = 2Nd$ 个元素（K 与 V 各一份），共有 $N/B_r$ 个 $Q$ 块：\n$$\\text{HBM traffic}=O\\!\\left(\\frac{N}{B_r}\\cdot Nd\\right)=O\\!\\left(\\frac{N^2 d}{B_r}\\right).$$\n取 $B_r=\\Theta(M/d)$ 得\n$$\\text{HBM traffic}=O\\!\\left(\\frac{N^2d^2}{M}\\right).$$\n而 FLOPs 仍为 $O(N^2d)$，与标准注意力相同——FlashAttention 省的是**访存**不是计算。当 $d^2/M \\ll 1$（如 $d=64$、SRAM 数十 KB 量级折算到片上）时，IO 比标准实现低一个量级以上；反向传播时用保存的 $m,l$ 重算 $S,P$，把激活显存从 $O(N^2)$ 降到 $O(N)$。", "intuition": "把 softmax 的「先求全局最大值再统一指数化」改成「边扫描边把旧结果按新最大值重新缩放」，就能一块一块地算完而不用保存整个 $N\\times N$ 矩阵；分块让 $QK^\\top$ 在片上 SRAM 内完成，HBM 只搬运 $O(Nd)$ 量级的 $Q,K,V$ 块，于是 IO 从 $N^2$ 级降到 $N^2d^2/M$ 级。", "key_points": "① online softmax 的核心恒等式 $e^{a-b}=e^{a-m}e^{m-b}$；② 证明的关键是「累加器始终等于真实和乘 $e^{-m}$」，因此 $\\mathrm{acc}/l$ 与 $m$ 无关；③ IO 复杂度按「每个 Q 块搬运 2Nd 元素 × N/B_r 个块」估算，$B_r\\approx M/d$；④ FlashAttention 是精确算法，省访存与激活显存，FLOPs 不变；⑤ 反向用重算（recomputation）换显存。"}}, {"id": 4, "type": "ai_interview", "type_label": "AI面试问答", "difficulty": 2, "title": "PagedAttention 如何把 KV Cache 的显存浪费降到 4% 以下？", "description": "面试官问：vLLM 的 PagedAttention 解决了什么问题？它为什么能显著提升大模型推理吞吐？请说明其核心机制、与操作系统虚拟内存的类比，以及工程上的取舍。", "solution": {"answer_points": ["**问题定位**：自回归解码时每个请求都要缓存历史 token 的 K/V（KV Cache）。传统实现按「最大序列长度」为每个请求预分配一整块连续显存，实际生成长度远小于上限，造成大量**内部碎片**；请求间的分配释放又产生**外部碎片**。实测浪费可达 60%~80%（vLLM 论文数据），直接限制了可并发的 batch 大小，而 decode 阶段是 memory-bound，batch 越大吞吐越高。", "**核心机制**：把 KV Cache 切成长度固定的小块（block，默认 16 个 token），逻辑上连续的 KV 由**块表（block table）**映射到物理上不必连续的块，按需分配、用完回收。这与操作系统「虚拟地址 → 页表 → 物理页」的虚拟内存/分页机制完全同构，因此得名 PagedAttention。注意力计算时按块表逐块 gather K/V，再做正常的 $QK^\\top$ 与加权求和。", "**利用率为何能到 96% 以上**：只有最后一个块可能因序列未填满而浪费，平均浪费不超过「块大小的一半 / 平均序列长度」，块小则浪费更小；块表让不同请求的物理块可以任意拼接，外部碎片几乎消失。省下的显存直接转化为更大的 batch，从而提升吞吐。", "**共享与写时复制**：并行采样（一个 prompt 生成多个回复）、beam search、前缀相同的请求，可以让多个逻辑序列的块表指向**同一批物理块**，引用计数为 1 时直接复用；某序列要写入新 token 且该块被共享时，才复制出私有块（copy-on-write）。这让共享前缀的显存开销接近 1 份而不是 N 份。", "**调度配合**：PagedAttention 与 continuous batching 天然契合——新请求可随时插入、结束的请求立即释放块；显存不足时可选择 swap（换出到 CPU）或 recompute（丢弃后重算）来抢占（preemption）；块表还便于实现 prefix caching，跨请求复用相同前缀的 KV。"], "bonus": ["**它不是近似算法**：分页只改变 KV 的存放位置与寻址方式，注意力数值结果与连续存放完全一致，精度无损。", "**块大小的权衡**：块太小则块表项多、寻址与 kernel 开销大；块太大则最后一个块的内部浪费变大。16 是常见折中，实际需按模型维度与 GPU 显存对齐。", "**与 GQA/MLA、KV 量化正交**：GQA/MQA 减少「头数」、MLA 压缩「表示维度」、量化减少「位宽」，PagedAttention 优化「分配与碎片」，四者可叠加使用。", "**边界与代价**：非连续块导致 attention kernel 需要 gather，访存模式不如连续块规整；块表本身也占显存（序列数 × 块数 × 项大小）；prefix caching 的命中依赖精确前缀匹配与块哈希，长尾请求收益有限。"], "followup_predictions": ["**追问：PagedAttention 和 FlashAttention 有什么区别？** 答题思路：FlashAttention 解决的是**单次注意力计算的 IO 与显存**（不物化 $N\\times N$ 矩阵、分块 online softmax），作用于 prefill/训练；PagedAttention 解决的是**多请求 KV Cache 的显存分配与共享**，作用于 decode 服务调度。两者层次不同，可同时使用。", "**追问：为什么 decode 阶段 memory-bound，增大 batch 能提吞吐？** 答题思路：每生成一个 token 要把全部权重和该请求的 KV Cache 从 HBM 读一遍，算术强度低；权重读取可由 batch 内请求共享，batch 越大每字节访存对应的计算越多，GPU 利用率越高，直到显存或带宽饱和。", "**追问：显存不够时 vLLM 怎么处理？** 答题思路：先按调度策略抢占部分序列，选择 swap（把块换到 CPU 内存，之后换回）或 recompute（释放 KV，后续用已有 token 重新前向），两者在延迟与带宽之间权衡；也可降低 max_num_seqs、开启 KV 量化或缩短最大长度。", "**追问：prefix caching 怎么判断能否复用？** 答题思路：对 token 前缀分块做哈希（通常结合块内 token 与父块哈希形成 Merkle 式链），哈希相同且模型/位置一致才复用，避免不同请求的随机前缀误命中。"]}}]};
+</script>
+</body>
+</html>
