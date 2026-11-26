@@ -1,5 +1,42 @@
 [
   {
+    "date": "2026-11-26",
+    "filename": "quiz-2026-11-26.html",
+    "url": "https://syypretend.github.io/test/daily-quiz/quiz-2026-11-26.html",
+    "title": "每日算法 AI 出题",
+    "subtitle": "算法 2 道 + AI 2 道 · KMP / 状压 DP / FlashAttention / PagedAttention",
+    "questions": [
+      {
+        "id": 1,
+        "type": "algorithm_code",
+        "type_label": "算法编程",
+        "title": "实现 strStr()：KMP 字符串匹配",
+        "difficulty": 2
+      },
+      {
+        "id": 2,
+        "type": "algorithm_concept",
+        "type_label": "算法概念",
+        "title": "状态压缩 DP 求解 TSP：状态、转移与复杂度",
+        "difficulty": 2
+      },
+      {
+        "id": 3,
+        "type": "ai_derivation",
+        "type_label": "AI公式推导",
+        "title": "FlashAttention 的 online softmax 递推与 IO 复杂度",
+        "difficulty": 3
+      },
+      {
+        "id": 4,
+        "type": "ai_interview",
+        "type_label": "AI面试问答",
+        "title": "PagedAttention 如何把 KV Cache 的显存浪费降到 4% 以下？",
+        "difficulty": 2
+      }
+    ]
+  },
+  {
     "date": "2026-11-13",
     "filename": "quiz-2026-11-13.html",
     "url": "https://syypretend.github.io/test/daily-quiz/quiz-2026-11-13.html",
