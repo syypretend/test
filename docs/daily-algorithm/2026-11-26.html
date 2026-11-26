@@ -1,0 +1,1109 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>每日算法讲解 · 2026年11月26日</title>
+<!-- MathJax for LaTeX math formula rendering -->
+<script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\(', '\)']],
+      displayMath: [['$$', '$$'], ['\[', '\]']],
+      processEscapes: true
+    },
+    svg: { fontCache: 'global' }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" id="MathJax-script" async></script>
+<style>
+:root {
+  --primary: #6366f1;
+  --primary-dark: #4f46e5;
+  --bg: #0f172a;
+  --card-bg: #1e293b;
+  --text: #e2e8f0;
+  --text-dim: #94a3b8;
+  --accent: #818cf8;
+  --border: #334155;
+  --code-bg: #0d1117;
+  --code-text: #e6edf3;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans SC", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.8;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+.container { max-width: 1400px; margin: 0 auto; padding: 24px 32px; }
+.header {
+  text-align: center;
+  padding: 40px 0 30px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 32px;
+}
+.header h1 {
+  font-size: 28px;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.header h1 .date { color: var(--accent); }
+.header .subtitle { color: var(--text-dim); font-size: 15px; }
+.repo-link {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 6px 16px;
+  background: var(--primary);
+  color: #fff;
+  border-radius: 20px;
+  text-decoration: none;
+  font-size: 13px;
+  transition: background 0.2s;
+}
+.repo-link:hover { background: var(--primary-dark); }
+.history-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 32px;
+  padding: 16px;
+  background: var(--card-bg);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+.history-nav a {
+  padding: 4px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  color: var(--text-dim);
+  text-decoration: none;
+  background: rgba(99,102,241,0.08);
+  transition: all 0.2s;
+}
+.history-nav a:hover { color: var(--text); background: rgba(99,102,241,0.2); }
+.history-nav a.active { color: #fff; background: var(--primary); }
+.history-nav a.back-index { color: var(--accent); font-weight: 600; background: rgba(99,102,241,0.15); border: 1px solid rgba(99,102,241,0.3); }
+.history-nav a.back-index:hover { color: #fff; background: var(--primary); border-color: var(--primary); }
+.content { margin-bottom: 40px; max-width: 1100px; }
+.content h2 {
+  font-size: 24px;
+  color: var(--accent);
+  margin: 40px 0 16px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--primary);
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+.content h2:first-child { border-top: none; padding-top: 0; }
+.content h3 {
+  font-size: 18px;
+  color: var(--text);
+  margin: 24px 0 12px;
+}
+.content h4 {
+  font-size: 16px;
+  color: var(--accent);
+  margin: 20px 0 10px;
+}
+.content h5 {
+  font-size: 15px;
+  color: #a5b4fc;
+  font-weight: 600;
+  margin: 18px 0 8px;
+}
+.content p { margin-bottom: 12px; color: var(--text); }
+.content ul { margin: 8px 0 16px 20px; }
+.content li { margin-bottom: 6px; }
+.content strong { color: var(--accent); }
+.content blockquote {
+  border-left: 4px solid var(--primary);
+  padding: 12px 16px;
+  margin: 16px 0;
+  background: rgba(99,102,241,0.08);
+  border-radius: 0 8px 8px 0;
+}
+.content blockquote p { color: var(--text-dim); margin: 4px 0; }
+.content hr {
+  border: none;
+  height: 1px;
+  background: var(--border);
+  margin: 32px 0;
+}
+.code-block {
+  background: var(--code-bg);
+  border-radius: 10px;
+  padding: 18px 24px;
+  overflow-x: auto;
+  margin: 16px 0;
+  border: 1px solid var(--border);
+  max-width: 100%;
+}
+.code-block code {
+  font-family: "JetBrains Mono", "Fira Code", "Consolas", monospace;
+  font-size: 14px;
+  color: var(--code-text);
+  line-height: 1.6;
+  white-space: pre;
+}
+.inline-code {
+  background: rgba(99,102,241,0.15);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: "Consolas", monospace;
+  font-size: 0.9em;
+  color: var(--accent);
+}
+/* Math formula block */
+.content .math-block {
+  background: rgba(99,102,241,0.06);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 24px;
+  margin: 16px 0;
+  overflow-x: auto;
+  max-width: 100%;
+}
+.content .math-label {
+  font-size: 13px; color: var(--text-dim); margin-bottom: 6px; }
+.content .math-vars {
+  margin: 8px 0 16px 20px; }
+.content .math-vars li { margin-bottom: 4px; color: var(--text-dim); }
+.footer {
+  text-align: center;
+  padding: 24px 0;
+  border-top: 1px solid var(--border);
+  color: var(--text-dim);
+  font-size: 13px;
+}
+.tag {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  background: rgba(99,102,241,0.15);
+  color: var(--accent);
+  margin-left: 8px;
+}
+.content .ref-link {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px dashed rgba(99,102,241,0.4);
+  transition: all 0.2s;
+  word-break: break-all;
+}
+.content .ref-link:hover {
+  color: #fff;
+  border-bottom-color: var(--primary);
+}
+.content li {
+  word-break: break-all;
+}
+/* Table */
+.table-wrapper {
+  overflow-x: auto;
+  margin: 16px 0;
+  max-width: 100%;
+}
+.algo-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  background: var(--card-bg);
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+.algo-table thead {
+  background: rgba(99,102,241,0.15);
+}
+.algo-table th {
+  padding: 10px 16px;
+  text-align: left;
+  color: var(--accent);
+  font-weight: 600;
+  border-bottom: 2px solid var(--primary);
+  white-space: nowrap;
+}
+.algo-table td {
+  padding: 8px 16px;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  word-break: break-all;
+}
+.algo-table tr:last-child td {
+  border-bottom: none;
+}
+.algo-table tr:hover td {
+  background: rgba(99,102,241,0.06);
+}
+/* Algorithm architecture image */
+.algo-image {
+  margin: 20px 0;
+  text-align: center;
+}
+.algo-image img {
+  max-width: 100%;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+.algo-image .image-caption {
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--text-dim);
+}
+.algo-image svg {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+/* ======== 移动端响应式适配 ======== */
+@media (max-width: 768px) {
+  .container { max-width: 100%; padding: 16px 14px; }
+  .header { padding: 24px 0 20px; margin-bottom: 20px; }
+  .header h1 { font-size: 20px; margin-bottom: 4px; }
+  .header .subtitle { font-size: 13px; }
+  .repo-link { margin-top: 10px; padding: 5px 14px; font-size: 12px; }
+  .history-nav { gap: 6px; padding: 10px 12px; margin-bottom: 20px; }
+  .history-nav a { padding: 3px 10px; font-size: 12px; }
+  .content { max-width: 100%; margin-bottom: 28px; }
+  .content h2 { font-size: 20px; margin: 28px 0 12px; }
+  .content h3 { font-size: 17px; margin: 20px 0 10px; }
+  .content h4 { font-size: 15px; margin: 16px 0 8px; }
+  .content h5 { font-size: 14px; margin: 14px 0 6px; }
+  .content p { font-size: 14px; margin-bottom: 10px; }
+  .content ul { margin: 6px 0 12px 16px; }
+  .content li { font-size: 14px; margin-bottom: 5px; }
+  .content blockquote { padding: 10px 12px; margin: 12px 0; }
+  .content blockquote p { font-size: 13px; }
+  .content .math-block { padding: 10px 14px; margin: 12px 0; }
+  .code-block { padding: 12px 14px; margin: 12px 0; }
+  .code-block code { font-size: 12px; line-height: 1.5; }
+  .inline-code { font-size: 0.88em; padding: 1px 5px; }
+  .algo-table { font-size: 12px; }
+  .algo-table th { padding: 6px 10px; }
+  .algo-table td { padding: 6px 10px; }
+  .algo-image { margin: 14px 0; }
+  .algo-image svg { max-width: 100%; height: auto; }
+  .footer { padding: 18px 0; font-size: 12px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>每日算法讲解 · <span class="date">2026年11月26日</span></h1>
+    <p class="subtitle">每天 1 个基础算法 + 2 个 AI/机器学习算法，持续精进</p>
+    <a href="https://syypretend.github.io/test/daily-algorithm" target="_blank" class="repo-link">GitHub 仓库</a>
+  </div>
+  <div class="history-nav"><a href="index.html" class="back-index">← 历史索引</a>
+<a href="2026-11-26.html" class="active">11月26日</a>
+<a href="2026-11-12.html">11月12日</a>
+<a href="2026-11-11.html">11月11日</a>
+<a href="2026-11-10.html">11月10日</a>
+<a href="2026-11-09.html">11月09日</a>
+<a href="2026-11-06.html">11月06日</a>
+<a href="2026-11-05.html">11月05日</a>
+<a href="2026-11-04.html">11月04日</a>
+<a href="2026-10-28.html">10月28日</a>
+<a href="2026-10-26.html">10月26日</a>
+<a href="2026-10-19.html">10月19日</a>
+<a href="2026-10-16.html">10月16日</a>
+<a href="2026-10-14.html">10月14日</a>
+<a href="2026-10-13.html">10月13日</a>
+<a href="2026-10-12.html">10月12日</a>
+<a href="2026-10-10.html">10月10日</a>
+<a href="2026-10-09.html">10月09日</a>
+<a href="2026-10-08.html">10月08日</a>
+<a href="2026-09-30.html">09月30日</a>
+<a href="2026-09-29.html">09月29日</a>
+<a href="2026-09-28.html">09月28日</a>
+<a href="2026-09-24.html">09月24日</a>
+<a href="2026-09-17.html">09月17日</a>
+<a href="2026-09-15.html">09月15日</a>
+<a href="2026-09-14.html">09月14日</a>
+<a href="2026-09-11.html">09月11日</a>
+<a href="2026-09-10.html">09月10日</a>
+<a href="2026-09-09.html">09月09日</a>
+<a href="2026-09-08.html">09月08日</a>
+<a href="2026-09-07.html">09月07日</a>
+</div>
+  <div class="content">
+  <h2>每日算法讲解 · 2026-11-26</h2>
+
+<blockquote>
+<p>今日内容：1 个基础算法 + 2 个 AI/机器学习算法 | 逐参数详解</p>
+</blockquote>
+
+<hr>
+
+<h3>网络流 Ford-Fulkerson</h3>
+
+<p><strong>类别</strong>：图算法 | <strong>难度</strong>：困难</p>
+
+<h4>算法简介</h4>
+
+<p>Ford-Fulkerson 方法是求解<strong>最大流问题</strong>的经典框架，1956 年由 L. R. Ford Jr. 与 D. R. Fulkerson 提出。它把网络抽象成一张有向图：每条边有容量 $ c(u,v) $，表示单位时间最多能通过的流量；源点 $ s $ 不断产出流量，汇点 $ t $ 不断消耗流量，中间节点满足流量守恒。算法的核心是<strong>残量网络（residual network）+ 增广路径（augmenting path）</strong>：只要残量网络中还存在一条从 $ s $ 到 $ t $、每条边剩余容量都为正的路径，就沿这条路径推入"瓶颈容量"大小的流量，直到再也找不到增广路径为止。</p>
+
+<p>它最精妙的地方是<strong>反向边</strong>：当我们把流量从 $ u $ 推到 $ v $ 时，同时在残量网络中加入一条 $ v \to u $、容量等于当前流量的反向边。反向边代表"撤销"能力，使算法可以纠正早期贪心的错误选择，这正是它能保证全局最优的关键。Ford-Fulkerson 只规定了"反复找增广路径"这一框架，并未规定找路径的方法：用 DFS 找即为原始 FF，最坏复杂度 $ O(Ef) $（$ f $ 为最大流值）；用 BFS 找最短增广路即为 <strong>Edmonds-Karp</strong>，复杂度与流量无关，稳定为 $ O(VE^2) $。其正确性由<strong>最大流最小割定理</strong>保证：最大流的值恒等于最小割的容量。</p>
+
+<h4>原理示意图</h4>
+
+<p><div class="algo-image"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 900 420" font-family="sans-serif">
+  <defs>
+    <marker id="arr" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto">
+      <path d="M0,0 L9,3.5 L0,7 Z" fill="#6366f1"/>
+    </marker>
+    <marker id="arr2" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto">
+      <path d="M0,0 L9,3.5 L0,7 Z" fill="#f97316"/>
+    </marker>
+  </defs>
+  <rect width="900" height="420" fill="#1e293b" rx="12"/>
+  <text x="450" y="30" text-anchor="middle" fill="#818cf8" font-size="16" font-weight="600">Ford-Fulkerson：残量网络与反向边（f / c 表示 当前流 / 容量）</text>
+
+  <circle cx="80" cy="210" r="26" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="80" y="216" text-anchor="middle" fill="#e2e8f0" font-size="15">s</text>
+  <circle cx="290" cy="110" r="26" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="290" y="116" text-anchor="middle" fill="#e2e8f0" font-size="15">A</text>
+  <circle cx="290" cy="310" r="26" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="290" y="316" text-anchor="middle" fill="#e2e8f0" font-size="15">D</text>
+  <circle cx="560" cy="110" r="26" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="560" y="116" text-anchor="middle" fill="#e2e8f0" font-size="15">B</text>
+  <circle cx="560" cy="310" r="26" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="560" y="316" text-anchor="middle" fill="#e2e8f0" font-size="15">C</text>
+  <circle cx="800" cy="210" r="26" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="800" y="216" text-anchor="middle" fill="#e2e8f0" font-size="15">t</text>
+
+  <line x1="104" y1="194" x2="266" y2="124" stroke="#6366f1" stroke-width="2" marker-end="url(#arr)"/>
+  <text x="160" y="140" fill="#94a3b8" font-size="12">7/7</text>
+  <line x1="106" y1="226" x2="266" y2="296" stroke="#6366f1" stroke-width="2" marker-end="url(#arr)"/>
+  <text x="160" y="292" fill="#94a3b8" font-size="12">4/4</text>
+  <line x1="316" y1="110" x2="534" y2="110" stroke="#6366f1" stroke-width="2" marker-end="url(#arr)"/>
+  <text x="400" y="100" fill="#94a3b8" font-size="12">5/5</text>
+  <line x1="316" y1="310" x2="534" y2="310" stroke="#6366f1" stroke-width="2" marker-end="url(#arr)"/>
+  <text x="400" y="300" fill="#94a3b8" font-size="12">2/2</text>
+  <line x1="586" y1="124" x2="776" y2="194" stroke="#6366f1" stroke-width="2" marker-end="url(#arr)"/>
+  <text x="700" y="140" fill="#94a3b8" font-size="12">8/8</text>
+  <line x1="586" y1="296" x2="776" y2="226" stroke="#6366f1" stroke-width="2" marker-end="url(#arr)"/>
+  <text x="700" y="292" fill="#94a3b8" font-size="12">5/5</text>
+  <line x1="534" y1="296" x2="586" y2="132" stroke="#6366f1" stroke-width="2" marker-end="url(#arr)"/>
+  <text x="548" y="215" fill="#94a3b8" font-size="12">3/3</text>
+
+  <line x1="266" y1="296" x2="120" y2="222" stroke="#f97316" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#arr2)"/>
+  <text x="150" y="330" fill="#f97316" font-size="12">反向边：可"撤销"已推流量</text>
+
+  <line x1="425" y1="50" x2="425" y2="380" stroke="#22c55e" stroke-width="2" stroke-dasharray="8 5"/>
+  <text x="432" y="70" fill="#22c55e" font-size="13">割 {s,A} | {B,C,D,t}</text>
+  <text x="432" y="90" fill="#22c55e" font-size="12">割容量 = 7 + 4 = 11</text>
+  <text x="80" y="390" fill="#94a3b8" font-size="12">每条增广路径的瓶颈容量 Δf = 该路径上最小残量；本图最大流为 10</text>
+</svg></div></p>
+
+<h4>数学公式</h4>
+
+<p>流网络的三条约束：</p>
+
+<div class="math-block">$$ 0 \le f(u,v) \le c(u,v), \qquad \sum_{v} f(v,u) = \sum_{v} f(u,v)\ \ (u \ne s,t) $$</div>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ f(u,v) $：边 $ (u,v) $ 上的当前流量，取值非负且不超过容量</li>
+<li>$ c(u,v) $：边 $ (u,v) $ 的容量上限，刻画"管道粗细"</li>
+<li>第二式即流量守恒：除源汇点外，流入总量等于流出总量</li>
+</ul>
+
+<p>残量容量与增广操作：</p>
+
+<div class="math-block">$$ c_f(u,v) = c(u,v) - f(u,v), \qquad \Delta f = \min_{(u,v)\in P} c_f(u,v) $$</div>
+
+<div class="math-block">$$ f(u,v) \leftarrow f(u,v) + \Delta f,\qquad f(v,u) \leftarrow f(v,u) - \Delta f $$</div>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ c_f(u,v) $：残量容量，即这条边还能再推多少流量</li>
+<li>$ P $：当前找到的 $ s\to t $ 增广路径</li>
+<li>$ \Delta f $：瓶颈容量，路径上最小的残量容量</li>
+<li>第二行同时更新正向流与反向流（反向边容量随之增加 $ \Delta f $），保证斜对称性 $ f(v,u)=-f(u,v) $</li>
+</ul>
+
+<p>最大流最小割定理：</p>
+
+<div class="math-block">$$ \max_{f} |f| = \min_{(S,T)} \sum_{u\in S,\ v\in T} c(u,v) $$</div>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ |f| $：整张网络的流值，等于源点净流出量</li>
+<li>$ (S,T) $：把顶点分成含 $ s $ 的集合 $ S $ 与含 $ t $ 的集合 $ T $ 的割</li>
+<li>右式为割容量：所有从 $ S $ 跨到 $ T $ 的边容量之和</li>
+</ul>
+
+<h4>核心要点</h4>
+<ul>
+<li>反复在残量网络中找 $ s\to t $ 增广路径，推入瓶颈容量，直到不存在增广路径</li>
+<li>反向边是正确性核心，让算法能"反悔"，避免贪心陷于局部最优</li>
+<li>整数容量下每轮至少增流 1，FF 复杂度 $ O(Ef) $；BFS 版 Edmonds-Karp 为 $ O(VE^2) $</li>
+<li>无增广路径时当前流即最大流；此时从 $ s $ 在残量网络可达的点集构成最小割的 $ S $ 侧</li>
+<li>无理数容量下原始 FF 可能不终止，工程中一律使用 BFS/Dinic 等确定性策略</li>
+</ul>
+
+<h4>技术细节与参数详解</h4>
+
+<h5>参数 1：capacity（容量矩阵 / 残量矩阵）</h5>
+<ul>
+<li><strong>含义</strong>：<code class="inline-code">cap[u][v]</code> 表示边 $ u\to v $ 的当前残量容量，初始化时为原始容量，算法过程中不断被扣减与回补</li>
+<li><strong>类型</strong>：二维数组（整数或浮点）</li>
+<li><strong>默认值</strong>：无边处为 0</li>
+<li><strong>取值范围</strong>：非负；整数容量可保证整数最大流（整数流定理）</li>
+<li><strong>对结果的影响</strong>：直接决定最大流上限与每轮瓶颈；浮点容量需注意精度，建议整数量化</li>
+<li><strong>推荐设置</strong>：规模小于 $ 10^3 $ 顶点用矩阵；稀疏图改邻接表 + 边对象，只存有向边和其反向边</li>
+</ul>
+
+<h5>参数 2：source / sink（源点与汇点）</h5>
+<ul>
+<li><strong>含义</strong>：流量产出的起点 $ s $ 与流量汇入的终点 $ t $</li>
+<li><strong>类型</strong>：顶点下标</li>
+<li><strong>默认值</strong>：无，必须显式指定</li>
+<li><strong>取值范围</strong>：$ [0, V-1] $，且 $ s \ne t $</li>
+<li><strong>对结果的影响</strong>：换源汇等价于换一个割问题，最大流值随之改变</li>
+<li><strong>推荐设置</strong>：多源多汇问题可增设超级源 $ S $、超级汇 $ T $，用无穷容量边连接</li>
+</ul>
+
+<h5>参数 3：path_strategy（增广路径查找策略）</h5>
+<ul>
+<li><strong>含义</strong>：决定框架内如何选增广路径，是 FF 与 EK 的唯一区别</li>
+<li><strong>类型</strong>：枚举（DFS / BFS / 带标号的 Dinic 分层）</li>
+<li><strong>默认值</strong>：工程实现默认 BFS（即 Edmonds-Karp）</li>
+<li><strong>取值范围</strong>：<code class="inline-code">dfs</code>、<code class="inline-code">bfs</code>、<code class="inline-code">dinic</code>、<code class="inline-code">capacity_scaling</code></li>
+<li><strong>对结果的影响</strong>：DFS 最坏 $ O(Ef) $，在 $ f $ 很大时极慢（如容量 $ 10^9 $ 的"虫洞"图）；BFS 保证 $ O(VE^2) $；Dinic 为 $ O(V^2E) $，实际更快</li>
+<li><strong>推荐设置</strong>：竞赛与生产一律 BFS 起步，规模大时换 Dinic 或 Push-Relabel</li>
+</ul>
+
+<h5>参数 4：INF（无穷大初始流量）</h5>
+<ul>
+<li><strong>含义</strong>：BFS 起点携带的"上游可用流量"初值</li>
+<li><strong>类型</strong>：整数/浮点</li>
+<li><strong>默认值</strong>：通常 <code class="inline-code">1 << 30</code> 或 <code class="inline-code">float('inf')</code></li>
+<li><strong>取值范围</strong>：必须大于任意可能的瓶颈容量</li>
+<li><strong>对结果的影响</strong>：取小了会人为截断路径流量，导致结果偏小；取大了无副作用</li>
+<li><strong>推荐设置</strong>：<code class="inline-code">10**18</code> 或 <code class="inline-code">sum(所有边容量)</code>，避免溢出时用 Python 的 <code class="inline-code">float('inf')</code></li>
+</ul>
+
+<h5>参数 5：max_iter（最大迭代轮数，安全阀）</h5>
+<ul>
+<li><strong>含义</strong>：限制增广次数，防止浮点误差导致死循环</li>
+<li><strong>类型</strong>：整数</li>
+<li><strong>默认值</strong>：不限制</li>
+<li><strong>取值范围</strong>：正整数，建议不小于 $ VE $</li>
+<li><strong>对结果的影响</strong>：过小会提前终止得到次优流</li>
+<li><strong>推荐设置</strong>：$ 10^6 $ 或 <code class="inline-code">V<em>E</em>2</code>，仅作兜底</li>
+</ul>
+
+<h4>代码示例</h4>
+
+<p><pre class="code-block"><code class="language-python">from collections import deque  # 引入双端队列，用于 BFS 找最短增广路
+
+
+class MaxFlow:
+    def __init__(self, n):                      # n 为顶点数量
+        self.n = n                              # 保存顶点数
+        self.graph = [[] for _ in range(n)]     # 邻接表：每个点存边在 edges 中的下标
+        self.to = []                            # 边的终点数组
+        self.cap = []                           # 边的残量容量数组
+
+    def add_edge(self, u, v, c):                # 添加一条 u-&gt;v、容量为 c 的有向边
+        self.graph[u].append(len(self.to))      # u 的出边记录正向边下标
+        self.to.append(v)                       # 正向边终点为 v
+        self.cap.append(c)                      # 正向边残量初始化为 c
+        self.graph[v].append(len(self.to))      # v 的出边记录反向边下标
+        self.to.append(u)                       # 反向边终点为 u
+        self.cap.append(0)                      # 反向边初始残量为 0（只有推流后才可用）
+
+    def bfs(self, s, t):                        # BFS 在残量网络中寻找最短增广路
+        self.parent_edge = [-1] * self.n        # 记录每个点由哪条边到达，-1 表示未访问
+        self.parent_edge[s] = -2                # 源点标记为已访问（-2 区别于普通边下标）
+        q = deque([s])                          # 队列初始只含源点
+        while q:                                # 队列非空则继续扩展
+            u = q.popleft()                     # 取出队首顶点
+            for eid in self.graph[u]:           # 遍历 u 的所有出边（含反向边）
+                v = self.to[eid]                # 该边指向的顶点
+                if self.parent_edge[v] == -1 and self.cap[eid] &gt; 0:   # 未访问且残量为正
+                    self.parent_edge[v] = eid   # 记录到达 v 的边
+                    if v == t:                  # 一旦到达汇点即可提前结束（BFS 保证最短）
+                        return True             # 找到一条增广路
+                    q.append(v)                 # 否则把 v 入队继续扩展
+        return False                            # 队列耗尽仍未到汇点，说明无增广路
+
+    def max_flow(self, s, t):                   # 计算 s 到 t 的最大流
+        flow = 0                                # 累计流量初始为 0
+        INF = 10 ** 18                          # 瓶颈容量的无穷大初值
+        while self.bfs(s, t):                   # 只要还能找到增广路就持续增广
+            delta = INF                         # 本轮瓶颈容量初始为无穷
+            v = t                               # 从汇点倒推路径
+            while v != s:                       # 沿 parent_edge 回溯到源点
+                eid = self.parent_edge[v]       # 取出到达 v 的边
+                delta = min(delta, self.cap[eid])  # 瓶颈取路径上最小残量
+                v = self.to[eid ^ 1]            # 边下标异或 1 即其反向边，反向边的终点就是前驱
+            v = t                               # 再次从汇点出发更新残量
+            while v != s:                       # 逐边扣减正向、回补反向
+                eid = self.parent_edge[v]       # 当前边
+                self.cap[eid] -= delta          # 正向边残量减少 delta
+                self.cap[eid ^ 1] += delta      # 反向边残量增加 delta（实现&quot;可撤销&quot;）
+                v = self.to[eid ^ 1]            # 移动到前驱顶点
+            flow += delta                       # 网络总流量累加本轮增广量
+        return flow                             # 无增广路时返回最大流
+
+
+if __name__ == &quot;__main__&quot;:
+    mf = MaxFlow(6)                             # 建 6 个顶点：s,A,D,B,C,t
+    mf.add_edge(0, 1, 7)                        # s-&gt;A 容量 7
+    mf.add_edge(0, 2, 4)                        # s-&gt;D 容量 4
+    mf.add_edge(1, 3, 5)                        # A-&gt;B 容量 5
+    mf.add_edge(2, 4, 2)                        # D-&gt;C 容量 2
+    mf.add_edge(3, 5, 8)                        # B-&gt;t 容量 8
+    mf.add_edge(4, 5, 5)                        # C-&gt;t 容量 5
+    mf.add_edge(4, 3, 3)                        # C-&gt;B 容量 3（跨层边，制造反向调整需求）
+    print(mf.max_flow(0, 5))                    # 输出最大流</code></pre></p>
+
+<h4>复杂度分析</h4>
+
+<ul>
+<li>单次 BFS 遍历所有边：$ O(E) $，每条正向边与其反向边各访问常数次</li>
+<li>增广轮数（Edmonds-Karp）：每条边最多成为瓶颈边 $ O(V) $ 次（每次饱和后它到 $ s $ 的距离严格增大且不超过 $ V $），共 $ E $ 条边，故至多 $ O(VE) $ 轮</li>
+<li>总时间复杂度：$ O(VE)\times O(E)=O(VE^2) $；原始 DFS 版为 $ O(Ef) $，$ f $ 为最大流值，容量巨大时可能退化为指数级轮数</li>
+<li>空间复杂度：邻接表存 $ 2E $ 条边为 $ O(V+E) $；若用容量矩阵则为 $ O(V^2) $</li>
+<li>对比：Dinic 分层 + 当前弧优化可达 $ O(V^2E) $，单位容量网络 $ O(E\sqrt{E}) $；Push-Relabel 为 $ O(V^3) $ 或 $ O(V^2\sqrt{E}) $</li>
+</ul>
+
+<h4>应用场景</h4>
+<ul>
+<li>运输与物流：路网最大通行量、供应链吞吐上限、带宽分配</li>
+<li>二分图最大匹配：Kuhn 算法 / 匈牙利算法本质是单位容量最大流</li>
+<li>图像分割：Graph Cut / GrabCut 把像素标号问题转成最小割</li>
+<li>项目选择、任务分配、调度排班中的"最多能同时满足多少需求"类问题</li>
+<li>网络可靠性：最小割直接给出切断多少条边可使网络不连通</li>
+</ul>
+
+<h4>参考文档</h4>
+<ul>
+<li><a href="https://cp-algorithms.com/graph/edmonds_karp.html" target="_blank" class="ref-link">cp-algorithms: Maximum flow - Ford-Fulkerson and Edmonds-Karp</a></li>
+<li><a href="https://baike.baidu.com/item/Ford%E2%80%93Fulkerson%E7%AE%97%E6%B3%95/22910642" target="_blank" class="ref-link">百度百科：Ford–Fulkerson 算法</a></li>
+<li><a href="https://blog.csdn.net/m0_61840987/article/details/142785489" target="_blank" class="ref-link">CSDN：最大流算法 Ford-Fulkerson 与 Edmonds-Karp 详细解读</a></li>
+</ul>
+
+<hr>
+
+<h3>梯度累积</h3>
+
+<p><strong>类别</strong>：训练技巧 | <strong>难度</strong>：入门</p>
+
+<h4>算法简介</h4>
+
+<p>梯度累积（Gradient Accumulation）是一种用<strong>小显存模拟大批量（large batch）训练</strong>的工程技巧。深度模型的显存占用主要来自激活值与梯度，二者都与单次前向的样本数（micro-batch）成正比。当目标 batch size 为 256 而显卡只能放下 16 条样本时，梯度累积把 256 拆成 16 个 micro-batch，逐个前向与反向，<strong>但不立即更新参数</strong>，而是把 16 次算出的梯度在参数缓冲区中累加；累加满 16 次后才执行一次 <code class="inline-code">optimizer.step()</code> 并清零梯度。这样每次参数更新所使用的样本总量等效于 256，显存却只有 16 的峰值。</p>
+
+<p>它的数学本质是<strong>期望意义下的梯度等价</strong>：若损失按样本均值定义，则"先分别求均值再平均"等于"整体求均值"。因此累积 $ K $ 步得到的梯度与真·大 batch 完全一致（浮点误差除外）。需要注意三点：一是损失必须除以累积步数（或用 <code class="inline-code">loss/K</code> 再 backward），否则梯度会被放大 $ K $ 倍；二是 BatchNorm 的统计量按 micro-batch 计算，与真大 batch 不等价，需换 GroupNorm/LayerNorm；三是学习率通常要按有效 batch 放大后的规则重新标定（线性缩放或平方根缩放），并配合梯度裁剪防止偶发尖峰。</p>
+
+<h4>原理示意图</h4>
+
+<p><div class="algo-image"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 900 400" font-family="sans-serif">
+  <defs>
+    <marker id="a2" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto">
+      <path d="M0,0 L9,3.5 L0,7 Z" fill="#6366f1"/>
+    </marker>
+  </defs>
+  <rect width="900" height="400" fill="#1e293b" rx="12"/>
+  <text x="450" y="32" text-anchor="middle" fill="#818cf8" font-size="16" font-weight="600">梯度累积：K 个 micro-batch 的梯度累加后再更新一次参数</text>
+
+  <rect x="40" y="80" width="120" height="56" rx="8" fill="#334155" stroke="#6366f1"/>
+  <text x="100" y="105" text-anchor="middle" fill="#e2e8f0" font-size="13">micro-batch 1</text>
+  <text x="100" y="124" text-anchor="middle" fill="#94a3b8" font-size="11">forward + backward</text>
+
+  <rect x="200" y="80" width="120" height="56" rx="8" fill="#334155" stroke="#6366f1"/>
+  <text x="260" y="105" text-anchor="middle" fill="#e2e8f0" font-size="13">micro-batch 2</text>
+  <text x="260" y="124" text-anchor="middle" fill="#94a3b8" font-size="11">forward + backward</text>
+
+  <text x="355" y="114" text-anchor="middle" fill="#94a3b8" font-size="16">···</text>
+
+  <rect x="380" y="80" width="120" height="56" rx="8" fill="#334155" stroke="#6366f1"/>
+  <text x="440" y="105" text-anchor="middle" fill="#e2e8f0" font-size="13">micro-batch K</text>
+  <text x="440" y="124" text-anchor="middle" fill="#94a3b8" font-size="11">forward + backward</text>
+
+  <rect x="540" y="72" width="150" height="72" rx="8" fill="#1e3a8a" stroke="#818cf8" stroke-width="2"/>
+  <text x="615" y="98" text-anchor="middle" fill="#e2e8f0" font-size="13">梯度缓冲 g</text>
+  <text x="615" y="118" text-anchor="middle" fill="#93c5fd" font-size="11">g += ∇θ (loss/K)</text>
+  <text x="615" y="136" text-anchor="middle" fill="#93c5fd" font-size="11">不清零、不 step</text>
+
+  <line x1="160" y1="108" x2="196" y2="108" stroke="#6366f1" stroke-width="2" marker-end="url(#a2)"/>
+  <line x1="320" y1="108" x2="376" y2="108" stroke="#6366f1" stroke-width="2" marker-end="url(#a2)"/>
+  <line x1="500" y1="108" x2="536" y2="108" stroke="#6366f1" stroke-width="2" marker-end="url(#a2)"/>
+
+  <line x1="615" y1="144" x2="615" y2="200" stroke="#22c55e" stroke-width="2" marker-end="url(#a2)"/>
+  <rect x="500" y="206" width="230" height="70" rx="8" fill="#14532d" stroke="#22c55e" stroke-width="2"/>
+  <text x="615" y="232" text-anchor="middle" fill="#dcfce7" font-size="13">clip_grad_norm_ → optimizer.step()</text>
+  <text x="615" y="254" text-anchor="middle" fill="#bbf7d0" font-size="11">每 K 步执行一次，然后 zero_grad</text>
+
+  <rect x="40" y="200" width="400" height="76" rx="8" fill="#1e293b" stroke="#f97316"/>
+  <text x="60" y="226" fill="#fdba74" font-size="13">等效 batch = micro_batch × K</text>
+  <text x="60" y="248" fill="#94a3b8" font-size="12">显存峰值 ≈ micro_batch 规模</text>
+  <text x="60" y="266" fill="#94a3b8" font-size="12">更新次数 ↓ K 倍，单步信息量 ↑ K 倍</text>
+
+  <text x="40" y="330" fill="#94a3b8" font-size="12">关键陷阱：loss 未除以 K → 梯度放大 K 倍；BatchNorm 统计量按 micro-batch 计算，不再等价</text>
+  <text x="40" y="356" fill="#94a3b8" font-size="12">学习率需按有效 batch 重新标定：线性缩放 lr' = lr × K，或平方根缩放 lr' = lr × √K</text>
+</svg></div></p>
+
+<h4>数学公式</h4>
+
+<p>等效批量与更新公式：</p>
+
+<div class="math-block">$$ B_{\text{eff}} = m \times K, \qquad \theta_{t+1} = \theta_t - \eta \cdot \frac{1}{K}\sum_{k=1}^{K} g_k,\quad g_k = \frac{1}{m}\sum_{i\in B_k}\nabla_\theta \ell_i $$</div>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ m $：单个 micro-batch 的样本数，决定显存峰值</li>
+<li>$ K $：累积步数 <code class="inline-code">gradient_accumulation_steps</code></li>
+<li>$ B_{\text{eff}} $：有效 batch size，等于真正大 batch 的样本数</li>
+<li>$ g_k $：第 $ k $ 个 micro-batch 的平均梯度</li>
+<li>$ \eta $：学习率；$ \theta $：模型参数</li>
+</ul>
+
+<p>梯度裁剪（按全局 L2 范数）：</p>
+
+<div class="math-block">$$ \|g\|_2 = \sqrt{\sum_{p}\sum_{i} g_{p,i}^2},\qquad g \leftarrow g \cdot \min\left(1, \frac{\text{max\_norm}}{\|g\|_2 + \epsilon}\right) $$</div>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ g_{p,i} $：参数 $ p $ 的第 $ i $ 个梯度分量</li>
+<li>$ \|g\|_2 $：所有参数梯度拼成一个长向量后的 L2 范数</li>
+<li>$ \text{max\_norm} $：允许的最大范数阈值</li>
+<li>$ \epsilon $：防止除零的小常数（PyTorch 内部为 $ 10^{-6} $）</li>
+<li>缩放系数 $ \min(1,\cdot) $：只有超阈值时才等比例缩小，不改变梯度方向</li>
+</ul>
+
+<p>学习率缩放经验式：</p>
+
+<div class="math-block">$$ \eta_{\text{new}} = \eta_{\text{base}} \times \frac{B_{\text{eff}}}{B_{\text{base}}}\quad\text{（线性）}\qquad \eta_{\text{new}} = \eta_{\text{base}} \times \sqrt{\frac{B_{\text{eff}}}{B_{\text{base}}}}\quad\text{（平方根）} $$</div>
+
+<p><strong>变量解释</strong>：$ B_{\text{base}} $ 为原学习率对应的基准批量；线性规则适合小到中等 batch，平方根规则更稳健，适合超大 batch 与自适应优化器。</p>
+
+<h4>核心要点</h4>
+<ul>
+<li>用时间换显存：多个 micro-batch 的梯度累加，等价于一次大 batch 更新</li>
+<li><code class="inline-code">loss</code> 必须除以 $ K $（或按样本数加权），否则梯度尺度错误</li>
+<li><code class="inline-code">optimizer.step()</code> 每 $ K $ 步一次，<code class="inline-code">zero_grad()</code> 只在其后调用，位置错会白训</li>
+<li>BatchNorm 与真大 batch 不等价；Dropout 的随机性也会带来细微差异</li>
+<li>梯度裁剪应在 <code class="inline-code">step()</code> 之前、累积完成之后执行一次，而非每个 micro-batch 都裁</li>
+<li>混合精度下配合 GradScaler，<code class="inline-code">scaler.step()</code> 与 <code class="inline-code">scaler.update()</code> 同样每 $ K $ 步一次</li>
+</ul>
+
+<h4>技术细节与参数详解</h4>
+
+<h5>参数 1：gradient_accumulation_steps（累积步数 $ K $）</h5>
+<ul>
+<li><strong>含义</strong>：多少次 micro-batch 反向后才更新一次参数</li>
+<li><strong>类型</strong>：整数</li>
+<li><strong>默认值</strong>：1（即不累积）</li>
+<li><strong>取值范围</strong>：$ [1, \text{总步数}] $，常用 2/4/8/16/32</li>
+<li><strong>对结果的影响</strong>：$ K $ 越大有效 batch 越大、更新越平滑、噪声越小；但 $ K $ 过大会减少参数更新次数，收敛变慢，且小数据集上可能欠拟合</li>
+<li><strong>推荐设置</strong>：令 $ m\times K $ 接近论文/经验最优 batch（如 256/512/1024）；显存紧张时优先减小 $ m $ 而非无限增大 $ K $</li>
+</ul>
+
+<h5>参数 2：micro_batch_size（$ m $）</h5>
+<ul>
+<li><strong>含义</strong>：单次前向实际喂入的样本数</li>
+<li><strong>类型</strong>：整数</li>
+<li><strong>默认值</strong>：由显存实测决定</li>
+<li><strong>取值范围</strong>：≥1；受显存、序列长度、模型参数量约束</li>
+<li><strong>对结果的影响</strong>：决定显存峰值与吞吐；过小会使单步计算效率下降（GPU 利用率低）</li>
+<li><strong>推荐设置</strong>：取显存占用约 80%–90% 的最大可行值，保持 $ m\times K $ 不变</li>
+</ul>
+
+<h5>参数 3：max_norm（裁剪阈值）</h5>
+<ul>
+<li><strong>含义</strong>：<code class="inline-code">clip_grad_norm_</code> 允许的梯度全局范数上限</li>
+<li><strong>类型</strong>：浮点</li>
+<li><strong>默认值</strong>：无（必须显式给出），LLM 常用 1.0</li>
+<li><strong>取值范围</strong>：$ (0, +\infty) $，常见 0.5 / 1.0 / 5.0</li>
+<li><strong>对结果的影响</strong>：过小会压制有效梯度导致收敛慢甚至欠拟合；过大则失去防爆炸作用</li>
+<li><strong>推荐设置</strong>：Transformer 类 1.0；CNN 可 5.0–10.0；先用不裁剪跑几百步统计梯度范数分布再定阈值</li>
+</ul>
+
+<h5>参数 4：norm_type（范数类型）</h5>
+<ul>
+<li><strong>含义</strong>：计算梯度范数所用的 $ p $ 范数阶数</li>
+<li><strong>类型</strong>：浮点</li>
+<li><strong>默认值</strong>：2.0</li>
+<li><strong>取值范围</strong>：任意正数；<code class="inline-code">inf</code> 表示最大绝对值范数</li>
+<li><strong>对结果的影响</strong>：$ p=2 $ 是欧氏长度，最常用；$ p=\infty $ 只压最大分量，更保守</li>
+<li><strong>推荐设置</strong>：保持 2.0，与主流实现和论文对齐</li>
+</ul>
+
+<h5>参数 5：error_if_nonfinite</h5>
+<ul>
+<li><strong>含义</strong>：梯度出现 NaN/Inf 时是否直接抛错而非静默跳过</li>
+<li><strong>类型</strong>：布尔</li>
+<li><strong>默认值</strong>：False</li>
+<li><strong>取值范围</strong>：True / False</li>
+<li><strong>对结果的影响</strong>：True 可尽早暴露数值不稳定（如 loss 爆炸），便于定位；False 会静默把参数更新变成 NaN</li>
+<li><strong>推荐设置</strong>：调试阶段 True，长跑训练可 False 并配合监控告警</li>
+</ul>
+
+<h5>参数 6：foreach（批量实现开关）</h5>
+<ul>
+<li><strong>含义</strong>：是否用 <code class="inline-code">foreach</code> 的批量张量运算加速裁剪</li>
+<li><strong>类型</strong>：布尔或 None</li>
+<li><strong>默认值</strong>：None（由后端自动选择）</li>
+<li><strong>取值范围</strong>：True / False / None</li>
+<li><strong>对结果的影响</strong>：通常更快，个别设备/版本存在数值差异或兼容问题</li>
+<li><strong>推荐设置</strong>：保持 None，遇到性能或精度异常再显式设 False</li>
+</ul>
+
+<h5>参数 7：set_to_none（zero_grad 的模式）</h5>
+<ul>
+<li><strong>含义</strong>：清零梯度时是把梯度置为 None 还是填 0</li>
+<li><strong>类型</strong>：布尔</li>
+<li><strong>默认值</strong>：True（新版 PyTorch）</li>
+<li><strong>取值范围</strong>：True / False</li>
+<li><strong>对结果的影响</strong>：置 None 可省显存并略提速；若代码里手动读写 <code class="inline-code">.grad</code> 需注意空值判断</li>
+<li><strong>推荐设置</strong>：True；依赖 <code class="inline-code">.grad</code> 累加的自定义逻辑改为 False</li>
+</ul>
+
+<h4>代码示例</h4>
+
+<p><pre class="code-block"><code class="language-python">import torch                                   # 引入 PyTorch 主库
+from torch.nn.utils import clip_grad_norm_      # 引入按范数裁剪梯度的工具函数
+
+K = 8                                           # 梯度累积步数，等效 batch 放大 8 倍
+micro_bs = 16                                   # 单次前向的样本数（受显存限制）
+base_lr = 1e-4                                  # 基准学习率（对应 micro_bs 的有效批量）
+lr = base_lr * (K ** 0.5)                       # 按平方根规则随有效批量放大学习率
+optimizer = torch.optim.AdamW(model.parameters(), lr=lr)  # 构造优化器
+scaler = torch.cuda.amp.GradScaler()            # 混合精度梯度缩放器，防 fp16 下溢
+
+model.train()                                   # 切换到训练模式（启用 Dropout/BN 训练行为）
+global_step = 0                                 # 记录已完成的参数更新次数
+for epoch in range(num_epochs):                 # 外层按 epoch 迭代
+    for step, batch in enumerate(loader):       # 内层按 micro-batch 迭代
+        with torch.cuda.amp.autocast():         # 前向在 fp16/bf16 下计算，省显存提速
+            loss = model(**batch).loss / K      # 关键：损失除以 K，使累加后梯度尺度正确
+        scaler.scale(loss).backward()           # 反向传播；梯度自动累加到各参数的 .grad
+        if (step + 1) % K == 0:                 # 攒满 K 个 micro-batch 才更新参数
+            scaler.unscale_(optimizer)          # 反缩放梯度，保证裁剪看到真实尺度
+            clip_grad_norm_(model.parameters(), max_norm=1.0)  # 全局 L2 范数裁剪，防爆炸
+            scaler.step(optimizer)              # 执行一次参数更新（内部跳过 inf/nan）
+            scaler.update()                     # 调整下一轮的缩放因子
+            optimizer.zero_grad(set_to_none=True)  # 清空梯度缓冲，准备下一轮累积
+            global_step += 1                    # 更新计数加一</code></pre></p>
+
+<h4>复杂度分析</h4>
+
+<ul>
+<li>时间：每个 micro-batch 的前向/反向计算量与不累积时相同，总 FLOPs 不变；参数更新（<code class="inline-code">step</code>）次数减少为 $ 1/K $，故优化器开销（Adam 的状态更新）降至原来的 $ 1/K $，整体往往略快</li>
+<li>显存：激活值与梯度峰值只与 $ m $ 相关，约 $ O(m\cdot d\cdot L) $，与 $ K $ 无关；这是与"直接大 batch"最本质的差别（后者激活显存正比于 $ Km $）</li>
+<li>通信（分布式）：梯度 all-reduce 频率降为 $ 1/K $，DDP 下可显著降低通信开销；但需保证所有 rank 的累积步数一致，否则会卡在集合通信</li>
+<li>收敛性：梯度无偏但方差更小；等效批量增大后需配合学习率缩放与 warmup，否则前期易震荡</li>
+</ul>
+
+<h4>应用场景</h4>
+<ul>
+<li>单卡/小显存复现大 batch 论文结果（视觉、检测、分割）</li>
+<li>大语言模型预训练：micro-batch + 梯度累积 + ZeRO/FSDP 组合成超大全局批量</li>
+<li>长序列/高分辨率输入导致单样本就吃满显存，只能 $ m=1 $ 时靠 $ K $ 凑批量</li>
+<li>多任务训练中隔离不同任务的梯度累积节奏</li>
+<li>联邦学习/边缘设备上以极小批量逼近中心化训练效果</li>
+</ul>
+
+<h4>参考文档</h4>
+<ul>
+<li><a href="https://docs.pytorch.org/docs/stable/generated/torch.nn.utils.clip_grad_norm_.html" target="_blank" class="ref-link">PyTorch 文档：torch.nn.utils.clip_grad_norm_</a></li>
+<li><a href="https://blog.csdn.net/Stone/article/details/149392536" target="_blank" class="ref-link">CSDN：梯度累积——显存不足时模拟大 batch 训练实战</a></li>
+<li><a href="https://blog.csdn.net/weixin_29061997/article/details/171275832" target="_blank" class="ref-link">CSDN：梯度累加——大模型训练中显存、收敛与通信的平衡杠杆</a></li>
+</ul>
+
+<hr>
+
+<h3>线性注意力 Transformer</h3>
+
+<p><strong>类别</strong>：前沿架构 | <strong>难度</strong>：困难</p>
+
+<h4>算法简介</h4>
+
+<p>标准 Transformer 的自注意力计算 $ \mathrm{softmax}(QK^\top)V $ 需要显式构造 $ N\times N $ 的注意力矩阵，时间复杂度与显存均为 $ O(N^2) $，序列越长越昂贵。<strong>线性注意力（Linear Attention）</strong> 的核心洞察是：softmax 里的指数核 $ \exp(q^\top k) $ 无法分解成"只关于 $ q $"与"只关于 $ k $"两个函数的乘积，所以矩阵乘法结合律用不上；但只要换成一个<strong>可分解的核</strong> $ \mathrm{sim}(q,k)=\phi(q)^\top\phi(k) $，注意力就能重写为</p>
+
+<div class="math-block">$$ \frac{\phi(Q)\big(\phi(K)^\top V\big)}{\phi(Q)\big(\phi(K)^\top \mathbf{1}\big)} $$</div>
+
+<p>先算 $ \phi(K)^\top V $（$ d\times d $ 矩阵）再乘 $ \phi(Q) $，复杂度立刻从 $ O(N^2d) $ 降到 $ O(Nd^2) $——当 $ N \gg d $ 时就是线性。Katharopoulos 等人 2020 年的 ICML 论文《Transformers are RNNs》系统提出这一形式，并指出它可写成<strong>递归（RNN）形式</strong>：维护状态 $ S_t = S_{t-1} + \phi(k_t)v_t^\top $、$ z_t = z_{t-1} + \phi(k_t) $，则 $ o_t = \phi(q_t)^\top S_t / (\phi(q_t)^\top z_t) $。这让自回归解码只需 $ O(1) $ 状态与每步 $ O(d^2) $ 计算，长序列推理可比标准注意力快数千倍。</p>
+
+<p>代价是<strong>表达力损失</strong>：softmax 的尖锐选择性与"聚焦"能力被平滑核削弱，长程检索与精确复制能力下降，训练稳定性也更敏感。因此工程上衍生出两大流派：一派用随机特征近似 softmax（Performer 的 FAVOR+、RFA），保留 softmax 语义；另一派用 ELU+1、ReLU、1+swish 等正性特征映射做"真线性"注意力（Linear Transformer、cosFormer、FLASH），主打速度。近年 Mamba/线性注意力混合架构又把这一思路推向大模型主流。</p>
+
+<h4>原理示意图</h4>
+
+<p><div class="algo-image"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 900 430" font-family="sans-serif">
+  <defs>
+    <marker id="a3" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto">
+      <path d="M0,0 L9,3.5 L0,7 Z" fill="#6366f1"/>
+    </marker>
+  </defs>
+  <rect width="900" height="430" fill="#1e293b" rx="12"/>
+  <text x="450" y="30" text-anchor="middle" fill="#818cf8" font-size="16" font-weight="600">线性注意力：用核分解 + 矩阵结合律把 O(N²) 变成 O(N)</text>
+
+  <text x="210" y="62" text-anchor="middle" fill="#f97316" font-size="14">标准 softmax 注意力  O(N²d)</text>
+  <rect x="70" y="78" width="60" height="120" rx="4" fill="#334155" stroke="#f97316"/>
+  <text x="100" y="145" text-anchor="middle" fill="#e2e8f0" font-size="12">Q</text>
+  <rect x="140" y="78" width="130" height="120" rx="4" fill="#7c2d12" stroke="#f97316"/>
+  <text x="205" y="120" text-anchor="middle" fill="#fdba74" font-size="12">N × N 注意力矩阵</text>
+  <text x="205" y="142" text-anchor="middle" fill="#fdba74" font-size="12">显式构造，显存爆炸</text>
+  <rect x="280" y="78" width="60" height="120" rx="4" fill="#334155" stroke="#f97316"/>
+  <text x="310" y="145" text-anchor="middle" fill="#e2e8f0" font-size="12">V</text>
+  <line x1="130" y1="138" x2="136" y2="138" stroke="#f97316" stroke-width="2" marker-end="url(#a3)"/>
+  <line x1="270" y1="138" x2="276" y2="138" stroke="#f97316" stroke-width="2" marker-end="url(#a3)"/>
+  <text x="210" y="222" text-anchor="middle" fill="#94a3b8" font-size="12">softmax(QKᵀ) 不可分解 → 必须先算 N×N</text>
+
+  <text x="660" y="62" text-anchor="middle" fill="#22c55e" font-size="14">线性注意力  O(Nd²)</text>
+  <rect x="500" y="78" width="56" height="120" rx="4" fill="#334155" stroke="#22c55e"/>
+  <text x="528" y="145" text-anchor="middle" fill="#e2e8f0" font-size="12">φ(Q)</text>
+  <rect x="570" y="78" width="120" height="120" rx="4" fill="#14532d" stroke="#22c55e"/>
+  <text x="630" y="120" text-anchor="middle" fill="#bbf7d0" font-size="12">φ(K)ᵀ V</text>
+  <text x="630" y="142" text-anchor="middle" fill="#bbf7d0" font-size="12">d × d 状态矩阵</text>
+  <rect x="704" y="78" width="56" height="120" rx="4" fill="#334155" stroke="#22c55e"/>
+  <text x="732" y="145" text-anchor="middle" fill="#e2e8f0" font-size="12">O</text>
+  <line x1="556" y1="138" x2="566" y2="138" stroke="#22c55e" stroke-width="2" marker-end="url(#a3)"/>
+  <line x1="690" y1="138" x2="700" y2="138" stroke="#22c55e" stroke-width="2" marker-end="url(#a3)"/>
+  <text x="660" y="222" text-anchor="middle" fill="#94a3b8" font-size="12">先算 d×d 再乘 φ(Q)：与 N 线性相关</text>
+
+  <rect x="70" y="252" width="760" height="96" rx="8" fill="#0f172a" stroke="#6366f1"/>
+  <text x="450" y="278" text-anchor="middle" fill="#c7d2fe" font-size="13">等价的 RNN 递归形式（因果/自回归时自动成立）</text>
+  <text x="450" y="306" text-anchor="middle" fill="#e2e8f0" font-size="14">Sₜ = Sₜ₋₁ + φ(kₜ) vₜᵀ      zₜ = zₜ₋₁ + φ(kₜ)      oₜ = φ(qₜ)ᵀ Sₜ / (φ(qₜ)ᵀ zₜ)</text>
+  <text x="450" y="332" text-anchor="middle" fill="#94a3b8" font-size="12">每步 O(d²) 计算、O(d²) 状态，解码时无需回看全部历史</text>
+
+  <text x="70" y="388" fill="#94a3b8" font-size="12">特征映射 φ 必须非负（如 ELU+1），否则分母可能为 0 或负 → 数值不稳定</text>
+  <text x="70" y="412" fill="#94a3b8" font-size="12">代价：softmax 的"尖锐聚焦"被平滑，精确检索/复制能力下降，需靠混合架构弥补</text>
+</svg></div></p>
+
+<h4>数学公式</h4>
+
+<p>核化注意力定义：</p>
+
+<div class="math-block">$$ \mathrm{Attn}(Q,K,V)_i = \frac{\sum_{j=1}^{N}\phi(q_i)^\top\phi(k_j)\,v_j}{\sum_{j=1}^{N}\phi(q_i)^\top\phi(k_j)} = \frac{\phi(q_i)^\top\sum_{j}\phi(k_j)v_j^\top}{\phi(q_i)^\top\sum_{j}\phi(k_j)} $$</div>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ Q\in\mathbb{R}^{N\times d_k} $、$ K\in\mathbb{R}^{N\times d_k} $、$ V\in\mathbb{R}^{N\times d_v} $：查询、键、值矩阵</li>
+<li>$ q_i,k_j $：第 $ i $ 个查询与第 $ j $ 个键向量</li>
+<li>$ \phi(\cdot) $：逐元素非负特征映射，ELU+1 时为 $ \phi(x)=\mathrm{ELU}(x)+1 $</li>
+<li>分子分母都先对 $ j $ 求和（得到 $ d_k\times d_v $ 矩阵与 $ d_k $ 向量），再与 $ \phi(q_i) $ 相乘</li>
+</ul>
+
+<p>矩阵形式与复杂度：</p>
+
+<div class="math-block">$$ O = \frac{\phi(Q)\big(\phi(K)^\top V\big)}{\phi(Q)\big(\phi(K)^\top\mathbf{1}\big)},\qquad \text{FLOPs}=O(Nd_kd_v),\ \text{显存}=O(Nd + d_kd_v) $$</div>
+
+<p><strong>变量解释</strong>：$ \mathbf{1} $ 为全 1 列向量，用于归一化分母；对比 softmax 注意力的 $ O(N^2d) $，当 $ N\gg d $ 时优势显著。</p>
+
+<p>因果（causal）形式的递归：</p>
+
+<div class="math-block">$$ S_t = S_{t-1} + \phi(k_t)v_t^\top,\qquad z_t = z_{t-1} + \phi(k_t),\qquad o_t = \frac{\phi(q_t)^\top S_t}{\phi(q_t)^\top z_t + \epsilon} $$</div>
+
+<p><strong>变量解释</strong>：</p>
+<ul>
+<li>$ S_t\in\mathbb{R}^{d_k\times d_v} $：截至第 $ t $ 步的"键值外积和"，即压缩后的历史记忆</li>
+<li>$ z_t\in\mathbb{R}^{d_k} $：归一化累计项</li>
+<li>$ \epsilon $：防止分母为零的小常数（如 $ 10^{-6} $）</li>
+<li>训练时可用分块并行（chunk）形式，兼顾并行度与 $ O(N) $ 复杂度</li>
+</ul>
+
+<p>Performer 的 softmax 近似（FAVOR+）：</p>
+
+<div class="math-block">$$ \exp(q^\top k)\approx \mathbb{E}_{\omega}\left[\exp(\omega^\top q - \tfrac{\|q\|^2}{2})\cdot \exp(\omega^\top k - \tfrac{\|k\|^2}{2})\right] $$</div>
+
+<p><strong>变量解释</strong>：$ \omega $ 为从各向同性高斯（FAVOR+ 用正交随机特征）采样的随机向量，$ m $ 个样本给出无偏估计，误差随 $ m $ 增大而下降；$ \frac{\|q\|^2}{2} $ 项保证数值稳定。</p>
+
+<h4>核心要点</h4>
+<ul>
+<li>把不可分解的 softmax 核换成可分解核 $ \phi(q)^\top\phi(k) $，再用结合律重排计算顺序</li>
+<li>训练复杂度 $ O(Nd^2) $，推理递归形式每步 $ O(d^2) $、状态恒定，适合超长序列与流式生成</li>
+<li>特征映射必须非负以保证分母为正，ELU+1 是最常用的默认选择</li>
+<li>因果掩码通过累加前缀状态实现，天然支持自回归，无需 $ N\times N $ 掩码矩阵</li>
+<li>表达力弱于 softmax：长程精确检索、复制、in-context 学习较弱，混合局部注意力是主流折中</li>
+<li>Performer/RFA 用随机特征近似 softmax，是"保留语义的线性化"；Linear Transformer 是"换核的线性化"</li>
+</ul>
+
+<h4>技术细节与参数详解</h4>
+
+<h5>参数 1：embed_dim（$ d_{\text{model}} $）</h5>
+<ul>
+<li><strong>含义</strong>：模型隐藏维度，也是注意力输入特征维度</li>
+<li><strong>类型</strong>：整数</li>
+<li><strong>默认值</strong>：无，常用 512/768/1024</li>
+<li><strong>取值范围</strong>：需被 <code class="inline-code">num_heads</code> 整除</li>
+<li><strong>对结果的影响</strong>：决定状态矩阵 $ S $ 的大小（$ d_k\times d_v $）与表达容量；越大越强但显存与计算按 $ d^2 $ 增长</li>
+<li><strong>推荐设置</strong>：小模型 256–512，中型 768，大模型 2048+；线性注意力的 $ d^2 $ 状态在超大 $ d $ 时反而成为瓶颈</li>
+</ul>
+
+<h5>参数 2：num_heads（$ h $）</h5>
+<ul>
+<li><strong>含义</strong>：多头注意力的头数</li>
+<li><strong>类型</strong>：整数</li>
+<li><strong>默认值</strong>：8</li>
+<li><strong>取值范围</strong>：正整数，且 <code class="inline-code">embed_dim % num_heads == 0</code></li>
+<li><strong>对结果的影响</strong>：头数多可捕获多种子空间模式，但每头维度 $ d_k=d/h $ 变小，状态矩阵总量 $ h\cdot d_k d_v $ 不变；头过多会削弱单头表达</li>
+<li><strong>推荐设置</strong>：与标准 Transformer 对齐（8/12/16）；线性注意力中适度减少头数、增大每头维度往往更好</li>
+</ul>
+
+<h5>参数 3：feature_map（$ \phi $）</h5>
+<ul>
+<li><strong>含义</strong>：把 $ q,k $ 映射到非负特征空间的函数</li>
+<li><strong>类型</strong>：字符串/可调用对象</li>
+<li><strong>默认值</strong>：<code class="inline-code">elu + 1</code></li>
+<li><strong>取值范围</strong>：<code class="inline-code">elu+1</code>、<code class="inline-code">relu</code>、<code class="inline-code">1+swish</code>、<code class="inline-code">softmax</code>（近似）、<code class="inline-code">rfa</code>（随机特征）</li>
+<li><strong>对结果的影响</strong>：决定表达力与数值稳定性；ReLU 会产生大量零特征（信息丢失），ELU+1 平滑且恒正，softmax 近似最贴近原语义但更慢</li>
+<li><strong>推荐设置</strong>：默认 <code class="inline-code">elu+1</code>；追求质量用 Performer 的 FAVOR+；追求速度用 <code class="inline-code">1+swish</code></li>
+</ul>
+
+<h5>参数 4：eps（分母稳定项 $ \epsilon $）</h5>
+<ul>
+<li><strong>含义</strong>：归一化分母的平滑常数</li>
+<li><strong>类型</strong>：浮点</li>
+<li><strong>默认值</strong>：1e-6</li>
+<li><strong>取值范围</strong>：$ [10^{-9}, 10^{-3}] $</li>
+<li><strong>对结果的影响</strong>：过大使输出偏向均匀平均、削弱选择性；过小在长序列初期（分母接近 0）易数值爆炸</li>
+<li><strong>推荐设置</strong>：1e-6 起步；fp16 训练建议 1e-4 并配合 bf16</li>
+</ul>
+
+<h5>参数 5：causal（因果掩码开关）</h5>
+<ul>
+<li><strong>含义</strong>：是否只允许关注当前位置及之前的位置</li>
+<li><strong>类型</strong>：布尔</li>
+<li><strong>默认值</strong>：False（双向）/ True（解码器）</li>
+<li><strong>取值范围</strong>：True / False</li>
+<li><strong>对结果的影响</strong>：True 时用前缀和/递归实现，$ O(N) $；False 时可全序列并行，但用于生成会信息泄漏</li>
+<li><strong>推荐设置</strong>：语言模型/自回归生成必须 True；视觉/编码器可 False</li>
+</ul>
+
+<h5>参数 6：dropout（注意力输出丢弃率）</h5>
+<ul>
+<li><strong>含义</strong>：对注意力输出做 Dropout 的概率</li>
+<li><strong>类型</strong>：浮点</li>
+<li><strong>默认值</strong>：0.0</li>
+<li><strong>取值范围</strong>：$ [0, 1) $，常用 0–0.1</li>
+<li><strong>对结果的影响</strong>：抑制过拟合；线性注意力本身正则性较弱，过大 dropout 会拖慢收敛</li>
+<li><strong>推荐设置</strong>：小数据 0.1，大数据 0.0</li>
+</ul>
+
+<h5>参数 7：chunk_size（分块大小，训练用）</h5>
+<ul>
+<li><strong>含义</strong>：因果线性注意力训练时把序列切成多块，块内并行、块间传递状态</li>
+<li><strong>类型</strong>：整数</li>
+<li><strong>默认值</strong>：无（全序列并行）</li>
+<li><strong>取值范围</strong>：64–2048，需能整除或补齐序列长度</li>
+<li><strong>对结果的影响</strong>：块越大并行度越高但中间激活越多；块越小显存越省但循环开销增加</li>
+<li><strong>推荐设置</strong>：128/256，兼顾显存与吞吐；超长序列（>32k）必用分块</li>
+</ul>
+
+<h5>参数 8：bias（线性层偏置）</h5>
+<ul>
+<li><strong>含义</strong>：Q/K/V/O 投影层是否带偏置</li>
+<li><strong>类型</strong>：布尔</li>
+<li><strong>默认值</strong>：True（PyTorch <code class="inline-code">nn.Linear</code> 默认）</li>
+<li><strong>取值范围</strong>：True / False</li>
+<li><strong>对结果的影响</strong>：现代 LLM 多去掉偏置以省参数、改善数值稳定性；线性注意力对偏置不敏感</li>
+<li><strong>推荐设置</strong>：大模型 False，小模型可保留 True</li>
+</ul>
+
+<h4>代码示例</h4>
+
+<p><pre class="code-block"><code class="language-python">import torch                                   # 引入 PyTorch
+import torch.nn as nn                          # 引入神经网络模块
+import torch.nn.functional as F                # 引入函数式接口
+
+
+def elu_feature_map(x):                        # 定义非负特征映射 φ(x) = ELU(x) + 1
+    return F.elu(x) + 1.0                      # ELU 下界为 -1，加 1 后恒非负，保证分母为正
+
+
+class LinearAttention(nn.Module):              # 线性注意力模块
+    def __init__(self, embed_dim, num_heads, dropout=0.0, eps=1e-6, bias=False):
+        super().__init__()                     # 初始化父类
+        assert embed_dim % num_heads == 0, &quot;embed_dim 必须能被 num_heads 整除&quot;
+        self.h = num_heads                     # 头数
+        self.d = embed_dim // num_heads        # 每个头的维度 d_k = d_v = d
+        self.eps = eps                         # 分母稳定常数
+        self.qkv = nn.Linear(embed_dim, embed_dim * 3, bias=bias)  # 一次投影出 Q/K/V
+        self.out = nn.Linear(embed_dim, embed_dim, bias=bias)      # 输出投影
+        self.drop = nn.Dropout(dropout)        # 输出 Dropout
+
+    def forward(self, x, causal=True):         # x: (B, N, C)
+        B, N, C = x.shape                      # 取出批大小、序列长度、通道数
+        qkv = self.qkv(x)                      # (B, N, 3C) 一次算完 QKV，减少 kernel 启动
+        q, k, v = qkv.chunk(3, dim=-1)         # 沿最后一维切分成三份
+        q = q.view(B, N, self.h, self.d).transpose(1, 2)   # (B, h, N, d) 多头重排
+        k = k.view(B, N, self.h, self.d).transpose(1, 2)   # 同上，处理 K
+        v = v.view(B, N, self.h, self.d).transpose(1, 2)   # 同上，处理 V
+        q, k = elu_feature_map(q), elu_feature_map(k)      # 特征映射，必须非负
+
+        if causal:                             # 因果模式：用前缀和实现逐步注意力
+            kv_cum = torch.cumsum(torch.einsum(&quot;bhnd,bhne-&gt;bhnde&quot;, k, v), dim=2)  # 前缀状态 S_t
+            k_cum = torch.cumsum(k, dim=2)     # (B,h,N,d) 前缀键和，供分母使用
+            num = torch.einsum(&quot;bhnd,bhnde-&gt;bhne&quot;, q, kv_cum)      # 分子 φ(q_t)^T S_t
+            den = torch.einsum(&quot;bhnd,bhnd-&gt;bhn&quot;, q, k_cum).unsqueeze(-1) + self.eps  # 分母
+            out = num / den                    # 归一化得到输出
+            del kv_cum, k_cum                  # 及时释放大张量，降低显存峰值
+        else:                                  # 双向模式：先聚合全局 KV 再乘 Q
+            kv = torch.einsum(&quot;bhnd,bhne-&gt;bhde&quot;, k, v)          # (B,h,d,d) 全局状态
+            k_sum = k.sum(dim=2)               # (B,h,d) 全局键和
+            num = torch.einsum(&quot;bhnd,bhde-&gt;bhne&quot;, q, kv)        # 分子
+            den = torch.einsum(&quot;bhnd,bhd-&gt;bhn&quot;, q, k_sum).unsqueeze(-1) + self.eps  # 分母
+            out = num / den                    # 归一化
+
+        out = out.transpose(1, 2).reshape(B, N, C)   # 合并多头回 (B, N, C)
+        return self.drop(self.out(out))         # 输出投影 + Dropout
+
+
+if __name__ == &quot;__main__&quot;:
+    x = torch.randn(2, 1024, 256)              # 构造 batch=2、长度 1024、维度 256 的输入
+    attn = LinearAttention(256, 8, dropout=0.0)  # 8 头，每头 32 维
+    y = attn(x, causal=True)                   # 因果模式前向
+    print(y.shape)                             # 期望输出 (2, 1024, 256)</code></pre></p>
+
+<h4>复杂度分析</h4>
+
+<ul>
+<li>标准 softmax 注意力：$ QK^\top $ 为 $ O(N^2d) $，乘 $ V $ 为 $ O(N^2d) $，显存需保存 $ N\times N $ 矩阵，合计时间 $ O(N^2d) $、空间 $ O(N^2+Nd) $</li>
+<li>线性注意力（双向）：$ \phi(K)^\top V $ 为 $ O(Nd^2) $，$ \phi(Q) $ 乘状态为 $ O(Nd^2) $，合计 $ O(Nd^2) $；空间 $ O(Nd+d^2) $</li>
+<li>因果递归/前缀和：训练分块后仍为 $ O(Nd^2) $，块内矩阵运算提升 GPU 利用率；推理每步 $ O(d^2) $、状态 $ O(d^2) $，与序列长度无关</li>
+<li>当 $ N > d $ 时线性占优；$ N \ll d $（短序列）时 softmax 注意力反而更快，因为常数因子更小</li>
+<li>Performer 近似需 $ m $ 个随机特征，复杂度 $ O(Nmd) $，$ m $ 通常取 $ d\log d $ 量级，精度换速度</li>
+</ul>
+
+<h4>应用场景</h4>
+<ul>
+<li>超长文本/文档级建模（8k–1M token），标准注意力显存不可承受</li>
+<li>流式语音、实时字幕、长视频理解等需要恒定状态推理的场景</li>
+<li>边缘设备/端侧推理，用 RNN 形式把 KV Cache 压缩成固定大小状态</li>
+<li>与滑动窗口局部注意力混合（如 Hybrid Linear Attention），兼顾局部精细与全局效率</li>
+<li>强化学习长轨迹、基因组序列、时间序列等超长依赖任务</li>
+</ul>
+
+<h4>参考文档</h4>
+<ul>
+<li><a href="https://arxiv.org/abs/2006.16236" target="_blank" class="ref-link">arXiv: Transformers are RNNs: Fast Autoregressive Transformers with Linear Attention (ICML 2020)</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/2025190493340935501" target="_blank" class="ref-link">知乎：Linear Transformer 详解——用核技巧把 O(L²) 变成 O(L)</a></li>
+<li><a href="https://cloud.tencent.com/article/2212190" target="_blank" class="ref-link">腾讯云：Rethinking Attention with Performers（FAVOR+）解读</a></li>
+<li><a href="https://blog.csdn.net/qq_45889056/article/details/146779733" target="_blank" class="ref-link">CSDN：线性注意力机制综述</a></li>
+</ul>
+
+<blockquote>
+<p>AI生成</p>
+</blockquote>
+
+  </div>
+  <div class="footer">
+    <p>由 TeleAgent · 每日算法推送 技能自动生成 | 2026-11-26 09:41</p>
+  </div>
+</div>
+</body>
+</html>
