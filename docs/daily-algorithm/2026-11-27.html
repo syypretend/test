@@ -1,0 +1,1360 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>每日算法讲解 · 2026年11月27日</title>
+<!-- MathJax for LaTeX math formula rendering -->
+<script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\(', '\)']],
+      displayMath: [['$$', '$$'], ['\[', '\]']],
+      processEscapes: true
+    },
+    svg: { fontCache: 'global' }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" id="MathJax-script" async></script>
+<style>
+:root {
+  --primary: #6366f1;
+  --primary-dark: #4f46e5;
+  --bg: #0f172a;
+  --card-bg: #1e293b;
+  --text: #e2e8f0;
+  --text-dim: #94a3b8;
+  --accent: #818cf8;
+  --border: #334155;
+  --code-bg: #0d1117;
+  --code-text: #e6edf3;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans SC", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.8;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+.container { max-width: 1400px; margin: 0 auto; padding: 24px 32px; }
+.header {
+  text-align: center;
+  padding: 40px 0 30px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 32px;
+}
+.header h1 {
+  font-size: 28px;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.header h1 .date { color: var(--accent); }
+.header .subtitle { color: var(--text-dim); font-size: 15px; }
+.repo-link {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 6px 16px;
+  background: var(--primary);
+  color: #fff;
+  border-radius: 20px;
+  text-decoration: none;
+  font-size: 13px;
+  transition: background 0.2s;
+}
+.repo-link:hover { background: var(--primary-dark); }
+.history-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 32px;
+  padding: 16px;
+  background: var(--card-bg);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+.history-nav a {
+  padding: 4px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  color: var(--text-dim);
+  text-decoration: none;
+  background: rgba(99,102,241,0.08);
+  transition: all 0.2s;
+}
+.history-nav a:hover { color: var(--text); background: rgba(99,102,241,0.2); }
+.history-nav a.active { color: #fff; background: var(--primary); }
+.history-nav a.back-index { color: var(--accent); font-weight: 600; background: rgba(99,102,241,0.15); border: 1px solid rgba(99,102,241,0.3); }
+.history-nav a.back-index:hover { color: #fff; background: var(--primary); border-color: var(--primary); }
+.content { margin-bottom: 40px; max-width: 1100px; }
+.content h2 {
+  font-size: 24px;
+  color: var(--accent);
+  margin: 40px 0 16px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--primary);
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+.content h2:first-child { border-top: none; padding-top: 0; }
+.content h3 {
+  font-size: 18px;
+  color: var(--text);
+  margin: 24px 0 12px;
+}
+.content h4 {
+  font-size: 16px;
+  color: var(--accent);
+  margin: 20px 0 10px;
+}
+.content h5 {
+  font-size: 15px;
+  color: #a5b4fc;
+  font-weight: 600;
+  margin: 18px 0 8px;
+}
+.content p { margin-bottom: 12px; color: var(--text); }
+.content ul { margin: 8px 0 16px 20px; }
+.content li { margin-bottom: 6px; }
+.content strong { color: var(--accent); }
+.content blockquote {
+  border-left: 4px solid var(--primary);
+  padding: 12px 16px;
+  margin: 16px 0;
+  background: rgba(99,102,241,0.08);
+  border-radius: 0 8px 8px 0;
+}
+.content blockquote p { color: var(--text-dim); margin: 4px 0; }
+.content hr {
+  border: none;
+  height: 1px;
+  background: var(--border);
+  margin: 32px 0;
+}
+.code-block {
+  background: var(--code-bg);
+  border-radius: 10px;
+  padding: 18px 24px;
+  overflow-x: auto;
+  margin: 16px 0;
+  border: 1px solid var(--border);
+  max-width: 100%;
+}
+.code-block code {
+  font-family: "JetBrains Mono", "Fira Code", "Consolas", monospace;
+  font-size: 14px;
+  color: var(--code-text);
+  line-height: 1.6;
+  white-space: pre;
+}
+.inline-code {
+  background: rgba(99,102,241,0.15);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: "Consolas", monospace;
+  font-size: 0.9em;
+  color: var(--accent);
+}
+/* Math formula block */
+.content .math-block {
+  background: rgba(99,102,241,0.06);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 24px;
+  margin: 16px 0;
+  overflow-x: auto;
+  max-width: 100%;
+}
+.content .math-label {
+  font-size: 13px; color: var(--text-dim); margin-bottom: 6px; }
+.content .math-vars {
+  margin: 8px 0 16px 20px; }
+.content .math-vars li { margin-bottom: 4px; color: var(--text-dim); }
+.footer {
+  text-align: center;
+  padding: 24px 0;
+  border-top: 1px solid var(--border);
+  color: var(--text-dim);
+  font-size: 13px;
+}
+.tag {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  background: rgba(99,102,241,0.15);
+  color: var(--accent);
+  margin-left: 8px;
+}
+.content .ref-link {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px dashed rgba(99,102,241,0.4);
+  transition: all 0.2s;
+  word-break: break-all;
+}
+.content .ref-link:hover {
+  color: #fff;
+  border-bottom-color: var(--primary);
+}
+.content li {
+  word-break: break-all;
+}
+/* Table */
+.table-wrapper {
+  overflow-x: auto;
+  margin: 16px 0;
+  max-width: 100%;
+}
+.algo-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  background: var(--card-bg);
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+.algo-table thead {
+  background: rgba(99,102,241,0.15);
+}
+.algo-table th {
+  padding: 10px 16px;
+  text-align: left;
+  color: var(--accent);
+  font-weight: 600;
+  border-bottom: 2px solid var(--primary);
+  white-space: nowrap;
+}
+.algo-table td {
+  padding: 8px 16px;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  word-break: break-all;
+}
+.algo-table tr:last-child td {
+  border-bottom: none;
+}
+.algo-table tr:hover td {
+  background: rgba(99,102,241,0.06);
+}
+/* Algorithm architecture image */
+.algo-image {
+  margin: 20px 0;
+  text-align: center;
+}
+.algo-image img {
+  max-width: 100%;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+.algo-image .image-caption {
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--text-dim);
+}
+.algo-image svg {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+/* ======== 移动端响应式适配 ======== */
+@media (max-width: 768px) {
+  .container { max-width: 100%; padding: 16px 14px; }
+  .header { padding: 24px 0 20px; margin-bottom: 20px; }
+  .header h1 { font-size: 20px; margin-bottom: 4px; }
+  .header .subtitle { font-size: 13px; }
+  .repo-link { margin-top: 10px; padding: 5px 14px; font-size: 12px; }
+  .history-nav { gap: 6px; padding: 10px 12px; margin-bottom: 20px; }
+  .history-nav a { padding: 3px 10px; font-size: 12px; }
+  .content { max-width: 100%; margin-bottom: 28px; }
+  .content h2 { font-size: 20px; margin: 28px 0 12px; }
+  .content h3 { font-size: 17px; margin: 20px 0 10px; }
+  .content h4 { font-size: 15px; margin: 16px 0 8px; }
+  .content h5 { font-size: 14px; margin: 14px 0 6px; }
+  .content p { font-size: 14px; margin-bottom: 10px; }
+  .content ul { margin: 6px 0 12px 16px; }
+  .content li { font-size: 14px; margin-bottom: 5px; }
+  .content blockquote { padding: 10px 12px; margin: 12px 0; }
+  .content blockquote p { font-size: 13px; }
+  .content .math-block { padding: 10px 14px; margin: 12px 0; }
+  .code-block { padding: 12px 14px; margin: 12px 0; }
+  .code-block code { font-size: 12px; line-height: 1.5; }
+  .inline-code { font-size: 0.88em; padding: 1px 5px; }
+  .algo-table { font-size: 12px; }
+  .algo-table th { padding: 6px 10px; }
+  .algo-table td { padding: 6px 10px; }
+  .algo-image { margin: 14px 0; }
+  .algo-image svg { max-width: 100%; height: auto; }
+  .footer { padding: 18px 0; font-size: 12px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>每日算法讲解 · <span class="date">2026年11月27日</span></h1>
+    <p class="subtitle">每天 1 个基础算法 + 2 个 AI/机器学习算法，持续精进</p>
+    <a href="https://syypretend.github.io/test/daily-algorithm" target="_blank" class="repo-link">GitHub 仓库</a>
+  </div>
+  <div class="history-nav"><a href="index.html" class="back-index">← 历史索引</a>
+<a href="2026-11-27.html" class="active">11月27日</a>
+<a href="2026-11-26.html">11月26日</a>
+<a href="2026-11-12.html">11月12日</a>
+<a href="2026-11-11.html">11月11日</a>
+<a href="2026-11-10.html">11月10日</a>
+<a href="2026-11-09.html">11月09日</a>
+<a href="2026-11-06.html">11月06日</a>
+<a href="2026-11-05.html">11月05日</a>
+<a href="2026-11-04.html">11月04日</a>
+<a href="2026-10-28.html">10月28日</a>
+<a href="2026-10-26.html">10月26日</a>
+<a href="2026-10-19.html">10月19日</a>
+<a href="2026-10-16.html">10月16日</a>
+<a href="2026-10-14.html">10月14日</a>
+<a href="2026-10-13.html">10月13日</a>
+<a href="2026-10-12.html">10月12日</a>
+<a href="2026-10-10.html">10月10日</a>
+<a href="2026-10-09.html">10月09日</a>
+<a href="2026-10-08.html">10月08日</a>
+<a href="2026-09-30.html">09月30日</a>
+<a href="2026-09-29.html">09月29日</a>
+<a href="2026-09-28.html">09月28日</a>
+<a href="2026-09-24.html">09月24日</a>
+<a href="2026-09-17.html">09月17日</a>
+<a href="2026-09-15.html">09月15日</a>
+<a href="2026-09-14.html">09月14日</a>
+<a href="2026-09-11.html">09月11日</a>
+<a href="2026-09-10.html">09月10日</a>
+<a href="2026-09-09.html">09月09日</a>
+<a href="2026-09-08.html">09月08日</a>
+<a href="2026-09-07.html">09月07日</a>
+</div>
+  <div class="content">
+  <h2>每日算法讲解 · 2026-11-27</h2>
+
+<blockquote>
+<p>今日内容：1 个基础算法 + 2 个 AI/机器学习算法 | 逐参数详解</p>
+<p>进度：基础算法 25/60，AI 算法 46/102，累计第 42 期</p>
+</blockquote>
+
+<hr>
+
+<h3>二分图匹配（匈牙利算法 / KM 算法）</h3>
+
+<p><strong>类别</strong>：图算法 | <strong>难度</strong>：中等</p>
+
+<h4>算法简介</h4>
+
+<p>二分图（Bipartite Graph）是指顶点集合可被划分为两个互不相交的子集 $ L $（左部）与 $ R $（右部），且每条边的两个端点分别落在不同子集中的图。二分图匹配问题，就是在这个图上选出尽可能多（或权和尽可能大）的边，使得任意两条被选中的边不共享端点——这正是"排班""岗位分配""推荐召回""任务调度"等场景的数学抽象。</p>
+
+<p><strong>匹配</strong>是一组两两不共端点的边；边数最多的匹配称为<strong>最大匹配</strong>；若所有顶点都被匹配覆盖，则称为<strong>完美匹配</strong>。求最大匹配的两大经典算法是：</p>
+
+<p>1. <strong>匈牙利算法（Kuhn–Munkres / Hungarian，无权重版）</strong>：对左部每个点尝试找一条<strong>增广路</strong>，找到就把匹配数 +1。单次增广 DFS 复杂度 $ O(E) $，总计 $ O(VE) $。核心依据是 <strong>Berge 增广路定理</strong>：匹配 $ M $ 是最大匹配当且仅当不存在 $ M $ 的增广路。</p>
+<p>2. <strong>KM 算法（Kuhn–Munkres，带权版）</strong>：在<strong>带权完全二分图</strong>上求<strong>最大权完美匹配</strong>。它把"最大化权和"转化为"顶标可行 + 相等子图上的完美匹配"，通过不断调整顶标扩大相等子图，直到找到完美匹配。复杂度 $ O(n^3) $。</p>
+
+<p>当图较稀疏、点数上万时，可用 <strong>Hopcroft–Karp</strong> 把复杂度降到 $ O(E\sqrt{V}) $；当图不是二分图（存在奇环）时，则需用<strong>带花树（Blossom）算法</strong>。</p>
+
+<h4>原理示意图</h4>
+
+<p><div class="algo-image"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 900 420" font-family="sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="6" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#6366f1"/>
+    </marker>
+  </defs>
+  <rect width="900" height="420" fill="#1e293b" rx="12"/>
+  <text x="450" y="30" text-anchor="middle" fill="#818cf8" font-size="16" font-weight="600">二分图最大匹配：增广路把匹配数 2 提升到 3</text>
+
+  <!-- 左部 -->
+  <text x="180" y="62" text-anchor="middle" fill="#94a3b8" font-size="13">左部 L（工人）</text>
+  <circle cx="180" cy="110" r="24" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="180" y="115" text-anchor="middle" fill="#e2e8f0" font-size="13">a1</text>
+  <circle cx="180" cy="200" r="24" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="180" y="205" text-anchor="middle" fill="#e2e8f0" font-size="13">a2</text>
+  <circle cx="180" cy="290" r="24" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="180" y="295" text-anchor="middle" fill="#e2e8f0" font-size="13">a3</text>
+
+  <!-- 右部 -->
+  <text x="720" y="62" text-anchor="middle" fill="#94a3b8" font-size="13">右部 R（岗位）</text>
+  <circle cx="720" cy="110" r="24" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="720" y="115" text-anchor="middle" fill="#e2e8f0" font-size="13">b1</text>
+  <circle cx="720" cy="200" r="24" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="720" y="205" text-anchor="middle" fill="#e2e8f0" font-size="13">b2</text>
+  <circle cx="720" cy="290" r="24" fill="#334155" stroke="#6366f1" stroke-width="2"/>
+  <text x="720" y="295" text-anchor="middle" fill="#e2e8f0" font-size="13">b3</text>
+
+  <!-- 非匹配边 -->
+  <line x1="204" y1="110" x2="696" y2="200" stroke="#475569" stroke-width="2"/>
+  <line x1="204" y1="200" x2="696" y2="110" stroke="#475569" stroke-width="2"/>
+  <line x1="204" y1="200" x2="696" y2="290" stroke="#475569" stroke-width="2"/>
+  <line x1="204" y1="290" x2="696" y2="200" stroke="#475569" stroke-width="2"/>
+
+  <!-- 已匹配边 -->
+  <line x1="204" y1="110" x2="696" y2="110" stroke="#22c55e" stroke-width="4"/>
+  <line x1="204" y1="290" x2="696" y2="290" stroke="#22c55e" stroke-width="4"/>
+  <text x="450" y="100" text-anchor="middle" fill="#22c55e" font-size="12">匹配</text>
+  <text x="450" y="280" text-anchor="middle" fill="#22c55e" font-size="12">匹配</text>
+
+  <!-- 增广路示意 -->
+  <path d="M180,200 L720,110 L180,110 L720,200" fill="none" stroke="#f97316" stroke-width="2" stroke-dasharray="6 4"/>
+  <text x="450" y="345" text-anchor="middle" fill="#f97316" font-size="13">增广路 a2→b1（未匹配）→a1（匹配）→b2（未匹配）：翻转后匹配数 +1</text>
+  <text x="450" y="372" text-anchor="middle" fill="#94a3b8" font-size="12">翻转规则：路径上的匹配边全部断开、非匹配边全部连接</text>
+  <text x="450" y="398" text-anchor="middle" fill="#94a3b8" font-size="12">最终匹配：a1-b2, a2-b1, a3-b3（完美匹配，|M|=3）</text>
+</svg></div></p>
+
+<h4>数学公式</h4>
+
+<p><strong>（1）匹配与最大匹配</strong></p>
+
+<div class="math-block">$$ M \subseteq E,\quad \forall e_1,e_2\in M:\ e_1\cap e_2=\varnothing $$</div>
+
+<div class="math-block">$$ |M^*| = \max_{M\ \text{是匹配}} |M| $$</div>
+
+<ul>
+<li>$ E $：图的边集；$ M $：一个匹配（边的子集）</li>
+<li>$ e_1\cap e_2=\varnothing $：任意两条边不共享端点</li>
+<li>$ M^* $：最大匹配；$ |M| $：匹配的边数</li>
+</ul>
+
+<p><strong>（2）Berge 增广路定理（算法正确性基石）</strong></p>
+
+<div class="math-block">$$ M \text{ 是最大匹配} \iff \nexists\ P:\ P \text{ 是 } M\text{-增广路} $$</div>
+
+<ul>
+<li>$ P $：一条起点与终点都是<strong>未匹配点</strong>、且匹配边与非匹配边交替出现的路径</li>
+<li>$ |P| $ 为奇数，且非匹配边比匹配边多 1，故 $ |M\oplus P| = |M|+1 $</li>
+</ul>
+
+<p><strong>（3）二分图最小点覆盖 = 最大匹配（König 定理）</strong></p>
+
+<div class="math-block">$$ \min |C| = \max |M|,\qquad C\ \text{为点覆盖} $$</div>
+
+<ul>
+<li>$ C $：覆盖所有边所需的最少顶点集合</li>
+<li>该定理把"最小点覆盖""最大独立集"问题一并归约到最大匹配：$ \alpha(G)=|V|-\nu(G) $</li>
+</ul>
+
+<p><strong>（4）KM 算法的顶标可行条件与松弛量</strong></p>
+
+<div class="math-block">$$ \forall (u,v)\in E:\ l_x(u)+l_y(v)\ge w(u,v) $$</div>
+
+<div class="math-block">$$ \Delta = \min_{u\in S,\ v\notin T}\bigl(l_x(u)+l_y(v)-w(u,v)\bigr) $$</div>
+
+<ul>
+<li>$ l_x(u),l_y(v) $：左/右部顶标；$ w(u,v) $：边权</li>
+<li>相等子图 $ G_l=\{(u,v)\mid l_x(u)+l_y(v)=w(u,v)\} $</li>
+<li>$ S,T $：当前交替树中已访问的左/右点集；$ \Delta $：本次顶标整体下调的最小步长</li>
+<li>更新：$ l_x(u)\mathrel{-}=\Delta\ (u\in S) $，$ l_y(v)\mathrel{+}=\Delta\ (v\in T) $，相等子图只增不减</li>
+</ul>
+
+<p><strong>（5）复杂度</strong></p>
+
+<div class="math-block">$$ T_{\text{Hungarian}}=O(V\cdot E)=O(nm),\qquad T_{\text{KM}}=O(n^3),\qquad T_{\text{Hopcroft–Karp}}=O(E\sqrt{V}) $$</div>
+
+<ul>
+<li>$ n=|L| $、$ m=|E| $；KM 中每个点最多调整 $ O(n) $ 次顶标，每次更新松弛量 $ O(n) $</li>
+</ul>
+
+<h4>核心要点</h4>
+
+<ul>
+<li>匈牙利算法 = 对每个左点找增广路；找不到则该点在本轮无法匹配，继续下一个点即可</li>
+<li>用 <code class="inline-code">vis</code> 时间戳（<code class="inline-code">stamp</code>）代替每轮 <code class="inline-code">memset</code>，可把常数开销降到接近 0</li>
+<li>递归 DFS 在链长上万时易爆栈，生产环境建议改<strong>迭代版</strong>或调大栈/用 BFS（Hopcroft–Karp）</li>
+<li>无权用匈牙利，带权用 KM；<strong>最小权匹配</strong>把边权取负后跑 KM，或令 $ w'=W_{\max}-w $</li>
+<li>KM 要求<strong>完全二分图</strong>：不存在的边补权值 0（最大化场景）或 $ -\infty $（必须匹配场景）</li>
+<li>匹配数偏小的常见原因：左右部划分写反、单向加边（无向匹配需双向加边）、忽略重边</li>
+</ul>
+
+<h4>技术细节与参数详解</h4>
+
+<h5>参数 1：<code class="inline-code">n_left</code> / <code class="inline-code">n_right</code>（左右部规模）</h5>
+
+<ul>
+<li><strong>含义</strong>：左右部顶点数量，决定外层循环次数与数组大小</li>
+<li><strong>类型</strong>：<code class="inline-code">int</code></li>
+<li><strong>默认值</strong>：无（必须由输入给定）</li>
+<li><strong>取值范围</strong>：$ 1\sim 10^5 $（$ O(VE) $ 算法建议 $ \le 2000 $）</li>
+<li><strong>对结果的影响</strong>：只影响性能不影响正确性；但若把较小的部分放左侧可减少增广次数</li>
+<li><strong>推荐设置</strong>：<strong>左部取较小的一侧</strong>（$ \min(|L|,|R|) $ 放外层循环），稀疏大图改用 Hopcroft–Karp</li>
+</ul>
+
+<h5>参数 2：<code class="inline-code">adj</code>（邻接表）</h5>
+
+<ul>
+<li><strong>含义</strong>：<code class="inline-code">adj[u]</code> 存储左点 <code class="inline-code">u</code> 所有可连的右点编号</li>
+<li><strong>类型</strong>：<code class="inline-code">List[List[int]]</code></li>
+<li><strong>默认值</strong>：空列表</li>
+<li><strong>取值范围</strong>：元素在 $ [0, n_{right}) $</li>
+<li><strong>对结果的影响</strong>：<strong>决定解空间</strong>。漏边会低估匹配数；无向匹配场景忘记双向加边是最高频 Bug</li>
+<li><strong>推荐设置</strong>：去重（同一条边重复入表会拖慢 DFS）、按度数升序排序可提升命中率</li>
+</ul>
+
+<h5>参数 3：<code class="inline-code">match_r</code>（右部匹配数组）</h5>
+
+<ul>
+<li><strong>含义</strong>：<code class="inline-code">match_r[v] = u</code> 表示右点 <code class="inline-code">v</code> 当前匹配到左点 <code class="inline-code">u</code>，<code class="inline-code">-1</code> 表示未匹配</li>
+<li><strong>类型</strong>：<code class="inline-code">List[int]</code>，长度 $ n_{right} $</li>
+<li><strong>默认值</strong>：全部 <code class="inline-code">-1</code></li>
+<li><strong>取值范围</strong>：$ -1 $ 或 $ [0,n_{left}) $</li>
+<li><strong>对结果的影响</strong>：直接承载答案，最终非 <code class="inline-code">-1</code> 的个数即最大匹配数</li>
+<li><strong>推荐设置</strong>：初始化 <code class="inline-code">-1</code>；若需输出匹配方案，另存 <code class="inline-code">match_l</code> 便于查询</li>
+</ul>
+
+<h5>参数 4：<code class="inline-code">vis</code> / <code class="inline-code">stamp</code>（访问标记与时间戳）</h5>
+
+<ul>
+<li><strong>含义</strong>：本轮增广中右点是否已被访问；用递增时间戳避免每轮清空</li>
+<li><strong>类型</strong>：<code class="inline-code">List[int]</code> + <code class="inline-code">int</code></li>
+<li><strong>默认值</strong>：全 0，<code class="inline-code">stamp=0</code></li>
+<li><strong>取值范围</strong>：<code class="inline-code">stamp</code> 单调递增，<code class="inline-code">vis[v]==stamp</code> 表示已访问</li>
+<li><strong>对结果的影响</strong>：漏标记会导致 DFS 在交替环中<strong>死循环</strong>；时间戳实现错误会导致跨轮"污染"</li>
+<li><strong>推荐设置</strong>：每轮 <code class="inline-code">stamp += 1</code>，判断用 <code class="inline-code">vis[v] == stamp</code>，比 <code class="inline-code">memset</code> 快一个数量级</li>
+</ul>
+
+<h5>参数 5：<code class="inline-code">lx</code> / <code class="inline-code">ly</code>（KM 顶标）</h5>
+
+<ul>
+<li><strong>含义</strong>：左右部顶标，需始终满足 $ l_x+l_y\ge w $</li>
+<li><strong>类型</strong>：<code class="inline-code">List[int]</code></li>
+<li><strong>默认值</strong>：$ l_x(u)=\max_v w(u,v) $，$ l_y(v)=0 $</li>
+<li><strong>取值范围</strong>：非负整数（权值为负时需先平移）</li>
+<li><strong>对结果的影响</strong>：初始值取"行最大值"可保证可行；取值过小会破坏可行性，等价子图为空则死循环</li>
+<li><strong>推荐设置</strong>：最大化问题按行最大值初始化；最小化问题先转负再按行最大值初始化</li>
+</ul>
+
+<h5>参数 6：<code class="inline-code">slack</code>（KM 松弛量）</h5>
+
+<ul>
+<li><strong>含义</strong>：$ slack[v]=\min_{u\in S}\{l_x(u)+l_y(v)-w(u,v)\} $，即把 $ v $ 拉进相等子图的最小代价</li>
+<li><strong>类型</strong>：<code class="inline-code">List[int]</code>，长度 $ n $</li>
+<li><strong>默认值</strong>：每轮置 <code class="inline-code">INF</code></li>
+<li><strong>取值范围</strong>：$ [0,\text{INF}] $</li>
+<li><strong>对结果的影响</strong>：<code class="inline-code">slack</code> 取错会导致顶标调整量 $ \Delta $ 过大，跳过最优解</li>
+<li><strong>推荐设置</strong>：<code class="inline-code">INF</code> 取所有权值和的上界（如 $ 10^{18} $ 或 <code class="inline-code">float('inf')</code>），每轮必须重置</li>
+</ul>
+
+<h5>参数 7：<code class="inline-code">weight</code>（边权矩阵）</h5>
+
+<ul>
+<li><strong>含义</strong>：$ w(u,v) $，KM 中要求完全图</li>
+<li><strong>类型</strong>：<code class="inline-code">List[List[int]]</code> 或 <code class="inline-code">numpy.ndarray</code></li>
+<li><strong>默认值</strong>：无</li>
+<li><strong>取值范围</strong>：任意实数（建议先整体平移为非负）</li>
+<li><strong>对结果的影响</strong>：负权会导致顶标可行域为空；缺失边按 0 处理等于"允许空匹配"</li>
+<li><strong>推荐设置</strong>：缺失边填 0（允许不匹配）或 $ -\text{BIG} $（强制匹配）；大规模稀疏图改用费用流/匈牙利 + 权值分解</li>
+</ul>
+
+<h4>代码示例</h4>
+
+<p><pre class="code-block"><code class="language-python"># ============ 1. 匈牙利算法：无权二分图最大匹配 ============
+def hungarian(n_left, adj, n_right):
+    match_r = [-1] * n_right          # 右部匹配数组，-1 表示尚未匹配
+    vis = [0] * n_right               # 访问标记，存&quot;时间戳&quot;而不是布尔值
+    stamp = 0                         # 全局递增时间戳，避免每轮清空数组
+
+    def dfs(u):
+        # 尝试为左点 u 找一条增广路
+        for v in adj[u]:              # 遍历 u 能连的所有右点
+            if vis[v] == stamp:       # 本轮已访问过 v，跳过防止死循环
+                continue
+            vis[v] = stamp            # 标记 v 已在本轮交替树中
+            if match_r[v] == -1 or dfs(match_r[v]):
+                # 条件1：v 未匹配 → 直接构成增广路终点
+                # 条件2：v 的当前搭档能另寻出路 → 让位
+                match_r[v] = u        # 把 v 匹配给 u
+                return True           # 增广成功
+        return False                  # u 在本轮无法匹配
+
+    result = 0                        # 最大匹配边数
+    for u in range(n_left):           # 每个左点依次尝试增广
+        stamp += 1                    # 新的一轮，时间戳 +1（O(1) 清空 vis）
+        if dfs(u):                    # 找到增广路则匹配数 +1
+            result += 1
+    return result, match_r            # 返回匹配数与匹配方案
+
+# ============ 2. KM 算法：带权二分图最大权完美匹配 O(n^3) ============
+def km(weight, n):
+    # weight: n x n 权值矩阵（完全图；缺失边请填 0 或 -INF）
+    lx = [max(weight[i]) for i in range(n)]   # 左顶标 = 该行最大权，保证可行性
+    ly = [0] * n                              # 右顶标初始为 0
+    match_r = [-1] * n                        # 右点匹配到的左点
+    slack = [0] * n                           # 松弛量缓存
+    pre = [-1] * n                            # 记录交替树中 v 的前驱左点
+    INF = float(&#x27;inf&#x27;)                        # 松弛量初始上界
+
+    def bfs(root):
+        nonlocal slack, pre
+        slack = [INF] * n                     # 每轮重置松弛量
+        vis_l = [False] * n                   # 左点是否在交替树中
+        vis_r = [False] * n                   # 右点是否在交替树中
+        q = [root]                            # 交替树以 root 为根，BFS 扩展
+        vis_l[root] = True                    # 根左点入树
+        head = 0                               # 队列头指针（用列表模拟队列）
+        while head &lt; len(q):
+            u = q[head]; head += 1             # 取出一个左点
+            for v in range(n):                 # 枚举其所有右邻居（完全图）
+                if vis_r[v]:                   # 已在树中的右点跳过
+                    continue
+                gap = lx[u] + ly[v] - weight[u][v]   # 当前顶标下的差值
+                if gap &lt; slack[v]:             # 更新到达 v 的最小松弛量
+                    slack[v] = gap
+                    pre[v] = u                 # 记录 v 的前驱，用于回溯增广路
+                if slack[v] == 0:              # v 落入相等子图
+                    vis_r[v] = True            # 把 v 加入交替树
+                    if match_r[v] == -1:       # v 是未匹配点 → 找到增广路
+                        cur_v = v              # 从 v 开始回溯翻转
+                        while cur_v != -1:     # 沿 pre 指针一直回到根
+                            u_prev = pre[cur_v]            # v 的前驱左点
+                            v_prev = match_r[u_prev] if u_prev != root else -1
+                            match_r[cur_v] = u_prev        # v 改配给 u_prev
+                            cur_v = v_prev                 # 继续向前回溯
+                        return True
+                    else:                      # v 已匹配 → 把它的搭档加入树
+                        u_next = match_r[v]
+                        vis_l[u_next] = True
+                        q.append(u_next)
+            # 本层扩展完，若未找到增广路则整体调整顶标
+            delta = INF
+            for v in range(n):
+                if not vis_r[v]:
+                    delta = min(delta, slack[v])   # 取最小松弛量作为步长
+            if delta == INF:                   # 图不连通时提前退出，避免死循环
+                return False
+            for i in range(n):
+                if vis_l[i]:                   # 树中左点顶标下调
+                    lx[i] -= delta
+                if vis_r[i]:                   # 树中右点顶标上调
+                    ly[i] += delta
+                else:                          # 树外右点松弛量同步减小
+                    slack[i] -= delta
+        return False                           # 理论上不会走到这里
+
+    for u in range(n):                    # 依次为每个左点找增广路
+        bfs(u)                            # KM 中每点必能匹配（完全图）
+    total = sum(weight[match_r[v]][v] for v in range(n) if match_r[v] != -1)  # 汇总权和
+    return total, match_r                 # 返回最大权与匹配方案
+
+# ============ 3. 调用示例 ============
+if __name__ == &quot;__main__&quot;:
+    adj = [[0, 1], [0], [1, 2]]           # 左 0 连右 0,1；左 1 连右 0；左 2 连右 1,2
+    cnt, mr = hungarian(3, adj, 3)        # 求最大匹配
+    print(&quot;最大匹配数:&quot;, cnt, &quot;匹配方案:&quot;, mr)   # 期望输出 3
+
+    W = [[3, 1, 1],                       # 权值矩阵：3 个任务分给 3 个人
+         [1, 4, 2],
+         [2, 1, 5]]
+    val, m = km(W, 3)                     # 求最大权完美匹配
+    print(&quot;最大权和:&quot;, val, &quot;方案:&quot;, m)      # 期望 3+4+5 = 12</code></pre></p>
+
+<h4>复杂度分析</h4>
+
+<ul>
+<li><strong>匈牙利（DFS）</strong>：单次 <code class="inline-code">dfs</code> 最多访问每条边一次 → $ O(E) $；共 $ |L| $ 次增广 → 总时间 $ O(|L|\cdot|E|)=O(nm) $；空间为邻接表 $ O(n+m) $ + 匹配/标记数组 $ O(n) $</li>
+<li><strong>Hopcroft–Karp</strong>：每阶段 BFS 分层 + DFS 多路增广，阶段数 $ O(\sqrt{V}) $，总时间 $ O(E\sqrt{V}) $，适合 $ 10^5 $ 级稀疏图</li>
+<li><strong>KM</strong>：外层 $ n $ 个点 × 每个点 BFS 中最多调整 $ O(n) $ 次顶标 × 每次扫描 $ O(n) $ 条边 → $ O(n^3) $；空间 $ O(n^2) $ 存权值矩阵</li>
+<li><strong>KM 的优化</strong>：BFS 版（上面代码）比朴素 DFS 版少一个 $ n $，且避免递归爆栈；进一步可用 <code class="inline-code">slack</code> 增量维护把常数压到 1/3 左右</li>
+</ul>
+
+<h4>应用场景</h4>
+
+<ul>
+<li><strong>排班与岗位分配</strong>：护士排班、值班表、监考安排（人 × 岗位）</li>
+<li><strong>推荐系统召回配对</strong>：用户 × 商品、问题 × 答案、简历 × 岗位的最优一对一匹配</li>
+<li><strong>任务调度</strong>：CPU 核 × 任务、无人机 × 配送点（带权用 KM，最小化总耗时取负）</li>
+<li><strong>网络与通信</strong>：基站 × 用户资源块分配、信道与频谱配对</li>
+<li><strong>图论推论</strong>：由 König 定理求最小点覆盖、最大独立集、DAG 最小路径覆盖</li>
+<li><strong>计算机视觉</strong>：多目标跟踪中的检测框 × 轨迹关联（匈牙利算法是 SORT/DeepSORT 的核心组件）</li>
+</ul>
+
+<h4>参考文档</h4>
+
+<ul>
+<li><a href="https://blog.csdn.net/weixin_32288959/article/details/171282261" target="_blank" class="ref-link">二分图匹配从建模到算法：染色判定、增广路与工程排错（CSDN，2026-11）</a></li>
+<li><a href="https://blog.csdn.net/weixin_29698641/article/details/171282356" target="_blank" class="ref-link">二分图最大匹配实战：染色判定、匈牙利与 Hopcroft-Karp（CSDN，2026-11）</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/2055243296423908310" target="_blank" class="ref-link">二分图 && 匈牙利算法 && KM 算法（知乎）</a></li>
+<li><a href="https://blog.csdn.net/weixin_32466193/article/details/171075715" target="_blank" class="ref-link">离散数学实验：从增广路到匈牙利与带花树算法（CSDN，2026-11）</a></li>
+</ul>
+
+<hr>
+
+<h3>交叉熵损失（Cross Entropy Loss）</h3>
+
+<p><strong>类别</strong>：损失函数 | <strong>难度</strong>：入门</p>
+
+<h4>算法简介</h4>
+
+<p>交叉熵源自信息论，衡量两个概率分布 $ p $（真实）与 $ q $（预测）之间的差异：</p>
+
+<div class="math-block">$$ H(p,q)=-\sum_{c} p_c\log q_c $$</div>
+
+<p>在分类任务中，真实分布通常是 one-hot（或标签平滑后的软标签），预测分布由 logits 经 softmax 得到。最小化交叉熵等价于<strong>最大化正确类别的对数似然</strong>，也等价于最小化 $ D_{KL}(p\|q) $（因为 $ H(p) $ 与参数无关）。</p>
+
+<p>PyTorch 的 <code class="inline-code">nn.CrossEntropyLoss</code> 把 <strong>LogSoftmax + NLLLoss</strong> 融合为一个算子（数值稳定、省一次显存读写），因此<strong>输入必须是未归一化的 logits，而不是 softmax 后的概率</strong>——这是新手最高频的错误：对已 softmax 的输出再送进 CE，会让梯度被压缩、收敛变慢甚至学不动。</p>
+
+<p>它的三个可调维度是：<strong>类别加权</strong>（应对类别不平衡）、<strong>忽略索引</strong>（应对 padding / 无效标签）、<strong>标签平滑</strong>（缓解过置信与过拟合）。此外 <code class="inline-code">reduction</code> 决定标量聚合方式，直接影响多卡/梯度累积时的损失尺度。</p>
+
+<h4>原理示意图</h4>
+
+<p><div class="algo-image"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 900 430" font-family="sans-serif">
+  <defs>
+    <marker id="a1" markerWidth="8" markerHeight="6" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#6366f1"/>
+    </marker>
+    <marker id="a2" markerWidth="8" markerHeight="6" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#f97316"/>
+    </marker>
+  </defs>
+  <rect width="900" height="430" fill="#1e293b" rx="12"/>
+  <text x="450" y="30" text-anchor="middle" fill="#818cf8" font-size="16" font-weight="600">交叉熵损失计算流程：logits → softmax → −log p_y</text>
+
+  <!-- logits 列 -->
+  <text x="120" y="62" text-anchor="middle" fill="#94a3b8" font-size="13">logits z</text>
+  <rect x="55" y="80" width="130" height="34" rx="6" fill="#334155" stroke="#6366f1"/>
+  <text x="120" y="102" text-anchor="middle" fill="#e2e8f0" font-size="12">2.0</text>
+  <rect x="55" y="124" width="130" height="34" rx="6" fill="#334155" stroke="#6366f1"/>
+  <text x="120" y="146" text-anchor="middle" fill="#e2e8f0" font-size="12">1.0</text>
+  <rect x="55" y="168" width="130" height="34" rx="6" fill="#334155" stroke="#6366f1"/>
+  <text x="120" y="190" text-anchor="middle" fill="#e2e8f0" font-size="12">0.1</text>
+
+  <!-- 箭头 -->
+  <line x1="195" y1="140" x2="285" y2="140" stroke="#6366f1" stroke-width="2" marker-end="url(#a1)"/>
+  <text x="240" y="128" text-anchor="middle" fill="#818cf8" font-size="12">softmax</text>
+
+  <!-- softmax 列 -->
+  <text x="375" y="62" text-anchor="middle" fill="#94a3b8" font-size="13">概率 p = softmax(z)</text>
+  <rect x="285" y="80" width="180" height="34" rx="6" fill="#1e3a2f" stroke="#22c55e"/>
+  <text x="375" y="102" text-anchor="middle" fill="#86efac" font-size="12">0.659（正确类 y=0）</text>
+  <rect x="285" y="124" width="180" height="34" rx="6" fill="#334155" stroke="#6366f1"/>
+  <text x="375" y="146" text-anchor="middle" fill="#e2e8f0" font-size="12">0.242</text>
+  <rect x="285" y="168" width="180" height="34" rx="6" fill="#334155" stroke="#6366f1"/>
+  <text x="375" y="190" text-anchor="middle" fill="#e2e8f0" font-size="12">0.099</text>
+
+  <!-- 箭头 -->
+  <line x1="475" y1="97" x2="565" y2="97" stroke="#f97316" stroke-width="2" marker-end="url(#a2)"/>
+  <text x="520" y="86" text-anchor="middle" fill="#f97316" font-size="12">取 −log</text>
+
+  <!-- 损失 -->
+  <rect x="570" y="70" width="270" height="60" rx="8" fill="#2a2338" stroke="#f97316"/>
+  <text x="705" y="96" text-anchor="middle" fill="#fdba74" font-size="13">L = −log(0.659) = 0.417</text>
+  <text x="705" y="118" text-anchor="middle" fill="#94a3b8" font-size="11">p_y 越接近 1，损失越接近 0</text>
+
+  <!-- 对比曲线 -->
+  <text x="195" y="240" text-anchor="middle" fill="#94a3b8" font-size="13">损失随 p_y 变化</text>
+  <line x1="60" y1="330" x2="330" y2="330" stroke="#475569"/>
+  <line x1="60" y1="330" x2="60" y2="260" stroke="#475569"/>
+  <path d="M62,264 C110,300 160,318 330,328" fill="none" stroke="#f97316" stroke-width="3"/>
+  <text x="200" y="352" text-anchor="middle" fill="#94a3b8" font-size="11">p_y 从 0 → 1</text>
+  <text x="34" y="300" fill="#94a3b8" font-size="11">L</text>
+
+  <!-- 修饰项 -->
+  <rect x="380" y="235" width="460" height="150" rx="8" fill="#0f172a" stroke="#6366f1"/>
+  <text x="400" y="260" fill="#818cf8" font-size="13" font-weight="600">三个常用修饰项</text>
+  <text x="400" y="288" fill="#e2e8f0" font-size="12">weight：给类别 c 乘 w_c，缓解长尾不平衡</text>
+  <text x="400" y="314" fill="#e2e8f0" font-size="12">ignore_index：该标签不计损失、不回传梯度</text>
+  <text x="400" y="340" fill="#e2e8f0" font-size="12">label_smoothing：one-hot 混入均匀分布 ε/C</text>
+  <text x="400" y="366" fill="#94a3b8" font-size="11">reduction：none / mean / sum 决定标量聚合方式</text>
+</svg></div></p>
+
+<h4>数学公式</h4>
+
+<p><strong>（1）Softmax</strong></p>
+
+<div class="math-block">$$ p_c=\frac{e^{z_c}}{\sum_{j=1}^{C}e^{z_j}},\qquad c=1,\dots,C $$</div>
+
+<ul>
+<li>$ z_c $：第 $ c $ 类的<strong>原始打分（logit）</strong>，可为任意实数</li>
+<li>$ C $：类别数</li>
+<li>分母保证 $ \sum_c p_c=1 $；实现上用 $ e^{z_c-\max z} $ 防上溢</li>
+</ul>
+
+<p><strong>（2）单样本交叉熵（one-hot 标签）</strong></p>
+
+<div class="math-block">$$ \ell = -\log p_{y}= -z_{y}+\log\sum_{j=1}^{C}e^{z_j} $$</div>
+
+<ul>
+<li>$ y $：真实类别下标；$ p_y $：模型给正确类的概率</li>
+<li>第二步是代数化简——这正是"LogSoftmax + NLL"融合的数值稳定实现</li>
+</ul>
+
+<p><strong>（3）带权重的交叉熵（reduction='mean'）</strong></p>
+
+<div class="math-block">$$ \ell=\frac{\sum_{n=1}^{N} w_{y_n}\left(-z_{n,y_n}+\log\sum_{c=1}^{C}e^{z_{n,c}}\right)}{\sum_{n=1}^{N} w_{y_n}} $$</div>
+
+<ul>
+<li>$ N $：batch 内有效样本数（或像素数，取决于输入维度）</li>
+<li>$ w_{y_n} $：样本 $ n $ 所属类别的权重（来自 <code class="inline-code">weight</code> 张量）</li>
+<li><strong>分母是权重之和而非 $ N $</strong>：保证损失尺度不随权重整体放大</li>
+</ul>
+
+<p><strong>（4）标签平滑（label smoothing）</strong></p>
+
+<div class="math-block">$$ y_c^{\text{LS}}=(1-\varepsilon)\,y_c+\frac{\varepsilon}{C} $$</div>
+
+<div class="math-block">$$ \ell^{\text{LS}}=-\sum_{c=1}^{C}y_c^{\text{LS}}\log p_c=(1-\varepsilon)\,\ell+\varepsilon\cdot\frac{1}{C}\sum_{c=1}^{C}\left(-\log p_c\right) $$</div>
+
+<ul>
+<li>$ \varepsilon $：平滑系数（<code class="inline-code">label_smoothing</code>，$ [0,1] $）</li>
+<li>第一项：原交叉熵按 $ 1-\varepsilon $ 缩放；第二项：与均匀分布的交叉熵</li>
+<li>效果：目标概率上限被压到 $ 1-\varepsilon+\varepsilon/C $，抑制 logit 无限增大</li>
+</ul>
+
+<p><strong>（5）对 logits 的梯度（反向传播核心）</strong></p>
+
+<div class="math-block">$$ \frac{\partial \ell}{\partial z_c}=p_c-y_c,\qquad \frac{\partial \ell}{\partial z_c}\Big|_{\text{weighted}}=w_y\,(p_c-y_c) $$</div>
+
+<ul>
+<li>梯度形式极简：<strong>预测减真值</strong>，因此 CE + softmax 的反传只需一次减法</li>
+<li>当 $ p_c\to y_c $ 时梯度趋 0，训练自然收敛</li>
+</ul>
+
+<h4>核心要点</h4>
+
+<ul>
+<li>输入是 <strong>logits</strong>，内部自带 softmax；<strong>不要</strong>再手动 softmax（除非用 NLLLoss）</li>
+<li>目标可以是 <strong>类别下标</strong>（<code class="inline-code">long</code>，shape <code class="inline-code">(N,)</code> 或 <code class="inline-code">(N,d1..dK)</code>）或 <strong>概率分布</strong>（<code class="inline-code">float</code>，与输入同 shape）</li>
+<li><code class="inline-code">weight</code> 影响的是<strong>梯度与损失的相对大小</strong>，不是采样概率；极端不平衡时建议配合重采样</li>
+<li><code class="inline-code">ignore_index</code> 仅在目标为类别下标时生效；<code class="inline-code">reduction='mean'</code> 时分母不含被忽略样本</li>
+<li>多卡 DDP + <code class="inline-code">reduction='mean'</code> 会出现"按卡平均"的偏差，梯度累积时应用 <code class="inline-code">'sum'</code> 并手动除以全局有效样本数</li>
+<li>语言模型中的 next-token 预测、分割任务中的逐像素预测，本质都是"把 logits 展平成 $ (N,C) $ 后算 CE"</li>
+</ul>
+
+<h4>技术细节与参数详解</h4>
+
+<h5>参数 1：<code class="inline-code">weight</code>（类别权重）</h5>
+
+<ul>
+<li><strong>含义</strong>：长度为 $ C $ 的一维张量，为每个类别指定损失权重，用于缓解类别不平衡</li>
+<li><strong>类型</strong>：<code class="inline-code">torch.Tensor</code>（<code class="inline-code">float</code>），shape <code class="inline-code">(C,)</code>，需与输入同 device/dtype</li>
+<li><strong>默认值</strong>：<code class="inline-code">None</code>（等价于全 1）</li>
+<li><strong>取值范围</strong>：任意非负实数；常用 $ w_c \propto 1/f_c $ 或 $ 1/\sqrt{f_c} $（$ f_c $ 为类别频率）</li>
+<li><strong>对结果的影响</strong>：放大稀有类的梯度，改善 macro-F1/召回；过大（如 $ 10^3 $）会导致训练震荡、BN 统计偏移</li>
+<li><strong>推荐设置</strong>：<code class="inline-code">w_c = N/(C\cdot n_c)</code>（sklearn 的 <code class="inline-code">balanced</code>），或 $ (1/f_c)^{0.5} $ 折中；先小步试 1~5 倍再放大</li>
+</ul>
+
+<h5>参数 2：<code class="inline-code">ignore_index</code></h5>
+
+<ul>
+<li><strong>含义</strong>：指定一个标签值，该位置的样本不参与损失与梯度</li>
+<li><strong>类型</strong>：<code class="inline-code">int</code></li>
+<li><strong>默认值</strong>：<code class="inline-code">-100</code></li>
+<li><strong>取值范围</strong>：任意整数，通常取 <code class="inline-code">-100</code> 或 <code class="inline-code">-1</code>（不要与真实类别 $ [0,C) $ 冲突）</li>
+<li><strong>对结果的影响</strong>：用于 padding 的 <code class="inline-code">-100</code>、分割中的"忽略区域"；配错会整批样本被忽略、loss 恒为 0 或 NaN</li>
+<li><strong>推荐设置</strong>：保持默认 <code class="inline-code">-100</code>，并在数据管道里显式用 <code class="inline-code">-100</code> 填充；仅当目标为类别下标时有效</li>
+</ul>
+
+<h5>参数 3：<code class="inline-code">reduction</code></h5>
+
+<ul>
+<li><strong>含义</strong>：输出的聚合方式</li>
+<li><strong>类型</strong>：<code class="inline-code">str</code></li>
+<li><strong>默认值</strong>：<code class="inline-code">'mean'</code></li>
+<li><strong>取值范围</strong>：<code class="inline-code">'none'</code> | <code class="inline-code">'mean'</code> | <code class="inline-code">'sum'</code></li>
+<li><strong>对结果的影响</strong>：<code class="inline-code">'none'</code> 返回逐样本损失（shape <code class="inline-code">(N,)</code>），<code class="inline-code">'mean'</code> 加权平均（分母为权重和），<code class="inline-code">'sum'</code> 求和（数值随 batch 线性增长）</li>
+<li><strong>推荐设置</strong>：需要样本级重加权/难例挖掘用 <code class="inline-code">'none'</code>；常规训练 <code class="inline-code">'mean'</code>；梯度累积或自定义归一化用 <code class="inline-code">'sum'</code></li>
+</ul>
+
+<h5>参数 4：<code class="inline-code">label_smoothing</code></h5>
+
+<ul>
+<li><strong>含义</strong>：标签平滑系数 $ \varepsilon $，把 one-hot 目标与均匀分布混合</li>
+<li><strong>类型</strong>：<code class="inline-code">float</code></li>
+<li><strong>默认值</strong>：<code class="inline-code">0.0</code></li>
+<li><strong>取值范围</strong>：$ [0.0, 1.0] $（实用区间 $ 0.05\sim0.2 $）</li>
+<li><strong>对结果的影响</strong>：降低过置信、提升校准与泛化，常带来 0.3~1 个点提升；过大（>0.3）会欠拟合、收敛变慢</li>
+<li><strong>推荐设置</strong>：分类/检测用 <code class="inline-code">0.1</code>；蒸馏、噪声标签场景可到 <code class="inline-code">0.2</code>；需要精确概率输出时慎用</li>
+</ul>
+
+<h5>参数 5：<code class="inline-code">size_average</code> / <code class="inline-code">reduce</code>（已弃用）</h5>
+
+<ul>
+<li><strong>含义</strong>：旧版权重聚合开关，分别对应"是否平均""是否归约"</li>
+<li><strong>类型</strong>：<code class="inline-code">bool</code></li>
+<li><strong>默认值</strong>：<code class="inline-code">None</code>（跟随 <code class="inline-code">reduction</code>）</li>
+<li><strong>取值范围</strong>：<code class="inline-code">True</code> / <code class="inline-code">False</code> / <code class="inline-code">None</code></li>
+<li><strong>对结果的影响</strong>：一旦显式设置会<strong>覆盖</strong> <code class="inline-code">reduction</code>，导致行为与预期不符</li>
+<li><strong>推荐设置</strong>：<strong>一律不传</strong>，统一使用 <code class="inline-code">reduction</code></li>
+</ul>
+
+<h5>参数 6：<code class="inline-code">input</code> 的形状与语义</h5>
+
+<ul>
+<li><strong>含义</strong>：未归一化 logits</li>
+<li><strong>类型</strong>：<code class="inline-code">Tensor</code></li>
+<li><strong>默认值</strong>：无</li>
+<li><strong>取值范围</strong>：shape <code class="inline-code">(C,)</code>、<code class="inline-code">(N,C)</code> 或 <code class="inline-code">(N,C,d1,...,dK)</code>，<code class="inline-code">dtype</code> 为 <code class="inline-code">float32/float16/bfloat16</code></li>
+<li><strong>对结果的影响</strong>：第 1 维必须是类别维；若把 <code class="inline-code">(N,d1,d2,C)</code>（channel-last）直接送入会算错类别</li>
+<li><strong>推荐设置</strong>：分类用 <code class="inline-code">(N,C)</code>；分割用 <code class="inline-code">(N,C,H,W)</code> + <code class="inline-code">target (N,H,W)</code>；混合精度下建议在 <code class="inline-code">autocast</code> 内调用</li>
+</ul>
+
+<h5>参数 7：<code class="inline-code">target</code> 的两种模式</h5>
+
+<ul>
+<li><strong>含义</strong>：真实标签，类别下标或概率分布</li>
+<li><strong>类型</strong>：<code class="inline-code">LongTensor</code>（下标）或 <code class="inline-code">FloatTensor</code>（分布）</li>
+<li><strong>默认值</strong>：无</li>
+<li><strong>取值范围</strong>：下标在 $ [0,C) $（或 <code class="inline-code">ignore_index</code>）；分布每个元素 $ \in[0,1] $ 且按行和为 1</li>
+<li><strong>对结果的影响</strong>：<strong>PyTorch 不校验概率是否合法</strong>，传入未归一化/含负值的目标会得到误导性损失与不稳定梯度</li>
+<li><strong>推荐设置</strong>：软标签务必先 <code class="inline-code">softmax(dim=1)</code> 或确保归一化；蒸馏时用 teacher 概率并乘温度 $ T^2 $</li>
+</ul>
+
+<h4>代码示例</h4>
+
+<p><pre class="code-block"><code class="language-python"># ============ 1. 最基础的用法：多分类 ============
+import torch                        # 导入 PyTorch 主库
+import torch.nn as nn               # 导入神经网络模块（含损失函数）
+import torch.nn.functional as F     # 导入函数式接口，便于手写对照
+
+torch.manual_seed(0)                # 固定随机种子，保证结果可复现
+logits = torch.randn(4, 5, requires_grad=True)   # 4 个样本、5 类的原始打分
+target = torch.tensor([0, 2, 4, 1])              # 每个样本的真实类别下标（long）
+
+criterion = nn.CrossEntropyLoss()                # 默认 reduction=&#x27;mean&#x27;
+loss = criterion(logits, target)                 # 前向：内部自动做 log_softmax + NLL
+print(&quot;默认 CE:&quot;, loss.item())                    # 打印标量损失
+
+# ============ 2. 手工实现，验证与官方一致 ============
+logp = F.log_softmax(logits, dim=1)              # 先做 log_softmax（数值稳定）
+manual = -logp.gather(1, target.view(-1, 1)).mean()   # 取出正确类的 log 概率再取负平均
+print(&quot;手工 CE:&quot;, manual.item())                  # 应与上面数值完全一致
+
+# ============ 3. 类别不平衡 + 标签平滑 ============
+weights = torch.tensor([1.0, 2.0, 5.0, 1.0, 3.0])     # 稀有类给更大权重
+crit_w = nn.CrossEntropyLoss(weight=weights,          # 加权交叉熵
+                             label_smoothing=0.1,     # 10% 标签平滑
+                             reduction=&#x27;mean&#x27;)        # 按权重和求平均
+print(&quot;加权+平滑:&quot;, crit_w(logits, target).item())     # 损失尺度仍在合理范围
+
+# ============ 4. 忽略 padding 位置（NLP 常见） ============
+seq_logits = torch.randn(2, 6, 10)                       # batch=2, 序列长 6, 词表 10
+seq_target = torch.tensor([[3, 5, 7, -100, -100, -100],  # 后 3 个位置是 padding
+                           [1, 2, 9, 4, -100, -100]])    # 同样用 -100 标记
+crit_ig = nn.CrossEntropyLoss(ignore_index=-100)         # 忽略 -100 的位置
+# 需要把 (N,T,C) 转成 (N*T,C)，target 展平，CE 才能逐 token 计算
+loss_ig = crit_ig(seq_logits.reshape(-1, 10), seq_target.reshape(-1))
+print(&quot;忽略 padding:&quot;, loss_ig.item())                    # 分母只统计有效 token
+
+# ============ 5. 软标签（蒸馏 / 混合增强） ============
+teacher = torch.randn(4, 5).softmax(dim=1)            # 教师概率分布（已归一化！）
+hard = F.one_hot(target, num_classes=5).float()       # 学生真值 one-hot
+soft_target = 0.7 * teacher + 0.3 * hard              # 混合软标签，行和仍为 1
+crit_soft = nn.CrossEntropyLoss()                     # 目标为 float 时按分布计算
+print(&quot;软标签 CE:&quot;, crit_soft(logits, soft_target).item())
+
+# ============ 6. 逐样本损失（难例挖掘 / 自定义加权） ============
+crit_none = nn.CrossEntropyLoss(reduction=&#x27;none&#x27;)      # 不做归约，返回 (N,)
+per_sample = crit_none(logits, target)                 # 每个样本一个损失值
+hard_weight = torch.tensor([1.0, 3.0, 1.0, 2.0])       # 人为放大难例权重
+print(&quot;加权逐样本:&quot;, (per_sample * hard_weight).mean().item())  # 手动聚合成标量</code></pre></p>
+
+<h4>复杂度分析</h4>
+
+<ul>
+<li><strong>时间复杂度</strong>：$ O(N\cdot C) $。softmax 需对每个样本遍历全部类别求指数和（$ O(C) $），<code class="inline-code">−log p_y</code> 为 $ O(1) $，共 $ N $ 个样本/像素</li>
+<li><strong>空间复杂度</strong>：$ O(N\cdot C) $ 保存概率/中间量；融合实现（fused log_softmax + NLL）只需 $ O(N) $ 额外空间，避免生成完整概率矩阵</li>
+<li><strong>与朴素实现对比</strong>：先 <code class="inline-code">softmax</code> 再 <code class="inline-code">log</code> 会多一次读写并可能下溢（$ \log 0=-\infty $）；<code class="inline-code">log_softmax</code> 用 log-sum-exp 技巧保证稳定</li>
+<li><strong>反向传播</strong>：梯度 $ \partial\ell/\partial z_c=p_c-y_c $，复杂度同为 $ O(N\cdot C) $，但<strong>无需保存 softmax 中间结果</strong>（可重算），显存更省</li>
+</ul>
+
+<h4>应用场景</h4>
+
+<ul>
+<li><strong>图像分类</strong>：ResNet/ViT 的 top-1 训练目标；配 <code class="inline-code">label_smoothing=0.1</code> 是 timm 的默认配方</li>
+<li><strong>语义分割</strong>：<code class="inline-code">(N,C,H,W)</code> 逐像素 CE，<code class="inline-code">ignore_index</code> 屏蔽未标注区域</li>
+<li><strong>语言模型</strong>：next-token 预测，配合 <code class="inline-code">ignore_index=-100</code> 屏蔽 prompt 部分，只对回答段计损失</li>
+<li><strong>目标检测/蒸馏</strong>：软标签 CE 承载教师分布（常乘 $ T^2 $ 补偿温度缩放）</li>
+<li><strong>长尾/不平衡分类</strong>：<code class="inline-code">weight</code> + 重采样 + focal 变体组合使用</li>
+<li><strong>多任务学习</strong>：与其他损失加权求和前，用 <code class="inline-code">reduction='none'</code> 做样本级归一化</li>
+</ul>
+
+<h4>参考文档</h4>
+
+<ul>
+<li><a href="https://docs.pytorch.org/docs/2.15/generated/torch.nn.CrossEntropyLoss.html" target="_blank" class="ref-link">PyTorch 官方文档：torch.nn.CrossEntropyLoss</a></li>
+<li><a href="https://www.paddlepaddle.org.cn/documentation/docs/zh/3.0-beta/guides/model_convert/convert_from_pytorch/api_difference/nn/torch.nn.CrossEntropyLoss.html" target="_blank" class="ref-link">PaddlePaddle：torch.nn.CrossEntropyLoss 参数对照</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/1928872394476491023" target="_blank" class="ref-link">PyTorch 中的 nn.CrossEntropyLoss() 类（知乎，2025-07）</a></li>
+<li><a href="https://arxiv.org/abs/1512.00567" target="_blank" class="ref-link">Rethinking the Inception Architecture for Computer Vision（label smoothing 原始论文）</a></li>
+</ul>
+
+<hr>
+
+<h3>模型合并 Model Merging</h3>
+
+<p><strong>类别</strong>：大模型微调 | <strong>难度</strong>：中等</p>
+
+<h4>算法简介</h4>
+
+<p>模型合并（Model Merging）是一条"不训练、不用数据"的捷径：把多个<strong>同源微调</strong>（共享同一底座初始化）的模型，直接在<strong>参数空间</strong>里做算术，得到一个同时具备多种能力的新模型。它解决的是落地中的经典困境——客服模型、合同模型、代码模型各自训了一版，效果都不错，但谁也干不了别人的活；再训一个"全能模型"要数据要算力，集成（ensemble）又要 $ N $ 倍推理成本。</p>
+
+<p>核心概念是<strong>任务向量（task vector）</strong>：</p>
+
+<div class="math-block">$$ \tau_t=\theta_t-\theta_0 $$</div>
+
+<p>它表示"微调把底座推离了多少"。于是合并就是在底座上叠加若干任务向量。前提是<strong>线性模式连通性（linear mode connectivity）</strong>：同源微调的权重落在损失面的同一盆地内，线性插值不会掉进"性能悬崖"。</p>
+
+<p>主流方法谱系：</p>
+
+<div class="table-wrapper"><table class="algo-table"><thead><tr><th>方法</th><th>核心思想</th><th>适用场景</th></tr></thead><tbody><tr><td><strong>Model Soup（加权平均）</strong></td><td>$ \theta=\sum_t \lambda_t\theta_t $</td><td>同任务多次超参微调，稳定提点</td></tr><tr><td><strong>Task Arithmetic</strong></td><td>$ \theta=\theta_0+\lambda\sum_t\tau_t $</td><td>多任务能力叠加、能力增减</td></tr><tr><td><strong>TIES-Merging</strong></td><td>修剪 → 定符号 → 只平均同号分量</td><td>多模型干扰严重（符号冲突）</td></tr><tr><td><strong>DARE</strong></td><td>随机丢弃大部分 delta 并重缩放</td><td>delta 高度冗余，压缩后几乎无损</td></tr><tr><td><strong>SLERP</strong></td><td>球面线性插值，保持方向与模长</td><td>两模型合并，比线性更平滑</td></tr><tr><td><strong>MergeKit</strong></td><td>上述方法的工程化组合（含分层合并）</td><td>生产落地首选工具</td></tr></tbody></table></div>
+
+<p>失败的三类根因：<strong>符号冲突</strong>（同一参数被不同任务推向相反方向，平均后互相抵消）、<strong>幅度失衡</strong>（少数大 delta 淹没其他任务）、<strong>冗余噪声</strong>（大量微小 delta 只是噪声，参与平均反而引入干扰）。TIES 与 DARE 正是分别针对前两者与第三者的解药。</p>
+
+<h4>原理示意图</h4>
+
+<p><div class="algo-image"><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 900 450" font-family="sans-serif">
+  <defs>
+    <marker id="m1" markerWidth="8" markerHeight="6" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#6366f1"/>
+    </marker>
+  </defs>
+  <rect width="900" height="450" fill="#1e293b" rx="12"/>
+  <text x="450" y="30" text-anchor="middle" fill="#818cf8" font-size="16" font-weight="600">TIES-Merging 三步流程：Trim → Elect Sign → Disjoint Merge</text>
+
+  <!-- 三个任务向量 -->
+  <rect x="40" y="60" width="130" height="46" rx="8" fill="#334155" stroke="#6366f1"/>
+  <text x="105" y="88" text-anchor="middle" fill="#e2e8f0" font-size="12">τ₁ = θ₁ − θ₀</text>
+  <rect x="40" y="118" width="130" height="46" rx="8" fill="#334155" stroke="#6366f1"/>
+  <text x="105" y="146" text-anchor="middle" fill="#e2e8f0" font-size="12">τ₂ = θ₂ − θ₀</text>
+  <rect x="40" y="176" width="130" height="46" rx="8" fill="#334155" stroke="#6366f1"/>
+  <text x="105" y="204" text-anchor="middle" fill="#e2e8f0" font-size="12">τ₃ = θ₃ − θ₀</text>
+
+  <line x1="175" y1="140" x2="235" y2="140" stroke="#6366f1" stroke-width="2" marker-end="url(#m1)"/>
+
+  <!-- Trim -->
+  <rect x="240" y="88" width="150" height="104" rx="8" fill="#0f172a" stroke="#22c55e"/>
+  <text x="315" y="112" text-anchor="middle" fill="#22c55e" font-size="13" font-weight="600">① Trim</text>
+  <text x="315" y="136" text-anchor="middle" fill="#e2e8f0" font-size="11">每个 τ 只保留</text>
+  <text x="315" y="154" text-anchor="middle" fill="#e2e8f0" font-size="11">幅值最大的 k%</text>
+  <text x="315" y="176" text-anchor="middle" fill="#94a3b8" font-size="11">density = k</text>
+
+  <line x1="395" y1="140" x2="450" y2="140" stroke="#6366f1" stroke-width="2" marker-end="url(#m1)"/>
+
+  <!-- Elect sign -->
+  <rect x="455" y="88" width="160" height="104" rx="8" fill="#0f172a" stroke="#f97316"/>
+  <text x="535" y="112" text-anchor="middle" fill="#f97316" font-size="13" font-weight="600">② Elect Sign</text>
+  <text x="535" y="136" text-anchor="middle" fill="#e2e8f0" font-size="11">按幅值加权投票</text>
+  <text x="535" y="154" text-anchor="middle" fill="#e2e8f0" font-size="11">决定每个参数</text>
+  <text x="535" y="176" text-anchor="middle" fill="#94a3b8" font-size="11">最终符号 γ</text>
+
+  <line x1="620" y1="140" x2="672" y2="140" stroke="#6366f1" stroke-width="2" marker-end="url(#m1)"/>
+
+  <!-- Merge -->
+  <rect x="677" y="88" width="183" height="104" rx="8" fill="#0f172a" stroke="#818cf8"/>
+  <text x="768" y="112" text-anchor="middle" fill="#818cf8" font-size="13" font-weight="600">③ Disjoint Merge</text>
+  <text x="768" y="136" text-anchor="middle" fill="#e2e8f0" font-size="11">只对与 γ 同号的</text>
+  <text x="768" y="154" text-anchor="middle" fill="#e2e8f0" font-size="11">参数求平均</text>
+  <text x="768" y="176" text-anchor="middle" fill="#94a3b8" font-size="11">异号直接丢弃</text>
+
+  <!-- 符号冲突示例 -->
+  <text x="40" y="270" fill="#94a3b8" font-size="13">符号冲突示意（第 j 个参数）：</text>
+  <rect x="40" y="285" width="810" height="130" rx="8" fill="#0f172a" stroke="#475569"/>
+  <text x="60" y="312" fill="#22c55e" font-size="12">τ₁[j] = +0.80</text>
+  <text x="60" y="336" fill="#22c55e" font-size="12">τ₂[j] = +0.60</text>
+  <text x="60" y="360" fill="#f97316" font-size="12">τ₃[j] = −0.50</text>
+  <text x="60" y="384" fill="#e2e8f0" font-size="12">朴素平均 = (0.8+0.6−0.5)/3 = +0.30</text>
+  <text x="470" y="312" fill="#94a3b8" font-size="12">朴素平均：三种任务互相抵消，</text>
+  <text x="470" y="334" fill="#94a3b8" font-size="12">净效果被削弱（0.8 被 0.5 抵消）</text>
+  <text x="470" y="362" fill="#818cf8" font-size="12">TIES：多数票符号为 +，只平均 0.8 与 0.6</text>
+  <text x="470" y="384" fill="#86efac" font-size="12">→ 0.70，保留主导方向、避开冲突</text>
+
+  <text x="450" y="440" text-anchor="middle" fill="#94a3b8" font-size="11">前提：所有 τ 必须源自同一底座 θ₀（同源微调），否则线性连通性不成立</text>
+</svg></div></p>
+
+<h4>数学公式</h4>
+
+<p><strong>（1）任务向量与任务算术</strong></p>
+
+<div class="math-block">$$ \tau_t=\theta_t-\theta_0,\qquad \theta_{\text{merged}}=\theta_0+\lambda\sum_{t=1}^{T}\tau_t $$</div>
+
+<ul>
+<li>$ \theta_0 $：底座（base）参数；$ \theta_t $：第 $ t $ 个微调模型参数</li>
+<li>$ \tau_t $：任务向量，同 shape 于 $ \theta $</li>
+<li>$ \lambda $：缩放系数；$ T $：参与合并的模型数</li>
+<li>$ \lambda>1 $ 会强化任务能力但可能破坏通用能力；$ \lambda<0 $ 可用于"遗忘"某能力</li>
+</ul>
+
+<p><strong>（2）加权平均（Model Soup / 线性插值）</strong></p>
+
+<div class="math-block">$$ \theta_{\text{merged}}=\sum_{t=1}^{T}\lambda_t\theta_t,\qquad \sum_{t=1}^{T}\lambda_t=1 $$</div>
+
+<ul>
+<li>$ \lambda_t $：第 $ t $ 个模型的权重（常取均匀 $ 1/T $，或按验证集性能搜索）</li>
+<li>约束权重和为 1，保证合并在参数凸包内，最不易掉点</li>
+</ul>
+
+<p><strong>（3）TIES 第一步：Trim（幅值修剪）</strong></p>
+
+<div class="math-block">$$ \tilde{\tau}_t^{(j)}=\begin{cases}\tau_t^{(j)}, & |\tau_t^{(j)}|\ge \text{TopK}_k\bigl(|\tau_t|\bigr)\\[2pt] 0, & \text{otherwise}\end{cases} $$</div>
+
+<ul>
+<li>$ \tilde{\tau}_t^{(j)} $：修剪后第 $ j $ 个参数；$ k $：保留比例 <code class="inline-code">density</code>（如 0.2 表示保留 20%）</li>
+<li>$ \text{TopK}_k(\cdot) $：按绝对值取前 $ k $ 分位的阈值</li>
+<li>作用：剔除噪声级微小 delta，降低后续冲突面</li>
+</ul>
+
+<p><strong>（4）TIES 第二步：Elect Sign（符号选举）</strong></p>
+
+<div class="math-block">$$ \gamma^{(j)}=\operatorname{sign}\Bigl(\sum_{t=1}^{T}\tilde{\tau}_t^{(j)}\Bigr) $$</div>
+
+<ul>
+<li>$ \gamma^{(j)}\in\{-1,0,+1\} $：第 $ j $ 个参数的最终符号</li>
+<li>论文原版用<strong>幅值加权</strong>投票（$ \sum_t |\tilde\tau_t^{(j)}|\cdot \operatorname{sign}(\tilde\tau_t^{(j)}) $），即"票重 = 幅值"</li>
+<li>作用：让占主导方向的任务决定该参数的走向</li>
+</ul>
+
+<p><strong>（5）TIES 第三步：Disjoint Merge（不相交平均）</strong></p>
+
+<div class="math-block">$$ \tau_{\text{merged}}^{(j)}=\frac{\sum_{t=1}^{T}\tilde{\tau}_t^{(j)}\cdot\mathbb{1}\bigl[\operatorname{sign}(\tilde{\tau}_t^{(j)})=\gamma^{(j)}\bigr]}{\sum_{t=1}^{T}\mathbb{1}\bigl[\operatorname{sign}(\tilde{\tau}_t^{(j)})=\gamma^{(j)}\bigr]} $$</div>
+
+<ul>
+<li>$ \mathbb{1}[\cdot] $：指示函数，条件成立取 1，否则 0</li>
+<li>分母是该参数"同号模型数"，避免被置 0 的项拉低均值</li>
+<li>效果：异号分量完全不参与，消除相互抵消</li>
+</ul>
+
+<p><strong>（6）DARE：随机丢弃 + 重缩放</strong></p>
+
+<div class="math-block">$$ \hat{\tau}^{(j)}=\frac{m^{(j)}\odot\tau^{(j)}}{1-p},\qquad m^{(j)}\sim\text{Bernoulli}(1-p) $$</div>
+
+<ul>
+<li>$ p $：丢弃率 <code class="inline-code">drop_rate</code>（典型 0.5~0.9）</li>
+<li>$ m $：伯努利掩码；$ 1-p $：保留概率</li>
+<li>除以 $ 1-p $ 是<strong>无偏重缩放</strong>，保证 $ \mathbb{E}[\hat\tau]=\tau $，故"丢 90% 也几乎不掉点"</li>
+</ul>
+
+<p><strong>（7）SLERP（球面线性插值，两模型）</strong></p>
+
+<div class="math-block">$$ \theta(t)=\frac{\sin\bigl((1-t)\Omega\bigr)}{\sin\Omega}\,\theta_1+\frac{\sin(t\Omega)}{\sin\Omega}\,\theta_2,\qquad \cos\Omega=\frac{\langle\theta_1,\theta_2\rangle}{\|\theta_1\|\,\|\theta_2\|} $$</div>
+
+<ul>
+<li>$ t\in[0,1] $：插值位置；$ \Omega $：两参数向量的夹角</li>
+<li>与线性插值不同，SLERP 保持模长不变、沿球面走"最短弧"，中间态更平滑</li>
+</ul>
+
+<h4>核心要点</h4>
+
+<ul>
+<li><strong>同源是硬前提</strong>：所有模型必须从同一底座微调而来（同一 tokenizer、同一词表、同一初始化）</li>
+<li>先做<strong>评估基线</strong>：合并前记录各单模型在目标任务与通用任务上的分数，否则无法判断涨跌</li>
+<li><strong>符号冲突</strong>严重（多个强任务互相打架）→ 用 TIES；<strong>delta 冗余</strong>（微调步数少、学习率小）→ 用 DARE；两者常<strong>串联</strong>使用（DARE-TIES）</li>
+<li><code class="inline-code">density</code> 是 TIES 最敏感的参数，通常从 0.2 开始扫 0.1/0.2/0.3/0.5</li>
+<li><strong>分层合并</strong>（不同层用不同权重）往往优于全局统一权重，因为底层偏通用、顶层偏任务</li>
+<li>合并后必须检查：<strong>词表对齐</strong>（embedding/lm_head 尺寸一致）、<strong>chat template 一致</strong>、<strong>tokenizer 一致</strong></li>
+<li>合并不能凭空创造能力：两个模型都没有的能力，合并后也不会有</li>
+</ul>
+
+<h4>技术细节与参数详解</h4>
+
+<h5>参数 1：<code class="inline-code">weight</code>（模型权重 $ \lambda_t $）</h5>
+
+<ul>
+<li><strong>含义</strong>：每个模型在合并中的贡献系数</li>
+<li><strong>类型</strong>：<code class="inline-code">float</code>（每个模型一个）</li>
+<li><strong>默认值</strong>：均匀权重 $ 1/T $（MergeKit 中为 1.0 后归一化）</li>
+<li><strong>取值范围</strong>：通常 $ [0,2] $；可为负（表示"减去该能力"）</li>
+<li><strong>对结果的影响</strong>：线性调节能力配比；某模型权重过大→其能力主导、其他任务退化；总和非 1 时整体 delta 幅度被缩放</li>
+<li><strong>推荐设置</strong>：先均匀权重跑基线，再在验证集上做网格/贝叶斯搜索；任务重要性差异大时按 2:1 之类比例分配</li>
+</ul>
+
+<h5>参数 2：<code class="inline-code">density</code>（TIES 保留比例 $ k $）</h5>
+
+<ul>
+<li><strong>含义</strong>：每个任务向量保留幅值最大的参数比例</li>
+<li><strong>类型</strong>：<code class="inline-code">float</code></li>
+<li><strong>默认值</strong>：MergeKit 中 <code class="inline-code">1.0</code>（不修剪）；TIES 论文常用 <code class="inline-code">0.2</code></li>
+<li><strong>取值范围</strong>：$ (0,1] $</li>
+<li><strong>对结果的影响</strong>：过小（<0.1）→ 丢失真实任务信号、欠拟合；过大（>0.5）→ 噪声与冲突重新涌入，TIES 退化为普通平均</li>
+<li><strong>推荐设置</strong>：$ 0.2 $ 起步；参数越多（7B+）可越小（0.1）；小模型建议 0.3~0.5</li>
+</ul>
+
+<h5>参数 3：<code class="inline-code">normalize</code>（是否归一化权重）</h5>
+
+<ul>
+<li><strong>含义</strong>：是否把 <code class="inline-code">weight</code> 归一化为和为 1</li>
+<li><strong>类型</strong>：<code class="inline-code">bool</code></li>
+<li><strong>默认值</strong>：<code class="inline-code">True</code></li>
+<li><strong>取值范围</strong>：<code class="inline-code">True</code> / <code class="inline-code">False</code></li>
+<li><strong>对结果的影响</strong>：<code class="inline-code">True</code> 时各模型权重被等比缩放，合并结果落在凸组合内、更稳；<code class="inline-code">False</code> 时权重绝对值即真实缩放，可放大总 delta（等效于调节学习率）</li>
+<li><strong>推荐设置</strong>：保守合并保持 <code class="inline-code">True</code>；想强化整体任务能力时设 <code class="inline-code">False</code> 并小幅上调权重</li>
+</ul>
+
+<h5>参数 4：<code class="inline-code">drop_rate</code>（DARE 丢弃率 $ p $）</h5>
+
+<ul>
+<li><strong>含义</strong>：DARE 中随机丢弃 delta 参数的比例</li>
+<li><strong>类型</strong>：<code class="inline-code">float</code></li>
+<li><strong>默认值</strong>：MergeKit DARE 配置常为 <code class="inline-code">0.9</code></li>
+<li><strong>取值范围</strong>：$ [0,1) $，实用 $ 0.5\sim0.95 $</li>
+<li><strong>对结果的影响</strong>：丢弃率越高压缩越强、冲突越少，但过高（>0.95）会损失任务信息；重缩放因子 $ 1/(1-p) $ 随之放大，需注意数值溢出</li>
+<li><strong>推荐设置</strong>：$ 0.9 $ 起步；微调步数多（delta 大）时可到 0.95；小数据微调建议降到 0.5~0.7</li>
+</ul>
+
+<h5>参数 5：<code class="inline-code">rescale</code>（DARE 重缩放开关）</h5>
+
+<ul>
+<li><strong>含义</strong>：是否对保留的 delta 乘以 $ 1/(1-p) $ 做无偏补偿</li>
+<li><strong>类型</strong>：<code class="inline-code">bool</code></li>
+<li><strong>默认值</strong>：<code class="inline-code">True</code></li>
+<li><strong>取值范围</strong>：<code class="inline-code">True</code> / <code class="inline-code">False</code></li>
+<li><strong>对结果的影响</strong>：<code class="inline-code">True</code> 保持期望不变，是 DARE 有效的关键；设为 <code class="inline-code">False</code> 相当于整体缩小 delta，模型会"欠拟合"任务</li>
+<li><strong>推荐设置</strong>：保持 <code class="inline-code">True</code>；仅在显存/dtype 溢出（fp16 下 $ 1/(1-p) $ 过大）时考虑关闭</li>
+</ul>
+
+<h5>参数 6：<code class="inline-code">int8_mask</code>（掩码精度）</h5>
+
+<ul>
+<li><strong>含义</strong>：是否用 int8 存储伯努利掩码以省显存</li>
+<li><strong>类型</strong>：<code class="inline-code">bool</code></li>
+<li><strong>默认值</strong>：<code class="inline-code">False</code></li>
+<li><strong>取值范围</strong>：<code class="inline-code">True</code> / <code class="inline-code">False</code></li>
+<li><strong>对结果的影响</strong>：不改变结果，只影响峰值显存；7B 模型合并时开启可显著降低内存占用</li>
+<li><strong>推荐设置</strong>：参数量 $ \ge $ 7B 或显存紧张时设为 <code class="inline-code">True</code></li>
+</ul>
+
+<h5>参数 7：<code class="inline-code">t</code>（SLERP 插值位置）</h5>
+
+<ul>
+<li><strong>含义</strong>：两模型之间的插值比例</li>
+<li><strong>类型</strong>：<code class="inline-code">float</code></li>
+<li><strong>默认值</strong>：<code class="inline-code">0.5</code></li>
+<li><strong>取值范围</strong>：$ [0,1] $</li>
+<li><strong>对结果的影响</strong>：$ t=0 $ 完全取模型 A，$ t=1 $ 完全取 B；中间值在球面上平滑过渡，但<strong>仅在两个模型之间</strong>有效，不能直接扩展到多模型</li>
+<li><strong>推荐设置</strong>：0.3~0.7 之间细扫（步长 0.1）；多模型场景改用 TIES/DARE</li>
+</ul>
+
+<h5>参数 8：<code class="inline-code">base_model</code>（底座 $ \theta_0 $）</h5>
+
+<ul>
+<li><strong>含义</strong>：计算任务向量时的参照模型</li>
+<li><strong>类型</strong>：模型标识/路径</li>
+<li><strong>默认值</strong>：无（必须显式指定）</li>
+<li><strong>取值范围</strong>：与所有微调模型<strong>完全同源</strong>的底座</li>
+<li><strong>对结果的影响</strong>：底座选错（例如用官方原版去减 LoRA 合并后的模型）会导致 $ \tau $ 含大量无关偏移，合并直接崩坏</li>
+<li><strong>推荐设置</strong>：与训练脚本中 <code class="inline-code">--model_name_or_path</code> 完全一致；记录 commit hash 以防上游更新</li>
+</ul>
+
+<h4>代码示例</h4>
+
+<p><pre class="code-block"><code class="language-python"># ============ 1. 任务算术 + 加权平均（最朴素的合并） ============
+import torch                                        # 导入 PyTorch
+
+def task_arithmetic(base, finetuned_list, lambdas):  # base: 底座 state_dict
+    merged = {}                                      # 存放合并结果
+    for k, v in base.items():                        # 遍历底座的每个张量
+        if not torch.is_floating_point(v):           # 整型张量（如位置编码 buffer）跳过
+            merged[k] = v.clone()                    # 直接沿用底座的值
+            continue                                 # 进入下一个参数
+        delta = torch.zeros_like(v)                  # 累积的任务向量，初始为 0
+        for ft, lam in zip(finetuned_list, lambdas):  # 遍历所有微调模型及其权重
+            delta += lam * (ft[k].float() - v.float())   # 累加 λ·(θ_t − θ_0)
+        merged[k] = (v.float() + delta).to(v.dtype)  # 底座 + 总任务向量，转回原精度
+    return merged                                    # 返回合并后的 state_dict
+
+# ============ 2. TIES 合并（trim → elect sign → disjoint merge） ============
+def ties_merge(base, finetuned_list, density=0.2, weights=None):
+    if weights is None:                              # 未指定权重时用均匀权重
+        weights = [1.0 / len(finetuned_list)] * len(finetuned_list)
+    merged = {}                                      # 结果字典
+    for k, v in base.items():                        # 逐参数处理
+        if not torch.is_floating_point(v):           # 非浮点参数不参与合并
+            merged[k] = v.clone()                    # 原样保留
+            continue
+        taus = []                                    # 存放各模型的（修剪后）任务向量
+        for ft, w in zip(finetuned_list, weights):    # 遍历模型
+            tau = (ft[k].float() - v.float()) * w    # 任务向量，先乘权重
+            if density &lt; 1.0:                        # 需要修剪时
+                flat = tau.abs().flatten()           # 展平后取绝对值，便于求分位
+                kth = int(flat.numel() * (1 - density))   # 保留前 density 比例的阈值下标
+                thresh = torch.kthvalue(flat, max(kth, 1)).values   # 取得幅值阈值
+                tau = torch.where(tau.abs() &gt;= thresh, tau, torch.zeros_like(tau))  # 小于阈值置 0
+            taus.append(tau)                         # 收集修剪结果
+        stack = torch.stack(taus, dim=0)             # shape: (T, ...)，便于沿模型维聚合
+        # 符号选举：按幅值加权投票（幅值 × 符号 再求和，取 sign）
+        sign_sum = (stack.abs() * stack.sign()).sum(dim=0)   # 每个参数的加权票
+        gamma = sign_sum.sign()                      # 得到最终符号 γ ∈ {-1,0,1}
+        same = (stack.sign() == gamma.unsqueeze(0))   # 布尔掩码：哪些模型与该符号一致
+        same = same &amp; (stack != 0)                   # 被修剪为 0 的项不算同号
+        num = (stack * same).sum(dim=0)              # 同号分量求和
+        den = same.sum(dim=0).clamp(min=1)           # 同号模型数（防 0 除）
+        merged[k] = (v.float() + num / den).to(v.dtype)   # 底座 + 不相交平均
+    return merged                                    # 返回 TIES 合并结果
+
+# ============ 3. DARE：随机丢弃 + 无偏重缩放 ============
+def dare_apply(tau, drop_rate=0.9, rescale=True):     # tau: 单个任务向量
+    mask = (torch.rand_like(tau) &gt; drop_rate).to(tau.dtype)   # 以 1−p 概率保留
+    out = tau * mask                                  # 丢弃部分置 0
+    if rescale:                                       # 无偏重缩放
+        out = out / (1.0 - drop_rate)                 # 期望保持 E[tau_hat] = tau
+    return out                                        # 返回稀疏化后的 delta
+
+# ============ 4. 落盘与加载 ============
+def save_merged(state, path):                         # 保存为可直接 from_pretrained 的权重
+    from safetensors.torch import save_file           # 用 safetensors，避免 pickle 风险
+    save_file({k: v.contiguous() for k, v in state.items()}, path)  # 连续内存便于 mmap 加载
+    print(&quot;已保存:&quot;, path)                             # 提示保存路径</code></pre></p>
+
+<p>配套的 MergeKit 配置（生产环境推荐直接用 MergeKit 而非手写）：</p>
+
+<p><pre class="code-block"><code class="language-yaml"># mergekit 的 TIES 配置示例
+models:
+  - model: ./ckpt/customer_service      # 客服微调模型
+    parameters:
+      weight: 1.0                       # 该模型的贡献权重
+      density: 0.2                      # 只保留 20% 最大幅值 delta
+  - model: ./ckpt/contract              # 合同审核微调模型
+    parameters:
+      weight: 0.8                       # 略低权重，避免压制客服能力
+      density: 0.2
+merge_method: ties                      # 合并算法：ties / dare_ties / slerp / linear
+base_model: ./ckpt/base-7b              # 底座（必须与上面模型同源）
+parameters:
+  normalize: true                       # 权重归一化，结果落在凸包内更稳
+dtype: bfloat16                         # 输出精度，bf16 兼顾稳定与显存</code></pre></p>
+
+<h4>复杂度分析</h4>
+
+<ul>
+<li><strong>时间复杂度</strong>：$ O(T\cdot P) $，$ T $ 为模型数、$ P $ 为参数量。TIES 额外包含排序：每个参数张量做一次 <code class="inline-code">kthvalue</code>（近似 $ O(P\log P) $ 或 $ O(P) $ 的选择算法），总开销仍为 $ O(TP) $ 量级；7B 模型双模型合并，单卡 CPU 约数分钟</li>
+<li><strong>空间复杂度</strong>：$ O(P) $（流式逐张量处理时）到 $ O(TP) $（一次性载入全部模型）。MergeKit 用 <strong>lazy tensor + 分片加载</strong>把峰值压到约 $ O(2P) $</li>
+<li><strong>无训练成本</strong>：不涉及前向/反向，不需要数据，这是相对继续微调最大的优势</li>
+<li><strong>评估成本才是瓶颈</strong>：每次参数搜索都要跑完整评测集，实践中应先用小样本（数百题）粗筛，再全量验证</li>
+</ul>
+
+<h4>应用场景</h4>
+
+<ul>
+<li><strong>多能力合体</strong>：客服 + 合同 + 代码 + 风控四个垂类模型合成一个"全能"模型，替代 $ N $ 倍成本的集成</li>
+<li><strong>垂类增强而不丢通用</strong>：在通用底座上叠加领域 delta，同时保留通用对话能力</li>
+<li><strong>能力遗忘 / 去毒性</strong>：用负权重 $ \lambda<0 $ 减去有害能力向量（task negation）</li>
+<li><strong>少量数据冷启动</strong>：没有足够数据重训时，把多个小数据微调模型合并以提升鲁棒性</li>
+<li><strong>多超参模型融合</strong>：同一任务不同学习率/种子的 checkpoint 做 Model Soup，稳定涨点</li>
+<li><strong>LoRA 合并</strong>：把多个 LoRA 适配器合并进底座，或合并多个 LoRA（需注意秩与缩放）</li>
+</ul>
+
+<h4>参考文档</h4>
+
+<ul>
+<li><a href="https://blog.csdn.net/2601_96733043/article/details/171243637" target="_blank" class="ref-link">模型合并的实现：任务向量、TIES 与 DARE（CSDN，2026-11）</a></li>
+<li><a href="https://blog.csdn.net/weixin_31458015/article/details/170999142" target="_blank" class="ref-link">模型融合实战：TIES/DARE 选型、配置与验收避坑（CSDN，2026-11）</a></li>
+<li><a href="https://blog.csdn.net/qq_31142761/article/details/170247538" target="_blank" class="ref-link">模型合并与融合实战：Model Soup / TIES / DARE / MergeKit（CSDN，2026-11）</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/677088727" target="_blank" class="ref-link">模型融合（Model Merging）：合理性、常见技术及其特性（知乎）</a></li>
+<li><a href="https://segmentfault.com/a/1190000044644733" target="_blank" class="ref-link">LLM 模型融合实践指南：低成本构建高性能语言模型（SegmentFault）</a></li>
+</ul>
+
+<blockquote>
+<p>AI生成</p>
+</blockquote>
+
+  </div>
+  <div class="footer">
+    <p>由 TeleAgent · 每日算法推送 技能自动生成 | 2026-11-27 09:49</p>
+  </div>
+</div>
+</body>
+</html>
